@@ -1,0 +1,4 @@
+$src resources/sprites/Cyclops_Crab_1.png
+
+rectangle 168 0 96 12:
+	grid 24 12;

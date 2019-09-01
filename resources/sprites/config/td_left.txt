@@ -1,0 +1,4 @@
+$src resources/sprites/walk_cycle_TD.png
+
+rectangle 16 16 32 16:
+	grid 16 16;

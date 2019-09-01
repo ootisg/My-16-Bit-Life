@@ -1,0 +1,3 @@
+$src resources/sprites/text.png
+
+grid 8 8

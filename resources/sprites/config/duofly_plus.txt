@@ -1,0 +1,4 @@
+$src resources/sprites/duofly.png
+
+rectangle 0 0 32 16:
+	grid 16 16;
