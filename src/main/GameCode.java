@@ -8,7 +8,10 @@ import gameObjects.CreepyButterfly;
 import gameObjects.CyclopesCrab;
 import gameObjects.DuoflyMinus;
 import gameObjects.DuoflyPlus;
+import gameObjects.FireRextinguser;
 import gameObjects.Ladder;
+import gameObjects.Leg;
+import gameObjects.TomatoFunction;
 import graphics3D.VectorCamera;
 import gui.Gui;
 import gui.ListTbox;
@@ -45,6 +48,9 @@ public class GameCode {
 	static Ladder testLaddder;
 	static RedBlackPaintBall paintball;
 	static Ladder testLadder;
+	static Leg leg;
+	static TomatoFunction function;
+	static FireRextinguser extinguser;
 	public static void initialize () {
 		//Initialize sprites
 		//GameObject initialization
@@ -52,16 +58,20 @@ public class GameCode {
 		testJeffrey = new Jeffrey ();
 		showTank = new CannonTankEnemy();
 		gui = new Gui ();
+		extinguser = new FireRextinguser ();
 		testCrab = new CyclopesCrab();
 		testTie = new ClostridiumBowtielinea();
 		int x = 0;
+		testLadder = new Ladder ();
+		leg = new Leg(5);
+		function = new TomatoFunction(300, 250);
 		while (x <= 5) {
 		paintball = new RedBlackPaintBall();
 		testJeffrey.inventory.addAmmo(paintball);
-		testLadder = new Ladder ();
 		x = x + 1;
 		}
-		//testTie.declare (32, 32);
+		System.out.println("YEET");
+		testTie.declare (32, 32);
 		//cam = new VectorCamera (0, 0);
 		//Uncomment the above line if you want to see them
 		//GameObject declaration
@@ -74,8 +84,12 @@ public class GameCode {
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
+		//leg.declare(150, 200);
+		extinguser.declare(56,400);
+		testCrab.declare(187, 345);
 		testLaddder.declare(150, 373);
-		testLadder.declare(150, 388);
+		function.declare(300,250);
+		
 	}
 	
 	public static void beforeGameLogic () {
@@ -88,6 +102,7 @@ public class GameCode {
 	
 	public static void beforeRender () {
 		Room.frameEvent ();
+		
 	}
 	
 	public static void afterRender () {

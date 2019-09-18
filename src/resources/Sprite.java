@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
-import main.MainLoop;
+
 import main.RenderLoop;
 
 /**
