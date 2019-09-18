@@ -2,20 +2,20 @@ package gui;
 import java.awt.event.KeyEvent;
 
 import main.GameAPI;
+import main.GameObject;
 import resources.Sprite;
 import resources.Spritesheet;
 
 
 
-public class Textbox extends GameAPI {
+public class Textbox extends GameObject {
 	//Jeffrey please comment your code
 	//Alternatively, Tbox can be used
-	//Also you can figure this one out
 	int timer;
 	int amountToDraw = 1;
 	boolean isFinished;
 	boolean finalCheck = false;
-	boolean isDone = false;
+	public boolean isDone = false;
 	int spaceManipulation;
 	public Sprite textBoxTop;
 	public Sprite textBoxBottum;
@@ -24,12 +24,17 @@ public class Textbox extends GameAPI {
 	public Sprite fontSheet;
 	String message;
 	int isScrolled = 0;
+	String text1;
+	int width1;
+	int height1;
+	boolean renderBox;
 	// put filepath of fontsheet to use as the font
-	public Textbox (String font){
+	public Textbox (String textToDisplay){
 	Spritesheet borderSheet;
+	renderBox = true ;
 	Spritesheet FontSheet;
 	borderSheet = new Spritesheet ("resources/sprites/windowsprites2.png");
-	FontSheet = new Spritesheet (font);
+	FontSheet = new Spritesheet ("resources/sprites/text.png");
 	fontSheet = new Sprite (FontSheet, 8, 8);
 	textBoxTop = new Sprite (borderSheet, 0, 0, 8, 8); 
 	textBoxBottum = new Sprite (borderSheet, 24, 0, 8, 1);
@@ -37,15 +42,51 @@ public class Textbox extends GameAPI {
 	textBoxBackground = new Sprite (borderSheet, 8, 0, 8, 8);
 	isFinished = false;
 	spaceManipulation = 0;
+	text1 = textToDisplay;
+	width1 = 200;
+	height1 = 100;
+	}
+	public void chagePause() {
+		if (MainLoop.isPaused()) {
+		MainLoop.resume();
+		} else {
+		MainLoop.pause();
+		}
+	}
+	public void changeWidth (int newWidth) {
+		width1 = newWidth;
+	}
+	public void changeHeight(int newHeigh) {
+		height1 = newHeigh;
+	}
+	public void changeFont (String font) {
+		Spritesheet FontSheet;
+		FontSheet = new Spritesheet (font);
+		fontSheet = new Sprite (FontSheet, 8, 8);
+	}
+	public void changeBoxVisability () {
+		renderBox = !renderBox;
 	}
 	// text = the message thats displayed width is the width of the box height is the height of the box 
 	//x_orign is the x start point of the box y_orign is the why start point of the box
-public void textBoxCreator (String text, int width, int height, int x_origin, int y_origin){
-	if (finalCheck && isFinished && (keyPressed(65) || keyPressed (97) || isDone)){
+	@Override
+public void pausedEvent (){
+	if ((finalCheck && isFinished && (keyPressed(65) || keyPressed (97) || isDone)) || keyPressed (88)){
 		isDone = true;
-		return;
+		MainLoop.resume();
+		this.forget();
 	}
 	else {
+	String text;
+	int width;
+	int height;
+	int x_origin;
+	int y_origin;
+	text = text1;
+	width = width1;
+	height = height1;
+	x_origin = (int)this.getX();
+	y_origin = (int)this.getY();
 	int space = 0;
 	timer = timer + 1;
 	int textLength = text.length();
@@ -61,18 +102,24 @@ public void textBoxCreator (String text, int width, int height, int x_origin, in
 	int x_basis = x_origin;
 	int y_start = y_origin;
 	while (width > 1){
+	if (renderBox) {
 	textBoxTop.draw (x_start, y_start);
+	}
 	width = width - 1;
 	x_start = x_start + 8;
 		}
 	while (height > 1){
+	if (renderBox) {
 	textBoxSides.draw(x_origin, y_origin);
 	textBoxSides.draw(x_start, y_origin);
+		}
 	height = height - 1;
 	y_origin = y_origin + 8;
 		}
 	while (width_start > 1){
+		if (renderBox) {
 		textBoxBottum.draw (x_origin, y_origin);
+		}
 		width_start = width_start - 1;
 		x_origin = x_origin + 8;
 			}
@@ -85,7 +132,9 @@ public void textBoxCreator (String text, int width, int height, int x_origin, in
 		x_beginning = x_basis;
 		x = x + 1;
 		while (width_beginning > 1){
+			if (renderBox) {
 			textBoxBackground.draw (x_beginning, y_start);
+			}
 			width_beginning = width_beginning - 1;
 			x_beginning = x_beginning + 8;
 			space = space + 1;
@@ -124,7 +173,7 @@ public void textBoxCreator (String text, int width, int height, int x_origin, in
 		message = text.substring(spaceManipulation,spaceManipulationPlusSpace);
 }
 		textLength = textLength - isScrolled;
-		if (timer == 2) {
+		if (timer == 2 || keyCheck (65)) {
 			timer = 0;
 			amountToDraw = amountToDraw + 1;
 		}
@@ -157,7 +206,8 @@ public void textBoxCreator (String text, int width, int height, int x_origin, in
 				}
 		// uses the askii value to draw the charictar in the box
 				else{
-				fontSheet.draw(x_beginning, y_origin, charitarCode);
+				fontSheet.setFrame(charitarCode);
+				fontSheet.draw(x_beginning, y_origin);
 				x_beginning = x_beginning + 8;
 				space = space - 1;
 						}
@@ -166,4 +216,10 @@ public void textBoxCreator (String text, int width, int height, int x_origin, in
 			}
 		}
 	}
+@Override
+public void frameEvent () {
+	if (!MainLoop.isPaused()) {
+		this.pausedEvent();
+	}
+}
 }
