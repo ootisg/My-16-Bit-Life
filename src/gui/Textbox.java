@@ -68,7 +68,7 @@ public class Textbox extends GameObject {
 		renderBox = !renderBox;
 	}
 	// text = the message thats displayed width is the width of the box height is the height of the box 
-	//x_orign is the x start point of the box y_orign is the why start point of the box
+	//x_orign is the x start point of the box y_orign is the y start point of the box
 	@Override
 public void pausedEvent (){
 	if ((finalCheck && isFinished && (keyPressed(65) || keyPressed (97) || isDone)) || keyPressed (88)){
