@@ -16,6 +16,7 @@ public class Textbox extends GameObject {
 	boolean isFinished;
 	boolean finalCheck = false;
 	public boolean isDone = false;
+	boolean remember = false;
 	int spaceManipulation;
 	public Sprite textBoxTop;
 	public Sprite textBoxBottum;
@@ -46,6 +47,9 @@ public class Textbox extends GameObject {
 	width1 = 200;
 	height1 = 100;
 	}
+	public void remember (boolean whateverMan) {
+		remember = whateverMan;
+	}
 	public void chagePause() {
 		if (MainLoop.isPaused()) {
 		MainLoop.resume();
@@ -74,7 +78,9 @@ public void pausedEvent (){
 	if ((finalCheck && isFinished && (keyPressed(65) || keyPressed (97) || isDone)) || keyPressed (88)){
 		isDone = true;
 		MainLoop.resume();
+		if (!remember) {
 		this.forget();
+		}
 	}
 	else {
 	String text;

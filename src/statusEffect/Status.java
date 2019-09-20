@@ -5,56 +5,37 @@ import main.GameObject;
 import players.Jeffrey;
 
 public class Status extends GameObject {
-	Boolean isAffected;
-	Boolean isCreated;
+	public Boolean [] statusAppliedOnJeffrey;
+	public Boolean [] statusAppliedOnSam;
 	public Status(){
-		// make sure that in the code in your "frameEvent" for your status only runs if isAffected is true (you can check that using IsAffected)
-		isAffected = false;
-		isCreated = false;
+		statusAppliedOnJeffrey = new Boolean [2];
+		statusAppliedOnSam = new Boolean [2];
+		statusAppliedOnJeffrey [0] = false;
+		statusAppliedOnSam [0] = false;
+		statusAppliedOnJeffrey[1] = false;
+		statusAppliedOnSam [1] = false;
 	}
-	//gives the status in question to that gameObject
-	public void ApplyStatus(){
-		isAffected = true;
+	//indexes 
+	// 0 = poison
+	// 1 = one way
+	// when makieng new status be sure to add a thing that makes this true when its aplied and false when it is not
+	public boolean checkStatus (int index, int charictar) {
+	if (charictar == 0) {
+	return statusAppliedOnJeffrey [index];
 	}
-	// returns true if the gameObject is Affected with the status
-	public boolean IsAffected(){
-		if (isAffected){
-			return true;
-		} else {
-			return false;
-		}
+	if (charictar == 1) {
+	return statusAppliedOnSam [index];
 	}
-	public void CureStatus(){
-	isAffected = false;
+	return false;
 	}
-	// the GameObject is the thing that has the status applied to it the String is the name of the Status that is applied
-	// Make sure to set your Attributes as soon as you constuct your Status
-	// the tier is for the tiers for the status I havent made a set attributes without tier yet because we don't have a status that has no teirs yet but I will add one when the time comes
-	public void setAttributesWithTier(Enemy affected, String status, int tier){
-		switch (status){
-		// when you create a new status you need to add a case for it in this switch statement with the case as the same name as the status
-		case "Poison":
-			if (!isCreated){
-		Poison applyAbleStatus;
-		applyAbleStatus = new Poison(affected, this, tier);
-		applyAbleStatus.declare(0,0);
-		isCreated = true;
-		}
-		break;
-		} 
+	// use to cure status
+	// in the class for your status make it so if this ever becomes false the status gets forgoten
+	public void CureStatus(int index, int charictar){
+	if (charictar == 0) {
+		statusAppliedOnJeffrey [index] = false;
 	}
-	// use this when you want the status to be applied to the player
-	public void setAttributesPlayerWithTier(Jeffrey sickMAN, String sickness, int level){
-		switch (sickness){
-		// when you create a new status you need to add a case for it in this switch statement with the case as the same name as the status
-		case "Poison":
-			if(!isCreated){
-		Poison applyAbleStatus;
-		applyAbleStatus = new Poison(sickMAN, this, level);
-		applyAbleStatus.declare(0,0);
-		isCreated = true;
-			}
-		break;
-		} 
+	if (charictar == 1) {
+		statusAppliedOnJeffrey [index] = false;
+	}
 	}
 }

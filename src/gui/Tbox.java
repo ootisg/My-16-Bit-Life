@@ -1,13 +1,10 @@
 package gui;
 
+
 import main.GameObject;
 import resources.Sprite;
 
 public class Tbox extends GameObject {
-	
-	public static final Sprite textBorder = new Sprite ("resources/sprites/config/text_border.txt");
-	public static final Sprite font = new Sprite ("resources/sprites/config/font.txt");
-	
 	//Lightweight textbox object
 	//Alternatively, Textbox can be used
 	protected int width;
@@ -17,19 +14,25 @@ public class Tbox extends GameObject {
 	protected int scrollTime;
 	protected int letterPos;
 	protected int startPos;
+	Sprite textBorder;
+	Sprite font;
+	boolean renderBox;
 	public Tbox () {
 		
 	}
-	public Tbox (double x, double y, int width, int height, String text) {
+	public Tbox (double x, double y, int width, int height, String text, boolean drawBox) {
 		//Initialize parameters
 		this.declare (x, y);
 		this.width = width;
 		this.height = height;
 		this.text = text;
 		this.scrollTime = 2;
+		textBorder = new Sprite ("resources/sprites/config/text_border.txt");
+		font = new Sprite ("resources/sprites/config/font.txt");
 		this.frameCount = 0;
 		this.startPos = 0;
 		this.letterPos = 0;
+		renderBox = drawBox;
 	}
 	@Override
 	public void draw () {
@@ -37,30 +40,42 @@ public class Tbox extends GameObject {
 		int x = (int)this.getX ();
 		int y = (int)this.getY ();
 		//Draw the top bar, the background, and the bottom bar
+		if (renderBox) {
 		for (int i = 0; i < this.width; i ++) {
-			textBorder.draw (x + i * 8 + 1, y, 0);
-			textBorder.draw (x + i * 8 + 1, y + (this.height + 1) * 8, 3);
+			textBorder.getFrame (0);
+			textBorder.draw (x + i * 8 + 1, y);
+			textBorder.getFrame (3);
+			textBorder.draw (x + i * 8 + 1, y + (this.height + 1) * 8);
 			for (int j = 0; j < this.height; j ++) {
-				textBorder.draw (x + i * 8 + 1, y + j * 8 + 8, 1);
+				textBorder.getFrame (1);
+				textBorder.draw (x + i * 8 + 1, y + j * 8 + 8);
 			}
 		}
 		//Draw the side bars
 		for (int i = 0; i < this.height + 1; i ++) {
-			textBorder.draw (x, y + i * 8, 2);
-			textBorder.draw (x + this.width * 8 + 1, y + i * 8, 2);
+			textBorder.getFrame (2);
+			textBorder.draw (x, y + i * 8);
+			textBorder.draw (x + this.width * 8 + 1, y + i * 8);
+		}
 		}
 		//Draw the text in the box
 		for (int i = 0; i < letterPos; i ++) {
-			font.draw (x + (i % width) * 8, y + (i / width) * 8 + 8, (int)text.charAt (startPos + i));
+			try {
+			font.getFrame ((int)text.charAt (startPos + i));
+			font.draw (x + (i % width) * 8, y + (i / width) * 8 + 8);
+			} catch (StringIndexOutOfBoundsException e) {
+				
+			}
 		}
 		//Handles scrolling
 		int scrollLimit;
 		if (startPos / (width * height) == text.length () / (width * height)) {
 			scrollLimit = (text.length () % (width * height)) * scrollTime;
+			// not sure why this doesen't work gonna have to fix it later
 			//Closes the textbox if A is pressed and all the text has been displayed
-			if (keyPressed((int)'A') && frameCount == scrollLimit) {
-				this.close ();
-			}
+			//if (keyPressed((int)'A') && frameCount == scrollLimit) {
+				//this.close ();
+			//}
 		} else {
 			scrollLimit = width * height * scrollTime;
 			//Scrolls the textbox if A is pressed and not all the text has been displayed

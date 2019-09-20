@@ -7,52 +7,68 @@ import items.Inventory;
 import items.RedBlackPaintBall;
 import main.GameObject;
 import main.GameWindow;
-import main.GameLoop;
+import main.InputManager;
+import main.RenderLoop;
+import gui.Tbox;
+import gui.Textbox;
 import map.MapTile;
 import map.Room;
 import projectiles.Paintball;
 import resources.Sprite;
+import statusEffect.Status;
 
 public class Jeffrey extends GameObject {
-	
-	public static final Sprite jeffreyIdle = new Sprite ("resources/sprites/config/jeffrey_idle.txt");
-	public static final Sprite jeffreyWalking = new Sprite ("resources/sprites/config/jeffrey_walking.txt");
-	public static final Sprite jeffreyIdlePoisoned = new Sprite ("resources/sprites/config/jeffrey_idle_poisoned.txt");
-	public static final Sprite jeffreyWalkingPoisoned = new Sprite ("resources/sprites/config/jeffrey_walking_poisoned.txt");
-	
-	public double health;
+	public double jeffreyHealth;
 	public double maxHealth;
 	private boolean isWalking;
 	public  boolean isJumping;
 	public Sprite standSprite;
 	public Sprite walkSprite;
 	private AimableWeapon wpn;
+	public boolean bindLeft;
+	public boolean bindRight;
 	private int invulTimer;
 	private int specialCooldown;
-	public static double vx;
-	public static double vy;
+	public  double vx;
+	public double vy;
 	private double ax;
 	private double ay;
-	public static boolean onLadder;
+	InputManager manager;
+	public boolean onLadder;
 	public Inventory inventory;
-	public static boolean standingOnPlatform;
+	public boolean standingOnPlatform;
 	public boolean binded;
 	private int index;
 	private boolean newWeapon;
+	public boolean canSwitch;
+	public int witchCharictar;
+	public double samHealth;
+	public Sprite samIdle;
+	public Sprite samWalking;
+	public int switchTimer;
+	private Tbox textbox;
+	private Tbox weaponBox;
+	private boolean activeBox;
+	private int boxTimer;
+	public Status status;
 	public Jeffrey () {
 		//This class is not yet commented
 		this.declare (0, 0);
 		index = 0;
+		samIdle = new Sprite ("resources/sprites/config/sam_idle.txt");
+		samWalking = new Sprite ("resources/sprites/config/sam_walking.txt");
 		inventory = new Inventory();
-		inventory.addWeapon (new redBlackPaintBallGun (redBlackPaintBallGun.gunSprite));
 		standingOnPlatform = false;
-		this.standSprite = jeffreyIdle;
-		this.walkSprite = jeffreyWalking;
-		setSprite (walkSprite);
-		getAnimationHandler ().setFrameTime (47.62);
-		setHitboxAttributes (4, 4, 7, 27);
+		this.standSprite = new Sprite("resources/sprites/config/jeffrey_idle.txt");
+		this.walkSprite = new Sprite("resources/sprites/config/jeffrey_walking.txt");
+		setSprite (standSprite);
+		getAnimationHandler ().setFrameTime (.7);
+		this.setHitboxAttributes(4, 4, 7, 27);
 		this.specialCooldown = 0;
-		this.health = 100;
+		this.jeffreyHealth = 100;
+		this.samHealth = 100;
+		bindLeft = false;
+		bindRight = false;
 		this.maxHealth = 100;
 		this.invulTimer = 0;
 		this.vx = 0;
@@ -61,31 +77,88 @@ public class Jeffrey extends GameObject {
 		this.ay = 0;
 		binded = false;
 		newWeapon = true;
+		witchCharictar = 0;
+		status = new Status ();
+		switchTimer = 0;
+		activeBox = false;
+		boxTimer = 0;
 	}
 public AimableWeapon getWeapon () {
 	if (newWeapon) {
-		wpn = (AimableWeapon) inventory.findWeaponAtIndex(index);
+		wpn = (AimableWeapon) inventory.findWeaponAtIndex(index, witchCharictar);
 		wpn.declare(0, 0);
+if (activeBox) {
+		weaponBox.forget();	
+		}
+		weaponBox = new Tbox (this.getX(),this.getY()- 10,25,1,wpn.checkName(), false);
+		weaponBox.setScrollRate(0);
 		newWeapon = false;
+		activeBox = true;
 	}
-	return (AimableWeapon) inventory.findWeaponAtIndex(index);	
+	return (AimableWeapon) inventory.findWeaponAtIndex(index, witchCharictar);	
 	}
 	@Override
 	public void frameEvent () {
+		if (activeBox) {
+		weaponBox.setX(this.getX() - Room.getViewX());
+		weaponBox.setY(this.getY() - 10);
+		boxTimer = boxTimer + 1;
+		}
+		if (boxTimer == 30) {
+		weaponBox.forget();	
+		activeBox = false;
+		boxTimer = 0;
+		}
+		if (keyDown('Q')) {
+			switchTimer = switchTimer + 1;
+		}
+		if (!keyDown('Q')) {
+			switchTimer = 0;
+		}
+		if (switchTimer == 30) {
+			switchTimer = 0;
+			if (witchCharictar == 1) {
+				if (jeffreyHealth <= 0) {
+					textbox = new Tbox (this.getX(), 340, 25, 8, "JEFFREY HAS NO HEALTH YOU ABSOLUTE MORRON (SEE ITS FUNNY TO ME THAT YOU THOUGHT YOU COULD SWITCH TO JEFFREY BUT IN REALITY YOUR JUST A HUGE MORON)" , false);
+					textbox.declare(0,0);
+				} else {
+					witchCharictar = 0;
+				}
+			} else {
+				if (samHealth <= 0) {
+					textbox = new Tbox (this.getX(), 340, 25, 8, "LUL NO ... SAM HAS NO HP" , false);
+					textbox.declare(0,0);
+				} else {
+					witchCharictar = 1;
+				}
+			}
+			if (index > inventory.amountOfWeapons(witchCharictar)) {
+				index = 0;
+			}
+		}
+		if (witchCharictar == 0 && (!this.getSprite().equals(new Sprite ("resources/sprites/config/jeffrey_idle.txt")) || !this.getSprite().equals(new Sprite ("resources/sprites/config/jeffrey_walking.txt")))) {
+			if (!status.checkStatus(0, 0)) {
+			standSprite = new Sprite ("resources/sprites/config/jeffrey_idle.txt");
+			walkSprite = new Sprite ("resources/sprites/config/jeffrey_walking.txt");
+			}
+		}
+		if (witchCharictar == 1 && (!this.getSprite().equals(samIdle) || !this.getSprite().equals(samWalking))) {
+			standSprite = samIdle;
+			walkSprite = samWalking;
+		}
+		
 		if (keyPressed ('Z')) {
 			wpn.forget();
 			newWeapon = true;
 			index = index + 1;
-			if (index > inventory.amountOfWeapons()) {
-				System.out.println (index);
+			if (index > inventory.amountOfWeapons(witchCharictar)) {
 				index = 0;
 			}
-			//System.out.println (getWeapon ());
 		}
 		//Handles weapon usagewh
 		//Gravity and collision with floor
 		if (!binded) {
-		if (keyDown (32) && !isJumping && vy == 0 && !onLadder) {
+		if (keyDown(32) && !isJumping && vy == 0 && !onLadder) {
 			isJumping = true;
 			vy = -10.15625;
 			setSprite (walkSprite);
@@ -94,7 +167,7 @@ public AimableWeapon getWeapon () {
 		}
 		}
 		if (vy == 0) {
-			getAnimationHandler ().setFrameTime (47.62);
+			getAnimationHandler ().setFrameTime (.7);
 		}
 		if (!onLadder) {
 			if (!standingOnPlatform) {
@@ -136,20 +209,20 @@ public AimableWeapon getWeapon () {
 		}
 		if (!onLadder) {
 		if (!binded) {
-		if (keyDown ('A')) {
+		if (keyDown ('A') && !bindLeft) {
 			if (vx >= -3.0) {
 				ax = -.5;
 			}
-			getAnimationHandler ().setFlipHorizontal (true);
+			this.getAnimationHandler().setFlipHorizontal (true);
 			if (vy == 0 && !isWalking) {
 				isWalking = true;
 				setSprite (walkSprite);
 			}
-		} else if (keyDown ('D')) {
+		} else if (keyDown ('D') && !bindRight) {
 			if (vx <= 3.0) {
 				ax = .5;
 			}
-			getAnimationHandler ().setFlipHorizontal (false);
+			this.getAnimationHandler().setFlipHorizontal (false);
 			if (vy == 0 && !isWalking) {
 				isWalking = true;
 				setSprite (walkSprite);
@@ -171,7 +244,8 @@ public AimableWeapon getWeapon () {
 		ax = 0;
 		this.setX (this.getX () + vx);
 		if (Room.isColliding (this.hitbox ())) {
-			this.setX (getXPrevious ());
+			//not sure if this is gonna work but whatever m8
+			this.setX(this.getXPrevious());
 			vx = 0;
 		}
 		double x = this.getX ();
@@ -196,22 +270,22 @@ public AimableWeapon getWeapon () {
 		}
 	
 		//Damage animation
-		if (invulTimer != 0) {
-			if ((invulTimer / 2) % 2 == 1) {
-				//TODO these methods are missing
+		// it went caput for now
+		//if (invulTimer != 0) {
+			//if ((invulTimer / 2) % 2 == 1) {
 				//this.hide ();
-			} else {
+			//} else {
 				//this.show ();
-			}
-		}
-		if (getAnimationHandler ().flipHorizontal ()) {
+			//}
+		//}
+		if (this.getAnimationHandler().flipHorizontal ()) {
 			this.getWeapon().setX (this.getX () - 5);
 			this.getWeapon().setY (this.getY () + 16);
-			this.getWeapon().getAnimationHandler ().setFlipHorizontal (true);
+			this.getWeapon().getAnimationHandler().setFlipHorizontal (true);
 		} else {
 			this.getWeapon().setX (this.getX () + 11);
 			this.getWeapon().setY (this.getY () + 16);
-			this.getWeapon().getAnimationHandler ().setFlipHorizontal (false);
+			this.getWeapon().getAnimationHandler().setFlipHorizontal (false);
 		}
 		//Handles weapon aiming
 		double wpnX = this.getWeapon().getX () - Room.getViewX ();
@@ -224,6 +298,7 @@ public AimableWeapon getWeapon () {
 		int mouseY = 48;*/
 		if (wpnX - mouseX != 0) {
 			double ang = Math.atan ((wpnY - mouseY) / (wpnX - mouseX));
+			GameWindow wind = RenderLoop.window;
 			if (mouseX < wpnX) {
 				ang *= -1;
 				if (ang < -Math.PI / 4) {
@@ -246,15 +321,27 @@ public AimableWeapon getWeapon () {
 		if (invulTimer > 0) {
 			invulTimer --;
 		}
-		if (this.health <= 0) {
-			this.health = this.maxHealth;
-			//We miiiiight need a consle. Maybe.
-			//GameLoop.getConsole ().enable ("You died, and I'm too lazy to put anything in for that. :P");
+		if (this.jeffreyHealth <= 0 && this.samHealth <= 0) {
+			this.jeffreyHealth = this.maxHealth;
+			//not sure how to enable console now
+			//MainLoop.getConsole ().enable ("You died, and I'm too lazy to put anything in for that. :P");
+		}
+		if (this.jeffreyHealth <= 0) {
+			witchCharictar = 1;
+		}
+		if (this.samHealth <= 0) {
+			witchCharictar = 0;
 		}
 	}
 	public void damage (double baseDamage) {
+		switchTimer = 0;
 		if (invulTimer == 0) {
-			health -= baseDamage;
+			if (witchCharictar == 0) {
+			jeffreyHealth -= baseDamage;
+			}
+			if (witchCharictar == 1) {
+			samHealth -= baseDamage;	
+			}
 			invulTimer = 15;
 		}
 	}
@@ -262,7 +349,11 @@ public AimableWeapon getWeapon () {
 		return this.inventory;
 	}
 	public double getHealth () {
-		return this.health;
+		if (witchCharictar == 0) {
+		return this.jeffreyHealth;
+		} else {
+		return this.samHealth;
+		}
 	}
 	@Override
 	public void forget () {

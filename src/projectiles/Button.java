@@ -2,25 +2,23 @@ package projectiles;
 
 import java.util.Random;
 
-import main.GameLoop;
-import main.ObjectHandler;
+import main.GameCode;
 import map.Room;
 import players.Jeffrey;
 import resources.Sprite;
+import statusEffect.Poison;
 import statusEffect.Status;
 
 public class Button extends Projectile {
-	
-	public static final Sprite button = new Sprite ("resources/sprites/config/Button_L.txt");
-	
-	Status poison;
+	Poison poison;
 	Random rand;
-	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
+	Sprite button;
 	public Button () {
+		button = new Sprite ("resources/sprites/config/Button_L.txt");
 		setSprite (button);
 		setHitboxAttributes (0,0,8,8);
 		setAttributes (128, 128, 1.57, 3);
-		poison = new Status();
+		poison = new Poison(GameCode.testJeffrey, 1);
 		rand = new Random();
 	}
 	@Override
@@ -30,9 +28,8 @@ public class Button extends Projectile {
 		}
 		if (isColliding("players.Jeffrey")){
 			int poisonChance = rand.nextInt(4) + 1;
-			if ((!poison.IsAffected()) && poisonChance == 1){
-				poison.setAttributesPlayerWithTier(player, "Poison", 3);
-				poison.ApplyStatus();
+			if ((!GameCode.testJeffrey.status.checkStatus(0, GameCode.testJeffrey.witchCharictar) && poisonChance == 1)){
+				poison.declare(0, 0);
 			} 
 			player.damage(7);
 		}

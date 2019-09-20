@@ -4,16 +4,25 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import resources.Sprite;
+import weapons.LifeVaccum;
 import weapons.Unarmed;
+import weapons.redBlackPaintBallGun;
 
 public class Inventory {
 	ArrayList <Item> consuables = new ArrayList ();
 	ArrayList <Item> key = new ArrayList ();
 	ArrayList <Item> ammo = new ArrayList ();
-	ArrayList <Item> weapons = new ArrayList ();
+	ArrayList <Item> jeffreyWeapons = new ArrayList ();
+	ArrayList <Item> samWeapons = new ArrayList ();
 	int money;
 	int WEXP;
+	Sprite lol;
+	int lifeBattary;
 	public Inventory (){
+		lifeBattary = 100;
+		money = 0;
+		WEXP = 0;
+		lol = new Sprite ("resources/sprites/blank.png");
 	}
 	//checkItemAmount returns the amount of that Item in the players inventory
 	public int checkItemAmount (Item ItemToCheck) {
@@ -82,8 +91,13 @@ public class Inventory {
 	public void addConsumable (Item itemToAdd) {
 		consuables.add(itemToAdd);
 	}
-	public void addWeapon (Item itemToAdd) {
-		weapons.add(itemToAdd);
+	public void addWeapon (Item itemToAdd, int witchCharictar) {
+		if (witchCharictar == 0) {
+		jeffreyWeapons.add(itemToAdd);
+		} 
+		if (witchCharictar == 1) {
+		samWeapons.add(itemToAdd);
+		}
 	}
 	// removeItem returns false if the item is not in the players inventory
 	public boolean removeItem (Item itemtoRemove) {
@@ -146,12 +160,21 @@ public class Inventory {
 	}
 		return false;
 	}
-	public boolean checkWeapons (Item itemtoCheck) {
-		for (Item item : this.weapons) {
+	public boolean checkWeapons (Item itemtoCheck, int witchCharictar) {
+		if (witchCharictar == 0) {
+		for (Item item : this.jeffreyWeapons) {
 			if (item.getClass().equals(itemtoCheck.getClass())){
 				return true;
 	}
 	}
+		}if (witchCharictar == 1) {
+			for (Item item : this.samWeapons) {
+				if (item.getClass().equals(itemtoCheck.getClass())){
+					return true;
+		}
+		}
+		}
+		
 		return false;
 	}
 	//retuns 256 if the item is not in the players inventory
@@ -188,15 +211,40 @@ public class Inventory {
 			return 256;
 		}
 		//retuns 256 if the item is not in the players inventory
-		public int checkWeaponIndex (Item itemtoCheck) {
+		public int checkWeaponIndex (Item itemtoCheck, int witchCharictar) {
 			int index = 0;
-			for (Item item : this.weapons) {
+			if (witchCharictar == 0) {
+			for (Item item : this.jeffreyWeapons) {
 			index = index + 1;
 			if (item.getClass().equals(itemtoCheck.getClass())){
 				return index - 1;
 			}
 		}
+			}
+			if (witchCharictar == 1) {
+				for (Item item : this.samWeapons) {
+				index = index + 1;
+				if (item.getClass().equals(itemtoCheck.getClass())){
+					return index - 1;
+				}
+			}
+				}
 			return 256;
+		}
+		public int checkAmmoAmountOfWeapon (Item weaponToCheck) {
+			redBlackPaintBallGun testGun;
+			testGun = new redBlackPaintBallGun(lol);
+			if (weaponToCheck.getClass().equals(testGun.getClass())) {
+				RedBlackPaintBall ball;
+				ball = new RedBlackPaintBall (1);
+				return (this.checkItemAmount(ball));
+			}
+			LifeVaccum testVaccum;
+			testVaccum = new LifeVaccum(lol);
+			if (weaponToCheck.getClass().equals(testVaccum.getClass())) {
+				return (lifeBattary);
+			}
+			return (0);
 		}
 		public Item findConsumableAtIndex (int index) {
 			return consuables.get(index);
@@ -212,12 +260,18 @@ public class Inventory {
 			try {
 			return ammo.get(index);
 			} catch (IndexOutOfBoundsException e) {
-				return new RedBlackPaintBall();
+				return new RedBlackPaintBall(1);
 				}
 		}
-		public Item findWeaponAtIndex (int index) {
+		public Item findWeaponAtIndex (int index, int witchCharictar) {
 			try {
-			return weapons.get(index);
+			if (witchCharictar == 0) {
+			return jeffreyWeapons.get(index);
+			} 
+			if (witchCharictar == 1) {
+			return samWeapons.get(index);
+			}
+			return new Unarmed(new Sprite ("resources/sprites/blank.png"));
 			} catch (IndexOutOfBoundsException e) {
 			return new Unarmed(new Sprite ("resources/sprites/blank.png"));
 			}
@@ -231,8 +285,15 @@ public class Inventory {
 		public int amountOfAmmo() {
 			return ammo.size();
 		}
-		public int amountOfWeapons () {
-			return weapons.size();
+		//returns -1 if things fail
+		public int amountOfWeapons (int witchCharictar) {
+			if (witchCharictar == 0) {
+			return jeffreyWeapons.size();
+		}
+			if (witchCharictar == 1) {
+			return samWeapons.size();	
+		}
+			return -1;
 		}
 	public int checkMoney () {
 		return this.money;
@@ -254,6 +315,21 @@ public class Inventory {
 	}
 	public void addWEXP (int amount) {
 		WEXP = WEXP + amount;
+	}
+	public void addLifeVaccumBattary (int amount) {
+		lifeBattary = lifeBattary + amount;
+		if (lifeBattary > 100) {
+			lifeBattary = 100;
+		}
+	}
+	public void subtractLifeVaccumBattary (int amount) {
+		lifeBattary = lifeBattary - amount;
+		if (lifeBattary < 0) {
+			lifeBattary = 0;
+		}
+	}
+	public int checkLifeVaccumBattary () {
+		return lifeBattary;
 	}
 	// subractWEXP returns false if the amount you want to subtract is more than the amount you have
 	public boolean subractWEXP (int amount) {
