@@ -61,7 +61,8 @@ public class Tbox extends GameObject {
 		//Draw the text in the box
 		for (int i = 0; i < letterPos; i ++) {
 			try {
-			font.getFrame ((int)text.charAt (startPos + i));
+				// TODO fix this
+			//font.getFrame ((int)text.charAt (startPos + i));
 			font.draw (x + (i % width) * 8, y + (i / width) * 8 + 8);
 			} catch (StringIndexOutOfBoundsException e) {
 				

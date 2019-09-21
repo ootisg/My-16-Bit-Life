@@ -3,6 +3,7 @@ package main;
 import java.io.FileNotFoundException;
 
 import gameObjects.CannonTankEnemy;
+import gameObjects.Celing_boi;
 import gameObjects.ClostridiumBowtielinea;
 import gameObjects.CreepyButterfly;
 import gameObjects.CyclopesCrab;
@@ -37,6 +38,7 @@ public class GameCode {
 	public static Jeffrey testJeffrey;
 	//static TopDown td;
 	Textbox textbox;
+	static Celing_boi boi;
 	static Gui gui;
 	Tbox tbox;
 	static VectorCamera cam;
@@ -62,9 +64,8 @@ public class GameCode {
 		testCrab = new CyclopesCrab();
 		testTie = new ClostridiumBowtielinea();
 		int x = 0;
+		boi = new Celing_boi();
 		testLadder = new Ladder ();
-		leg = new Leg(5);
-		function = new TomatoFunction(300, 250);
 		while (x <= 5) {
 		paintball = new RedBlackPaintBall();
 		testJeffrey.inventory.addAmmo(paintball);
@@ -85,10 +86,8 @@ public class GameCode {
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
 		//leg.declare(150, 200);
-		extinguser.declare(56,400);
-		testCrab.declare(187, 345);
+		boi.declare(40,300);
 		testLaddder.declare(150, 373);
-		function.declare(300,250);
 		
 	}
 	
