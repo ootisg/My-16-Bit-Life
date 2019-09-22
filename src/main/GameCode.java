@@ -72,7 +72,7 @@ public class GameCode {
 		x = x + 1;
 		}
 		System.out.println("YEET");
-		testTie.declare (32, 32);
+		//testTie.declare (32, 32);
 		//cam = new VectorCamera (0, 0);
 		//Uncomment the above line if you want to see them
 		//GameObject declaration
@@ -87,6 +87,7 @@ public class GameCode {
 		//td = new TopDown ();
 		//leg.declare(150, 200);
 		boi.declare(40,300);
+		//showTank.declare(280, 383);
 		testLaddder.declare(150, 373);
 		
 	}

@@ -45,7 +45,7 @@ public class Cannonball extends Projectile{
 		} catch (ArrayIndexOutOfBoundsException e) {
 			this.forget();
 		}
-		if (isColliding("Jeffrey") && !hitSomething){
+		if (isColliding(player) && !hitSomething){
 			player.damage(7);
 			setSprite (explosion);
 			hitSomething = true;

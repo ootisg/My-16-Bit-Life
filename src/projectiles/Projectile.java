@@ -15,10 +15,9 @@ public abstract class Projectile extends GameObject {
 	@Override
 	public void frameEvent () {
 		projectileFrame ();
-		System.out.println("lets try this");
 		this.setX (this.getX () + Math.cos (direction) * speed);
 		this.setY (this.getY () + Math.sin (direction) * speed);
-		if (getX () < 0 || getY () < 0 || getX () > Room.getWidth () || getY () > Room.getHeight ()) {
+		if (getX () < 0 || getY () < 0 || getX () > Room.getWidth () *16 || getY () > Room.getHeight () * 16) {
 			this.forget ();
 		}
 	}
