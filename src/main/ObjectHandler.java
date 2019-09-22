@@ -17,10 +17,21 @@ import java.util.Stack;
 public class ObjectHandler {
 	
 	/**
+	 * Set to true when objects can be removed without an error; false otherwise
+	 */
+	private static boolean mutable = true;
+	/**
 	 * Stores all the classes currently in use, and their respective objects
 	 */
 	private static HashIndexedTree<String, LinkedList<GameObject>> classTrees = new HashIndexedTree <String, LinkedList<GameObject>> ("GameObject", null);
-	
+	/**
+	 * The elements to add
+	 */
+	private static LinkedList<GameObject> addQueue = new LinkedList<GameObject> ();
+	/**
+	 * The elements to remove
+	 */
+	private static LinkedList<GameObject> removeQueue = new LinkedList<GameObject> ();
 	/**
 	 * ObjectHandler cannot be constructed.
 	 */
@@ -60,12 +71,16 @@ public class ObjectHandler {
 	 * @param name The type of the object, as a string
 	 */
 	public static void insert (GameObject obj, String name) {
-		LinkedList<GameObject> objList = getObjectsByName (name);
-		if (objList == null) {
-			addClass (obj);
-			objList = getObjectsByName (name);
+		if (mutable) {
+			LinkedList<GameObject> objList = getObjectsByName (name);
+			if (objList == null) {
+				addClass (obj);
+				objList = getObjectsByName (name);
+			}
+			objList.add (obj);
+		} else {
+			addQueue.add (obj);
 		}
-		objList.add (obj);
 	}
 	
 	/**
@@ -88,7 +103,12 @@ public class ObjectHandler {
 		if (objList == null) {
 			return false;
 		}
-		return objList.remove (obj);
+		if (mutable) {
+			return objList.remove (obj);
+		} else {
+			removeQueue.add (obj);
+			return false;
+		}
 	}
 	
 	/**
@@ -182,13 +202,14 @@ public class ObjectHandler {
 	 */
 	public static void callAll () {
 		LinkedList<LinkedList<GameObject>> allObjs = getChildrenByName ("GameObject");
-		Iterator<LinkedList<GameObject>> listIter = allObjs.iterator ();
-		while (listIter.hasNext ()) {
-			LinkedList<GameObject> workingList = listIter.next ();
-			Iterator<GameObject> elementIter = workingList.iterator ();
-			while (elementIter.hasNext ()) {
-				elementIter.next ().frameEvent ();
-			}
+		LinkedList<GameObject> allObjsList = new LinkedList<GameObject> ();
+		Iterator<LinkedList<GameObject>> allObjsIter = allObjs.iterator ();
+		while (allObjsIter.hasNext ()) {
+			allObjsList.addAll (allObjsIter.next ());
+		}
+		GameObject[] allObjsArray = allObjsList.toArray (new GameObject[0]);
+		for (int i = 0; i < allObjsArray.length; i ++) {
+			allObjsArray [i].frameEvent ();
 		}
 	}
 	
@@ -196,14 +217,49 @@ public class ObjectHandler {
 	 * Calls the draw method of all GameObjects in ObjectHandler
 	 */
 	public static void renderAll () {
+		lock ();
 		LinkedList<LinkedList<GameObject>> allObjs = getChildrenByName ("GameObject");
-		Iterator<LinkedList<GameObject>> listIter = allObjs.iterator ();
-		while (listIter.hasNext ()) {
-			LinkedList<GameObject> workingList = listIter.next ();
-			Iterator<GameObject> elementIter = workingList.iterator ();
-			while (elementIter.hasNext ()) {
-				elementIter.next ().draw ();
-			}
+		LinkedList<GameObject> allObjsList = new LinkedList<GameObject> ();
+		Iterator<LinkedList<GameObject>> allObjsIter = allObjs.iterator ();
+		while (allObjsIter.hasNext ()) {
+			allObjsList.addAll (allObjsIter.next ());
+		}
+		GameObject[] allObjsArray = allObjsList.toArray (new GameObject[0]);
+		unlock ();
+		for (int i = 0; i < allObjsArray.length; i ++) {
+			allObjsArray [i].draw ();
+		}
+	}
+	
+	/**
+	 * Returns whether or not objects can be removed safely
+	 * @return current mutability of ObjectHandler
+	 */
+	public static boolean isMutable () {
+		return mutable;
+	}
+	
+	/**
+	 * Sets the mutability of this ObjectHandler to false
+	 */
+	public static void lock () {
+		mutable = false;
+	}
+	
+	/**
+	 * Sets the mutability of this ObjectHandler to true. May throw an exception if interrupted.
+	 */
+	public static void unlock () {
+		mutable = true;
+		Iterator<GameObject> iter = addQueue.iterator ();
+		while (iter.hasNext ()) {
+			insert (iter.next ());
+			iter.remove ();
+		}
+		iter = removeQueue.iterator ();
+		while (iter.hasNext ()) {
+			remove (iter.next ());
+			iter.remove ();
 		}
 	}
 }
