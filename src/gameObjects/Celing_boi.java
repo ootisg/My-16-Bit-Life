@@ -34,7 +34,7 @@ public class Celing_boi extends Enemy {
 		middleIdle = new Sprite ("resources/sprites/config/Ceiling_Boi_middle_idle.txt");
 		leftIdle = new Sprite ("resources/sprites/config/Ceiling_Boi_left_Idle.txt");
 		rightIdle = new Sprite ("resources/sprites/config/Ceiling_Boi_right_Idle.txt");
-		this.getAnimationHandler().setFrameTime(333);
+		this.getAnimationHandler().setFrameTime(100);
 		//if (this.getVariantAttribute("startPos").equals ("left")){
 		// place = 0;
 		// } 
@@ -59,34 +59,34 @@ public class Celing_boi extends Enemy {
 	
 	@Override
 	public void frameEvent () {
-		timer = timer + 1;
-		if (timer == 3) {
+		if (timer == 9) {
 			if (place == 0) {
-				this.getAnimationHandler().resetImage(leftIdle);
+				this.setSprite(leftIdle);
 				}
 				if (place == 1) {
-					this.getAnimationHandler().resetImage(middleIdle);
+					this.setSprite(middleIdle);
 				}
 				if (place == 2) {
-					this.getAnimationHandler().resetImage(rightIdle);
+					this.setSprite(rightIdle);
 				}
 				this.getAnimationHandler().setFrameTime(0);
 		}
+		timer = timer + 1;
 		if (timer == 30) {
 			timer = 0;
 			if (shooting) {
 				shooting = false;
 				if (place == 0) {
 				dot = new PokaDot (((3*3.14)/4));
-				dot.declare((int) this.getX(), (int)this.getY() + 20);
+				dot.declare((int) this.getX() - 10, (int)this.getY() + 20);
 				}
 				if (place == 1) {
 				dot = new PokaDot (((3.14)/2));
-				dot.declare((int) this.getX(), (int)this.getY() + 20);
+				dot.declare((int) this.getX() + 2, (int)this.getY() + 20);
 				}
 				if (place == 2) {
 				dot = new PokaDot (((3.14)/4));
-				dot.declare((int) this.getX(), (int)this.getY() + 20);
+				dot.declare((int) this.getX() + 20, (int)this.getY() + 20);
 				}
 			} else {
 				if (direction) {
@@ -95,14 +95,14 @@ public class Celing_boi extends Enemy {
 						}
 						if (place == 1) {
 							this.setSprite(MiddleToRight);
-							this.getAnimationHandler().setFrameTime(333);
+							this.getAnimationHandler().setFrameTime(100);
 							shooting = true;
 							place = 2;
 							}
 						if (place == 0) {
 							shooting = true;
 							this.setSprite(leftToMiddle);
-							this.getAnimationHandler().setFrameTime(333);
+							this.getAnimationHandler().setFrameTime(100);
 							place = 1;
 							}
 				} else {
@@ -112,13 +112,13 @@ public class Celing_boi extends Enemy {
 						if (place == 1) {
 						shooting = true;
 						this.setSprite(MiddleToLeft);
-						this.getAnimationHandler().setFrameTime(333);
+						this.getAnimationHandler().setFrameTime(100);
 						place = 0;
 						}
 						if (place == 2) {
 						shooting = true;
 						this.setSprite(RightToMiddle);
-						this.getAnimationHandler().setFrameTime(333);
+						this.getAnimationHandler().setFrameTime(100);
 						place = 1;
 						}
 				}
