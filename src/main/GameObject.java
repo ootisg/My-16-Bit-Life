@@ -445,6 +445,50 @@ public abstract class GameObject extends GameAPI {
 		}
 		variant.setAttribute (name, value);
 	}
+	// returns true it the gameObject is stuck in the floor
+	public boolean checkIfStuckInFloor(int verticalSpeed) {
+		if ((Room.isColliding(this.hitbox()) && this.checkIfColidingWithWall(1))){
+			this.setY(getY() - (verticalSpeed +1));
+			if (!Room.isColliding(this.hitbox())){
+				this.setY(getY() + (verticalSpeed +1) );
+				return true;
+			}
+			this.setY(getY() + verticalSpeed + 1);
+			}
+		return false;
+	}
+	//returns true if the GameObject is stuck in the celing
+	public boolean checkIfStuckInCeling(int verticalSpeed) {
+		if ((Room.isColliding(this.hitbox()) && this.checkIfColidingWithWall(1))){
+			this.setY(getY() + (verticalSpeed +1));
+			if (!Room.isColliding(this.hitbox())){
+				this.setY(getY() - (verticalSpeed +1) );
+				return true;
+			}
+			this.setY(getY() - verticalSpeed + 1);
+			}
+		return false;
+	}
+	//returns true if the GameObject is coliding with a wall
+		public boolean checkIfColidingWithWall(int horizontalSpeed) {
+			if ((Room.isColliding(this.hitbox()))){
+				this.setX(getX() - horizontalSpeed);
+				if (!Room.isColliding(this.hitbox())){
+					this.setX(getX() + horizontalSpeed);
+					return true;
+				}
+				this.setX(getX() + horizontalSpeed);
+				}
+			if (Room.isColliding(this.hitbox())){
+				this.setX(getX() + horizontalSpeed);
+				if (!Room.isColliding(this.hitbox())){
+					this.setX(getX() - horizontalSpeed);
+					return true;
+				}
+				this.setX(getX() - horizontalSpeed);
+				}
+			return false;
+		}
 	
 	/**
 	 * Sets the variants specified in attributeData to the respective values.

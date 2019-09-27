@@ -23,6 +23,8 @@ public class Celing_boi extends Enemy {
 	public Celing_boi () {
 		direction = true;
 		timer = 0;
+		this.setHealth(30);
+		this.defence = 0;
 		shooting = true;
 		MiddleToLeft = new Sprite ("resources/sprites/config/Ceiling_Boi_moving_right_from_left.txt");
 		RightToMiddle = new Sprite("resources/sprites/config/Ceiling_Boi_moving_left_from_right.txt");
@@ -58,7 +60,7 @@ public class Celing_boi extends Enemy {
 	}
 	
 	@Override
-	public void frameEvent () {
+	public void enemyFrame () {
 		if (timer == 9) {
 			if (place == 0) {
 				this.setSprite(leftIdle);

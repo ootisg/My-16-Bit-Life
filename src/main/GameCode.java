@@ -12,6 +12,7 @@ import gameObjects.DuoflyPlus;
 import gameObjects.FireRextinguser;
 import gameObjects.Ladder;
 import gameObjects.Leg;
+import gameObjects.SplittingSlimelet;
 import gameObjects.TomatoFunction;
 import graphics3D.VectorCamera;
 import gui.Gui;
@@ -51,6 +52,7 @@ public class GameCode {
 	static RedBlackPaintBall paintball;
 	static Ladder testLadder;
 	static Leg leg;
+	static SplittingSlimelet slimelet;
 	static TomatoFunction function;
 	static FireRextinguser extinguser;
 	public static void initialize () {
@@ -61,6 +63,7 @@ public class GameCode {
 		showTank = new CannonTankEnemy();
 		gui = new Gui ();
 		extinguser = new FireRextinguser ();
+		slimelet = new SplittingSlimelet ();
 		testCrab = new CyclopesCrab();
 		testTie = new ClostridiumBowtielinea();
 		int x = 0;
@@ -89,6 +92,7 @@ public class GameCode {
 		boi.declare(40,300);
 		//showTank.declare(280, 383);
 		testLaddder.declare(150, 373);
+		slimelet.declare(180, 300);
 		
 	}
 	
