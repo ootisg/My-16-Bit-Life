@@ -17,6 +17,6 @@ public class SplitSlimelet extends Enemy {
 	}
 	@Override
 	public void enemyFrame () {
-		this.jumpyBoi(idleSprite, attackingSprite);
+		this.jumpyBoi(idleSprite, attackingSprite, 8, 6, 30);
 	}
 }

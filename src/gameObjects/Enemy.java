@@ -23,6 +23,7 @@ public abstract class Enemy extends GameObject {
 	int currentSpeed;
 	int timer;
 	boolean jumpDone;
+	int countdown;
 	boolean diesNormally;
 	public Enemy () {
 		momentum = 0;
@@ -31,6 +32,7 @@ public abstract class Enemy extends GameObject {
 		jumping = false;
 		currentSpeed = 0;
 		timer = 0;
+		countdown = 0;
 		diesNormally = true;
 	}
 	@Override
@@ -160,55 +162,60 @@ public abstract class Enemy extends GameObject {
 		return this.health;
 	}
 	// actions you can get your enemy to do (based on the asumption that your enemy falls)
-	public void jump () {
+	public void jump (int horizontalBaseSpeed, int verticalBaseSpeed) {
 		timer = timer + 1;
 		if (player.getX() > this.getX()) {
 			if (timer <= 2) {
 			if (Room.isColliding(this.hitbox())) {
-				if (this.checkIfColidingWithWall(2)) {
-					if (!this.checkIfStuckInCeling(-8)){
-					this.setY(this.getY() - 8);
+				if (this.checkIfColidingWithWall(horizontalBaseSpeed)) {
+					if (!this.checkIfStuckInCeling(-1 *(verticalBaseSpeed))){
+					this.setY(this.getY() - verticalBaseSpeed);
 					}
 				} else {
-					this.setX(this.getX() +2);
-					System.out.println("fuck you");
+					this.setX(this.getX() +horizontalBaseSpeed);
 				}
 			} else {
-			this.setY(this.getY() - 8);
-			this.setX(this.getX() + 2);
+			this.setY(this.getY() - verticalBaseSpeed);
+			this.setX(this.getX() + horizontalBaseSpeed);
 			}
 			}
 			if (timer > 2 && timer <=4) {
 				if (Room.isColliding(this.hitbox())) {
-					if (this.checkIfColidingWithWall(4)) {
-						if (!this.checkIfStuckInCeling(-16)){
-						this.setY(this.getY() - 16);
+					if (this.checkIfColidingWithWall(horizontalBaseSpeed * 1.2)) {
+						if (!this.checkIfStuckInCeling(-1 *(verticalBaseSpeed * 1.2))){
+						this.setY(this.getY() - (verticalBaseSpeed * 1.2));
 						}
 					} else {
-						this.setX(this.getX() +4);
-						System.out.println("fuck you");
+						this.setX(this.getX() +(horizontalBaseSpeed * 1.2));
 					}
 				} else {
-				this.setY(this.getY() - 16);
-				this.setX(this.getX() + 4);
+				this.setY(this.getY() - (verticalBaseSpeed * 1.2));
+				this.setX(this.getX() + (horizontalBaseSpeed * 1.2));
 				}
 			}
 			if (timer > 4 && timer <= 6) {
+				
 				if (Room.isColliding(this.hitbox())) {
-					if (this.checkIfColidingWithWall(6)) {
-						if (!this.checkIfStuckInCeling(-24)){
-						this.setY(this.getY() - 24);
+					if (this.checkIfColidingWithWall(horizontalBaseSpeed * 1.5)) {
+						if (!this.checkIfStuckInCeling(-1 *(verticalBaseSpeed *1.5))){
+						this.setY(this.getY() - (verticalBaseSpeed * 1.5));
 						}
 					} else {
-						this.setX(this.getX() +6);
-						System.out.println("fuck you");
+						this.setX(this.getX() + (horizontalBaseSpeed * 1.5));
 					}
 				} else {
-				this.setY(this.getY() - 24);
-				this.setX(this.getX() + 6);
+				this.setY(this.getY() - (verticalBaseSpeed *1.5 ));
+				this.setX(this.getX() + (horizontalBaseSpeed * 1.5));
 				}
 				}
-			if (timer > 45) {
+			if (timer > 6 && timer <= 12) {
+				if (!(this.checkIfColidingWithWall((horizontalBaseSpeed * 1.5)))) {
+					this.setX(this.getX() + (horizontalBaseSpeed * 1.5));
+			} else {
+			this.setX(this.getX() + (horizontalBaseSpeed * 1.5));
+			}
+			}
+			if (timer > 15) {
 				timer = 0;
 				jumpDone = true;
 			}
@@ -216,50 +223,54 @@ public abstract class Enemy extends GameObject {
 		if (player.getX() < this.getX()) {
 			if (timer <= 2) {
 				if (Room.isColliding(this.hitbox())) {
-					if (this.checkIfColidingWithWall(-2)) {
-						if (!this.checkIfStuckInCeling(-8)){
-						this.setY(this.getY() - 8);
+					if (this.checkIfColidingWithWall(-1 * horizontalBaseSpeed)) {
+						if (!this.checkIfStuckInCeling(-1 * (verticalBaseSpeed))){
+						this.setY(this.getY() - verticalBaseSpeed);
 						}
 					} else {
-						this.setX(this.getX() -2);
-						System.out.println("fuck you");
+						this.setX(this.getX() -horizontalBaseSpeed);
 					}
 				} else {
-				this.setY(this.getY() - 8);
-				this.setX(this.getX() - 2);
+				this.setY(this.getY() - verticalBaseSpeed);
+				this.setX(this.getX() - horizontalBaseSpeed);
 				}
 			}
 			if (timer > 2 && timer <=4) {
 				if (Room.isColliding(this.hitbox())) {
-					if (this.checkIfColidingWithWall(-4)) {
-						if (!this.checkIfStuckInCeling(-16)){
-						this.setY(this.getY() -16);
+					if (this.checkIfColidingWithWall(-1 * (horizontalBaseSpeed * 1.2))) {
+						if (!this.checkIfStuckInCeling(-1 * (verticalBaseSpeed * 1.2))){
+						this.setY(this.getY() - (verticalBaseSpeed * 1.2));
 						}
 					} else {
-						this.setX(this.getX() -4);
-						System.out.println("fuck you");
+						this.setX(this.getX() - (horizontalBaseSpeed * 1.2));
 					}
 				} else {
-				this.setY(this.getY() -16);
-				this.setX(this.getX() -4);
+				this.setY(this.getY() - (verticalBaseSpeed * 1.2));
+				this.setX(this.getX() - (horizontalBaseSpeed * 1.2));
 				}
 			}
 			if (timer > 4 && timer <= 6) {
 				if (Room.isColliding(this.hitbox())) {
-					if (this.checkIfColidingWithWall(-6)) {
-						if (!this.checkIfStuckInCeling(-24)){
-						this.setY(this.getY() -24);
+					if (this.checkIfColidingWithWall(-1 * (horizontalBaseSpeed * 1.5))) {
+						if (!this.checkIfStuckInCeling(-1 * (verticalBaseSpeed * 1.5))){
+						this.setY(this.getY() - (verticalBaseSpeed * 1.5));
 						}
 					} else {
-						this.setX(this.getX() -6);
-						System.out.println("fuck you");
+						this.setX(this.getX() - (horizontalBaseSpeed * 1.5));
 					}
 				} else {
-				this.setY(this.getY() -24);
-				this.setX(this.getX() -6);
+				this.setY(this.getY() - (verticalBaseSpeed * 1.5));
+				this.setX(this.getX() - (horizontalBaseSpeed * 1.5));
 				}
 				}
-			if (timer > 45) {
+			if (timer > 6 && timer <= 12) {
+					if (!(this.checkIfColidingWithWall(-1 * (horizontalBaseSpeed * 1.5)))) {
+						this.setX(this.getX() - (horizontalBaseSpeed * 1.5));
+				} else {
+				this.setX(this.getX() - (horizontalBaseSpeed * 1.5));
+				}
+				}
+			if (timer > 15) {
 				timer = 0;
 				jumpDone = true;
 			}
@@ -276,21 +287,28 @@ public abstract class Enemy extends GameObject {
 	//preset behaviors you can use for enemys by putting this in enemy frame (or running it a bunch of times another way)
 	
 	// makes enemy stand idle and then sometimes jump towards the player
-	public void jumpyBoi (Sprite idleSprite, Sprite jumpSprite) {
+	public void jumpyBoi (Sprite idleSprite, Sprite jumpSprite, int horizontalSpeed, int verticalSpeed, int waitTime) {
 		if (!this.getSprite().equals(idleSprite) && !jumping) {
 			this.setSprite(idleSprite);
 		}
-		if (player.getX() > this.getX() - 50 && player.getX() <this.getX() + 50) {
+		this.setY(this.getY() + 1);
+		if ((player.getX() > this.getX() - 100 && player.getX() <=this.getX() + 100) && Room.isColliding(this.hitbox())) {
+			if (countdown == 0) {
 			jumping = true;
 			if (!this.getSprite().equals(jumpSprite)) {
 				this.setSprite(jumpSprite);
 			}
+			} else {
+				countdown = countdown - 1;
+			}
 			
 		}
+		this.setY(this.getY() -1);
 		if (jumping) {
-			this.jump();
+			this.jump(horizontalSpeed, verticalSpeed);
 		}
 		if (jumping && this.isJumpDone()) {
+			countdown = waitTime;
 			jumping = false;
 		}
 	}

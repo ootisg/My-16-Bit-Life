@@ -20,7 +20,7 @@ public class SplittingSlimelet extends Enemy {
 	boolean normalMovement;
 	boolean moveing;
 	public SplittingSlimelet () {
-		this.health = 200;
+		this.health = 0;
 		this.setDeath(false);
 		baby = new SplitSlimelet();
 		child = new SplitSlimelet ();

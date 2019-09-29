@@ -458,34 +458,34 @@ public abstract class GameObject extends GameAPI {
 		return false;
 	}
 	//returns true if the GameObject is stuck in the celing
-	public boolean checkIfStuckInCeling(int verticalSpeed) {
+	public boolean checkIfStuckInCeling(double d) {
 		if ((Room.isColliding(this.hitbox()) && this.checkIfColidingWithWall(1))){
-			this.setY(getY() + (verticalSpeed +1));
+			this.setY(getY() + (d +1));
 			if (!Room.isColliding(this.hitbox())){
-				this.setY(getY() - (verticalSpeed +1) );
+				this.setY(getY() - (d +1) );
 				return true;
 			}
-			this.setY(getY() - verticalSpeed + 1);
+			this.setY(getY() - d + 1);
 			}
 		return false;
 	}
 	//returns true if the GameObject is coliding with a wall
-		public boolean checkIfColidingWithWall(int horizontalSpeed) {
+		public boolean checkIfColidingWithWall(double d) {
 			if ((Room.isColliding(this.hitbox()))){
-				this.setX(getX() - horizontalSpeed);
+				this.setX(getX() - d);
 				if (!Room.isColliding(this.hitbox())){
-					this.setX(getX() + horizontalSpeed);
+					this.setX(getX() + d);
 					return true;
 				}
-				this.setX(getX() + horizontalSpeed);
+				this.setX(getX() + d);
 				}
 			if (Room.isColliding(this.hitbox())){
-				this.setX(getX() + horizontalSpeed);
+				this.setX(getX() + d);
 				if (!Room.isColliding(this.hitbox())){
-					this.setX(getX() - horizontalSpeed);
+					this.setX(getX() - d);
 					return true;
 				}
-				this.setX(getX() - horizontalSpeed);
+				this.setX(getX() - d);
 				}
 			return false;
 		}
