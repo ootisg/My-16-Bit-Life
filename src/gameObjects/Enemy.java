@@ -24,9 +24,11 @@ public abstract class Enemy extends GameObject {
 	int timer;
 	boolean jumpDone;
 	int countdown;
+	boolean lockedRight;
 	boolean diesNormally;
 	public Enemy () {
 		momentum = 0;
+		lockedRight = false;
 		jumpDone = false;
 		falls = false;
 		jumping = false;
@@ -117,7 +119,7 @@ public abstract class Enemy extends GameObject {
 	public void deathEvent () {
 		this.forget ();
 	}
-	//returns true if there is a wall inbetween the enemy and the player
+	//returns true if there is a wall in between the enemy and the player
 		public boolean checkPlayerPositionRelativeToWalls () {
 				for (int i = 0; true; i++) {
 					this.setX(this.getX () + i);
@@ -161,11 +163,11 @@ public abstract class Enemy extends GameObject {
 	public int getHealth () {
 		return this.health;
 	}
-	// actions you can get your enemy to do (based on the asumption that your enemy falls)
+	// actions you can get your enemy to do (based on the assumption that your enemy falls)
 	public void jump (int horizontalBaseSpeed, int verticalBaseSpeed) {
 		timer = timer + 1;
-		if (player.getX() > this.getX()) {
-			if (timer <= 2) {
+		if (lockedRight) {
+			if (timer <= 6) {
 			if (Room.isColliding(this.hitbox())) {
 				if (this.checkIfColidingWithWall(horizontalBaseSpeed)) {
 					if (!this.checkIfStuckInCeling(-1 *(verticalBaseSpeed))){
@@ -179,49 +181,49 @@ public abstract class Enemy extends GameObject {
 			this.setX(this.getX() + horizontalBaseSpeed);
 			}
 			}
-			if (timer > 2 && timer <=4) {
+			if (timer > 6 && timer <=11) {
 				if (Room.isColliding(this.hitbox())) {
-					if (this.checkIfColidingWithWall(horizontalBaseSpeed * 1.2)) {
-						if (!this.checkIfStuckInCeling(-1 *(verticalBaseSpeed * 1.2))){
-						this.setY(this.getY() - (verticalBaseSpeed * 1.2));
+					if (this.checkIfColidingWithWall(horizontalBaseSpeed * 1.1)) {
+						if (!this.checkIfStuckInCeling(-1 *(verticalBaseSpeed * 1.1))){
+						this.setY(this.getY() - (verticalBaseSpeed * 1.1));
 						}
 					} else {
-						this.setX(this.getX() +(horizontalBaseSpeed * 1.2));
+						this.setX(this.getX() +(horizontalBaseSpeed * 1.1));
 					}
 				} else {
-				this.setY(this.getY() - (verticalBaseSpeed * 1.2));
-				this.setX(this.getX() + (horizontalBaseSpeed * 1.2));
+				this.setY(this.getY() - (verticalBaseSpeed * 1.1));
+				this.setX(this.getX() + (horizontalBaseSpeed * 1.1));
 				}
 			}
-			if (timer > 4 && timer <= 6) {
+			if (timer > 11 && timer <= 16) {
 				
 				if (Room.isColliding(this.hitbox())) {
-					if (this.checkIfColidingWithWall(horizontalBaseSpeed * 1.5)) {
-						if (!this.checkIfStuckInCeling(-1 *(verticalBaseSpeed *1.5))){
-						this.setY(this.getY() - (verticalBaseSpeed * 1.5));
+					if (this.checkIfColidingWithWall(horizontalBaseSpeed * 1.1)) {
+						if (!this.checkIfStuckInCeling(-1 *(verticalBaseSpeed *1.1))){
+						this.setY(this.getY() - (verticalBaseSpeed * 1.1));
 						}
 					} else {
-						this.setX(this.getX() + (horizontalBaseSpeed * 1.5));
+						this.setX(this.getX() + (horizontalBaseSpeed * 1.1));
 					}
 				} else {
-				this.setY(this.getY() - (verticalBaseSpeed *1.5 ));
-				this.setX(this.getX() + (horizontalBaseSpeed * 1.5));
+				this.setY(this.getY() - (verticalBaseSpeed *1.1 ));
+				this.setX(this.getX() + (horizontalBaseSpeed * 1.1));
 				}
 				}
-			if (timer > 6 && timer <= 12) {
-				if (!(this.checkIfColidingWithWall((horizontalBaseSpeed * 1.5)))) {
-					this.setX(this.getX() + (horizontalBaseSpeed * 1.5));
+			if (timer > 16 && timer <= 21) {
+				if (!(this.checkIfColidingWithWall((horizontalBaseSpeed * 1.1)))) {
+					this.setX(this.getX() + (horizontalBaseSpeed * 1.1));
 			} else {
-			this.setX(this.getX() + (horizontalBaseSpeed * 1.5));
+			this.setX(this.getX() + (horizontalBaseSpeed * 1.1));
 			}
 			}
-			if (timer > 15) {
+			if (timer > 21) {
 				timer = 0;
 				jumpDone = true;
 			}
-		}
-		if (player.getX() < this.getX()) {
-			if (timer <= 2) {
+	}
+		if (!lockedRight) {
+			if (timer <= 6) {
 				if (Room.isColliding(this.hitbox())) {
 					if (this.checkIfColidingWithWall(-1 * horizontalBaseSpeed)) {
 						if (!this.checkIfStuckInCeling(-1 * (verticalBaseSpeed))){
@@ -235,42 +237,42 @@ public abstract class Enemy extends GameObject {
 				this.setX(this.getX() - horizontalBaseSpeed);
 				}
 			}
-			if (timer > 2 && timer <=4) {
+			if (timer > 6 && timer <=11) {
 				if (Room.isColliding(this.hitbox())) {
-					if (this.checkIfColidingWithWall(-1 * (horizontalBaseSpeed * 1.2))) {
-						if (!this.checkIfStuckInCeling(-1 * (verticalBaseSpeed * 1.2))){
-						this.setY(this.getY() - (verticalBaseSpeed * 1.2));
+					if (this.checkIfColidingWithWall(-1 * (horizontalBaseSpeed * 1.1))) {
+						if (!this.checkIfStuckInCeling(-1 * (verticalBaseSpeed * 1.1))){
+						this.setY(this.getY() - (verticalBaseSpeed * 1.1));
 						}
 					} else {
-						this.setX(this.getX() - (horizontalBaseSpeed * 1.2));
+						this.setX(this.getX() - (horizontalBaseSpeed * 1.1));
 					}
 				} else {
-				this.setY(this.getY() - (verticalBaseSpeed * 1.2));
-				this.setX(this.getX() - (horizontalBaseSpeed * 1.2));
+				this.setY(this.getY() - (verticalBaseSpeed * 1.1));
+				this.setX(this.getX() - (horizontalBaseSpeed * 1.1));
 				}
 			}
-			if (timer > 4 && timer <= 6) {
+			if (timer > 11 && timer <= 16) {
 				if (Room.isColliding(this.hitbox())) {
-					if (this.checkIfColidingWithWall(-1 * (horizontalBaseSpeed * 1.5))) {
-						if (!this.checkIfStuckInCeling(-1 * (verticalBaseSpeed * 1.5))){
-						this.setY(this.getY() - (verticalBaseSpeed * 1.5));
+					if (this.checkIfColidingWithWall(-1 * (horizontalBaseSpeed * 1.1))) {
+						if (!this.checkIfStuckInCeling(-1 * (verticalBaseSpeed * 1.1))){
+						this.setY(this.getY() - (verticalBaseSpeed * 1.1));
 						}
 					} else {
-						this.setX(this.getX() - (horizontalBaseSpeed * 1.5));
+						this.setX(this.getX() - (horizontalBaseSpeed * 1.1));
 					}
 				} else {
-				this.setY(this.getY() - (verticalBaseSpeed * 1.5));
-				this.setX(this.getX() - (horizontalBaseSpeed * 1.5));
+				this.setY(this.getY() - (verticalBaseSpeed * 1.1));
+				this.setX(this.getX() - (horizontalBaseSpeed * 1.1));
 				}
 				}
-			if (timer > 6 && timer <= 12) {
-					if (!(this.checkIfColidingWithWall(-1 * (horizontalBaseSpeed * 1.5)))) {
-						this.setX(this.getX() - (horizontalBaseSpeed * 1.5));
+			if (timer > 16 && timer <= 21) {
+					if (!(this.checkIfColidingWithWall(-1 * (horizontalBaseSpeed * 1.1)))) {
+						this.setX(this.getX() - (horizontalBaseSpeed * 1.1));
 				} else {
-				this.setX(this.getX() - (horizontalBaseSpeed * 1.5));
+				this.setX(this.getX() - (horizontalBaseSpeed * 1.1));
 				}
 				}
-			if (timer > 15) {
+			if (timer > 21) {
 				timer = 0;
 				jumpDone = true;
 			}
@@ -292,9 +294,14 @@ public abstract class Enemy extends GameObject {
 			this.setSprite(idleSprite);
 		}
 		this.setY(this.getY() + 1);
-		if ((player.getX() > this.getX() - 100 && player.getX() <=this.getX() + 100) && Room.isColliding(this.hitbox())) {
+		if ((player.getX() > this.getX() - 200 && player.getX() <=this.getX() + 200) && Room.isColliding(this.hitbox())) {
 			if (countdown == 0) {
 			jumping = true;
+			if (player.getX() > this.getX()) {
+				lockedRight = true;
+			} else {
+				lockedRight = false;
+			}
 			if (!this.getSprite().equals(jumpSprite)) {
 				this.setSprite(jumpSprite);
 			}
