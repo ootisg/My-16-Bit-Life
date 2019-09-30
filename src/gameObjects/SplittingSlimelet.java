@@ -11,20 +11,24 @@ public class SplittingSlimelet extends Enemy {
 	Sprite attackingSprite;
 	Sprite splittingSprite;
 	Random RNG;
+	int WaitForCollsionCheck;
 	SplitSlimelet baby;
 	SplitSlimelet child;
 	int deathTimer;
+	boolean attacking;
 	int timer;
-	boolean moveLeft;
-	boolean overridePlayerInput;
+	boolean moveRight;
+	int flipTimer;
 	boolean normalMovement;
 	boolean moveing;
 	public SplittingSlimelet () {
-		this.health = 0;
+		this.health = 200;
+		attacking = false;
+		WaitForCollsionCheck = 0;
+		flipTimer = 0;
 		this.setDeath(false);
 		baby = new SplitSlimelet();
 		child = new SplitSlimelet ();
-		overridePlayerInput = true;
 		this.setHitboxAttributes(37, 0, 63, 64);
 		this.setFalls(true);
 		moveingSprite = new Sprite ("resources/sprites/config/splitting_slimelet_moveing.txt");
@@ -37,11 +41,11 @@ public class SplittingSlimelet extends Enemy {
 		timer = 0;
 		this.getAnimationHandler().setFrameTime(150);
 		//if (this.getVariantAttribute("Direction").equals("Right")) {
-			//moveLeft = false;
+			//moveRight = false;
 			//this.getAnimationHandler().setFlipHorizontal(true);
 		//} 
 		//if (this.getVariantAttribute("Direction").equals("Left")) {
-			//moveLeft = true;
+			//moveRight = true;
 		    //this.getAnimationHandler().setFlipHorizontal(false);
 		
 		//}	
@@ -50,8 +54,11 @@ public class SplittingSlimelet extends Enemy {
 	}
 	@Override 
 	public void enemyFrame () {
+		//boolean overridePlayerInput = false;	
+		this.patrol(40, 70, 90, 15, -5, attackingSprite, moveingSprite, -2);
 		if (this.health <= 0) {
 			if (deathTimer == 0) {
+			this.setSpriteChangeing(false);
 			this.setSprite(splittingSprite);
 			this.getAnimationHandler().setRepeat(false);
 			normalMovement = false;
@@ -65,53 +72,78 @@ public class SplittingSlimelet extends Enemy {
 				this.deathEvent();
 			}
 		}
-		timer = timer + 1;
-		if ((timer == RNG.nextInt(100) + 100) && normalMovement) {
-			moveLeft = !moveLeft;
-			timer = 0;
-			this.getAnimationHandler().setFlipHorizontal(!this.getAnimationHandler().flipHorizontal());
-		}
-		if (((timer % 2)  == 0) && moveing) {
-			if (moveLeft) {
-				this.setX(this.getX() + 1);
-			} else {
-				this.setX(this.getX() - 1);
-			}
-		}
-		if ((GameCode.testJeffrey.getX() > this.getX() - 105) && (GameCode.testJeffrey.getX() < this.getX() + 155) ) {
-			normalMovement = false;
-		} else {
-			normalMovement = true;
-		}
+		//if ((timer == RNG.nextInt(300) + 100) && normalMovement) {
+		//	moveRight = !moveRight;
+		//	timer = 0;
+		//	this.getAnimationHandler().setFlipHorizontal(!this.getAnimationHandler().flipHorizontal());
+		//}
+		//}
+		//if ((GameCode.testJeffrey.getX() > this.getX() - 105) && (GameCode.testJeffrey.getX() < this.getX() + 145) ) {
+		//	normalMovement = false;
+		//} else {
+		//	normalMovement = true;
+		//}
+	
+		//	if (!this.getSprite().equals(attackingSprite) && !this.getSprite().equals(splittingSprite)) {
+		//	this.setSprite(attackingSprite);
+		//	attacking =true;
+			 //if (GameCode.testJeffrey.getX() >= this.getX()) {
+				 //this.moveRight = true;
+				//this.getAnimationHandler().setFlipHorizontal(true);
+			 //} else {
+			//	 this.moveRight = false;
+		//		 this.getAnimationHandler().setFlipHorizontal(false);
+	//		 }
+			//}
+			//this.setHitboxAttributes(0, 0, 100, 64);
+			//moveing= false;
+		//} else {
+		//	moveing = true;
+		//	if (!this.getSprite().equals(moveingSprite) && !this.getSprite().equals(splittingSprite)) {
+		//	this.setSprite(moveingSprite);
+		//	}
+		//}
 		
-		if ((GameCode.testJeffrey.getX() > this.getX() - 45) && (GameCode.testJeffrey.getX() < this.getX() + 65) && !this.checkPlayerPositionRelativeToWalls() ) {
-			if (!this.getSprite().equals(attackingSprite) && !this.getSprite().equals(splittingSprite)) {
-			this.setSprite(attackingSprite);
+		//	if (!this.checkWitchWallYourCollidingWith()) {
+		//	this.setX(this.getX() + 40);
+		//	this.getAnimationHandler().setFlipHorizontal(!this.getAnimationHandler().flipHorizontal());
+		//	if (Room.isColliding(this.hitbox())) {
+		//		this.getAnimationHandler().setFlipHorizontal(false);
+		//		overridePlayerInput = true;
+		//		this.setX(this.getX() - 40);
+		//		}
+		//	} else {
+			
+		//	if (Room.isColliding(this.hitbox())) {
+		//		this.getAnimationHandler().setFlipHorizontal(false);
+		//		overridePlayerInput = true;
+		//	this.setX(this.getX() + 40);
+		//		}
+		//	}
+			
+		//	timer = 1;
+		//}
+		//if ((GameCode.testJeffrey.getX() > this.getX() ) && attacking && moveRight) {
+		//	flipTimer = flipTimer + 1;
+		//}
+		//if((GameCode.testJeffrey.getX() < this.getX() ) && attacking && !moveRight) {
+		//	flipTimer = flipTimer + 1;
+		//}
+		//if(flipTimer == 30) {
+		//	attacking = false;
+		//	flipTimer = 0;
 			}
-			this.setHitboxAttributes(0, 0, 100, 64);
-			moveing= false;
-		} else {
-			moveing = true;
-			this.setHitboxAttributes(37, 0, 63, 64);
-			if (!this.getSprite().equals(moveingSprite) && !this.getSprite().equals(splittingSprite)) {
-			this.setSprite(moveingSprite);
-			}
-		}
-		
-		if (Room.isColliding(this.hitbox())) {
-			this.getAnimationHandler().setFlipHorizontal(!this.getAnimationHandler().flipHorizontal());
-			this.moveLeft = !moveLeft;
-			timer = 1;
-		}
-	 if (!normalMovement && !this.checkPlayerPositionRelativeToWalls()) {
-		 if (GameCode.testJeffrey.getX() > this.getX()) {
-			 this.moveLeft = true;
-				this.getAnimationHandler().setFlipHorizontal(true);
-		 } else {
-			 this.moveLeft = false;
-			 this.getAnimationHandler().setFlipHorizontal(false);
-		 }
-	 }
+	 //if (!normalMovement && !this.checkPlayerPositionRelativeToWalls() && !attacking && !overridePlayerInput) {
+		// if (GameCode.testJeffrey.getX() >= this.getX() + 40) {
+		//	 this.moveRight = true;
+			//	this.getAnimationHandler().setFlipHorizontal(true);
+		 //} else {
+		//	 if (GameCode.testJeffrey.getX() < this.getX() -40) {
+			// this.moveRight = false;
+			// this.setX(this.getX() -37);
+			 //this.getAnimationHandler().setFlipHorizontal(false);
+			// }
+		 //}
+	 //}
 		
 	}
-}

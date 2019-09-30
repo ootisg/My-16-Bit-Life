@@ -489,6 +489,18 @@ public abstract class GameObject extends GameAPI {
 				}
 			return false;
 		}
+		//returns true if your colliding on the right false if on the left ONLY WORKS IF YOUR ONE PIXEL INTO THE WALL
+		//will probably retun false if its not coliding except in some rare cases
+		public boolean checkWitchWallYourCollidingWith () {
+			this.setX(this.getX() + 1);
+			if (!Room.isColliding(this.hitbox())) {
+				this.setX(this.getX() - 1);
+				return false;
+			} else {
+				this.setX(this.getX() -1);
+				return true;
+			}
+		}
 	
 	/**
 	 * Sets the variants specified in attributeData to the respective values.

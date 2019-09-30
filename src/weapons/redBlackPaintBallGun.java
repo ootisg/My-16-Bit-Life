@@ -29,7 +29,7 @@ public class redBlackPaintBallGun extends AimableWeapon {
 		if (this.cooldown > 0) {
 			this.cooldown --;
 		}
-		if (mouseButtonClicked (1) && cooldown == 0 ) {
+		if (mouseButtonClicked (0) && cooldown == 0 ) {
 			if (jeffrey.inventory.checkAmmo(testball)) {
 			this.shoot (new Paintball ());
 			jeffrey.inventory.removeItem(testball);
@@ -40,7 +40,7 @@ public class redBlackPaintBallGun extends AimableWeapon {
 			}
 		}
 		if (textTimer > 0) {
-			outtaAmmo.draw((int)this.getX() - Room.getViewX(), (int)this.getY() - 10);
+			outtaAmmo.draw((int)this.getX() - Room.getViewX(), (int)this.getY() - 20);
 			textTimer = textTimer - 1;
 		}
 	}

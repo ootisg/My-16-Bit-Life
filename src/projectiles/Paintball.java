@@ -25,11 +25,12 @@ public class Paintball extends Projectile {
 		double xTo = this.getX () + Math.cos (direction) * speed;
 		double yTo = this.getY () + Math.sin (direction) * speed;
 		for (int i = 0; i < Enemy.enemyList.length; i ++) {
-			if (isCollidingChildren ("Enemy")) {
-				Enemy target = (Enemy) getCollisionInfo ().getCollidingObjects ().getFirst ();
-				target.damage (RNG.nextInt(10) + 10);
-				this.forget ();
+			if (this.isColliding(Enemy.enemyList[i])){
+				System.out.println("degg");
 			}
+				//Enemy target = (Enemy) getCollisionInfo ().getCollidingObjects ().getFirst ();
+				//target.damage (RNG.nextInt(10) + 10);
+				//this.forget ();
 		}
 		if (Room.isColliding (this.hitbox (), xTo, yTo)) {
 			this.forget ();

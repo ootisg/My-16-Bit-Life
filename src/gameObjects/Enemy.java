@@ -18,16 +18,23 @@ public abstract class Enemy extends GameObject {
 	protected double baseDamage = 2.5;
 	boolean jumping;
 	public int defence;
+	boolean moveRight;
 	DamageText text;
 	boolean falls;
 	int currentSpeed;
+	boolean canFuckWithSprite;
 	int timer;
 	boolean jumpDone;
+	boolean moveing;
 	int countdown;
 	boolean lockedRight;
 	boolean diesNormally;
+	int waitForCollison;
 	public Enemy () {
 		momentum = 0;
+		canFuckWithSprite = true;
+		moveing = true;
+		waitForCollison = 0;
 		lockedRight = false;
 		jumpDone = false;
 		falls = false;
@@ -159,6 +166,10 @@ public abstract class Enemy extends GameObject {
 	}
 	public void setHealth (int health) {
 		this.health = health;
+	}
+	//use this to make behaviors not change sprites
+	public void setSpriteChangeing (boolean abillity) {
+		canFuckWithSprite = abillity;
 	}
 	public int getHealth () {
 		return this.health;
@@ -302,7 +313,7 @@ public abstract class Enemy extends GameObject {
 			} else {
 				lockedRight = false;
 			}
-			if (!this.getSprite().equals(jumpSprite)) {
+			if ((!this.getSprite().equals(jumpSprite)) && canFuckWithSprite ) {
 				this.setSprite(jumpSprite);
 			}
 			} else {
@@ -319,5 +330,68 @@ public abstract class Enemy extends GameObject {
 			jumping = false;
 		}
 	}
-	
+	//walks back and forth inbetween walls falls off of ledges and attacks when faceing the palyer
+	//for speed inputing a negative makes it move one every that amount of frames a positive is that amount every frame
+	public void patrol(int fatAss, int rangebound1Right, int rangebound2Right, int rangebound1Left, int rangebound2Left, Sprite attackingSprite, Sprite MoveingSprite, int speed) {
+		timer = timer + 1;
+		if (speed < 0) {
+		if (((timer % (speed * -1))  == 0) && moveing) {
+			if (moveRight) {
+				this.setX(this.getX() + 1);
+			} else {
+				this.setX(this.getX() - 1);
+			}
+		}
+		} else {
+			if(moveRight) {
+				this.setX(this.getX() + speed);
+			} else {
+				this.setX(this.getX() - speed);
+			}
+		}
+		if (this.getAnimationHandler().flipHorizontal()) {
+				this.setHitboxAttributes(0, 0, 63, 64); 
+		} else {			
+			this.setHitboxAttributes(37, 0, 63, 64);
+		}
+		waitForCollison = waitForCollison + 1;
+		if (moveRight) {
+			if ( ((this.getX() - GameCode.testJeffrey.getX()  < -rangebound1Right) && (this.getX() - GameCode.testJeffrey.getX()  > -rangebound2Right) ) ) {
+				this.moveing = false;
+				if (!(this.getSprite().equals(attackingSprite)) && canFuckWithSprite) {
+				this.setSprite(attackingSprite);
+				} 
+				} else {
+					moveing = true;
+					if (!(this.getSprite().equals(MoveingSprite)) && canFuckWithSprite) {
+						this.setSprite(MoveingSprite);
+					}
+			}
+		} else {
+			if ( (GameCode.testJeffrey.getX() >= this.getX() - rangebound1Left) &&(GameCode.testJeffrey.getX() <= this.getX() - rangebound2Left) && !this.checkPlayerPositionRelativeToWalls() ) {
+				this.moveing = false;
+				if (!(this.getSprite().equals(attackingSprite)) && canFuckWithSprite) {
+				this.setSprite(attackingSprite);
+			}
+			} else {
+				moveing = true;
+				if (!(this.getSprite().equals(MoveingSprite)) && canFuckWithSprite) {
+					this.setSprite(MoveingSprite);
+				}
+			}
+		}
+		if (Room.isColliding(this.hitbox()) && waitForCollison > 10) {
+			waitForCollison = 0;
+			if (moveRight) {
+				this.setX(this.getX()- fatAss);
+			} else {
+				this.setX(this.getX() + fatAss);
+			}
+			this.getAnimationHandler().setFlipHorizontal(!this.getAnimationHandler().flipHorizontal());
+			this.moveRight = !moveRight;
+			if (timer % 2 == 0) {
+				timer = timer +1;
+			}
+	}
+	}
 }

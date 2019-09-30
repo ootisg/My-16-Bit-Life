@@ -43,7 +43,9 @@ public class Jeffrey extends GameObject {
 	public boolean canSwitch;
 	public int witchCharictar;
 	public double samHealth;
+	Sprite jeffreyWalking;
 	public Sprite samIdle;
+	public Sprite jeffreyIdle;
 	public Sprite samWalking;
 	public int switchTimer;
 	private Tbox textbox;
@@ -56,6 +58,8 @@ public class Jeffrey extends GameObject {
 		this.declare (0, 0);
 		index = 0;
 		samIdle = new Sprite ("resources/sprites/config/sam_idle.txt");
+		jeffreyIdle = new Sprite("resources/sprites/config/jeffrey_idle.txt");
+		jeffreyWalking = new Sprite ("resources/sprites/config/jeffrey_walking.txt");
 		samWalking = new Sprite ("resources/sprites/config/sam_walking.txt");
 		inventory = new Inventory();
 		standingOnPlatform = false;
@@ -136,10 +140,10 @@ if (activeBox) {
 				index = 0;
 			}
 		}
-		if (witchCharictar == 0 && (!this.getSprite().equals(new Sprite ("resources/sprites/config/jeffrey_idle.txt")) || !this.getSprite().equals(new Sprite ("resources/sprites/config/jeffrey_walking.txt")))) {
+		if (witchCharictar == 0 && (!this.getSprite().equals(jeffreyIdle)) || !this.getSprite().equals(jeffreyWalking))  {
 			if (!status.checkStatus(0, 0)) {
-			standSprite = new Sprite ("resources/sprites/config/jeffrey_idle.txt");
-			walkSprite = new Sprite ("resources/sprites/config/jeffrey_walking.txt");
+			standSprite = jeffreyIdle;
+			walkSprite = jeffreyWalking;
 			}
 		}
 		if (witchCharictar == 1 && (!this.getSprite().equals(samIdle) || !this.getSprite().equals(samWalking))) {
