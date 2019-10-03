@@ -62,9 +62,7 @@ public class GameCode {
 		//GameObject initialization
 		testLaddder = new Ladder ();
 		testJeffrey = new Jeffrey ();
-		showTank = new CannonTankEnemy();
 		gui = new Gui ();
-		extinguser = new FireRextinguser ();
 		slimelet = new SplittingSlimelet ();
 		testCrab = new CyclopesCrab();
 		gun = new redBlackPaintBallGun(new Sprite ("resources/sprites/redblack_gun.png"));

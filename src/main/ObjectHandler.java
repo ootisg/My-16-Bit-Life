@@ -9,13 +9,14 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Stack;
 
+import gameObjects.Enemy;
+
 /**
  * Stores and organizes references to all GameObjects, includes methods for searching and object interaction
  * @author nathan
  *
  */
 public class ObjectHandler {
-	
 	/**
 	 * Set to true when objects can be removed without an error; false otherwise
 	 */
@@ -81,6 +82,7 @@ public class ObjectHandler {
 		} else {
 			addQueue.add (obj);
 		}
+		
 	}
 	
 	/**

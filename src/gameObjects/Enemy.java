@@ -1,5 +1,6 @@
 package gameObjects;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import main.GameCode;
@@ -12,7 +13,8 @@ import resources.Sprite;
 public abstract class Enemy extends GameObject {
 	//Template for enemies
 	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
-	public static String[] enemyList = new String [0];
+	// list of delared enemys
+	public static ArrayList <Enemy> enemyList = new ArrayList <Enemy>();
 	public int health = 1;
 	int momentum;
 	protected double baseDamage = 2.5;
@@ -31,6 +33,7 @@ public abstract class Enemy extends GameObject {
 	boolean diesNormally;
 	int waitForCollison;
 	public Enemy () {
+		enemyList.add(this);
 		momentum = 0;
 		canFuckWithSprite = true;
 		moveing = true;
@@ -173,6 +176,16 @@ public abstract class Enemy extends GameObject {
 	}
 	public int getHealth () {
 		return this.health;
+	}
+	//changes the hitbox to another one when the sprite gets bigger
+	//based off of length of xOffset array
+	public void createExpandingHitBox (int [] xoffsetArray, int [] widthArray, int [] yOffsetArray, int [] heightArray) {
+		for (int i = 0; i < xoffsetArray.length; i++ ) {
+			if (i == this.getAnimationHandler().getFrame()) {
+				this.setHitboxAttributes(xoffsetArray [i], yOffsetArray [i], widthArray [i], heightArray [i]);
+			}
+		}
+		
 	}
 	// actions you can get your enemy to do (based on the assumption that your enemy falls)
 	public void jump (int horizontalBaseSpeed, int verticalBaseSpeed) {
@@ -350,9 +363,13 @@ public abstract class Enemy extends GameObject {
 			}
 		}
 		if (this.getAnimationHandler().flipHorizontal()) {
+			 if (!(this.getSprite().equals(attackingSprite))){
 				this.setHitboxAttributes(0, 0, 63, 64); 
-		} else {			
+			 }
+		} else {
+			if (!(this.getSprite().equals(attackingSprite))) {
 			this.setHitboxAttributes(37, 0, 63, 64);
+			}
 		}
 		waitForCollison = waitForCollison + 1;
 		if (moveRight) {

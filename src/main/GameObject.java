@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import gameObjects.Enemy;
 import map.Room;
 import resources.Sprite;
 
@@ -301,7 +302,7 @@ public abstract class GameObject extends GameAPI {
 	
 	/**
 	 * Checks for collision with all GameObjects that are children of the given type.
-	 * @param parentType The type of the parent GameObject, as given by calling getClass.getSimpleName() on the object
+	 * @param parentType The type of the parent GameObject, as given by calling getClass.getSimpleName() on the object 
 	 * @return True if a collision was detected; false otherwise
 	 */
 	public boolean isCollidingChildren (String parentType) {
@@ -415,6 +416,30 @@ public abstract class GameObject extends GameAPI {
 	public void setX (double val) {
 		xprevious = x;
 		x = val;
+	}
+	//simalar to setX but will abort if this will cause it to go it the wall
+	//will return false if it aborts
+	public boolean goX(double val) {
+		xprevious = x;
+		x = val;
+		if (Room.isColliding(this.hitbox())) {
+			x = xprevious;
+			return false;
+		} else {
+			return true;
+		}
+	}
+	//simalar to setY but will abort if this will cause it to go it the celling or floor
+	//will return false if it aborts
+	public boolean goY(double val) {
+		yprevious = y;
+		y = val;
+		if (Room.isColliding(this.hitbox())) {
+			y = yprevious;
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	/**
