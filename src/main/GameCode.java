@@ -27,6 +27,7 @@ import players.TubeRaster;
 import resources.Sprite;
 import statusEffect.Status;
 import weapons.AimableWeapon;
+import weapons.SlimeSword;
 import weapons.redBlackPaintBallGun;
 
 public class GameCode {
@@ -54,6 +55,7 @@ public class GameCode {
 	static RedBlackPaintBall paintball;
 	static Ladder testLadder;
 	static Leg leg;
+	static SlimeSword sword;
 	static SplittingSlimelet slimelet;
 	static TomatoFunction function;
 	static FireRextinguser extinguser;
@@ -63,11 +65,13 @@ public class GameCode {
 		testLaddder = new Ladder ();
 		testJeffrey = new Jeffrey ();
 		gui = new Gui ();
+		sword = new SlimeSword();
 		slimelet = new SplittingSlimelet ();
 		testCrab = new CyclopesCrab();
 		gun = new redBlackPaintBallGun(new Sprite ("resources/sprites/redblack_gun.png"));
 		testTie = new ClostridiumBowtielinea();
 		testJeffrey.getInventory().addWeapon(gun, 0);
+		testJeffrey.getInventory().addWeapon(sword, 1);
 		int x = 0;
 		boi = new Celing_boi();
 		testLadder = new Ladder ();

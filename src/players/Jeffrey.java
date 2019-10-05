@@ -1,9 +1,11 @@
 package players;
 
 import weapons.AimableWeapon;
+import weapons.SlimeSword;
 import weapons.Unarmed;
 import weapons.redBlackPaintBallGun;
 import items.Inventory;
+import items.Item;
 import items.RedBlackPaintBall;
 import main.GameObject;
 import main.GameWindow;
@@ -24,7 +26,7 @@ public class Jeffrey extends GameObject {
 	public  boolean isJumping;
 	public Sprite standSprite;
 	public Sprite walkSprite;
-	private AimableWeapon wpn;
+	private Item wpn;
 	public boolean bindLeft;
 	public boolean bindRight;
 	private int invulTimer;
@@ -43,6 +45,9 @@ public class Jeffrey extends GameObject {
 	public boolean canSwitch;
 	public int witchCharictar;
 	public double samHealth;
+	private boolean changeSprite;
+	public Sprite samSword;
+	public Sprite samWalkingSword;
 	Sprite jeffreyWalking;
 	public Sprite samIdle;
 	public Sprite jeffreyIdle;
@@ -57,6 +62,9 @@ public class Jeffrey extends GameObject {
 		//This class is not yet commented
 		this.declare (0, 0);
 		index = 0;
+		changeSprite = true;;
+		samSword = new Sprite ("resources/sprites/config/sam_idle_with_sword.txt");
+		samWalkingSword = new Sprite ("resources/sprites/config/sam_walking_with_sword.txt");
 		samIdle = new Sprite ("resources/sprites/config/sam_idle.txt");
 		jeffreyIdle = new Sprite("resources/sprites/config/jeffrey_idle.txt");
 		jeffreyWalking = new Sprite ("resources/sprites/config/jeffrey_walking.txt");
@@ -66,7 +74,7 @@ public class Jeffrey extends GameObject {
 		this.standSprite = new Sprite("resources/sprites/config/jeffrey_idle.txt");
 		this.walkSprite = new Sprite("resources/sprites/config/jeffrey_walking.txt");
 		setSprite (standSprite);
-		getAnimationHandler ().setFrameTime (.7);
+		getAnimationHandler ().setFrameTime (50);
 		this.setHitboxAttributes(4, 4, 7, 27);
 		this.specialCooldown = 0;
 		this.jeffreyHealth = 100;
@@ -87,9 +95,13 @@ public class Jeffrey extends GameObject {
 		activeBox = false;
 		boxTimer = 0;
 	}
-public AimableWeapon getWeapon () {
+	//makes the players sprite only be changed by outside sources not by this class
+	public void changeSprite (boolean toChangeOrNotToChange) {
+		changeSprite = toChangeOrNotToChange;
+	}
+public Item getWeapon () {
 	if (newWeapon) {
-		wpn = (AimableWeapon) inventory.findWeaponAtIndex(index, witchCharictar);
+		wpn =  inventory.findWeaponAtIndex(index, witchCharictar);
 		wpn.declare(0, 0);
 if (activeBox) {
 		weaponBox.forget();	
@@ -99,7 +111,7 @@ if (activeBox) {
 		newWeapon = false;
 		activeBox = true;
 	}
-	return (AimableWeapon) inventory.findWeaponAtIndex(index, witchCharictar);	
+	return inventory.findWeaponAtIndex(index, witchCharictar);	
 	}
 	@Override
 	public void frameEvent () {
@@ -149,6 +161,11 @@ if (activeBox) {
 		if (witchCharictar == 1 && (!this.getSprite().equals(samIdle) || !this.getSprite().equals(samWalking))) {
 			standSprite = samIdle;
 			walkSprite = samWalking;
+			if (this.getWeapon().getClass().getSimpleName().equals("SlimeSword")) {
+			standSprite = samSword;
+			this.getWeapon().frameEvent();
+			walkSprite = samWalkingSword;
+			}
 		}
 		
 		if (keyPressed ('Z')) {
@@ -159,19 +176,21 @@ if (activeBox) {
 				index = 0;
 			}
 		}
-		//Handles weapon usagewh
+		//Handles weapon usage
 		//Gravity and collision with floor
 		if (!binded) {
 		if (keyDown(32) && !isJumping && vy == 0 && !onLadder) {
 			isJumping = true;
 			vy = -10.15625;
+			if (changeSprite) {
 			setSprite (walkSprite);
 			getAnimationHandler ().setFrameTime (0);
 			getAnimationHandler ().setAnimationFrame (3);
+			}
 		}
 		}
 		if (vy == 0) {
-			getAnimationHandler ().setFrameTime (.7);
+			getAnimationHandler ().setFrameTime (50);
 		}
 		if (!onLadder) {
 			if (!standingOnPlatform) {
@@ -220,7 +239,9 @@ if (activeBox) {
 			this.getAnimationHandler().setFlipHorizontal (true);
 			if (vy == 0 && !isWalking) {
 				isWalking = true;
+				if (changeSprite) {
 				setSprite (walkSprite);
+				}
 			}
 		} else if (keyDown ('D') && !bindRight) {
 			if (vx <= 3.0) {
@@ -229,16 +250,22 @@ if (activeBox) {
 			this.getAnimationHandler().setFlipHorizontal (false);
 			if (vy == 0 && !isWalking) {
 				isWalking = true;
+				if (changeSprite) {
 				setSprite (walkSprite);
+				}
 			}
 		} else {
 			if (isWalking) {
 				isWalking = false;
+				if(changeSprite) {
 				setSprite (standSprite);
+				}
 			}
 			if (!isJumping && vy == 0) {
 				isJumping = false;
+				if (changeSprite) {
 				setSprite (standSprite);
+				}
 			}
 		}
 		}
@@ -291,6 +318,7 @@ if (activeBox) {
 			this.getWeapon().setY (this.getY () + 16);
 			this.getWeapon().getAnimationHandler().setFlipHorizontal (false);
 		}
+		try {
 		//Handles weapon aiming
 		double wpnX = this.getWeapon().getX () - Room.getViewX ();
 		double wpnY = this.getWeapon().getY () - Room.getViewY ();
@@ -319,7 +347,11 @@ if (activeBox) {
 					ang = Math.PI / 4;
 				}
 			}
-			this.getWeapon().setRotation (ang);
+			AimableWeapon weapon = (AimableWeapon) this.getWeapon();
+			weapon.setRotation (ang);
+		}
+		} catch (ClassCastException e) {
+			
 		}
 		//Handles invulnerability
 		if (invulTimer > 0) {

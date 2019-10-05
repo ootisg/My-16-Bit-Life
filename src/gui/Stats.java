@@ -63,7 +63,7 @@ public class Stats extends GameObject {
 		buffer.drawRect(0, 0, 30, 16);
 		weaponName.setContent(GameCode.testJeffrey.getWeapon().checkName());
 		weaponSprite = GameCode.testJeffrey.getWeapon().getSprite();
-		weaponSprite.draw(220,-6 );
+		//weaponSprite.draw(220,-6 );
 		ammoAmount.setContent(Integer.toString(GameCode.testJeffrey.getInventory().checkAmmoAmountOfWeapon(GameCode.testJeffrey.getWeapon())));
 	}
 }

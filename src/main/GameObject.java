@@ -455,10 +455,28 @@ public abstract class GameObject extends GameAPI {
 	 * Sets the sprite of this GameObject to the given sprite.
 	 * @param sprite The sprite to use
 	 */
-	protected void setSprite (Sprite sprite) {
+	public void setSprite (Sprite sprite) {
 		animationHandler.resetImage (sprite);
 	}
-	
+	//changes the hitbox to another one when the sprite gets bigger
+	//based off of length of xOffset array
+	public void createExpandingHitBox (int [] xoffsetArray, int [] widthArray, int [] yOffsetArray, int [] heightArray) {
+		for (int i = 0; i < xoffsetArray.length; i++ ) {
+			if (i == this.getAnimationHandler().getFrame()) {
+				this.setHitboxAttributes(xoffsetArray [i], yOffsetArray [i], widthArray [i], heightArray [i]);
+			}
+		}
+		
+	}
+	//same as createExpandingHitBox execept it uses the frame of a diffrent object as a reference
+	public void createExpandingHitBoxBasedOnADiffrentObject (int [] xoffsetArray, int [] widthArray, int [] yOffsetArray, int [] heightArray, GameObject reference) {
+		for (int i = 0; i < xoffsetArray.length; i++ ) {
+			if (i == reference.getAnimationHandler().getFrame()) {
+				this.setHitboxAttributes(xoffsetArray [i], yOffsetArray [i], widthArray [i], heightArray [i]);
+			}
+		}
+		
+	}
 	/**
 	 * Sets the given variant attribute to the specified value.
 	 * @param name The name of the attribute

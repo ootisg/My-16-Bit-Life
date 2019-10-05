@@ -36,7 +36,7 @@ public class redBlackPaintBallGun extends AimableWeapon {
 			cooldown = 5;
 			} else {
 				textTimer = 10;
-				outtaAmmo.draw((int)this.getX() - Room.getViewX(), (int)this.getY() - 10);
+				outtaAmmo.draw((int)this.getX() - Room.getViewX(), (int)this.getY() - 20);
 			}
 		}
 		if (textTimer > 0) {

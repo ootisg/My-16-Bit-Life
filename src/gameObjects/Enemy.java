@@ -50,6 +50,9 @@ public abstract class Enemy extends GameObject {
 	@Override
 	public void frameEvent () {
 		enemyFrame ();
+		if ((this.health <= 0) && diesNormally ) {
+			this.deathEvent();
+		}
 		if (isColliding (player)) {
 			attackEvent ();
 		}
@@ -121,7 +124,7 @@ public abstract class Enemy extends GameObject {
 	}
 	//sets up a special death if your into that kinda thing
 	public void setDeath (boolean death) {
-		diesNormally = false;
+		diesNormally = death;
 	}
 	public void attackEvent () {
 		player.damage (this.baseDamage);
@@ -176,16 +179,6 @@ public abstract class Enemy extends GameObject {
 	}
 	public int getHealth () {
 		return this.health;
-	}
-	//changes the hitbox to another one when the sprite gets bigger
-	//based off of length of xOffset array
-	public void createExpandingHitBox (int [] xoffsetArray, int [] widthArray, int [] yOffsetArray, int [] heightArray) {
-		for (int i = 0; i < xoffsetArray.length; i++ ) {
-			if (i == this.getAnimationHandler().getFrame()) {
-				this.setHitboxAttributes(xoffsetArray [i], yOffsetArray [i], widthArray [i], heightArray [i]);
-			}
-		}
-		
 	}
 	// actions you can get your enemy to do (based on the assumption that your enemy falls)
 	public void jump (int horizontalBaseSpeed, int verticalBaseSpeed) {

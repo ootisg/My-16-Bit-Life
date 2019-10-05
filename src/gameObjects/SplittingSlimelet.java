@@ -54,7 +54,7 @@ public class SplittingSlimelet extends Enemy {
 	}
 	@Override 
 	public void enemyFrame () {
-		System.out.println(this.health);
+	
 		if (this.getSprite().equals(this.attackingSprite)) {
 			if (!moveRight) {
 			this.createExpandingHitBox(new int [] {36, 18, 2, 2, 2, 16, 24}, new int [] {64, 82, 98, 98, 98, 84, 76},  new int [] {0,0,0,0,0,0,0},new int [] {64,64,64,64,64,64,64});
