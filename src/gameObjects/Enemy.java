@@ -26,7 +26,9 @@ public abstract class Enemy extends GameObject {
 	int currentSpeed;
 	boolean canFuckWithSprite;
 	int timer;
+	boolean adjustedSpeed;
 	boolean jumpDone;
+	boolean patrolBothWays;
 	boolean moveing;
 	int countdown;
 	boolean lockedRight;
@@ -35,6 +37,8 @@ public abstract class Enemy extends GameObject {
 	public Enemy () {
 		enemyList.add(this);
 		momentum = 0;
+		patrolBothWays = false;
+		adjustedSpeed = false;
 		canFuckWithSprite = true;
 		moveing = true;
 		waitForCollison = 0;
@@ -84,7 +88,9 @@ public abstract class Enemy extends GameObject {
 				this.setY(getY() - (currentSpeed + 1) );
 				}
 		}
+
 		if (!onFloor && falls) {
+			
 		momentum = momentum + 1;
 		if (momentum < 6){
 			this.setY(getY() + 1);
@@ -179,6 +185,10 @@ public abstract class Enemy extends GameObject {
 	}
 	public int getHealth () {
 		return this.health;
+	}
+	// changes whereter or not the enemy attacks enemys behind him (if your using patrol that is)
+	public void setAttackFromBothSides (boolean attack) {
+		patrolBothWays = attack;
 	}
 	// actions you can get your enemy to do (based on the assumption that your enemy falls)
 	public void jump (int horizontalBaseSpeed, int verticalBaseSpeed) {
@@ -295,6 +305,13 @@ public abstract class Enemy extends GameObject {
 			}
 		}
 	}
+	public boolean isNearPlayerX (int rangebound1Right, int rangebound2Right, int rangebound1Left, int rangebound2Left) {
+		if ( ((this.getX() - GameCode.testJeffrey.getX()  < -rangebound1Right) && (this.getX() - GameCode.testJeffrey.getX()  > -rangebound2Right)) || ((GameCode.testJeffrey.getX() >= this.getX() - rangebound2Left) &&(GameCode.testJeffrey.getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls() )) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	// checks to see if actions are finished also resets action (so always check before using it again even if you don't need to) 
 	public boolean isJumpDone () {
 		boolean truth = jumpDone;
@@ -336,9 +353,22 @@ public abstract class Enemy extends GameObject {
 			jumping = false;
 		}
 	}
-	//walks back and forth inbetween walls falls off of ledges and attacks when faceing the palyer
+	public void turnAroundDurringAttack(int fatAss) {
+		this.moveing = true;
+		if (((player.getX() > this.getX()) && !moveRight) || (player.getX() < this.getX()) && moveRight ) {
+		if (moveRight) {
+			this.setX(this.getX()- fatAss);
+		} else {
+			this.setX(this.getX() + fatAss);
+		}
+		this.getAnimationHandler().setFlipHorizontal(!this.getAnimationHandler().flipHorizontal());
+		this.moveRight = !moveRight;
+		}
+		
+	}
+	//walks back and forth inbetween walls and attacks when faceing the palyer
 	//for speed inputing a negative makes it move one every that amount of frames a positive is that amount every frame
-	public void patrol(int fatAss, int rangebound1Right, int rangebound2Right, int rangebound1Left, int rangebound2Left, Sprite attackingSprite, Sprite MoveingSprite, int speed) {
+	public void patrol(int fatAss, int rangebound1Right, int rangebound2Right, int rangebound1Left, int rangebound2Left, Sprite attackingSprite, Sprite MoveingSprite, int speed, int xOffsetWhenFlipped, int xOffsetWhenNotFliped, int yOffset, int width, int height) {
 		timer = timer + 1;
 		if (speed < 0) {
 		if (((timer % (speed * -1))  == 0) && moveing) {
@@ -357,37 +387,57 @@ public abstract class Enemy extends GameObject {
 		}
 		if (this.getAnimationHandler().flipHorizontal()) {
 			 if (!(this.getSprite().equals(attackingSprite))){
-				this.setHitboxAttributes(0, 0, 63, 64); 
+				this.setHitboxAttributes(xOffsetWhenFlipped, yOffset, width, height); 
 			 }
 		} else {
 			if (!(this.getSprite().equals(attackingSprite))) {
-			this.setHitboxAttributes(37, 0, 63, 64);
+			this.setHitboxAttributes(xOffsetWhenNotFliped, yOffset, width, height);
 			}
 		}
 		waitForCollison = waitForCollison + 1;
-		if (moveRight) {
+		if (moveRight || patrolBothWays) {
 			if ( ((this.getX() - GameCode.testJeffrey.getX()  < -rangebound1Right) && (this.getX() - GameCode.testJeffrey.getX()  > -rangebound2Right) ) ) {
 				this.moveing = false;
 				if (!(this.getSprite().equals(attackingSprite)) && canFuckWithSprite) {
 				this.setSprite(attackingSprite);
 				} 
 				} else {
+					if((!patrolBothWays && ((GameCode.testJeffrey.getX() >= this.getX() - rangebound2Left) &&(GameCode.testJeffrey.getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls())) ) {
 					moveing = true;
+					if (adjustedSpeed) {
+						speed = 0;
+						adjustedSpeed = false;
+					}
 					if (!(this.getSprite().equals(MoveingSprite)) && canFuckWithSprite) {
 						this.setSprite(MoveingSprite);
 					}
 			}
-		} else {
-			if ( (GameCode.testJeffrey.getX() >= this.getX() - rangebound1Left) &&(GameCode.testJeffrey.getX() <= this.getX() - rangebound2Left) && !this.checkPlayerPositionRelativeToWalls() ) {
+				}
+		} 
+		if (!moveRight || patrolBothWays) {
+			if ( (GameCode.testJeffrey.getX() >= this.getX() - rangebound2Left) &&(GameCode.testJeffrey.getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls() ) {
 				this.moveing = false;
 				if (!(this.getSprite().equals(attackingSprite)) && canFuckWithSprite) {
 				this.setSprite(attackingSprite);
 			}
 			} else {
+				if (!(patrolBothWays && ((this.getX() - GameCode.testJeffrey.getX()  < -rangebound1Right) && (this.getX() - GameCode.testJeffrey.getX()  > -rangebound2Right)))) {
 				moveing = true;
+				if (adjustedSpeed) {
+					speed = 0;
+					adjustedSpeed = false;
+				}
 				if (!(this.getSprite().equals(MoveingSprite)) && canFuckWithSprite) {
 					this.setSprite(MoveingSprite);
 				}
+				}
+			}
+		}
+		if (patrolBothWays && this.getSprite().equals(attackingSprite)) {
+			turnAroundDurringAttack (fatAss);
+			if (speed == 0) {
+				speed = 1;
+				adjustedSpeed = true;
 			}
 		}
 		if (Room.isColliding(this.hitbox()) && waitForCollison > 10) {

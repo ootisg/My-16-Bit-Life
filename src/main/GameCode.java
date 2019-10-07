@@ -27,6 +27,7 @@ import players.TubeRaster;
 import resources.Sprite;
 import statusEffect.Status;
 import weapons.AimableWeapon;
+import weapons.LifeVaccum;
 import weapons.SlimeSword;
 import weapons.redBlackPaintBallGun;
 
@@ -59,15 +60,19 @@ public class GameCode {
 	static SplittingSlimelet slimelet;
 	static TomatoFunction function;
 	static FireRextinguser extinguser;
+	static LifeVaccum vaccum;
 	public static void initialize () {
 		//Initialize sprites
 		//GameObject initialization
 		testLaddder = new Ladder ();
 		testJeffrey = new Jeffrey ();
 		gui = new Gui ();
+		vaccum = new LifeVaccum (new Sprite ("resources/sprites/config/lifeVaccum.txt"));
+		testJeffrey.getInventory().addWeapon(vaccum, 1);
 		sword = new SlimeSword();
 		slimelet = new SplittingSlimelet ();
 		testCrab = new CyclopesCrab();
+		extinguser = new FireRextinguser ();
 		gun = new redBlackPaintBallGun(new Sprite ("resources/sprites/redblack_gun.png"));
 		testTie = new ClostridiumBowtielinea();
 		testJeffrey.getInventory().addWeapon(gun, 0);
@@ -96,9 +101,10 @@ public class GameCode {
 		//td = new TopDown ();
 		//leg.declare(150, 200);
 		boi.declare(40,300);
+		extinguser.declare(180,350);
 		//showTank.declare(280, 383);
 		testLaddder.declare(150, 373);
-		slimelet.declare(180, 300);
+		//slimelet.declare(180, 300);
 		
 	}
 	

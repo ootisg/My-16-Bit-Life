@@ -28,7 +28,6 @@ public class LifeVaccum extends AimableWeapon {
 	}
 	public void frameEvent () {
 		timer = timer + 1;
-		this.setRotation(0);
 		// this may need to be a diffrent number
 		if (mouseButtonDown (0)) {
 			if (GameCode.testJeffrey.getInventory().checkLifeVaccumBattary() > 0) {
@@ -36,14 +35,13 @@ public class LifeVaccum extends AimableWeapon {
 				GameCode.testJeffrey.getInventory().subtractLifeVaccumBattary(1);
 			}
 			loseBattary = !loseBattary;
-			for (int i = 0; i < Enemy.enemyList.length; i ++) {
-				if (this.isColliding (Enemy.enemyList [i])) {
+			for (int i = 0; i < Enemy.enemyList.size(); i ++) {
+				if (this.isColliding(Enemy.enemyList.get(i))){
 					// no clue if this works
-					Enemy target = (Enemy) this.getCollisionInfo().getCollidingObjects().getLast() ;
 					int damageDone = RNG.nextInt(2) + 2;
 					if (timer == 8) {
 						timer = 0;
-					target.damage (damageDone);
+					Enemy.enemyList.get(i).damage (damageDone);
 					GameCode.testJeffrey.samHealth = GameCode.testJeffrey.samHealth + ((int)damageDone/10 + 1);
 					if (GameCode.testJeffrey.samHealth >100) {
 						GameCode.testJeffrey.samHealth = 100;

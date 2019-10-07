@@ -63,7 +63,7 @@ public class SplittingSlimelet extends Enemy {
 		}
 	}
 		//boolean overridePlayerInput = false;	
-		this.patrol(40, 70, 90, 15, -5, attackingSprite, moveingSprite, -2);
+		this.patrol(40, 70, 90, -5, 15, attackingSprite, moveingSprite, -2, 0,37,0,63,64);
 		if (this.health <= 0) {
 			if (deathTimer == 0) {
 			this.setSpriteChangeing(false);
