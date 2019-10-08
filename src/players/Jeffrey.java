@@ -28,6 +28,8 @@ public class Jeffrey extends GameObject {
 	public Sprite walkSprite;
 	private Item wpn;
 	public boolean bindLeft;
+	public Sprite ryanIdle;
+	public Sprite ryanWalking;
 	public boolean bindRight;
 	private int invulTimer;
 	private int specialCooldown;
@@ -48,6 +50,7 @@ public class Jeffrey extends GameObject {
 	private boolean changeSprite;
 	public Sprite samSword;
 	public Sprite samWalkingSword;
+	public double ryanHealth;
 	Sprite jeffreyWalking;
 	public Sprite samIdle;
 	public Sprite jeffreyIdle;
@@ -62,6 +65,8 @@ public class Jeffrey extends GameObject {
 		//This class is not yet commented
 		this.declare (0, 0);
 		index = 0;
+		ryanIdle = new Sprite ("resources/sprites/config/ryan_idle.txt");
+		ryanWalking = new Sprite ("resources/sprites/config/ryan_walking.txt");
 		changeSprite = true;;
 		samSword = new Sprite ("resources/sprites/config/sam_idle_with_sword.txt");
 		samWalkingSword = new Sprite ("resources/sprites/config/sam_walking_with_sword.txt");
@@ -83,6 +88,7 @@ public class Jeffrey extends GameObject {
 		bindRight = false;
 		this.maxHealth = 100;
 		this.invulTimer = 0;
+		this.ryanHealth = 100;
 		this.vx = 0;
 		this.vy = 0;
 		this.ax = 0;
@@ -131,23 +137,54 @@ if (activeBox) {
 		if (!keyDown('Q')) {
 			switchTimer = 0;
 		}
+		
 		if (switchTimer == 30) {
-			switchTimer = 0;
-			if (witchCharictar == 1) {
-				if (jeffreyHealth <= 0) {
-					textbox = new Tbox (this.getX(), 340, 25, 8, "JEFFREY HAS NO HEALTH YOU ABSOLUTE MORRON (SEE ITS FUNNY TO ME THAT YOU THOUGHT YOU COULD SWITCH TO JEFFREY BUT IN REALITY YOUR JUST A HUGE MORON)" , false);
+			if (witchCharictar == 0) {
+				if ((samHealth <= 0) && (ryanHealth <= 0)) {
+					textbox = new Tbox (this.getX(), 340, 25, 8, "LUL NO ... SAM AND RYAN HAVE NO HP" , false);
 					textbox.declare(0,0);
+					switchTimer = 0;
 				} else {
-					witchCharictar = 0;
-				}
-			} else {
-				if (samHealth <= 0) {
-					textbox = new Tbox (this.getX(), 340, 25, 8, "LUL NO ... SAM HAS NO HP" , false);
-					textbox.declare(0,0);
-				} else {
+					if (samHealth >= 0) {
 					witchCharictar = 1;
+					switchTimer = 0;
+					} else {
+					witchCharictar = 2;
+					switchTimer = 0;
+					}
 				}
 			}
+			
+			if ((witchCharictar == 1) && (switchTimer != 0)) {
+				if ((jeffreyHealth <= 0) && (ryanHealth <= 0)) {
+					textbox = new Tbox (this.getX(), 340, 25, 8, "JEFFREY AND RYAN HAVE NO HEALTH YOU ABSOLUTE MORRON (SEE ITS FUNNY TO ME THAT YOU THOUGHT YOU COULD SWITCH TO JEFFREY OR RYAN BUT IN REALITY YOUR JUST A HUGE MORON)" , false);
+					textbox.declare(0,0);
+					switchTimer = 0;
+				} else {
+					if (ryanHealth >= 0) {
+					witchCharictar = 2;
+					switchTimer = 0;
+					} else {
+					witchCharictar = 0;
+					switchTimer = 0;
+					}
+				}
+			}
+			if ((witchCharictar == 2) && (switchTimer != 0)) {
+				if ((jeffreyHealth <= 0) && (samHealth <= 0)) {
+					textbox = new Tbox (this.getX(), 340, 25, 8, "SAM AND JEFFREY GOT NOSCOPED ITS UP TO RYAN NOW" , false);
+					textbox.declare(0,0);
+					switchTimer = 0;
+				} else {
+					if (jeffreyHealth >= 0) {
+					witchCharictar = 0;
+					switchTimer = 0;
+					} else {
+					witchCharictar = 1;
+					switchTimer = 0;
+					}
+				}
+			} 
 			if (index > inventory.amountOfWeapons(witchCharictar)) {
 				index = 0;
 			}
@@ -157,6 +194,10 @@ if (activeBox) {
 			standSprite = jeffreyIdle;
 			walkSprite = jeffreyWalking;
 			}
+		}
+		if (witchCharictar == 2 && ((!this.getSprite().equals(ryanIdle)) || !this.getSprite().equals(ryanWalking)) )  {
+			standSprite = ryanIdle;
+			walkSprite = ryanWalking;
 		}
 		if (witchCharictar == 1 && (!this.getSprite().equals(samIdle) || !this.getSprite().equals(samWalking))) {
 			standSprite = samIdle;
