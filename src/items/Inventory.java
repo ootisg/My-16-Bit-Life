@@ -14,6 +14,7 @@ public class Inventory {
 	ArrayList <Item> ammo = new ArrayList ();
 	ArrayList <Item> jeffreyWeapons = new ArrayList ();
 	ArrayList <Item> samWeapons = new ArrayList ();
+	ArrayList <Item> ryanWeapons = new ArrayList ();
 	int money;
 	int WEXP;
 	Sprite lol;
@@ -98,6 +99,9 @@ public class Inventory {
 		if (witchCharictar == 1) {
 		samWeapons.add(itemToAdd);
 		}
+		if (witchCharictar == 2) {
+		ryanWeapons.add(itemToAdd);	
+		}
 	}
 	// removeItem returns false if the item is not in the players inventory
 	public boolean removeItem (Item itemtoRemove) {
@@ -174,6 +178,13 @@ public class Inventory {
 		}
 		}
 		}
+		if (witchCharictar == 2) {
+			for (Item item : this.ryanWeapons) {
+				if (item.getClass().equals(itemtoCheck.getClass())){
+					return true;
+		}
+		}
+		}
 		
 		return false;
 	}
@@ -229,6 +240,14 @@ public class Inventory {
 				}
 			}
 				}
+			if (witchCharictar == 2) {
+				for (Item item : this.ryanWeapons) {
+				index = index + 1;
+				if (item.getClass().equals(itemtoCheck.getClass())){
+					return index - 1;
+				}
+			}
+				}
 			return 256;
 		}
 		public int checkAmmoAmountOfWeapon (Item weaponToCheck) {
@@ -271,6 +290,9 @@ public class Inventory {
 			if (witchCharictar == 1) {
 			return samWeapons.get(index);
 			}
+			if (witchCharictar == 2) {
+			return ryanWeapons.get(index);	
+			}
 			return new Unarmed(new Sprite ("resources/sprites/blank.png"));
 			} catch (IndexOutOfBoundsException e) {
 			return new Unarmed(new Sprite ("resources/sprites/blank.png"));
@@ -293,6 +315,9 @@ public class Inventory {
 			if (witchCharictar == 1) {
 			return samWeapons.size();	
 		}
+			if (witchCharictar == 2) {
+			return ryanWeapons.size();
+			}
 			return -1;
 		}
 	public int checkMoney () {

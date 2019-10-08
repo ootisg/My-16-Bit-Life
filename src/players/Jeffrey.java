@@ -57,6 +57,8 @@ public class Jeffrey extends GameObject {
 	public Sprite samWalking;
 	public int switchTimer;
 	private Tbox textbox;
+	public Sprite ryanMicrophoneIdle;
+	public Sprite ryanMicrophoneWalking;
 	private Tbox weaponBox;
 	private boolean activeBox;
 	private int boxTimer;
@@ -65,6 +67,8 @@ public class Jeffrey extends GameObject {
 		//This class is not yet commented
 		this.declare (0, 0);
 		index = 0;
+		ryanMicrophoneIdle = new Sprite ("resources/sprites/config/ryan_idle_microphone.txt");
+		ryanMicrophoneWalking = new Sprite("resources/sprites/config/ryan_walking_microphone.txt");
 		ryanIdle = new Sprite ("resources/sprites/config/ryan_idle.txt");
 		ryanWalking = new Sprite ("resources/sprites/config/ryan_walking.txt");
 		changeSprite = true;;
@@ -198,6 +202,12 @@ if (activeBox) {
 		if (witchCharictar == 2 && ((!this.getSprite().equals(ryanIdle)) || !this.getSprite().equals(ryanWalking)) )  {
 			standSprite = ryanIdle;
 			walkSprite = ryanWalking;
+			System.out.println(this.getWeapon().getClass().getSimpleName());
+			if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone")) {
+				standSprite = ryanMicrophoneIdle;
+				this.getWeapon().frameEvent();
+				walkSprite = ryanMicrophoneWalking;
+				}
 		}
 		if (witchCharictar == 1 && (!this.getSprite().equals(samIdle) || !this.getSprite().equals(samWalking))) {
 			standSprite = samIdle;

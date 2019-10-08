@@ -28,6 +28,7 @@ import resources.Sprite;
 import statusEffect.Status;
 import weapons.AimableWeapon;
 import weapons.LifeVaccum;
+import weapons.MagicMicrophone;
 import weapons.SlimeSword;
 import weapons.redBlackPaintBallGun;
 
@@ -58,6 +59,7 @@ public class GameCode {
 	static Leg leg;
 	static SlimeSword sword;
 	static SplittingSlimelet slimelet;
+	static MagicMicrophone microphone;
 	static TomatoFunction function;
 	static FireRextinguser extinguser;
 	static LifeVaccum vaccum;
@@ -72,6 +74,8 @@ public class GameCode {
 		sword = new SlimeSword();
 		slimelet = new SplittingSlimelet ();
 		testCrab = new CyclopesCrab();
+		microphone = new MagicMicrophone ();
+		testJeffrey.getInventory().addWeapon (microphone, 2);
 		extinguser = new FireRextinguser ();
 		gun = new redBlackPaintBallGun(new Sprite ("resources/sprites/redblack_gun.png"));
 		testTie = new ClostridiumBowtielinea();
