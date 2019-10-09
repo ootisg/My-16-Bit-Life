@@ -61,12 +61,14 @@ public class Jeffrey extends GameObject {
 	public Sprite ryanMicrophoneWalking;
 	private Tbox weaponBox;
 	private boolean activeBox;
+	boolean messWithFrameTime;
 	private int boxTimer;
 	public Status status;
 	public Jeffrey () {
 		//This class is not yet commented
 		this.declare (0, 0);
 		index = 0;
+		messWithFrameTime = true;
 		ryanMicrophoneIdle = new Sprite ("resources/sprites/config/ryan_idle_microphone.txt");
 		ryanMicrophoneWalking = new Sprite("resources/sprites/config/ryan_walking_microphone.txt");
 		ryanIdle = new Sprite ("resources/sprites/config/ryan_idle.txt");
@@ -88,6 +90,7 @@ public class Jeffrey extends GameObject {
 		this.specialCooldown = 0;
 		this.jeffreyHealth = 100;
 		this.samHealth = 100;
+		
 		bindLeft = false;
 		bindRight = false;
 		this.maxHealth = 100;
@@ -108,6 +111,9 @@ public class Jeffrey extends GameObject {
 	//makes the players sprite only be changed by outside sources not by this class
 	public void changeSprite (boolean toChangeOrNotToChange) {
 		changeSprite = toChangeOrNotToChange;
+	}
+	public void changeFrameTime (boolean toChangeOrNotToChange) {
+		messWithFrameTime = toChangeOrNotToChange;
 	}
 public Item getWeapon () {
 	if (newWeapon) {
@@ -202,7 +208,6 @@ if (activeBox) {
 		if (witchCharictar == 2 && ((!this.getSprite().equals(ryanIdle)) || !this.getSprite().equals(ryanWalking)) )  {
 			standSprite = ryanIdle;
 			walkSprite = ryanWalking;
-			System.out.println(this.getWeapon().getClass().getSimpleName());
 			if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone")) {
 				standSprite = ryanMicrophoneIdle;
 				this.getWeapon().frameEvent();
@@ -241,7 +246,9 @@ if (activeBox) {
 		}
 		}
 		if (vy == 0) {
+			if (messWithFrameTime) {
 			getAnimationHandler ().setFrameTime (50);
+			}
 		}
 		if (!onLadder) {
 			if (!standingOnPlatform) {

@@ -22,7 +22,7 @@ public class SlimeSword extends Item {
 	@Override
 	public void frameEvent() {
 		
-		if (this.mouseButtonClicked(0)) {
+		if (this.mouseButtonClicked(0) && !GameCode.testJeffrey.getSprite().equals(samSwingSprite)) {
 			GameCode.testJeffrey.getAnimationHandler().setRepeat(false);
 			GameCode.testJeffrey.setSprite(samSwingSprite);
 			GameCode.testJeffrey.changeSprite(false);
@@ -47,7 +47,7 @@ public class SlimeSword extends Item {
 			}
 		}
 		for (int i = 0; i < Enemy.enemyList.size(); i ++) {
-			if (this.isColliding(Enemy.enemyList.get(i)) && (damageCoolDown == 40)){
+			if (this.isColliding(Enemy.enemyList.get(i)) && (damageCoolDown == 10)){
 				Enemy.enemyList.get(i).damage (RNG.nextInt(50) + 20);
 				damageCoolDown = 0;
 				coolDown = true;
@@ -55,7 +55,7 @@ public class SlimeSword extends Item {
 		}
 		if (coolDown) {
 			damageCoolDown = damageCoolDown + 1;
-			if (damageCoolDown == 40) {
+			if (damageCoolDown == 10) {
 				coolDown = false;
 			}
 		}
