@@ -26,8 +26,6 @@ public class DamageText extends GameObject {
 			timesAmount = timesAmount * 10;
 		}
 		int frameToSet = (int) (Math.floor(amount));
-		System.out.println(amount);
-		System.out.println(frameToSet);
 		damageFrame = frameToSet;
 		if (frameToSet * timesAmount > 10 && copyOfamount -  frameToSet * timesAmount < 10) {
 			int amountOfZeros = 0;

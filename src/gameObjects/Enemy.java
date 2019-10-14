@@ -22,9 +22,13 @@ public abstract class Enemy extends GameObject {
 	public int defence;
 	boolean moveRight;
 	DamageText text;
+	int xToMove;
+	int yToMove;
 	boolean falls;
+	Random RNG;
 	int currentSpeed;
 	boolean canFuckWithSprite;
+	int chargeTimer;
 	int timer;
 	boolean adjustedSpeed;
 	boolean jumpDone;
@@ -34,14 +38,20 @@ public abstract class Enemy extends GameObject {
 	boolean lockedRight;
 	boolean diesNormally;
 	int waitForCollison;
+	boolean chargeing;
 	public Enemy () {
 		enemyList.add(this);
 		momentum = 0;
 		patrolBothWays = false;
 		adjustedSpeed = false;
+		chargeTimer =0;
 		canFuckWithSprite = true;
+		xToMove = 0;
+		yToMove = 0;
 		moveing = true;
 		waitForCollison = 0;
+		chargeing = false;
+		RNG = new Random();
 		lockedRight = false;
 		jumpDone = false;
 		falls = false;
@@ -138,7 +148,41 @@ public abstract class Enemy extends GameObject {
 	public void deathEvent () {
 		this.forget ();
 	}
-	//returns true if there is a wall in between the enemy and the player
+	//returns true if there is a celling or floor between the enemy and the player
+			public boolean checkPlayerPositionRelativeToCellings () {
+				double x = this.getX();
+				this.setX(GameCode.testJeffrey.getX());
+					for (int i = 0; true; i++) {
+						this.setY(this.getY () + i);
+						if (Room.isColliding(this.hitbox())) {
+							if (player.getY() > this.getY()) {
+							this.setY(this.getY() - i);
+							this.setX(x);
+							return true;
+							}
+						}
+						if ((int)this.getY() == (int)player.getY()) {
+							this.setY(this.getY() - i);
+							break;
+						}
+						this.setY(this.getY() - i*2);
+						if (Room.isColliding(this.hitbox())) {
+							if (player.getY() < this.getY()) {
+								this.setY(this.getY() + i);
+								this.setX(x);
+							return true;
+							}
+						}
+						if ((int)this.getY() == (int)player.getY()) {
+							this.setY(this.getY() + i);
+							break;
+						}
+						this.setY(this.getY() + i);
+					}
+					this.setX(x);
+					return false;
+			}
+	//returns true if there is a wall between the enemy and the player
 		public boolean checkPlayerPositionRelativeToWalls () {
 				for (int i = 0; true; i++) {
 					this.setX(this.getX () + i);
@@ -190,7 +234,65 @@ public abstract class Enemy extends GameObject {
 	public void setAttackFromBothSides (boolean attack) {
 		patrolBothWays = attack;
 	}
-	// actions you can get your enemy to do (based on the assumption that your enemy falls)
+	//used in conjunction with charge
+	public void getChargeLine () {
+		if (((GameCode.testJeffrey.getX() > this.getX()) && GameCode.testJeffrey.getY() > this.getY())) {
+			xToMove = RNG.nextInt(3) + 1;
+			yToMove = RNG.nextInt(3) + 1;
+			this.getAnimationHandler().setFlipHorizontal(false);
+		}
+if ((GameCode.testJeffrey.getX() < this.getX()) && GameCode.testJeffrey.getY() > this.getY()) {
+	xToMove = RNG.nextInt(3) + 1;
+	xToMove = xToMove * -1;
+	this.getAnimationHandler().setFlipHorizontal(true);
+	yToMove = RNG.nextInt(3) + 1;	
+		}
+if ((GameCode.testJeffrey.getX() > this.getX()) && GameCode.testJeffrey.getY() < this.getY()) {
+	xToMove = RNG.nextInt(3) + 1;
+	yToMove = RNG.nextInt(3) + 1;
+	yToMove = yToMove * -1;
+	this.getAnimationHandler().setFlipHorizontal(false);
+}
+if ((GameCode.testJeffrey.getX() < this.getX()) && GameCode.testJeffrey.getY() < this.getY()) {
+	xToMove = RNG.nextInt(3) + 1;
+	yToMove = RNG.nextInt(3) + 1;
+	yToMove = yToMove * -1;
+	this.getAnimationHandler().setFlipHorizontal(true);
+	xToMove = xToMove * -1;
+}
+
+	}
+	// actions you can get your enemy to do 
+	public void keepChargeing (int timeToCharge) {
+		if (!chargeing) {
+			getChargeLine();
+			chargeing = true;
+		}
+		Charge(timeToCharge);
+	}
+	public void Charge (int timeToCharge) {
+		if (!chargeing && !(xToMove == 0) && !(yToMove == 0)) {
+			chargeing = true;
+		}
+		if (!(this.goX(this.getX() + xToMove) && this.goY(this.getY() + yToMove))) {
+			xToMove = 0;
+			yToMove = 0;
+			chargeing = false;
+		}
+if (chargeTimer == timeToCharge) {
+		xToMove = 0;
+		yToMove = 0;
+		chargeing = false;
+		}
+		chargeTimer = chargeTimer + 1;
+		if (xToMove == 0 && yToMove == 0) {
+			chargeTimer = 0;
+		}
+	}
+	
+
+	
+	//makes the enemy jump towards the player (based on the assumption that your enemy falls)
 	public void jump (int horizontalBaseSpeed, int verticalBaseSpeed) {
 		timer = timer + 1;
 		if (lockedRight) {
@@ -306,7 +408,14 @@ public abstract class Enemy extends GameObject {
 		}
 	}
 	public boolean isNearPlayerX (int rangebound1Right, int rangebound2Right, int rangebound1Left, int rangebound2Left) {
-		if ( ((this.getX() - GameCode.testJeffrey.getX()  < -rangebound1Right) && (this.getX() - GameCode.testJeffrey.getX()  > -rangebound2Right)) || ((GameCode.testJeffrey.getX() >= this.getX() - rangebound2Left) &&(GameCode.testJeffrey.getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls() )) {
+		if ( ((this.getX() - GameCode.testJeffrey.getX()  <= -rangebound1Right) && (this.getX() - GameCode.testJeffrey.getX()  >= -rangebound2Right)) || ((GameCode.testJeffrey.getX() >= this.getX() - rangebound2Left) &&(GameCode.testJeffrey.getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls() )) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public boolean isNearPlayerY (int rangebound1Top, int rangebound2Top, int rangebound1Bottom, int rangebound2Bottom) {
+		if ( ((this.getY() - GameCode.testJeffrey.getY()  >= rangebound1Top) && (this.getY() - GameCode.testJeffrey.getY()  <= rangebound2Top)) || ((GameCode.testJeffrey.getY() >= this.getY() + rangebound1Bottom) &&(GameCode.testJeffrey.getY() <= this.getY() + rangebound2Bottom)) && !this.checkPlayerPositionRelativeToCellings() ) {
 			return true;
 		} else {
 			return false;

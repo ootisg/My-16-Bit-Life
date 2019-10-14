@@ -12,6 +12,7 @@ import gameObjects.DuoflyPlus;
 import gameObjects.FireRextinguser;
 import gameObjects.Ladder;
 import gameObjects.Leg;
+import gameObjects.Puncuation;
 import gameObjects.SplittingSlimelet;
 import gameObjects.TomatoFunction;
 import graphics3D.VectorCamera;
@@ -63,6 +64,7 @@ public class GameCode {
 	static TomatoFunction function;
 	static FireRextinguser extinguser;
 	static LifeVaccum vaccum;
+	static Puncuation puncuation;
 	public static void initialize () {
 		//Initialize sprites
 		//GameObject initialization
@@ -83,6 +85,7 @@ public class GameCode {
 		testJeffrey.getInventory().addWeapon(sword, 1);
 		int x = 0;
 		boi = new Celing_boi();
+		puncuation = new Puncuation ();
 		testLadder = new Ladder ();
 		while (x <= 5) {
 		paintball = new RedBlackPaintBall();
@@ -107,6 +110,7 @@ public class GameCode {
 		boi.declare(40,300);
 		extinguser.declare(180,350);
 		//showTank.declare(280, 383);
+		puncuation.declare(300, 200);
 		testLaddder.declare(150, 373);
 		//slimelet.declare(180, 300);
 		
