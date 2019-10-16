@@ -10,19 +10,20 @@ import resources.Sprite;
 public class SlimeSword extends Item {
 	Sprite samSwingSprite;
 	Random RNG;
+	public Sprite samWalkingSword;
 	boolean coolDown;
 	int damageCoolDown; 
 	public SlimeSword () {
 		this.setHitboxAttributes(11, 0, 0, 0);
 		RNG = new Random ();
-		damageCoolDown = 40;
+		samWalkingSword = new Sprite ("resources/sprites/config/sam_walking_with_sword.txt");
+		damageCoolDown = 20;
 		coolDown = false;
 	samSwingSprite = new Sprite ("resources/sprites/config/slime_swing.txt");
 	}
 	@Override
 	public void frameEvent() {
-		
-		if (this.mouseButtonClicked(0) && !GameCode.testJeffrey.getSprite().equals(samSwingSprite)) {
+		if (this.mouseButtonClicked(0) && !GameCode.testJeffrey.getSprite().equals(samSwingSprite) ) {
 			GameCode.testJeffrey.getAnimationHandler().setRepeat(false);
 			GameCode.testJeffrey.setSprite(samSwingSprite);
 			GameCode.testJeffrey.changeSprite(false);
@@ -34,6 +35,7 @@ public class SlimeSword extends Item {
 		if (GameCode.testJeffrey.getSprite().equals(samSwingSprite) && GameCode.testJeffrey.getAnimationHandler().getFrame() ==  11) {
 			GameCode.testJeffrey.binded = false;
 			GameCode.testJeffrey.changeSprite(true);
+			GameCode.testJeffrey.setSprite(samWalkingSword);
 			GameCode.testJeffrey.getAnimationHandler().setRepeat(true);
 			if (GameCode.testJeffrey.getAnimationHandler().flipHorizontal()) {
 				GameCode.testJeffrey.setX(GameCode.testJeffrey.getX() + 34);
@@ -47,7 +49,7 @@ public class SlimeSword extends Item {
 			}
 		}
 		for (int i = 0; i < Enemy.enemyList.size(); i ++) {
-			if (this.isColliding(Enemy.enemyList.get(i)) && (damageCoolDown == 10)){
+			if (this.isColliding(Enemy.enemyList.get(i)) && (damageCoolDown == 20)){
 				Enemy.enemyList.get(i).damage (RNG.nextInt(50) + 20);
 				damageCoolDown = 0;
 				coolDown = true;
@@ -55,7 +57,7 @@ public class SlimeSword extends Item {
 		}
 		if (coolDown) {
 			damageCoolDown = damageCoolDown + 1;
-			if (damageCoolDown == 10) {
+			if (damageCoolDown == 20) {
 				coolDown = false;
 			}
 		}

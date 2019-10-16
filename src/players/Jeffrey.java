@@ -155,6 +155,7 @@ if (activeBox) {
 					textbox.declare(0,0);
 					switchTimer = 0;
 				} else {
+					wpn.forget();
 					if (samHealth >= 0) {
 					witchCharictar = 1;
 					switchTimer = 0;
@@ -171,6 +172,7 @@ if (activeBox) {
 					textbox.declare(0,0);
 					switchTimer = 0;
 				} else {
+					wpn.forget();
 					if (ryanHealth >= 0) {
 					witchCharictar = 2;
 					switchTimer = 0;
@@ -186,6 +188,7 @@ if (activeBox) {
 					textbox.declare(0,0);
 					switchTimer = 0;
 				} else {
+					wpn.forget();
 					if (jeffreyHealth >= 0) {
 					witchCharictar = 0;
 					switchTimer = 0;

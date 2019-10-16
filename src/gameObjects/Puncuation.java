@@ -95,7 +95,6 @@ public class Puncuation extends Enemy {
 			}
 			period = false;
 		}
-		System.out.println(timer);
 		if (!period) {
 			timer = timer + 1;
 				idleQuestion = noPeriodQuestion;

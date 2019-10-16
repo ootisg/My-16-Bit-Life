@@ -110,7 +110,7 @@ public class GameCode {
 		boi.declare(40,300);
 		extinguser.declare(180,350);
 		//showTank.declare(280, 383);
-		puncuation.declare(300, 200);
+		//puncuation.declare(300, 200);
 		testLaddder.declare(150, 373);
 		//slimelet.declare(180, 300);
 		

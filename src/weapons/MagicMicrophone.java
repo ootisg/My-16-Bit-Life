@@ -10,11 +10,13 @@ import resources.Sprite;
 public class MagicMicrophone extends Item {
 	private Sprite ryanWhipping;
 	private Sprite whipLength;
+	public Sprite ryanMicrophoneWalking;
 	private Random RNG;
 	int timer;
 	boolean addTime;
 	public  MagicMicrophone () {
 		ryanWhipping = new Sprite ("resources/sprites/config/microphoneWhip.txt");
+		ryanMicrophoneWalking = new Sprite("resources/sprites/config/ryan_walking_microphone.txt");
 		RNG = new Random ();
 		timer = 0;
 		addTime = false;
@@ -53,6 +55,7 @@ public class MagicMicrophone extends Item {
 				GameCode.testJeffrey.changeFrameTime(true);
 				GameCode.testJeffrey.changeSprite(true);
 				GameCode.testJeffrey.binded = false;
+				GameCode.testJeffrey.setSprite(ryanMicrophoneWalking);
 				if (GameCode.testJeffrey.getAnimationHandler().flipHorizontal()) {
 					GameCode.testJeffrey.setX(GameCode.testJeffrey.getX() +34);
 				}
