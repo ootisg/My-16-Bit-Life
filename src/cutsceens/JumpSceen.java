@@ -18,75 +18,67 @@ public class JumpSceen {
 	public static void play() {
 		if (intizalStuff) {
 			intizalStuff = false;
-			jeffreyBox = new Textbox ("Dang it how am I gonna get up there");
-			nathanBox = new Textbox ("Just jump by pressing the spacebar");
-			nathanBox2 = new Textbox ("OH wait crap I forgot to turn the video game physics                                                          Ok try now");
-			jeffreyBox2 = new Textbox ("Cool lets try");
+			jeffreyBox = new Textbox ("DANG IT HOW AM I GONNA GET UP THERE");
+			nathanBox = new Textbox ("JUST JUMP BY PRESSING THE SPACEBAR");
+			nathanBox2 = new Textbox ("OH WAIT CRAP I FORGOT TO TURN THE VIDEO GAME PHISICS                                                          OK TRY NOW");
+			jeffreyBox2 = new Textbox ("COOL LETS TRY");
 			jeffreyBox.remember(true);
 			nathanBox.remember(true);
 			nathanBox2.remember(true);
+			Cutsceen.playing = true;
 			jeffreyBox2.remember(true);
 		}
 		if (lameJump) {
-			if (timer <5) {
-			GameCode.testJeffrey.setY(GameCode.testJeffrey.getY() -1 );
+			if (timer <20) {
 			}
 			timer = timer + 1;
-			if (timer >5) {
+			if (timer >20 && timer <=40) {
+				GameCode.testJeffrey.setY(GameCode.testJeffrey.getY() -1 );
+			}
+			if (timer > 40) {
 				GameCode.testJeffrey.setY(GameCode.testJeffrey.getY() +1 );
 			}
-			if (timer == 10) {
+			if (timer == 61) {
 				lameJump = false;
-				thirdBox = true;
+				lastBox = true;
 				timer = 0;
 			}
 		}
-		try {
 			if (jeffreyBox.isDone) {
 				jeffreyBox.forget();
+				jeffreyBox.isDone = false;
 				secondBox = true;
 			}
-		} catch (NullPointerException e) {
-			
-		}
-		try {
 			if (nathanBox.isDone) {
 				nathanBox.forget();
-				lameJump = true;
+				nathanBox.isDone = false;
+				thirdBox = true;
 			}
-		} catch (NullPointerException e) {
-			
-		}
-		try {
 			if (jeffreyBox2.isDone) {
 				jeffreyBox2.forget();
-				lastBox = true;
+				jeffreyBox2.isDone = false;
+				lameJump = true;
 			}
-		} catch (NullPointerException e) {
-			
-		}
-		try {
 			if (nathanBox2.isDone) {
 				nathanBox2.forget();
+				nathanBox2.isDone = false;
 				Cutsceen.playing = false;
 			}
-		} catch (NullPointerException e) {
 			
-		}
 		if (firstBox) {
-			jeffreyBox.declare(0, 400);
+			jeffreyBox.declare(0, 0);
 			firstBox = false;
 		}
 		if (secondBox) {
-			nathanBox.declare(0, 400);
+			nathanBox.declare(0, 0);
 			secondBox = false;
 		}
 		if (thirdBox) {
-			jeffreyBox2.declare(0, 400);
+			jeffreyBox2.declare(0, 0);
 			thirdBox = false;
 		}
 		if (lastBox) {
-			nathanBox2.declare(0, 400);
+			nathanBox2.declare(0, 0);
 			lastBox = false;
 		}
 	}

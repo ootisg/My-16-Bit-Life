@@ -272,6 +272,10 @@ public abstract class GameObject extends GameAPI {
 	public void frameEvent () {
 		
 	}
+	//Runs when the game is paused
+	public void pausedEvent() {
+		
+	}
 	
 	/**
 	 * Runs a collision check between this GameObject and another GameObject. Does not generate a CollisionInfo object.

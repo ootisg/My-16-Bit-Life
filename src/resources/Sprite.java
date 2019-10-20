@@ -41,6 +41,7 @@ public class Sprite {
 	private boolean isAnimated;
 	
 	/**
+	 * 
 	 * Constructs a sprite with the given image filepath and parsing parameter filepath.
 	 * @param imagepath The filepath to the image to use
 	 * @param parsepath The filepath to the parsing parameters to use

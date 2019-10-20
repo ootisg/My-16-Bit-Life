@@ -1,13 +1,15 @@
 package cutsceens;
 
+import main.ObjectHandler;
+
 public class Cutsceen {
 	public static boolean playing  = false;
-	public static void play (int cutsceenNumber) {
-		//mainloop.pauseEvent equivlant
+	public static void playSceen (int cutsceenNumber) {
+		ObjectHandler.pause(true);
+		//inculde a Cutsceen.playing = true and Cutsceen.playing = false for when your cutseen starts and ends
 		switch (cutsceenNumber) {
 		case 1: {
 			JumpSceen.play();
-			playing = true;
 			break;
 		}
 		case 2: {

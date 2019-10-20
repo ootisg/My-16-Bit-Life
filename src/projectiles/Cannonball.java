@@ -19,7 +19,7 @@ public class Cannonball extends Projectile{
 	public Cannonball (boolean direction){
 		setSprite (cannonball);
 		setHitboxAttributes (0,0,8,8);
-		setAttributes (128, 128, 3.14, 1);
+		setAttributes (128, 128, 3.14, 5);
 		if (direction){
 			setDirection (0);
 		}

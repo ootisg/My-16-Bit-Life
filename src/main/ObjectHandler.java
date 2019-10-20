@@ -21,6 +21,8 @@ public class ObjectHandler {
 	 * Set to true when objects can be removed without an error; false otherwise
 	 */
 	private static boolean mutable = true;
+	// Set to true when running pauseEvent false when running frameEvent
+	private static boolean isPaused = false;
 	/**
 	 * Stores all the classes currently in use, and their respective objects
 	 */
@@ -88,7 +90,7 @@ public class ObjectHandler {
 	/**
 	 * Removes the given object from the object handler.
 	 * @param obj The object to remove
-	 * @return true of the object was successfully removed; false otherwise
+	 * @return true if the object was successfully removed; false otherwise
 	 */
 	public static boolean remove (GameObject obj) {
 		return remove (obj, obj.getClass ().getSimpleName ());
@@ -211,10 +213,20 @@ public class ObjectHandler {
 		}
 		GameObject[] allObjsArray = allObjsList.toArray (new GameObject[0]);
 		for (int i = 0; i < allObjsArray.length; i ++) {
+			if (!isPaused) {
 			allObjsArray [i].frameEvent ();
+			} else {
+			allObjsArray[i].pausedEvent();
+			}
 		}
 	}
-	
+	public static void pause (boolean paused) {
+		isPaused = paused;
+	}
+	//returns whether or not the game is paused
+	public static boolean isPaused () {
+		return isPaused;
+	}
 	/**
 	 * Calls the draw method of all GameObjects in ObjectHandler
 	 */

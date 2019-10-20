@@ -1,10 +1,12 @@
 package gui;
 import java.awt.event.KeyEvent;
 
+import main.AnimationHandler;
 import main.GameAPI;
 import main.GameObject;
+import main.ObjectHandler;
+import resources.AfterRenderDrawer;
 import resources.Sprite;
-import resources.Spritesheet;
 
 
 
@@ -31,30 +33,27 @@ public class Textbox extends GameObject {
 	boolean renderBox;
 	// put filepath of fontsheet to use as the font
 	public Textbox (String textToDisplay){
-	Spritesheet borderSheet;
 	renderBox = true ;
-	Spritesheet FontSheet;
-	borderSheet = new Spritesheet ("resources/sprites/windowsprites2.png");
-	FontSheet = new Spritesheet ("resources/sprites/text.png");
-	fontSheet = new Sprite (FontSheet, 8, 8);
-	textBoxTop = new Sprite (borderSheet, 0, 0, 8, 8); 
-	textBoxBottum = new Sprite (borderSheet, 24, 0, 8, 1);
-	textBoxSides = new  Sprite (borderSheet, 16, 0, 1, 8);
-	textBoxBackground = new Sprite (borderSheet, 8, 0, 8, 8);
+	fontSheet = new Sprite ("resources/sprites/config/font.txt");
+	textBoxTop = new Sprite ("resources/sprites/config/text_border_top.txt"); 
+	textBoxBottum = new Sprite ("resources/sprites/config/text_border_bottom.txt");
+	textBoxSides = new  Sprite ("resources/sprites/config/text_border_sides.txt");
+	textBoxBackground = new Sprite ("resources/sprites/config/text_background.txt");
 	isFinished = false;
 	spaceManipulation = 0;
 	text1 = textToDisplay;
 	width1 = 200;
 	height1 = 100;
 	}
+	//makes the textbox not get automaticly forgoten
 	public void remember (boolean whateverMan) {
 		remember = whateverMan;
 	}
 	public void chagePause() {
-		if (MainLoop.isPaused()) {
-		MainLoop.resume();
+		if (ObjectHandler.isPaused()) {
+		ObjectHandler.pause(true);
 		} else {
-		MainLoop.pause();
+		ObjectHandler.pause(false);
 		}
 	}
 	public void changeWidth (int newWidth) {
@@ -63,10 +62,9 @@ public class Textbox extends GameObject {
 	public void changeHeight(int newHeigh) {
 		height1 = newHeigh;
 	}
+	// font = a config file with the font you want 
 	public void changeFont (String font) {
-		Spritesheet FontSheet;
-		FontSheet = new Spritesheet (font);
-		fontSheet = new Sprite (FontSheet, 8, 8);
+		fontSheet = new Sprite (font);
 	}
 	public void changeBoxVisability () {
 		renderBox = !renderBox;
@@ -77,7 +75,7 @@ public class Textbox extends GameObject {
 public void pausedEvent (){
 	if ((finalCheck && isFinished && (keyPressed(65) || keyPressed (97) || isDone)) || keyPressed (88)){
 		isDone = true;
-		MainLoop.resume();
+		ObjectHandler.pause(false);
 		if (!remember) {
 		this.forget();
 		}
@@ -109,22 +107,22 @@ public void pausedEvent (){
 	int y_start = y_origin;
 	while (width > 1){
 	if (renderBox) {
-	textBoxTop.draw (x_start, y_start);
+	AfterRenderDrawer.drawAfterRender(x_start, y_start, textBoxTop);
 	}
 	width = width - 1;
 	x_start = x_start + 8;
 		}
 	while (height > 1){
 	if (renderBox) {
-	textBoxSides.draw(x_origin, y_origin);
-	textBoxSides.draw(x_start, y_origin);
+	AfterRenderDrawer.drawAfterRender(x_origin, y_origin, textBoxSides);
+	AfterRenderDrawer.drawAfterRender(x_start, y_origin, textBoxSides);
 		}
 	height = height - 1;
 	y_origin = y_origin + 8;
 		}
 	while (width_start > 1){
 		if (renderBox) {
-		textBoxBottum.draw (x_origin, y_origin);
+		AfterRenderDrawer.drawAfterRender(x_origin, y_origin, textBoxBottum);
 		}
 		width_start = width_start - 1;
 		x_origin = x_origin + 8;
@@ -139,7 +137,7 @@ public void pausedEvent (){
 		x = x + 1;
 		while (width_beginning > 1){
 			if (renderBox) {
-			textBoxBackground.draw (x_beginning, y_start);
+			AfterRenderDrawer.drawAfterRender(x_beginning, y_start, textBoxBackground);
 			}
 			width_beginning = width_beginning - 1;
 			x_beginning = x_beginning + 8;
@@ -179,7 +177,7 @@ public void pausedEvent (){
 		message = text.substring(spaceManipulation,spaceManipulationPlusSpace);
 }
 		textLength = textLength - isScrolled;
-		if (timer == 2 || keyCheck (65)) {
+		if (timer == 2 || keyDown (65)) {
 			timer = 0;
 			amountToDraw = amountToDraw + 1;
 		}
@@ -212,8 +210,7 @@ public void pausedEvent (){
 				}
 		// uses the askii value to draw the charictar in the box
 				else{
-				fontSheet.setFrame(charitarCode);
-				fontSheet.draw(x_beginning, y_origin);
+				AfterRenderDrawer.drawAfterRender(x_beginning, y_origin, fontSheet, charitarCode);
 				x_beginning = x_beginning + 8;
 				space = space - 1;
 						}
@@ -224,7 +221,7 @@ public void pausedEvent (){
 	}
 @Override
 public void frameEvent () {
-	if (!MainLoop.isPaused()) {
+	if (!ObjectHandler.isPaused()) {
 		this.pausedEvent();
 	}
 }

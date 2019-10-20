@@ -2,6 +2,7 @@ package gui;
 
 
 import main.GameObject;
+import resources.AfterRenderDrawer;
 import resources.Sprite;
 
 public class Tbox extends GameObject {
@@ -42,28 +43,22 @@ public class Tbox extends GameObject {
 		//Draw the top bar, the background, and the bottom bar
 		if (renderBox) {
 		for (int i = 0; i < this.width; i ++) {
-			textBorder.getFrame (0);
-			textBorder.draw (x + i * 8 + 1, y);
-			textBorder.getFrame (3);
-			textBorder.draw (x + i * 8 + 1, y + (this.height + 1) * 8);
+			AfterRenderDrawer.drawAfterRender (x + i * 8 + 1, y, textBorder,0);
+			AfterRenderDrawer.drawAfterRender (x + i * 8 + 1, y + (this.height + 1) * 8, textBorder,3);
 			for (int j = 0; j < this.height; j ++) {
-				textBorder.getFrame (1);
-				textBorder.draw (x + i * 8 + 1, y + j * 8 + 8);
+				AfterRenderDrawer.drawAfterRender (x + i * 8 + 1, y +j*8 + 8, textBorder,1);
 			}
 		}
 		//Draw the side bars
 		for (int i = 0; i < this.height + 1; i ++) {
-			textBorder.getFrame (2);
-			textBorder.draw (x, y + i * 8);
-			textBorder.draw (x + this.width * 8 + 1, y + i * 8);
+			AfterRenderDrawer.drawAfterRender (x, y + i * 8, textBorder,2);
+			AfterRenderDrawer.drawAfterRender (x + this.width * 8 + 1, y + i * 8, textBorder,2);
 		}
 		}
 		//Draw the text in the box
 		for (int i = 0; i < letterPos; i ++) {
 			try {
-				// TODO fix this
-			//font.getFrame ((int)text.charAt (startPos + i));
-			font.draw (x + (i % width) * 8, y + (i / width) * 8 + 8);
+			AfterRenderDrawer.drawAfterRender (x + (i % width) * 8, y + (i / width) * 8 + 8, font, (int)text.charAt (startPos + i));
 			} catch (StringIndexOutOfBoundsException e) {
 				
 			}

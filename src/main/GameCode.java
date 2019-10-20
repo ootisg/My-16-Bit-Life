@@ -25,8 +25,10 @@ import map.Room;
 import players.Jeffrey;
 import players.TopDown;
 import players.TubeRaster;
+import resources.AfterRenderDrawer;
 import resources.Sprite;
 import statusEffect.Status;
+import triggers.CutsceenTrigger;
 import weapons.AimableWeapon;
 import weapons.LifeVaccum;
 import weapons.MagicMicrophone;
@@ -51,6 +53,7 @@ public class GameCode {
 	ListTbox ltbox;
 	static CannonTankEnemy showTank;
 	static CyclopesCrab testCrab;
+	static CutsceenTrigger trigger;
 	static ClostridiumBowtielinea testTie;
 	static Status testStatus;
 	static Ladder testLaddder;
@@ -76,6 +79,7 @@ public class GameCode {
 		sword = new SlimeSword();
 		slimelet = new SplittingSlimelet ();
 		testCrab = new CyclopesCrab();
+		trigger = new CutsceenTrigger();
 		microphone = new MagicMicrophone ();
 		testJeffrey.getInventory().addWeapon (microphone, 2);
 		extinguser = new FireRextinguser ();
@@ -109,6 +113,7 @@ public class GameCode {
 		//leg.declare(150, 200);
 		boi.declare(40,300);
 		extinguser.declare(180,350);
+		trigger.declare(180,350);
 		//showTank.declare(280, 383);
 		//puncuation.declare(300, 200);
 		testLaddder.declare(150, 373);
@@ -130,6 +135,6 @@ public class GameCode {
 	}
 	
 	public static void afterRender () {
-		
+		AfterRenderDrawer.drawAll();
 	}
 }

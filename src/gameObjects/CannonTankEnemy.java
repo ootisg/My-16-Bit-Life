@@ -34,10 +34,10 @@ public CannonTankEnemy () {
 	@Override
 	public void enemyFrame(){
 		if ((getY () - player.getY() <= 16 && getY () - player.getY() >= -16) && cooldown >= 20 && ((player.getX () > getX() && moveRight) || (player.getX() < getX() && !moveRight)) ){
-			moveing = false;
+			moveing = true;
 			cooldown = 0;
 			cannonBalls = cannonBalls + 1;
-			if (cannonBalls == 2) {
+			if (cannonBalls == 1) {
 				cooldown = -30;
 				cannonBalls = 0;
 			}
@@ -48,10 +48,10 @@ public CannonTankEnemy () {
 			moveing = true;
 		}
 		if (moveRight && moveing){
-			setX (getX ()+ 1);
+			setX (getX ()+ 1.5);
 		}
 		if(!moveRight && moveing){
-			setX(getX () - 1);
+			setX(getX () - 1.5);
 		}
 		if (this.moveRight) {
 			setX (getX () + 16);
