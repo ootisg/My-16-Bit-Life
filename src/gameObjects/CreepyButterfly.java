@@ -26,6 +26,14 @@ public class CreepyButterfly extends Enemy {
 		this.health = 1;
 		this.defence = 0;
 	}
+	@Override 
+	public String checkName () {
+		return "CREEPY BUTTERFLY";
+	}
+	@Override
+	public String checkEntry () {
+		return "CREEEEEEEEEEEEEEEEPY BUTTERFLYS?";
+	}
 	@Override
 	public void enemyFrame () {
 		if (x == -1) {

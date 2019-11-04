@@ -3,6 +3,11 @@ package items;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import gameObjects.CreepyButterfly;
+import gameObjects.Enemy;
+import main.GameCode;
+import npcs.Door;
+import npcs.NPC;
 import resources.Sprite;
 import weapons.LifeVaccum;
 import weapons.Unarmed;
@@ -15,6 +20,8 @@ public class Inventory {
 	ArrayList <Item> jeffreyWeapons = new ArrayList ();
 	ArrayList <Item> samWeapons = new ArrayList ();
 	ArrayList <Item> ryanWeapons = new ArrayList ();
+	ArrayList <NPC> metCharcitars = new ArrayList ();
+	ArrayList <Enemy> defeatedEnemys = new ArrayList ();
 	int money;
 	int WEXP;
 	Sprite lol;
@@ -44,44 +51,71 @@ public class Inventory {
 		}
 		if (coolNumber == 1) {
 			int numberOfItems = 0;
-			while (this.checkConsumable(ItemToCheck)) {
-				numberOfItems = numberOfItems + 1;
-				this.removeItem(ItemToCheck);
-			}
-			int copyOfNumberOfItems = numberOfItems;
-			while (copyOfNumberOfItems != 0) {
-				copyOfNumberOfItems = copyOfNumberOfItems - 1;
-				consuables.add(ItemToCheck);
-			}
+			for (Item item : this.consuables) {
+				if (item.getClass().equals(ItemToCheck.getClass())){
+					numberOfItems = numberOfItems + 1;
+		}
+		}
 			return numberOfItems;
 		}
 		if (coolNumber == 2) {
 			int numberOfItems = 0;
-			while (this.checkKey(ItemToCheck)) {
-				numberOfItems = numberOfItems + 1;
-				this.removeItem(ItemToCheck);
-			}
-			int copyOfNumberOfItems = numberOfItems;
-			while (copyOfNumberOfItems != 0) {
-				copyOfNumberOfItems = copyOfNumberOfItems - 1;
-				key.add(ItemToCheck);
-			}
+			for (Item item : this.key) {
+				if (item.getClass().equals(ItemToCheck.getClass())){
+					numberOfItems = numberOfItems + 1;
+		}
+		}
 			return numberOfItems;
 		}
 		if (coolNumber == 3) {
 			int numberOfItems = 0;
-			while (this.checkAmmo(ItemToCheck)) {
-				numberOfItems = numberOfItems + 1;
-				this.removeItem(ItemToCheck);
-			}
-			int copyOfNumberOfItems = numberOfItems;
-			while (copyOfNumberOfItems != 0) {
-				copyOfNumberOfItems = copyOfNumberOfItems - 1;
-				ammo.add(ItemToCheck);
-			}
+			for (Item item : this.ammo) {
+				if (item.getClass().equals(ItemToCheck.getClass())){
+					numberOfItems = numberOfItems + 1;
+		}
+		}
 			return numberOfItems;
 		}
 		return 0;
+	}
+	//returns an array of itmes that only has one of each item in it
+	public ArrayList <Item> getSortedInventory (){
+		ArrayList <Item> sortedInventory = new ArrayList ();
+		for (int i = 0; i < this.checkAmountOfItems(); i++) {
+			if (!sortedInventory.contains(this.findItemAtIndex(i)))  {
+				sortedInventory.add(this.findItemAtIndex(i));
+			}
+		}
+		return sortedInventory;
+	}
+	public ArrayList <Item> getSortedKey (){
+		ArrayList <Item> sortedInventory = new ArrayList ();
+		for (int i = 0; i < this.amountOfKey(); i++) {
+			if (!sortedInventory.contains(this.findKeyAtIndex(i)))  {
+				sortedInventory.add(this.findKeyAtIndex(i));
+			}
+		}
+		return sortedInventory;
+	}
+	//returns an array of itmes that only has one of each item in it
+		public ArrayList <Item> getSortedConsumablesAndAmmo (){
+			ArrayList <Item> sortedInventory = new ArrayList ();
+			for (int i = 0; i < this.amountOfConsumables() + amountOfAmmo(); i++) {
+				if (i < this.amountOfConsumables()) {
+				if (!sortedInventory.contains(this.findConsumableAtIndex(i)))  {
+					sortedInventory.add(this.findConsumableAtIndex(i));
+				}
+				} else {
+				if (!sortedInventory.contains(this.findAmmoAtIndex(i - this.amountOfConsumables()))) {
+					sortedInventory.add(this.findAmmoAtIndex(i - this.amountOfConsumables()));
+				}
+				}
+			}
+			
+			return sortedInventory;
+		}
+	public void addKill (Enemy enemyToAdd) {
+		defeatedEnemys.add(enemyToAdd);
 	}
 	public void addAmmo (Item itemToAdd) {
 		ammo.add(itemToAdd);
@@ -91,6 +125,9 @@ public class Inventory {
 	}
 	public void addConsumable (Item itemToAdd) {
 		consuables.add(itemToAdd);
+	}
+	public void addFreind (NPC friendToAdd) {
+		metCharcitars.add(friendToAdd);
 	}
 	public void addWeapon (Item itemToAdd, int witchCharictar) {
 		if (witchCharictar == 0) {
@@ -143,6 +180,24 @@ public class Inventory {
 	public boolean checkConsumable (Item itemtoCheck) {
 		for (Item item : this.consuables) {
 		if (item.getClass().equals(itemtoCheck.getClass())){
+			return true;
+		}
+	}
+		return false;
+	}
+	// checkFreinds returns true if the player has met this charictar
+	public boolean checkFreinds (NPC freindtoCheck) {
+		for (NPC item : this.metCharcitars) {
+		if (item.getClass().equals(freindtoCheck.getClass())){
+			return true;
+		}
+	}
+		return false;
+	}
+	// checkKills returns true if the player has defeated this enemy
+	public boolean checkKill (Enemy enemytoCheck) {
+		for (Enemy item : this.defeatedEnemys) {
+		if (item.getClass().equals(enemytoCheck.getClass())){
 			return true;
 		}
 	}
@@ -282,6 +337,70 @@ public class Inventory {
 				return new RedBlackPaintBall(1);
 				}
 		}
+		public Item findItemAtIndex (int index) {
+			try {
+				if (this.getItemIndex(index) [1] == 0) {
+				return consuables.get(getItemIndex(index) [0]);
+				} 
+				if (this.getItemIndex(index) [1] == 1) {
+				return key.get(getItemIndex(index) [0]);
+				}
+				if (this.getItemIndex(index) [1] == 2) {
+				return ammo.get(getItemIndex(index) [0]);	
+				}
+				return new LemonPacket();
+				} catch (IndexOutOfBoundsException e) {
+					return new LemonPacket();
+				}
+		}
+		public int checkAmountOfItems () {
+			return consuables.size() + key.size() + ammo.size();
+		}
+		public NPC findFreindAtIndex (int index) {
+			try {
+			return metCharcitars.get(index);
+			} catch (IndexOutOfBoundsException e) {
+				return new Door();
+				}
+		}
+			public Enemy findEnemyAtIndex (int index) {
+				try {
+				return defeatedEnemys.get(index);
+				} catch (IndexOutOfBoundsException e) {
+					return new  CreepyButterfly();
+					}
+		}
+		//gives you the index and item type from a strate number 
+		// in other words if jeffrey has 3 consumables and you give this a 4 it will return 0 and 1 the is to show the index is the 0 the one it too show that that index represents a key item
+		public int[] getItemIndex ( int index) {
+			if (index > this.amountOfConsumables() + this.amountOfKey() -1) {
+				int [] coolArray = {index - (this.amountOfConsumables() + this.amountOfKey()), 2};
+				return coolArray;
+			}
+			if (index > this.amountOfConsumables() - 1) {
+				int [] coolArray = {index - (this.amountOfConsumables()) , 1};
+				return coolArray;
+			}
+			int [] coolArray = {index, 0};
+			return coolArray;
+		}
+//gives you the index and charictar number from a strate number 
+	// in other words if jeffrey has 3 weapons and you give this a 4 it will return 0 and 1 the is to show the index is the 0 the one it too show that that index corrisponds with sam's inventory
+public int[] getWeaponIndex ( int index) {
+	if (index > this.amountOfWeapons(0) + this.amountOfWeapons(1) -1) {
+		int [] coolArray = {index - (this.amountOfWeapons(0) + this.amountOfWeapons(1)), 2};
+		return coolArray;
+	}
+	if (index > this.amountOfWeapons(0) - 1) {
+		int [] coolArray = {index - (this.amountOfWeapons(0)) , 1};
+		return coolArray;
+	}
+	int [] coolArray = {index, 0};
+	return coolArray;
+}
+public int amountOfWeaponsOfAllCharictars () {
+	return amountOfWeapons (0) + amountOfWeapons (1) + amountOfWeapons (2);
+}
 		public Item findWeaponAtIndex (int index, int witchCharictar) {
 			try {
 			if (witchCharictar == 0) {
@@ -298,14 +417,36 @@ public class Inventory {
 			return new Unarmed(new Sprite ("resources/sprites/blank.png"));
 			}
 		}
-		public int amountOfConsumbles (){
+		public Item findWeaponAtIndex (int index) {
+			try {
+				if (this.getWeaponIndex(index) [1] == 0) {
+				return jeffreyWeapons.get(getWeaponIndex(index) [0]);
+				} 
+				if (this.getWeaponIndex(index) [1] == 1) {
+				return samWeapons.get(getWeaponIndex(index) [0]);
+				}
+				if (this.getWeaponIndex(index) [1] == 2) {
+				return ryanWeapons.get(getWeaponIndex(index) [0]);	
+				}
+				return new Unarmed(new Sprite ("resources/sprites/blank.png"));
+				} catch (IndexOutOfBoundsException e) {
+				return new Unarmed(new Sprite ("resources/sprites/blank.png"));
+				}
+		}
+		public int amountOfConsumables (){
 			return consuables.size();
+		}
+		public int amountOfKills () {
+			return defeatedEnemys.size();
 		}
 		public int amountOfKey () {
 			return key.size();
 		}
 		public int amountOfAmmo() {
 			return ammo.size();
+		}
+		public int amountOfFreinds () {
+			return metCharcitars.size();
 		}
 		//returns -1 if things fail
 		public int amountOfWeapons (int witchCharictar) {

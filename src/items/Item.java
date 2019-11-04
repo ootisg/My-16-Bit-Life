@@ -1,13 +1,33 @@
 package items;
 
 import main.GameObject;
+import resources.Sprite;
 
 public class Item extends GameObject {
 	public void Item () {
 	}
+	//override to set effect
 	public String checkName () {
-		return "";
-		
+		return "";	
 	}
-	
+	//override to set entry
+	public String checkEnetry() {
+		return "";
+	}
+	//override it weapon classes
+	public String [] getUpgrades () {
+		String [] returnArray;
+		returnArray = new String [] {"DEFULT", "DEFULT", "DEFULT", "DEFULT"};
+		return returnArray;
+	}
+	//override in weapon classes
+	public int [] getTierInfo () {
+		int [] returnArray;
+		returnArray = new int [] {0,0,0,0};
+		return returnArray;
+	}
+ 	//overriden in AimableWeapon
+	public Sprite getUnrotatedSprite () {
+		return this.getSprite();
+	}
 }

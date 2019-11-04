@@ -2,6 +2,7 @@ package gameObjects;
 
 import main.GameObject;
 import map.Room;
+import resources.AfterRenderDrawer;
 import resources.Sprite;
 
 public class DamageText extends GameObject {
@@ -34,7 +35,6 @@ public class DamageText extends GameObject {
 				timesAmount = timesAmount/10;
 				amountOfZeros = amountOfZeros + 1;
 			}
-			System.out.println(amountOfZeros);
 			secondidget = new DamageText (amountOfZeros, copyOfamount -(frameToSet * copyOfTimesAmount), d + 8, e);
 			secondidget.declare(d, e);
 		} else {
@@ -60,7 +60,7 @@ public class DamageText extends GameObject {
 	}
 	@Override
 	public void frameEvent(){
-		damageText.draw(x- Room.getViewX(), y, damageFrame);
+		AfterRenderDrawer.drawAfterRender((x- Room.getViewX()), y, damageText, damageFrame);
 		momentum = momentum + 1;
 		if (momentum < 6){
 			y = y + 2;

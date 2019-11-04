@@ -13,18 +13,41 @@ public class LifeVaccum extends AimableWeapon {
 	Boolean loseBattary;
 	Sprite outtaAmmo;
 	int timer;
+	int [] upgradeInfo;
+	Sprite vaccumSprite;
 	public LifeVaccum (Sprite sprite) {
 		super (sprite);
+		upgradeInfo = new int [] {0,0,0,0};
+		vaccumSprite = new Sprite ("resources/sprites/config/lifeVaccum.txt");
 		timer = 0;
 		RNG = new Random ();
 		outtaAmmo = new Sprite ("resources/sprites/Outta_Ammo.png");
-		this.setSprite(new Sprite("resources/sprites/config/lifeVaccum.txt"));
+		this.setSprite(vaccumSprite);
 		wind = new Sprite ("resources/sprites/config/wind.txt");
 		this.setHitboxAttributes(16, 0, 45, 32);
 		loseBattary = false;
 	}
+	@Override
 	public String checkName() {
 		return ("LIFE VACUUM");
+	}
+	@Override 
+	public String checkEnetry() {
+		return "SUCKS THE LIFE OUTTA EM";
+	}
+	@Override
+	public String [] getUpgrades () {
+		String [] returnArray;
+		returnArray = new String [] {"PROJECTILES", "FASTER SUCKING", "EXTRA HEATLH", "SPEED"};
+		return returnArray;
+	}
+@Override
+	public int [] getTierInfo () {
+		return upgradeInfo;
+	}
+	@Override 
+	public Sprite getUnrotatedSprite () {
+		return vaccumSprite;
 	}
 	public void frameEvent () {
 		timer = timer + 1;

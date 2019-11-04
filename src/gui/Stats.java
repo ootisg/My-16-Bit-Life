@@ -7,6 +7,7 @@ import main.GameCode;
 import main.GameObject;
 import main.RenderLoop;
 import players.Jeffrey;
+import resources.AfterRenderDrawer;
 import resources.Sprite;
 
 public class Stats extends GameObject {
@@ -21,6 +22,7 @@ public class Stats extends GameObject {
 		charictarName.setScrollRate(0);
 		weaponName = new Tbox (0,0,24,1, "REDBLACK PAINTBALL GUN", false);
 		weaponName.declare(31, -6);
+		weaponSprite = new Sprite("resources/sprites/blank.png");
 		weaponName.setScrollRate(0);
 		ammoAmount = new Tbox (0,0,24,1, "0", false);
 		ammoAmount.declare(252,-6);
@@ -46,24 +48,31 @@ public class Stats extends GameObject {
 			sprites.hearts.setFrame (3 - finalHeart);
 			sprites.hearts.draw ((numHearts - 1) * 16, 0);
 		}*/
-		Graphics buffer = RenderLoop.window.getBufferGraphics ();
-		buffer.setColor (new Color(0xFF0000));
-		buffer.fillRect (300, 0, (int)(160 * (GameCode.testJeffrey.getHealth() / GameCode.testJeffrey.maxHealth)), 16);
-		buffer.setColor (new Color(0x000000));
-		buffer.drawRect (300, 0, 160, 16);
+	
 		if (GameCode.testJeffrey.witchCharictar == 0) {
 		charictarName.setContent("JEFFREY");
 		}
 		if (GameCode.testJeffrey.witchCharictar == 1) {
 		charictarName.setContent("SAM");
 		}
+		if (GameCode.testJeffrey.witchCharictar == 2) {
+		charictarName.setContent("RYAN");
+		}
+		weaponName.setContent(GameCode.testJeffrey.getWeapon().checkName());
+		weaponSprite = GameCode.testJeffrey.getWeapon().getUnrotatedSprite();
+		ammoAmount.setContent(Integer.toString(GameCode.testJeffrey.getInventory().checkAmmoAmountOfWeapon(GameCode.testJeffrey.getWeapon())));
+	}
+	@Override 
+	public void draw () {
+		Graphics buffer = RenderLoop.window.getBufferGraphics ();
+		buffer.setColor (new Color(0xFF0000));
+		buffer.fillRect (300, 0, (int)(160 * (GameCode.testJeffrey.getHealth() / GameCode.testJeffrey.maxHealth)), 16);
+		buffer.setColor (new Color(0x000000));
+		buffer.drawRect (300, 0, 160, 16);
 		buffer.setColor(new Color (0xFFFF00));
 		buffer.fillRect(0, 0, GameCode.testJeffrey.switchTimer, 16);
 		buffer.setColor(new Color (0x000000));
 		buffer.drawRect(0, 0, 30, 16);
-		weaponName.setContent(GameCode.testJeffrey.getWeapon().checkName());
-		weaponSprite = GameCode.testJeffrey.getWeapon().getSprite();
-		//weaponSprite.draw(220,-6 );
-		ammoAmount.setContent(Integer.toString(GameCode.testJeffrey.getInventory().checkAmmoAmountOfWeapon(GameCode.testJeffrey.getWeapon())));
+		weaponSprite.draw(260, 0);
 	}
 }

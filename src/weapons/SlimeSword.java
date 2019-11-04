@@ -12,14 +12,35 @@ public class SlimeSword extends Item {
 	Random RNG;
 	public Sprite samWalkingSword;
 	boolean coolDown;
-	int damageCoolDown; 
+	int damageCoolDown;
+	int [] upgradeInfo;
 	public SlimeSword () {
 		this.setHitboxAttributes(11, 0, 0, 0);
+		this.setSprite(new Sprite ("resources/sprites/blank.png"));
 		RNG = new Random ();
+		upgradeInfo = new int [] {0,0,0,0};
 		samWalkingSword = new Sprite ("resources/sprites/config/sam_walking_with_sword.txt");
 		damageCoolDown = 20;
 		coolDown = false;
 	samSwingSprite = new Sprite ("resources/sprites/config/slime_swing.txt");
+	}
+	@Override
+	public String checkName () {
+		return "SLIME SWORD";
+	}
+	@Override
+	public String checkEnetry() {
+		return "ALITERATION IS FUN";
+	}
+	@Override
+	public String [] getUpgrades () {
+		String [] returnArray;
+		returnArray = new String [] {"ARIAL ATTACKS", "SWORD THROW", "SLOWNESS OR SOMETHING", "HOOKSHOT"};
+		return returnArray;
+	}
+@Override
+	public int [] getTierInfo () {
+		return upgradeInfo;
 	}
 	@Override
 	public void frameEvent() {

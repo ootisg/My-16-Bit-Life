@@ -13,14 +13,35 @@ public class MagicMicrophone extends Item {
 	public Sprite ryanMicrophoneWalking;
 	private Random RNG;
 	int timer;
+	int [] upgradeInfo;
 	boolean addTime;
 	public  MagicMicrophone () {
+		upgradeInfo = new int [] {0,0,0,0};
+		this.setSprite(new Sprite ("resources/sprites/blank.png"));
 		ryanWhipping = new Sprite ("resources/sprites/config/microphoneWhip.txt");
 		ryanMicrophoneWalking = new Sprite("resources/sprites/config/ryan_walking_microphone.txt");
 		RNG = new Random ();
 		timer = 0;
 		addTime = false;
 		whipLength = new Sprite ("resources/sprites/config/microphoneWhipVariableFrame.txt");
+	}
+	@Override
+	public String checkName () {
+		return "MAGIC MICROPHONE";
+	}
+	@Override
+	public String checkEnetry() {
+		return "RUNS ON MYSICAL SONG POWER OR AT LEAST THATS WHAT IT SAYS ON THE BOX";
+	}
+	@Override
+	public String [] getUpgrades () {
+		String [] returnArray;
+		returnArray = new String [] {"MUSIC NOTES", "EXTRA MOVES", "WHIP UPGRADE", "SONG POWER"};
+		return returnArray;
+	}
+@Override
+	public int [] getTierInfo () {
+		return upgradeInfo;
 	}
 	@Override
 	public void frameEvent () {

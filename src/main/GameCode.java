@@ -20,8 +20,14 @@ import gui.Gui;
 import gui.ListTbox;
 import gui.Tbox;
 import gui.Textbox;
+import items.FairUseKey;
+import items.LemonPacket;
 import items.RedBlackPaintBall;
 import map.Room;
+import npcs.NonPlayableJeffrey;
+import npcs.NonPlayableRyan;
+import npcs.NonPlayableSam;
+import npcs.PointGuy;
 import players.Jeffrey;
 import players.TopDown;
 import players.TubeRaster;
@@ -54,6 +60,7 @@ public class GameCode {
 	static CannonTankEnemy showTank;
 	static CyclopesCrab testCrab;
 	static CutsceenTrigger trigger;
+	static PointGuy guy;
 	static ClostridiumBowtielinea testTie;
 	static Status testStatus;
 	static Ladder testLaddder;
@@ -68,13 +75,34 @@ public class GameCode {
 	static FireRextinguser extinguser;
 	static LifeVaccum vaccum;
 	static Puncuation puncuation;
+	static NonPlayableJeffrey lameJeffrey;
+	static NonPlayableSam lameSam;
+	static NonPlayableRyan lameRyan;
+	static LemonPacket packet;
+	static FairUseKey key;
 	public static void initialize () {
 		//Initialize sprites
 		//GameObject initialization
 		testLaddder = new Ladder ();
 		testJeffrey = new Jeffrey ();
+		lameJeffrey = new NonPlayableJeffrey();
+		lameSam = new NonPlayableSam();
+		lameRyan = new NonPlayableRyan();
+		gun = new redBlackPaintBallGun(new Sprite ("resources/sprites/redblack_gun.png"));
+		key = new FairUseKey(1);
+		guy = new PointGuy();
+		packet = new LemonPacket(1);
+		testJeffrey.getInventory().addFreind(lameJeffrey);
+		testJeffrey.getInventory().addFreind(lameSam);
+		testJeffrey.getInventory().addFreind(lameRyan);
+		testJeffrey.getInventory().addFreind(guy);
 		gui = new Gui ();
 		vaccum = new LifeVaccum (new Sprite ("resources/sprites/config/lifeVaccum.txt"));
+		testJeffrey.getInventory().addKeyItem(key);
+		testJeffrey.getInventory().addKeyItem(packet);
+		testJeffrey.getInventory().addConsumable(key);
+		testJeffrey.getInventory().addKeyItem(vaccum);
+		testJeffrey.getInventory().addKeyItem(gun);
 		testJeffrey.getInventory().addWeapon(vaccum, 1);
 		sword = new SlimeSword();
 		slimelet = new SplittingSlimelet ();
@@ -83,7 +111,6 @@ public class GameCode {
 		microphone = new MagicMicrophone ();
 		testJeffrey.getInventory().addWeapon (microphone, 2);
 		extinguser = new FireRextinguser ();
-		gun = new redBlackPaintBallGun(new Sprite ("resources/sprites/redblack_gun.png"));
 		testTie = new ClostridiumBowtielinea();
 		testJeffrey.getInventory().addWeapon(gun, 0);
 		testJeffrey.getInventory().addWeapon(sword, 1);
@@ -92,12 +119,17 @@ public class GameCode {
 		puncuation = new Puncuation ();
 		testLadder = new Ladder ();
 		while (x <= 5) {
-		paintball = new RedBlackPaintBall();
-		testJeffrey.inventory.addAmmo(paintball);
+		paintball = new RedBlackPaintBall(1);
+		testJeffrey.inventory.addKeyItem(paintball);
 		x = x + 1;
 		}
 		System.out.println("YEET");
 		//testTie.declare (32, 32);
+		testJeffrey.getInventory().addKill(boi);
+		testJeffrey.getInventory().addKill(testCrab);
+		testJeffrey.getInventory().addKill(slimelet);
+		testJeffrey.getInventory().addKill(testTie);
+		testJeffrey.getInventory().addKill(puncuation);
 		//cam = new VectorCamera (0, 0);
 		//Uncomment the above line if you want to see them
 		//GameObject declaration

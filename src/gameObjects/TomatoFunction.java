@@ -53,6 +53,14 @@ public class TomatoFunction extends Enemy {
 		leg7.declare(x + 30,y + 38);
 		leg8.declare(x + 45, y + 30);
 	}
+	@Override 
+	public String checkName () {
+		return "TOMATO FUNCTION";
+	}
+	@Override
+	public String checkEntry () {
+		return "THE ULTIMATE FORM OF CONTENT CONTROL CLAIMING OWNERSHIP OF ALL CONCEPTS IN EXISTANCE COULD OF BEEN PEFECT IF FLOATS DIDEN'T CAP SO QUICKLY BUT ALL MASTERPEICES MUST BE DESTROIED AT SOME POINT A MOMENT OF SILENCE FOR WHAT COULD OF BEEN";
+	}
 	@Override
 	public void frameEvent () {
 		//make legs de-attach as more damage is received

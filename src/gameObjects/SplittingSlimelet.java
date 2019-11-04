@@ -53,6 +53,14 @@ public class SplittingSlimelet extends Enemy {
 		this.setSprite(moveingSprite);
 	}
 	@Override 
+	public String checkName () {
+		return "SPLITTING SLIMELET";
+	}
+	@Override
+	public String checkEntry () {
+		return "SLAMS THE GROUND AND SPLITS INTO TWO SMALLER CREATURES WHEN ITS DEFEATED";
+	}
+	@Override 
 	public void enemyFrame () {
 	
 		if (this.getSprite().equals(this.attackingSprite)) {

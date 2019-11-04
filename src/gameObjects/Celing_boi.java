@@ -58,7 +58,14 @@ public class Celing_boi extends Enemy {
 			this.setSprite(shootRight);
 			}
 	}
-	
+	@Override
+	public String checkEntry () {
+		return "HE ON THE CELING AND STUFF";
+	}
+	@Override 
+	public String checkName () {
+		return "CELING BOI";
+	}
 	@Override
 	public void enemyFrame () {
 		if (timer == 9) {

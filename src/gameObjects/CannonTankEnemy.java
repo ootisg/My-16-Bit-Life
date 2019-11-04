@@ -31,6 +31,14 @@ public CannonTankEnemy () {
 	turrning = 0;
 	Variable = false;
 	}
+	@Override 
+	public String checkName () {
+		return "CANNON TANK ENEMY";
+	}
+	@Override
+	public String checkEntry () {
+		return "COOL MACHINE IT SHOOTS CANNONBALLS";
+	}
 	@Override
 	public void enemyFrame(){
 		if ((getY () - player.getY() <= 16 && getY () - player.getY() >= -16) && cooldown >= 20 && ((player.getX () > getX() && moveRight) || (player.getX() < getX() && !moveRight)) ){

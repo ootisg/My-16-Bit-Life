@@ -15,6 +15,14 @@ public class SplitSlimelet extends Enemy {
 		this.setHitboxAttributes(0, 0, 44, 48);
 		this.getAnimationHandler().setFrameTime(100);
 	}
+	@Override 
+	public String checkName () {
+		return "SPLIT SLIMELET";
+	}
+	@Override
+	public String checkEntry () {
+		return "THIS CREATURES EXISTINCE MUST BE AN ABSOLUT NIGHTMARE ONLY THROUGH ITS PARENTS DEATH CAN IT BE BROUGHT TO LIFE AND SAID LIFE IS EXTINGUSED WITH A PAINTBALL GUN OR VACCUM SHORTLY AFTER";
+	}
 	@Override
 	public void enemyFrame () {
 		this.jumpyBoi(idleSprite, attackingSprite, 8, 6, 30);

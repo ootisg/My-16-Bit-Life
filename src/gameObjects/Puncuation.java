@@ -47,6 +47,14 @@ public class Puncuation extends Enemy {
 		//}
 	}
 	@Override 
+	public String checkName () {
+		return "PUNCUATION";
+	}
+	@Override
+	public String checkEntry () {
+		return "I KNEW IT I FREAKIN KNEW IT AS SOON AS I LEARNED ABOUT THIS CRAP IN THIRD GRADE I WAS LIKE IM GONNA HAVE TO BE THE GUY THAT PUTS A STOP TO THIS AND AS IT TURRNED OUT I WAS RIGHT";
+	}
+	@Override 
 	public void enemyFrame () {
 		this.Charge(40);
 		if (!chargeLineAquired && (this.isNearPlayerX(0, 200, 0, 200) && this.isNearPlayerY(0, 200, 0, 200)) && !shooting) {

@@ -13,7 +13,7 @@ public class LazerHoverEnemy extends Enemy {
 	Laser attack;
 	boolean hasTurned;
 	int turrning;
-	boolean nathansVariable;
+	boolean unamedVariable;
 	int cannonBalls;
 public LazerHoverEnemy () {
 	//setSprite (sprites.leftLaser);
@@ -26,8 +26,16 @@ public LazerHoverEnemy () {
 	moveing = true;
 	hasTurned = false;
 	turrning = 0;
-	nathansVariable = false;
+	unamedVariable = false;
 	}
+@Override 
+public String checkName () {
+	return "LASER HOVER ENEMY";
+}
+@Override
+public String checkEntry () {
+	return "COOL MACHINE IT SHOOTS LASERS";
+}
 	@Override
 	public void enemyFrame(){
 		if ((getY () - player.getY() <= 16 && getY () - player.getY() >= -16) && cooldown >= 20 && ((player.getX () > getX() && moveRight) || (player.getX() < getX() && !moveRight)) ){
@@ -54,7 +62,7 @@ public LazerHoverEnemy () {
 			setX (getX () + 16);
 			setY (getY () + 16);
 			if (!Room.isColliding (this.hitbox ())) {
-				nathansVariable = true;
+				unamedVariable = true;
 					}
 			setX (getX () - 16);
 			setY (getY () - 16);
@@ -62,12 +70,12 @@ public LazerHoverEnemy () {
 			setX (getX () - 16);
 			setY (getY () + 16);
 			if (!Room.isColliding (this.hitbox ())) {
-				nathansVariable = true;	
+				unamedVariable = true;	
 			}
 			setX (getX () + 16);
 			setY (getY () - 16);
 		}
-		if ((Room.isColliding (this.hitbox()) || nathansVariable) && !hasTurned){
+		if ((Room.isColliding (this.hitbox()) || unamedVariable) && !hasTurned){
 			//if (!this.getSprite().equals(sprites.turrningLaser)) {
 			//this.setSprite(sprites.turrningLaser);
 			//}
@@ -81,17 +89,17 @@ public LazerHoverEnemy () {
 				turrning = 0;
 			}
 		}
-		if (nathansVariable && moveing && hasTurned){
+		if (unamedVariable && moveing && hasTurned){
 			moveRight = !moveRight;
 			if(moveRight){
 				//this.setSprite(sprites.rightLaser);
 				hasTurned = false;
-				nathansVariable = false;
+				unamedVariable = false;
 			}
 			else{
 				//this.setSprite(sprites.leftLaser);
 				hasTurned = false;
-				nathansVariable = false;
+				unamedVariable = false;
 			}
 		}
 		if (Room.isColliding (this.hitbox()) && moveing && hasTurned){

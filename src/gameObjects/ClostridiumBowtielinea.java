@@ -21,6 +21,14 @@ public ClostridiumBowtielinea (){
 	isStopped = false;
 	timer = 0;
 	}
+@Override 
+public String checkName () {
+	return "CLOSTRIDIUM BOWTIELINEA";
+}
+@Override
+public String checkEntry () {
+	return "SOME DUMB BACKSTORY ABOUT HORIBLE DESASES";
+}
 	@Override
 	public void enemyFrame (){
 		boolean firstCollision = false;

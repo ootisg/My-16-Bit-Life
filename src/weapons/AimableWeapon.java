@@ -42,6 +42,10 @@ public class AimableWeapon extends Item {
 	public void setRotation (double rotation) {
 		this.rotation = rotation;
 	}
+	
+	public Sprite getUnrotatedSprite () {
+		return this.getSprite();
+	}
 	public double getRotation () {
 		return this.rotation;
 	}

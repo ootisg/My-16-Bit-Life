@@ -26,6 +26,14 @@ Zombee bee;
 			}
 			timer = 0;
 	}
+	@Override 
+	public String checkName () {
+		return "ZOMBEE TREE";
+	}
+	@Override
+	public String checkEntry () {
+		return "ZOMBEES TOOK OVER A TREE VERY SIMPLE BACKSTORY (UNLIKE THE ORIGINAL ENTRY FOR THIS WITCH WAS DUMB)";
+	}
 	@Override
 	public void enemyFrame() {
 		timer = timer + 1;

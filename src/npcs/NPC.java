@@ -72,6 +72,12 @@ public class NPC extends GameObject{
 		giveItem = 1;
 		amountOfFreeItem = amountToGive;
 	}
+	public String checkName (){
+		return " ";
+	}
+	public String checkEntry () {
+		return " ";
+	}
 	public void giveKeyItem (Item itemToGive, int amountToGive) {
 		freeItem = itemToGive;
 		giveItem = 2;
@@ -163,6 +169,9 @@ public class NPC extends GameObject{
 		}
 		try {
 		if (diolog.isDone) {
+			if (!GameCode.testJeffrey.getInventory().checkFreinds(this)) {
+				GameCode.testJeffrey.getInventory().addFreind(this);
+			}
 			messageSeenOnce = true;
 		}
 		} catch (NullPointerException e) {

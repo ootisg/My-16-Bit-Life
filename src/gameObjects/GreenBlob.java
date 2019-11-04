@@ -16,6 +16,14 @@ public class GreenBlob extends Enemy {
 		this.health = 30;
 		this.defence = 0;
 	}
+	@Override 
+	public String checkName () {
+		return "GENERIC GREEN BLOB WITH SHOES";
+	}
+	@Override
+	public String checkEntry () {
+		return "ENEMY OF THE YEAR EVERYBODY";
+	}
 	@Override
 	public void enemyFrame () {
 		if (this.moveRight) {

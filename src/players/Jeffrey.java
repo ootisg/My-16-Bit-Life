@@ -439,6 +439,9 @@ if (activeBox) {
 			if (witchCharictar == 1) {
 			samHealth -= baseDamage;	
 			}
+			if (witchCharictar == 2) {
+			ryanHealth = ryanHealth - baseDamage;
+			}
 			invulTimer = 15;
 		}
 	}
@@ -448,10 +451,21 @@ if (activeBox) {
 	public double getHealth () {
 		if (witchCharictar == 0) {
 		return this.jeffreyHealth;
-		} else {
+		} 
+		if (witchCharictar == 1) {
 		return this.samHealth;
 		}
+		return this.ryanHealth;
 	}
+	public double getHealth (int CharictarToCheck) {
+		if (CharictarToCheck == 0) {
+			return this.jeffreyHealth;
+			} 
+			if (CharictarToCheck == 1) {
+			return this.samHealth;
+			}
+			return this.ryanHealth;
+		}	
 	@Override
 	public void forget () {
 		

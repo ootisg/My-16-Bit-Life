@@ -37,6 +37,14 @@ public class CyclopesCrab extends Enemy {
 		gun = new AimableWeapon (crabGun);
 		gun.declare(0, 0);
 	}
+	@Override 
+	public String checkName () {
+		return "CYCLOPSE CRAB";
+	}
+	@Override
+	public String checkEntry () {
+		return "ITS UNCLEAR WHERE THESE CRABS GET THERE BULLETS FROM IT DOESEN'T REALLY MATTER BUT JUST LIKE IMAGINE OWNING A GUN SHOP AND A BUNCH OF CRABS WALK IN AND PURCHASE YOU ENTIRE STOCK LIKE THAT WOULD BE WEIRD RIGHT ITS NOT JUST ME";
+	}
 	@Override
 	public void enemyFrame(){
 		boolean lowered;

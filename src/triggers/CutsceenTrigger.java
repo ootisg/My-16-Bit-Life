@@ -9,18 +9,17 @@ public class CutsceenTrigger extends Trigger {
 	@Override
 	public void triggerEvent () {
 		if (this.Triggered()) {
-			//Cutsceen.play(Integer.parseInt(this.getVariantAttribute("cutsceen")));
-			Cutsceen.playSceen(1);
+			Cutsceen.playSceen(Integer.parseInt(this.getVariantAttribute("cutsceen")));
 		}
 	}
 	@Override 
 	public void pausedEvent () {
-		//Cutsceen.play(Integer.parseInt(this.getVariantAttribute("cutsceen")));
-		Cutsceen.playSceen(1);
+		if (this.Triggered()) {
+		Cutsceen.playSceen(Integer.parseInt(this.getVariantAttribute("cutsceen")));
 		if (!Cutsceen.playing) {
 			ObjectHandler.pause(false);
 			this.forget();
 		}
 	}
-	
+	}
 }

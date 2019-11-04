@@ -146,7 +146,18 @@ public abstract class Enemy extends GameObject {
 		player.damage (this.baseDamage);
 	}
 	public void deathEvent () {
+		if (!GameCode.testJeffrey.getInventory().checkKill(this)) {
+			GameCode.testJeffrey.getInventory().addKill(this);
+		}
 		this.forget ();
+	}
+	//override to set entrys of stuff 
+	public String checkEntry () {
+		return "";
+	}
+	//override to set names of stuff
+	public String checkName () {
+		return "";
 	}
 	//returns true if there is a celling or floor between the enemy and the player
 			public boolean checkPlayerPositionRelativeToCellings () {
