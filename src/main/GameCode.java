@@ -115,7 +115,7 @@ public class GameCode {
 		testJeffrey.getInventory().addWeapon(gun, 0);
 		testJeffrey.getInventory().addWeapon(sword, 1);
 		int x = 0;
-		boi = new Celing_boi();
+		//boi = new Celing_boi();
 		puncuation = new Puncuation ();
 		testLadder = new Ladder ();
 		while (x <= 5) {
@@ -123,13 +123,12 @@ public class GameCode {
 		testJeffrey.inventory.addKeyItem(paintball);
 		x = x + 1;
 		}
-		System.out.println("YEET");
 		//testTie.declare (32, 32);
-		testJeffrey.getInventory().addKill(boi);
+	//	testJeffrey.getInventory().addKill(boi);
 		testJeffrey.getInventory().addKill(testCrab);
 		testJeffrey.getInventory().addKill(slimelet);
 		testJeffrey.getInventory().addKill(testTie);
-		testJeffrey.getInventory().addKill(puncuation);
+		//testJeffrey.getInventory().addKill(puncuation);
 		//cam = new VectorCamera (0, 0);
 		//Uncomment the above line if you want to see them
 		//GameObject declaration
@@ -143,7 +142,7 @@ public class GameCode {
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
 		//leg.declare(150, 200);
-		boi.declare(40,300);
+	//	boi.declare(40,300);
 		extinguser.declare(180,350);
 		trigger.declare(180,350);
 		//showTank.declare(280, 383);

@@ -5,6 +5,11 @@ import main.ObjectHandler;
 
 public class CutsceenTrigger extends Trigger {
 	public CutsceenTrigger () {
+		try {
+		this.setHitboxAttributes(0, 0, Integer.parseInt(this.getVariantAttribute("width")), Integer.parseInt(this.getVariantAttribute("height")));
+		}catch (NumberFormatException e) {
+			this.setHitboxAttributes(0, 0, 16, 80);
+		}
 	}
 	@Override
 	public void triggerEvent () {

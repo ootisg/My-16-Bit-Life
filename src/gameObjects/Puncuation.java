@@ -38,13 +38,18 @@ public class Puncuation extends Enemy {
 		this.setSprite(idleQuestion);
 		question = true;
 		this.getAnimationHandler().setFrameTime(150);
-		//if (this.getVariantAttribute("puncuation").equals("question")) {
-			//question = true;
-		//	this.setHitboxAttributes(6, 1, 14, 25);
-		//} else {
-		//	question = false;
-		//	this.setHitboxAttributes(11, 0, 6, 28);
-		//}
+		try {
+		if (this.getVariantAttribute("puncuation").equals("question")) {
+			question = true;
+			this.setHitboxAttributes(6, 1, 14, 25);
+		} else {
+			question = false;
+			this.setHitboxAttributes(11, 0, 6, 28);
+		}
+		}catch (NullPointerException e) {
+			question = true;
+			this.setHitboxAttributes(6, 1, 14, 25);
+		}
 	}
 	@Override 
 	public String checkName () {
