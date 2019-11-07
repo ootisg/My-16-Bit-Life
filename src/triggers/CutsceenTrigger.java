@@ -14,13 +14,21 @@ public class CutsceenTrigger extends Trigger {
 	@Override
 	public void triggerEvent () {
 		if (this.Triggered()) {
+			try {
 			Cutsceen.playSceen(Integer.parseInt(this.getVariantAttribute("cutsceen")));
+			} catch (NumberFormatException e) {
+				Cutsceen.playSceen(1);
+			}
 		}
 	}
 	@Override 
 	public void pausedEvent () {
 		if (this.Triggered()) {
+		try {
 		Cutsceen.playSceen(Integer.parseInt(this.getVariantAttribute("cutsceen")));
+		} catch (NumberFormatException e) {
+			Cutsceen.playSceen(1);
+		}
 		if (!Cutsceen.playing) {
 			ObjectHandler.pause(false);
 			this.forget();

@@ -98,11 +98,6 @@ public class GameCode {
 		testJeffrey.getInventory().addFreind(guy);
 		gui = new Gui ();
 		vaccum = new LifeVaccum (new Sprite ("resources/sprites/config/lifeVaccum.txt"));
-		testJeffrey.getInventory().addKeyItem(key);
-		testJeffrey.getInventory().addKeyItem(packet);
-		testJeffrey.getInventory().addConsumable(key);
-		testJeffrey.getInventory().addKeyItem(vaccum);
-		testJeffrey.getInventory().addKeyItem(gun);
 		testJeffrey.getInventory().addWeapon(vaccum, 1);
 		sword = new SlimeSword();
 		slimelet = new SplittingSlimelet ();
@@ -118,16 +113,13 @@ public class GameCode {
 		//boi = new Celing_boi();
 		puncuation = new Puncuation ();
 		testLadder = new Ladder ();
-		while (x <= 5) {
 		paintball = new RedBlackPaintBall(1);
-		testJeffrey.inventory.addKeyItem(paintball);
+		while (x <= 5) {
+		testJeffrey.inventory.addAmmo(paintball);
 		x = x + 1;
 		}
 		//testTie.declare (32, 32);
 	//	testJeffrey.getInventory().addKill(boi);
-		testJeffrey.getInventory().addKill(testCrab);
-		testJeffrey.getInventory().addKill(slimelet);
-		testJeffrey.getInventory().addKill(testTie);
 		//testJeffrey.getInventory().addKill(puncuation);
 		//cam = new VectorCamera (0, 0);
 		//Uncomment the above line if you want to see them

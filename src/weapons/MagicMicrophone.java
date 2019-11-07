@@ -45,17 +45,18 @@ public class MagicMicrophone extends Item {
 	}
 	@Override
 	public void frameEvent () {
-		this.setX(GameCode.testJeffrey.getX());
-		this.setY(GameCode.testJeffrey.getY());
 		if (this.mouseButtonClicked(0) && !GameCode.testJeffrey.getSprite().equals(ryanWhipping)) {
 			GameCode.testJeffrey.getAnimationHandler().setRepeat(false);
 			GameCode.testJeffrey.setSprite(ryanWhipping);
 			GameCode.testJeffrey.getAnimationHandler().setFrameTime(1);
 			GameCode.testJeffrey.changeSprite(false);
 			GameCode.testJeffrey.binded = true;
-			if (GameCode.testJeffrey.getAnimationHandler().flipHorizontal()) {
-				GameCode.testJeffrey.setX(GameCode.testJeffrey.getX() -34);
+			if (GameCode.testJeffrey.getAnimationHandler().flipHorizontal() && timer == 0) {
+				GameCode.testJeffrey.setX(GameCode.testJeffrey.getX() -34.5);
+				GameCode.testJeffrey.stopFall(true);
 			}
+			this.setX(GameCode.testJeffrey.getX());
+			this.setY(GameCode.testJeffrey.getY());
 		}
 		if (GameCode.testJeffrey.getSprite().equals(ryanWhipping) && GameCode.testJeffrey.getAnimationHandler().getFrame() == 7 && !addTime) {
 			GameCode.testJeffrey.setSprite(whipLength);
@@ -78,7 +79,8 @@ public class MagicMicrophone extends Item {
 				GameCode.testJeffrey.binded = false;
 				GameCode.testJeffrey.setSprite(ryanMicrophoneWalking);
 				if (GameCode.testJeffrey.getAnimationHandler().flipHorizontal()) {
-					GameCode.testJeffrey.setX(GameCode.testJeffrey.getX() +34);
+					GameCode.testJeffrey.setX(GameCode.testJeffrey.getX() +34.5);
+					GameCode.testJeffrey.stopFall(false);
 				}
 			}
 		}

@@ -36,6 +36,7 @@ public abstract class GameObject extends GameAPI {
 	/**
 	 * The width of this GameObject's hitbox
 	 */
+	private boolean visible = true;
 	private double hitboxWidth;
 	/**
 	 * The height of this GameObject's hitbox
@@ -256,7 +257,9 @@ public abstract class GameObject extends GameAPI {
 	 */
 	public void draw () {
 		//TODO
+		if (visible) {
 		animationHandler.draw (x - Room.getViewX (), y - Room.getViewY ());
+		}
 	}
 	
 	/**
@@ -566,5 +569,11 @@ public abstract class GameObject extends GameAPI {
 		hitboxYOffset = yOffset;
 		hitboxWidth = width;
 		hitboxHeight = height;
+	}
+	public void hide () {
+		this.visible = false;
+	}
+	public void show () {
+		this.visible = true;
 	}
 }

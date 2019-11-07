@@ -149,6 +149,7 @@ public abstract class Enemy extends GameObject {
 		if (!GameCode.testJeffrey.getInventory().checkKill(this)) {
 			GameCode.testJeffrey.getInventory().addKill(this);
 		}
+		enemyList.remove(this);
 		this.forget ();
 	}
 	//override to set entrys of stuff 

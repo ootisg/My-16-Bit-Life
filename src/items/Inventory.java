@@ -364,11 +364,7 @@ public class Inventory {
 				}
 		}
 			public Enemy findEnemyAtIndex (int index) {
-				try {
 				return defeatedEnemys.get(index);
-				} catch (IndexOutOfBoundsException e) {
-					return new  CreepyButterfly();
-					}
 		}
 		//gives you the index and item type from a strate number 
 		// in other words if jeffrey has 3 consumables and you give this a 4 it will return 0 and 1 the is to show the index is the 0 the one it too show that that index represents a key item

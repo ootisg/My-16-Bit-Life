@@ -7,6 +7,7 @@ import weapons.redBlackPaintBallGun;
 import items.Inventory;
 import items.Item;
 import items.RedBlackPaintBall;
+import main.GameCode;
 import main.GameObject;
 import main.GameWindow;
 import main.InputManager;
@@ -63,11 +64,13 @@ public class Jeffrey extends GameObject {
 	private boolean activeBox;
 	boolean messWithFrameTime;
 	private int boxTimer;
+	private boolean fallBruh;
 	public Status status;
 	public Jeffrey () {
 		//This class is not yet commented
 		this.declare (0, 0);
 		index = 0;
+		fallBruh = true;
 		messWithFrameTime = true;
 		ryanMicrophoneIdle = new Sprite ("resources/sprites/config/ryan_idle_microphone.txt");
 		ryanMicrophoneWalking = new Sprite("resources/sprites/config/ryan_walking_microphone.txt");
@@ -211,19 +214,31 @@ if (activeBox) {
 		if (witchCharictar == 2 && ((!this.getSprite().equals(ryanIdle)) || !this.getSprite().equals(ryanWalking)) )  {
 			standSprite = ryanIdle;
 			walkSprite = ryanWalking;
+			if (isWalking && !this.getSprite().equals(walkSprite) && !this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone")) {
+				this.setSprite(walkSprite);
+			}
 			if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone")) {
 				standSprite = ryanMicrophoneIdle;
 				this.getWeapon().frameEvent();
 				walkSprite = ryanMicrophoneWalking;
+				if (isWalking && !this.getSprite().equals(walkSprite)) {
+					this.setSprite(walkSprite);
+				}
 				}
 		}
 		if (witchCharictar == 1 && (!this.getSprite().equals(samIdle) || !this.getSprite().equals(samWalking))) {
 			standSprite = samIdle;
 			walkSprite = samWalking;
+			if (isWalking && !this.getSprite().equals(walkSprite) && !this.getWeapon().getClass().getSimpleName().equals("SlimeSword")) {
+				this.setSprite(walkSprite);
+			}
 			if (this.getWeapon().getClass().getSimpleName().equals("SlimeSword")) {
 			standSprite = samSword;
 			this.getWeapon().frameEvent();
 			walkSprite = samWalkingSword;
+			if (isWalking && !this.getSprite().equals(walkSprite)) {
+				this.setSprite(walkSprite);
+			}
 			}
 		}
 		
@@ -261,7 +276,9 @@ if (activeBox) {
 		if (vy > 15.0) {
 			vy = 15.0;
 		}
+		if (fallBruh) {
 		setY (getY () + (int) Math.ceil (vy));
+	}
 		if (Room.isColliding (this.hitbox ())) {
 			vy = 0;
 			double fc = .2; //Friction coefficient
@@ -288,7 +305,8 @@ if (activeBox) {
 			    if (getY () >= collidingTiles [i].y && getY () <= collidingTiles [i].y + 16) {
 			        this.setY (collidingTiles [i].y + 16 - this.getHitboxYOffset ());
 			        break;
-			    }
+			    
+			}
 			}
 		}
 		if (!onLadder) {
@@ -362,14 +380,13 @@ if (activeBox) {
 		}
 	
 		//Damage animation
-		// it went caput for now
-		//if (invulTimer != 0) {
-			//if ((invulTimer / 2) % 2 == 1) {
-				//this.hide ();
-			//} else {
-				//this.show ();
-			//}
-		//}
+		if (invulTimer != 0) {
+		if ((invulTimer / 2) % 2 == 1) {
+				this.getAnimationHandler().hide ();
+			} else {
+				this.getAnimationHandler().show ();
+			}
+		}
 		if (this.getAnimationHandler().flipHorizontal ()) {
 			this.getWeapon().setX (this.getX () - 5);
 			this.getWeapon().setY (this.getY () + 16);
@@ -456,6 +473,10 @@ if (activeBox) {
 		return this.samHealth;
 		}
 		return this.ryanHealth;
+	}
+	//stops the charictar from falling for a bit
+	public void stopFall(boolean fall) {
+		fallBruh = !fall;
 	}
 	public double getHealth (int CharictarToCheck) {
 		if (CharictarToCheck == 0) {

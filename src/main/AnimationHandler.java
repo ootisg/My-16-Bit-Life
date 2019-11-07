@@ -32,6 +32,7 @@ public class AnimationHandler {
 	/**
 	 * Whether or not to apply horizontal flip
 	 */
+	private boolean visible = true;
 	private boolean flipHorizontal;
 	
 	/**
@@ -67,6 +68,7 @@ public class AnimationHandler {
 	 * @param y The y coordinate to draw at
 	 */
 	public void draw (double x, double y) {
+		if (visible) {
 		if (image != null) {
 			if (frameTime == 0) {
 				startTime = RenderLoop.frameStartTime ();
@@ -81,6 +83,7 @@ public class AnimationHandler {
 					image.draw ((int)x, (int)y, flipHorizontal, flipVertical, frame);
 				}
 			}
+		}
 		}
 	}
 	
@@ -194,5 +197,11 @@ public class AnimationHandler {
 	 */
 	public void setFlipVertical (boolean flip) {
 		flipVertical = flip;
+	}
+	public void hide () {
+		this.visible = false;
+	}
+	public void show () {
+		this.visible = true;
 	}
 }

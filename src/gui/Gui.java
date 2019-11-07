@@ -3,6 +3,7 @@ package gui;
 
 import main.GameObject;
 import main.ObjectHandler;
+import map.Room;
 
 
 public class Gui extends GameObject {
@@ -18,7 +19,7 @@ public class Gui extends GameObject {
 		stats.frameEvent();
 		if (keyPressed ('E')) {
 			menu = new Menu ();
-			menu.declare();
+			menu.declare(0 + Room.getViewX(), 0);
 			ObjectHandler.pause (true);
 		}
 	}
