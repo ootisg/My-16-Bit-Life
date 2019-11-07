@@ -221,7 +221,7 @@ if (activeBox) {
 				standSprite = ryanMicrophoneIdle;
 				this.getWeapon().frameEvent();
 				walkSprite = ryanMicrophoneWalking;
-				if (isWalking && !this.getSprite().equals(walkSprite)) {
+				if (isWalking && !this.getSprite().equals(walkSprite) && changeSprite) {
 					this.setSprite(walkSprite);
 				}
 				}
@@ -236,7 +236,7 @@ if (activeBox) {
 			standSprite = samSword;
 			this.getWeapon().frameEvent();
 			walkSprite = samWalkingSword;
-			if (isWalking && !this.getSprite().equals(walkSprite)) {
+			if (isWalking && !this.getSprite().equals(walkSprite) && changeSprite) {
 				this.setSprite(walkSprite);
 			}
 			}
