@@ -24,7 +24,7 @@ public class AfterRenderDrawer {
 		}
 		if (isDoneWithOldList) {
 			isDoneWithOldList = false;
-			while (spritesToDraw.size() != currentIndex) {
+			while (spritesToDraw.size() != currentIndex && keep.size() != currentIndex) {
 				if (!keep.get(currentIndex)) {
 				spritesToDraw.remove(currentIndex);
 				} else {
@@ -32,7 +32,7 @@ public class AfterRenderDrawer {
 				}
 			}
 			currentIndex = 0;
-			while (x.size() != currentIndex) {
+			while (x.size() != currentIndex && keep.size() != currentIndex) {
 				if (!keep.get(currentIndex)) {
 				x.remove(currentIndex);
 				} else {
@@ -40,7 +40,7 @@ public class AfterRenderDrawer {
 				}
 			}
 			currentIndex = 0;
-			while (y.size() != currentIndex) {
+			while (y.size() != currentIndex && keep.size() != currentIndex) {
 				if (!keep.get(currentIndex)) {
 				y.remove(currentIndex);
 				} else {
@@ -48,7 +48,7 @@ public class AfterRenderDrawer {
 				}
 			}
 			currentIndex = 0;
-			while (frames.size() != currentIndex) {
+			while (frames.size() != currentIndex && keep.size() != currentIndex) {
 				if (!keep.get(currentIndex)) {
 				frames.remove(currentIndex);
 				} else {
@@ -57,14 +57,10 @@ public class AfterRenderDrawer {
 			}
 			currentIndex = 0;
 			while (keep.size() != currentIndex) {
-				try {
 				if (!keep.get(currentIndex)) {
 				keep.remove(currentIndex);
 				} else {
 				currentIndex = currentIndex + 1;
-				}
-				}catch (NullPointerException e) {
-					System.out.println("null pointer on keep array in After Render drawer may cause problems it may not I haven't tested it yet (but if there are problems and you are reading this you should probably check there moron)");
 				}
 			}
 			currentIndex = 0;

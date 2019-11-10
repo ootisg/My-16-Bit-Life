@@ -293,6 +293,7 @@ if (activeBox) {
 					vx = 0;
 				}
 			}
+			if (fallBruh) {
 			MapTile[] collidingTiles = Room.getCollidingTiles (this.hitbox ());
 			this.setY (this.getY() + vy);
 			for (int i = 0; i < collidingTiles.length; i ++) {
@@ -308,6 +309,7 @@ if (activeBox) {
 			    
 			}
 			}
+		}
 		}
 		if (!onLadder) {
 		if (!binded) {

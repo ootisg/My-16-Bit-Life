@@ -97,6 +97,9 @@ public class GameCode {
 		testJeffrey.getInventory().addFreind(lameRyan);
 		testJeffrey.getInventory().addFreind(guy);
 		gui = new Gui ();
+		testJeffrey.getInventory().addKeyItem(key);
+		testJeffrey.getInventory().addConsumable(gun);
+		testJeffrey.getInventory().addConsumable(packet);
 		vaccum = new LifeVaccum (new Sprite ("resources/sprites/config/lifeVaccum.txt"));
 		testJeffrey.getInventory().addWeapon(vaccum, 1);
 		sword = new SlimeSword();
@@ -106,12 +109,15 @@ public class GameCode {
 		microphone = new MagicMicrophone ();
 		testJeffrey.getInventory().addWeapon (microphone, 2);
 		extinguser = new FireRextinguser ();
+		testJeffrey.getInventory().addKill(extinguser);
 		testTie = new ClostridiumBowtielinea();
 		testJeffrey.getInventory().addWeapon(gun, 0);
 		testJeffrey.getInventory().addWeapon(sword, 1);
 		int x = 0;
 		//boi = new Celing_boi();
 		puncuation = new Puncuation ();
+		testJeffrey.getInventory().addKill(testTie);
+		testJeffrey.getInventory().addKill(puncuation);
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall(1);
 		while (x <= 5) {

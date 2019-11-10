@@ -48,10 +48,12 @@ public class Menu extends GameObject{
 	int enemyIndex1;
 	int enemyIndex2;
 	int enemyIndex3;
+	int frame;
 	int enemyIndex4;
 	int enemyPosition;
 	Tbox enemyName1;
 	Tbox enemyName2;
+	int enemyFrame;
 	Tbox enemyName3;
 	Tbox enemyName4;
 	Tbox healthBox;
@@ -61,23 +63,24 @@ public class Menu extends GameObject{
 	questionMark = new Sprite ("resources/sprites/config/question_Mark.txt");
 	charictarIndex = 0;
 	weaponIndex = 0;
-	itemPosition = 0;
+	itemPosition = -1;
 	itemIndex1 = 0;
 	consumabels = true;
 	itemIndex2 = 1;
 	itemIndex3 = 2;
 	itemIndex4 = 3;
+	enemyFrame = 29;
 	itemIndex5 = 0;
 	inBigPictureMode = false;
 	itemIndex6 = 1;
 	itemIndex7 = 2;
+	frame = 17;
 	itemIndex8 = 3;
 	enemyIndex1 = 0;
 	enemyIndex2 = 1;
 	enemyIndex3 = 2;
 	enemyIndex4 = 3;
 	enemyPosition = -1;
-	
 	ball = new Sprite ("resources/sprites/redblack_ball.png");
 	notChanged = true;
 	iterateTab = true;
@@ -361,7 +364,7 @@ public class Menu extends GameObject{
 		//draws stuff for page 2
 		if (pageNumber == 1) {
 			//makes background the page 2 background
-		this.getAnimationHandler().setAnimationFrame(2);
+		this.getAnimationHandler().setAnimationFrame(8);
 		//makes you go into the tab if you push s and are out of the tab
 				if(iterateTab && keyPressed ('S')) {
 					iterateTab = false;
@@ -407,7 +410,7 @@ public class Menu extends GameObject{
 		//draws stuff for page 3
 		if(pageNumber == 2) {
 			//sets the background to the page 3 background
-			this.getAnimationHandler().setAnimationFrame(4);
+			this.getAnimationHandler().setAnimationFrame(frame);
 			//switches to key if d or a is pushed when you are in the menu
 			if ((keyPressed ('D') || keyPressed('A')) && !iterateTab) {
 				if (consumabels) {
@@ -415,8 +418,10 @@ public class Menu extends GameObject{
 						this.removeItemList(consumabels);
 						consumabels = !consumabels;
 						this.showItemList(consumabels);
-						if (itemPosition > GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() - 1 - itemIndex1 ) {
-							itemPosition =0;
+						frame = 19 + itemPosition;
+						if (itemPosition > GameCode.testJeffrey.getInventory().getSortedKey().size() - 1 - itemIndex5 ) {
+							frame = 25;
+							itemPosition = 0;
 						}
 						this.setItemEntryAndNameInfo();
 					}
@@ -425,18 +430,28 @@ public class Menu extends GameObject{
 						this.removeItemList(consumabels);
 						consumabels = !consumabels;
 						this.showItemList(consumabels);
-						if (itemPosition > GameCode.testJeffrey.getInventory().getSortedKey().size() - 1 - itemIndex5 ) {
-							itemPosition = 0;
+						frame = 25 + itemPosition;
+						if (itemPosition > GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() - 1 - itemIndex1 ) {
+							itemPosition =0;
+							frame = 19;
 						}
 						this.setItemEntryAndNameInfo();
 				}
 				}
 			}
 			//moves the cursor down if s is pushed
-			if(keyPressed ('S') && !GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().isEmpty()) {
+			if(keyPressed ('S') && (!(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().isEmpty() && consumabels) || !(GameCode.testJeffrey.getInventory().getSortedKey().isEmpty() && !consumabels))) {
+				if (iterateTab) {
 				iterateTab = false;
+					if (consumabels) {
+					frame = 18;
+					} else {
+					frame = 24;
+					}
+				}
 				if ( (consumabels&& ((itemPosition != 3 && itemIndex4 <= GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size()-1) || (itemPosition != GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() - 1 - itemIndex1 && itemIndex4 > GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() -1)))|| ( !consumabels&&((itemPosition != 3 && itemIndex8 <= GameCode.testJeffrey.getInventory().getSortedKey().size()-1) || (itemPosition != GameCode.testJeffrey.getInventory().getSortedKey().size() - 1 - itemIndex5 && itemIndex8 > GameCode.testJeffrey.getInventory().getSortedKey().size() -1)))) {
 					itemPosition = itemPosition + 1;
+					frame = frame + 1;
 					this.setItemEntryAndNameInfo();
 				} else {
 					if (consumabels) {
@@ -466,13 +481,19 @@ public class Menu extends GameObject{
 			}
 			//makes you go out of the tab if you push w and are at the top of the tab
 			if(!iterateTab && keyPressed ('W') && itemPosition == 0 && ((itemIndex1 == 0 && consumabels) || (itemIndex5 == 0 && !consumabels)) ) {
+				if (consumabels) {
+				frame = 17;
+				} else {
+				frame = 23;
+				}
 				iterateTab = true;
 				itemPosition = itemPosition - 1;
 			}
 			//incriments things up by 1 if you press w
 			if ( !iterateTab && (itemPosition != 0  || (itemIndex1 != 0 && consumabels || itemIndex5 !=0 && !consumabels)) && keyPressed ('W') ) {
-				if ( (consumabels&& ( (itemPosition != 0 && itemIndex4 <= GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size()-1) || (itemPosition != GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() - 1 - itemIndex1 && itemIndex4 > GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() -1)))|| ( !consumabels&&((itemPosition != 0 && itemIndex8 <= GameCode.testJeffrey.getInventory().getSortedKey().size()-1) || (itemPosition != GameCode.testJeffrey.getInventory().getSortedKey().size() - 1 - itemIndex5 && itemIndex8 > GameCode.testJeffrey.getInventory().getSortedKey().size() -1)))) {
+				if ( (consumabels&& ( (itemPosition != 0 && itemIndex4 <= GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size()-1) || (itemPosition != GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() - itemIndex1 && itemIndex4 > GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() -1)))|| ( !consumabels&&((itemPosition != 0 && itemIndex8 <= GameCode.testJeffrey.getInventory().getSortedKey().size()-1) || (itemPosition != GameCode.testJeffrey.getInventory().getSortedKey().size() - itemIndex5 && itemIndex8 > GameCode.testJeffrey.getInventory().getSortedKey().size() -1)))) {
 					itemPosition = itemPosition - 1;
+					frame = frame - 1;
 					this.setItemEntryAndNameInfo();
 				} else {
 					if (consumabels) {
@@ -491,6 +512,7 @@ public class Menu extends GameObject{
 							itemIndex6 = itemIndex6 - 1;
 							itemIndex7 = itemIndex7 - 1;
 							itemIndex8 = itemIndex8 - 1;
+							
 							this.showItemList(consumabels);
 							descriptionBox.setContent(GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex5).checkEnetry());
 							itemNameBox.setContent(GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex5).checkName());
@@ -509,7 +531,7 @@ public class Menu extends GameObject{
 					detailedEnemyEntry.forget();
 				} else {
 				this.removeEnemyList();
-				this.getAnimationHandler().setAnimationFrame(6);
+				this.getAnimationHandler().setAnimationFrame(35);
 				if (enemyPosition == 0) {
 					AfterRenderDrawer.drawAfterRender((int)this.getX() + 250 - Room.getViewX(), (int)this.getY() + 225, GameCode.testJeffrey.getInventory().findEnemyAtIndex(enemyIndex1).getSprite(),0, true);
 					detailedEnemyName = new Tbox (this.getX() + 175 - Room.getViewX(), this.getY() + 125, 40, 1, GameCode.testJeffrey.getInventory().findEnemyAtIndex(enemyIndex1).checkName(), false);
@@ -537,15 +559,16 @@ public class Menu extends GameObject{
 			}
 			//sets the background to the enemy background
 			if (!inBigPictureMode) {
-		this.getAnimationHandler().setAnimationFrame(5);
+		this.getAnimationHandler().setAnimationFrame(enemyFrame);
 			}
 		//moves the cursor down if s is pushed
 		if(keyPressed ('S') && !inBigPictureMode && GameCode.testJeffrey.getInventory().amountOfKills() != 0) {
 			iterateTab = false;
-			if ((enemyPosition != 3 && enemyIndex4 <= GameCode.testJeffrey.getInventory().amountOfKills()-1) || (enemyPosition != GameCode.testJeffrey.getInventory().amountOfKills() - 1 - enemyIndex1 && enemyIndex4 > GameCode.testJeffrey.getInventory().amountOfKills() -1)) {
+			if ((enemyPosition != 3 && enemyIndex4 <= GameCode.testJeffrey.getInventory().amountOfKills()-1) || (enemyPosition != GameCode.testJeffrey.getInventory().amountOfKills() -1 -enemyIndex1 && enemyIndex4 > GameCode.testJeffrey.getInventory().amountOfKills() -1)) {
 				enemyPosition = enemyPosition + 1;
+				enemyFrame = enemyFrame + 1;
 			} else {
-				if (enemyIndex4 != GameCode.testJeffrey.getInventory().amountOfKills() - 1 && enemyIndex3 != GameCode.testJeffrey.getInventory().amountOfKills() -1 && enemyIndex2 != GameCode.testJeffrey.getInventory().amountOfKills() -1 && enemyIndex1 != GameCode.testJeffrey.getInventory().amountOfKills() -1) {
+				if (enemyIndex4 != GameCode.testJeffrey.getInventory().amountOfKills() - 1 && enemyIndex3 != GameCode.testJeffrey.getInventory().amountOfKills() -1 && enemyPosition != GameCode.testJeffrey.getInventory().amountOfKills()  && enemyIndex1 != GameCode.testJeffrey.getInventory().amountOfKills() -1) {
 				this.removeEnemyList();
 				enemyIndex1 = enemyIndex1 + 1;
 				enemyIndex2 = enemyIndex2 + 1;
@@ -559,11 +582,13 @@ public class Menu extends GameObject{
 		if(!iterateTab && keyPressed ('W') && enemyPosition == 0 && enemyIndex1 == 0 && !inBigPictureMode) {
 			iterateTab = true;
 			enemyPosition = enemyPosition - 1;
+			enemyFrame = enemyFrame -1;
 		}
 		//incriments things up by 1 if you press w
 		if ( !inBigPictureMode && !iterateTab && (enemyPosition != 0  || enemyIndex1 != 0) && keyPressed ('W') ) {
-			if ((enemyPosition != 0 && enemyIndex4 <= GameCode.testJeffrey.getInventory().amountOfKills()-1) || (enemyPosition != GameCode.testJeffrey.getInventory().amountOfKills() - 1 - enemyIndex1 && enemyIndex4 > GameCode.testJeffrey.getInventory().amountOfKills() -1)) {
+			if ((enemyPosition != 0 && enemyIndex4 <= GameCode.testJeffrey.getInventory().amountOfKills()-1) || (enemyPosition != GameCode.testJeffrey.getInventory().amountOfKills() - enemyIndex1 && enemyIndex4 > GameCode.testJeffrey.getInventory().amountOfKills() -1)) {
 				enemyPosition = enemyPosition - 1;
+				enemyFrame = enemyFrame -1;
 			} else {
 				this.removeEnemyList();
 				enemyIndex1 = enemyIndex1 - 1;
@@ -576,7 +601,7 @@ public class Menu extends GameObject{
 		}
 		//draws stuff for page 5
 		if(pageNumber == 4) {
-			this.getAnimationHandler().setAnimationFrame(7);
+			this.getAnimationHandler().setAnimationFrame(36);
 		}
 	}
 	public void setItemEntryAndNameInfo () {
