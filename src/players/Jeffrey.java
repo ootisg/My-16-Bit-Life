@@ -93,7 +93,6 @@ public class Jeffrey extends GameObject {
 		this.specialCooldown = 0;
 		this.jeffreyHealth = 100;
 		this.samHealth = 100;
-		
 		bindLeft = false;
 		bindRight = false;
 		this.maxHealth = 100;

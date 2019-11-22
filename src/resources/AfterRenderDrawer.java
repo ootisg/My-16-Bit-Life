@@ -11,7 +11,7 @@ public class AfterRenderDrawer {
 	private static ArrayList <Boolean> keep = new ArrayList <Boolean> ();
 	private static boolean isRendering = false;
 	private static int currentIndex = 0;
-	private static boolean isDoneWithOldList = false;
+
 	public static void drawAfterRender (int X, int Y, Sprite sprite) {
 		drawAfterRender(X,Y,sprite,0,false);
 	}
@@ -19,52 +19,7 @@ public class AfterRenderDrawer {
 		drawAfterRender(X,Y,sprite,frame,false);
 	}
 	public static void drawAfterRender (int X, int Y, Sprite sprite, int frame, boolean toKeepOrNotToKeep) {
-		if (toKeepOrNotToKeep) {
-			isDoneWithOldList = true;
-		}
-		if (isDoneWithOldList) {
-			isDoneWithOldList = false;
-			while (spritesToDraw.size() != currentIndex && keep.size() != currentIndex) {
-				if (!keep.get(currentIndex)) {
-				spritesToDraw.remove(currentIndex);
-				} else {
-				currentIndex = currentIndex + 1;
-				}
-			}
-			currentIndex = 0;
-			while (x.size() != currentIndex && keep.size() != currentIndex) {
-				if (!keep.get(currentIndex)) {
-				x.remove(currentIndex);
-				} else {
-				currentIndex = currentIndex + 1;
-				}
-			}
-			currentIndex = 0;
-			while (y.size() != currentIndex && keep.size() != currentIndex) {
-				if (!keep.get(currentIndex)) {
-				y.remove(currentIndex);
-				} else {
-				currentIndex = currentIndex + 1;
-				}
-			}
-			currentIndex = 0;
-			while (frames.size() != currentIndex && keep.size() != currentIndex) {
-				if (!keep.get(currentIndex)) {
-				frames.remove(currentIndex);
-				} else {
-				currentIndex = currentIndex + 1;
-				}
-			}
-			currentIndex = 0;
-			while (keep.size() != currentIndex) {
-				if (!keep.get(currentIndex)) {
-				keep.remove(currentIndex);
-				} else {
-				currentIndex = currentIndex + 1;
-				}
-			}
-			currentIndex = 0;
-			}
+		
 		if (!isRendering){
 		spritesToDraw.add(sprite);
 		x.add(X);
@@ -126,7 +81,46 @@ public class AfterRenderDrawer {
 				}
 		}
 		}
-		isDoneWithOldList = true;
+		while (spritesToDraw.size() != currentIndex && keep.size() != currentIndex) {
+			if (!keep.get(currentIndex)) {
+			spritesToDraw.remove(currentIndex);
+			} else {
+			currentIndex = currentIndex + 1;
+			}
+		}
+		currentIndex = 0;
+		while (x.size() != currentIndex && keep.size() != currentIndex) {
+			if (!keep.get(currentIndex)) {
+			x.remove(currentIndex);
+			} else {
+			currentIndex = currentIndex + 1;
+			}
+		}
+		currentIndex = 0;
+		while (y.size() != currentIndex && keep.size() != currentIndex) {
+			if (!keep.get(currentIndex)) {
+			y.remove(currentIndex);
+			} else {
+			currentIndex = currentIndex + 1;
+			}
+		}
+		currentIndex = 0;
+		while (frames.size() != currentIndex && keep.size() != currentIndex) {
+			if (!keep.get(currentIndex)) {
+			frames.remove(currentIndex);
+			} else {
+			currentIndex = currentIndex + 1;
+			}
+		}
+		currentIndex = 0;
+		while (keep.size() != currentIndex) {
+			if (!keep.get(currentIndex)) {
+			keep.remove(currentIndex);
+			} else {
+			currentIndex = currentIndex + 1;
+			}
+		}
+		currentIndex = 0;
 		isRendering = false;
 	}
 }

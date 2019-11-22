@@ -1,15 +1,10 @@
-package triggers;
+package gameObjects;
 
 import cutsceens.Cutsceen;
 import main.ObjectHandler;
 
 public class CutsceenTrigger extends Trigger {
 	public CutsceenTrigger () {
-		try {
-		this.setHitboxAttributes(0, 0, Integer.parseInt(this.getVariantAttribute("width")), Integer.parseInt(this.getVariantAttribute("height")));
-		}catch (NumberFormatException e) {
-			this.setHitboxAttributes(0, 0, 16, 80);
-		}
 	}
 	@Override
 	public void triggerEvent () {
@@ -21,6 +16,10 @@ public class CutsceenTrigger extends Trigger {
 			}
 		}
 	}
+	@Override
+	public void frameEvent() {
+		
+	}
 	@Override 
 	public void pausedEvent () {
 		if (this.Triggered()) {
@@ -31,7 +30,7 @@ public class CutsceenTrigger extends Trigger {
 		}
 		if (!Cutsceen.playing) {
 			ObjectHandler.pause(false);
-			this.forget();
+			this.eventFinished = true;
 		}
 	}
 	}

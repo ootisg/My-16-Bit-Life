@@ -10,6 +10,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import gameObjects.TemporaryWall;
 import main.GameWindow;
 import main.GameObject;
 import main.GameAPI;
@@ -354,6 +355,11 @@ public class Room {
 	}
 	public static boolean isColliding (Rectangle hitbox) {
 		//Returns true if the given Hitbox is colliding with a solid tile
+		for (int i = 0; i <= TemporaryWall.walls.size() - 1; i++) {
+			if(TemporaryWall.walls.get(i).isHitting(hitbox)){
+				return true;
+			}
+		}
 		int x = hitbox.x;
 		int y = hitbox.y;
 		int width = hitbox.width;

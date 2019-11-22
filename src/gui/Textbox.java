@@ -50,7 +50,7 @@ public class Textbox extends GameObject {
 		remember = whateverMan;
 	}
 	public void chagePause() {
-		if (ObjectHandler.isPaused()) {
+		if (!ObjectHandler.isPaused()) {
 		ObjectHandler.pause(true);
 		} else {
 		ObjectHandler.pause(false);
@@ -68,6 +68,9 @@ public class Textbox extends GameObject {
 	}
 	public void changeBoxVisability () {
 		renderBox = !renderBox;
+	}
+	public void changeText(String newText) {
+		text1 = newText;
 	}
 	// text = the message thats displayed width is the width of the box height is the height of the box 
 	//x_orign is the x start point of the box y_orign is the y start point of the box
@@ -220,7 +223,7 @@ public void pausedEvent (){
 		}
 	}
 @Override
-public void frameEvent () {
+public void draw () {
 	if (!ObjectHandler.isPaused()) {
 		this.pausedEvent();
 	}

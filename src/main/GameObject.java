@@ -168,7 +168,7 @@ public abstract class GameObject extends GameAPI {
 			for (int i = 0; i < variants.length; i ++) {
 				String[] attribute = variants [i].split (":");
 				if (attribute.length == 2) {
-					setVariantAttribute (attribute [0], attribute [1]);
+					setAttribute (attribute [0], attribute [1]);
 				}
 			}
 		}
@@ -288,6 +288,17 @@ public abstract class GameObject extends GameAPI {
 	public boolean isColliding (GameObject obj) {
 		Rectangle thisHitbox = hitbox ();
 		Rectangle objHitbox = obj.hitbox ();
+		if (thisHitbox == null || objHitbox == null) {
+			return false;
+		}
+		if (thisHitbox.intersects (objHitbox)) {
+			return true;
+		}
+		return false;
+	}
+	public boolean isColliding (Rectangle hitbox) {
+		Rectangle thisHitbox = hitbox ();
+		Rectangle objHitbox = hitbox;
 		if (thisHitbox == null || objHitbox == null) {
 			return false;
 		}
@@ -571,9 +582,9 @@ public abstract class GameObject extends GameAPI {
 		hitboxHeight = height;
 	}
 	public void hide () {
-		this.visible = false;
+		this.getAnimationHandler().hide();
 	}
 	public void show () {
-		this.visible = true;
+		this.getAnimationHandler().show();
 	}
 }

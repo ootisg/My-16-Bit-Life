@@ -6,15 +6,19 @@ import gameObjects.CannonTankEnemy;
 import gameObjects.Celing_boi;
 import gameObjects.ClostridiumBowtielinea;
 import gameObjects.CreepyButterfly;
+import gameObjects.CutsceenTrigger;
 import gameObjects.CyclopesCrab;
 import gameObjects.DuoflyMinus;
 import gameObjects.DuoflyPlus;
 import gameObjects.FireRextinguser;
+import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
 import gameObjects.Leg;
 import gameObjects.Puncuation;
 import gameObjects.SplittingSlimelet;
+import gameObjects.TemporaryWall;
 import gameObjects.TomatoFunction;
+import gameObjects.Trigger;
 import graphics3D.VectorCamera;
 import gui.Gui;
 import gui.ListTbox;
@@ -34,7 +38,6 @@ import players.TubeRaster;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
 import statusEffect.Status;
-import triggers.CutsceenTrigger;
 import weapons.AimableWeapon;
 import weapons.LifeVaccum;
 import weapons.MagicMicrophone;
@@ -59,7 +62,7 @@ public class GameCode {
 	ListTbox ltbox;
 	static CannonTankEnemy showTank;
 	static CyclopesCrab testCrab;
-	static CutsceenTrigger trigger;
+	//static CutsceenTrigger trigger;
 	static PointGuy guy;
 	static ClostridiumBowtielinea testTie;
 	static Status testStatus;
@@ -74,6 +77,9 @@ public class GameCode {
 	static TomatoFunction function;
 	static FireRextinguser extinguser;
 	static LifeVaccum vaccum;
+	static Trigger trigger;
+	static TemporaryWall wall;
+	static HitboxRightBottomBound bound;
 	static Puncuation puncuation;
 	static NonPlayableJeffrey lameJeffrey;
 	static NonPlayableSam lameSam;
@@ -105,7 +111,7 @@ public class GameCode {
 		sword = new SlimeSword();
 		slimelet = new SplittingSlimelet ();
 		testCrab = new CyclopesCrab();
-		trigger = new CutsceenTrigger();
+		//trigger = new CutsceenTrigger();
 		microphone = new MagicMicrophone ();
 		testJeffrey.getInventory().addWeapon (microphone, 2);
 		extinguser = new FireRextinguser ();
@@ -118,9 +124,10 @@ public class GameCode {
 		puncuation = new Puncuation ();
 		testJeffrey.getInventory().addKill(testTie);
 		testJeffrey.getInventory().addKill(puncuation);
+		newFly = new CreepyButterfly();
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall(1);
-		while (x <= 5) {
+		while (x <= 40) {
 		testJeffrey.inventory.addAmmo(paintball);
 		x = x + 1;
 		}
@@ -135,14 +142,18 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/snowmap.cmf");
+		Room.loadRoom ("resources/maps/temporaryWallTest.cmf");
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
 		//leg.declare(150, 200);
 	//	boi.declare(40,300);
-		extinguser.declare(180,350);
-		trigger.declare(180,350);
+		//newFly.declare(180,350);
+		//trigger.declare(180,350);
+		//bound = new HitboxRightBottomBound();
+		//bound.declare(180, 300);
+		//trigger = new Trigger();
+		//trigger.declare(60,120);
 		//showTank.declare(280, 383);
 		//puncuation.declare(300, 200);
 		testLaddder.declare(150, 373);
