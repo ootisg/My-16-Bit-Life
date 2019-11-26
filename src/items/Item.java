@@ -14,7 +14,11 @@ public class Item extends GameObject {
 	public String checkEnetry() {
 		return "";
 	}
-	//override it weapon classes
+	//overriden in classes to clarify what type of item the item is
+	public String getItemType() {
+		return "";
+	}
+	//override in weapon classes
 	public String [] getUpgrades () {
 		String [] returnArray;
 		returnArray = new String [] {"DEFULT", "DEFULT", "DEFULT", "DEFULT"};

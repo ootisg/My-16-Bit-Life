@@ -13,5 +13,9 @@ public class Unarmed extends AimableWeapon {
 	public String checkName (){
 		return "UNARMED";
 	}
+	@Override 
+	public String getItemType() {
+		return "Weapon";
+	}
 
 }

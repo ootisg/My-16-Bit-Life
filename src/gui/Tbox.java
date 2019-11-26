@@ -18,8 +18,10 @@ public class Tbox extends GameObject {
 	Sprite textBorder;
 	Sprite font;
 	boolean renderBox;
+	int timer;
+	boolean keepOpen = false;
 	public Tbox () {
-		
+		timer = 0;
 	}
 	public Tbox (double x, double y, int width, int height, String text, boolean drawBox) {
 		//Initialize parameters
@@ -33,6 +35,7 @@ public class Tbox extends GameObject {
 		this.frameCount = 0;
 		this.startPos = 0;
 		this.letterPos = 0;
+		timer = 0;
 		renderBox = drawBox;
 	}
 	@Override
@@ -63,15 +66,17 @@ public class Tbox extends GameObject {
 				
 			}
 		}
+		timer = timer + 1;
 		//Handles scrolling
 		int scrollLimit;
 		if (startPos / (width * height) == text.length () / (width * height)) {
 			scrollLimit = (text.length () % (width * height)) * scrollTime;
-			// not sure why this doesen't work gonna have to fix it later
 			//Closes the textbox if A is pressed and all the text has been displayed
-			//if (keyPressed((int)'A') && frameCount == scrollLimit) {
-				//this.close ();
-			//}
+			if (timer > 30) {
+			if (keyPressed((int)'A') && frameCount == scrollLimit) {
+				this.close ();
+			}
+			}
 		} else {
 			scrollLimit = width * height * scrollTime;
 			//Scrolls the textbox if A is pressed and not all the text has been displayed
@@ -124,9 +129,14 @@ public class Tbox extends GameObject {
 	public int getScrollRate () {
 		return this.scrollTime;
 	}
+	public void keepOpen (boolean shouldItStayOpen) {
+		keepOpen = shouldItStayOpen;
+	}
 	public void close () {
 		//Adds extensability; this can be overriden to prevent the window from closing when A is pressed
+		if (!keepOpen) {
 		this.forget ();
+		}
 	}
 	public void scroll () {
 		//Adds extensability; this can be overriden to prevent the window from scrolling when A is pressed

@@ -39,6 +39,10 @@ public class MagicMicrophone extends Item {
 		returnArray = new String [] {"MUSIC NOTES", "EXTRA MOVES", "WHIP UPGRADE", "SONG POWER"};
 		return returnArray;
 	}
+	@Override 
+	public String getItemType() {
+		return "WeaponRyan";
+	}
 @Override
 	public int [] getTierInfo () {
 		return upgradeInfo;

@@ -29,6 +29,10 @@ public class RedBlackPaintBall extends Item{
 		return "ENETRY HAS NOT BEEN DEDCIDED YET";
 	}
 	@Override 
+	public String getItemType() {
+		return "Ammo";
+	}
+	@Override 
 	public void frameEvent() {
 		
 		this.setY(this.getY() + 1);

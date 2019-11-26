@@ -1,5 +1,6 @@
 package npcs;
 
+import gameObjects.NPC;
 import resources.Sprite;
 
 public class NonPlayableJeffrey extends NPC {

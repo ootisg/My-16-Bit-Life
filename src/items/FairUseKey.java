@@ -22,6 +22,10 @@ public class FairUseKey extends Item {
 	public String checkName () {
 		return "FAIR USE KEY";
 	}
+	@Override 
+	public String getItemType() {
+		return "Key";
+	}
 	@Override
 	public String checkEnetry() {
 		return "THIS IS A KEY THAT ALLOWS YOU TO ENTER COPYWRIGHTED AREAS ... SOMETIMES IT DOESEN'T WORK BUT HEY ITS SOMETHING";

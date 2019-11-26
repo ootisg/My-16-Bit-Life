@@ -10,7 +10,11 @@ public class LemonPacket extends Item {
 	Sprite lemonPacket = new Sprite ("resources/sprites/Lemon_Packet.png");
 public LemonPacket () {
 	this.setSprite(lemonPacket); 
+	try {
 	amountToAdd = Integer.parseInt(this.getVariantAttribute("Amount"));
+	}catch (NumberFormatException e) {
+	amountToAdd = 1;
+	}
 }
 public LemonPacket (int amount) {
 	this.setSprite(lemonPacket); 
@@ -23,6 +27,10 @@ public String checkEnetry() {
 }
 public String checkName () {
 	return "LEMON PACKET";
+}
+@Override 
+public String getItemType() {
+	return "Consumable";
 }
 @Override 
 public void frameEvent () {

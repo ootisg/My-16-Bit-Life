@@ -135,6 +135,8 @@ public class Menu extends GameObject{
 			// sets up the textboxes insially
 			nameBox = new Tbox(this.getX() + 145 - Room.getViewX(), this.getY() + 110, 42, 3,GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
 			entryBox = new Tbox(this.getX() + 145 - Room.getViewX(), this.getY() + 155, 42, 10,GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
+			nameBox.keepOpen(true);
+			entryBox.keepOpen(true);
 			//adds the charictar sprite into the after render draw arraylist
 			AfterRenderDrawer.drawAfterRender((int)this.getX() + 70 -Room.getViewX(), (int)this.getY() + 185,GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).getSprite(), 0, true);
 			this.setUpNewPlayableCharictar();
@@ -162,15 +164,21 @@ public class Menu extends GameObject{
 				if (consumabels) {
 				descriptionBox = new Tbox (this.getX() + 325 - Room.getViewX(), this.getY() + 225, 19, 8, GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry(), false);
 				itemNameBox = new Tbox (this.getX() + 325 - Room.getViewX(), this.getY() + 153, 19, 8, GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName(), false);
+				descriptionBox.keepOpen(true);
+				itemNameBox.keepOpen(true);
 				} else {
 						descriptionBox = new Tbox (this.getX() + 325 - Room.getViewX(), this.getY() + 225, 19, 8, GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex5).checkEnetry(), false);
-						itemNameBox = new Tbox (this.getX() + 325 - Room.getViewX(), this.getY() + 153, 19, 8, GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex5).checkName(), false);
+					itemNameBox = new Tbox (this.getX() + 325 - Room.getViewX(), this.getY() + 153, 19, 8, GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex5).checkName(), false);
+					descriptionBox.keepOpen(true);
+					itemNameBox.keepOpen(true);
 				}
 				descriptionBox.setScrollRate(0);
 				itemNameBox.setScrollRate(0);
 				} catch (IndexOutOfBoundsException e) {
 					descriptionBox = new Tbox ();
 					itemNameBox = new Tbox ();
+					descriptionBox.keepOpen(true);
+					itemNameBox.keepOpen(true);
 				}
 			}
 			//weapon tab stuff 
@@ -196,6 +204,12 @@ public class Menu extends GameObject{
 				this.addTierOrbs();
 				ammoBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY() + 275, 12, 2,"AMMO " + Integer.toString(GameCode.testJeffrey.getInventory().checkAmmoAmountOfWeapon(GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex))),false);
 				ammoBox.setScrollRate(0);
+				weaponNameBox.keepOpen(true);
+				weaponEntryBox.keepOpen(true);
+				upgradeBox1.keepOpen(true);
+				upgradeBox2.keepOpen(true);
+				upgradeBox3.keepOpen(true);
+				upgradeBox4.keepOpen(true);
 				if (GameCode.testJeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 0){
 				ownerBox = new Tbox(this.getX() +  35 - Room.getViewX(), this.getY() + 335, 12, 2,"JEFFREY",false);
 				}
@@ -206,6 +220,8 @@ public class Menu extends GameObject{
 					ownerBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY() + 335, 12, 2,"RYAN",false);
 					}
 				ownerBox.setScrollRate(0);
+				ammoBox.keepOpen(true);
+				ownerBox.keepOpen(true);
 				}
 			//charictar tab stuff
 			if (pageNumber == 0) {
@@ -227,7 +243,8 @@ public class Menu extends GameObject{
 				nameBox.setScrollRate(0);
 				entryBox = new Tbox(this.getX() + 145 - Room.getViewX(), this.getY() + 155, 42, 10,GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
 				entryBox.setScrollRate(0);
-				
+				nameBox.keepOpen(true);
+				entryBox.keepOpen(true);
 			this.setUpNewPlayableCharictar();
 			}
 		}
@@ -256,6 +273,12 @@ public class Menu extends GameObject{
 				upgradeBox4.setScrollRate(0);
 				ammoBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY() + 275, 12, 2,"AMMO " + Integer.toString(GameCode.testJeffrey.getInventory().checkAmmoAmountOfWeapon(GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex))),false);
 				ammoBox.setScrollRate(0);
+				weaponNameBox.keepOpen(true);
+				weaponEntryBox.keepOpen(true);
+				upgradeBox1.keepOpen(true);
+				upgradeBox2.keepOpen(true);
+				upgradeBox3.keepOpen(true);
+				upgradeBox4.keepOpen(true);
 				this.addTierOrbs();
 				if (GameCode.testJeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 0){
 					ownerBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY() + 335, 12, 2,"JEFFREY",false);
@@ -267,6 +290,8 @@ public class Menu extends GameObject{
 						ownerBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY() + 335, 12, 2,"RYAN",false);
 						} 
 					ownerBox.setScrollRate(0);
+					ammoBox.keepOpen(true);
+					ownerBox.keepOpen(true);
 			}
 			if (pageNumber == 1) {
 				//removes page 2 stuff
@@ -286,15 +311,21 @@ public class Menu extends GameObject{
 					if (consumabels) {
 						descriptionBox = new Tbox (this.getX() + 325 - Room.getViewX(), this.getY() + 225, 19, 8, GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry(), false);
 						itemNameBox = new Tbox (this.getX() + 325 - Room.getViewX(), this.getY() + 153, 19, 8, GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName(), false);
-						} else {
+						descriptionBox.keepOpen(true);
+						itemNameBox.keepOpen(true);	
+					} else {
 								descriptionBox = new Tbox (this.getX() + 325 - Room.getViewX(), this.getY() + 225, 19, 8, GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex5).checkEnetry(), false);
 								itemNameBox = new Tbox (this.getX() + 325 - Room.getViewX(), this.getY() + 153, 19, 8, GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex5).checkName(), false);
-						}
+								descriptionBox.keepOpen(true);
+								itemNameBox.keepOpen(true);
+					}
 						descriptionBox.setScrollRate(0);
 						itemNameBox.setScrollRate(0);
 					} catch (IndexOutOfBoundsException e) {
 						descriptionBox = new Tbox ();
 						itemNameBox = new Tbox();
+						descriptionBox.keepOpen(true);
+						itemNameBox.keepOpen(true);
 					}
 			}
 			if (pageNumber == 2) {
@@ -522,6 +553,7 @@ public class Menu extends GameObject{
 		}
 		}
 		//draws stuff for page 4
+		
 		if (pageNumber == 3) {
 			if (keyPressed (32) && enemyPosition != -1) {
 				if (inBigPictureMode) {
@@ -536,6 +568,7 @@ public class Menu extends GameObject{
 					AfterRenderDrawer.drawAfterRender((int)this.getX() + 250 - Room.getViewX(), (int)this.getY() + 225, GameCode.testJeffrey.getInventory().findEnemyAtIndex(enemyIndex1).getSprite(),0, true);
 					detailedEnemyName = new Tbox (this.getX() + 175 - Room.getViewX(), this.getY() + 125, 40, 1, GameCode.testJeffrey.getInventory().findEnemyAtIndex(enemyIndex1).checkName(), false);
 					detailedEnemyEntry = new Tbox (this.getX() + 337 - Room.getViewX(), this.getY() + 155, 18, 18, GameCode.testJeffrey.getInventory().findEnemyAtIndex(enemyIndex1).checkEntry(), false);
+					
 				}
 				if (enemyPosition == 1) {
 				AfterRenderDrawer.drawAfterRender((int)this.getX() + 250 - Room.getViewX(), (int)this.getY() + 225, GameCode.testJeffrey.getInventory().findEnemyAtIndex(enemyIndex2).getSprite(),0, true);
@@ -554,6 +587,8 @@ public class Menu extends GameObject{
 				}
 				detailedEnemyName.setScrollRate(0);
 				detailedEnemyEntry.setScrollRate(0);
+				detailedEnemyName.keepOpen(true);
+				detailedEnemyEntry.keepOpen(true);
 				}
 				inBigPictureMode = !inBigPictureMode;
 			}
@@ -709,6 +744,7 @@ public class Menu extends GameObject{
 				enemyName3 = new Tbox ();
 				enemyName4 = new Tbox ();
 			}
+			
 			if (beforeCrash == 1) {
 				enemyName2 = new Tbox();
 				enemyName3 = new Tbox ();
@@ -722,6 +758,10 @@ public class Menu extends GameObject{
 				enemyName4 = new Tbox ();
 			}
 		}
+		enemyName1.keepOpen(true);
+		enemyName2.keepOpen(true);
+		enemyName3.keepOpen(true);
+		enemyName4.keepOpen(true);
 	}
 	//true for consumabels false for key
 	public void showItemList (boolean consumablesOrKey) {
@@ -792,6 +832,7 @@ public class Menu extends GameObject{
 					itemName3 = new Tbox ();
 					itemName4 = new Tbox ();
 				}
+				
 				if (beforeCrash == 2) {
 					itemName3 = new Tbox ();
 					itemName4 = new Tbox ();
@@ -801,6 +842,10 @@ public class Menu extends GameObject{
 				}
 			}	
 		}
+		itemName1.keepOpen(true);
+		itemName2.keepOpen(true);
+		itemName3.keepOpen(true);
+		itemName4.keepOpen(true);
 	}
 	public void addTierOrbs () {
 		for (int i = 0; i < 4; i++) {
@@ -838,11 +883,13 @@ public class Menu extends GameObject{
 			}
 		}
 	}
+	
 	public void setUpNewPlayableCharictar () {
 		if (GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("JEFFREY")) {
 			//creates a new display of jeffreys health when it gets changed to the charitar page if jeffrey's page is the active page
 		healthBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY()+ 280, 16,9,Integer.toString((int)GameCode.testJeffrey.getHealth(0)) + "/" + Integer.toString((int) GameCode.testJeffrey.maxHealth), false);
 		healthBox.setScrollRate(0);
+		healthBox.keepOpen(true);
 		//adds the weapons owned by jeffrey to the after render draw arraylist (adds a question mark for the ones he doesen't own) if jeffrey's page is the active page
 		for (int i = 0; i <4; i++) {
 			if (!GameCode.testJeffrey.getInventory().findWeaponAtIndex(i, 0).getClass().getSimpleName().equals("Unarmed")) {
@@ -857,6 +904,7 @@ public class Menu extends GameObject{
 			//creates a new display of sam's health when it gets changed to the charitar page is sam's page is the active page
 			healthBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY()+ 280, 16,9,Integer.toString((int)GameCode.testJeffrey.getHealth(1)) + "/" + Integer.toString((int) GameCode.testJeffrey.maxHealth), false);
 			healthBox.setScrollRate(0);
+			healthBox.keepOpen(true);
 			//adds the weapons owned by sam to the after render draw arraylist (adds a question mark for the ones he doesen't own) if sam's page is the active page
 			for (int i = 0; i <4; i++) {
 				if (!GameCode.testJeffrey.getInventory().findWeaponAtIndex(i, 1).getClass().getSimpleName().equals("Unarmed")) {
@@ -870,6 +918,7 @@ public class Menu extends GameObject{
 			//creates a new display of Ryan's health when it gets changed to the charitar page is Ryan's page is the active page
 			healthBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY()+ 280, 16,9,Integer.toString((int)GameCode.testJeffrey.getHealth(2)) + "/" + Integer.toString((int) GameCode.testJeffrey.maxHealth), false);
 			healthBox.setScrollRate(0);
+			healthBox.keepOpen(true);
 			//adds the weapons owned by Ryan to the after render draw arraylist (adds a question mark for the ones he doesen't own) if sam's page is the active page
 			for (int i = 0; i <4; i++) {
 				if (!GameCode.testJeffrey.getInventory().findWeaponAtIndex(i, 2).getClass().getSimpleName().equals("Unarmed")) {

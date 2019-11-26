@@ -41,6 +41,10 @@ public class redBlackPaintBallGun extends AimableWeapon {
 			returnArray = new String [] {"CHARGE SHOT", "CHEMICAL PAINTS", "PAINTED PUDDLE", "REDBLACK AND BLUE PAINTBALL GUN"};
 			return returnArray;
 		}
+	@Override 
+	public String getItemType() {
+		return "WeaponJeffrey";
+	}
 	@Override
 		public int [] getTierInfo () {
 			return upgradeInfo;

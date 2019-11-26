@@ -1,5 +1,6 @@
 package npcs;
 
+import gameObjects.NPC;
 import items.FairUseKey;
 import resources.Sprite;
 

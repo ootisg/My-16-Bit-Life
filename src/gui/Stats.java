@@ -27,6 +27,9 @@ public class Stats extends GameObject {
 		ammoAmount = new Tbox (0,0,24,1, "0", false);
 		ammoAmount.declare(252,-6);
 		ammoAmount.setScrollRate(0);
+		charictarName.keepOpen(true);
+		weaponName.keepOpen(true);
+		ammoAmount.keepOpen(true);
 	}
 	@Override
 	public void frameEvent () {

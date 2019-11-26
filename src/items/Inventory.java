@@ -5,9 +5,9 @@ import java.util.Iterator;
 
 import gameObjects.CreepyButterfly;
 import gameObjects.Enemy;
+import gameObjects.NPC;
 import main.GameCode;
 import npcs.Door;
-import npcs.NPC;
 import resources.Sprite;
 import weapons.LifeVaccum;
 import weapons.Unarmed;
@@ -113,6 +113,31 @@ public class Inventory {
 			}
 			
 			return sortedInventory;
+		}
+		public void addItem (Item itemToAdd) {
+			if (itemToAdd.getItemType().equals("Ammo")) {
+				ammo.add(itemToAdd);
+			} else {
+				if (itemToAdd.getItemType().equals("WeaponSam")) {
+					samWeapons.add(itemToAdd);
+				} else {
+					if (itemToAdd.getItemType().equals("WeaponJeffrey")) {
+						jeffreyWeapons.add(itemToAdd);
+					} else {
+						if (itemToAdd.getItemType().equals("WeaponRyan")) {
+							ryanWeapons.add(itemToAdd);
+						} else {
+							if (itemToAdd.getItemType().equals("Consumable")) {
+								consuables.add(itemToAdd);
+							} else {
+								if (itemToAdd.getItemType().equals("Key")) {
+									key.add(itemToAdd);
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	public void addKill (Enemy enemyToAdd) {
 		defeatedEnemys.add(enemyToAdd);

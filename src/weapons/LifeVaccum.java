@@ -35,6 +35,10 @@ public class LifeVaccum extends AimableWeapon {
 	public String checkEnetry() {
 		return "SUCKS THE LIFE OUTTA EM";
 	}
+	@Override 
+	public String getItemType() {
+		return "WeaponSam";
+	}
 	@Override
 	public String [] getUpgrades () {
 		String [] returnArray;

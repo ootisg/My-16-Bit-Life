@@ -40,6 +40,10 @@ public class SlimeSword extends Item {
 		returnArray = new String [] {"ARIAL ATTACKS", "SWORD THROW", "SLOWNESS OR SOMETHING", "HOOKSHOT"};
 		return returnArray;
 	}
+	@Override 
+	public String getItemType() {
+		return "WeaponSam";
+	}
 @Override
 	public int [] getTierInfo () {
 		return upgradeInfo;

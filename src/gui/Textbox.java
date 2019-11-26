@@ -74,8 +74,8 @@ public class Textbox extends GameObject {
 	}
 	// text = the message thats displayed width is the width of the box height is the height of the box 
 	//x_orign is the x start point of the box y_orign is the y start point of the box
-	@Override
-public void pausedEvent (){
+	
+public void drawBox (){
 	if ((finalCheck && isFinished && (keyPressed(65) || keyPressed (97) || isDone)) || keyPressed (88)){
 		isDone = true;
 		ObjectHandler.pause(false);
@@ -222,10 +222,9 @@ public void pausedEvent (){
 			}
 		}
 	}
+
 @Override
 public void draw () {
-	if (!ObjectHandler.isPaused()) {
-		this.pausedEvent();
-	}
+		this.drawBox();
 }
 }

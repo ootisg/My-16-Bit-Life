@@ -121,6 +121,7 @@ public class GameCode {
 		testJeffrey.getInventory().addWeapon(sword, 1);
 		int x = 0;
 		//boi = new Celing_boi();
+		packet = new LemonPacket (4);
 		puncuation = new Puncuation ();
 		testJeffrey.getInventory().addKill(testTie);
 		testJeffrey.getInventory().addKill(puncuation);
@@ -142,7 +143,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/temporaryWallTest.cmf");
+		Room.loadRoom ("resources/maps/cool guy map");
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
@@ -152,6 +153,7 @@ public class GameCode {
 		//trigger.declare(180,350);
 		//bound = new HitboxRightBottomBound();
 		//bound.declare(180, 300);
+		packet.declare(150, 200);
 		//trigger = new Trigger();
 		//trigger.declare(60,120);
 		//showTank.declare(280, 383);
