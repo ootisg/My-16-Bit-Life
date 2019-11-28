@@ -13,7 +13,7 @@ public class NPC extends GameObject{
 	Boolean messageSeenOnce;
 	Boolean checkToChange;
 	int index;
-	String [] itemMessages;
+	protected String [] itemMessages;
 	Boolean checkForItem;
 	Boolean itemFound;
 	Item itemCheck;

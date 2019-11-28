@@ -1,9 +1,10 @@
 package spriteParsers;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import main.Hitbox;
+
 
 public class HitboxFilter {
 
@@ -11,8 +12,8 @@ public class HitboxFilter {
 		//Cannot be constructed
 	}
 	
-	public static ArrayList<Hitbox> filter (ArrayList<ParsedFrame> frames, int color) {
-		ArrayList<Hitbox> result = new ArrayList<Hitbox> ();
+	public static ArrayList<Rectangle> filter (ArrayList<ParsedFrame> frames, int color) {
+		ArrayList<Rectangle> result = new ArrayList<Rectangle> ();
 		Iterator<ParsedFrame> frameIter = frames.iterator ();
 		Iterator<Pixel> pixelIter;
 		while (frameIter.hasNext ()) {
@@ -27,7 +28,7 @@ public class HitboxFilter {
 			if (hitboxPixels.size () == 2) {
 				Pixel topLeft = hitboxPixels.get (0);
 				Pixel bottomRight = hitboxPixels.get (1);
-				result.add (new Hitbox (topLeft.getX (), topLeft.getY (), bottomRight.getX () - topLeft.getX (), bottomRight.getY () - topLeft.getY ()));
+				result.add (new Rectangle (topLeft.getX (), topLeft.getY (), bottomRight.getX () - topLeft.getX (), bottomRight.getY () - topLeft.getY ()));
 			} else {
 				result.add (null);
 			}

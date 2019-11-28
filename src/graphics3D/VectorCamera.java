@@ -2,6 +2,7 @@ package graphics3D;
 
 import graphics3D.Segment;
 import main.GameObject;
+import main.RenderLoop;
 import main.GameLoop;
 
 import java.util.*;
@@ -47,8 +48,8 @@ public class VectorCamera extends GameObject {
 		this.render ();
 	}
 	public void render () {
-		portWidth = GameLoop.getWindow ().getResolution ()[0];
-		portHeight = GameLoop.getWindow ().getResolution ()[1];
+		portWidth = RenderLoop.window.getResolution ()[0];
+		portHeight = RenderLoop.window.getResolution ()[1];
 		verticies = new double[][] {{16, -4, -4}, {16, -4, 4}, {16, 4, -4},
 									{16, -4, 4}, {16, 4, 4}, {16, 4, -4}};
 		/*verticies = new double[][] {{-128, -128, 1}, {128, -128, -1}, {-128, 128, -1},
@@ -183,8 +184,8 @@ public class VectorCamera extends GameObject {
 		}
 	}
 	public void renderTriangle (int[][] verticies) {
-		int[] imageData = GameLoop.getWindow ().getImageData ();
-		int rasterWidth = GameLoop.getWindow ().getResolution () [0];
+		int[] imageData = RenderLoop.window.getImageData ();
+		int rasterWidth = RenderLoop.window.getResolution () [0];
 		int pixelCounter = 0;
 		int yMin, yMax, xMin, xMax;
 		boolean xMinDefined, xMaxDefined;
@@ -280,7 +281,7 @@ public class VectorCamera extends GameObject {
 		dest [0] = Math.cos (tempAng + pitch) * dist;
 		dest [1] = Math.sin (tempAng + pitch) * dist;
 		dest [2] = vertex [2];
-		GameLoop.getWindow ().getBuffer ().fillRect (64 + (int)dest [0], 64 + (int)dest [1], 1, 1);
+		RenderLoop.window.getBuffer ().fillRect (64 + (int)dest [0], 64 + (int)dest [1], 1, 1);
 	}
 	public void translate (double deltaX, double deltaY, double deltaZ, double[] vertex, double[] dest) {
 		dest [0] = vertex [0] + deltaX;

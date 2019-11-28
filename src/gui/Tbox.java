@@ -72,7 +72,7 @@ public class Tbox extends GameObject {
 		if (startPos / (width * height) == text.length () / (width * height)) {
 			scrollLimit = (text.length () % (width * height)) * scrollTime;
 			//Closes the textbox if A is pressed and all the text has been displayed
-			if (timer > 30) {
+			if (timer > 90) {
 			if (keyPressed((int)'A') && frameCount == scrollLimit) {
 				this.close ();
 			}

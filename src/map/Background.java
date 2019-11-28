@@ -1,6 +1,7 @@
 package map;
 
 import main.GameLoop;
+import main.RenderLoop;
 import main.AnimationHandler;
 import resources.Sprite;
 
@@ -13,8 +14,8 @@ public class Background {
 		this.scrollRate = 1.0;
 	}
 	public void draw (double viewX, double viewY) {
-		int width = GameLoop.getWindow ().getResolution () [0];
-		int height = GameLoop.getWindow ().getResolution () [1];
+		int width = RenderLoop.window.getResolution () [0];
+		int height = RenderLoop.window.getResolution () [1];
 		int imgWidth = animationHandler.getImage ().getFrame (animationHandler.getFrame ()).getWidth ();
 		int imgHeight = animationHandler.getImage ().getFrame (animationHandler.getFrame ()).getHeight ();
 		for (int i = -((int)viewX % imgWidth); i < width; i += imgWidth) {

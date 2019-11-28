@@ -95,7 +95,6 @@ public class SpriteParser {
 				parseVar (workingParam);
 			} else {
 				if (source == null) {
-					System.out.println (vars);
 					source = Sprite.getImage (vars.get ("$src"));
 				}
 				varMode = false;
