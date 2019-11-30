@@ -16,6 +16,7 @@ public class Tbox extends GameObject {
 	protected int letterPos;
 	protected int startPos;
 	Sprite textBorder;
+	private int timerCloseing = 0;
 	Sprite font;
 	boolean renderBox;
 	int timer;
@@ -40,6 +41,10 @@ public class Tbox extends GameObject {
 	}
 	@Override
 	public void draw () {
+		System.out.println(text);
+		if (timer == timerCloseing && timerCloseing != 0) {	
+			this.forget();
+		}
 		//Get the x and y coordinates as integers
 		int x = (int)this.getX ();
 		int y = (int)this.getY ();
@@ -137,6 +142,9 @@ public class Tbox extends GameObject {
 		if (!keepOpen) {
 		this.forget ();
 		}
+	}
+	public void configureTimerCloseing (int timeToClose) {
+		timerCloseing = timeToClose;
 	}
 	public void scroll () {
 		//Adds extensability; this can be overriden to prevent the window from scrolling when A is pressed

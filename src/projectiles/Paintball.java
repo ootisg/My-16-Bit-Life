@@ -22,7 +22,6 @@ public class Paintball extends Projectile {
 	}
 	@Override
 	public void projectileFrame () {
-		//Need a high speed collision solution TODO (probably subdivisions)
 		double xTo = this.getX () + Math.cos (direction) * speed;
 		double yTo = this.getY () + Math.sin (direction) * speed;
 		for (int i = 0; i < Enemy.enemyList.size(); i ++) {

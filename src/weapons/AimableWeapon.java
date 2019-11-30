@@ -14,7 +14,7 @@ public class AimableWeapon extends Item {
 	//This class is not yet commented
 	private BufferedImage img;
 	private Sprite src;
-	private double rotation;
+	protected double rotation;
 	private double renderedRotation;
 	public AimableWeapon (Sprite sprite) {
 		this.src = sprite;
@@ -50,7 +50,10 @@ public class AimableWeapon extends Item {
 		return this.rotation;
 	}
 	public void shoot (Projectile projectile) {
-		double ang = rotation;
+	this.shoot(projectile, rotation);
+	}
+	public void shoot (Projectile projectile, double direction) {
+		double ang = direction;
 		double endX;
 		double endY;
 		if (getAnimationHandler ().flipHorizontal ()) {
