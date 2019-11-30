@@ -41,7 +41,6 @@ public class Tbox extends GameObject {
 	}
 	@Override
 	public void draw () {
-		System.out.println(text);
 		if (timer == timerCloseing && timerCloseing != 0) {	
 			this.forget();
 		}
