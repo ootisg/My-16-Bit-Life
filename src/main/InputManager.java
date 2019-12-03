@@ -128,14 +128,14 @@ public class InputManager {
 		while (iter.hasNext ()) {
 			image.keyEvents.add (iter.next ());
 		}
-		Iterator<MouseEvent> iter2 = mouseEvents.iterator ();
-		while (iter.hasNext ()) {
+		Iterator<MouseEvent> iter2 = this.mouseEvents.iterator ();
+		while (iter2.hasNext ()) {
 			image.mouseEvents.add (iter2.next ());
 		}
 		for (int i = 0; i < clicks.length; i ++) {
-			image.clicks [i] = clicks [i];
-			image.buttonsDown [i] = buttonsDown [i];
-			image.buttonsReleased [i] = buttonsReleased [i];
+			image.clicks [i] = this.clicks [i];
+			image.buttonsDown [i] = this.buttonsDown [i];
+			image.buttonsReleased [i] = this.buttonsReleased [i];
 		}
 		image.chars = chars;
 		image.cursorX = cursorX;
@@ -196,10 +196,9 @@ public class InputManager {
 			int index = getButtonIndex (e.getButton ());
 			if (index != -1) {
 				clicks [index] = true;
-				buttonsDown [index] = true;
+				buttonsDown[index] = false;
 			}
 			updateMouseCoords (e);
-			System.out.println (cursorX + ", " + cursorY);
 		}
 
 		@Override
@@ -217,6 +216,11 @@ public class InputManager {
 		@Override
 		public void mousePressed (MouseEvent e) {
 			mouseEvents.add (e);
+			int index = getButtonIndex (e.getButton ());
+			if (index != -1) {
+				clicks [index] = true;
+				buttonsDown [index] = true;
+			}
 			updateMouseCoords (e);
 		}
 
@@ -227,6 +231,7 @@ public class InputManager {
 			if (index != -1) {
 				buttonsReleased [index] = true;
 				buttonsDown [index] = false;
+				clicks [index] = false;
 			}
 			updateMouseCoords (e);
 			wasDragged = false;
