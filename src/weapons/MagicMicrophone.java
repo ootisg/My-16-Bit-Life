@@ -8,22 +8,19 @@ import main.GameCode;
 import resources.Sprite;
 
 public class MagicMicrophone extends Item {
-	private Sprite ryanWhipping;
-	private Sprite whipLength;
-	public Sprite ryanMicrophoneWalking;
+
 	private Random RNG;
+	boolean whippingLeft;
 	int timer;
 	int [] upgradeInfo;
 	boolean addTime;
 	public  MagicMicrophone () {
 		upgradeInfo = new int [] {0,0,0,0};
 		this.setSprite(new Sprite ("resources/sprites/blank.png"));
-		ryanWhipping = new Sprite ("resources/sprites/config/microphoneWhip.txt");
-		ryanMicrophoneWalking = new Sprite("resources/sprites/config/ryan_walking_microphone.txt");
 		RNG = new Random ();
+		whippingLeft = false;
 		timer = 0;
 		addTime = false;
-		whipLength = new Sprite ("resources/sprites/config/microphoneWhipVariableFrame.txt");
 	}
 	@Override
 	public String checkName () {
@@ -49,21 +46,20 @@ public class MagicMicrophone extends Item {
 	}
 	@Override
 	public void frameEvent () {
-		if (this.mouseButtonClicked(0) && !GameCode.testJeffrey.getSprite().equals(ryanWhipping)) {
+		if (this.mouseButtonDown(0) && !GameCode.testJeffrey.getSprite().equals(GameCode.testJeffrey.ryanWhipping)) {
 			GameCode.testJeffrey.getAnimationHandler().setRepeat(false);
-			GameCode.testJeffrey.setSprite(ryanWhipping);
-			GameCode.testJeffrey.getAnimationHandler().setFrameTime(1);
+			GameCode.testJeffrey.setSprite(GameCode.testJeffrey.ryanWhipping);
+			GameCode.testJeffrey.getAnimationHandler().setFrameTime(30);
 			GameCode.testJeffrey.changeSprite(false);
-			GameCode.testJeffrey.binded = true;
-			if (GameCode.testJeffrey.getAnimationHandler().flipHorizontal() && timer == 0) {
-				GameCode.testJeffrey.setX(GameCode.testJeffrey.getX() -34.5);
-				GameCode.testJeffrey.stopFall(true);
+			if (GameCode.testJeffrey.getAnimationHandler().flipHorizontal() ) {
+				whippingLeft = true;
+				GameCode.testJeffrey.desyncSpriteX(-34);
 			}
-			this.setX(GameCode.testJeffrey.getX());
-			this.setY(GameCode.testJeffrey.getY());
 		}
-		if (GameCode.testJeffrey.getSprite().equals(ryanWhipping) && GameCode.testJeffrey.getAnimationHandler().getFrame() == 7 && !addTime) {
-			GameCode.testJeffrey.setSprite(whipLength);
+		this.setX(GameCode.testJeffrey.getX());
+		this.setY(GameCode.testJeffrey.getY());
+		if (GameCode.testJeffrey.getSprite().equals(GameCode.testJeffrey.ryanWhipping) && GameCode.testJeffrey.getAnimationHandler().getFrame() == 7 && !addTime) {
+			GameCode.testJeffrey.setSprite(GameCode.testJeffrey.whipLength);
 			GameCode.testJeffrey.getAnimationHandler().setFrameTime(0);
 			GameCode.testJeffrey.changeFrameTime(false);
 			GameCode.testJeffrey.getAnimationHandler().setAnimationFrame(this.dealWithWhipFrame());
@@ -71,7 +67,6 @@ public class MagicMicrophone extends Item {
 		if (addTime) {
 			timer = timer + 1;
 			if (timer == 5) {
-				GameCode.testJeffrey.setSprite(ryanWhipping);
 				GameCode.testJeffrey.getAnimationHandler().setAnimationFrame(7);
 			}
 			if (timer == 10) {
@@ -80,11 +75,10 @@ public class MagicMicrophone extends Item {
 				GameCode.testJeffrey.getAnimationHandler().setRepeat(true);
 				GameCode.testJeffrey.changeFrameTime(true);
 				GameCode.testJeffrey.changeSprite(true);
-				GameCode.testJeffrey.binded = false;
-				GameCode.testJeffrey.setSprite(ryanMicrophoneWalking);
+				GameCode.testJeffrey.setSprite(GameCode.testJeffrey.ryanMicrophoneWalking);
 				if (GameCode.testJeffrey.getAnimationHandler().flipHorizontal()) {
-					GameCode.testJeffrey.setX(GameCode.testJeffrey.getX() +34.5);
-					GameCode.testJeffrey.stopFall(false);
+					GameCode.testJeffrey.desyncSpriteX(0);
+					whippingLeft = false;
 				}
 			}
 		}
@@ -95,9 +89,9 @@ public class MagicMicrophone extends Item {
 		for (int v = 0; v <= 7; v = v + 1 ) {
 			length = length + 4;
 			if (!GameCode.testJeffrey.getAnimationHandler().flipHorizontal()) {
-				this.setHitboxAttributes(13, 17, length, 4);	
+				this.setHitboxAttributes(13, 17, length, 10);	
 			} else {
-				this.setHitboxAttributes(0, 17, length, 4);
+				this.setHitboxAttributes(-34, 17, length, 10);
 			}
 			for (int i = 0; i < Enemy.enemyList.size(); i ++) {
 				if (this.isColliding(Enemy.enemyList.get(i))){

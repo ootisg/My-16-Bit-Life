@@ -1,6 +1,7 @@
 package players;
 
 import weapons.AimableWeapon;
+import weapons.MagicMicrophone;
 import weapons.SlimeSword;
 import weapons.Unarmed;
 import weapons.redBlackPaintBallGun;
@@ -56,6 +57,8 @@ public class Jeffrey extends GameObject {
 	public Sprite samIdle;
 	public Sprite jeffreyIdle;
 	public Sprite samWalking;
+	public Sprite ryanWhipping;
+	public Sprite whipLength;
 	public int switchTimer;
 	private Tbox textbox;
 	public Sprite ryanMicrophoneIdle;
@@ -72,6 +75,8 @@ public class Jeffrey extends GameObject {
 		index = 0;
 		fallBruh = true;
 		messWithFrameTime = true;
+		ryanWhipping = new Sprite ("resources/sprites/config/microphoneWhip.txt");
+		whipLength = new Sprite ("resources/sprites/config/microphoneWhipVariableFrame.txt");
 		ryanMicrophoneIdle = new Sprite ("resources/sprites/config/ryan_idle_microphone.txt");
 		ryanMicrophoneWalking = new Sprite("resources/sprites/config/ryan_walking_microphone.txt");
 		ryanIdle = new Sprite ("resources/sprites/config/ryan_idle.txt");
@@ -316,6 +321,13 @@ if (activeBox) {
 			if (vx >= -3.0) {
 				ax = -.5;
 			}
+		
+			if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone") && !this.getAnimationHandler().flipHorizontal()) {
+			if (GameCode.testJeffrey.getSprite().equals(ryanWhipping) || GameCode.testJeffrey.getSprite().equals(whipLength)) {
+				this.desyncSpriteX(-34);
+				
+			}
+			}
 			this.getAnimationHandler().setFlipHorizontal (true);
 			if (vy == 0 && !isWalking) {
 				isWalking = true;
@@ -327,6 +339,11 @@ if (activeBox) {
 			if (vx <= 3.0) {
 				ax = .5;
 			}
+			if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone") && this.getAnimationHandler().flipHorizontal()) {
+				if (GameCode.testJeffrey.getSprite().equals(ryanWhipping) || GameCode.testJeffrey.getSprite().equals(whipLength)) {
+					this.desyncSpriteX(0);
+				}
+				}
 			this.getAnimationHandler().setFlipHorizontal (false);
 			if (vy == 0 && !isWalking) {
 				isWalking = true;
