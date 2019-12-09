@@ -455,7 +455,6 @@ if (activeBox) {
 		}
 		if (this.jeffreyHealth <= 0 && this.samHealth <= 0) {
 			this.jeffreyHealth = this.maxHealth;
-			//not sure how to enable console now
 			//MainLoop.getConsole ().enable ("You died, and I'm too lazy to put anything in for that. :P");
 		}
 		if (this.jeffreyHealth <= 0) {

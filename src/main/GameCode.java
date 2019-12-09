@@ -159,7 +159,7 @@ public class GameCode {
 		//showTank.declare(280, 383);
 		//puncuation.declare(300, 200);
 		testLaddder.declare(150, 373);
-		//slimelet.declare(180, 300);
+		slimelet.declare(180, 300);
 		
 	}
 	

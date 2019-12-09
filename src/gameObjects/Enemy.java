@@ -312,28 +312,28 @@ if (chargeTimer == timeToCharge) {
 			if (Room.isColliding(this.hitbox())) {
 				if (this.checkIfColidingWithWall(horizontalBaseSpeed)) {
 					if (!this.checkIfStuckInCeling(-1 *(verticalBaseSpeed))){
-					this.setY(this.getY() - verticalBaseSpeed);
+					this.goY(this.getY() - verticalBaseSpeed);
 					}
 				} else {
-					this.setX(this.getX() +horizontalBaseSpeed);
+					this.goX(this.getX() +horizontalBaseSpeed);
 				}
 			} else {
-			this.setY(this.getY() - verticalBaseSpeed);
-			this.setX(this.getX() + horizontalBaseSpeed);
+			this.goY(this.getY() - verticalBaseSpeed);
+			this.goX(this.getX() + horizontalBaseSpeed);
 			}
 			}
 			if (timer > 6 && timer <=11) {
 				if (Room.isColliding(this.hitbox())) {
 					if (this.checkIfColidingWithWall(horizontalBaseSpeed * 1.1)) {
 						if (!this.checkIfStuckInCeling(-1 *(verticalBaseSpeed * 1.1))){
-						this.setY(this.getY() - (verticalBaseSpeed * 1.1));
+						this.goY(this.getY() - (verticalBaseSpeed * 1.1));
 						}
 					} else {
-						this.setX(this.getX() +(horizontalBaseSpeed * 1.1));
+						this.goX(this.getX() +(horizontalBaseSpeed * 1.1));
 					}
 				} else {
-				this.setY(this.getY() - (verticalBaseSpeed * 1.1));
-				this.setX(this.getX() + (horizontalBaseSpeed * 1.1));
+				this.goY(this.getY() - (verticalBaseSpeed * 1.1));
+				this.goX(this.getX() + (horizontalBaseSpeed * 1.1));
 				}
 			}
 			if (timer > 11 && timer <= 16) {
@@ -341,21 +341,19 @@ if (chargeTimer == timeToCharge) {
 				if (Room.isColliding(this.hitbox())) {
 					if (this.checkIfColidingWithWall(horizontalBaseSpeed * 1.1)) {
 						if (!this.checkIfStuckInCeling(-1 *(verticalBaseSpeed *1.1))){
-						this.setY(this.getY() - (verticalBaseSpeed * 1.1));
+						this.goY(this.getY() - (verticalBaseSpeed * 1.1));
 						}
 					} else {
-						this.setX(this.getX() + (horizontalBaseSpeed * 1.1));
+						this.goX(this.getX() + (horizontalBaseSpeed * 1.1));
 					}
 				} else {
-				this.setY(this.getY() - (verticalBaseSpeed *1.1 ));
-				this.setX(this.getX() + (horizontalBaseSpeed * 1.1));
+				this.goY(this.getY() - (verticalBaseSpeed *1.1 ));
+				this.goX(this.getX() + (horizontalBaseSpeed * 1.1));
 				}
 				}
 			if (timer > 16 && timer <= 21) {
 				if (!(this.checkIfColidingWithWall((horizontalBaseSpeed * 1.1)))) {
-					this.setX(this.getX() + (horizontalBaseSpeed * 1.1));
-			} else {
-			this.setX(this.getX() + (horizontalBaseSpeed * 1.1));
+					this.goX(this.getX() + (horizontalBaseSpeed * 1.1));
 			}
 			}
 			if (timer > 21) {
@@ -368,49 +366,49 @@ if (chargeTimer == timeToCharge) {
 				if (Room.isColliding(this.hitbox())) {
 					if (this.checkIfColidingWithWall(-1 * horizontalBaseSpeed)) {
 						if (!this.checkIfStuckInCeling(-1 * (verticalBaseSpeed))){
-						this.setY(this.getY() - verticalBaseSpeed);
+						this.goY(this.getY() - verticalBaseSpeed);
 						}
 					} else {
-						this.setX(this.getX() -horizontalBaseSpeed);
+						this.goX(this.getX() -horizontalBaseSpeed);
 					}
 				} else {
-				this.setY(this.getY() - verticalBaseSpeed);
-				this.setX(this.getX() - horizontalBaseSpeed);
+				this.goY(this.getY() - verticalBaseSpeed);
+				this.goX(this.getX() - horizontalBaseSpeed);
 				}
 			}
 			if (timer > 6 && timer <=11) {
 				if (Room.isColliding(this.hitbox())) {
 					if (this.checkIfColidingWithWall(-1 * (horizontalBaseSpeed * 1.1))) {
 						if (!this.checkIfStuckInCeling(-1 * (verticalBaseSpeed * 1.1))){
-						this.setY(this.getY() - (verticalBaseSpeed * 1.1));
+						this.goY(this.getY() - (verticalBaseSpeed * 1.1));
 						}
 					} else {
-						this.setX(this.getX() - (horizontalBaseSpeed * 1.1));
+						this.goX(this.getX() - (horizontalBaseSpeed * 1.1));
 					}
 				} else {
-				this.setY(this.getY() - (verticalBaseSpeed * 1.1));
-				this.setX(this.getX() - (horizontalBaseSpeed * 1.1));
+				this.goY(this.getY() - (verticalBaseSpeed * 1.1));
+				this.goX(this.getX() - (horizontalBaseSpeed * 1.1));
 				}
 			}
 			if (timer > 11 && timer <= 16) {
 				if (Room.isColliding(this.hitbox())) {
 					if (this.checkIfColidingWithWall(-1 * (horizontalBaseSpeed * 1.1))) {
 						if (!this.checkIfStuckInCeling(-1 * (verticalBaseSpeed * 1.1))){
-						this.setY(this.getY() - (verticalBaseSpeed * 1.1));
+						this.goY(this.getY() - (verticalBaseSpeed * 1.1));
 						}
 					} else {
-						this.setX(this.getX() - (horizontalBaseSpeed * 1.1));
+						this.goX(this.getX() - (horizontalBaseSpeed * 1.1));
 					}
 				} else {
-				this.setY(this.getY() - (verticalBaseSpeed * 1.1));
-				this.setX(this.getX() - (horizontalBaseSpeed * 1.1));
+				this.goY(this.getY() - (verticalBaseSpeed * 1.1));
+				this.goX(this.getX() - (horizontalBaseSpeed * 1.1));
 				}
 				}
 			if (timer > 16 && timer <= 21) {
 					if (!(this.checkIfColidingWithWall(-1 * (horizontalBaseSpeed * 1.1)))) {
-						this.setX(this.getX() - (horizontalBaseSpeed * 1.1));
+						this.goX(this.getX() - (horizontalBaseSpeed * 1.1));
 				} else {
-				this.setX(this.getX() - (horizontalBaseSpeed * 1.1));
+				this.goX(this.getX() - (horizontalBaseSpeed * 1.1));
 				}
 				}
 			if (timer > 21) {
