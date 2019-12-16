@@ -21,6 +21,7 @@ public class Menu extends GameObject{
 	Tbox weaponEntryBox;
 	Tbox upgradeBox1;
 	public boolean frozen;
+	ListTbox charictarBox;
 	Tbox upgradeBox2;
 	Tbox upgradeBox3;
 	Tbox upgradeBox4;
@@ -443,28 +444,28 @@ public class Menu extends GameObject{
 		//draws stuff for page 3
 		if(pageNumber == 2) {
 			if (!frozen &&consumabels && keyPressed(32)) {
+				charictarBox = new ListTbox (100, 180, new String [] {"JEFFREY","SAM","RYAN","BACK"});
+				frozen = true;		
+	}
+			if (frozen && charictarBox.getSelected() != -1) {
 				switch (itemPosition) {
 				case 0: 
-				GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).useItem();
-				frozen = true;
+				GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).useItem(charictarBox.getSelected());
 				break;
 				
 				case 1: 
-				GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).useItem();
-				frozen = true;
+				GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).useItem(charictarBox.getSelected());
 				break;
 				
 				case 2: 
-			GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).useItem();
-			frozen = true;
+			GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).useItem(charictarBox.getSelected());
 			break;
 			
 				case 3: 
-		GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).useItem();
-		frozen = true;
+		GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).useItem(charictarBox.getSelected());
 		break;
-		}		
-	}
+		}
+			}
 			//sets the background to the page 3 background
 			this.getAnimationHandler().setAnimationFrame(frame);
 			//switches to key if d or a is pushed when you are in the menu

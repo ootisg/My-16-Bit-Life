@@ -21,7 +21,6 @@ public class Trigger extends GameObject {
 		eventFinished = false;
 		eventWeAreOn = 0;
 		timer = 0;
-		//.setSprite(new Sprite("resources/sprites/Fire.png"));	
 	}
 	public boolean Triggered () {
 		return (Triggered);

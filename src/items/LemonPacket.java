@@ -4,6 +4,9 @@ import main.GameCode;
 import map.Room;
 import gui.Tbox;
 import resources.Sprite;
+import statusEffect.Fastness;
+import statusEffect.Lemoney;
+import statusEffect.Power;
 
 public class LemonPacket extends Item {
 	int amountToAdd;
@@ -22,8 +25,16 @@ public LemonPacket (int amount) {
 	this.setHitboxAttributes(0, 0, 24, 20);
 }
 @Override
-public void useItem() {
-	
+public void useItem(int witchCharictar) {
+Lemoney lemons;
+lemons = new Lemoney(witchCharictar);
+lemons.declare();
+Power power;
+power = new Power (witchCharictar);
+power.declare();
+Fastness fastness;
+fastness = new Fastness(witchCharictar);
+fastness.declare();
 }
 @Override
 public String checkEnetry() {

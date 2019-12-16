@@ -224,12 +224,20 @@ public abstract class Enemy extends GameObject {
 				return false;
 		}
 	public void damage (int amount) {
+		if (GameCode.testJeffrey.checkIfPowerful()) {
+			amount = (int) ((amount * 1.2) - defence);
+			if(amount <= 0){
+				amount = 1;
+			}
+			text = new DamageText (amount * 1.2, this.getX(), this.getY());	
+		} else {
+			amount = amount - defence;
+			if(amount <= 0){
+				amount = 1;
+			}
 		text = new DamageText (amount, this.getX(), this.getY());
-		text.declare(this.getX(), this.getY());
-		amount = amount - defence;
-		if(amount <= 0){
-			amount = 1;
 		}
+		text.declare(this.getX(), this.getY());
 		this.health = health - amount;
 	}
 	public void setHealth (int health) {

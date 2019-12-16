@@ -24,6 +24,8 @@ public class Status extends GameObject {
 	// 2 = lemony
 	// 3 = slowness
 	// 4 = brittle
+	// 5 = fast
+	// 6 = powerful
 	// when makieng new status be sure to add a thing that makes this true when its aplied and false when it is not
 	public boolean checkStatus (int index, int charictar) {
 	if (charictar == 0) {

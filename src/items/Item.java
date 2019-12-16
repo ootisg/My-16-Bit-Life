@@ -8,7 +8,7 @@ public class Item extends GameObject {
 	public void Item () {
 	}
 	//override to set effect
-	public void useItem() {
+	public void useItem(int witchCharictar) {
 		Textbox box;
 		box = new Textbox("YOU CANT USE THAT");
 		box.changeUnpause();

@@ -318,11 +318,15 @@ if (activeBox) {
 		if (!onLadder) {
 		if (!binded) {
 		if (keyDown ('A') && !bindLeft) {
-			if ((vx >= -3.0 && !this.checkIfSlow()) || (vx >= -2.0 && this.checkIfSlow())) {
-				if (this.checkIfSlow()) {
+			if ((vx >= -3.0 && !this.checkIfSlow() && !this.checkIfFast()) || (vx >= -3.0 && this.checkIfSlow() && this.checkIfFast())|| (vx >= -4.0 && !this.checkIfSlow() && this.checkIfFast())|| (vx >= -2.0 && this.checkIfSlow() && !this.checkIfFast())) {
+				if (this.checkIfSlow() && !this.checkIfFast()) {
 					ax = -.3;
 				} else {
+				if (this.checkIfFast()) {
+				ax = -7;	
+				} else {
 				ax = -.5;
+				}
 				}
 			}
 		
@@ -340,11 +344,15 @@ if (activeBox) {
 				}
 			}
 		} else if (keyDown ('D') && !bindRight) {
-			if ((vx <= 3.0 && !this.checkIfSlow()) || (vx <= 2.0 && this.checkIfSlow())) {
-				if (this.checkIfSlow()) {
-				ax = .3;
+			if ((vx <= 3.0 && !this.checkIfSlow() && !this.checkIfFast()) || (vx <= 3.0 && this.checkIfSlow() && this.checkIfFast())|| (vx <= 4.0 && !this.checkIfSlow() && this.checkIfFast())|| (vx <= 2.0 && this.checkIfSlow() && !this.checkIfFast())) {
+				if (this.checkIfSlow() && !this.checkIfFast()) {
+					ax = .3;
+				} else {
+				if (this.checkIfFast()) {
+				ax = 7;	
 				} else {
 				ax = .5;
+				}
 				}
 			}
 			if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone") && this.getAnimationHandler().flipHorizontal()) {
@@ -493,7 +501,7 @@ if (activeBox) {
 	public Inventory getInventory () {
 		return this.inventory;
 	}
-	private boolean checkIfBrittle() {
+	public boolean checkIfBrittle() {
 		if (this.witchCharictar == 0) {
 			 return status.statusAppliedOnJeffrey[4];
 		}
@@ -506,7 +514,7 @@ if (activeBox) {
 		return false;
 	}
 		
-	private boolean checkIfSlow() {
+	public boolean checkIfSlow() {
 		if (this.witchCharictar == 0) {
 			 return status.statusAppliedOnJeffrey[3];
 		}
@@ -515,6 +523,30 @@ if (activeBox) {
 		}
 		if (this.witchCharictar == 2) {
 			 return status.statusAppliedOnRyan[3];
+		}
+		return false;
+	}
+	public boolean checkIfFast() {
+		if (this.witchCharictar == 0) {
+			 return status.statusAppliedOnJeffrey[5];
+		}
+		if (this.witchCharictar == 1) {
+			 return status.statusAppliedOnSam[5];
+		}
+		if (this.witchCharictar == 2) {
+			 return status.statusAppliedOnRyan[5];
+		}
+		return false;
+	}
+	public boolean checkIfPowerful() {
+		if (this.witchCharictar == 0) {
+			 return status.statusAppliedOnJeffrey[6];
+		}
+		if (this.witchCharictar == 1) {
+			 return status.statusAppliedOnSam[6];
+		}
+		if (this.witchCharictar == 2) {
+			 return status.statusAppliedOnRyan[6];
 		}
 		return false;
 	}
