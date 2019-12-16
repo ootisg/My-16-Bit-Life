@@ -35,6 +35,7 @@ power.declare();
 Fastness fastness;
 fastness = new Fastness(witchCharictar);
 fastness.declare();
+GameCode.gui.menu.frozen = false;
 }
 @Override
 public String checkEnetry() {

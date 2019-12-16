@@ -8,7 +8,7 @@ import map.Room;
 
 public class Gui extends GameObject {
 	Stats stats;
-	Menu menu;
+	public Menu menu;
 	public Gui () {
 		stats = new Stats ();
 		stats.declare(0, 0);

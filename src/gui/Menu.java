@@ -448,6 +448,7 @@ public class Menu extends GameObject{
 				frozen = true;		
 	}
 			if (frozen && charictarBox.getSelected() != -1) {
+				if (charictarBox.getSelected() != 3) {
 				switch (itemPosition) {
 				case 0: 
 				GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).useItem(charictarBox.getSelected());
@@ -465,6 +466,10 @@ public class Menu extends GameObject{
 		GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).useItem(charictarBox.getSelected());
 		break;
 		}
+				} else {
+					frozen = false;
+				}
+				charictarBox.close();
 			}
 			//sets the background to the page 3 background
 			this.getAnimationHandler().setAnimationFrame(frame);

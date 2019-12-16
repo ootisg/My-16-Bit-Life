@@ -1,17 +1,21 @@
 package gui;
 
+import resources.AfterRenderDrawer;
 import resources.Sprite;
 
 public class ListTbox extends Tbox {
 	
 	public static final Sprite selector = new Sprite ("resources/sprites/selector.png");
-	
 	String[] options;
 	int selected;
+	Sprite textBorder;
+	Sprite font;
 	private boolean complete;
 	public ListTbox (double x, double y, String[] options) {
 		//Initialize parameters
 		this.declare (x, y);
+		textBorder = new Sprite ("resources/sprites/config/text_border.txt");
+		font = new Sprite ("resources/sprites/config/font.txt");
 		int longestWidth = 0;
 		for (int i = 0; i < options.length; i ++) {
 			if (options [i].length () > longestWidth) {
@@ -28,25 +32,25 @@ public class ListTbox extends Tbox {
 		int x = (int)this.getX ();
 		int y = (int)this.getY ();
 		for (int i = 0; i < this.width; i ++) {
-			textBorder.draw (x + i * 8 + 1, y, 0);
-			textBorder.draw (x + i * 8 + 1, y + (this.height + 1) * 8, 3);
+			AfterRenderDrawer.drawAfterRender (x + i * 8 + 1, y,textBorder, 0);
+			AfterRenderDrawer.drawAfterRender (x + i * 8 + 1, y + (this.height + 1) * 8,textBorder, 3);
 			for (int j = 0; j < this.height; j ++) {
-				textBorder.draw (x + i * 8 + 1, y + j * 8 + 8, 1);
+				AfterRenderDrawer.drawAfterRender (x + i * 8 + 1, y + j * 8 + 8, textBorder, 1);
 			}
 		}
 		//Draws the two side bars
 		for (int i = 0; i < this.height + 1; i ++) {
-			textBorder.draw (x, y + i * 8, 2);
-			textBorder.draw (x + this.width * 8 + 1, y + i * 8, 2);
+			AfterRenderDrawer.drawAfterRender (x, y + i * 8, textBorder, 2);
+			AfterRenderDrawer.drawAfterRender (x + this.width * 8 + 1, y + i * 8,textBorder, 2);
 		}
 		//Draws the text
 		for (int i = 0; i < height; i ++) {
 			for (int j = 0; j < options [i].length (); j ++) {
-				font.draw (x + j * 8 + 8, y + i * 8 + 8, (int)options [i].charAt (j));
+				AfterRenderDrawer.drawAfterRender (x + j * 8 + 8, y + i * 8 + 8, font,(int)options [i].charAt (j));
 			}
 		}
 		//Draws the selector
-		selector.draw (x + 1, y + selected * 8 + 8);
+		AfterRenderDrawer.drawAfterRender (x + 1, y + selected * 8 + 8, selector);
 	}
 	@Override
 	public void frameEvent () {
