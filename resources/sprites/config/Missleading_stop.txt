@@ -1,0 +1,3 @@
+$src resources/sprites/Misleading_Road_Sign.png
+
+rectangle 0 0 58 72

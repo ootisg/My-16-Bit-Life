@@ -14,6 +14,7 @@ import gameObjects.FireRextinguser;
 import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
 import gameObjects.Leg;
+import gameObjects.MissleadingStop;
 import gameObjects.Puncuation;
 import gameObjects.SplittingSlimelet;
 import gameObjects.TemporaryWall;
@@ -56,7 +57,7 @@ public class GameCode {
 	//static TopDown td;
 	Textbox textbox;
 	static Celing_boi boi;
-	static Gui gui;
+	public static Gui gui;
 	Tbox tbox;
 	static VectorCamera cam;
 	ListTbox ltbox;
@@ -82,6 +83,7 @@ public class GameCode {
 	static HitboxRightBottomBound bound;
 	static Puncuation puncuation;
 	static NonPlayableJeffrey lameJeffrey;
+	static MissleadingStop stop;
 	static NonPlayableSam lameSam;
 	static NonPlayableRyan lameRyan;
 	static LemonPacket packet;
@@ -109,6 +111,7 @@ public class GameCode {
 		vaccum = new LifeVaccum (new Sprite ("resources/sprites/config/lifeVaccum.txt"));
 		testJeffrey.getInventory().addWeapon(vaccum, 1);
 		sword = new SlimeSword();
+		stop = new MissleadingStop();
 		slimelet = new SplittingSlimelet ();
 		testCrab = new CyclopesCrab();
 		//trigger = new CutsceenTrigger();
@@ -159,6 +162,7 @@ public class GameCode {
 		//showTank.declare(280, 383);
 		//puncuation.declare(300, 200);
 		testLaddder.declare(150, 373);
+		stop.declare(150, 200);
 		slimelet.declare(180, 300);
 		
 	}

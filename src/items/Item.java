@@ -1,5 +1,6 @@
 package items;
 
+import gui.Textbox;
 import main.GameObject;
 import resources.Sprite;
 
@@ -7,6 +8,13 @@ public class Item extends GameObject {
 	public void Item () {
 	}
 	//override to set effect
+	public void useItem() {
+		Textbox box;
+		box = new Textbox("YOU CANT USE THAT");
+		box.changeUnpause();
+		box.unfrezeMenu();
+		box.declare(100,120);
+	}
 	public String checkName () {
 		return "";	
 	}

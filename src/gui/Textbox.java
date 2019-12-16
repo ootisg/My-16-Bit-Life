@@ -3,6 +3,7 @@ import java.awt.event.KeyEvent;
 
 import main.AnimationHandler;
 import main.GameAPI;
+import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
 import resources.AfterRenderDrawer;
@@ -23,9 +24,11 @@ public class Textbox extends GameObject {
 	public Sprite textBoxTop;
 	public Sprite textBoxBottum;
 	public Sprite textBoxBackground;
+	private boolean unPause = true;
 	public Sprite textBoxSides;
 	public Sprite fontSheet;
 	String message;
+	private boolean unfrezeMenu = false;
 	int isScrolled = 0;
 	String text1;
 	int width1;
@@ -56,8 +59,15 @@ public class Textbox extends GameObject {
 		ObjectHandler.pause(false);
 		}
 	}
+	//changes wheather or not to unpause the game after the textbox is done
+	public void changeUnpause () {
+		unPause = !unPause;
+	}
 	public void changeWidth (int newWidth) {
 		width1 = newWidth;
+	}
+	public void unfrezeMenu() {
+		unfrezeMenu = true;
 	}
 	public void changeHeight(int newHeigh) {
 		height1 = newHeigh;
@@ -78,7 +88,12 @@ public class Textbox extends GameObject {
 public void drawBox (){
 	if ((finalCheck && isFinished && (keyPressed(65) || keyPressed (97) || isDone)) || keyPressed (88)){
 		isDone = true;
+		if (unfrezeMenu) {
+			GameCode.gui.menu.frozen = false;
+		}
+		if (unPause) {
 		ObjectHandler.pause(false);
+		}
 		if (!remember) {
 		this.forget();
 		}

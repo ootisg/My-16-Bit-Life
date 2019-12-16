@@ -20,6 +20,7 @@ public class Menu extends GameObject{
 	Tbox weaponNameBox;
 	Tbox weaponEntryBox;
 	Tbox upgradeBox1;
+	public boolean frozen;
 	Tbox upgradeBox2;
 	Tbox upgradeBox3;
 	Tbox upgradeBox4;
@@ -73,6 +74,7 @@ public class Menu extends GameObject{
 	itemIndex5 = 0;
 	inBigPictureMode = false;
 	itemIndex6 = 1;
+	frozen = false;
 	itemIndex7 = 2;
 	frame = 17;
 	itemIndex8 = 3;
@@ -440,10 +442,33 @@ public class Menu extends GameObject{
 		}
 		//draws stuff for page 3
 		if(pageNumber == 2) {
+			if (!frozen &&consumabels && keyPressed(32)) {
+				switch (itemPosition) {
+				case 0: 
+				GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).useItem();
+				frozen = true;
+				break;
+				
+				case 1: 
+				GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).useItem();
+				frozen = true;
+				break;
+				
+				case 2: 
+			GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).useItem();
+			frozen = true;
+			break;
+			
+				case 3: 
+		GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).useItem();
+		frozen = true;
+		break;
+		}		
+	}
 			//sets the background to the page 3 background
 			this.getAnimationHandler().setAnimationFrame(frame);
 			//switches to key if d or a is pushed when you are in the menu
-			if ((keyPressed ('D') || keyPressed('A')) && !iterateTab) {
+			if ( !frozen && (keyPressed ('D') || keyPressed('A')) && !iterateTab) {
 				if (consumabels) {
 					if (!GameCode.testJeffrey.getInventory().getSortedKey().isEmpty()) {
 						this.removeItemList(consumabels);
@@ -471,7 +496,7 @@ public class Menu extends GameObject{
 				}
 			}
 			//moves the cursor down if s is pushed
-			if(keyPressed ('S') && (!(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().isEmpty() && consumabels) || !(GameCode.testJeffrey.getInventory().getSortedKey().isEmpty() && !consumabels))) {
+			if( !frozen &&keyPressed ('S') && (!(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().isEmpty() && consumabels) || !(GameCode.testJeffrey.getInventory().getSortedKey().isEmpty() && !consumabels))) {
 				if (iterateTab) {
 				iterateTab = false;
 					if (consumabels) {
@@ -511,7 +536,7 @@ public class Menu extends GameObject{
 				}
 			}
 			//makes you go out of the tab if you push w and are at the top of the tab
-			if(!iterateTab && keyPressed ('W') && itemPosition == 0 && ((itemIndex1 == 0 && consumabels) || (itemIndex5 == 0 && !consumabels)) ) {
+			if( !frozen &&!iterateTab && keyPressed ('W') && itemPosition == 0 && ((itemIndex1 == 0 && consumabels) || (itemIndex5 == 0 && !consumabels)) ) {
 				if (consumabels) {
 				frame = 17;
 				} else {
@@ -521,7 +546,7 @@ public class Menu extends GameObject{
 				itemPosition = itemPosition - 1;
 			}
 			//incriments things up by 1 if you press w
-			if ( !iterateTab && (itemPosition != 0  || (itemIndex1 != 0 && consumabels || itemIndex5 !=0 && !consumabels)) && keyPressed ('W') ) {
+			if ( !frozen &&!iterateTab && (itemPosition != 0  || (itemIndex1 != 0 && consumabels || itemIndex5 !=0 && !consumabels)) && keyPressed ('W') ) {
 				if ( (consumabels&& ( (itemPosition != 0 && itemIndex4 <= GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size()-1) || (itemPosition != GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() - itemIndex1 && itemIndex4 > GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() -1)))|| ( !consumabels&&((itemPosition != 0 && itemIndex8 <= GameCode.testJeffrey.getInventory().getSortedKey().size()-1) || (itemPosition != GameCode.testJeffrey.getInventory().getSortedKey().size() - itemIndex5 && itemIndex8 > GameCode.testJeffrey.getInventory().getSortedKey().size() -1)))) {
 					itemPosition = itemPosition - 1;
 					frame = frame - 1;

@@ -22,6 +22,10 @@ public LemonPacket (int amount) {
 	this.setHitboxAttributes(0, 0, 24, 20);
 }
 @Override
+public void useItem() {
+	
+}
+@Override
 public String checkEnetry() {
 	return "WARNING HIGHLY ADDICTIVE SUBSTANCE AVOID CONSUMING WITHOUT LIQUID ACCOMPNYMENT";
 }

@@ -318,8 +318,12 @@ if (activeBox) {
 		if (!onLadder) {
 		if (!binded) {
 		if (keyDown ('A') && !bindLeft) {
-			if (vx >= -3.0) {
+			if ((vx >= -3.0 && !this.checkIfSlow()) || (vx >= -2.0 && this.checkIfSlow())) {
+				if (this.checkIfSlow()) {
+					ax = -.3;
+				} else {
 				ax = -.5;
+				}
 			}
 		
 			if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone") && !this.getAnimationHandler().flipHorizontal()) {
@@ -336,8 +340,12 @@ if (activeBox) {
 				}
 			}
 		} else if (keyDown ('D') && !bindRight) {
-			if (vx <= 3.0) {
+			if ((vx <= 3.0 && !this.checkIfSlow()) || (vx <= 2.0 && this.checkIfSlow())) {
+				if (this.checkIfSlow()) {
+				ax = .3;
+				} else {
 				ax = .5;
+				}
 			}
 			if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone") && this.getAnimationHandler().flipHorizontal()) {
 				if (GameCode.testJeffrey.getSprite().equals(ryanWhipping) || GameCode.testJeffrey.getSprite().equals(whipLength)) {
@@ -467,6 +475,9 @@ if (activeBox) {
 	public void damage (double baseDamage) {
 		switchTimer = 0;
 		if (invulTimer == 0) {
+			if (checkIfBrittle()) {
+				baseDamage = baseDamage *1.2;
+			}
 			if (witchCharictar == 0) {
 			jeffreyHealth -= baseDamage;
 			}
@@ -481,6 +492,31 @@ if (activeBox) {
 	}
 	public Inventory getInventory () {
 		return this.inventory;
+	}
+	private boolean checkIfBrittle() {
+		if (this.witchCharictar == 0) {
+			 return status.statusAppliedOnJeffrey[4];
+		}
+		if (this.witchCharictar == 1) {
+			 return status.statusAppliedOnSam[4];
+		}
+		if (this.witchCharictar == 2) {
+			 return status.statusAppliedOnRyan[4];
+		}
+		return false;
+	}
+		
+	private boolean checkIfSlow() {
+		if (this.witchCharictar == 0) {
+			 return status.statusAppliedOnJeffrey[3];
+		}
+		if (this.witchCharictar == 1) {
+			 return status.statusAppliedOnSam[3];
+		}
+		if (this.witchCharictar == 2) {
+			 return status.statusAppliedOnRyan[3];
+		}
+		return false;
 	}
 	public double getHealth () {
 		if (witchCharictar == 0) {
