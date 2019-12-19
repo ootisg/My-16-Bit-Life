@@ -1,5 +1,7 @@
 package gui;
 
+import items.Item;
+import items.LemonPacket;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
 

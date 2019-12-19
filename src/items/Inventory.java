@@ -82,8 +82,14 @@ public class Inventory {
 	public ArrayList <Item> getSortedInventory (){
 		ArrayList <Item> sortedInventory = new ArrayList ();
 		for (int i = 0; i < this.checkAmountOfItems(); i++) {
-			if (!sortedInventory.contains(this.findItemAtIndex(i)))  {
-				sortedInventory.add(this.findItemAtIndex(i));
+			for (int j = 0; j < sortedInventory.size() + 1; j++ ) {
+				if (j == sortedInventory.size()) {
+				sortedInventory.add	(findItemAtIndex(i));
+				break;
+				}
+				if (sortedInventory.get(j).getClass().getSimpleName().equals(findItemAtIndex(i).getClass().getSimpleName())) {
+					break;
+				}
 			}
 		}
 		return sortedInventory;
@@ -91,8 +97,14 @@ public class Inventory {
 	public ArrayList <Item> getSortedKey (){
 		ArrayList <Item> sortedInventory = new ArrayList ();
 		for (int i = 0; i < this.amountOfKey(); i++) {
-			if (!sortedInventory.contains(this.findKeyAtIndex(i)))  {
-				sortedInventory.add(this.findKeyAtIndex(i));
+			for (int j = 0; j < sortedInventory.size() + 1; j++ ) {
+				if (j == sortedInventory.size()) {
+				sortedInventory.add	(key.get(i));
+				break;
+				}
+				if (sortedInventory.get(j).getClass().getSimpleName().equals(key.get(i).getClass().getSimpleName())) {
+					break;
+				}
 			}
 		}
 		return sortedInventory;
@@ -102,13 +114,25 @@ public class Inventory {
 			ArrayList <Item> sortedInventory = new ArrayList ();
 			for (int i = 0; i < this.amountOfConsumables() + amountOfAmmo(); i++) {
 				if (i < this.amountOfConsumables()) {
-				if (!sortedInventory.contains(this.findConsumableAtIndex(i)))  {
-					sortedInventory.add(this.findConsumableAtIndex(i));
+				for (int j = 0; j < sortedInventory.size() + 1; j++ ) {
+					if (j == sortedInventory.size()) {
+					sortedInventory.add	(consuables.get(i));
+					break;
+					}
+					if (sortedInventory.get(j).getClass().getSimpleName().equals(consuables.get(i).getClass().getSimpleName())) {
+						break;
+					}
 				}
 				} else {
-				if (!sortedInventory.contains(this.findAmmoAtIndex(i - this.amountOfConsumables()))) {
-					sortedInventory.add(this.findAmmoAtIndex(i - this.amountOfConsumables()));
-				}
+					for (int j = 0; j < sortedInventory.size() + 1; j++ ) {
+						if (j == sortedInventory.size()) {
+						sortedInventory.add	(ammo.get(i - this.amountOfConsumables()));
+						break;
+						}
+						if (sortedInventory.get(j).getClass().getSimpleName().equals(ammo.get(i - this.amountOfConsumables()).getClass().getSimpleName())) {
+							break;
+						}
+					}
 				}
 			}
 			

@@ -94,7 +94,8 @@ public class Menu extends GameObject{
 	}
 	@Override
 	public void pausedEvent () {
-		//closes the menu if e is pressed
+		
+		//closes the menu if b is pressed
 		if (keyPressed('B') && !notChanged) {
 			switch (pageNumber) {
 			case 0:
@@ -386,13 +387,13 @@ public class Menu extends GameObject{
 		nameBox.setContent(GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName());
 		entryBox.setContent(GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkEntry());
 		if (GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("JEFFREY")) {
-			healthBox.setContent(Integer.toString((int)GameCode.testJeffrey.getHealth(0)) + "/" + Integer.toString((int) GameCode.testJeffrey.maxHealth));
+			healthBox.setContent(Integer.toString((int)GameCode.testJeffrey.getHealth(0)) + "/" + Integer.toString((int) GameCode.testJeffrey.maxJeffreyHealth));
 			}
 			if (GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("SAM")) {
-				healthBox.setContent(Integer.toString((int)GameCode.testJeffrey.getHealth(1)) + "/" + Integer.toString((int) GameCode.testJeffrey.maxHealth));
+				healthBox.setContent(Integer.toString((int)GameCode.testJeffrey.getHealth(1)) + "/" + Integer.toString((int) GameCode.testJeffrey.maxSamHealth));
 				}
 			if (GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("RYAN")) {
-				healthBox.setContent(Integer.toString((int)GameCode.testJeffrey.getHealth(2)) + "/" + Integer.toString((int) GameCode.testJeffrey.maxHealth));
+				healthBox.setContent(Integer.toString((int)GameCode.testJeffrey.getHealth(2)) + "/" + Integer.toString((int) GameCode.testJeffrey.maxRyanHealth));
 				}
 		}
 		//draws stuff for page 2
@@ -451,19 +452,19 @@ public class Menu extends GameObject{
 				if (charictarBox.getSelected() != 3) {
 				switch (itemPosition) {
 				case 0: 
-				GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).useItem(charictarBox.getSelected());
+				GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).allwaysRunItemStuff(charictarBox.getSelected());
 				break;
 				
 				case 1: 
-				GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).useItem(charictarBox.getSelected());
+				GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).allwaysRunItemStuff(charictarBox.getSelected());
 				break;
 				
 				case 2: 
-			GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).useItem(charictarBox.getSelected());
+			GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).allwaysRunItemStuff(charictarBox.getSelected());
 			break;
 			
 				case 3: 
-		GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).useItem(charictarBox.getSelected());
+		GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).allwaysRunItemStuff(charictarBox.getSelected());
 		break;
 		}
 				} else {
@@ -710,26 +711,26 @@ public class Menu extends GameObject{
 	public void removeItemList (boolean consumablesOrKey) {
 		if (consumablesOrKey) {
 		try {
-			AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).getSprite(),(int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 185);
+			AfterRenderDrawer.forceRemoveElement((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 185);
 			itemName1.forget();
-			AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).getSprite(),(int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 245);
+			AfterRenderDrawer.forceRemoveElement((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 245);
 			itemName2.forget();
-			AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).getSprite(),(int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 315);
+			AfterRenderDrawer.forceRemoveElement((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 315);
 			itemName3.forget();
-			AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).getSprite(),(int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 400);
+			AfterRenderDrawer.forceRemoveElement((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 400);
 			itemName4.forget();
 		} catch(IndexOutOfBoundsException e) {
 			
 		}
 		} else {
 			try {
-				AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex5).getSprite(), (int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 185);
+				AfterRenderDrawer.forceRemoveElement((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 185);
 				itemName1.forget();
-				AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex6).getSprite(), (int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 245);
+				AfterRenderDrawer.forceRemoveElement((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 245);
 				itemName2.forget();
-				AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex7).getSprite(),(int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 315);
+				AfterRenderDrawer.forceRemoveElement((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 315);
 				itemName3.forget();
-				AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex8).getSprite(),(int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 400);
+				AfterRenderDrawer.forceRemoveElement((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 400);
 				itemName4.forget(); 
 			} catch(IndexOutOfBoundsException e) {
 				
@@ -918,7 +919,7 @@ public class Menu extends GameObject{
 	public void setUpNewPlayableCharictar () {
 		if (GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("JEFFREY")) {
 			//creates a new display of jeffreys health when it gets changed to the charitar page if jeffrey's page is the active page
-		healthBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY()+ 280, 16,9,Integer.toString((int)GameCode.testJeffrey.getHealth(0)) + "/" + Integer.toString((int) GameCode.testJeffrey.maxHealth), false);
+		healthBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY()+ 280, 16,9,Integer.toString((int)GameCode.testJeffrey.getHealth(0)) + "/" + Integer.toString((int) GameCode.testJeffrey.maxJeffreyHealth), false);
 		healthBox.setScrollRate(0);
 		healthBox.keepOpen(true);
 		//adds the weapons owned by jeffrey to the after render draw arraylist (adds a question mark for the ones he doesen't own) if jeffrey's page is the active page
@@ -933,7 +934,7 @@ public class Menu extends GameObject{
 		
 		if (GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("SAM")) {
 			//creates a new display of sam's health when it gets changed to the charitar page is sam's page is the active page
-			healthBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY()+ 280, 16,9,Integer.toString((int)GameCode.testJeffrey.getHealth(1)) + "/" + Integer.toString((int) GameCode.testJeffrey.maxHealth), false);
+			healthBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY()+ 280, 16,9,Integer.toString((int)GameCode.testJeffrey.getHealth(1)) + "/" + Integer.toString((int) GameCode.testJeffrey.maxSamHealth), false);
 			healthBox.setScrollRate(0);
 			healthBox.keepOpen(true);
 			//adds the weapons owned by sam to the after render draw arraylist (adds a question mark for the ones he doesen't own) if sam's page is the active page
@@ -947,7 +948,7 @@ public class Menu extends GameObject{
 			}
 		if (GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("RYAN")) {
 			//creates a new display of Ryan's health when it gets changed to the charitar page is Ryan's page is the active page
-			healthBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY()+ 280, 16,9,Integer.toString((int)GameCode.testJeffrey.getHealth(2)) + "/" + Integer.toString((int) GameCode.testJeffrey.maxHealth), false);
+			healthBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY()+ 280, 16,9,Integer.toString((int)GameCode.testJeffrey.getHealth(2)) + "/" + Integer.toString((int) GameCode.testJeffrey.maxRyanHealth), false);
 			healthBox.setScrollRate(0);
 			healthBox.keepOpen(true);
 			//adds the weapons owned by Ryan to the after render draw arraylist (adds a question mark for the ones he doesen't own) if sam's page is the active page

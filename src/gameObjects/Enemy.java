@@ -229,13 +229,13 @@ public abstract class Enemy extends GameObject {
 			if(amount <= 0){
 				amount = 1;
 			}
-			text = new DamageText (amount * 1.2, this.getX(), this.getY());	
+			text = new DamageText (amount * 1.2, this.getX(), this.getY(), false );	
 		} else {
 			amount = amount - defence;
 			if(amount <= 0){
 				amount = 1;
 			}
-		text = new DamageText (amount, this.getX(), this.getY());
+		text = new DamageText (amount, this.getX(), this.getY(), false);
 		}
 		text.declare(this.getX(), this.getY());
 		this.health = health - amount;

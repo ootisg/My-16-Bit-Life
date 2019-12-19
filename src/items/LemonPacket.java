@@ -36,6 +36,16 @@ Fastness fastness;
 fastness = new Fastness(witchCharictar);
 fastness.declare();
 GameCode.gui.menu.frozen = false;
+if (witchCharictar == 0) {
+	GameCode.testJeffrey.status.statusAppliedOnJeffrey[2] = true;
+}
+if (witchCharictar == 1) {
+	GameCode.testJeffrey.status.statusAppliedOnSam[2] = true;
+}
+if (witchCharictar == 2) {
+	GameCode.testJeffrey.status.statusAppliedOnRyan[2] = true;
+}
+this.forget();
 }
 @Override
 public String checkEnetry() {

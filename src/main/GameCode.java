@@ -28,6 +28,7 @@ import gui.Textbox;
 import items.FairUseKey;
 import items.LemonPacket;
 import items.RedBlackPaintBall;
+import items.Waffle;
 import map.Room;
 import npcs.NonPlayableJeffrey;
 import npcs.NonPlayableRyan;
@@ -87,6 +88,7 @@ public class GameCode {
 	static NonPlayableSam lameSam;
 	static NonPlayableRyan lameRyan;
 	static LemonPacket packet;
+	static Waffle waffle;
 	static FairUseKey key;
 	public static void initialize () {
 		//Initialize sprites
@@ -124,7 +126,7 @@ public class GameCode {
 		testJeffrey.getInventory().addWeapon(sword, 1);
 		int x = 0;
 		//boi = new Celing_boi();
-		packet = new LemonPacket (4);
+		waffle = new Waffle (4);
 		puncuation = new Puncuation ();
 		testJeffrey.getInventory().addKill(testTie);
 		testJeffrey.getInventory().addKill(puncuation);
@@ -156,7 +158,7 @@ public class GameCode {
 		//trigger.declare(180,350);
 		//bound = new HitboxRightBottomBound();
 		//bound.declare(180, 300);
-		packet.declare(150, 200);
+		waffle.declare(150, 200);
 		//trigger = new Trigger();
 		//trigger.declare(60,120);
 		//showTank.declare(280, 383);

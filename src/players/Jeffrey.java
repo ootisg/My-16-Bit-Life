@@ -23,7 +23,9 @@ import statusEffect.Status;
 
 public class Jeffrey extends GameObject {
 	public double jeffreyHealth;
-	public double maxHealth;
+	public double maxJeffreyHealth;
+	public double maxSamHealth;
+	public double maxRyanHealth;
 	private boolean isWalking;
 	public  boolean isJumping;
 	public Sprite standSprite;
@@ -100,7 +102,9 @@ public class Jeffrey extends GameObject {
 		this.samHealth = 100;
 		bindLeft = false;
 		bindRight = false;
-		this.maxHealth = 100;
+		this.maxJeffreyHealth = 100;
+		this.maxSamHealth = 150;
+		this.maxRyanHealth = 100;
 		this.invulTimer = 0;
 		this.ryanHealth = 100;
 		this.vx = 0;
@@ -323,7 +327,7 @@ if (activeBox) {
 					ax = -.3;
 				} else {
 				if (this.checkIfFast()) {
-				ax = -7;	
+				ax = -.7;	
 				} else {
 				ax = -.5;
 				}
@@ -349,7 +353,7 @@ if (activeBox) {
 					ax = .3;
 				} else {
 				if (this.checkIfFast()) {
-				ax = 7;	
+				ax = .7;	
 				} else {
 				ax = .5;
 				}
@@ -470,7 +474,7 @@ if (activeBox) {
 			invulTimer --;
 		}
 		if (this.jeffreyHealth <= 0 && this.samHealth <= 0) {
-			this.jeffreyHealth = this.maxHealth;
+			this.jeffreyHealth = this.maxJeffreyHealth;
 			//MainLoop.getConsole ().enable ("You died, and I'm too lazy to put anything in for that. :P");
 		}
 		if (this.jeffreyHealth <= 0) {
@@ -547,6 +551,18 @@ if (activeBox) {
 		}
 		if (this.witchCharictar == 2) {
 			 return status.statusAppliedOnRyan[6];
+		}
+		return false;
+	}
+	public boolean checkIfSomeoneIsLemoney(int who) {
+		if (who == 0) {
+			return status.statusAppliedOnJeffrey[2];
+		}
+		if (who == 1) {
+			return status.statusAppliedOnSam[2];
+		}
+		if (who == 2) {
+			return status.statusAppliedOnRyan[2];
 		}
 		return false;
 	}

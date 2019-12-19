@@ -69,7 +69,15 @@ public class Stats extends GameObject {
 	public void draw () {
 		Graphics buffer = RenderLoop.window.getBufferGraphics ();
 		buffer.setColor (new Color(0xFF0000));
-		buffer.fillRect (300, 0, (int)(160 * (GameCode.testJeffrey.getHealth() / GameCode.testJeffrey.maxHealth)), 16);
+		if (GameCode.testJeffrey.witchCharictar ==0 ) {
+		buffer.fillRect (300, 0, (int)(160 * (GameCode.testJeffrey.getHealth() / GameCode.testJeffrey.maxJeffreyHealth)), 16);
+		}
+		if (GameCode.testJeffrey.witchCharictar ==1 ) {
+			buffer.fillRect (300, 0, (int)(160 * (GameCode.testJeffrey.getHealth() / GameCode.testJeffrey.maxSamHealth)), 16);
+			}
+		if (GameCode.testJeffrey.witchCharictar ==2 ) {
+			buffer.fillRect (300, 0, (int)(160 * (GameCode.testJeffrey.getHealth() / GameCode.testJeffrey.maxRyanHealth)), 16);
+			}
 		buffer.setColor (new Color(0x000000));
 		buffer.drawRect (300, 0, 160, 16);
 		buffer.setColor(new Color (0xFFFF00));
