@@ -89,7 +89,9 @@ public abstract class GameAPI {
 	public boolean mouseButtonClicked (int button) {
 		return GameLoop.getInputImage ().mouseButtonClicked (button);
 	}
-	
+	public boolean mouseButtonPressed(int button) {
+		return GameLoop.getInputImage().mouseButtonPressed(button);
+	}
 	/**
 	 * Returns true if the given mouse button was released.
 	 * @param button The mouse button to check

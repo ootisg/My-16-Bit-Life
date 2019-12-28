@@ -78,7 +78,11 @@ public class Item extends GameObject {
 		} catch (NullPointerException e) {
 			
 		}
-		if (!GameCode.testJeffrey.checkIfSomeoneIsLemoney(witchCharitar) || this.checkName().equals("LEMON PACKET")) {
+		if (!this.getItemType().equals("Consumable") && !activeBox) {
+			this.useItem(witchCharitar);
+			activeBox = true;
+		}
+		if ((!GameCode.testJeffrey.checkIfSomeoneIsLemoney(witchCharitar) || this.checkName().equals("LEMON PACKET")) && this.getItemType().equals("Consumable")) {
 			this.useItem(witchCharitar);
 			GameCode.testJeffrey.getInventory().removeItem(this);
 		}

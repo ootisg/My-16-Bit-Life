@@ -57,13 +57,13 @@ public class redBlackPaintBallGun extends AimableWeapon {
 	}
 	@Override
 	public void frameEvent () {
-		if (upgradeInfo [2] >= 1 && mouseButtonClicked (2)) {
+		if (upgradeInfo [2] >= 1 && mouseButtonPressed (2)) {
 			if (!trippleMode) {
 			trippleMode = true;
-			box = new Tbox (this.getX(),this.getY(), 20, 2, "TRIPPLE MODE ENGAGED", false);
+			box = new Tbox (this.getX() - Room.getViewX() ,this.getY(), 20, 2, "TRIPPLE MODE ENGAGED", false);
 			} else {
 			trippleMode = false;
-			box = new Tbox (this.getX(),this.getY(), 20, 2, "TRIPPLE MODE DISENGAGED", false);
+			box = new Tbox (this.getX() - Room.getViewX(),this.getY(), 20, 2, "TRIPPLE MODE DISENGAGED", false);
 			}
 			box.setScrollRate(0);
 			box.configureTimerCloseing(30);

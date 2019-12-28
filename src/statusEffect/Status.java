@@ -47,7 +47,10 @@ public class Status extends GameObject {
 		statusAppliedOnJeffrey [index] = false;
 	}
 	if (charictar == 1) {
-		statusAppliedOnJeffrey [index] = false;
+		statusAppliedOnSam [index] = false;
+	}
+	if (charictar == 2) {
+		statusAppliedOnRyan [index] = false;
 	}
 	}
 }

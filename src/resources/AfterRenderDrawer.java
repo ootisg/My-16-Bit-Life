@@ -39,6 +39,7 @@ public class AfterRenderDrawer {
 				break;
 			}
 		}
+		System.out.println("nothing was removed");
 	}
 	// removes any element at a certain x and y coordintate only use if you can't get the same instance for the sprite (or don't you can live your life however you want too im not forceing you to do anything)
 	public static void forceRemoveElement (int X, int Y) {

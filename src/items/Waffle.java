@@ -65,7 +65,7 @@ public String getItemType() {
 		this.setY(this.getY() - 1);
 		if (this.isColliding(GameCode.testJeffrey)) {
 		if (amountToAdd != 1) {
-			Tbox box = new Tbox (GameCode.testJeffrey.getX(), GameCode.testJeffrey.getY() - 8, 28, 2, "YOU GOT " + Integer.toString(amountToAdd) + " WAFFLES THEY LOOK REALLY FREAKIN TASTY", true);
+			Tbox box = new Tbox (GameCode.testJeffrey.getX(), GameCode.testJeffrey.getY() - 8, 28, 3, "YOU GOT " + Integer.toString(amountToAdd) + " WAFFLES.  THEY LOOK REALLY FREAKIN TASTY", true);
 			while (amountToAdd != 0) {
 				GameCode.testJeffrey.inventory.addConsumable(this);
 				amountToAdd = amountToAdd - 1;

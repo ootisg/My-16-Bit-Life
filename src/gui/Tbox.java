@@ -63,11 +63,65 @@ public class Tbox extends GameObject {
 		}
 		}
 		//Draw the text in the box
+		int yi = -1;
+		int xi = -1;
+		int calcwidth = width;
+		int oldvalue = 0;
 		for (int i = 0; i < letterPos; i ++) {
 			try {
-			AfterRenderDrawer.drawAfterRender((x + (i % width) * 8), y + (i / width) * 8 + 8, font, (int)text.charAt(startPos + i)); 
+				yi = yi + 1;
+				xi = xi + 1;
+				if ( (yi / calcwidth) > oldvalue) {
+					oldvalue = oldvalue +1;
+					calcwidth = width;
+				}
+				try {
+					if ((int)text.charAt(startPos + i + 1) != 32 ||(int)text.charAt(startPos + i - 1) != 32 ) {
+						int icopy = i;
+						int yicopy = yi;
+						while (icopy != text.length() - 1 && (int)text.charAt(startPos + icopy) != 32 ) {
+							icopy = icopy + 1;
+							if (icopy > text.length() -1) {
+								icopy = text.length() -1;
+								System.out.println(icopy);
+							}
+							yicopy = yicopy +1;
+						}
+						if (yicopy/calcwidth != oldvalue) {
+							xi = 0;
+							yi = calcwidth * ((yi/calcwidth) + 1);
+							calcwidth = width;
+							oldvalue = oldvalue + 1;
+						}
+				}
+				} catch (StringIndexOutOfBoundsException e) {
+					if ((int)text.charAt(startPos + i - 1) != 32 ) {
+						int icopy = i;
+						int yicopy = yi;
+						while (icopy != text.length() - 1 && (int)text.charAt(startPos + icopy) != 32 ) {
+							icopy = icopy + 1;
+							if (icopy > text.length() -1) {
+								icopy = text.length() -1;
+								System.out.println(icopy);
+							}
+							yicopy = yicopy +1;
+						}
+						if (yicopy/calcwidth != oldvalue) {
+							xi = 0;
+							yi = calcwidth * ((yi/calcwidth) + 1);
+							calcwidth = width;
+							oldvalue = oldvalue + 1;
+						}
+				}
+				}
+			AfterRenderDrawer.drawAfterRender((x + (xi % width) * 8), y + (yi / calcwidth) * 8 + 8, font, (int)text.charAt(startPos + i)); 
+			if ((int)text.charAt(startPos + i) == 46) {
+				xi = -3;
+				calcwidth = calcwidth + 3;
+				yi = calcwidth * ((yi/calcwidth) + 1);
+				oldvalue = oldvalue + 1;
+				}
 			} catch (StringIndexOutOfBoundsException e) {
-				
 			}
 		}
 		timer = timer + 1;
@@ -76,7 +130,7 @@ public class Tbox extends GameObject {
 		if (startPos / (width * height) == text.length () / (width * height)) {
 			scrollLimit = (text.length () % (width * height)) * scrollTime;
 			//Closes the textbox if A is pressed and all the text has been displayed
-			//the game doesen't like keyPressed when the game just started so this timer is a temporary solution
+			//TODO the game doesen't like keyPressed when the game just started so this timer is a temporary solution
 			if (timer > 180) {
 			if (keyPressed((int)'A') && frameCount == scrollLimit) {
 				this.close ();

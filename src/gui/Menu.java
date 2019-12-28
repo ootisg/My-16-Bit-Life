@@ -15,9 +15,11 @@ public class Menu extends GameObject{
 	boolean iterateTab;
 	boolean notChanged;
 	int charictarIndex;
+	boolean mouseControls;
 	Tbox nameBox;
 	Tbox entryBox;
 	Tbox weaponNameBox;
+	int adjustingTime;
 	Tbox weaponEntryBox;
 	Tbox upgradeBox1;
 	public boolean frozen;
@@ -34,6 +36,7 @@ public class Menu extends GameObject{
 	Tbox detailedEnemyName;
 	Tbox detailedEnemyEntry;
 	Tbox descriptionBox;
+	int mouseAdjustingTime;
 	Tbox itemNameBox;
 	boolean consumabels;
 	Tbox itemName4;
@@ -57,6 +60,8 @@ public class Menu extends GameObject{
 	Tbox enemyName2;
 	int enemyFrame;
 	Tbox enemyName3;
+	int oldMouseX;
+	int oldMouseY;
 	Tbox enemyName4;
 	Tbox healthBox;
 	Sprite questionMark;
@@ -71,11 +76,14 @@ public class Menu extends GameObject{
 	itemIndex2 = 1;
 	itemIndex3 = 2;
 	itemIndex4 = 3;
+	mouseAdjustingTime = 2;
 	enemyFrame = 29;
+	adjustingTime = 0;
 	itemIndex5 = 0;
 	inBigPictureMode = false;
 	itemIndex6 = 1;
 	frozen = false;
+	mouseControls = true;
 	itemIndex7 = 2;
 	frame = 17;
 	itemIndex8 = 3;
@@ -94,44 +102,92 @@ public class Menu extends GameObject{
 	}
 	@Override
 	public void pausedEvent () {
-		
-		//closes the menu if b is pressed
-		if (keyPressed('B') && !notChanged) {
-			switch (pageNumber) {
-			case 0:
-				nameBox.forget();
-				healthBox.forget();
-				entryBox.forget();
-				AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).getSprite(), (int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185);
-				this.removeWeaponsOfOldCharictar();
-				break;
-			case 1:
-				weaponNameBox.forget();
-				weaponEntryBox.forget();
-				upgradeBox1.forget();
-				upgradeBox2.forget();
-				upgradeBox3.forget();
-				upgradeBox4.forget();
-				ammoBox.forget();
-				ownerBox.forget();
-				this.removeTierOrbs();
-				AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), (int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185);
-				break;
-			case 2:
-				this.removeItemList(consumabels);
-				descriptionBox.forget();
-				itemNameBox.forget();
-				break;
-			case 3:
-				if (!inBigPictureMode) {
-				this.removeEnemyList();
-				} else {
-					AfterRenderDrawer.forceRemoveElement((int) this.getX() + 250 - Room.getViewX(),  (int) this.getY() + 225);
-					detailedEnemyName.forget();
-					detailedEnemyEntry.forget();
-				}
-				break;
+		// mouse controls for the tabs
+		if (getCursorX() > 25 && getCursorX() < 481 && getCursorY() > 64 && getCursorY() < 116 && mouseButtonPressed (0)){
+			this.cleanUp();
+			if (getCursorX() > 25 && getCursorX() < 120) {
+				pageNumber = 0;
+				AfterRenderDrawer.drawAfterRender((int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185,GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).getSprite(), 0, true);
+				nameBox = new Tbox(this.getX() + 145 - Room.getViewX(), this.getY() + 110, 42, 3,GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
+				nameBox.setScrollRate(0);
+				entryBox = new Tbox(this.getX() + 145 - Room.getViewX(), this.getY() + 155, 42, 10,GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
+				entryBox.setScrollRate(0);
+				nameBox.keepOpen(true);
+				entryBox.keepOpen(true);
+			this.setUpNewPlayableCharictar();
 			}
+			if (getCursorX() > 120 && getCursorX() < 207) {
+				pageNumber = 1;
+				AfterRenderDrawer.drawAfterRender((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185,GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), 0, true);
+				weaponNameBox = new Tbox(this.getX() + 145 - Room.getViewX(), this.getY() + 110, 42, 3,GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).checkName(),false);
+				weaponNameBox.setScrollRate(0);
+				weaponEntryBox = new Tbox(this.getX() + 145 - Room.getViewX(), this.getY() + 155, 42, 10,GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).checkEnetry(),false);
+				weaponEntryBox.setScrollRate(0);
+				upgradeBox1 = new Tbox(this.getX() + 145 - Room.getViewX(), this.getY() + 275, 20, 4,GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [0],false);
+				upgradeBox1.setScrollRate(0);
+				upgradeBox2 = new Tbox(this.getX() + 315 - Room.getViewX(), this.getY() + 275, 20, 4,GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [1],false);
+				upgradeBox2.setScrollRate(0);
+				upgradeBox3 = new Tbox(this.getX() + 145 - Room.getViewX(), this.getY() + 335, 20, 4,GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [2],false);
+				upgradeBox3.setScrollRate(0);
+				upgradeBox4 = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY() + 400, 10, 4,GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [3],false);
+				upgradeBox4.setScrollRate(0);
+				this.addTierOrbs();
+				ammoBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY() + 275, 12, 2,"AMMO " + Integer.toString(GameCode.testJeffrey.getInventory().checkAmmoAmountOfWeapon(GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex))),false);
+				ammoBox.setScrollRate(0);
+				weaponNameBox.keepOpen(true);
+				weaponEntryBox.keepOpen(true);
+				upgradeBox1.keepOpen(true);
+				upgradeBox2.keepOpen(true);
+				upgradeBox3.keepOpen(true);
+				upgradeBox4.keepOpen(true);
+				if (GameCode.testJeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 0){
+				ownerBox = new Tbox(this.getX() +  35 - Room.getViewX(), this.getY() + 335, 12, 2,"JEFFREY",false);
+				}
+				if (GameCode.testJeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 1){
+					ownerBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY() + 335, 12, 2,"SAM",false);
+					}
+				if (GameCode.testJeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 2){
+					ownerBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY() + 335, 12, 2,"RYAN",false);
+					}
+				ownerBox.setScrollRate(0);
+				ammoBox.keepOpen(true);
+				ownerBox.keepOpen(true);
+				}
+			if (getCursorX() > 207 && getCursorX() < 311) {
+				pageNumber = 2;
+				this.showItemList(consumabels);
+				try {
+				if (consumabels) {
+				descriptionBox = new Tbox (this.getX() + 325 - Room.getViewX(), this.getY() + 225, 19, 8, GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry(), false);
+				itemNameBox = new Tbox (this.getX() + 325 - Room.getViewX(), this.getY() + 153, 19, 8, GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName(), false);
+				descriptionBox.keepOpen(true);
+				itemNameBox.keepOpen(true);
+				} else {
+						descriptionBox = new Tbox (this.getX() + 325 - Room.getViewX(), this.getY() + 225, 19, 8, GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex5).checkEnetry(), false);
+					itemNameBox = new Tbox (this.getX() + 325 - Room.getViewX(), this.getY() + 153, 19, 8, GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex5).checkName(), false);
+					descriptionBox.keepOpen(true);
+					itemNameBox.keepOpen(true);
+				}
+				descriptionBox.setScrollRate(0);
+				itemNameBox.setScrollRate(0);
+				} catch (IndexOutOfBoundsException e) {
+					descriptionBox = new Tbox ();
+					itemNameBox = new Tbox ();
+					descriptionBox.keepOpen(true);
+					itemNameBox.keepOpen(true);
+				}
+			}
+			if (getCursorX() > 311 && getCursorX() < 391) {
+				pageNumber = 3;
+				this.showEnemyList();
+			}
+			if (getCursorX() > 391 && getCursorX() < 495) {
+				pageNumber = 4;
+			}
+		}
+		//closes the menu if b is pressed
+	if (keyPressed('B') && !notChanged && !frozen) {
+			this.cleanUp();
 			ObjectHandler.pause(false);
 			this.forget();
 		}
@@ -239,7 +295,7 @@ public class Menu extends GameObject{
 				ammoBox.forget();
 				ownerBox.forget();
 				this.removeTierOrbs();
-				AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), (int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185);
+				AfterRenderDrawer.forceRemoveElement((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185);
 				//adds the charictar sprite to the arraylist for draw after render
 				AfterRenderDrawer.drawAfterRender((int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185,GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).getSprite(), 0, true);
 				//sets the textbox equal to what its supposed to be
@@ -259,7 +315,7 @@ public class Menu extends GameObject{
 				nameBox.forget();
 				healthBox.forget();
 				entryBox.forget();
-				AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).getSprite(), (int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185);
+				AfterRenderDrawer.forceRemoveElement((int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185);
 				this.removeWeaponsOfOldCharictar();
 				//adds page 2 stuff
 				AfterRenderDrawer.drawAfterRender((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185,GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), 0, true);
@@ -308,7 +364,7 @@ public class Menu extends GameObject{
 				ammoBox.forget();
 				ownerBox.forget();
 				this.removeTierOrbs();
-				AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), (int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185);
+				AfterRenderDrawer.forceRemoveElement((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185);
 				//adds stuff for page 3
 					this.showItemList(consumabels);
 					try {
@@ -358,11 +414,17 @@ public class Menu extends GameObject{
 		if(!iterateTab && keyPressed ('W')) {
 			iterateTab = true;
 		}
+		if (getCursorX() > 375 && getCursorX() < 477 && getCursorY() > 113 && getCursorY() < 154){
+			this.getAnimationHandler().setAnimationFrame(3);
+		}
+		if ( getCursorX() > 34 && getCursorX() < 139 && getCursorY() > 116  && getCursorY() < 157){
+			this.getAnimationHandler().setAnimationFrame(2);
+		}
 		//iterates to the next charictar if you are in the tab you push d and you are not on the last charictar
-		if(!iterateTab && keyPressed ('D') && charictarIndex != GameCode.testJeffrey.getInventory().amountOfFreinds() -1) {
+		if((!iterateTab && (keyPressed ('D'))|| (mouseButtonPressed(0) && getCursorX() > 375 && getCursorX() < 477 && getCursorY() > 113 && getCursorY() < 154)) && charictarIndex != GameCode.testJeffrey.getInventory().amountOfFreinds() -1) {
 			//removes the sprite of the old charictar
 			this.removeWeaponsOfOldCharictar();
-			AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).getSprite(), (int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185);
+			AfterRenderDrawer.forceRemoveElement( (int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185);
 			charictarIndex = charictarIndex + 1;
 			//makes the sprties of the new charictar
 			AfterRenderDrawer.drawAfterRender((int) this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185,GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).getSprite(), 0, true);
@@ -371,9 +433,10 @@ public class Menu extends GameObject{
 			this.setUpNewPlayableCharictar();
 			
 		}
+		
 		//iterates to the privios charictar if you are in the tab you push a and you are not on the first charictar
-		if(!iterateTab && keyPressed ('A') && charictarIndex != 0) {
-			AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).getSprite(), (int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185);
+		if(((!iterateTab && keyPressed ('A'))|| (mouseButtonPressed(0) && getCursorX() > 34 && getCursorX() < 139 && getCursorY() > 116  && getCursorY() < 157)) && charictarIndex != 0) {
+			AfterRenderDrawer.forceRemoveElement( (int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185);
 			//removes stuff from the old charictar
 			this.removeWeaponsOfOldCharictar();
 			charictarIndex = charictarIndex - 1;
@@ -399,7 +462,7 @@ public class Menu extends GameObject{
 		//draws stuff for page 2
 		if (pageNumber == 1) {
 			//makes background the page 2 background
-		this.getAnimationHandler().setAnimationFrame(8);
+		this.getAnimationHandler().setAnimationFrame(6);
 		//makes you go into the tab if you push s and are out of the tab
 				if(iterateTab && keyPressed ('S')) {
 					iterateTab = false;
@@ -408,19 +471,25 @@ public class Menu extends GameObject{
 				if(!iterateTab && keyPressed ('W')) {
 					iterateTab = true;
 				}
-				if(!iterateTab && keyPressed ('D') && weaponIndex != GameCode.testJeffrey.getInventory().amountOfWeaponsOfAllCharictars() -1) {
+				if (getCursorX() > 375 && getCursorX() < 477 && getCursorY() > 113 && getCursorY() < 154){
+					this.getAnimationHandler().setAnimationFrame(8);
+				}
+				if ( getCursorX() > 34 && getCursorX() < 139 && getCursorY() > 116  && getCursorY() < 157){
+					this.getAnimationHandler().setAnimationFrame(7);
+				}
+				if(((!iterateTab && keyPressed ('D')) || (mouseButtonPressed(0) && getCursorX() > 375 && getCursorX() < 477 && getCursorY() > 113 && getCursorY() < 154)) && weaponIndex != GameCode.testJeffrey.getInventory().amountOfWeaponsOfAllCharictars() -1) {
 					//removes the sprite of the old weapon
 					this.removeTierOrbs();
-					AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), (int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185);
+					AfterRenderDrawer.forceRemoveElement((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185);
 					weaponIndex = weaponIndex + 1;
 					//makes the sprties of the new weapon
 					this.addTierOrbs();
 					AfterRenderDrawer.drawAfterRender((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185,GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), 0, true);
 				}
 				//iterates to the privios weapon if you are in the tab you push a and you are not on the first weapon
-				if(!iterateTab && keyPressed ('A') && weaponIndex != 0) {
+				if(((!iterateTab && keyPressed ('A')) || (mouseButtonPressed(0) && getCursorX() > 34 && getCursorX() < 139 && getCursorY() > 116  && getCursorY() < 157)) && weaponIndex != 0) {
 					this.removeTierOrbs();
-					AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), (int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185);
+					AfterRenderDrawer.forceRemoveElement((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185);
 					weaponIndex = weaponIndex - 1;
 					this.addTierOrbs();
 					AfterRenderDrawer.drawAfterRender((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185,GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), 0, true);		
@@ -444,12 +513,20 @@ public class Menu extends GameObject{
 		}
 		//draws stuff for page 3
 		if(pageNumber == 2) {
-			if (!frozen &&consumabels && keyPressed(32)) {
+			if (oldMouseX != getCursorX() || oldMouseY != getCursorY()) {
+				mouseControls = true;
+				oldMouseX =getCursorX();
+				oldMouseY = getCursorY();
+			} 
+	
+			if (!frozen &&consumabels && (keyPressed(32) || (mouseButtonPressed (0) && (getCursorX() > 34 && getCursorY() > 116  && getCursorX() < 477  && getCursorY() < 450)))) {
 				charictarBox = new ListTbox (100, 180, new String [] {"JEFFREY","SAM","RYAN","BACK"});
+				iterateTab = false;
 				frozen = true;		
 	}
 			if (frozen && charictarBox.getSelected() != -1) {
-				if (charictarBox.getSelected() != 3) {
+				if (charictarBox.getSelected() != 3) {                                                                                                                                                                       
+					this.removeItemList(true);
 				switch (itemPosition) {
 				case 0: 
 				GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).allwaysRunItemStuff(charictarBox.getSelected());
@@ -467,36 +544,126 @@ public class Menu extends GameObject{
 		GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).allwaysRunItemStuff(charictarBox.getSelected());
 		break;
 		}
+				this.showItemList(true);
 				} else {
 					frozen = false;
 				}
 				charictarBox.close();
 			}
 			//sets the background to the page 3 background
+			if ((adjustingTime > 2 && !mouseControls) ||(mouseAdjustingTime > 2 && mouseControls)) {
 			this.getAnimationHandler().setAnimationFrame(frame);
-			//switches to key if d or a is pushed when you are in the menu
-			if ( !frozen && (keyPressed ('D') || keyPressed('A')) && !iterateTab) {
-				if (consumabels) {
-					if (!GameCode.testJeffrey.getInventory().getSortedKey().isEmpty()) {
-						this.removeItemList(consumabels);
-						consumabels = !consumabels;
-						this.showItemList(consumabels);
-						frame = 19 + itemPosition;
-						if (itemPosition > GameCode.testJeffrey.getInventory().getSortedKey().size() - 1 - itemIndex5 ) {
-							frame = 25;
-							itemPosition = 0;
-						}
-						this.setItemEntryAndNameInfo();
+			}
+			if ((getCursorX() > 375 && getCursorX() < 477 && getCursorY() > 113 && getCursorY() < 154 && consumabels) && !frozen  && !keyDown('S') && !keyDown('W')){
+				this.getAnimationHandler().setAnimationFrame(18);
+			}
+			if ( !frozen && (getCursorX() > 34 && getCursorX() < 139 && getCursorY() > 116  && getCursorY() < 157 && !consumabels) && !keyDown('S') && !keyDown('W')){
+				this.getAnimationHandler().setAnimationFrame(24);
+			}
+			if ( mouseControls && !frozen&& (getCursorX() > 31 && getCursorX() < 228 && getCursorY() > 151 && getCursorY() < 447 )){
+				try {
+				if (getCursorX() > 31 && getCursorX() < 228 && getCursorY() > 153 && getCursorY() < 229){
+					if (consumabels) {
+					GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1);
+					frame = 19;
+					} else {
+						GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex5);
+						frame = 25;
 					}
+				
+					itemPosition = 0;
+				}
+				} catch (IndexOutOfBoundsException e) {
+					
+				}
+				try {
+					if ( getCursorX() > 31 && getCursorX() < 228 && getCursorY() > 229  && getCursorY() < 300 ) {
+						if (consumabels) {
+						GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2);
+					frame = 20;
+					} else {
+						GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex6);
+						frame = 26;
+					}
+					
+					itemPosition = 1;
+					}
+					} catch (IndexOutOfBoundsException e) {
+						
+					}
+				try {
+			if ( getCursorX() > 31 && getCursorX() < 228 && getCursorY() > 300  && getCursorY() < 474 ){
+				if (consumabels) {
+				GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3);
+				frame = 21;
 				} else {
+					GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex7);
+					frame = 27;
+				}
+			
+				itemPosition = 2;
+			}
+				} catch (IndexOutOfBoundsException e) {
+					
+				}
+			try {
+			if ( getCursorX() > 31 && getCursorX() < 228 && getCursorY() > 374  && getCursorY() < 447){
+				if (consumabels) {
+				GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4);
+				frame = 22;
+				} else {
+					GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex8);
+					frame = 28;
+				}
+				
+				itemPosition =3;
+			}
+			} catch (IndexOutOfBoundsException e) {
+				
+			}
+			this.setItemEntryAndNameInfo();
+			} 
+			if (!mouseControls) {
+				adjustingTime = adjustingTime + 1;
+			} else {
+				adjustingTime = 0;
+			}
+			if (mouseControls) {
+				mouseAdjustingTime = mouseAdjustingTime + 1;
+			} else {
+				mouseAdjustingTime = 0;
+			}
+			//switches to key if d or a is pushed when you are in the menu
+			if ( (!frozen && (((keyPressed ('D') && consumabels) || (!consumabels&&keyPressed('A'))) && !iterateTab) || (mouseButtonPressed(0) && getCursorX() > 375 && getCursorX() < 477 && getCursorY() > 113 && getCursorY() < 154 && consumabels) || (mouseButtonPressed(0) && getCursorX() > 34 && getCursorX() < 139 && getCursorY() > 116  && getCursorY() < 157 & !consumabels))) {
+				if (!consumabels) {
 					if (!GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().isEmpty()) {
 						this.removeItemList(consumabels);
 						consumabels = !consumabels;
 						this.showItemList(consumabels);
+						if (itemPosition == -1) {
+							frame = 17;
+						} else {
+						frame = 19 + itemPosition;
+						if (itemPosition > GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() - 1 - itemIndex5 ) {
+							frame = 25;
+							itemPosition = 0;
+						}
+						}
+						this.setItemEntryAndNameInfo();
+					}
+				} else {
+					if (!GameCode.testJeffrey.getInventory().getSortedKey().isEmpty()) {
+						this.removeItemList(consumabels);
+						consumabels = !consumabels;
+						this.showItemList(consumabels);
+						if (itemPosition == -1) {
+							frame = 23;
+						} else {
 						frame = 25 + itemPosition;
-						if (itemPosition > GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() - 1 - itemIndex1 ) {
+						if (itemPosition > GameCode.testJeffrey.getInventory().getSortedKey().size() - 1 - itemIndex1 ) {
 							itemPosition =0;
 							frame = 19;
+						}
 						}
 						this.setItemEntryAndNameInfo();
 				}
@@ -504,14 +671,15 @@ public class Menu extends GameObject{
 			}
 			//moves the cursor down if s is pushed
 			if( !frozen &&keyPressed ('S') && (!(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().isEmpty() && consumabels) || !(GameCode.testJeffrey.getInventory().getSortedKey().isEmpty() && !consumabels))) {
-				if (iterateTab) {
-				iterateTab = false;
+				mouseControls = false;
+				if (frame == 17) {
 					if (consumabels) {
-					frame = 18;
+						frame = 18;
 					} else {
-					frame = 24;
+						frame = 23;
 					}
 				}
+				
 				if ( (consumabels&& ((itemPosition != 3 && itemIndex4 <= GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size()-1) || (itemPosition != GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() - 1 - itemIndex1 && itemIndex4 > GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() -1)))|| ( !consumabels&&((itemPosition != 3 && itemIndex8 <= GameCode.testJeffrey.getInventory().getSortedKey().size()-1) || (itemPosition != GameCode.testJeffrey.getInventory().getSortedKey().size() - 1 - itemIndex5 && itemIndex8 > GameCode.testJeffrey.getInventory().getSortedKey().size() -1)))) {
 					itemPosition = itemPosition + 1;
 					frame = frame + 1;
@@ -542,6 +710,9 @@ public class Menu extends GameObject{
 					}
 				}
 			}
+			if (itemPosition != -1) {
+				iterateTab = false;
+			}
 			//makes you go out of the tab if you push w and are at the top of the tab
 			if( !frozen &&!iterateTab && keyPressed ('W') && itemPosition == 0 && ((itemIndex1 == 0 && consumabels) || (itemIndex5 == 0 && !consumabels)) ) {
 				if (consumabels) {
@@ -551,9 +722,11 @@ public class Menu extends GameObject{
 				}
 				iterateTab = true;
 				itemPosition = itemPosition - 1;
+				mouseControls = false;
 			}
 			//incriments things up by 1 if you press w
-			if ( !frozen &&!iterateTab && (itemPosition != 0  || (itemIndex1 != 0 && consumabels || itemIndex5 !=0 && !consumabels)) && keyPressed ('W') ) {
+			if ((!frozen &&!iterateTab && (itemPosition != 0  || (itemIndex1 != 0 && consumabels || itemIndex5 !=0 && !consumabels)) && keyPressed ('W')) ) {
+				mouseControls = false;
 				if ( (consumabels&& ( (itemPosition != 0 && itemIndex4 <= GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size()-1) || (itemPosition != GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() - itemIndex1 && itemIndex4 > GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().size() -1)))|| ( !consumabels&&((itemPosition != 0 && itemIndex8 <= GameCode.testJeffrey.getInventory().getSortedKey().size()-1) || (itemPosition != GameCode.testJeffrey.getInventory().getSortedKey().size() - itemIndex5 && itemIndex8 > GameCode.testJeffrey.getInventory().getSortedKey().size() -1)))) {
 					itemPosition = itemPosition - 1;
 					frame = frame - 1;
@@ -587,7 +760,12 @@ public class Menu extends GameObject{
 		//draws stuff for page 4
 		
 		if (pageNumber == 3) {
-			if (keyPressed (32) && enemyPosition != -1) {
+			if (oldMouseX != getCursorX() || oldMouseY != getCursorY()) {
+				mouseControls = true;
+				oldMouseX =getCursorX();
+				oldMouseY = getCursorY();
+			} 
+			if (keyPressed (32) || mouseButtonPressed(0) && enemyPosition != -1) {
 				if (inBigPictureMode) {
 					this.showEnemyList();
 					AfterRenderDrawer.forceRemoveElement((int) this.getX() + 250 - Room.getViewX(),  (int) this.getY() + 225);
@@ -625,12 +803,64 @@ public class Menu extends GameObject{
 				inBigPictureMode = !inBigPictureMode;
 			}
 			//sets the background to the enemy background
-			if (!inBigPictureMode) {
+			if (!inBigPictureMode && ((adjustingTime > 2 && !mouseControls) ||(mouseAdjustingTime > 2 && mouseControls))) {
 		this.getAnimationHandler().setAnimationFrame(enemyFrame);
 			}
+				if ( mouseControls && !inBigPictureMode && (getCursorX() > 31 && getCursorX() < 481 && getCursorY() > 151 && getCursorY() < 447)){
+						try {
+					if (getCursorX() > 31 && getCursorX() < 481 && getCursorY() > 153 && getCursorY() < 229){
+						GameCode.testJeffrey.getInventory().findEnemyAtIndex(enemyIndex1);
+						enemyFrame = 30;					
+						enemyPosition = 0;
+					}
+					} catch (IndexOutOfBoundsException e) {
+						
+					}
+					try {
+						if ( getCursorX() > 31 && getCursorX() < 481 && getCursorY() > 229  && getCursorY() < 300 ) {
+							GameCode.testJeffrey.getInventory().findEnemyAtIndex(enemyIndex2);
+						enemyFrame = 31;
+						enemyPosition = 1;
+						}
+						} catch (IndexOutOfBoundsException e) {
+							
+						}
+					try {
+				if ( getCursorX() > 31 && getCursorX() < 481 && getCursorY() > 300  && getCursorY() < 374 ){
+					GameCode.testJeffrey.getInventory().findEnemyAtIndex(enemyIndex3);
+					enemyFrame = 32;
+					enemyPosition = 2;
+				}
+					} catch (IndexOutOfBoundsException e) {
+						
+					}
+				try {
+				if ( getCursorX() > 31 && getCursorX() < 481 && getCursorY() > 374  && getCursorY() < 447){
+					GameCode.testJeffrey.getInventory().findEnemyAtIndex(enemyIndex4);
+					enemyFrame = 33;
+					enemyPosition =3;
+				}
+				} catch (IndexOutOfBoundsException e) {
+					
+				}
+				} 
+				if (!mouseControls) {
+					adjustingTime = adjustingTime + 1;
+				} else {
+					adjustingTime = 0;
+				}
+				if (mouseControls) {
+					mouseAdjustingTime = mouseAdjustingTime + 1;
+				} else {
+					mouseAdjustingTime = 0;
+				}
+				if (enemyPosition != -1) {
+					iterateTab = false;
+				}
 		//moves the cursor down if s is pushed
 		if(keyPressed ('S') && !inBigPictureMode && GameCode.testJeffrey.getInventory().amountOfKills() != 0) {
 			iterateTab = false;
+			mouseControls = false;
 			if ((enemyPosition != 3 && enemyIndex4 <= GameCode.testJeffrey.getInventory().amountOfKills()-1) || (enemyPosition != GameCode.testJeffrey.getInventory().amountOfKills() -1 -enemyIndex1 && enemyIndex4 > GameCode.testJeffrey.getInventory().amountOfKills() -1)) {
 				enemyPosition = enemyPosition + 1;
 				enemyFrame = enemyFrame + 1;
@@ -647,12 +877,14 @@ public class Menu extends GameObject{
 		}
 		//makes you go out of the tab if you push w and are at the top of the tab
 		if(!iterateTab && keyPressed ('W') && enemyPosition == 0 && enemyIndex1 == 0 && !inBigPictureMode) {
+			mouseControls = false;
 			iterateTab = true;
 			enemyPosition = enemyPosition - 1;
 			enemyFrame = enemyFrame -1;
 		}
 		//incriments things up by 1 if you press w
 		if ( !inBigPictureMode && !iterateTab && (enemyPosition != 0  || enemyIndex1 != 0) && keyPressed ('W') ) {
+			mouseControls = false;
 			if ((enemyPosition != 0 && enemyIndex4 <= GameCode.testJeffrey.getInventory().amountOfKills()-1) || (enemyPosition != GameCode.testJeffrey.getInventory().amountOfKills() - enemyIndex1 && enemyIndex4 > GameCode.testJeffrey.getInventory().amountOfKills() -1)) {
 				enemyPosition = enemyPosition - 1;
 				enemyFrame = enemyFrame -1;
@@ -677,6 +909,7 @@ public class Menu extends GameObject{
 		descriptionBox.setContent(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry());
 		itemNameBox.setContent(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName());
 			}
+			try {
 			if (itemPosition == 1) {
 				descriptionBox.setContent(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).checkEnetry());
 				itemNameBox.setContent(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).checkName());
@@ -689,7 +922,16 @@ public class Menu extends GameObject{
 				descriptionBox.setContent(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).checkEnetry());
 				itemNameBox.setContent(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).checkName());
 					}
+			} catch (IndexOutOfBoundsException e) {
+				try {
+				descriptionBox.setContent(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry());
+				itemNameBox.setContent(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName());
+				} catch (IndexOutOfBoundsException b) {
+					
+				}
+			}
 		} else {
+			try {
 			if (itemPosition == 0) {
 				descriptionBox.setContent(GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex5).checkEnetry());
 				itemNameBox.setContent(GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex5).checkName());
@@ -706,7 +948,15 @@ public class Menu extends GameObject{
 						descriptionBox.setContent(GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex8).checkEnetry());
 						itemNameBox.setContent(GameCode.testJeffrey.getInventory().getSortedKey().get(itemIndex8).checkName());
 							}
+		} catch (IndexOutOfBoundsException e) {
+			try {
+			descriptionBox.setContent(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry());
+			itemNameBox.setContent(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName());
+			} catch (IndexOutOfBoundsException b) {
+				
+			}
 		}
+	}
 	}
 	public void removeItemList (boolean consumablesOrKey) {
 		if (consumablesOrKey) {
@@ -737,16 +987,69 @@ public class Menu extends GameObject{
 			}	
 		}
 	}
+	public void cleanUp () {
+		switch (pageNumber) {
+		case 0:
+			nameBox.forget();
+			healthBox.forget();
+			entryBox.forget();
+			AfterRenderDrawer.forceRemoveElement((int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185);
+			this.removeWeaponsOfOldCharictar();
+			break;
+		case 1:
+			weaponNameBox.forget();
+			weaponEntryBox.forget();
+			upgradeBox1.forget();
+			upgradeBox2.forget();
+			upgradeBox3.forget();
+			upgradeBox4.forget();
+			ammoBox.forget();
+			ownerBox.forget();
+			this.removeTierOrbs();
+			AfterRenderDrawer.forceRemoveElement((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185);
+			break;
+		case 2:
+			this.removeItemList(consumabels);
+			descriptionBox.forget();
+			itemNameBox.forget();
+			break;
+		case 3:
+			if (!inBigPictureMode) {
+			this.removeEnemyList();
+			} else {
+				AfterRenderDrawer.forceRemoveElement((int) this.getX() + 250 - Room.getViewX(),  (int) this.getY() + 225);
+				detailedEnemyName.forget();
+				detailedEnemyEntry.forget();
+			}
+			break;
+		}
+	}
 	public void removeEnemyList () {
 			try {
+				try {
 				AfterRenderDrawer.forceRemoveElement( (int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 185);
 				enemyName1.forget();
+				} catch (NullPointerException e) {
+					
+				}
+				try {
 				AfterRenderDrawer.forceRemoveElement( (int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 245);
 				enemyName2.forget();
+				} catch (NullPointerException e) {
+					
+				}
+				try {
 				AfterRenderDrawer.forceRemoveElement((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 315);
 				enemyName3.forget();
+				} catch (NullPointerException e) {
+					
+				}
+				try {
 				AfterRenderDrawer.forceRemoveElement((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 400);
 				enemyName4.forget();
+				} catch (NullPointerException e) {
+					
+				}
 			} catch(IndexOutOfBoundsException e) {
 				
 			}	
@@ -901,16 +1204,16 @@ public class Menu extends GameObject{
 		for (int i = 0; i <4; i++) {
 			for (int x = 0; x < GameCode.testJeffrey.getInventory().findWeaponAtIndex(weaponIndex).getTierInfo() [i]; x ++ ) {
 				if (i == 0) {
-				AfterRenderDrawer.removeElement(ball,(int)this.getX() + 145 + (x*60) - Room.getViewX(), (int)this.getY() + 320);
+				AfterRenderDrawer.forceRemoveElement((int)this.getX() + 145 + (x*60) - Room.getViewX(), (int)this.getY() + 320);
 				}
 				if (i == 1) {
-					AfterRenderDrawer.removeElement(ball, (int)this.getX() + 330 + (x*60) - Room.getViewX(), (int)this.getY() + 320);
+					AfterRenderDrawer.forceRemoveElement((int)this.getX() + 330 + (x*60) - Room.getViewX(), (int)this.getY() + 320);
 					}
 				if (i == 2) {
-					AfterRenderDrawer.removeElement(ball, (int)this.getX() + 145 + (x*60) - Room.getViewX(), (int)this.getY() + 380);
+					AfterRenderDrawer.forceRemoveElement( (int)this.getX() + 145 + (x*60) - Room.getViewX(), (int)this.getY() + 380);
 					}
 				if (i == 3) {
-					AfterRenderDrawer.removeElement(ball, (int)this.getX() +70 - Room.getViewX(), (int)this.getY() + 435);
+					AfterRenderDrawer.forceRemoveElement((int)this.getX() +70 - Room.getViewX(), (int)this.getY() + 435);
 					}
 			}
 		}
@@ -962,33 +1265,8 @@ public class Menu extends GameObject{
 		}
 	}
 	public void removeWeaponsOfOldCharictar () {
-		if (GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("JEFFREY")) {
 			for (int i = 0; i <4; i++) {
-				if (!GameCode.testJeffrey.getInventory().findWeaponAtIndex(i, 0).getClass().getSimpleName().equals("Unarmed")) {
-					AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().findWeaponAtIndex(i, 0).getUnrotatedSprite(),(int)(this.getX() + 180 + (i*60)) - Room.getViewX() , (int)this.getY() + 320);
-				} else {
-					AfterRenderDrawer.removeElement(questionMark,(int)(this.getX() + 180 + (i*60))- Room.getViewX() , (int)this.getY() + 320);	
-				}
-			}
-			}
-			
-			if (GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("SAM")) {
-				for (int i = 0; i <4; i++) {
-					if (!GameCode.testJeffrey.getInventory().findWeaponAtIndex(i, 1).getClass().getSimpleName().equals("Unarmed")) {
-						AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().findWeaponAtIndex(i, 1).getUnrotatedSprite(),(int)(this.getX() + 180 + (i*60))- Room.getViewX() , (int)this.getY() + 320);
-					} else {
-						AfterRenderDrawer.removeElement(questionMark,(int)(this.getX() + 180 + (i*60))- Room.getViewX() , (int)this.getY() + 320);	
-					}
-				}
-				}
-			if (GameCode.testJeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("RYAN")) {
-				for (int i = 0; i <4; i++) {
-					if (!GameCode.testJeffrey.getInventory().findWeaponAtIndex(i, 2).getClass().getSimpleName().equals("Unarmed")) {
-						AfterRenderDrawer.removeElement(GameCode.testJeffrey.getInventory().findWeaponAtIndex(i, 2).getUnrotatedSprite(),(int)(this.getX() + 90 + (i*60))- Room.getViewX() , (int)this.getY() + 320);
-					} else {
-						AfterRenderDrawer.removeElement(questionMark,(int)(this.getX() + 180 + (i*60)) - Room.getViewX(), (int)this.getY() + 320);	
-					}
-				}
-			}
+					AfterRenderDrawer.forceRemoveElement((int)(this.getX() + 180 + (i*60)) - Room.getViewX() , (int)this.getY() + 320);
+			}	
 	}
 }

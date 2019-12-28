@@ -369,7 +369,14 @@ public class InputManager {
 		}
 		return false;
 	}
-	
+	public boolean mouseButtonPressed(int button) {
+		if (button >= 0 && button <= 2) {
+			if (clicks [button]) {
+				return buttonsDown[button];
+			} 
+		}
+		return false;
+	}
 	/**
 	 * Returns true if the given mouse button is held down.
 	 * @param button The mouse button to check

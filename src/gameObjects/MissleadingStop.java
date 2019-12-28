@@ -20,12 +20,13 @@ public class MissleadingStop extends Enemy {
 	@Override
 	public void frameEvent () {
 		if (this.health <= 0) {
-			GameCode.testJeffrey.status.statusAppliedOnJeffrey[3] = false;
-			GameCode.testJeffrey.status.statusAppliedOnRyan[3]= false;
-			GameCode.testJeffrey.status.statusAppliedOnSam[3] = false;
+			if (!GameCode.testJeffrey.getInventory().checkKill(this)) {
+				GameCode.testJeffrey.getInventory().addKill(this);
+			}
+			enemyList.remove(this);		
 			this.forget();
 		}
-		if (GameCode.testJeffrey.getX() - this.getX() < 150 &&GameCode.testJeffrey.getX() - this.getX() >= -150 ) {
+		if (GameCode.testJeffrey.getX() - this.getX() < 150 &&GameCode.testJeffrey.getX() - this.getX() >= -150 && this.declared()) {
 			GameCode.testJeffrey.status.statusAppliedOnJeffrey[3] = true;
 			GameCode.testJeffrey.status.statusAppliedOnRyan[3]= true;
 			GameCode.testJeffrey.status.statusAppliedOnSam[3] = true;

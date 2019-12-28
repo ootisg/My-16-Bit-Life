@@ -80,11 +80,9 @@ public class SplittingSlimelet extends Enemy {
 			normalMovement = false;
 			}
 			deathTimer = deathTimer +1;
-			if (deathTimer == 6) {
+			if (deathTimer == 30) {
 				baby.declare(this.getX() - 10,this.getY());
 				child.declare(this.getX()+ 50, this.getY());
-			}
-			if (deathTimer == 30) {
 				this.deathEvent();
 			}
 		}
