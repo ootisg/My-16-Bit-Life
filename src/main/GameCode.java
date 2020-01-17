@@ -43,6 +43,7 @@ import statusEffect.Status;
 import weapons.AimableWeapon;
 import weapons.LifeVaccum;
 import weapons.MagicMicrophone;
+import weapons.NinjaTriangle;
 import weapons.SlimeSword;
 import weapons.redBlackPaintBallGun;
 
@@ -89,6 +90,7 @@ public class GameCode {
 	static NonPlayableRyan lameRyan;
 	static LemonPacket packet;
 	static Waffle waffle;
+	static NinjaTriangle triangle;
 	static FairUseKey key;
 	public static void initialize () {
 		//Initialize sprites
@@ -118,11 +120,13 @@ public class GameCode {
 		testCrab = new CyclopesCrab();
 		//trigger = new CutsceenTrigger();
 		microphone = new MagicMicrophone ();
+		triangle = new NinjaTriangle (new Sprite ("resources/sprites/config/stationary_ninja_triangle.txt"));
 		testJeffrey.getInventory().addWeapon (microphone, 2);
 		extinguser = new FireRextinguser ();
 		testJeffrey.getInventory().addKill(extinguser);
 		testTie = new ClostridiumBowtielinea();
 		testJeffrey.getInventory().addWeapon(gun, 0);
+		testJeffrey.getInventory().addWeapon(triangle, 0);
 		testJeffrey.getInventory().addWeapon(sword, 1);
 		int x = 0;
 		//boi = new Celing_boi();

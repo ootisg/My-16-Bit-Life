@@ -1,6 +1,7 @@
 package gameObjects;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import main.GameCode;
@@ -15,19 +16,24 @@ public abstract class Enemy extends GameObject {
 	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 	// list of delared enemys
 	public static ArrayList <Enemy> enemyList = new ArrayList <Enemy>();
+	public Boolean [] appliedStatuses;
 	public int health = 1;
 	int momentum;
 	protected double baseDamage = 2.5;
 	boolean jumping;
 	public int defence;
 	boolean moveRight;
+	int knockbackTime;
 	DamageText text;
 	int xToMove;
+	boolean beingKnockedBack;
+	boolean direction;
 	int yToMove;
 	boolean falls;
 	Random RNG;
 	int currentSpeed;
 	boolean canFuckWithSprite;
+	boolean moveable;
 	int chargeTimer;
 	int timer;
 	boolean adjustedSpeed;
@@ -45,10 +51,16 @@ public abstract class Enemy extends GameObject {
 		patrolBothWays = false;
 		adjustedSpeed = false;
 		chargeTimer =0;
+		//status indexes are the same as in status.java so check there for info on that
+		appliedStatuses = new Boolean [10];
+		Arrays.fill(appliedStatuses, false);
 		canFuckWithSprite = true;
+		beingKnockedBack = false;
 		xToMove = 0;
+		knockbackTime = 0;
 		yToMove = 0;
 		moveing = true;
+		moveable = false;
 		waitForCollison = 0;
 		chargeing = false;
 		RNG = new Random();
@@ -64,6 +76,20 @@ public abstract class Enemy extends GameObject {
 	@Override
 	public void frameEvent () {
 		enemyFrame ();
+		if (beingKnockedBack) {
+			this.falls = true;
+			if (knockbackTime == 0) {
+				knockbackTime = 0;
+				beingKnockedBack = false;
+			}
+			knockbackTime = knockbackTime - 1;
+			if (!direction) {
+			this.goX(this.getX() + 3);
+			} else {
+			this.goX(this.getX() - 3);
+			}
+			this.goY(this.getY() - 5);
+		}
 		if ((this.health <= 0) && diesNormally ) {
 			this.deathEvent();
 		}
@@ -138,9 +164,70 @@ public abstract class Enemy extends GameObject {
 	public void setFalls (boolean doesFall) {
 		falls = doesFall;
 	}
+	
+	public void knockback (int amountOfTime, boolean attackSide) {
+		beingKnockedBack = true;
+		knockbackTime = amountOfTime;
+		direction = attackSide;
+	}
 	//sets up a special death if your into that kinda thing
 	public void setDeath (boolean death) {
 		diesNormally = death;
+	}
+	@Override 
+	public boolean goX(double val) {
+		if (this.appliedStatuses[3] && val - this.getX() != 0) {
+		if (val - this.getX()> 1 ) {
+			val = val -1;
+		} else {
+			if ( val - this.getX() < -1 ) {
+				val = val + 1;
+			} else {
+					if (!moveable) {
+						val = this.getX();
+						moveable = true;
+					} else {
+						moveable = false;
+					}
+				}
+			}
+		}
+		this.xprevious = x;
+		spriteX =  (spriteX + (val - x));
+		x = val;
+		if (Room.isColliding(this.hitbox())) {
+			x = xprevious;
+			spriteX = (spriteX - (val- x));
+			return false;
+		} else {
+			return true;
+		}
+	}
+	public void setXTheOldFasionWay(double val) {
+		super.setX(val);
+	}
+	@Override
+	public void setX (double val) {
+		if (this.appliedStatuses[3] && val - this.getX() != 0) {
+		if (val - this.getX() > 1) {
+			val = val -1;
+			
+		} else {
+			if ( val - this.getX() < -1) {
+				val = val + 1;
+		} else {
+			if (!moveable) {
+				val = this.getX();
+				moveable = true;
+			} else {
+				moveable = false;
+			}
+		} 
+		}
+		}
+		xprevious = x;
+		spriteX =  (spriteX + (val - x));
+		x = val;
 	}
 	public void attackEvent () {
 		player.damage (this.baseDamage);
@@ -163,13 +250,13 @@ public abstract class Enemy extends GameObject {
 	//returns true if there is a celling or floor between the enemy and the player
 			public boolean checkPlayerPositionRelativeToCellings () {
 				double x = this.getX();
-				this.setX(GameCode.testJeffrey.getX());
+				super.setX(GameCode.testJeffrey.getX());
 					for (int i = 0; true; i++) {
 						this.setY(this.getY () + i);
 						if (Room.isColliding(this.hitbox())) {
 							if (player.getY() > this.getY()) {
 							this.setY(this.getY() - i);
-							this.setX(x);
+							super.setX(x);
 							return true;
 							}
 						}
@@ -181,7 +268,7 @@ public abstract class Enemy extends GameObject {
 						if (Room.isColliding(this.hitbox())) {
 							if (player.getY() < this.getY()) {
 								this.setY(this.getY() + i);
-								this.setX(x);
+								super.setX(x);
 							return true;
 							}
 						}
@@ -191,35 +278,35 @@ public abstract class Enemy extends GameObject {
 						}
 						this.setY(this.getY() + i);
 					}
-					this.setX(x);
+					super.setX(x);
 					return false;
 			}
 	//returns true if there is a wall between the enemy and the player
 		public boolean checkPlayerPositionRelativeToWalls () {
 				for (int i = 0; true; i++) {
-					this.setX(this.getX () + i);
+					super.setX(this.getX () + i);
 					if (Room.isColliding(this.hitbox())) {
 						if (player.getX() > this.getX()) {
-						this.setX(this.getX() - i);
+						super.setX(this.getX() - i);
 						return true;
 						}
 					}
 					if ((int)this.getX() == (int)player.getX()) {
-						this.setX(this.getX() - i);
+						super.setX(this.getX() - i);
 						break;
 					}
-					this.setX(this.getX() - i*2);
+					super.setX(this.getX() - i*2);
 					if (Room.isColliding(this.hitbox())) {
 						if (player.getX() < this.getX()) {
-							this.setX(this.getX() + i);
+							super.setX(this.getX() + i);
 						return true;
 						}
 					}
 					if ((int)this.getX() == (int)player.getX()) {
-						this.setX(this.getX() + i);
+						super.setX(this.getX() + i);
 						break;
 					}
-					this.setX(this.getX() + i);
+					super.setX(this.getX() + i);
 				}
 				return false;
 		}

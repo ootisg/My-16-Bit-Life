@@ -20,7 +20,7 @@ public abstract class GameObject extends GameAPI {
 	/**
 	 * x-coordinate of this GameObject
 	 */
-	private double x;
+	protected double x;
 	/**
 	 * y-coordinate of this GameObject
 	 */
@@ -28,7 +28,7 @@ public abstract class GameObject extends GameAPI {
 	/**
 	 * Previous x-coordinate of this GameObject
 	 */
-	private double xprevious;
+	protected double xprevious;
 	/**
 	 * Previous y-coordinate of this GameObject
 	 */
@@ -65,7 +65,7 @@ public abstract class GameObject extends GameAPI {
 	/**
 	 * The variant of this GameObject
 	 */
-	private double spriteX;
+	protected double spriteX;
 	private double spriteY;
 	private Variant variant;
 	/**
@@ -460,6 +460,24 @@ public abstract class GameObject extends GameAPI {
 		if (Room.isColliding(this.hitbox())) {
 			x = xprevious;
 			spriteX = (spriteX - (val- x));
+			return false;
+		} else {
+			return true;
+		}
+	}
+	//used for testing purposes moves x and y and aborts
+	public boolean goXandY(double xval, double yval) {
+		xprevious = x;
+		spriteX =  (spriteX + (xval - x));
+		x = xval;
+		yprevious = y;
+		spriteY =  (spriteY + (yval - y));
+		y = yval;
+		if (Room.isColliding(this.hitbox())) {
+			x = xprevious;
+			spriteX = (spriteX - (xval- x));
+			y = yprevious;
+			spriteY = (spriteY - (yval - y));
 			return false;
 		} else {
 			return true;

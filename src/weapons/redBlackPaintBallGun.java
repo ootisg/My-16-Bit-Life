@@ -27,7 +27,7 @@ public class redBlackPaintBallGun extends AimableWeapon {
 		this.cooldown = 0;
 		upgradeInfo = new int [] {0,0,1,0};
 		testball = new RedBlackPaintBall (1);
-		this.setSprite(new Sprite ("resources/sprites/redblack_gun.png"));
+		this.setSprite(gunSprite);
 	}
 	@Override
 	public String checkName () {
@@ -77,9 +77,7 @@ public class redBlackPaintBallGun extends AimableWeapon {
 			this.shoot (new Paintball ());
 			jeffrey.inventory.removeItem(testball);
 			if (this.trippleMode) {
-			jeffrey.inventory.removeItem(testball);
 			this.shoot(new Paintball(), this.rotation + (3.14/6));
-			jeffrey.inventory.removeItem(testball);
 			this.shoot(new Paintball(), this.rotation - (3.14/6));
 			}
 			cooldown = 5;

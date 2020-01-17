@@ -81,6 +81,7 @@ public class SlimeSword extends Item {
 				faceingLeft = false;
 			}
 		}
+		
 		if (GameCode.testJeffrey.getSprite().equals(samSwingSprite)) {
 			if (GameCode.testJeffrey.getAnimationHandler().flipHorizontal()) {
 			this.createExpandingHitBoxBasedOnADiffrentObject(new int [] { -34, -34, -34, -34,-22,-19,-24,-22,-24, -24,-34,-34}, new int [] {0,0,0,3,24,30,40,36,33,4,0,0}, new int [] {0,0,0,11,2,2,2,14,21,22,0,0} , new int [] {0,0,0,11,10,7,11,26,16,7,0,0} , GameCode.testJeffrey);
@@ -91,6 +92,10 @@ public class SlimeSword extends Item {
 		for (int i = 0; i < Enemy.enemyList.size(); i ++) {
 			if (this.isColliding(Enemy.enemyList.get(i)) && !hitEnemys.contains(Enemy.enemyList.get(i)) ){
 				hitEnemys.add(Enemy.enemyList.get(i));
+				if (this.getTierInfo()[0] >= 1) {
+				Enemy.enemyList.get(i).knockback(10, this.getAnimationHandler().flipHorizontal());
+				}
+				Enemy.enemyList.get(i).appliedStatuses[3] = true;
 				Enemy.enemyList.get(i).damage (RNG.nextInt(50) + 20);
 			}
 		}
