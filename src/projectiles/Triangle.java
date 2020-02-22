@@ -16,6 +16,7 @@ public class Triangle extends Projectile{
 	int timer;
 	int pickupTimer;
 	boolean stuckInRoom;
+	boolean consectuive;
 	double oldSpeed;
 	Random RNG;
 	NinjaTriangle copyTriangle;
@@ -26,6 +27,7 @@ public class Triangle extends Projectile{
 		this.setSpeed(speed);
 		stopped = false;
 		stuckInRoom = false;
+		consectuive = true;
 		RNG = new Random ();
 		pickupTimer = 0;
 		this.keep();
@@ -132,6 +134,7 @@ public class Triangle extends Projectile{
 			//deals with the bounceyness
 			if (this.goingIntoWall) {
 			Triangle nextTriangle;
+			if (!consectuive) {
 			if (copyTriangle.getTierInfo()[2] == 1 && amountOfBounces < 2 ) {
 			nextTriangle = new Triangle (oldDirection + 1.57, speed - 1, amountOfBounces + 1, copyTriangle);
 			nextTriangle.declare(this.getX(),this.getY());	
@@ -155,6 +158,9 @@ public class Triangle extends Projectile{
 				}
 				stuckInRoom = true;
 			}
+				} else {
+				this.SpinAwayFromWall();
+				}
 			}
 			//deals with stoping the animation
 			if (timer == 150 && (copyTriangle.getTierInfo()[0] == 1 || copyTriangle.getTierInfo()[0] == 2) ) {
@@ -284,6 +290,9 @@ public class Triangle extends Projectile{
 			nextTriangle = new Triangle (oldDirection + 3.14, speed, amountOfBounces + 1, copyTriangle);
 			nextTriangle.declare(this.getX() - 10,this.getY());
 			this.forget();
+		}
+		if (pickupTimer > 3) {
+		consectuive = false;
 		}
 	}
 }

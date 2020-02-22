@@ -15,14 +15,14 @@ public class PokaDot extends Projectile {
 	}
 	@Override
 	public void projectileFrame (){
-		if (hitSomething){
+		if (this.goingIntoWall){
 			this.forget();
 		}
 		try{
 		if (Room.isColliding(this.hitbox()) && !hitSomething){
 			hitSomething = true;
 			setSpeed (0);
-			setY (getY());
+			this.forget();
 		}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			this.forget();
@@ -30,8 +30,7 @@ public class PokaDot extends Projectile {
 		if (isColliding(GameCode.testJeffrey) && !hitSomething){
 			player.damage(7);
 			hitSomething = true;
-			setSpeed (0);
-			setY (getY());
+			this.forget();
 			
 			}
 	}

@@ -11,10 +11,10 @@ public class DirectionBullet extends Projectile {
 		originalY = y;
 		this.setX(x);
 		this.setY(y);
-		this.setHitboxAttributes(0, 0, 4, 4);
+		this.setHitboxAttributes(0, 0, 1, 1);
 	}
 	public double findDirection (GameObject objectToCheck) {
-		for (double temporaryDirection = 0; temporaryDirection <= 6.28; temporaryDirection = temporaryDirection + 0.1) {
+		for (double temporaryDirection = 0; temporaryDirection <= 6.28; temporaryDirection = temporaryDirection + 0.001) {
 			for (int smallDistance = 0; smallDistance <= 500; smallDistance = smallDistance + 1) {
 				if (this.isColliding(objectToCheck)) {
 					return temporaryDirection;
@@ -24,7 +24,8 @@ public class DirectionBullet extends Projectile {
 			}
 			this.setX(originalX);
 			this.setY(originalY);
-		};
+		}
 		return 420;
 	}
+
 }

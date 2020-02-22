@@ -2,6 +2,7 @@ package main;
 
 import java.io.FileNotFoundException;
 
+import gameObjects.BuggyBoi;
 import gameObjects.CannonTankEnemy;
 import gameObjects.Celing_boi;
 import gameObjects.ClostridiumBowtielinea;
@@ -15,6 +16,7 @@ import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
 import gameObjects.Leg;
 import gameObjects.MissleadingStop;
+import gameObjects.Point;
 import gameObjects.Puncuation;
 import gameObjects.SplittingSlimelet;
 import gameObjects.TemporaryWall;
@@ -76,6 +78,14 @@ public class GameCode {
 	static Leg leg;
 	static SlimeSword sword;
 	static SplittingSlimelet slimelet;
+	static BuggyBoi bug1;
+	static BuggyBoi bug2;
+	static BuggyBoi bug3;
+	static BuggyBoi bug4;
+	static BuggyBoi bug5;
+	static BuggyBoi bug6;
+	static BuggyBoi bug7;
+	static BuggyBoi bug8;
 	static MagicMicrophone microphone;
 	static TomatoFunction function;
 	static FireRextinguser extinguser;
@@ -88,6 +98,7 @@ public class GameCode {
 	static MissleadingStop stop;
 	static NonPlayableSam lameSam;
 	static NonPlayableRyan lameRyan;
+	static Point point;
 	static LemonPacket packet;
 	static Waffle waffle;
 	static NinjaTriangle triangle;
@@ -99,6 +110,14 @@ public class GameCode {
 		testJeffrey = new Jeffrey ();
 		lameJeffrey = new NonPlayableJeffrey();
 		lameSam = new NonPlayableSam();
+		bug1 = new BuggyBoi();
+		bug2 = new BuggyBoi();
+		bug3 = new BuggyBoi();
+		bug4 = new BuggyBoi();
+		bug5 = new BuggyBoi();
+		bug6 = new BuggyBoi();
+		bug7 = new BuggyBoi();
+		bug8 = new BuggyBoi();
 		lameRyan = new NonPlayableRyan();
 		gun = new redBlackPaintBallGun(new Sprite ("resources/sprites/redblack_gun.png"));
 		key = new FairUseKey(1);
@@ -152,7 +171,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/snowmap.cmf");
+		Room.loadRoom ("resources/maps/test.cmf");
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
@@ -169,8 +188,20 @@ public class GameCode {
 		//puncuation.declare(300, 200);
 		testLaddder.declare(150, 373);
 		stop.declare(150, 200);
+		//bug1.declare(400, 180);
+		/*bug2.declare(425, 175);
+		bug3.declare(450, 125);*/
+		/*bug4.declare(225, 150);
+		bug5.declare(250, 125);
+		bug6.declare(450, 200);
+		bug7.declare(450, 150);
+		bug8.declare(225, 175);*/
 		slimelet.declare(180, 300);
-		
+		/*point = new Point (418,343);
+		point.declare(384,483);
+		Point testPoint = new Point (400,180);
+		testPoint.declare(185, 380);
+		System.out.println(testPoint.generatePath(point));*/
 	}
 	
 	public static void beforeGameLogic () {

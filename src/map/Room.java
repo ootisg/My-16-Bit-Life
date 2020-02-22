@@ -159,13 +159,20 @@ public class Room {
 		int ydir = 1;
 		byte tileXOffset = 0;
 		byte tileYOffset = 0;
-		if (x1 >= x2 && x1 % 16 == 0) {
-			xdir = -1;
-			tileXOffset = -1;
+		//I may have runined this but I don't think I did
+		if (x1 >= x2) {
+	
 		}
-		if (y1 >= y2 && y1 % 16 == 0) {
-			ydir = -1;
+		if ( x1 % 16 == 0 && x1 >= x2) {
+			tileXOffset = -1;
+			xdir = -1;
+		}
+		if (y1 >= y2) {
+			
+		}
+		if (y1 % 16 == 0 && y1 >= y2) {
 			tileYOffset = -1;
+			ydir = -1;
 		}
 		if (tileInBounds ((int)(x1 / 16 + tileXOffset), (int)(y1 / 16 + tileYOffset))) {
 			if (collisionData [getTileId ((int)(x1 / 16 + tileXOffset), (int)(y1 / 16 + tileYOffset))] == true) {
@@ -249,6 +256,7 @@ public class Room {
 		System.out.println (y2);*/
 		if (y1 == y2) {
 			while (true) {
+			
 				tileXOffset = 0;
 				xstep = snap16 (xstep, xdir);
 				if (xdir == -1 && xstep % 16 == 0) {
@@ -293,7 +301,9 @@ public class Room {
 		}
 		double m = (y1 - y2) / (x1 - x2);
 		double b = y1 - m * x1;
+		int time = 0;
 		while (true) {
+			time = time +1;
 			tileXOffset = 0;
 			tileYOffset = 0;
 			xcheck1 = snap16 (xstep, xdir);
@@ -327,6 +337,7 @@ public class Room {
 				tileBuffer.enabled = false;
 				return;
 			}
+			
 			if (collisionData [getTileId (tileFinalX, tileFinalY)]) {
 				tileBuffer.collisionX = xstep;
 				tileBuffer.collisionY = ystep;
@@ -336,6 +347,10 @@ public class Room {
 				tileBuffer.mapTile.y = (int) ystep / 16 + tileYOffset;
 				return;
 			}
+			/*if (time > 45) {
+				System.out.println("debug");
+				return;
+			}*/
 		}
 	}
 	public static double snap16 (double num, int direction) {
@@ -438,8 +453,8 @@ public class Room {
 		double[][] collisionData = new double [4][2];
 		double[][] collisionPoints = new double [4][2];
 		MapTile[] tileList = new MapTile[4];
-		double xDiff = xTo - hitbox.x;
-		double yDiff = yTo - hitbox.y;
+		double xDiff = hitbox.x - xTo;
+		double yDiff= hitbox.y -yTo;
 		int[] ptrlist;
 		if (xDiff < 0 && yDiff < 0) {
 			ptrlist = new int[] {0, 1, 2, 3};
@@ -451,8 +466,10 @@ public class Room {
 			ptrlist = new int[] {3, 0, 1, 2};
 		}
 		for (int i = 0; i <= 6; i += 2) {
+		//	System.out.println(i);
 			setTileBuffer (hitbox.x + hitboxCorners [i] * hitbox.width, hitbox.y + hitboxCorners [i + 1] * hitbox.height, xTo + hitboxCorners [i] * hitbox.width, yTo + hitboxCorners [i + 1] * hitbox.height);
-			//MainLoop.GameAPI.getWindow ().getBuffer ().drawLine ((int)(hitbox.x + hitboxCorners [i] * hitbox.width), (int)(hitbox.y + hitboxCorners [i + 1] * hitbox.height), (int)(xTo + hitboxCorners [i] * hitbox.width), (int)(yTo + hitboxCorners [i + 1] * hitbox.height));
+		
+			//tileBuffer.drawLine ((int)(hitbox.x + hitboxCorners [i] * hitbox.width), (int)(hitbox.y + hitboxCorners [i + 1] * hitbox.height), (int)(xTo + hitboxCorners [i] * hitbox.width), (int)(yTo + hitboxCorners [i + 1] * hitbox.height));
 			if (tileBuffer.enabled) {
 				collisionData [i / 2][0] = tileBuffer.collisionX;
 				collisionPoints [i / 2][0] = tileBuffer.collisionX;
@@ -846,7 +863,7 @@ public class Room {
 			bound2 = bound1;
 			bound1 = temp;
 		}
-		return (num >= bound1 && num <= bound2);
+		return (num >= bound1 && num < bound2);
 	}
 	public static ArrayList<Background> getBackgroundList () {
 		return backgroundList;
