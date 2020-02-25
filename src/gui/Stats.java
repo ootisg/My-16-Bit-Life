@@ -84,6 +84,6 @@ public class Stats extends GameObject {
 		buffer.fillRect(0, 0, GameCode.testJeffrey.switchTimer, 16);
 		buffer.setColor(new Color (0x000000));
 		buffer.drawRect(0, 0, 30, 16);
-		weaponSprite.draw(260, 0);
+		weaponSprite.draw(230, 0);
 	}
 }

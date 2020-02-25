@@ -779,6 +779,9 @@ if (chargeTimer == timeToCharge) {
 			}
 	}
 	}
+	/*
+	 * generates a path that is circular
+	 */
 	public Stack <Point> generateCircularPath(double radius) {
 		Stack <Point> working = new Stack <Point>();
 		Point point = new Point (this.getX(),this.getY());
@@ -796,6 +799,10 @@ if (chargeTimer == timeToCharge) {
 		
 		return working;
 	}
+	/*
+	 * makes my boi go in a circle.
+	 * fucks up around walls
+	 */
 	public void followCircularPath (double radius, double speed){
 		
 		try {
@@ -889,6 +896,7 @@ if (chargeTimer == timeToCharge) {
 	/**
 	 * uses pathfinding to fallow a pre generated path that trys to avoid walls.
 	 * I did my best but its not perfect
+	 * note can work but is not super reliable so I would recomend not using this
 	 * @param destanation the endpoint where the enemy should end up
 	 * @param speed how fast as fuck the enmey is
 	 */
@@ -1059,6 +1067,7 @@ if (chargeTimer == timeToCharge) {
 	}
 	/** 
 	 * makes a group of this enemy move as a unit with one enmey acting as the leader while the rest fallow for more info please check the method in code
+	 * DONT USE IT DOES NOT WORK
 	 * @param radius how far the fallowing enemy can be from the leading enmey before the stop acting as a unit 
 	 */
 	//note the leading enemy with this AI will not move unless you move it all this AI does is comand the non leading enemies to fallow the leading enemy
@@ -1115,7 +1124,7 @@ if (chargeTimer == timeToCharge) {
 					leadingEnemyXPrevios = enemyToFallow.getXPrevious();
 					leadingEnemyYPrevios = enemyToFallow.getYPrevious();
 					BuggyBoi boiToFollow = (BuggyBoi) enemyToFallow;
-					this.requestMovement(boiToFollow.getSpeed(),boiToFollow.getDirection());
+				//	this.requestMovement(boiToFollow.getSpeed(),boiToFollow.getDirection());
 				}
 				if ( !this.isColliding(enemyToFallow.swarmBox)) {
 					this.fallowingEnemy = false;
@@ -1146,6 +1155,7 @@ if (chargeTimer == timeToCharge) {
 	/**
 	 * runs the suggested movement through a vector collision system and does the cloeset one that does not make it go towards a wall.  Note it has a built in system to make sure the enemy keeps that path instead of reverting back to the original plan after a couple of frames
 	 * @param speed how fast to move
+	 * DONT USE IT DOES NOT WORK
 	 * @param direction the direction to move (in radians)
 	 */
 	public void requestMovement (int speed, double direction) {
@@ -1188,6 +1198,7 @@ if (chargeTimer == timeToCharge) {
 	}
 	/**
 	 * runs the suggested movement through a vector collision system and returns the closest set of coordinates that forms a path that is not going into a wall.  When its current path will lead it into a wall of couse 
+	 * DONT USE IT DOES NOT WORK
 	 * note returns your original arguments if you are good to go from the start
 	 * @param speed the distance to go
 	 * @param direction the direction to move (in radians)

@@ -19,7 +19,6 @@ public class AfterRenderDrawer {
 		drawAfterRender(X,Y,sprite,frame,false);
 	}
 	public static void drawAfterRender (int X, int Y, Sprite sprite, int frame, boolean toKeepOrNotToKeep) {
-		
 		if (!isRendering){
 		spritesToDraw.add(sprite);
 		x.add(X);
@@ -36,7 +35,7 @@ public class AfterRenderDrawer {
 				y.remove(i);
 				frames.remove(i);
 				keep.remove(i);
-				break;
+				return;
 			}
 		}
 		System.out.println("nothing was removed");

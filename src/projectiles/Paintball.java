@@ -30,7 +30,7 @@ public class Paintball extends Projectile {
 				this.forget ();
 			}
 		}
-		if (Room.isColliding (this.hitbox (), xTo, yTo)) {
+		if (Room.isColliding (this.hitbox (), xTo, yTo) || this.goingIntoWall) {
 			this.forget ();
 		}
 	}

@@ -251,6 +251,7 @@ if (activeBox) {
 		}
 		
 		if (keyPressed ('Z')) {
+			wpn.onSwitch();
 			wpn.forget();
 			newWeapon = true;
 			index = index + 1;

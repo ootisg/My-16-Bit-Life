@@ -21,7 +21,7 @@ public class BugAimer extends GameObject {
 	}
 	public void frameEvent () {
 		
-	
+		
 		if (friend.isNearPlayerXWithoutCheckingWalls(0, 0, 20, 80) && friend.isNearPlayerYWithoutCheckingWalls(0, 40, 0, 40)) {
 			timer = timer + 1;
 			this.setSprite(new Sprite ("resources/sprites/config/bug aimer/left.txt"));

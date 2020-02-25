@@ -27,6 +27,7 @@ import gui.Gui;
 import gui.ListTbox;
 import gui.Tbox;
 import gui.Textbox;
+import items.BluePaint;
 import items.FairUseKey;
 import items.LemonPacket;
 import items.RedBlackPaintBall;
@@ -102,6 +103,7 @@ public class GameCode {
 	static LemonPacket packet;
 	static Waffle waffle;
 	static NinjaTriangle triangle;
+	static BluePaint paint;
 	static FairUseKey key;
 	public static void initialize () {
 		//Initialize sprites
@@ -156,8 +158,10 @@ public class GameCode {
 		newFly = new CreepyButterfly();
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall(1);
+		paint = new BluePaint (1);
 		while (x <= 40) {
 		testJeffrey.inventory.addAmmo(paintball);
+		testJeffrey.inventory.addAmmo(paint);
 		x = x + 1;
 		}
 		//testTie.declare (32, 32);

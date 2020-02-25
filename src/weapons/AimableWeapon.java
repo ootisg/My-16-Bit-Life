@@ -49,6 +49,7 @@ public class AimableWeapon extends Item {
 	public double getRotation () {
 		return this.rotation;
 	}
+	
 	public void shoot (Projectile projectile) {
 	this.shoot(projectile, rotation);
 	}

@@ -25,6 +25,12 @@ public class Item extends GameObject {
 	public String checkName () {
 		return "";	
 	}
+	/**
+	 * run whenver weapons are switch overriden in wepon classes (if nessasary)
+	 */
+	public void onSwitch () {
+		
+	}
 	//override to set entry
 	public String checkEnetry() {
 		return "";
