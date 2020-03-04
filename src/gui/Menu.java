@@ -518,12 +518,7 @@ public class Menu extends GameObject{
 				oldMouseX =getCursorX();
 				oldMouseY = getCursorY();
 			} 
-	
-			if (!frozen &&consumabels && (keyPressed(32) || (mouseButtonPressed (0) && (getCursorX() > 34 && getCursorY() > 116  && getCursorX() < 477  && getCursorY() < 450)))) {
-				charictarBox = new ListTbox (100, 180, new String [] {"JEFFREY","SAM","RYAN","BACK"});
-				iterateTab = false;
-				frozen = true;		
-	}
+			//deals with item textboxes
 			if (frozen && charictarBox.getSelected() != -1) {
 				if (charictarBox.getSelected() != 3) {                                                                                                                                                                       
 					this.removeItemList(true);
@@ -634,7 +629,9 @@ public class Menu extends GameObject{
 				mouseAdjustingTime = 0;
 			}
 			//switches to key if d or a is pushed when you are in the menu
+			boolean justChanged = false;
 			if ( (!frozen && (((keyPressed ('D') && consumabels) || (!consumabels&&keyPressed('A'))) && !iterateTab) || (mouseButtonPressed(0) && getCursorX() > 375 && getCursorX() < 477 && getCursorY() > 113 && getCursorY() < 154 && consumabels) || (mouseButtonPressed(0) && getCursorX() > 34 && getCursorX() < 139 && getCursorY() > 116  && getCursorY() < 157 & !consumabels))) {
+				justChanged = true;
 				if (!consumabels) {
 					if (!GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().isEmpty()) {
 						this.removeItemList(consumabels);
@@ -669,6 +666,12 @@ public class Menu extends GameObject{
 				}
 				}
 			}
+			//deals with clicking on itmes (and using items with keyboard controls)
+			if (!justChanged&& !frozen &&consumabels && ((keyPressed(32) || (mouseButtonPressed (0) && (getCursorX() > 34 && getCursorY() > 116  && getCursorX() < 477  && getCursorY() < 450))))) {
+				charictarBox = new ListTbox (100, 180, new String [] {"JEFFREY","SAM","RYAN","BACK"});
+				iterateTab = false;
+				frozen = true;		
+	}
 			//moves the cursor down if s is pushed
 			if( !frozen &&keyPressed ('S') && (!(GameCode.testJeffrey.getInventory().getSortedConsumablesAndAmmo().isEmpty() && consumabels) || !(GameCode.testJeffrey.getInventory().getSortedKey().isEmpty() && !consumabels))) {
 				mouseControls = false;

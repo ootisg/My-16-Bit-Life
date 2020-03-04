@@ -35,7 +35,7 @@ public class AfterRenderDrawer {
 				y.remove(i);
 				frames.remove(i);
 				keep.remove(i);
-				return;
+				break;
 			}
 		}
 		System.out.println("nothing was removed");

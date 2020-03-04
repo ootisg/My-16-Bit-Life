@@ -28,7 +28,7 @@ public class FairUseKey extends Item {
 	}
 	@Override
 	public String checkEnetry() {
-		return "THIS IS A KEY THAT ALLOWS YOU TO ENTER COPYWRIGHTED AREAS ... SOMETIMES IT DOESEN'T WORK BUT HEY ITS SOMETHING";
+		return "THIS IS A KEY THAT ALLOWS YOU TO ENTER COPYWRIGHTED AREAS SOMETIMES IT DOESEN'T WORK BUT HEY ITS SOMETHING";
 	}
 	@Override
 	public void frameEvent () {
