@@ -4,7 +4,9 @@ import java.util.Random;
 
 import gameObjects.Enemy;
 import main.GameCode;
+import main.ObjectHandler;
 import map.Room;
+import players.Jeffrey;
 import resources.Sprite;
 
 public class LifeVaccum extends AimableWeapon {
@@ -15,6 +17,7 @@ public class LifeVaccum extends AimableWeapon {
 	int timer;
 	int [] upgradeInfo;
 	Sprite vaccumSprite;
+	Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").getFirst ();
 	public LifeVaccum (Sprite sprite) {
 		super (sprite);
 		upgradeInfo = new int [] {0,0,0,0};
@@ -57,27 +60,28 @@ public class LifeVaccum extends AimableWeapon {
 		timer = timer + 1;
 		// this may need to be a diffrent number
 		if (mouseButtonDown (0)) {
-			if (GameCode.testJeffrey.getInventory().checkLifeVaccumBattary() > 0) {
+			if (jeffrey.getInventory().checkLifeVaccumBattary() > 0) {
 			if (loseBattary) {
-				GameCode.testJeffrey.getInventory().subtractLifeVaccumBattary(1);
+				jeffrey.getInventory().subtractLifeVaccumBattary(1);
 			}
 			loseBattary = !loseBattary;
 			for (int i = 0; i < Enemy.enemyList.size(); i ++) {
 				if (this.isColliding(Enemy.enemyList.get(i))){
 					// no clue if this works
 					int damageDone = RNG.nextInt(2) + 2;
-					if (timer == 8) {
+					if (timer % 8 == 0) {
 						timer = 0;
 					Enemy.enemyList.get(i).damage (damageDone);
-					GameCode.testJeffrey.samHealth = GameCode.testJeffrey.samHealth + ((int)damageDone/10 + 1);
-					if (GameCode.testJeffrey.samHealth >100) {
-						GameCode.testJeffrey.samHealth = 100;
+				
+					jeffrey.samHealth = jeffrey.samHealth + ((int)damageDone/2 + 1);
+					if (jeffrey.samHealth >jeffrey.maxSamHealth) {
+						jeffrey.samHealth = jeffrey.maxSamHealth;
 					}
 					}
 					}
 				}
 			boolean flipHorizontal;
-			if (GameCode.testJeffrey.getAnimationHandler().flipHorizontal()) {
+			if (jeffrey.getAnimationHandler().flipHorizontal()) {
 				flipHorizontal = true;
 			} else {
 				flipHorizontal = false;
@@ -91,7 +95,7 @@ public class LifeVaccum extends AimableWeapon {
 		} else {
 			outtaAmmo.draw((int)this.getX() - Room.getViewX(), (int)this.getY() - 10);
 		}
-			GameCode.testJeffrey.vx = GameCode.testJeffrey.vx/2;
+			jeffrey.vx = jeffrey.vx/2;
 	}
 	}
 }
