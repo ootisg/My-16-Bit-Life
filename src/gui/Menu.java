@@ -102,6 +102,7 @@ public class Menu extends GameObject{
 	}
 	@Override
 	public void pausedEvent () {
+		boolean abortCheck = false;
 		// mouse controls for the tabs
 		if (getCursorX() > 25 && getCursorX() < 481 && getCursorY() > 64 && getCursorY() < 116 && mouseButtonPressed (0)){
 			this.cleanUp();
@@ -179,7 +180,12 @@ public class Menu extends GameObject{
 			}
 			if (getCursorX() > 311 && getCursorX() < 391) {
 				pageNumber = 3;
+				if (!this.inBigPictureMode) {
 				this.showEnemyList();
+				abortCheck = true;
+				} else {
+					this.inBigPictureMode = false;
+				}
 			}
 			if (getCursorX() > 391 && getCursorX() < 495) {
 				pageNumber = 4;
@@ -769,12 +775,14 @@ public class Menu extends GameObject{
 				oldMouseY = getCursorY();
 			} 
 			if (keyPressed (32) || mouseButtonPressed(0) && enemyPosition != -1) {
+				if (!abortCheck) {
 				if (inBigPictureMode) {
 					this.showEnemyList();
 					AfterRenderDrawer.forceRemoveElement((int) this.getX() + 250 - Room.getViewX(),  (int) this.getY() + 225);
 					detailedEnemyName.forget();
 					detailedEnemyEntry.forget();
 				} else {
+				
 				this.removeEnemyList();
 				this.getAnimationHandler().setAnimationFrame(35);
 				if (enemyPosition == 0) {
@@ -804,6 +812,7 @@ public class Menu extends GameObject{
 				detailedEnemyEntry.keepOpen(true);
 				}
 				inBigPictureMode = !inBigPictureMode;
+				}
 			}
 			//sets the background to the enemy background
 			if (!inBigPictureMode && ((adjustingTime > 2 && !mouseControls) ||(mouseAdjustingTime > 2 && mouseControls))) {
@@ -1033,7 +1042,6 @@ public class Menu extends GameObject{
 				AfterRenderDrawer.forceRemoveElement( (int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 185);
 				enemyName1.forget();
 				} catch (NullPointerException e) {
-					
 				}
 				try {
 				AfterRenderDrawer.forceRemoveElement( (int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 245);
@@ -1045,16 +1053,15 @@ public class Menu extends GameObject{
 				AfterRenderDrawer.forceRemoveElement((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 315);
 				enemyName3.forget();
 				} catch (NullPointerException e) {
-					
+				
 				}
 				try {
 				AfterRenderDrawer.forceRemoveElement((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 400);
 				enemyName4.forget();
 				} catch (NullPointerException e) {
-					
+			
 				}
 			} catch(IndexOutOfBoundsException e) {
-				
 			}	
 	}
 	public void showEnemyList () {
