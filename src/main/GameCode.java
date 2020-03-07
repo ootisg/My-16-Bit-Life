@@ -44,6 +44,7 @@ import resources.AfterRenderDrawer;
 import resources.Sprite;
 import statusEffect.Status;
 import weapons.AimableWeapon;
+import weapons.LaserPointer;
 import weapons.LifeVaccum;
 import weapons.MagicMicrophone;
 import weapons.NinjaTriangle;
@@ -105,6 +106,7 @@ public class GameCode {
 	static NinjaTriangle triangle;
 	static BluePaint paint;
 	static FairUseKey key;
+	static LaserPointer pointer;
 	public static void initialize () {
 		//Initialize sprites
 		//GameObject initialization
@@ -122,6 +124,7 @@ public class GameCode {
 		bug8 = new BuggyBoi();
 		lameRyan = new NonPlayableRyan();
 		gun = new redBlackPaintBallGun(new Sprite ("resources/sprites/redblack_gun.png"));
+		pointer = new LaserPointer ();
 		key = new FairUseKey(1);
 		guy = new PointGuy();
 		packet = new LemonPacket(1);
@@ -135,6 +138,7 @@ public class GameCode {
 		testJeffrey.getInventory().addConsumable(packet);
 		vaccum = new LifeVaccum (new Sprite ("resources/sprites/config/lifeVaccum.txt"));
 		testJeffrey.getInventory().addWeapon(vaccum, 1);
+		testJeffrey.getInventory().addWeapon(pointer, 0);
 		sword = new SlimeSword();
 		stop = new MissleadingStop();
 		slimelet = new SplittingSlimelet ();
