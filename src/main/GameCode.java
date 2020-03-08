@@ -4,15 +4,19 @@ import java.io.FileNotFoundException;
 
 import gameObjects.BuggyBoi;
 import gameObjects.CannonTankEnemy;
+import gameObjects.CarSpawner;
 import gameObjects.Celing_boi;
 import gameObjects.ClostridiumBowtielinea;
 import gameObjects.CreepyButterfly;
 import gameObjects.CutsceenTrigger;
 import gameObjects.CyclopesCrab;
+import gameObjects.DiscoBall;
 import gameObjects.DuoflyMinus;
 import gameObjects.DuoflyPlus;
+import gameObjects.FireHydrant;
 import gameObjects.FireRextinguser;
 import gameObjects.HitboxRightBottomBound;
+import gameObjects.ImpatientCar;
 import gameObjects.Ladder;
 import gameObjects.Leg;
 import gameObjects.MissleadingStop;
@@ -107,6 +111,10 @@ public class GameCode {
 	static BluePaint paint;
 	static FairUseKey key;
 	static LaserPointer pointer;
+	static FireHydrant hydrant;
+	static DiscoBall ball;
+	static ImpatientCar car;
+	static CarSpawner spawner;
 	public static void initialize () {
 		//Initialize sprites
 		//GameObject initialization
@@ -121,6 +129,8 @@ public class GameCode {
 		bug5 = new BuggyBoi();
 		bug6 = new BuggyBoi();
 		bug7 = new BuggyBoi();
+		spawner = new CarSpawner(true);
+		ball = new DiscoBall();
 		bug8 = new BuggyBoi();
 		lameRyan = new NonPlayableRyan();
 		gun = new redBlackPaintBallGun(new Sprite ("resources/sprites/redblack_gun.png"));
@@ -150,6 +160,7 @@ public class GameCode {
 		extinguser = new FireRextinguser ();
 		testJeffrey.getInventory().addKill(extinguser);
 		testTie = new ClostridiumBowtielinea();
+		car = new ImpatientCar();
 		testJeffrey.getInventory().addWeapon(gun, 0);
 		testJeffrey.getInventory().addWeapon(triangle, 0);
 		testJeffrey.getInventory().addWeapon(sword, 1);
@@ -163,6 +174,7 @@ public class GameCode {
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall(1);
 		paint = new BluePaint (1);
+		hydrant = new FireHydrant ();
 		while (x <= 40) {
 		testJeffrey.inventory.addAmmo(paintball);
 		testJeffrey.inventory.addAmmo(paint);
@@ -196,6 +208,7 @@ public class GameCode {
 		//puncuation.declare(300, 200);
 		testLaddder.declare(150, 373);
 		stop.declare(150, 200);
+		ball.declare(200,0);
 		//bug1.declare(400, 180);
 		/*bug2.declare(425, 175);
 		bug3.declare(450, 125);*/
@@ -205,6 +218,9 @@ public class GameCode {
 		bug7.declare(450, 150);
 		bug8.declare(225, 175);*/
 		slimelet.declare(180, 300);
+		hydrant.declare(40,390);
+		//car.declare(300,340);
+		spawner.declare (300,340);
 		/*point = new Point (418,343);
 		point.declare(384,483);
 		Point testPoint = new Point (400,180);

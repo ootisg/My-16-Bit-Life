@@ -32,7 +32,7 @@ public class LaserPointer extends AimableWeapon {
 	}
 	@Override
 	public String checkEnetry() {
-		return "ITS A LASER POINTER POPULAR AMOUNT COLLEGE PROFFESSORS AND BORED KIDS";
+		return "ITS A LASER POINTER POPULAR AMOUNG COLLEGE PROFFESSORS AND BORED KIDS";
 	}
 	@Override
 		public String [] getUpgrades () {
@@ -103,6 +103,8 @@ public class LaserPointer extends AimableWeapon {
 		}
 	}
 	public void draw () {
+		if (mouseButtonDown(0)) {
 		lol.drawLine((int)x,(int) y, (int)newX, (int)newY);
+		}
 	}
 }

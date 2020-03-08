@@ -36,4 +36,12 @@ public class MissleadingStop extends Enemy {
 			GameCode.testJeffrey.status.statusAppliedOnSam[3] = false;
 		}
 	}
+	@Override 
+	public String checkName () {
+		return "MISSLEADING ROAD SIGN (STOP)";
+	}
+	@Override
+	public String checkEntry () {
+		return "ITS AN OCTOGON WHITCH HAS 1 2 3 4 5 6 7 8 EPIC SIDES AND 1 2 3 4 5 6 7 8 AWESOME ANGLES";
+	}
 }
