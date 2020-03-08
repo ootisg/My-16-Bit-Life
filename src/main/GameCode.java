@@ -220,7 +220,7 @@ public class GameCode {
 		slimelet.declare(180, 300);
 		hydrant.declare(40,390);
 		//car.declare(300,340);
-		spawner.declare (300,340);
+		spawner.declare (300,320);
 		/*point = new Point (418,343);
 		point.declare(384,483);
 		Point testPoint = new Point (400,180);
