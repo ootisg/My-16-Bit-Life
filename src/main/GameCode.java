@@ -19,6 +19,7 @@ import gameObjects.HitboxRightBottomBound;
 import gameObjects.ImpatientCar;
 import gameObjects.Ladder;
 import gameObjects.Leg;
+import gameObjects.MafiaShooter;
 import gameObjects.MissleadingStop;
 import gameObjects.Point;
 import gameObjects.Puncuation;
@@ -115,6 +116,7 @@ public class GameCode {
 	static DiscoBall ball;
 	static ImpatientCar car;
 	static CarSpawner spawner;
+	static MafiaShooter shooter;
 	public static void initialize () {
 		//Initialize sprites
 		//GameObject initialization
@@ -165,6 +167,7 @@ public class GameCode {
 		testJeffrey.getInventory().addWeapon(triangle, 0);
 		testJeffrey.getInventory().addWeapon(sword, 1);
 		int x = 0;
+		shooter = new MafiaShooter();
 		//boi = new Celing_boi();
 		waffle = new Waffle (4);
 		puncuation = new Puncuation ();
@@ -217,10 +220,11 @@ public class GameCode {
 		bug6.declare(450, 200);
 		bug7.declare(450, 150);
 		bug8.declare(225, 175);*/
-		slimelet.declare(180, 300);
-		hydrant.declare(40,390);
+		//slimelet.declare(180, 300);
+		//hydrant.declare(40,390);
 		//car.declare(300,340);
-		spawner.declare (300,320);
+		//spawner.declare (300,320);
+		shooter.declare(250,375);
 		/*point = new Point (418,343);
 		point.declare(384,483);
 		Point testPoint = new Point (400,180);

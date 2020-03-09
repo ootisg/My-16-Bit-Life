@@ -767,17 +767,22 @@ if (chargeTimer == timeToCharge) {
 		}
 		if (Room.isColliding(this.hitbox()) && waitForCollison > 10) {
 			waitForCollison = 0;
-			if (moveRight) {
-				this.setX(this.getX()- fatAss);
+			this.setY(this.getY() - 3);
+			if (Room.isColliding(this.hitbox())) {
+				if (moveRight) {
+					this.setX(this.getX()- fatAss);
+				} else {
+					this.setX(this.getX() + fatAss);
+				}
+				this.getAnimationHandler().setFlipHorizontal(!this.getAnimationHandler().flipHorizontal());
+				this.moveRight = !moveRight;
+					if (timer % 2 == 0) {
+						timer = timer +1;
+					}
 			} else {
-				this.setX(this.getX() + fatAss);
+				this.setY(this.getY() + 3);
 			}
-			this.getAnimationHandler().setFlipHorizontal(!this.getAnimationHandler().flipHorizontal());
-			this.moveRight = !moveRight;
-			if (timer % 2 == 0) {
-				timer = timer +1;
-			}
-	}
+		}
 	}
 	/*
 	 * generates a path that is circular

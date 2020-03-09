@@ -13,7 +13,7 @@ public class Fist extends Projectile {
 	boolean firstRun;
 	public Fist () {
 		this.setSprite (new Sprite ("resources/sprites/config/homeingfist.txt"));
-		this.setSpeed (20);
+		this.setSpeed (10);
 		FUCKEMUP = false;
 		firstRun = true;
 		defult = true;

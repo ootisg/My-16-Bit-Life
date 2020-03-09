@@ -9,13 +9,13 @@ public class BluePaint extends Item{
 	int amountToAdd;
 	Sprite paintball;
 	public BluePaint () {
-		paintball = new Sprite ("resources/sprites/redblack_ball.png");
+		paintball = new Sprite ("resources/sprites/Blue_Paint.png");
 		this.setSprite(paintball); 
 		amountToAdd = Integer.parseInt(this.getVariantAttribute ("AmountDroped"));
 		this.setHitboxAttributes(0, 0, 4, 4);
 	}
 	public BluePaint (int amountOfBalls) {
-		paintball = new Sprite ("resources/sprites/redblack_ball.png");
+		paintball = new Sprite ("resources/sprites/Blue_Paint.png");
 		this.setSprite(paintball); 
 		amountToAdd = amountOfBalls;
 		this.setHitboxAttributes(0, 0, 4, 4);
