@@ -12,8 +12,8 @@ import resources.Sprite;
 
 public class AimableWeapon extends Item {
 	//This class is not yet commented
-	private BufferedImage img;
-	private Sprite src;
+	protected BufferedImage img;
+	protected Sprite src;
 	protected double rotation;
 	private double renderedRotation;
 	public AimableWeapon (Sprite sprite) {
@@ -49,7 +49,9 @@ public class AimableWeapon extends Item {
 	public double getRotation () {
 		return this.rotation;
 	}
-	
+	public void setImg (BufferedImage imgbro) {
+		img = imgbro;
+	}
 	public void shoot (Projectile projectile) {
 	this.shoot(projectile, rotation);
 	}

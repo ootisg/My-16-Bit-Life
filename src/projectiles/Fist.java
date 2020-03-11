@@ -9,6 +9,7 @@ import resources.Sprite;
 public class Fist extends Projectile {
 	Enemy guyToFuckUp;
 	boolean FUCKEMUP;
+	int timer = 0;
 	boolean defult;
 	boolean firstRun;
 	public Fist () {
@@ -22,6 +23,24 @@ public class Fist extends Projectile {
 		this.declare (0, 0);
 		this.setHitboxAttributes (0, 0, 24, 14);
 	}
+	@Override 
+	public void frameEvent () {
+		projectileFrame ();
+		try {
+		RNG = new Random ();
+		this.setX(this.getX () + Math.cos (direction) * speed);
+		this.setY(this.getY () + Math.sin (direction) * speed);
+		if (getX () < 0 || getY () < 0 || getX () > Room.getWidth () *16 || getY () > Room.getHeight () * 16) {
+			if (keep) {
+			outsideTheMap = true;
+			} else {
+			this.forget ();
+			}
+		}
+		} catch (IndexOutOfBoundsException e) {
+		this.crashActions();
+		}
+	}
 	@Override
 	public void projectileFrame () {
 		if (firstRun) {
@@ -33,8 +52,13 @@ public class Fist extends Projectile {
 		if (guyToFuckUp != null) {
 			if (defult) {
 			DirectionBullet bullet = new DirectionBullet(this.getX(), this.getY());
-			this.setDirection(bullet.findDirection(guyToFuckUp));
+			this.setDirection(bullet.findDirection(guyToFuckUp));;
 			defult = false;
+			} else {
+				if (timer == 10) {
+					defult = true;
+				}
+				timer = timer + 1;
 			}
 		} else {
 			guyToFuckUp = this.findGuyToFuckUp(false);
@@ -47,13 +71,13 @@ public class Fist extends Projectile {
 				this.forget ();
 			}
 		}
-		if (Room.isColliding (this.hitbox (), xTo, yTo) || this.goingIntoWall) {
+		/*if (Room.isColliding (this.hitbox (), xTo, yTo) || this.goingIntoWall) {
 			guyToFuckUp = this.findGuyToFuckUp(true);
 			if (FUCKEMUP) {
 				guyToFuckUp.damage (RNG.nextInt(10) + 30);
 			}
 			this.forget ();
-		}
+		}*/
 	}
 	/**
 	 * returns the closeest enemy in the direction that the fist is going

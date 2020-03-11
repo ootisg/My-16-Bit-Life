@@ -3,16 +3,17 @@ package gameObjects;
 import map.Room;
 import resources.Sprite;
 import weapons.AimableWeapon;
+import weapons.CrabGun;
 
 public class CyclopesCrab extends Enemy {
 	
 	public static final Sprite crabLeft = new Sprite ("resources/sprites/config/Cyclops_Crab_1_Left.txt");
 	public static final Sprite crabRight = new Sprite ("resources/sprites/config/Cyclops_Crab_1_Right.txt");
 	public static final Sprite crabTurning = new Sprite ("resources/sprites/config/Cyclops_Crab_1_Turning.txt");
-	public static final Sprite crabGun = new Sprite ("resources/sprites/config/Cyclops_Crab_Gun.txt");
+	public static final Sprite crabGun = new Sprite ("resources/sprites/crab_gun.png");
 	public static final Sprite crabGunFiring = new Sprite ("resources/sprites/config/Cyclops_Crab_Gun_Firing.txt");
 	public static final Sprite crabGunBullet = new Sprite ("resources/sprites/config/Cyclops_Crab_Gun_Bullet.txt");
-	
+	private boolean firstRun = true;
 	private boolean moveRight;
 	private boolean turrning;
 	private boolean chillForASecond;
@@ -20,7 +21,8 @@ public class CyclopesCrab extends Enemy {
 	private int momentum;
 	private boolean stuck;
 	private boolean notStuck;
-	AimableWeapon gun;
+	CrabGun gun;
+	CrabGun otherGun;
 	public CyclopesCrab(){
 		this.setSprite(crabLeft);
 		this.getAnimationHandler().setFrameTime (166.7);
@@ -34,8 +36,16 @@ public class CyclopesCrab extends Enemy {
 		momentum = 0;
 		stuck = false;
 		notStuck = true;
-		gun = new AimableWeapon (crabGun);
-		gun.declare(0, 0);
+		try {
+		if (this.getVariantAttribute("Gun").equals("No")) {
+			firstRun = false;
+		}
+		} catch (NullPointerException e) {
+			
+		}
+		otherGun = new CrabGun (crabGun);
+		gun = new CrabGun (crabGun);
+		
 	}
 	@Override 
 	public String checkName () {
@@ -47,6 +57,16 @@ public class CyclopesCrab extends Enemy {
 	}
 	@Override
 	public void enemyFrame(){
+		if (firstRun) {
+			firstRun = false;
+			gun.declare(this.getX() + 20,this.getY());
+			otherGun.declare(this.getX(),this.getY());
+			otherGun.getAnimationHandler().setFlipHorizontal(true);
+		}
+		gun.setX(this.getX() + 20);
+		gun.setY(this.getY());
+		otherGun.setX(this.getX());
+		otherGun.setY(this.getY());
 		boolean lowered;
 		lowered = false;
 		boolean onFloor;

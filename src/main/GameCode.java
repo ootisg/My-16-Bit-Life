@@ -210,7 +210,7 @@ public class GameCode {
 		//showTank.declare(280, 383);
 		//puncuation.declare(300, 200);
 		testLaddder.declare(150, 373);
-		stop.declare(150, 200);
+		//stop.declare(150, 200);
 		ball.declare(200,0);
 		//bug1.declare(400, 180);
 		/*bug2.declare(425, 175);
@@ -224,7 +224,8 @@ public class GameCode {
 		//hydrant.declare(40,390);
 		//car.declare(300,340);
 		//spawner.declare (300,320);
-		shooter.declare(250,375);
+		testCrab.declare (20,300);
+		//shooter.declare(250,375);
 		/*point = new Point (418,343);
 		point.declare(384,483);
 		Point testPoint = new Point (400,180);
