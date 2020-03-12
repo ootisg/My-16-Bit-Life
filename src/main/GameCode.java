@@ -131,6 +131,7 @@ public class GameCode {
 		bug5 = new BuggyBoi();
 		bug6 = new BuggyBoi();
 		bug7 = new BuggyBoi();
+		//function = new TomatoFunction (120, 340);
 		spawner = new CarSpawner(true);
 		ball = new DiscoBall();
 		bug8 = new BuggyBoi();
@@ -224,13 +225,14 @@ public class GameCode {
 		//hydrant.declare(40,390);
 		//car.declare(300,340);
 		//spawner.declare (300,320);
-		testCrab.declare (20,300);
+		//testCrab.declare (20,300);
 		//shooter.declare(250,375);
 		/*point = new Point (418,343);
 		point.declare(384,483);
 		Point testPoint = new Point (400,180);
 		testPoint.declare(185, 380);
 		System.out.println(testPoint.generatePath(point));*/
+		//function.declare(120, 300);
 	}
 	
 	public static void beforeGameLogic () {

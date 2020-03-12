@@ -1,11 +1,15 @@
 package weapons;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Random;
 
 import gameObjects.Enemy;
 import items.Item;
 import main.GameCode;
+import main.RenderLoop;
 import resources.Sprite;
 
 public class SlimeSword extends Item {
@@ -17,6 +21,7 @@ public class SlimeSword extends Item {
 	int damageCoolDown;
 	boolean faceingLeft;
 	int [] upgradeInfo;
+	Graphics2D graphics =(Graphics2D) RenderLoop.window.getBufferGraphics();
 	public SlimeSword () {
 		this.setHitboxAttributes(11, 0, 0, 0);
 		this.setSprite(new Sprite ("resources/sprites/blank.png"));
@@ -25,6 +30,8 @@ public class SlimeSword extends Item {
 		samWalkingSword = new Sprite ("resources/sprites/config/sam_walking_with_sword.txt");
 		damageCoolDown = 20;
 		coolDown = false;
+		graphics.setColor(new Color (0x19ED45));
+		graphics.setStroke(new BasicStroke (2));
 	samSwingSprite = new Sprite ("resources/sprites/config/slime_swing.txt");
 	}
 	@Override
@@ -99,5 +106,10 @@ public class SlimeSword extends Item {
 				Enemy.enemyList.get(i).damage (RNG.nextInt(50) + 20);
 			}
 		}
+	}
+	@Override 
+	public void draw () {
+		super.draw();
+		graphics.drawLine(2, 4, 16, 18);
 	}
 }

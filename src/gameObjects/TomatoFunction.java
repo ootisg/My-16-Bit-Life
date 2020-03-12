@@ -52,6 +52,7 @@ public class TomatoFunction extends Enemy {
 		leg6.declare(x -12,y + 38);
 		leg7.declare(x + 30,y + 38);
 		leg8.declare(x + 45, y + 30);
+		this.setHitboxAttributes(0, 0, 65,  51 );
 	}
 	@Override 
 	public String checkName () {
@@ -63,6 +64,7 @@ public class TomatoFunction extends Enemy {
 	}
 	@Override
 	public void frameEvent () {
+
 		//make legs de-attach as more damage is received
 		if (this.health < 2200 && leg1.isAttached()) {
 			leg1.deattach();
@@ -86,6 +88,7 @@ public class TomatoFunction extends Enemy {
 		}
 		if (this.health <= 0 && leg5.isAttached()) {
 			leg5.deattach();
+			
 		}
 		//deals with making legs occasionally flip
 		shouldFlip = RNG.nextInt(149) +1;

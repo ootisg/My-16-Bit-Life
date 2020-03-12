@@ -31,6 +31,7 @@ public class CyclopesCrab extends Enemy {
 		chillForASecond = false;
 		turrning = false;
 		finishedAnimationFrames = 0;
+		this.setDeath(false);
 		moveRight = false;
 		this.defence = 6;
 		momentum = 0;
@@ -53,10 +54,15 @@ public class CyclopesCrab extends Enemy {
 	}
 	@Override
 	public String checkEntry () {
-		return "ITS UNCLEAR WHERE THESE CRABS GET THERE BULLETS FROM IT DOESEN'T REALLY MATTER BUT JUST LIKE IMAGINE OWNING A GUN SHOP AND A BUNCH OF CRABS WALK IN AND PURCHASE YOU ENTIRE STOCK LIKE THAT WOULD BE WEIRD RIGHT ITS NOT JUST ME";
+		return "ITS UNCLEAR WHERE THESE CRABS GET THERE BULLETS FROM JUST LIKE IMAGINE OWNING A GUN SHOP AND A BUNCH OF CRABS WALK IN AND PURCHASE YOU ENTIRE STOCK LIKE THAT WOULD BE WEIRD RIGHT ITS NOT JUST ME";
 	}
 	@Override
 	public void enemyFrame(){
+		if (this.getHealth() <= 0) {
+			gun.forget();
+			otherGun.forget();
+			this.deathEvent();
+		}
 		if (firstRun) {
 			firstRun = false;
 			gun.declare(this.getX() + 20,this.getY());

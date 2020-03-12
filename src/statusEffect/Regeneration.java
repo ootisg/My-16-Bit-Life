@@ -15,17 +15,17 @@ public class Regeneration extends GameObject {
 	public void frameEvent () {
 		if (timer % 15 == 0) {
 			if (charictar == 0) {
-				if (GameCode.testJeffrey.jeffreyHealth != GameCode.testJeffrey.maxJeffreyHealth) {
+				if (GameCode.testJeffrey.jeffreyHealth < GameCode.testJeffrey.maxJeffreyHealth) {
 					GameCode.testJeffrey.jeffreyHealth = GameCode.testJeffrey.jeffreyHealth + 1;
 				}
 			}
 				if (charictar == 1) {
-					if (GameCode.testJeffrey.samHealth != GameCode.testJeffrey.maxSamHealth) {
+					if (GameCode.testJeffrey.samHealth < GameCode.testJeffrey.maxSamHealth) {
 						GameCode.testJeffrey.samHealth = GameCode.testJeffrey.samHealth + 1;
 					}
 				}
-					if (charictar == 0) {
-						if (GameCode.testJeffrey.ryanHealth != GameCode.testJeffrey.maxRyanHealth) {
+					if (charictar == 2) {
+						if (GameCode.testJeffrey.ryanHealth < GameCode.testJeffrey.maxRyanHealth) {
 							GameCode.testJeffrey.ryanHealth = GameCode.testJeffrey.ryanHealth + 1;
 						}
 					}

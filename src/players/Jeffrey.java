@@ -163,10 +163,13 @@ if (activeBox) {
 			if (witchCharictar == 0) {
 				if ((samHealth <= 0) && (ryanHealth <= 0)) {
 					textbox = new Tbox (this.getX(), 340, 25, 8, "LUL NO ... SAM AND RYAN HAVE NO HP" , false);
-					textbox.declare(0,0);
+					//the Room.getVeiwY may need to be minus
+					textbox.declare(this.getX() - Room.getViewX(),this.getY() - 10 + Room.getViewY());
 					switchTimer = 0;
 				} else {
+					wpn.onSwitch();
 					wpn.forget();
+					newWeapon = true;
 					if (samHealth >= 0) {
 					witchCharictar = 1;
 					switchTimer = 0;
@@ -180,10 +183,13 @@ if (activeBox) {
 			if ((witchCharictar == 1) && (switchTimer != 0)) {
 				if ((jeffreyHealth <= 0) && (ryanHealth <= 0)) {
 					textbox = new Tbox (this.getX(), 340, 25, 8, "JEFFREY AND RYAN HAVE NO HEALTH YOU ABSOLUTE MORRON (SEE ITS FUNNY TO ME THAT YOU THOUGHT YOU COULD SWITCH TO JEFFREY OR RYAN BUT IN REALITY YOUR JUST A HUGE MORON)" , false);
-					textbox.declare(0,0);
+					//the Room.getVeiwY may need to be minus
+					textbox.declare(this.getX() - Room.getViewX(),this.getY() - 10 + Room.getViewY());
 					switchTimer = 0;
 				} else {
+					wpn.onSwitch();
 					wpn.forget();
+					newWeapon = true;
 					if (ryanHealth >= 0) {
 					witchCharictar = 2;
 					switchTimer = 0;
@@ -196,10 +202,13 @@ if (activeBox) {
 			if ((witchCharictar == 2) && (switchTimer != 0)) {
 				if ((jeffreyHealth <= 0) && (samHealth <= 0)) {
 					textbox = new Tbox (this.getX(), 340, 25, 8, "SAM AND JEFFREY GOT NOSCOPED ITS UP TO RYAN NOW" , false);
-					textbox.declare(0,0);
+					//the Room.getVeiwY may need to be minus
+					textbox.declare(this.getX() - Room.getViewX(),this.getY() - 10 + Room.getViewY());
 					switchTimer = 0;
 				} else {
+					wpn.onSwitch();
 					wpn.forget();
+					newWeapon = true;
 					if (jeffreyHealth >= 0) {
 					witchCharictar = 0;
 					switchTimer = 0;
@@ -279,7 +288,11 @@ if (activeBox) {
 		}
 		if (!onLadder) {
 			if (!standingOnPlatform) {
+		if (keyDown(32)) {
 		vy += Room.getGravity ();
+		} else {
+			vy += (Room.getGravity () + 0.5);
+		}
 			}
 		}
 		if (vy > 15.0) {
@@ -474,15 +487,42 @@ if (activeBox) {
 		if (invulTimer > 0) {
 			invulTimer --;
 		}
-		if (this.jeffreyHealth <= 0 && this.samHealth <= 0) {
+		if (this.jeffreyHealth <= 0 && this.samHealth <= 0 && this.ryanHealth <= 0) {
 			this.jeffreyHealth = this.maxJeffreyHealth;
 			//MainLoop.getConsole ().enable ("You died, and I'm too lazy to put anything in for that. :P");
 		}
-		if (this.jeffreyHealth <= 0) {
+		if (this.jeffreyHealth <= 0 && witchCharictar == 0) {
+			wpn.forget();
+			newWeapon = true;
+			if (this.samHealth > 0) {
 			witchCharictar = 1;
+			} else {
+			if (this.ryanHealth > 0) {
+			witchCharictar = 2;
+			}
+			}
 		}
-		if (this.samHealth <= 0) {
+		if (this.samHealth <= 0 && witchCharictar == 1) {
+			wpn.forget();
+			newWeapon = true;
+			if (this.ryanHealth > 0) {
+			witchCharictar = 2;
+			} else {
+			if (this.jeffreyHealth > 0) {
 			witchCharictar = 0;
+			}
+			}
+		}
+		if (this.ryanHealth <= 0 && witchCharictar == 2) {
+			wpn.forget();
+			newWeapon = true;
+			if (this.jeffreyHealth > 0) {
+			witchCharictar = 0;
+			} else {
+			if (this.samHealth > 0) {
+			witchCharictar = 1;
+			}
+			}
 		}
 	}
 	public void damage (double baseDamage) {
