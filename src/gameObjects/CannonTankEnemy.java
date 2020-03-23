@@ -30,6 +30,10 @@ public CannonTankEnemy () {
 	hasTurned = false;
 	turrning = 0;
 	Variable = false;
+	if (this.getVariantAttribute("flip").equals("true")) {
+		this.setSprite(cannonLeft);
+		this.moveRight =false;
+	}
 	}
 	@Override 
 	public String checkName () {

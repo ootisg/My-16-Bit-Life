@@ -19,7 +19,7 @@ Zombee bee;
 				this.defence = 140;
 				info = "W";
 			}
-			if (this.getVariantAttribute("Type").equals("Petrified Wood")) {
+			if (this.getVariantAttribute("Type").equals("PetrifiedWood")) {
 				this.health = 1000;
 				this.defence = 250;
 				info = "PW";

@@ -29,7 +29,7 @@ public class Zombee extends Enemy {
 			woodSprite = new Sprite ("resources/sprites/config/zombeeW.txt");
 			this.setSprite(woodSprite);
 		}
-		if (this.getVariantAttribute("Type").equals("Petrified Wood")) {
+		if (this.getVariantAttribute("Type").equals("PetrifiedWood")) {
 			this.health = 240;
 			this.defence = 150;
 			petrifiedWoodSprite = new Sprite ("resources/sprites/ZombeePW.txt");

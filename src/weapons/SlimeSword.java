@@ -7,9 +7,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import gameObjects.Enemy;
+import gameObjects.Point;
 import items.Item;
 import main.GameCode;
+import main.ObjectHandler;
 import main.RenderLoop;
+import map.Room;
+import players.Jeffrey;
 import resources.Sprite;
 
 public class SlimeSword extends Item {
@@ -20,10 +24,20 @@ public class SlimeSword extends Item {
 	ArrayList <Enemy> hitEnemys = new ArrayList ();
 	int damageCoolDown;
 	boolean faceingLeft;
+	double x;
+	double y;
+	double currX;
+	double currY;
+	double desX;
+	double desY;
+	double slope;
+	boolean extended;
+	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").getFirst ();
 	int [] upgradeInfo;
 	Graphics2D graphics =(Graphics2D) RenderLoop.window.getBufferGraphics();
 	public SlimeSword () {
-		this.setHitboxAttributes(11, 0, 0, 0);
+		extended = false;
+		this.setHitboxAttributes(11, 0, 3, 3);
 		this.setSprite(new Sprite ("resources/sprites/blank.png"));
 		RNG = new Random ();
 		upgradeInfo = new int [] {0,0,0,0};
@@ -58,7 +72,109 @@ public class SlimeSword extends Item {
 	}
 	@Override
 	public void frameEvent() {
-		if (this.mouseButtonDown(0) && !GameCode.testJeffrey.getSprite().equals(samSwingSprite) ) {
+		if (extended && (currX != desX || currY != desY)) {
+			
+			if (desX > currX) {
+				currX = currX + 5;
+				if (currX > desX) {
+					currX = desX;
+				}
+			} else {
+				currX = currX - 5;
+				if (currX < desX) {
+					currX = desX;
+				}
+			}
+			if (desY > currY) {
+				currY = currY + (5*slope);
+				if (currY > desY) {
+					currY = desY;
+				}
+			} else {
+				currY = currY + (5*slope);
+				if (currY < desY) {
+					currY = desY;
+				}
+			}
+		} else {
+			if (extended) {
+				double slack = desY - player.getY();
+				if (slack < 0) {
+					slack = player.getY() - desY;
+				}
+				System.out.println(slack);
+				if ((desX - player.getX() > slack && desX - player.getX() > 0) ||(player.getX() - desX > slack && player.getX() - desX > 0)) {
+					if (player.getX() > desX) {
+					player.goX(player.getX() - player.vx);
+					} else {
+						player.goX(player.getX() + player.vx);	
+					}
+				}
+				if (!mouseButtonDown(2)) {
+					Point currentPoint = new Point (this.getX(),this.getY());
+					Point mousePoint = new Point (desX,desY);
+					slope =currentPoint.getSlope(mousePoint);
+					player.stopFall(true);
+					if (!Double.isNaN(slope)) {
+					player.goY(player.getY() + slope);
+					}
+					if ( !Double.isNaN(slope)&& (slope > 0 && player.getY() > desY) || (slope < 0 && player.getY() < desY)) {
+						player.goY(player.getY() - slope);
+					}
+				} 
+			}
+		}
+		this.setX(player.getX());
+		this.setY(player.getY());
+		if (this.mouseButtonPressed(2)) {
+			extended = true;
+			this.setHitboxAttributes(11, 0, 3, 3);
+			x = this.getX();
+			y = this.getY();
+			currX = x;
+			currY = y;
+			int count = 0;
+			Point currentPoint = new Point (x,y);
+			Point mousePoint = new Point (getCursorX(),getCursorY());
+			slope =currentPoint.getSlope(mousePoint);
+			boolean change = false;
+			if ((mousePoint.getX()> currentPoint.getX() && mousePoint.getY() < currentPoint.getY()) || (mousePoint.getX()> currentPoint.getX() && mousePoint.getY() > currentPoint.getY() )) {
+				change = true;
+			}
+			
+			while (true) {
+				try {
+					count = count + 1;
+				if (!change) {
+				if (!this.goXandY(this.getX() - 1, this.getY() + slope)) {
+					break;
+				}
+				} else {
+					if (!this.goXandY(this.getX() + 1, this.getY() + slope)) {
+						break;
+					}
+				}
+				if (count > 900) {
+					break;
+				}
+				} catch (ArrayIndexOutOfBoundsException e) {
+					break;
+				}
+			}
+			desX = this.getX();
+			desY = this.getY();
+			this.setX(x - Room.getViewX());
+			this.setY(y);
+			
+			//potentially add y stuff if it becomes a problem
+			x = x - Room.getViewX();
+			desX = desX - Room.getViewX();
+		} 
+		if (this.mouseButtonClicked(0) && extended) {
+			extended = false;
+			player.stopFall(false);
+		}
+		if (this.mouseButtonDown(0) && !GameCode.testJeffrey.getSprite().equals(samSwingSprite) && !extended ) {
 			GameCode.testJeffrey.setSprite(samSwingSprite);
 			GameCode.testJeffrey.getAnimationHandler().setFrameTime(50);
 			GameCode.testJeffrey.getAnimationHandler().setRepeat(false);
@@ -110,6 +226,8 @@ public class SlimeSword extends Item {
 	@Override 
 	public void draw () {
 		super.draw();
-		graphics.drawLine(2, 4, 16, 18);
+		if (extended) {
+		graphics.drawLine((int)this.getX(), (int)this.getY(), (int)currX, (int)currY);
+		}
 	}
 }

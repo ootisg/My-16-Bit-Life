@@ -13,6 +13,19 @@ public class ImpatientCar extends Enemy {
 		this.setFalls(true);
 	this.setHitboxAttributes(0, 0, 73, 28);	
 	int working = rand.nextInt(3);
+	try {
+	if (this.getVariantAttribute("color").equals("grey")) {
+		working = 0;
+	}
+	if (this.getVariantAttribute("color").equals("red")) {
+		working = 1;
+	}
+	if (this.getVariantAttribute("color").equals("black")) {
+		working = 2;
+	}
+	}catch (Exception e) {
+		
+	}
 	if (working == 0) {
 	this.setSprite(new Sprite ("resources/sprites/config/ImpatentCarsGrey.txt"));
 	}
@@ -22,7 +35,16 @@ public class ImpatientCar extends Enemy {
 	if (working == 2) {
 		this.setSprite(new Sprite ("resources/sprites/config/ImpatentCarsBlack.txt"));
 		}
-
+	try {
+	if (this.getVariantAttribute("flip").equals("true")) {
+		this.getAnimationHandler().flipHorizontal();
+		this.direction = true;
+	} else {
+		this.direction =false;
+	}
+	} catch (Exception e) {
+		
+	}
 	this.setHealth(30);
 	this.defence = 60;
 	}

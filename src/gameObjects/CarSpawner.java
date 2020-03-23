@@ -9,6 +9,15 @@ public class CarSpawner extends GameObject {
 	ImpatientCar car;
 	public CarSpawner () {
 		this.setSprite(new Sprite ("resources/sprites/garage.png"));
+		try {
+		if (this.getVariantAttribute("flip").equals("true")) {
+			this.getAnimationHandler().setFlipHorizontal(true);
+		} else {
+			direction = false;
+		}
+		} catch (NullPointerException e) {
+			
+		}
 	}
 	public CarSpawner (boolean directionToSpawn) {
 		this.setSprite(new Sprite ("resources/sprites/garage.png"));

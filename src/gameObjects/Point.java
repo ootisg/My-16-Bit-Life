@@ -19,6 +19,8 @@ public class Point extends GameObject {
 	public Point (double xi, double yi) {
 	x = xi;
 	y = yi;
+	this.setX(xi);
+	this.setY(yi);
 	points = new Stack<Point>();
 	//this.setSprite(new Sprite ("resources/sprites/config/bug_boi.txt"));
 	this.setHitboxAttributes(0, 0, 5, 5);
