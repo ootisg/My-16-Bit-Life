@@ -12,9 +12,9 @@ import resources.Sprite;
 
 public class AimableWeapon extends Item {
 	//This class is not yet commented
-	private BufferedImage img;
-	private Sprite src;
-	private double rotation;
+	protected BufferedImage img;
+	protected Sprite src;
+	protected double rotation;
 	private double renderedRotation;
 	public AimableWeapon (Sprite sprite) {
 		this.src = sprite;
@@ -42,11 +42,21 @@ public class AimableWeapon extends Item {
 	public void setRotation (double rotation) {
 		this.rotation = rotation;
 	}
+	
+	public Sprite getUnrotatedSprite () {
+		return this.getSprite();
+	}
 	public double getRotation () {
 		return this.rotation;
 	}
+	public void setImg (BufferedImage imgbro) {
+		img = imgbro;
+	}
 	public void shoot (Projectile projectile) {
-		double ang = rotation;
+	this.shoot(projectile, rotation);
+	}
+	public void shoot (Projectile projectile, double direction) {
+		double ang = direction;
 		double endX;
 		double endY;
 		if (getAnimationHandler ().flipHorizontal ()) {

@@ -39,6 +39,14 @@ public class Slimelet extends Enemy {
 		this.health = 47;
 		this.conversePrevious = false;
 	}
+	@Override 
+	public String checkName () {
+		return "SLIMELET";
+	}
+	@Override
+	public String checkEntry () {
+		return "THIS WEAK MOSTER LEAVS BEHIND A TRAIL OF SLIME IT ALSO CAN WALK ON WALLS AND CEILINGS";
+	}
 	@Override
 	public void enemyFrame () {
 		//Random numbers correspond to sprite coordinates

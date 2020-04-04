@@ -26,6 +26,14 @@ public class CreepyButterfly extends Enemy {
 		this.health = 1;
 		this.defence = 0;
 	}
+	@Override 
+	public String checkName () {
+		return "CREEPY BUTTERFLY";
+	}
+	@Override
+	public String checkEntry () {
+		return "CREEEEEEEEEEEEEEEEPY BUTTERFLYS?";
+	}
 	@Override
 	public void enemyFrame () {
 		if (x == -1) {
@@ -39,18 +47,18 @@ public class CreepyButterfly extends Enemy {
 			double xCopy = this.getX();
 			double yCopy = this.getY();
 			gayBabyJail =RNG.nextInt(359);
-			x = x + Math.cos (gayBabyJail) * 3;
-			y = y + Math.sin (gayBabyJail) * 3;
+			x = x + Math.cos (gayBabyJail) * 6;
+			y = y + Math.sin (gayBabyJail) * 6;
 			setX ((int) x);
 			setY ((int) y);
 			while (Room.isColliding(this.hitbox())) {
 				this.setX(xCopy);
 				this.setY(yCopy);
-				x = x - Math.cos(gayBabyJail) * 3;
-				y = y - Math.sin(gayBabyJail) * 3;
+				x = x - Math.cos(gayBabyJail) * 6;
+				y = y - Math.sin(gayBabyJail) * 6;
 				gayBabyJail = RNG.nextInt (359);
-				x = x + Math.cos (gayBabyJail) * 3;
-				y = y + Math.sin (gayBabyJail) * 3;
+				x = x + Math.cos (gayBabyJail) * 6;
+				y = y + Math.sin (gayBabyJail) * 6;
 				setX ((int) x);
 				setY ((int) y);
 			}
@@ -61,8 +69,8 @@ public class CreepyButterfly extends Enemy {
 			if (x > targetX) {
 				angle -= Math.PI;
 			}
-			x = x + Math.cos (angle) * 3;
-			y = y + Math.sin (angle) * 3;
+			x = x + Math.cos (angle) * 6;
+			y = y + Math.sin (angle) * 6;
 			setX ((int) x);
 			setY ((int) y);
 		}

@@ -1,7 +1,8 @@
 package map;
 
+import java.awt.Rectangle;
+
 import main.GameObject;
-import main.Hitbox;
 import resources.Sprite;
 
 public class Room2 {
@@ -45,7 +46,7 @@ public class Room2 {
 		}
 		return result;
 	}
-	public boolean isColliding (Hitbox hitbox) {
+	public boolean isColliding (Rectangle hitbox) {
 		int x = hitbox.x;
 		int y = hitbox.y;
 		int width = hitbox.width;
@@ -63,7 +64,7 @@ public class Room2 {
 		}
 		return false;
 	}
-	public boolean[] getCollidingTiles (Hitbox hitbox) {
+	public boolean[] getCollidingTiles (Rectangle hitbox) {
 		int x = hitbox.x;
 		int y = hitbox.y;
 		int width = hitbox.width;

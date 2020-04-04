@@ -53,6 +53,14 @@ public class SplittingSlimelet extends Enemy {
 		this.setSprite(moveingSprite);
 	}
 	@Override 
+	public String checkName () {
+		return "SPLITTING SLIMELET";
+	}
+	@Override
+	public String checkEntry () {
+		return "SLAMS THE GROUND AND SPLITS INTO TWO SMALLER CREATURES WHEN ITS DEFEATED";
+	}
+	@Override 
 	public void enemyFrame () {
 	
 		if (this.getSprite().equals(this.attackingSprite)) {
@@ -72,11 +80,9 @@ public class SplittingSlimelet extends Enemy {
 			normalMovement = false;
 			}
 			deathTimer = deathTimer +1;
-			if (deathTimer == 6) {
+			if (deathTimer == 30) {
 				baby.declare(this.getX() - 10,this.getY());
 				child.declare(this.getX()+ 50, this.getY());
-			}
-			if (deathTimer == 30) {
 				this.deathEvent();
 			}
 		}

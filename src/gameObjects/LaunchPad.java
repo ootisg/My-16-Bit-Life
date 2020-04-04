@@ -9,7 +9,7 @@ import resources.Sprite;
 public class LaunchPad extends GameObject {
 	
 	public static final Sprite ladder = new Sprite ("resources/sprites/Ladder.png");
-	
+	Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 	boolean onTop;
 	public LaunchPad () {
 		this.setSprite(ladder);
@@ -18,28 +18,27 @@ public class LaunchPad extends GameObject {
 	}
 	
 	public  void frameEvent () {
-		Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 		if (this.isColliding(jeffrey) && keyPressed('W')) {
-			Jeffrey.onLadder = true;
-			Jeffrey.vy = 0;
-			Jeffrey.vx = 0;
+			jeffrey.onLadder = true;
+			jeffrey.vy = 0;
+			jeffrey.vx = 0;
 			jeffrey.setX(this.getX());
 		}
 		if (jeffrey.getY() <= this.getY()  && this.isColliding(jeffrey)) {
-			Jeffrey.onLadder = false;
-			Jeffrey.standingOnPlatform = true;
+			jeffrey.onLadder = false;
+			jeffrey.standingOnPlatform = true;
 		}
-		if (Jeffrey.standingOnPlatform && (keyPressed (32))) {
-			Jeffrey.standingOnPlatform = false;
+		if (jeffrey.standingOnPlatform && (keyPressed (32))) {
+			jeffrey.standingOnPlatform = false;
 		}
-		if (Jeffrey.onLadder && keyDown ('W') && this.isColliding (jeffrey)) {
+		if (jeffrey.onLadder && keyDown ('W') && this.isColliding (jeffrey)) {
 			jeffrey.setY(jeffrey.getY() -3);
 		}
-		if (Jeffrey.onLadder && keyDown ('S') && this.getY() >= jeffrey.getY()) {
+		if (jeffrey.onLadder && keyDown ('S') && this.getY() >= jeffrey.getY()) {
 			jeffrey.setY(jeffrey.getY() + 3);
 		}
-		if (Jeffrey.onLadder && (keyPressed (32))){
-			Jeffrey.onLadder = false;
+		if (jeffrey.onLadder && (keyPressed (32))){
+			jeffrey.onLadder = false;
 		}
 	}
 }

@@ -5,11 +5,10 @@ import java.util.Random;
 import items.Item;
 import main.GameCode;
 import main.ObjectHandler;
-import main.Tbox;
+import gui.Tbox;
 import map.Room;
 import players.Jeffrey;
 import resources.Sprite;
-import resources.Spritesheet;
 
 public class WaterBlob extends Enemy {
 	//And what do you know, I don't have the water blob sprites either
@@ -42,24 +41,24 @@ public class WaterBlob extends Enemy {
 		if (oldTimer == 0) {
 			if (timer != 0) {
 				oldTimer = timer;
-				if (jeffrey.inventory.amountOfConsumbles() == 0) {
+				if (jeffrey.inventory.amountOfConsumables() == 0) {
 					Tbox box;
-					box = new Tbox (this.getX(),this.getY() - 45, 12, 4, new String ("YOU HAVE NO ITEMS WHAT A MORRON"));
+					box = new Tbox (this.getX(),this.getY() - 45, 12, 4, new String ("YOU HAVE NO ITEMS WHAT A MORRON"), true);
 				} else {
-				Item itemToRemove = jeffrey.inventory.findConsumableAtIndex(RNG.nextInt(jeffrey.inventory.amountOfConsumbles()));
+				Item itemToRemove = jeffrey.inventory.findConsumableAtIndex(RNG.nextInt(jeffrey.inventory.amountOfConsumables()));
 				Tbox box;
-				box = new Tbox (this.getX(),this.getY() - 45, 12, 4, new String ("A " + itemToRemove.checkName() + " WAS RUINED"));
+				box = new Tbox (this.getX(),this.getY() - 45, 12, 4, new String ("A " + itemToRemove.checkName() + " WAS RUINED"), true);
 				jeffrey.inventory.removeItem(itemToRemove);
 				}
 			} else {
 				oldTimer = 1;
-				if (jeffrey.inventory.amountOfConsumbles() == 0) {
+				if (jeffrey.inventory.amountOfConsumables() == 0) {
 					Tbox box;
-					box = new Tbox (this.getX(),this.getY() - 45, 12, 4, new String ("YOU HAVE NO ITEMS WHAT A MORRON"));
+					box = new Tbox (this.getX(),this.getY() - 45, 12, 4, new String ("YOU HAVE NO ITEMS WHAT A MORRON"), true);
 				} else {
-				Item itemToRemove = jeffrey.inventory.findConsumableAtIndex(RNG.nextInt(jeffrey.inventory.amountOfConsumbles()));
+				Item itemToRemove = jeffrey.inventory.findConsumableAtIndex(RNG.nextInt(jeffrey.inventory.amountOfConsumables()));
 				Tbox box;
-				box = new Tbox (this.getX(),this.getY() - 45, 12, 4, new String ("A " + itemToRemove.checkName() + " WAS RUINED"));
+				box = new Tbox (this.getX(),this.getY() - 45, 12, 4, new String ("A " + itemToRemove.checkName() + " WAS RUINED"), true);
 				jeffrey.inventory.removeItem(itemToRemove);
 				}
 			}
@@ -125,10 +124,10 @@ public class WaterBlob extends Enemy {
 		}
 		this.setY(this.getY() - 5);
 		if (falling) {
-			if (timer == 38 && (getAnimationHandler ().getAnimationSpeed() != 0)) {
+			if (timer == 38 && (getAnimationHandler ().getFrameTime() != 0)) {
 				timer = 0;
 				this.setHitboxAttributes(0, 0, 40, 32);
-				getAnimationHandler ().setAnimationSpeed(0);
+				getAnimationHandler ().setFrameTime(0);
 			}
 			this.setY(this.getY() + 1);
 			if (Room.isColliding(this.hitbox())) {
@@ -141,7 +140,7 @@ public class WaterBlob extends Enemy {
 						
 					}
 					setHitboxAttributes (0, 0, 40, 32);
-					getAnimationHandler().setAnimationSpeed(0.1);
+					getAnimationHandler().setFrameTime(150);
 					falling = false;
 				}
 			}

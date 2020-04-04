@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 
 import main.GameObject;
 import main.GameLoop;
-import main.ObjectMatrix;
 import map.Room;
 
 public class Loadzone extends GameObject {

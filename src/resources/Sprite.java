@@ -1,6 +1,7 @@
 package resources;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -102,7 +103,6 @@ public class Sprite {
 			isAnimated = false;
 		}
 	}
-	
 	/**
 	 * Constructs a sprite with the given image path and parser. Does not support caching.
 	 * @param imagepath The image to use

@@ -3,6 +3,7 @@ import java.awt.event.KeyEvent;
 
 import main.AnimationHandler;
 import main.GameAPI;
+import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
 import resources.AfterRenderDrawer;
@@ -23,9 +24,11 @@ public class Textbox extends GameObject {
 	public Sprite textBoxTop;
 	public Sprite textBoxBottum;
 	public Sprite textBoxBackground;
+	private boolean unPause = true;
 	public Sprite textBoxSides;
 	public Sprite fontSheet;
 	String message;
+	private boolean unfrezeMenu = false;
 	int isScrolled = 0;
 	String text1;
 	int width1;
@@ -50,14 +53,21 @@ public class Textbox extends GameObject {
 		remember = whateverMan;
 	}
 	public void chagePause() {
-		if (ObjectHandler.isPaused()) {
+		if (!ObjectHandler.isPaused()) {
 		ObjectHandler.pause(true);
 		} else {
 		ObjectHandler.pause(false);
 		}
 	}
+	//changes wheather or not to unpause the game after the textbox is done
+	public void changeUnpause () {
+		unPause = !unPause;
+	}
 	public void changeWidth (int newWidth) {
 		width1 = newWidth;
+	}
+	public void unfrezeMenu() {
+		unfrezeMenu = true;
 	}
 	public void changeHeight(int newHeigh) {
 		height1 = newHeigh;
@@ -69,13 +79,21 @@ public class Textbox extends GameObject {
 	public void changeBoxVisability () {
 		renderBox = !renderBox;
 	}
+	public void changeText(String newText) {
+		text1 = newText;
+	}
 	// text = the message thats displayed width is the width of the box height is the height of the box 
 	//x_orign is the x start point of the box y_orign is the y start point of the box
-	@Override
-public void pausedEvent (){
+	
+public void drawBox (){
 	if ((finalCheck && isFinished && (keyPressed(65) || keyPressed (97) || isDone)) || keyPressed (88)){
 		isDone = true;
+		if (unfrezeMenu) {
+			GameCode.gui.menu.frozen = false;
+		}
+		if (unPause) {
 		ObjectHandler.pause(false);
+		}
 		if (!remember) {
 		this.forget();
 		}
@@ -219,10 +237,9 @@ public void pausedEvent (){
 			}
 		}
 	}
+
 @Override
-public void frameEvent () {
-	if (!ObjectHandler.isPaused()) {
-		this.pausedEvent();
-	}
+public void draw () {
+		this.drawBox();
 }
 }

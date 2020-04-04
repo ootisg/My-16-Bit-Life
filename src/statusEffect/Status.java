@@ -1,5 +1,7 @@
 package statusEffect;
 
+import java.util.Arrays;
+
 import gameObjects.Enemy;
 import main.GameObject;
 import players.Jeffrey;
@@ -7,17 +9,24 @@ import players.Jeffrey;
 public class Status extends GameObject {
 	public Boolean [] statusAppliedOnJeffrey;
 	public Boolean [] statusAppliedOnSam;
+	public Boolean [] statusAppliedOnRyan;
 	public Status(){
-		statusAppliedOnJeffrey = new Boolean [2];
-		statusAppliedOnSam = new Boolean [2];
-		statusAppliedOnJeffrey [0] = false;
-		statusAppliedOnSam [0] = false;
-		statusAppliedOnJeffrey[1] = false;
-		statusAppliedOnSam [1] = false;
+		statusAppliedOnJeffrey = new Boolean [10];
+		statusAppliedOnSam = new Boolean [10];
+		statusAppliedOnRyan = new Boolean [10];
+		Arrays.fill(statusAppliedOnJeffrey, false);
+		Arrays.fill(statusAppliedOnSam, false);
+		Arrays.fill(statusAppliedOnRyan, false);
 	}
 	//indexes 
 	// 0 = poison
 	// 1 = one way
+	// 2 = lemony
+	// 3 = slowness
+	// 4 = brittle
+	// 5 = fast
+	// 6 = powerful
+	// 7 = regenaration
 	// when makieng new status be sure to add a thing that makes this true when its aplied and false when it is not
 	public boolean checkStatus (int index, int charictar) {
 	if (charictar == 0) {
@@ -25,6 +34,9 @@ public class Status extends GameObject {
 	}
 	if (charictar == 1) {
 	return statusAppliedOnSam [index];
+	}
+	if (charictar == 2) {
+	return statusAppliedOnRyan[index];	
 	}
 	return false;
 	}
@@ -35,7 +47,10 @@ public class Status extends GameObject {
 		statusAppliedOnJeffrey [index] = false;
 	}
 	if (charictar == 1) {
-		statusAppliedOnJeffrey [index] = false;
+		statusAppliedOnSam [index] = false;
+	}
+	if (charictar == 2) {
+		statusAppliedOnRyan [index] = false;
 	}
 	}
 }

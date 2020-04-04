@@ -19,12 +19,20 @@ Zombee bee;
 				this.defence = 140;
 				info = "W";
 			}
-			if (this.getVariantAttribute("Type").equals("Petrified Wood")) {
+			if (this.getVariantAttribute("Type").equals("PetrifiedWood")) {
 				this.health = 1000;
 				this.defence = 250;
 				info = "PW";
 			}
 			timer = 0;
+	}
+	@Override 
+	public String checkName () {
+		return "ZOMBEE TREE";
+	}
+	@Override
+	public String checkEntry () {
+		return "ZOMBEES TOOK OVER A TREE VERY SIMPLE BACKSTORY (UNLIKE THE ORIGINAL ENTRY FOR THIS WITCH WAS DUMB)";
 	}
 	@Override
 	public void enemyFrame() {

@@ -1,0 +1,3 @@
+$src resources/sprites/Paper_Triangle_1.png
+
+grid 8 8

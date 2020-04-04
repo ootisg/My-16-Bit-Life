@@ -1,0 +1,4 @@
+$src resources/sprites/Bug_Aimer.png
+
+rectangle 210 0 30 15:
+grid 15 15;

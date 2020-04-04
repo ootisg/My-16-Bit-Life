@@ -30,6 +30,18 @@ public CannonTankEnemy () {
 	hasTurned = false;
 	turrning = 0;
 	Variable = false;
+	if (this.getVariantAttribute("flip").equals("true")) {
+		this.setSprite(cannonLeft);
+		this.moveRight =false;
+	}
+	}
+	@Override 
+	public String checkName () {
+		return "CANNON TANK ENEMY";
+	}
+	@Override
+	public String checkEntry () {
+		return "COOL MACHINE IT SHOOTS CANNONBALLS";
 	}
 	@Override
 	public void enemyFrame(){

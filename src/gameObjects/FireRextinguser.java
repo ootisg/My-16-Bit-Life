@@ -24,6 +24,14 @@ public class FireRextinguser extends Enemy {
 		this.setFalls(true);
 	}
 
+	@Override 
+	public String checkName () {
+		return "FIRE REEXTINGUSER";
+	}
+	@Override
+	public String checkEntry () {
+		return "OH IRONY HOW YOU TAKE US TO THE LANDS OF DISTOPIA";
+	}
 	@Override
 	public void enemyFrame () {
 		this.patrol(2, 0, 60, 0, 60, attackingSprite, idleSprite, 0, 2, 0, 0, 19, 24);

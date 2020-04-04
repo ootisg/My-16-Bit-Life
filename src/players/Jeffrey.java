@@ -1,12 +1,14 @@
 package players;
 
 import weapons.AimableWeapon;
+import weapons.MagicMicrophone;
 import weapons.SlimeSword;
 import weapons.Unarmed;
 import weapons.redBlackPaintBallGun;
 import items.Inventory;
 import items.Item;
 import items.RedBlackPaintBall;
+import main.GameCode;
 import main.GameObject;
 import main.GameWindow;
 import main.InputManager;
@@ -21,7 +23,9 @@ import statusEffect.Status;
 
 public class Jeffrey extends GameObject {
 	public double jeffreyHealth;
-	public double maxHealth;
+	public double maxJeffreyHealth;
+	public double maxSamHealth;
+	public double maxRyanHealth;
 	private boolean isWalking;
 	public  boolean isJumping;
 	public Sprite standSprite;
@@ -55,6 +59,8 @@ public class Jeffrey extends GameObject {
 	public Sprite samIdle;
 	public Sprite jeffreyIdle;
 	public Sprite samWalking;
+	public Sprite ryanWhipping;
+	public Sprite whipLength;
 	public int switchTimer;
 	private Tbox textbox;
 	public Sprite ryanMicrophoneIdle;
@@ -63,12 +69,16 @@ public class Jeffrey extends GameObject {
 	private boolean activeBox;
 	boolean messWithFrameTime;
 	private int boxTimer;
+	private boolean fallBruh;
 	public Status status;
 	public Jeffrey () {
 		//This class is not yet commented
 		this.declare (0, 0);
 		index = 0;
+		fallBruh = true;
 		messWithFrameTime = true;
+		ryanWhipping = new Sprite ("resources/sprites/config/microphoneWhip.txt");
+		whipLength = new Sprite ("resources/sprites/config/microphoneWhipVariableFrame.txt");
 		ryanMicrophoneIdle = new Sprite ("resources/sprites/config/ryan_idle_microphone.txt");
 		ryanMicrophoneWalking = new Sprite("resources/sprites/config/ryan_walking_microphone.txt");
 		ryanIdle = new Sprite ("resources/sprites/config/ryan_idle.txt");
@@ -90,10 +100,11 @@ public class Jeffrey extends GameObject {
 		this.specialCooldown = 0;
 		this.jeffreyHealth = 100;
 		this.samHealth = 100;
-		
 		bindLeft = false;
 		bindRight = false;
-		this.maxHealth = 100;
+		this.maxJeffreyHealth = 100;
+		this.maxSamHealth = 150;
+		this.maxRyanHealth = 100;
 		this.invulTimer = 0;
 		this.ryanHealth = 100;
 		this.vx = 0;
@@ -152,10 +163,13 @@ if (activeBox) {
 			if (witchCharictar == 0) {
 				if ((samHealth <= 0) && (ryanHealth <= 0)) {
 					textbox = new Tbox (this.getX(), 340, 25, 8, "LUL NO ... SAM AND RYAN HAVE NO HP" , false);
-					textbox.declare(0,0);
+					//the Room.getVeiwY may need to be minus
+					textbox.declare(this.getX() - Room.getViewX(),this.getY() - 10 + Room.getViewY());
 					switchTimer = 0;
 				} else {
+					wpn.onSwitch();
 					wpn.forget();
+					newWeapon = true;
 					if (samHealth >= 0) {
 					witchCharictar = 1;
 					switchTimer = 0;
@@ -169,10 +183,13 @@ if (activeBox) {
 			if ((witchCharictar == 1) && (switchTimer != 0)) {
 				if ((jeffreyHealth <= 0) && (ryanHealth <= 0)) {
 					textbox = new Tbox (this.getX(), 340, 25, 8, "JEFFREY AND RYAN HAVE NO HEALTH YOU ABSOLUTE MORRON (SEE ITS FUNNY TO ME THAT YOU THOUGHT YOU COULD SWITCH TO JEFFREY OR RYAN BUT IN REALITY YOUR JUST A HUGE MORON)" , false);
-					textbox.declare(0,0);
+					//the Room.getVeiwY may need to be minus
+					textbox.declare(this.getX() - Room.getViewX(),this.getY() - 10 + Room.getViewY());
 					switchTimer = 0;
 				} else {
+					wpn.onSwitch();
 					wpn.forget();
+					newWeapon = true;
 					if (ryanHealth >= 0) {
 					witchCharictar = 2;
 					switchTimer = 0;
@@ -185,10 +202,13 @@ if (activeBox) {
 			if ((witchCharictar == 2) && (switchTimer != 0)) {
 				if ((jeffreyHealth <= 0) && (samHealth <= 0)) {
 					textbox = new Tbox (this.getX(), 340, 25, 8, "SAM AND JEFFREY GOT NOSCOPED ITS UP TO RYAN NOW" , false);
-					textbox.declare(0,0);
+					//the Room.getVeiwY may need to be minus
+					textbox.declare(this.getX() - Room.getViewX(),this.getY() - 10 + Room.getViewY());
 					switchTimer = 0;
 				} else {
+					wpn.onSwitch();
 					wpn.forget();
+					newWeapon = true;
 					if (jeffreyHealth >= 0) {
 					witchCharictar = 0;
 					switchTimer = 0;
@@ -211,23 +231,36 @@ if (activeBox) {
 		if (witchCharictar == 2 && ((!this.getSprite().equals(ryanIdle)) || !this.getSprite().equals(ryanWalking)) )  {
 			standSprite = ryanIdle;
 			walkSprite = ryanWalking;
+			if (isWalking && !this.getSprite().equals(walkSprite) && !this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone")) {
+				this.setSprite(walkSprite);
+			}
 			if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone")) {
 				standSprite = ryanMicrophoneIdle;
 				this.getWeapon().frameEvent();
 				walkSprite = ryanMicrophoneWalking;
+				if (isWalking && !this.getSprite().equals(walkSprite) && changeSprite) {
+					this.setSprite(walkSprite);
+				}
 				}
 		}
 		if (witchCharictar == 1 && (!this.getSprite().equals(samIdle) || !this.getSprite().equals(samWalking))) {
 			standSprite = samIdle;
 			walkSprite = samWalking;
+			if (isWalking && !this.getSprite().equals(walkSprite) && !this.getWeapon().getClass().getSimpleName().equals("SlimeSword")) {
+				this.setSprite(walkSprite);
+			}
 			if (this.getWeapon().getClass().getSimpleName().equals("SlimeSword")) {
 			standSprite = samSword;
 			this.getWeapon().frameEvent();
 			walkSprite = samWalkingSword;
+			if (isWalking && !this.getSprite().equals(walkSprite) && changeSprite) {
+				this.setSprite(walkSprite);
+			}
 			}
 		}
 		
 		if (keyPressed ('Z')) {
+			wpn.onSwitch();
 			wpn.forget();
 			newWeapon = true;
 			index = index + 1;
@@ -255,13 +288,19 @@ if (activeBox) {
 		}
 		if (!onLadder) {
 			if (!standingOnPlatform) {
+		if (keyDown(32)) {
 		vy += Room.getGravity ();
+		} else {
+			vy += (Room.getGravity () + 0.5);
+		}
 			}
 		}
 		if (vy > 15.0) {
 			vy = 15.0;
 		}
+		if (fallBruh) {
 		setY (getY () + (int) Math.ceil (vy));
+	}
 		if (Room.isColliding (this.hitbox ())) {
 			vy = 0;
 			double fc = .2; //Friction coefficient
@@ -276,6 +315,7 @@ if (activeBox) {
 					vx = 0;
 				}
 			}
+			if (fallBruh) {
 			MapTile[] collidingTiles = Room.getCollidingTiles (this.hitbox ());
 			this.setY (this.getY() + vy);
 			for (int i = 0; i < collidingTiles.length; i ++) {
@@ -288,14 +328,31 @@ if (activeBox) {
 			    if (getY () >= collidingTiles [i].y && getY () <= collidingTiles [i].y + 16) {
 			        this.setY (collidingTiles [i].y + 16 - this.getHitboxYOffset ());
 			        break;
-			    }
+			    
 			}
+			}
+		}
 		}
 		if (!onLadder) {
 		if (!binded) {
 		if (keyDown ('A') && !bindLeft) {
-			if (vx >= -3.0) {
+			if ((vx >= -3.0 && !this.checkIfSlow() && !this.checkIfFast()) || (vx >= -3.0 && this.checkIfSlow() && this.checkIfFast())|| (vx >= -4.0 && !this.checkIfSlow() && this.checkIfFast())|| (vx >= -2.0 && this.checkIfSlow() && !this.checkIfFast())) {
+				if (this.checkIfSlow() && !this.checkIfFast()) {
+					ax = -.3;
+				} else {
+				if (this.checkIfFast()) {
+				ax = -.7;	
+				} else {
 				ax = -.5;
+				}
+				}
+			}
+		
+			if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone") && !this.getAnimationHandler().flipHorizontal()) {
+			if (GameCode.testJeffrey.getSprite().equals(ryanWhipping) || GameCode.testJeffrey.getSprite().equals(whipLength)) {
+				this.desyncSpriteX(-34);
+				
+			}
 			}
 			this.getAnimationHandler().setFlipHorizontal (true);
 			if (vy == 0 && !isWalking) {
@@ -305,9 +362,22 @@ if (activeBox) {
 				}
 			}
 		} else if (keyDown ('D') && !bindRight) {
-			if (vx <= 3.0) {
+			if ((vx <= 3.0 && !this.checkIfSlow() && !this.checkIfFast()) || (vx <= 3.0 && this.checkIfSlow() && this.checkIfFast())|| (vx <= 4.0 && !this.checkIfSlow() && this.checkIfFast())|| (vx <= 2.0 && this.checkIfSlow() && !this.checkIfFast())) {
+				if (this.checkIfSlow() && !this.checkIfFast()) {
+					ax = .3;
+				} else {
+				if (this.checkIfFast()) {
+				ax = .7;	
+				} else {
 				ax = .5;
+				}
+				}
 			}
+			if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone") && this.getAnimationHandler().flipHorizontal()) {
+				if (GameCode.testJeffrey.getSprite().equals(ryanWhipping) || GameCode.testJeffrey.getSprite().equals(whipLength)) {
+					this.desyncSpriteX(0);
+				}
+				}
 			this.getAnimationHandler().setFlipHorizontal (false);
 			if (vy == 0 && !isWalking) {
 				isWalking = true;
@@ -362,14 +432,13 @@ if (activeBox) {
 		}
 	
 		//Damage animation
-		// it went caput for now
-		//if (invulTimer != 0) {
-			//if ((invulTimer / 2) % 2 == 1) {
-				//this.hide ();
-			//} else {
-				//this.show ();
-			//}
-		//}
+		if (invulTimer != 0) {
+		if ((invulTimer / 2) % 2 == 1) {
+				this.getAnimationHandler().hide ();
+			} else {
+				this.getAnimationHandler().show ();
+			}
+		}
 		if (this.getAnimationHandler().flipHorizontal ()) {
 			this.getWeapon().setX (this.getX () - 5);
 			this.getWeapon().setY (this.getY () + 16);
@@ -418,26 +487,58 @@ if (activeBox) {
 		if (invulTimer > 0) {
 			invulTimer --;
 		}
-		if (this.jeffreyHealth <= 0 && this.samHealth <= 0) {
-			this.jeffreyHealth = this.maxHealth;
-			//not sure how to enable console now
+		if (this.jeffreyHealth <= 0 && this.samHealth <= 0 && this.ryanHealth <= 0) {
+			this.jeffreyHealth = this.maxJeffreyHealth;
 			//MainLoop.getConsole ().enable ("You died, and I'm too lazy to put anything in for that. :P");
 		}
-		if (this.jeffreyHealth <= 0) {
+		if (this.jeffreyHealth <= 0 && witchCharictar == 0) {
+			wpn.forget();
+			newWeapon = true;
+			if (this.samHealth > 0) {
 			witchCharictar = 1;
+			} else {
+			if (this.ryanHealth > 0) {
+			witchCharictar = 2;
+			}
+			}
 		}
-		if (this.samHealth <= 0) {
+		if (this.samHealth <= 0 && witchCharictar == 1) {
+			wpn.forget();
+			newWeapon = true;
+			if (this.ryanHealth > 0) {
+			witchCharictar = 2;
+			} else {
+			if (this.jeffreyHealth > 0) {
 			witchCharictar = 0;
+			}
+			}
+		}
+		if (this.ryanHealth <= 0 && witchCharictar == 2) {
+			wpn.forget();
+			newWeapon = true;
+			if (this.jeffreyHealth > 0) {
+			witchCharictar = 0;
+			} else {
+			if (this.samHealth > 0) {
+			witchCharictar = 1;
+			}
+			}
 		}
 	}
 	public void damage (double baseDamage) {
 		switchTimer = 0;
 		if (invulTimer == 0) {
+			if (checkIfBrittle()) {
+				baseDamage = baseDamage *1.2;
+			}
 			if (witchCharictar == 0) {
 			jeffreyHealth -= baseDamage;
 			}
 			if (witchCharictar == 1) {
 			samHealth -= baseDamage;	
+			}
+			if (witchCharictar == 2) {
+			ryanHealth = ryanHealth - baseDamage;
 			}
 			invulTimer = 15;
 		}
@@ -445,13 +546,89 @@ if (activeBox) {
 	public Inventory getInventory () {
 		return this.inventory;
 	}
+	public boolean checkIfBrittle() {
+		if (this.witchCharictar == 0) {
+			 return status.statusAppliedOnJeffrey[4];
+		}
+		if (this.witchCharictar == 1) {
+			 return status.statusAppliedOnSam[4];
+		}
+		if (this.witchCharictar == 2) {
+			 return status.statusAppliedOnRyan[4];
+		}
+		return false;
+	}
+		
+	public boolean checkIfSlow() {
+		if (this.witchCharictar == 0) {
+			 return status.statusAppliedOnJeffrey[3];
+		}
+		if (this.witchCharictar == 1) {
+			 return status.statusAppliedOnSam[3];
+		}
+		if (this.witchCharictar == 2) {
+			 return status.statusAppliedOnRyan[3];
+		}
+		return false;
+	}
+	public boolean checkIfFast() {
+		if (this.witchCharictar == 0) {
+			 return status.statusAppliedOnJeffrey[5];
+		}
+		if (this.witchCharictar == 1) {
+			 return status.statusAppliedOnSam[5];
+		}
+		if (this.witchCharictar == 2) {
+			 return status.statusAppliedOnRyan[5];
+		}
+		return false;
+	}
+	public boolean checkIfPowerful() {
+		if (this.witchCharictar == 0) {
+			 return status.statusAppliedOnJeffrey[6];
+		}
+		if (this.witchCharictar == 1) {
+			 return status.statusAppliedOnSam[6];
+		}
+		if (this.witchCharictar == 2) {
+			 return status.statusAppliedOnRyan[6];
+		}
+		return false;
+	}
+	public boolean checkIfSomeoneIsLemoney(int who) {
+		if (who == 0) {
+			return status.statusAppliedOnJeffrey[2];
+		}
+		if (who == 1) {
+			return status.statusAppliedOnSam[2];
+		}
+		if (who == 2) {
+			return status.statusAppliedOnRyan[2];
+		}
+		return false;
+	}
 	public double getHealth () {
 		if (witchCharictar == 0) {
 		return this.jeffreyHealth;
-		} else {
+		} 
+		if (witchCharictar == 1) {
 		return this.samHealth;
 		}
+		return this.ryanHealth;
 	}
+	//stops the charictar from falling for a bit
+	public void stopFall(boolean fall) {
+		fallBruh = !fall;
+	}
+	public double getHealth (int CharictarToCheck) {
+		if (CharictarToCheck == 0) {
+			return this.jeffreyHealth;
+			} 
+			if (CharictarToCheck == 1) {
+			return this.samHealth;
+			}
+			return this.ryanHealth;
+		}	
 	@Override
 	public void forget () {
 		

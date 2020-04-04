@@ -37,16 +37,20 @@ public class Celing_boi extends Enemy {
 		leftIdle = new Sprite ("resources/sprites/config/Ceiling_Boi_left_Idle.txt");
 		rightIdle = new Sprite ("resources/sprites/config/Ceiling_Boi_right_Idle.txt");
 		this.getAnimationHandler().setFrameTime(100);
-		//if (this.getVariantAttribute("startPos").equals ("left")){
-		// place = 0;
-		// } 
-		//if (this.getVariantAttribute("startPos").equals ("middle")){
-				// place = 1;
-				// } 
-		//if (this.getVariantAttribute("startPos").equals ("right")){
-				// place = 2;
-				// direction = false;
-				// } 
+		try {
+		if (this.getVariantAttribute("startPos").equals ("left")){
+		 place = 0;
+		 } 
+		if (this.getVariantAttribute("startPos").equals ("middle")){
+				 place = 1;
+				 } 
+		if (this.getVariantAttribute("startPos").equals ("right")){
+				 place = 2;
+				 direction = false;
+				} 
+		}catch (NumberFormatException e) { 
+			place = 0;
+		}
 		place = 0;
 		if (place == 0) {
 			this.setSprite(shootLeft);
@@ -58,7 +62,14 @@ public class Celing_boi extends Enemy {
 			this.setSprite(shootRight);
 			}
 	}
-	
+	@Override
+	public String checkEntry () {
+		return "HE ON THE CELING AND STUFF";
+	}
+	@Override 
+	public String checkName () {
+		return "CELING BOI";
+	}
 	@Override
 	public void enemyFrame () {
 		if (timer == 9) {

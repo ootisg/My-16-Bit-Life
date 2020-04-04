@@ -9,5 +9,13 @@ public class Unarmed extends AimableWeapon {
 		this.setSprite(new Sprite ("resources/sprites/blank.png"));
 		// TODO Auto-generated constructor stub
 	}
+	@Override
+	public String checkName (){
+		return "UNARMED";
+	}
+	@Override 
+	public String getItemType() {
+		return "Weapon";
+	}
 
 }

@@ -1,8 +1,9 @@
-package npcs;
+package gameObjects;
 
 import items.Item;
 import main.GameCode;
 import main.GameObject;
+import resources.Sprite;
 import gui.Textbox;
 
 public class NPC extends GameObject{
@@ -12,7 +13,7 @@ public class NPC extends GameObject{
 	Boolean messageSeenOnce;
 	Boolean checkToChange;
 	int index;
-	String [] itemMessages;
+	protected String [] itemMessages;
 	Boolean checkForItem;
 	Boolean itemFound;
 	Item itemCheck;
@@ -29,8 +30,10 @@ public class NPC extends GameObject{
 	int charictarToRecive;
 	Boolean disapear;
 	int amountOfItemMessages;
+	Boolean setup;
 	public NPC () {
 		itemCheck = new Item ();
+		setup = true;
 		amountOfItemMessages = 1;
 		disapear = false;
 		checkToChange = false;
@@ -47,7 +50,7 @@ public class NPC extends GameObject{
 		messages = new String [5];
 		itemMessages = new String [5];
 		proximityTriggered = false;
-		index = 0;
+		index = 1;
 		messageSeenOnce = false;
 		messages [0] = "TOTALLY NOT A DEFULT MESSAGE";
 		messages [1]= "SERIOSLY IT ISENT A DEFULT MESSAGE";
@@ -67,26 +70,15 @@ public class NPC extends GameObject{
 		messages [0] = newMessage;
 	}
 	// makes the NPC give Jeffrey an Item
-	public void giveConsumableItem (Item itemToGive, int amountToGive) {
+	public void giveItem (Item itemToGive, int amountToGive) {
 		freeItem = itemToGive;
-		giveItem = 1;
 		amountOfFreeItem = amountToGive;
 	}
-	public void giveKeyItem (Item itemToGive, int amountToGive) {
-		freeItem = itemToGive;
-		giveItem = 2;
-		amountOfFreeItem = amountToGive;
+	public String checkName (){
+		return this.getVariantAttribute("Name");
 	}
-	public void giveAmmo (Item itemToGive, int amountToGive) {
-		freeItem = itemToGive;
-		giveItem = 3;
-		amountOfFreeItem = amountToGive;
-	}
-	public void giveWeapon (Item itemToGive, int amountToGive, int charictarForWeapon) {
-		freeItem = itemToGive;
-		giveItem = 4;
-		amountOfFreeItem = amountToGive;
-		witchCharictar = charictarForWeapon;
+	public String checkEntry () {
+		return this.getVariantAttribute("Entry");
 	}
 	//changes diolog to itemMessages if Item is in Jeffrey's inventory
 	public void checkItem (Item itemToCheck, int amountNeeded) {
@@ -106,26 +98,9 @@ public class NPC extends GameObject{
 		disapear = true;
 	}
 	// used in conjustion with checkItem or takeItem makes the NPC give Jeffrey an Item after Jeffrey shows them (or gives them) his
-	public void exchangeConsumableItem (Item itemToGive, int amountToGive) {
+	public void exchangeItem (Item itemToGive, int amountToGive) {
 		itemToTake = itemToGive;
 		amountToTake = amountToGive;
-		exchangeItem = 1;
-	}
-	public void exchangeKeyItem (Item itemToGive, int amountToGive) {
-		itemToTake = itemToGive;
-		amountToTake = amountToGive;
-		exchangeItem = 2;
-	}
-	public void exchangeAmmo (Item itemToGive, int amountToGive) {
-		itemToTake = itemToGive;
-		amountToTake = amountToGive;
-		exchangeItem = 3;
-	}
-	public void exchangeWeapon (Item itemToGive, int amountToGive, int witchCharictar) {
-		itemToTake = itemToGive;
-		amountToTake = amountToGive;
-		exchangeItem = 4;
-		charictarToRecive = witchCharictar;
 	}
 	//changes it from being triggered by touching the NPC or triggered by pressing a key
 	public void changeTriggering () {
@@ -137,33 +112,100 @@ public class NPC extends GameObject{
 	public void changeMessageIfSeen (String newMessage, int amountOfMessages) {
 		checkToChange = true;
 		amountOfNonDefultMessages = amountOfMessages;
-		index = index + 1;
-		if (index > amountOfNonDefultMessages)
+		if (index < amountOfNonDefultMessages) {
 		messages[index] = newMessage;
+		if (index + 1 < amountOfNonDefultMessages) {
+		index = index + 1;
+		}
+		}
 	}
 	@Override
 	public void frameEvent () {
+		if (setup) {
+			this.getAnimationHandler().setFrameTime(100);
+			try {
+				this.setHitboxAttributes(Integer.parseInt(this.getVariantAttribute("x_offset")), Integer.parseInt(this.getVariantAttribute("y_offset")), Integer.parseInt(this.getVariantAttribute("width")), Integer.parseInt(this.getVariantAttribute("height")));
+			}catch (NumberFormatException e) {
+				this.setHitboxAttributes(0, 0, 16, 16);
+			}
+			if (this.getVariantAttribute("sprite") != null) {
+			this.setSprite(new Sprite (this.getVariantAttribute("sprite")));
+			}else {
+				this.setSprite(new Sprite ("resources/sprites/config/point_guy.txt"));
+			}
+				int i = 0;
+				while (this.getVariantAttribute("message " +Integer.toString(i + 1)) != null) {
+					messages[i] = this.getVariantAttribute("message " + Integer.toString(i+1));
+					if (i > 1) {
+						checkToChange = true;
+					}
+					i = i + 1;
+				}
+				amountOfNonDefultMessages = i;
+				i = 0;
+				while (this.getVariantAttribute("itemMessage " +Integer.toString(i + 1)) != null) {
+					itemMessages[i] = this.getVariantAttribute("itemMessage " + Integer.toString(i+1));
+					if (i > 1) {
+						checkToChange = true;
+					}
+					i = i +1;
+				}
+				amountOfItemMessages = i;
+				if (this.getVariantAttribute("itemNeeded") !=null) {
+					try {
+						  Object itemToUse = Class.forName(this.getVariantAttribute("itemNeeded")).newInstance();
+						  int amountToCheck;
+						  if(this.getVariantAttribute("amountToCheck") != null) {
+							  amountToCheck = Integer.parseInt(this.getVariantAttribute("amountToCheck"));
+						  } else {
+							  amountToCheck = 1;
+						  }
+						  if (this.getVariantAttribute("action") != null) {
+							  if (this.getVariantAttribute("action").equals("take")) {
+								  this.takeItem((Item) itemToUse, amountToCheck);
+							  } else {
+								  if (this.getVariantAttribute("action").equals("check")) {
+								 this.checkItem((Item) itemToUse, amountToCheck);
+								  } else {
+									  this.giveItem((Item) itemToUse, amountToCheck);
+								  }
+							  }
+						  } else {
+							  this.checkItem((Item) itemToUse, amountToCheck);
+						  }
+						if (this.getVariantAttribute("itemToExchange") != null) {
+							  Object itemToExchange = Class.forName(this.getVariantAttribute("itemToExchange")).newInstance();
+							  int amountToExchange;
+							  if(this.getVariantAttribute("amountToExchange") != null) {
+								  amountToExchange = Integer.parseInt(this.getVariantAttribute("amountToExchange"));
+							  } else {
+								  amountToExchange = 1;
+							  }
+							  this.exchangeItem((Item) itemToExchange, amountToExchange);
+							  
+						}
+					} catch (ClassNotFoundException e) {
+						System.out.println("the class of your item got a bit fooked up m8");
+					} catch (InstantiationException e) {
+						System.out.println("the class of your item got a bit fooked up m8");
+					} catch (IllegalAccessException e) {
+						System.out.println("the class of your item got a bit fooked up m8");
+					}
+				}
+			setup = false;	
+			}		
 		if ((exchangeItem != 0) && itemFound) {
-			if (exchangeItem == 1) {
-				this.giveConsumableItem(itemToTake, amountToTake);
+				this.giveItem(itemToTake, amountToTake);
 				exchangeItem = 0;
-			}
-			if (exchangeItem == 2) {
-				this.giveKeyItem(itemToTake, amountToTake);
-				exchangeItem = 0;
-			}
-			if (exchangeItem == 3) {
-				this.giveAmmo(itemToTake, amountToTake);
-				exchangeItem = 0;
-			}
-			if (exchangeItem == 1) {
-				this.giveWeapon(itemToTake, amountToTake, charictarToRecive);
-				exchangeItem = 0;
-			}
 		}
+		
 		try {
-		if (diolog.isDone) {
+		if (diolog.isDone && diolog != null) {
+			if (!GameCode.testJeffrey.getInventory().checkFreinds(this)) {
+				GameCode.testJeffrey.getInventory().addFreind(this);
+			}
 			messageSeenOnce = true;
+			diolog = null;
 		}
 		} catch (NullPointerException e) {
 			
@@ -171,18 +213,18 @@ public class NPC extends GameObject{
 		if (checkIfMessageSeen() && checkToChange) {
 			if (!itemFound) {
 			messages [0] = messages [index];
-			this.changeMessageIfSeen(messages [index + 1], amountOfNonDefultMessages);
+			this.changeMessageIfSeen(messages [index], amountOfNonDefultMessages);
 			messageSeenOnce = false;
 			} else {
 			itemMessages [0] = itemMessages [index];
-			this.changeMessageIfSeen(itemMessages [index + 1], amountOfNonDefultMessages);
+			this.changeMessageIfSeen(itemMessages [index], amountOfItemMessages);
 			messageSeenOnce = false;
 			}
 		}
 		if (checkForItem && GameCode.testJeffrey.inventory.checkItemAmount(itemCheck) >= amountOfItemNeeded) {
 			itemFound = true;
 			amountOfNonDefultMessages = amountOfItemMessages;
-			index = 0;
+			index = 1;
 			checkForItem = false;
 			if (keepItem) {
 				for (int i =amountOfItemNeeded; i == 0; i = i - 1) {
@@ -199,18 +241,7 @@ public class NPC extends GameObject{
 			diolog.chagePause();
 			diolog.declare((int)this.getX(), (int)this.getY() - 140);
 			if (giveItem != 0) {
-				if (giveItem == 1) {
-				GameCode.testJeffrey.inventory.addConsumable(freeItem);
-				}
-				if (giveItem == 2) {
-				GameCode.testJeffrey.inventory.addAmmo(freeItem);
-				}
-				if (giveItem == 3) {
-				GameCode.testJeffrey.inventory.addKeyItem(freeItem);
-				}
-				if (giveItem == 4) {
-				GameCode.testJeffrey.inventory.addWeapon(freeItem, witchCharictar);
-				}
+				GameCode.testJeffrey.getInventory().addItem(freeItem);
 			}
 			if (itemFound && disapear) {
 				this.forget();

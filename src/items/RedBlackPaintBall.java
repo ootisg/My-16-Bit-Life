@@ -11,19 +11,27 @@ public class RedBlackPaintBall extends Item{
 	public RedBlackPaintBall () {
 		paintball = new Sprite ("resources/sprites/redblack_ball.png");
 		this.setSprite(paintball); 
-		// causes problems when they are spwaned in code uncomment when loading a level
-		//amountToAdd = Integer.parseInt(this.getVariantAttribute ("AmountDroped"));
+		amountToAdd = Integer.parseInt(this.getVariantAttribute ("AmountDroped"));
 		this.setHitboxAttributes(0, 0, 4, 4);
 	}
 	public RedBlackPaintBall (int amountOfBalls) {
+		paintball = new Sprite ("resources/sprites/redblack_ball.png");
 		this.setSprite(paintball); 
 		amountToAdd = amountOfBalls;
 		this.setHitboxAttributes(0, 0, 4, 4);
 	}
+	@Override
 	public String checkName () {
 		return "RED BLACK PAINTBALL";
 	}
-
+	@Override
+	public String checkEnetry() {
+		return "ENETRY HAS NOT BEEN DEDCIDED YET";
+	}
+	@Override 
+	public String getItemType() {
+		return "Ammo";
+	}
 	@Override 
 	public void frameEvent() {
 		

@@ -29,7 +29,7 @@ public class Zombee extends Enemy {
 			woodSprite = new Sprite ("resources/sprites/config/zombeeW.txt");
 			this.setSprite(woodSprite);
 		}
-		if (this.getVariantAttribute("Type").equals("Petrified Wood")) {
+		if (this.getVariantAttribute("Type").equals("PetrifiedWood")) {
 			this.health = 240;
 			this.defence = 150;
 			petrifiedWoodSprite = new Sprite ("resources/sprites/ZombeePW.txt");
@@ -69,6 +69,14 @@ public class Zombee extends Enemy {
 		timer = 0;
 		this.baseDamage = 20;
 		this.setHitboxAttributes(0, 0, 16, 10);
+	}
+	@Override 
+	public String checkName () {
+		return "ZOMBEE";
+	}
+	@Override
+	public String checkEntry () {
+		return "THE BEE POPULATION WAS DECLINEING INCREADBLY QUICKLY SO A INCREADBLY EXPERINCED TEAM OF NERDS LEAD BY A MAN NAMED DR. HYVE PERFORMED AND EXPERMENT THAT MADE BEES RISE FROM THE GRAVE BUT THEY BECAME INCREADBLY AGGRSIVE AND KILLED THE RESURCHES";
 	}
 	@Override
 	public void frameEvent () {

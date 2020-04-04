@@ -15,19 +15,48 @@ public abstract class Projectile extends GameObject {
 	protected double direction = 0;
 	protected double speed = 0;
 	Random RNG;
+	boolean keep = false;
+	boolean goingIntoWall;
+	boolean outsideTheMap = false;
 	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").getFirst ();
 	@Override
 	public void frameEvent () {
 		projectileFrame ();
+		try {
 		RNG = new Random ();
-		this.setX (this.getX () + Math.cos (direction) * speed);
-		this.setY (this.getY () + Math.sin (direction) * speed);
-		if (getX () < 0 || getY () < 0 || getX () > Room.getWidth () *16 || getY () > Room.getHeight () * 16) {
-			this.forget ();
+		if (!this.goX (this.getX () + Math.cos (direction) * speed) || !this.goY (this.getY () + Math.sin (direction) * speed)) {
+			goingIntoWall = true;
+		} else {
+			goingIntoWall = false;
 		}
+		if (getX () < 0 || getY () < 0 || getX () > Room.getWidth () *16 || getY () > Room.getHeight () * 16) {
+			if (keep) {
+			outsideTheMap = true;
+			} else {
+			this.forget ();
+			}
+		}
+		} catch (IndexOutOfBoundsException e) {
+		this.crashActions();
+		}
+	}
+	//override in a projectile class to configure what the projectile does when it would cause a crash (forgets by defult)
+	public void crashActions() {
+		this.forget();
 	}
 	public double getDirection () {
 		return this.direction;
+	}
+	//decides weather or not to keep the object around when it goes outside the map
+	// ps I don't know how to spell weather
+	public void keep () {
+		keep = !keep;
+	}
+	public boolean outsideTheMap() {
+		return outsideTheMap;
+	}
+	public boolean checkIfGoingIntoWall () {
+		return goingIntoWall;
 	}
 	public double getSpeed () {
 		return this.speed;
@@ -53,6 +82,11 @@ public abstract class Projectile extends GameObject {
 	public void makeDamageingProjectile (int damageRandom, int garentiedDamage) {
 		if (this.isColliding(player)) {
 			player.damage(RNG.nextInt(damageRandom) + garentiedDamage);
+		}
+	}
+	public void SpinAwayFromWall () {
+		while (!this.goXandY (this.getX () + Math.cos (direction) * speed,this.getY () + Math.sin (direction) * speed)) {
+			direction = direction + 0.1;
 		}
 	}
 	public void projectileFrame () {

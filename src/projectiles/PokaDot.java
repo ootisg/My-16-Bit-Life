@@ -13,25 +13,34 @@ public class PokaDot extends Projectile {
 	this.setHitboxAttributes(0, 0, 4, 4);
 	this.setSpeed(2);
 	}
+	public PokaDot (double direction, Sprite sprite) {
+		this.setSprite(sprite);
+		this.setDirection(direction);
+		hitSomething = false;
+		this.setHitboxAttributes(0, 0, 4, 4);
+		this.setSpeed(2);
+	}
 	@Override
 	public void projectileFrame (){
-		if (hitSomething){
+		if (this.goingIntoWall){
 			this.forget();
 		}
 		try{
 		if (Room.isColliding(this.hitbox()) && !hitSomething){
 			hitSomething = true;
 			setSpeed (0);
-			setY (getY());
+			this.forget();
 		}
 		} catch (ArrayIndexOutOfBoundsException e) {
+			this.forget();
+		}
+		if (this.outsideTheMap) {
 			this.forget();
 		}
 		if (isColliding(GameCode.testJeffrey) && !hitSomething){
 			player.damage(7);
 			hitSomething = true;
-			setSpeed (0);
-			setY (getY());
+			this.forget();
 			
 			}
 	}

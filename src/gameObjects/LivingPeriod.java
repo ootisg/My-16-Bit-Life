@@ -11,6 +11,14 @@ public class LivingPeriod extends Enemy{
 	this.setHealth(20);
 	this.setFalls(true);
 	}
+	@Override 
+	public String checkName () {
+		return "LIVING PERIOD";
+	}
+	@Override
+	public String checkEntry () {
+		return "ITS FRUSTATING THAT YOU CAN'T NAME TWO CLASSES THAT SAME THING BECAUSE THIS GAME ALREADY HAD A \" PERIOD.JAVA \" SO I HAD TO IMPROVISE";
+	}
 	@Override
 	public void enemyFrame () {
 		this.jumpyBoi(period, period, 3, 6, 2);
