@@ -6,7 +6,7 @@ import java.awt.image.Raster;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import engine.Sprite;
+import resources.Sprite;
 
 public class DynamicSprite extends Sprite {
 	
