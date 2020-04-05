@@ -35,6 +35,14 @@ public class ObjectHandler {
 	 * The elements to remove
 	 */
 	private static LinkedList<GameObject> removeQueue = new LinkedList<GameObject> ();
+	/*
+	 * im blue daba de
+	 */
+	private static LinkedList <String> packages = new LinkedList<String> ();
+	/*
+	 * no u
+	 */
+	private static HashMap <String, Class<?>> objectClasses = new HashMap <String, Class<?>>(); 
 	/**
 	 * ObjectHandler cannot be constructed.
 	 */
@@ -220,10 +228,17 @@ public class ObjectHandler {
 			}
 		}
 	}
+	/**
+	 * runs the paused event methods of gameobjects instead of the frame events
+	 * @param paused true to pause the game false to unpause the game
+	 */
 	public static void pause (boolean paused) {
 		isPaused = paused;
 	}
-	//returns whether or not the game is paused
+	/**
+	 * returns true if paused events are being run
+	 * @return true if paused events are being run
+	 */
 	public static boolean isPaused () {
 		return isPaused;
 	}
@@ -275,5 +290,35 @@ public class ObjectHandler {
 			remove (iter.next ());
 			iter.remove ();
 		}
+	}
+	public Class<?> getClassFromString(String name) {
+		if (objectClasses.get(name) != null) {
+			return objectClasses.get(name);
+		}
+		for (int i = 0; i < packages.size(); i++) {
+			try {
+				Class <?> c = Class.forName(packages.get(i) + "." + name);
+				objectClasses.put(name,c);
+				return c;
+			} catch (Exception e) {
+			//do nothin
+			}
+		}
+		return null;
+	}
+	public GameObject getInstance (String name) {
+		Class<?> c = getClassFromString(name);
+		try {
+			return (GameObject)c.getConstructor().newInstance();
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	/**
+	 * adds the new package to the list of packages to check for map objects
+	 * @param newPackage a package to add to the map list
+	 */
+	public static void addSearchPackage (String newPackage) {
+		packages.add(newPackage);
 	}
 }

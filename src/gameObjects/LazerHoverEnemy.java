@@ -2,11 +2,14 @@ package gameObjects;
 
 import map.Room;
 import projectiles.Laser;
+import resources.Sprite;
 
 public class LazerHoverEnemy extends Enemy {
 	
 	//I don't have the sprite, so...
-	
+	public static final Sprite LEFT_LASER = new Sprite ("resources/sprites/config/left_laser.txt");
+	public static final Sprite RIGHT_LASER = new Sprite ("resources/sprites/config/right_laser.txt");
+	public static final Sprite TURRNING_LASER = new Sprite ("resources/sprites/config/turrning_laser.txt");
 	boolean moveRight;
 	int cooldown;
 	boolean moveing;
@@ -16,7 +19,7 @@ public class LazerHoverEnemy extends Enemy {
 	boolean unamedVariable;
 	int cannonBalls;
 public LazerHoverEnemy () {
-	//setSprite (sprites.leftLaser);
+	setSprite (LEFT_LASER);
 	setHitboxAttributes (1, 3, 15, 30);
 	getAnimationHandler ().setFrameTime (83.3);
 	this.health = 60;
@@ -27,6 +30,14 @@ public LazerHoverEnemy () {
 	hasTurned = false;
 	turrning = 0;
 	unamedVariable = false;
+	try {
+	if (this.getVariantAttribute("flip").equals("true")) {
+		setSprite(RIGHT_LASER);
+		this.moveRight = false;
+	}
+	} catch (NullPointerException e) {
+		
+	}
 	}
 @Override 
 public String checkName () {
@@ -76,9 +87,9 @@ public String checkEntry () {
 			setY (getY () - 16);
 		}
 		if ((Room.isColliding (this.hitbox()) || unamedVariable) && !hasTurned){
-			//if (!this.getSprite().equals(sprites.turrningLaser)) {
-			//this.setSprite(sprites.turrningLaser);
-			//}
+			if (!this.getSprite().equals(TURRNING_LASER)) {
+			this.setSprite(TURRNING_LASER);
+			}
 			turrning = turrning + 1;
 			moveing = false;
 			cooldown = 0;
@@ -92,12 +103,12 @@ public String checkEntry () {
 		if (unamedVariable && moveing && hasTurned){
 			moveRight = !moveRight;
 			if(moveRight){
-				//this.setSprite(sprites.rightLaser);
+				this.setSprite(RIGHT_LASER);
 				hasTurned = false;
 				unamedVariable = false;
 			}
 			else{
-				//this.setSprite(sprites.leftLaser);
+				this.setSprite(LEFT_LASER);
 				hasTurned = false;
 				unamedVariable = false;
 			}
@@ -105,11 +116,11 @@ public String checkEntry () {
 		if (Room.isColliding (this.hitbox()) && moveing && hasTurned){
 			moveRight = !moveRight;
 			if (moveRight){
-				//setSprite(sprites.rightLaser);
+				setSprite(RIGHT_LASER);
 				hasTurned = false;
 			}
 			else{
-				//setSprite(sprites.leftLaser);
+				setSprite(LEFT_LASER);
 				hasTurned = false;
 				
 			}

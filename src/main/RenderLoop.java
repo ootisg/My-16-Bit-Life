@@ -31,6 +31,7 @@ public class RenderLoop {
 		frameTime = System.currentTimeMillis ();
 		//Start the game logic loop on a separate thread
 		GameLoop gameLoop = new GameLoop ();
+		Setup.initAll();
 		new Thread (gameLoop).start ();
 		//Initializes lastUpdate to the current time
 		lastUpdate = System.nanoTime ();

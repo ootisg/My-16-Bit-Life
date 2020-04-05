@@ -8,10 +8,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
 
 import gameObjects.TemporaryWall;
 import main.GameWindow;
+import main.ObjectHandler;
 import main.GameObject;
 import main.GameAPI;
 import main.GameLoop;
@@ -29,6 +31,7 @@ public class Room {
 	private static int levelHeight = 32;
 	private static int viewX = 0;
 	private static int viewY = 0;
+	private static int readPos;
 	private static int readBit = 0;
 	private static byte[] inData;
 	private static final double[] hitboxCorners = new double[] {0, 0, 1, 0, 1, 1, 0, 1, 0, 0};
@@ -588,8 +591,8 @@ public class Room {
 	}
 	public static boolean loadRoom (String path) {
 		//Purges the gameObjects
-		/*ArrayList<ArrayList<GameObject>> objList = GameLoop.getObjectMatrix ().objectMatrix;
-		for (int i = 0; i < objList.size (); i ++) {
+		LinkedList<LinkedList<GameObject>> objList = ObjectHandler.getChildrenByName("GameObject");
+		for (int i = 0; i < objList.size (); i ++) { 
 			if (objList.get (i) != null) {
 				int listSize = objList.get (i).size ();
 				for (int j = 0; j < listSize; j ++) {
@@ -598,8 +601,8 @@ public class Room {
 					}
 				}
 			}
-		}*/
-		//Loads the CMF file at the given filepath
+		}
+		//Loads the RMF file at the given filepath
 		loaded = false;
 		readBit = 0;
 		File file = null;
@@ -617,60 +620,43 @@ public class Room {
 		} catch (IOException e) {
 			return false;
 		}
-		if (readBits (24) != 0x434D46) {
-			System.out.println ("Error: file is corrupted or in an invalid format");
+		readPos = 0;
+		char MAX_VERSION = '1';
+		
+		//Check header
+		String fmtString = getString (3);
+		if (!fmtString.equals ("RMF")) {
+			System.out.println("ERROR: not an RMF (reduced map file)");
+			System.out.println("you most likely used the wrong map editor");
 		}
-		int version = readBits (8); //For future use
-		int layerCount = readBits (8); //For future use
-		//resizeLevel (readBits (16), readBits (16));
-		levelWidth = readBits (16);
-		levelHeight = readBits (16);
-		tileData = new short[layerCount][levelWidth][levelHeight];
-		for (int layer = 0; layer < layerCount; layer ++) {
+		
+		String verString = getString (1);
+		if (verString.charAt (0) < '1' || verString.charAt (0) > MAX_VERSION) {
+			System.out.println("it apperas your map is an old version but if it worked anyway just ignore this message");
+		}
+		//Read attributes
+				int mapWidth = getInteger (4);
+				int mapHeight = getInteger (4);
+				int numLayers = getInteger (4);
+				int numObjects = getInteger (4);
+		tileData = new short[numLayers][levelWidth][levelHeight];
+		for (int layer = 0; layer < numLayers; layer ++) {
 			for (int i = 0; i < levelWidth; i ++) {
 				for (int c = 0; c < levelHeight; c ++) {
 					tileData [layer][i][c] = -1;
 				}
 			}
 		}
-		int tilesUsedLength = readBits (16);
-		int objectsPlacedLength = readBits (32);
-		int tempReadBit = readBit;
-		int result = 0;
-		int index = 0;
 		//Parse tile set list
-		while (result != 0x3B) {
-			result = readBits (8);
-			index ++;
-		}
-		readBit = tempReadBit;
-		char[] tilesetNames = new char[index - 1];
-		for (int i = 0; i < index - 1; i ++) {
-			tilesetNames [i] = (char) readBits (8);
-		}
-		readBit += 8;
-		String tilesetList = new String (tilesetNames);
-		String[] tilesetNameArray = tilesetList.split (",");
+		String tilesets = getString (';');
+		String[] tilesetNameArray = tilesets.split (",");
+	
 		//Parse object list
-		tempReadBit = readBit;
-		index = 0;
-		result = 0;
-		while (result != 0x3B) {
-			result = readBits (8);
-			index ++;
-		}
-		readBit = tempReadBit;
-		char[] objectNames = new char[index - 1];
-		for (int i = 0; i < index - 1; i ++) {
-			objectNames [i] = (char) readBits (8);
-		}
-		readBit += 8;
-		String objectString = new String (objectNames);
-		if (objectString.equals ("")) {
-			objectList = new String[0];
-		} else {
-			objectList = objectString.split (",");
-		}
+		String objects = getString (';');
+		objectList = objects.split(",");
+		//parse and import background TODO import backgrounds
+		String backgrounds = getString (';');
+		String[] backgroundList = backgrounds.split (",");
 		//Import tiles
 		ArrayList<Sprite> tileSheet = new ArrayList<Sprite> ();
 		ArrayList<String> tileIdArrList = new ArrayList<String> ();
@@ -690,6 +676,7 @@ public class Room {
 				tileIdArrList.add (tilesetNameArray [i] + ":" + String.valueOf (j));
 			}
 		}
+		
 		short[] tilesUsed = new short[tilesUsedLength];
 		int tileBits = numBits (tilesUsedLength - 1);
 		tileList = new Sprite[tilesUsed.length];
@@ -770,7 +757,7 @@ public class Room {
 		int x2;
 		int y1;
 		int y2;
-		for (int layer = 0; layer < layerCount; layer ++) {
+		for (int layer = 0; layer < numLayers; layer ++) {
 			int fullRangesSize = readBits (32);
 			int horizRangesSize = readBits (32);
 			int vertRangesSize = readBits (32);
@@ -815,6 +802,40 @@ public class Room {
 		}
 		loaded = true;
 		return true;
+	}
+	private static String getString (int length) {
+		byte[] usedData = new byte[length];
+		int endPos = readPos + length;
+		int i = 0;
+		while (readPos < endPos) {
+			usedData [i] = inData [readPos];
+			readPos ++;
+			i ++;
+		}
+		return new String (usedData);
+	}
+	private static int getInteger (int bytes) {
+		int total = 0;
+		for (int i = 0; i < bytes; i ++) {
+			int toRead = inData [readPos + i];
+			if (toRead < 0) {
+				toRead += 256;
+			}
+			total += (toRead << ((bytes - 1 - i) * 8));
+		}
+		readPos += bytes;
+		return total;
+	}
+	private static String getString (char endChar) {
+		int len = 0;
+		int i = readPos;
+		while (inData [i] != endChar) {
+			len ++;
+			i ++;
+		}
+		String str = getString (len);
+		readPos ++;
+		return str;
 	}
 	public static int numBits (int num) {
 		//Returns the number of bits needed to represent a given number

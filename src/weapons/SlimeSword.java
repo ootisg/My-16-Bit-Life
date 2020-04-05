@@ -27,6 +27,7 @@ public class SlimeSword extends Item {
 	double x;
 	double y;
 	double currX;
+	boolean broke = false;
 	double currY;
 	double desX;
 	double desY;
@@ -73,7 +74,6 @@ public class SlimeSword extends Item {
 	@Override
 	public void frameEvent() {
 		if (extended && (currX != desX || currY != desY)) {
-			
 			if (desX > currX) {
 				currX = currX + 5;
 				if (currX > desX) {
@@ -98,35 +98,60 @@ public class SlimeSword extends Item {
 			}
 		} else {
 			if (extended) {
-				double slack = desY - player.getY();
+				double slack =  player.getY() - desY;
 				if (slack < 0) {
-					slack = player.getY() - desY;
+					slack = slack * -1;
 				}
-				System.out.println(slack);
+				if (slack > 1) {
+					double toUse = slack/15;
+					if (toUse > 8) {
+						toUse = 8;
+					}
 				if ((desX - player.getX() > slack && desX - player.getX() > 0) ||(player.getX() - desX > slack && player.getX() - desX > 0)) {
 					if (player.getX() > desX) {
-					player.goX(player.getX() - player.vx);
+						player.vx = -toUse;
 					} else {
-						player.goX(player.getX() + player.vx);	
+						player.vx = toUse;
+						
 					}
+					
+				}
+				//System.out.println(player.getX() - desX);
+				if (!(player.getX() < desX + 10 && player.getX() > desX -10)) {
+				if (player.getX() > desX) {
+					player.vx = player.vx  -(toUse/10);
+				} else {
+					player.vx = player.vx + (toUse/10);
+					
+				}
+				}
+				} else {
+					player.vx = 0;
+					player.setX(desX);
 				}
 				if (!mouseButtonDown(2)) {
 					Point currentPoint = new Point (this.getX(),this.getY());
 					Point mousePoint = new Point (desX,desY);
 					slope =currentPoint.getSlope(mousePoint);
 					player.stopFall(true);
+					int slopeDeturent;
+					if (slope > 0) {
+						slopeDeturent = 1;
+					} else {
+						slopeDeturent = -1;
+					}
 					if (!Double.isNaN(slope)) {
-					player.goY(player.getY() + slope);
+					player.goY(player.getY() + (slopeDeturent*1));
 					}
 					if ( !Double.isNaN(slope)&& (slope > 0 && player.getY() > desY) || (slope < 0 && player.getY() < desY)) {
-						player.goY(player.getY() - slope);
+						player.goY(player.getY() - (slopeDeturent*1));
 					}
 				} 
 			}
 		}
 		this.setX(player.getX());
 		this.setY(player.getY());
-		if (this.mouseButtonPressed(2)) {
+		if (this.mouseButtonPressed(2)&& !extended && !broke) {
 			extended = true;
 			this.setHitboxAttributes(11, 0, 3, 3);
 			x = this.getX();
@@ -137,6 +162,11 @@ public class SlimeSword extends Item {
 			Point currentPoint = new Point (x,y);
 			Point mousePoint = new Point (getCursorX(),getCursorY());
 			slope =currentPoint.getSlope(mousePoint);
+			int toUse = 1;
+			if (slope > 5 || slope < -5) {
+				slope = slope/4;
+				toUse = 1/4;
+			}
 			boolean change = false;
 			if ((mousePoint.getX()> currentPoint.getX() && mousePoint.getY() < currentPoint.getY()) || (mousePoint.getX()> currentPoint.getX() && mousePoint.getY() > currentPoint.getY() )) {
 				change = true;
@@ -146,15 +176,15 @@ public class SlimeSword extends Item {
 				try {
 					count = count + 1;
 				if (!change) {
-				if (!this.goXandY(this.getX() - 1, this.getY() + slope)) {
+				if (!this.goXandY(this.getX() - toUse, this.getY() + slope)) {
 					break;
 				}
 				} else {
-					if (!this.goXandY(this.getX() + 1, this.getY() + slope)) {
+					if (!this.goXandY(this.getX() + toUse, this.getY() + slope)) {
 						break;
 					}
 				}
-				if (count > 900) {
+				if (count > 400 ) {
 					break;
 				}
 				} catch (ArrayIndexOutOfBoundsException e) {
@@ -170,9 +200,14 @@ public class SlimeSword extends Item {
 			x = x - Room.getViewX();
 			desX = desX - Room.getViewX();
 		} 
-		if (this.mouseButtonClicked(0) && extended) {
+		if ((this.keyPressed(32)|| this.mouseButtonPressed(0)) && extended) {
 			extended = false;
 			player.stopFall(false);
+			player.vy = 0;
+			broke = true;
+		}
+		if (broke && !mouseButtonDown (2)) {
+			broke = false;
 		}
 		if (this.mouseButtonDown(0) && !GameCode.testJeffrey.getSprite().equals(samSwingSprite) && !extended ) {
 			GameCode.testJeffrey.setSprite(samSwingSprite);

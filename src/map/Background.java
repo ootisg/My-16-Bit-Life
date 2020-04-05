@@ -8,10 +8,12 @@ import resources.Sprite;
 public class Background {
 	//Big oof here, I'm gonna have to fix this at some point
 	private AnimationHandler animationHandler;
-	private double scrollRate;
+	private double scrollRateHorizontal;
+	private double scrollRateVertical;
 	public Background (Sprite image) {
 		this.animationHandler = new AnimationHandler (image);
-		this.scrollRate = 1.0;
+		this.scrollRateHorizontal = 1.0;
+		this.scrollRateVertical = 1.0;
 	}
 	public void draw (double viewX, double viewY) {
 		int width = RenderLoop.window.getResolution () [0];
@@ -20,21 +22,27 @@ public class Background {
 		int imgHeight = animationHandler.getImage ().getFrame (animationHandler.getFrame ()).getHeight ();
 		for (int i = -((int)viewX % imgWidth); i < width; i += imgWidth) {
 			for (int j = -((int)viewY % imgHeight); j < height; j += imgHeight) {
-				animationHandler.animate (i, j, false, false);
+				animationHandler.draw (i, j);
 			}
 		}
-		animationHandler.animate ((int)(-viewX / scrollRate), (int)(-viewY / scrollRate), false, false);
+		animationHandler.draw ((int)(-viewX / scrollRateHorizontal), (int)(-viewY / scrollRateVertical));
 	}
 	public void setImage (Sprite image) {
 		animationHandler.setImage (image);
 	}
-	public void setScrollRate (double scrollRate) {
-		this.scrollRate = scrollRate;
+	public void setScrollRateHorizontal (double scrollRate) {
+		this.scrollRateHorizontal = scrollRate;
+	}
+	public void setScrollRateVertiacal (double scrollRate) {
+		this.scrollRateVertical = scrollRate;
 	}
 	public Sprite getImage () {
 		return animationHandler.getImage ();
 	}
-	public double getScrollRate () {
-		return scrollRate;
+	public double getScrollRateHorizontal () {
+		return scrollRateHorizontal;
+	}
+	public double getScrollRateVertical () {
+		return scrollRateVertical;
 	}
 }
