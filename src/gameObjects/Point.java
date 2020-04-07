@@ -76,7 +76,7 @@ public class Point extends GameObject {
 		//double direction2 = bullet.findDirection(destanation);
 		double yDiffrence;
 		yDiffrence = destanation.y - this.y;
-		/*while(Room.isColliding(this.hitbox())){
+		/*while(Room.isColliding(this)){
 			this.setY(this.getY() + 1);
 		}*/
 		if (Room.doHitboxVectorCollison(this.hitbox(), destanation.x, destanation.y) == null) {

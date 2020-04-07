@@ -6,7 +6,6 @@ import main.ObjectHandler;
 import map.MapTile;
 import map.MapTileCollision;
 import map.Room;
-import map.TileAttributesList;
 import map.TileData;
 import players.Jeffrey;
 

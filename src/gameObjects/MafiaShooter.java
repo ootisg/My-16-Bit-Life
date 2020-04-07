@@ -50,7 +50,7 @@ public class MafiaShooter extends Enemy {
 			this.jump(0, 7);
 			} else {
 			this.setY(this.getY()  + 1);
-			if (Room.isColliding(this.hitbox())) {
+			if (Room.isColliding(this)) {
 				this.jumpDone = false;
 			}
 			this.setY(this.getY() - 1);

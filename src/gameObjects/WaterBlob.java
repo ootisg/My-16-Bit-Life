@@ -84,7 +84,7 @@ public class WaterBlob extends Enemy {
 			}
 		}
 			this.setY(this.getY() -4);
-			if (Room.isColliding(this.hitbox())) {
+			if (Room.isColliding(this)) {
 				this.setY(this.getY() + 4);
 				timer = 30;
 			}
@@ -114,11 +114,11 @@ public class WaterBlob extends Enemy {
 			}
 		}
 		timer = timer + 1;
-		if (Room.isColliding(this.hitbox()) && !falling && !jumping) {
+		if (Room.isColliding(this) && !falling && !jumping) {
 			dirction = !dirction;
 		}
 		this.setY(this.getY() + 5);
-		if (!Room.isColliding(this.hitbox()) && !falling && !jumping) {
+		if (!Room.isColliding(this) && !falling && !jumping) {
 			jumping =true;
 			timer = 0;
 		}
@@ -130,12 +130,12 @@ public class WaterBlob extends Enemy {
 				getAnimationHandler ().setFrameTime(0);
 			}
 			this.setY(this.getY() + 1);
-			if (Room.isColliding(this.hitbox())) {
+			if (Room.isColliding(this)) {
 				this.setY(this.getY()- 1);
-				if (!Room.isColliding(this.hitbox())) {
+				if (!Room.isColliding(this)) {
 					this.setSprite(idleSprite);
 					
-					while(Room.isColliding(this.hitbox())) {
+					while(Room.isColliding(this)) {
 						this.setY(this.getY() + 1);
 						
 					}

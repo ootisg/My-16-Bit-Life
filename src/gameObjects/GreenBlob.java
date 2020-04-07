@@ -30,12 +30,12 @@ public class GreenBlob extends Enemy {
 			setX (getX () + 16);
 			setY (getY () + 16);
 			setX (getX () + 1);
-			if (!Room.isColliding (this.hitbox ())) {
+			if (!Room.isColliding(this)) {
 				this.moveRight = false;
 			}
 			setX (getX () - 16);
 			setY (getY () - 16);
-			if (Room.isColliding (this.hitbox())) {
+			if (Room.isColliding(this)) {
 				this.moveRight = false;
 				setXTheOldFasionWay (getX () - 1);
 			}
@@ -43,12 +43,12 @@ public class GreenBlob extends Enemy {
 			setX (getX () - 16);
 			setY (getY () + 16);
 			setX (getX () - 1);
-			if (!Room.isColliding (this.hitbox ())) {
+			if (!Room.isColliding(this)) {
 				this.moveRight = true;
 			}
 			setX (getX () + 16);
 			setY (getY () - 16);
-			if (Room.isColliding (this.hitbox())) {
+			if (Room.isColliding(this)) {
 				this.moveRight = true;
 				setXTheOldFasionWay (getX () + 1);
 			}

@@ -121,14 +121,14 @@ public class SplittingSlimelet extends Enemy {
 		//	if (!this.checkWitchWallYourCollidingWith()) {
 		//	this.setX(this.getX() + 40);
 		//	this.getAnimationHandler().setFlipHorizontal(!this.getAnimationHandler().flipHorizontal());
-		//	if (Room.isColliding(this.hitbox())) {
+		//	if (Room.isColliding(this)) {
 		//		this.getAnimationHandler().setFlipHorizontal(false);
 		//		overridePlayerInput = true;
 		//		this.setX(this.getX() - 40);
 		//		}
 		//	} else {
 			
-		//	if (Room.isColliding(this.hitbox())) {
+		//	if (Room.isColliding(this)) {
 		//		this.getAnimationHandler().setFlipHorizontal(false);
 		//		overridePlayerInput = true;
 		//	this.setX(this.getX() + 40);

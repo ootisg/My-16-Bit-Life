@@ -28,7 +28,7 @@ public class Period extends Projectile {
 			period.declare(this.getX(),this.getY());
 			this.forget();
 		}
-		if (Room.isColliding(this.hitbox())) {
+		if (Room.isColliding(this)) {
 			period = new LivingPeriod();
 			period.declare(this.getX(),this.getY());
 			this.forget();

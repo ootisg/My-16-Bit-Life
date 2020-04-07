@@ -33,7 +33,7 @@ public class FairUseKey extends Item {
 	@Override
 	public void frameEvent () {
 		this.setY(this.getY() + 1);
-		if (!(Room.isColliding(this.hitbox()))) {
+		if (!(Room.isColliding(this))) {
 			this.setY(this.getY() + 3);
 		} else {
 		this.setY(this.getY() - 1);

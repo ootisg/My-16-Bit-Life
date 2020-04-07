@@ -32,7 +32,7 @@ public class Laser extends Projectile{
 			this.forget();
 		}
 		try{
-		if (Room.isColliding(this.hitbox()) && !hitSomething){
+		if (Room.isColliding(this) && !hitSomething){
 			hitSomething = true;
 			setSpeed (0);
 			setY (getY());

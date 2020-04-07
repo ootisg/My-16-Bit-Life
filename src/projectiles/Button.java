@@ -23,7 +23,7 @@ public class Button extends Projectile {
 	}
 	@Override
 	public void projectileFrame(){
-		if (Room.isColliding (this.hitbox())){
+		if (Room.isColliding(this)){
 			this.forget();
 		}
 		if (isColliding("players.Jeffrey")){

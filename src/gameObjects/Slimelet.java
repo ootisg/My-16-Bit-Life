@@ -107,21 +107,21 @@ public class Slimelet extends Enemy {
 			switch (this.direction) {
 				case 0:
 					this.setX (this.getX () + 1);
-					if (Room.isColliding (this.hitbox ())) {
+					if (Room.isColliding(this)) {
 						this.setX (getXPrevious ());
 						this.animation = 1;
 					}
 					break;
 				case 1:
 					this.setX (this.getX () - 1);
-					if (Room.isColliding (this.hitbox ())) {
+					if (Room.isColliding(this)) {
 						this.setX (getXPrevious ());
 						this.animation = 1;
 					}
 					break;
 				case 2:
 					this.setY (this.getY () - 1);
-					if (Room.isColliding (this.hitbox ())) {
+					if (Room.isColliding(this)) {
 						this.setY (getYPrevious ());
 						this.animation = 1;
 						this.converse = true;
@@ -129,7 +129,7 @@ public class Slimelet extends Enemy {
 					break;
 				case 3:
 					this.setY (this.getY () + 1);
-					if (Room.isColliding (this.hitbox ())) {
+					if (Room.isColliding(this)) {
 						this.setY (getYPrevious ());
 						this.animation = 1;
 						this.converse = false;
@@ -139,28 +139,28 @@ public class Slimelet extends Enemy {
 			if (!this.conversePrevious) {
 				switch (this.direction) {
 					case 0:
-						if (!this.roomIsCollidingOffset (this.hitbox ().width, this.hitbox ().height) && !Room.isColliding (this.hitbox ())) {
+						if (!this.roomIsCollidingOffset (this.hitbox ().width, this.hitbox ().height) && !Room.isColliding(this)) {
 							this.animation = 2;
 							this.setX (this.getX () + 8);
 							this.setY (this.getY () + 5);
 						}
 						break;
 					case 1:
-						if (!this.roomIsCollidingOffset (-this.hitbox ().width, this.hitbox ().height) && !Room.isColliding (this.hitbox ())) {
+						if (!this.roomIsCollidingOffset (-this.hitbox ().width, this.hitbox ().height) && !Room.isColliding(this)) {
 							this.animation = 2;
 							this.setX (this.getX () - 8);
 							this.setY (this.getY () + 5);
 						}
 						break;
 					case 2:
-						if (!this.roomIsCollidingOffset (this.hitbox ().width, -this.hitbox ().height) && !Room.isColliding (this.hitbox ())) {
+						if (!this.roomIsCollidingOffset (this.hitbox ().width, -this.hitbox ().height) && !Room.isColliding(this)) {
 							this.animation = 2;
 							this.setX (this.getX () + 5);
 							this.setY (this.getY () - 8);
 						}
 						break;
 					case 3:
-						if (!this.roomIsCollidingOffset (this.hitbox ().width, this.hitbox ().height) && !Room.isColliding (this.hitbox ())) {
+						if (!this.roomIsCollidingOffset (this.hitbox ().width, this.hitbox ().height) && !Room.isColliding(this)) {
 							this.animation = 2;
 							this.setX (this.getX () + 5);
 							this.setY (this.getY () + 8);
@@ -170,28 +170,28 @@ public class Slimelet extends Enemy {
 			} else {
 				switch (this.direction) {
 					case 0:
-						if (!this.roomIsCollidingOffset (this.hitbox ().width, -this.hitbox ().height) && !Room.isColliding (this.hitbox ())) {
+						if (!this.roomIsCollidingOffset (this.hitbox ().width, -this.hitbox ().height) && !Room.isColliding(this)) {
 							this.animation = 2;
 							this.setX (this.getX () + 8);
 							this.setY (this.getY () - 5);
 						}
 						break;
 					case 1:
-						if (!this.roomIsCollidingOffset (-this.hitbox ().width, -this.hitbox ().height) && !Room.isColliding (this.hitbox ())) {
+						if (!this.roomIsCollidingOffset (-this.hitbox ().width, -this.hitbox ().height) && !Room.isColliding(this)) {
 							this.animation = 2;
 							this.setX (this.getX () - 8);
 							this.setY (this.getY () - 5);
 						}
 						break;
 					case 2:
-						if (!this.roomIsCollidingOffset (-this.hitbox ().width, -this.hitbox ().height) && !Room.isColliding (this.hitbox ())) {
+						if (!this.roomIsCollidingOffset (-this.hitbox ().width, -this.hitbox ().height) && !Room.isColliding(this)) {
 							this.animation = 2;
 							this.setX (this.getX () - 5);
 							this.setY (this.getY () - 8);
 						}
 						break;
 					case 3:
-						if (!this.roomIsCollidingOffset (-this.hitbox ().width, this.hitbox ().height) && !Room.isColliding (this.hitbox ())) {
+						if (!this.roomIsCollidingOffset (-this.hitbox ().width, this.hitbox ().height) && !Room.isColliding(this)) {
 							this.animation = 2;
 							this.setX (this.getX () - 5);
 							this.setY (this.getY () + 8);
@@ -448,7 +448,7 @@ public class Slimelet extends Enemy {
 	public boolean roomIsCollidingOffset (double offsetX, double offsetY) {
 		this.setX (this.getX () + offsetX);
 		this.setY (this.getY () + offsetY);
-		if (Room.isColliding (this.hitbox ())) {
+		if (Room.isColliding(this)) {
 			setX (getXPrevious ());
 			setY (getYPrevious ());
 			return true;

@@ -457,7 +457,7 @@ public abstract class GameObject extends GameAPI {
 		xprevious = x;
 		spriteX =  (spriteX + (val - x));
 		x = val;
-		if (Room.isColliding(this.hitbox())) {
+		if (Room.isColliding(this)) {
 			x = xprevious;
 			spriteX = (spriteX - (val- x));
 			return false;
@@ -473,7 +473,7 @@ public abstract class GameObject extends GameAPI {
 		yprevious = y;
 		spriteY =  (spriteY + (yval - y));
 		y = yval;
-		if (Room.isColliding(this.hitbox())) {
+		if (Room.isColliding(this)) {
 			x = xprevious;
 			spriteX = (spriteX - (xval- x));
 			y = yprevious;
@@ -489,7 +489,7 @@ public abstract class GameObject extends GameAPI {
 		yprevious = y;
 		spriteY =  (spriteY + (val - y));
 		y = val;
-		if (Room.isColliding(this.hitbox())) {
+		if (Room.isColliding(this)) {
 			y = yprevious;
 			spriteY = (spriteY - (val - y));
 			return false;
@@ -547,9 +547,9 @@ public abstract class GameObject extends GameAPI {
 	}
 	// returns true it the gameObject is stuck in the floor
 	public boolean checkIfStuckInFloor(int verticalSpeed) {
-		if ((Room.isColliding(this.hitbox()) && this.checkIfColidingWithWall(1))){
+		if ((Room.isColliding(this) && this.checkIfColidingWithWall(1))){
 			this.setY(getY() - (verticalSpeed +1));
-			if (!Room.isColliding(this.hitbox())){
+			if (!Room.isColliding(this)){
 				this.setY(getY() + (verticalSpeed +1) );
 				return true;
 			}
@@ -559,9 +559,9 @@ public abstract class GameObject extends GameAPI {
 	}
 	//returns true if the GameObject is stuck in the celing
 	public boolean checkIfStuckInCeling(double d) {
-		if ((Room.isColliding(this.hitbox()) && this.checkIfColidingWithWall(1))){
+		if ((Room.isColliding(this) && this.checkIfColidingWithWall(1))){
 			this.setY(getY() + (d +1));
-			if (!Room.isColliding(this.hitbox())){
+			if (!Room.isColliding(this)){
 				this.setY(getY() - (d +1) );
 				return true;
 			}
@@ -571,17 +571,17 @@ public abstract class GameObject extends GameAPI {
 	}
 	//returns true if the GameObject is coliding with a wall
 		public boolean checkIfColidingWithWall(double d) {
-			if ((Room.isColliding(this.hitbox()))){
+			if ((Room.isColliding(this))){
 				this.setX(getX() - d);
-				if (!Room.isColliding(this.hitbox())){
+				if (!Room.isColliding(this)){
 					this.setX(getX() + d);
 					return true;
 				}
 				this.setX(getX() + d);
 				}
-			if (Room.isColliding(this.hitbox())){
+			if (Room.isColliding(this)){
 				this.setX(getX() + d);
-				if (!Room.isColliding(this.hitbox())){
+				if (!Room.isColliding(this)){
 					this.setX(getX() - d);
 					return true;
 				}
@@ -593,7 +593,7 @@ public abstract class GameObject extends GameAPI {
 		//will probably retun false if its not coliding except in some rare cases
 		public boolean checkWitchWallYourCollidingWith () {
 			this.setX(this.getX() + 1);
-			if (!Room.isColliding(this.hitbox())) {
+			if (!Room.isColliding(this)) {
 				this.setX(this.getX() - 1);
 				return false;
 			} else {

@@ -1,0 +1,4 @@
+$src resources/sprites/Laser_Enemy_1.png
+
+rectangle 80 0 96 32:
+	grid 16 32;

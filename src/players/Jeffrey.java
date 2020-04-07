@@ -301,7 +301,7 @@ if (activeBox) {
 		if (fallBruh) {
 		setY (getY () + (int) Math.ceil (vy));
 	}
-		if (Room.isColliding (this.hitbox ())) {
+		if (Room.isColliding(this)) {
 			vy = 0;
 			double fc = .2; //Friction coefficient
 			if (vx > 0) {
@@ -405,7 +405,7 @@ if (activeBox) {
 		vy = vy + ay;
 		ax = 0;
 		this.setX (this.getX () + vx);
-		if (Room.isColliding (this.hitbox ())) {
+		if (Room.isColliding(this)) {
 			//not sure if this is gonna work but whatever m8
 			this.setX(this.getXPrevious());
 			vx = 0;

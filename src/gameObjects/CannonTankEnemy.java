@@ -68,7 +68,7 @@ public CannonTankEnemy () {
 		if (this.moveRight) {
 			setX (getX () + 16);
 			setY (getY () + 16);
-			if (!Room.isColliding (this.hitbox ())) {
+			if (!Room.isColliding(this)) {
 				Variable = true;
 					}
 			setX (getX () - 16);
@@ -76,13 +76,13 @@ public CannonTankEnemy () {
 		} else {
 			setX (getX () - 16);
 			setY (getY () + 16);
-			if (!Room.isColliding (this.hitbox ())) {
+			if (!Room.isColliding(this)) {
 				Variable = true;	
 			}
 			setX (getX () + 16);
 			setY (getY () - 16);
 		}
-		if ((Room.isColliding (this.hitbox()) || Variable) && !hasTurned){
+		if ((Room.isColliding (this) || Variable) && !hasTurned){
 			setSprite(cannonTurning);
 			turrning = turrning + 1;
 			moveing = false;
@@ -107,7 +107,7 @@ public CannonTankEnemy () {
 				Variable = false;
 			}
 		}
-		if (Room.isColliding (this.hitbox()) && moveing && hasTurned){
+		if (Room.isColliding (this) && moveing && hasTurned){
 			moveRight = !moveRight;
 			if (moveRight){
 				setSprite(cannonRight);

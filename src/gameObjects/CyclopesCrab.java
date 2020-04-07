@@ -121,7 +121,7 @@ public class CyclopesCrab extends Enemy {
 				setX(getX() - 1);
 				setY(getY() - 1);
 			}
-			if (Room.isColliding(this.hitbox())){
+			if (Room.isColliding(this)){
 				chillForASecond = true;
 				turrning = true;
 			}
@@ -157,10 +157,10 @@ public class CyclopesCrab extends Enemy {
 				}
 			}
 		}
-		if (Room.isColliding(this.hitbox())){
+		if (Room.isColliding(this)){
 			this.setY(getY() - 1);
 			lowered = true;
-			if (!(Room.isColliding(this.hitbox()))){
+			if (!(Room.isColliding(this))){
 				this.setY(getY() + 1);
 				lowered = false;
 				if (moveRight){
@@ -170,7 +170,7 @@ public class CyclopesCrab extends Enemy {
 					this.setX(getX() + 1);
 					moved = true;
 				}
-				if (Room.isColliding(this.hitbox())){
+				if (Room.isColliding(this)){
 					onFloor = true;
 				}
 				}
@@ -210,7 +210,7 @@ public class CyclopesCrab extends Enemy {
 		if (onFloor && momentum >= 1){
 			momentum = 0;
 		}
-	if (Room.isColliding(this.hitbox())){
+	if (Room.isColliding(this)){
 		while (!toClimbOrNotToClimb){
 			this.setY(getY() - 1);
 			height = height + 1;
@@ -222,7 +222,7 @@ public class CyclopesCrab extends Enemy {
 					stuck = true;
 				}
 			}
-			if((!(Room.isColliding(this.hitbox())) || height >= 24)){
+			if((!(Room.isColliding(this)) || height >= 24)){
 				toClimbOrNotToClimb = true;
 			}
 			

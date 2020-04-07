@@ -39,7 +39,7 @@ public String checkEntry () {
 		double y_basis = getY(); 
 		while(getY() >= 0){
 			setY(getY() - 1);
-			if (Room.isColliding (this.hitbox()) && !isChecked){
+			if (Room.isColliding (this) && !isChecked){
 				isChecked = true;
 					if (firstCollision){
 						secondCollison = true;
@@ -47,30 +47,30 @@ public String checkEntry () {
 						firstCollision = true;	
 					}
 			}
-			if (isChecked && !(Room.isColliding(this.hitbox()))){
+			if (isChecked && !(Room.isColliding(this))){
 				isChecked = false;
 			}
-			if (this.getY() == 1 && !(Room.isColliding(this.hitbox())) && firstCollision){
+			if (this.getY() == 1 && !(Room.isColliding(this)) && firstCollision){
 				secondCollison = true;
 			}
 		}
 		setY(y_basis);
-		if (!secondCollison && !Room.isColliding(this.hitbox()) && !(getY() == 10)){
+		if (!secondCollison && !Room.isColliding(this) && !(getY() == 10)){
 			setY(getY() - 1);
 		} else {
 			notGoingUp = true;
 		}
 		System.out.println(player.getX() - this.getX());
-		if (!Room.isColliding(this.hitbox()) && !isStopped && (!(player.getX() - this.getX() < 3) || !(this.getX() - player.getX() < 3))){
+		if (!Room.isColliding(this) && !isStopped && (!(player.getX() - this.getX() < 3) || !(this.getX() - player.getX() < 3))){
 		if (player.getX()> getX()){
 			setX(getX() + 3);
-			while (Room.isColliding(this.hitbox())){
+			while (Room.isColliding(this)){
 				setX(getX() - 1);
 				stopped = true;
 			}
 		} else {
 			setX(getX() - 3);
-			while (Room.isColliding(this.hitbox())){
+			while (Room.isColliding(this)){
 				setX(getX() + 1);
 				stopped = true;
 			}

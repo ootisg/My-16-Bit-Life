@@ -75,13 +75,13 @@ public class ImpatientCar extends Enemy {
 		try {
 		if (direction) {
 			if (!this.goX(this.getX()- 3)) {
-				if (!Room.isColliding(this.hitbox())) {
+				if (!Room.isColliding(this)) {
 				this.deathEvent();
 				}
 			}
 		} else {
 			if (!this.goX(this.getX() + 3)) {
-				if (!Room.isColliding(this.hitbox())) {
+				if (!Room.isColliding(this)) {
 				this.deathEvent();
 				}
 			}

@@ -291,7 +291,7 @@ public class ObjectHandler {
 			iter.remove ();
 		}
 	}
-	public Class<?> getClassFromString(String name) {
+	public static Class<?> getClassFromString(String name) {
 		if (objectClasses.get(name) != null) {
 			return objectClasses.get(name);
 		}
@@ -306,7 +306,7 @@ public class ObjectHandler {
 		}
 		return null;
 	}
-	public GameObject getInstance (String name) {
+	public static GameObject getInstance (String name) {
 		Class<?> c = getClassFromString(name);
 		try {
 			return (GameObject)c.getConstructor().newInstance();

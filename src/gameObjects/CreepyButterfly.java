@@ -42,7 +42,7 @@ public class CreepyButterfly extends Enemy {
 		}
 		double targetX = player.getX ();
 		double targetY = player.getY ();
-		if (((targetX > this.getX() && targetX < this.getX() + 22) || (targetX < this.getX() && targetX> this.getX() - 22) &&  ((targetY > this.getY() && targetY < this.getY() + 22) || (targetY < this.getY() && targetY> this.getY() - 22))) || Room.isColliding(this.hitbox()) ) {
+		if (((targetX > this.getX() && targetX < this.getX() + 22) || (targetX < this.getX() && targetX> this.getX() - 22) &&  ((targetY > this.getY() && targetY < this.getY() + 22) || (targetY < this.getY() && targetY> this.getY() - 22))) || Room.isColliding(this) ) {
 			int gayBabyJail;
 			double xCopy = this.getX();
 			double yCopy = this.getY();
@@ -51,7 +51,7 @@ public class CreepyButterfly extends Enemy {
 			y = y + Math.sin (gayBabyJail) * 6;
 			setX ((int) x);
 			setY ((int) y);
-			while (Room.isColliding(this.hitbox())) {
+			while (Room.isColliding(this)) {
 				this.setX(xCopy);
 				this.setY(yCopy);
 				x = x - Math.cos(gayBabyJail) * 6;

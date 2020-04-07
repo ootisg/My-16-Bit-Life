@@ -72,7 +72,7 @@ public String checkEntry () {
 		if (this.moveRight) {
 			setX (getX () + 16);
 			setY (getY () + 16);
-			if (!Room.isColliding (this.hitbox ())) {
+			if (!Room.isColliding(this)) {
 				unamedVariable = true;
 					}
 			setX (getX () - 16);
@@ -80,13 +80,13 @@ public String checkEntry () {
 		} else {
 			setX (getX () - 16);
 			setY (getY () + 16);
-			if (!Room.isColliding (this.hitbox ())) {
+			if (!Room.isColliding(this)) {
 				unamedVariable = true;	
 			}
 			setX (getX () + 16);
 			setY (getY () - 16);
 		}
-		if ((Room.isColliding (this.hitbox()) || unamedVariable) && !hasTurned){
+		if ((Room.isColliding (this) || unamedVariable) && !hasTurned){
 			if (!this.getSprite().equals(TURRNING_LASER)) {
 			this.setSprite(TURRNING_LASER);
 			}
@@ -113,7 +113,7 @@ public String checkEntry () {
 				unamedVariable = false;
 			}
 		}
-		if (Room.isColliding (this.hitbox()) && moveing && hasTurned){
+		if (Room.isColliding(this) && moveing && hasTurned){
 			moveRight = !moveRight;
 			if (moveRight){
 				setSprite(RIGHT_LASER);

@@ -143,23 +143,23 @@ public abstract class Enemy extends GameObject {
 		boolean colidingSide;
 		colidingSide = false;
 		if (falls) {
-			if (!(Room.isColliding(this.hitbox()))){
+			if (!(Room.isColliding(this))){
 				this.setX(getX() - 1);
-				if (Room.isColliding(this.hitbox())){
+				if (Room.isColliding(this)){
 					colidingSide = true;
 				}
 				this.setX(getX() + 1);
 				}
-			if (!(Room.isColliding(this.hitbox()))){
+			if (!(Room.isColliding(this))){
 				this.setX(getX() + 1);
-				if (Room.isColliding(this.hitbox())){
+				if (Room.isColliding(this)){
 					colidingSide = true;
 				}
 				this.setX(getX() - 1);
 				}
-			if ((!(Room.isColliding(this.hitbox())) || !colidingSide) && !this.checkIfStuckInCeling(1) ){
+			if ((!(Room.isColliding(this)) || !colidingSide) && !this.checkIfStuckInCeling(1) ){
 				this.setY(getY() + currentSpeed + 1);
-				if (Room.isColliding(this.hitbox())){
+				if (Room.isColliding(this)){
 					onFloor = true;
 				}
 				this.setY(getY() - (currentSpeed + 1) );
@@ -236,7 +236,7 @@ public abstract class Enemy extends GameObject {
 		this.xprevious = x;
 		spriteX =  (spriteX + (val - x));
 		x = val;
-		if (Room.isColliding(this.hitbox())) {
+		if (Room.isColliding(this)) {
 			x = xprevious;
 			spriteX = (spriteX - (val- x));
 			return false;
@@ -294,7 +294,7 @@ public abstract class Enemy extends GameObject {
 				super.setX(GameCode.testJeffrey.getX());
 					for (int i = 0; true; i++) {
 						this.setY(this.getY () + i);
-						if (Room.isColliding(this.hitbox())) {
+						if (Room.isColliding(this)) {
 							if (player.getY() > this.getY()) {
 							this.setY(this.getY() - i);
 							super.setX(x);
@@ -306,7 +306,7 @@ public abstract class Enemy extends GameObject {
 							break;
 						}
 						this.setY(this.getY() - i*2);
-						if (Room.isColliding(this.hitbox())) {
+						if (Room.isColliding(this)) {
 							if (player.getY() < this.getY()) {
 								this.setY(this.getY() + i);
 								super.setX(x);
@@ -326,7 +326,7 @@ public abstract class Enemy extends GameObject {
 		public boolean checkPlayerPositionRelativeToWalls () {
 				for (int i = 0; true; i++) {
 					super.setX(this.getX () + i);
-					if (Room.isColliding(this.hitbox())) {
+					if (Room.isColliding(this)) {
 						if (player.getX() > this.getX()) {
 						super.setX(this.getX() - i);
 						return true;
@@ -337,7 +337,7 @@ public abstract class Enemy extends GameObject {
 						break;
 					}
 					super.setX(this.getX() - i*2);
-					if (Room.isColliding(this.hitbox())) {
+					if (Room.isColliding(this)) {
 						if (player.getX() < this.getX()) {
 							super.setX(this.getX() + i);
 						return true;
@@ -469,7 +469,7 @@ if (chargeTimer == timeToCharge) {
 		timer = timer + 1;
 		if (lockedRight) {
 			if (timer <= 6) {
-			if (Room.isColliding(this.hitbox())) {
+			if (Room.isColliding(this)) {
 				if (this.checkIfColidingWithWall(horizontalBaseSpeed)) {
 					if (!this.checkIfStuckInCeling(-1 *(verticalBaseSpeed))){
 					this.goY(this.getY() - verticalBaseSpeed);
@@ -483,7 +483,7 @@ if (chargeTimer == timeToCharge) {
 			}
 			}
 			if (timer > 6 && timer <=11) {
-				if (Room.isColliding(this.hitbox())) {
+				if (Room.isColliding(this)) {
 					if (this.checkIfColidingWithWall(horizontalBaseSpeed * 1.1)) {
 						if (!this.checkIfStuckInCeling(-1 *(verticalBaseSpeed * 1.1))){
 						this.goY(this.getY() - (verticalBaseSpeed * 1.1));
@@ -498,7 +498,7 @@ if (chargeTimer == timeToCharge) {
 			}
 			if (timer > 11 && timer <= 16) {
 				
-				if (Room.isColliding(this.hitbox())) {
+				if (Room.isColliding(this)) {
 					if (this.checkIfColidingWithWall(horizontalBaseSpeed * 1.1)) {
 						if (!this.checkIfStuckInCeling(-1 *(verticalBaseSpeed *1.1))){
 						this.goY(this.getY() - (verticalBaseSpeed * 1.1));
@@ -523,7 +523,7 @@ if (chargeTimer == timeToCharge) {
 	}
 		if (!lockedRight) {
 			if (timer <= 6) {
-				if (Room.isColliding(this.hitbox())) {
+				if (Room.isColliding(this)) {
 					if (this.checkIfColidingWithWall(-1 * horizontalBaseSpeed)) {
 						if (!this.checkIfStuckInCeling(-1 * (verticalBaseSpeed))){
 						this.goY(this.getY() - verticalBaseSpeed);
@@ -537,7 +537,7 @@ if (chargeTimer == timeToCharge) {
 				}
 			}
 			if (timer > 6 && timer <=11) {
-				if (Room.isColliding(this.hitbox())) {
+				if (Room.isColliding(this)) {
 					if (this.checkIfColidingWithWall(-1 * (horizontalBaseSpeed * 1.1))) {
 						if (!this.checkIfStuckInCeling(-1 * (verticalBaseSpeed * 1.1))){
 						this.goY(this.getY() - (verticalBaseSpeed * 1.1));
@@ -551,7 +551,7 @@ if (chargeTimer == timeToCharge) {
 				}
 			}
 			if (timer > 11 && timer <= 16) {
-				if (Room.isColliding(this.hitbox())) {
+				if (Room.isColliding(this)) {
 					if (this.checkIfColidingWithWall(-1 * (horizontalBaseSpeed * 1.1))) {
 						if (!this.checkIfStuckInCeling(-1 * (verticalBaseSpeed * 1.1))){
 						this.goY(this.getY() - (verticalBaseSpeed * 1.1));
@@ -653,7 +653,7 @@ if (chargeTimer == timeToCharge) {
 			this.setSprite(idleSprite);
 		}
 		this.setY(this.getY() + 1);
-		if ((player.getX() > this.getX() - 200 && player.getX() <=this.getX() + 200) && Room.isColliding(this.hitbox())) {
+		if ((player.getX() > this.getX() - 200 && player.getX() <=this.getX() + 200) && Room.isColliding(this)) {
 			if (countdown == 0) {
 			jumping = true;
 			if (player.getX() > this.getX()) {
@@ -765,10 +765,10 @@ if (chargeTimer == timeToCharge) {
 				adjustedSpeed = true;
 			}
 		}
-		if (Room.isColliding(this.hitbox()) && waitForCollison > 10) {
+		if (Room.isColliding(this) && waitForCollison > 10) {
 			waitForCollison = 0;
 			this.setY(this.getY() - 3);
-			if (Room.isColliding(this.hitbox())) {
+			if (Room.isColliding(this)) {
 				if (moveRight) {
 					this.setX(this.getX()- fatAss);
 				} else {
@@ -795,7 +795,7 @@ if (chargeTimer == timeToCharge) {
 		for (double i =0; i < 6.28; i = i + 0.4) {
 		point = new Point (this.getX()+ Math.sin(i)*radius,this.getY() - Math.cos(i)*radius + radius);
 		point.declare(point.x,point.y);
-		if (!Room.isColliding(point.hitbox())) {
+		if (!Room.isColliding(point)) {
 			working.push(point);	
 		} else {
 			point.forget();

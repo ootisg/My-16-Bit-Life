@@ -176,25 +176,25 @@ public class Triangle extends Projectile{
 				timer = timer + 1;
 				if (getCursorX()> this.getX()- Room.getViewX()) {
 					this.setY(this.getY() + 9);
-					if (Room.isColliding(this.hitbox())) {
+					if (Room.isColliding(this)) {
 						this.setX(this.getX() + 2);
-						if (!Room.isColliding(this.hitbox())) {
+						if (!Room.isColliding(this)) {
 							this.setX(this.getX() - 2);
 						}
 						this.setY(this.getY() - 9);
-						if (Room.isColliding(this.hitbox())) {
+						if (Room.isColliding(this)) {
 							this.setX(this.getX() - 2);
 						}
 						this.setY(this.getY() + 9);
 					} 
 					this.setY(this.getY() - 18);
-					if (Room.isColliding(this.hitbox())) {
+					if (Room.isColliding(this)) {
 						this.setX(this.getX() + 2);
-						if (!Room.isColliding(this.hitbox())) {
+						if (!Room.isColliding(this)) {
 							this.setX(this.getX() - 2);
 						}
 						this.setY(this.getY() + 9);
-						if (Room.isColliding(this.hitbox())) {
+						if (Room.isColliding(this)) {
 							this.setX(this.getX() - 2);
 						}
 						this.setY(this.getY() - 9);
@@ -202,25 +202,25 @@ public class Triangle extends Projectile{
 					this.setY(this.getY() + 9);
 				} else {
 					this.setY(this.getY() + 9);
-					if (Room.isColliding(this.hitbox())) {
+					if (Room.isColliding(this)) {
 						this.setX(this.getX() - 2);
-						if (!Room.isColliding(this.hitbox())) {
+						if (!Room.isColliding(this)) {
 							this.setX(this.getX() + 2);
 						}
 						this.setY(this.getY() - 9);
-						if (Room.isColliding(this.hitbox())) {
+						if (Room.isColliding(this)) {
 							this.setX(this.getX() + 2);
 						}
 						this.setY(this.getY() + 9);
 					} 
 					this.setY(this.getY() - 18);
-					if (Room.isColliding(this.hitbox())) {
+					if (Room.isColliding(this)) {
 						this.setX(this.getX() - 2);
-						if (!Room.isColliding(this.hitbox())) {
+						if (!Room.isColliding(this)) {
 							this.setX(this.getX() + 2);
 						}
 						this.setY(this.getY() + 9);
-						if (Room.isColliding(this.hitbox())) {
+						if (Room.isColliding(this)) {
 							this.setX(this.getX() + 2);
 						}
 						this.setY(this.getY() - 9);
@@ -229,25 +229,25 @@ public class Triangle extends Projectile{
 				}
 				if (getCursorY()> this.getY() - Room.getViewY()) {
 				this.setX(this.getX() + 9);
-				if (Room.isColliding(this.hitbox())) {
+				if (Room.isColliding(this)) {
 					this.setY(this.getY() + 2);
-					if (!Room.isColliding(this.hitbox())) {
+					if (!Room.isColliding(this)) {
 						this.setY(this.getY() - 2);
 					}
 					this.setX(this.getX() - 9);
-					if (Room.isColliding(this.hitbox())) {
+					if (Room.isColliding(this)) {
 						this.setY(this.getY() - 2);
 					}
 					this.setX(this.getX() + 9);
 				}
 				this.setX(this.getX() - 18);
-				if (Room.isColliding(this.hitbox())) {
+				if (Room.isColliding(this)) {
 					this.setY(this.getY() + 2);
-					if (!Room.isColliding(this.hitbox())) {
+					if (!Room.isColliding(this)) {
 						this.setY(this.getY() - 2);
 					}
 					this.setX(this.getX() + 9);
-					if (Room.isColliding(this.hitbox())) {
+					if (Room.isColliding(this)) {
 						this.setY(this.getY() - 2);
 					}
 					this.setX(this.getX() - 9);
@@ -255,25 +255,25 @@ public class Triangle extends Projectile{
 				this.setX(this.getX() + 9);
 				} else {
 					this.setX(this.getX() + 9);
-					if (Room.isColliding(this.hitbox())) {
+					if (Room.isColliding(this)) {
 						this.setY(this.getY() - 2);
-						if (!Room.isColliding(this.hitbox())) {
+						if (!Room.isColliding(this)) {
 							this.setY(this.getY() + 2);
 						}
 						this.setX(this.getX() - 9);
-						if (Room.isColliding(this.hitbox())) {
+						if (Room.isColliding(this)) {
 							this.setY(this.getY() + 2);
 						}
 						this.setX(this.getX() + 9);
 					}
 					this.setX(this.getX() - 18);
-					if (Room.isColliding(this.hitbox())) {
+					if (Room.isColliding(this)) {
 						this.setY(this.getY() - 2);
-						if (!Room.isColliding(this.hitbox())) {
+						if (!Room.isColliding(this)) {
 							this.setY(this.getY() + 2);
 						}
 						this.setX(this.getX() + 9);
-						if (Room.isColliding(this.hitbox())) {
+						if (Room.isColliding(this)) {
 							this.setY(this.getY() + 2);
 						}
 						this.setX(this.getX() - 9);

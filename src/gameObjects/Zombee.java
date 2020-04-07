@@ -124,7 +124,7 @@ timer = timer + 1;
 if (timer == 20) {
 	pathDecided = false;
 }
-if (Room.isColliding(this.hitbox())) {
+if (Room.isColliding(this)) {
 	timer = 0;
 	this.setX(this.getX() - xToMove);
 	this.setY(this.getY() - yToMove);

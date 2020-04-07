@@ -371,17 +371,17 @@ public class Room {
 			}
 		}
 	}
-	public static boolean isColliding (Rectangle hitbox) {
+	public static boolean isColliding (GameObject object) {
 		//Returns true if the given Hitbox is colliding with a solid tile
 		for (int i = 0; i <= TemporaryWall.walls.size() - 1; i++) {
-			if(TemporaryWall.walls.get(i).isHitting(hitbox)){
+			if(TemporaryWall.walls.get(i).isHitting(object)){
 				return true;
 			}
 		}
-		int x = hitbox.x;
-		int y = hitbox.y;
-		int width = hitbox.width;
-		int height = hitbox.height;
+		int x = object.x;
+		int y = object.y;
+		int width = object.width;
+		int height = object.height;
 		int x1 = bind (x / 16, 0, levelWidth * 16);
 		int x2 = bind ((x + width) / 16, 0, levelWidth * 16);
 		int y1 = bind (y / 16, 0, levelHeight * 16);

@@ -6,7 +6,6 @@ import main.AnimationHandler;
 import resources.Sprite;
 
 public class Background {
-	//Big oof here, I'm gonna have to fix this at some point
 	private AnimationHandler animationHandler;
 	private double scrollRateHorizontal;
 	private double scrollRateVertical;
