@@ -9,6 +9,6 @@ public class TileEntitiy {
 		return false;
 	}
 	public TileData getData () {
-		return new TileData("hi");
+		return new TileData("hil. ");
 	}
 }
