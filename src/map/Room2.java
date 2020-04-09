@@ -54,22 +54,165 @@ public class Room2 {
 	
 	private static boolean isLoaded = false;
 	
-	private static final int TILE_WIDTH = 16;
-	private static final int TILE_HEIGHT = 16;
+	public static final int TILE_WIDTH = 16;
+	public static final int TILE_HEIGHT = 16;
 	public static final int SPECIAL_TILE_ID = -1;
+	
 	public Room2 () {
 		//Non-electric boogaloo
 	}
-	public static boolean isColliding (double x1, double y1, double x2, double y2) {
+	
+	private static boolean isBetween (double val, double bound1, double bound2) {
+		if ((bound1 - val < 0 && bound2 - val > 0) || (bound1 - val > 0 && bound2 - val < 0)) {
+			return true;
+		}
 		return false;
 	}
 	
-	public static double[] getCollidingCoords (double x1, double y1, double x2, double y2) {
-		return null;
+	private static boolean checkTileCollision (int tileX, int tileY, boolean flip) {
+		if (flip) {
+			return dataList.get(tileData[collisionLayer][tileX][tileY]).isSolid ();
+		} else {
+			return dataList.get(tileData[collisionLayer][tileX][tileY]).isSolid ();
+		}
+	}
+	private static TileData checkTileData (int tileX, int tileY, boolean flip) {
+		if (flip) {
+			return dataList.get(tileData[collisionLayer][tileX][tileY]);
+		} else {
+			return dataList.get(tileData[collisionLayer][tileX][tileY]);
+		}
+	}
+	/**
+	 * does a collision using vectors
+	 * @param x1 the x pos of the start of the line
+	 * @param y1 the y pos of the start of the line
+	 * @param x2 the x pos of the end of the line
+	 * @param y2 the y pos of the end of the line
+	 * @return true if the vector colides with a solid tile at any point
+	 */
+	public static boolean isColliding (double x1, double y1, double x2, double y2) {
+	if (getCollisionInfo(x1,y1,x2,y2) == null) {
+		return false;
+		} else {
+		return true;
+		}
 	}
 	
-	public static void setTileBuffer (double x1, double y1, double x2, double y2) {
+	public static VectorCollisionInfo getCollisionInfo (double x1, double y1, double x2, double y2) {
 		
+		//DIVIDE
+		//TODO evaluate the usefulness of this method when TILE_WIDTH != TILE_HEIGHT
+		y1 /= TILE_WIDTH;
+		y2 /= TILE_WIDTH;
+		x1 /= TILE_WIDTH;
+		x2 /= TILE_WIDTH;
+		
+		//The coordinates of the tile that we are currently checking for collision
+		int tileX = (int) x1;
+		int tileY = (int) y1;
+		
+		//Flipped mode
+		boolean flipped = false;
+		if (Math.abs(y2 - y1) > Math.abs(x2 - x1)) {
+			flipped = true;
+			double temp = y2;
+			y2 = x2;
+			x2 = temp;
+			temp = y1;
+			y1 = x1;
+			x1 = temp;
+		}
+		int dir = 1;
+		if (x2< x1 ) {
+			dir = -1;
+		}
+		//Set the slope
+		double m = (y2 - y1) / (x2 - x1); //THIS IS THE SLOPE JEFFREY
+		double b = y1 - m * x1; 
+		
+		//Snap to next tile
+		//stepX and stepY are the current point on the line that we are checking
+		double stepX = x1;
+		double stepY = y1;
+		try {
+			while (true) {
+				if ((m >= 0 && dir == 1) || (m<= 0 && dir == -1)) {
+					if (isBetween (stepY, y1, y2) && isBetween (stepX, x1, x2)) {
+						return null;
+					}
+					if (stepX % 1 == 0) {
+						stepX += dir;
+					} else {
+						if (dir == 1) {
+						stepX = Math.ceil (stepX);
+						} else {
+						stepX = Math.floor (stepX);
+						}
+					}
+					int tempY = (int)stepY;
+					stepY = m * stepX + b;
+					if ((int)stepY > tempY) {
+						tileY++;
+						if (checkTileCollision (tileX, tileY, flipped)) {
+							stepY = tileY;
+							stepX = (stepY - b) / m;
+							if (isBetween (stepY, y1, y2) && isBetween (stepX, x1, x2)) {
+								//TODO will crash with tileEnitiys
+								return new VectorCollisionInfo(checkTileData(tileX,tileY,flipped),stepX,stepY,tileX,tileY);
+							}
+							return null;
+						}
+					}
+					tileX= tileX + dir;
+					if (checkTileCollision (tileX, tileY, flipped)) {
+						stepX = tileX;
+						stepY = m * stepX + b;
+						if (isBetween (stepY, y1, y2) && isBetween (stepX, x1, x2)) {
+							return new VectorCollisionInfo(checkTileData(tileX,tileY,flipped),stepX,stepY,tileX,tileY);
+						}
+						return null;
+					}
+				} else {
+					if (isBetween (stepY, y1, y2) && isBetween (stepX, x1, x2)) {
+						return null;
+					}
+					if (stepX % 1 == 0) {
+						stepX += dir;
+					} else {
+						if (dir == 1) {
+							stepX = Math.ceil (stepX);
+							} else {
+							stepX = Math.floor (stepX);
+							}
+					}
+					int tempY = (int)stepY;
+					stepY = m * stepX + b;
+					if ((int)stepY < tempY) {
+						tileY--;
+						if (checkTileCollision (tileX, tileY, flipped)) {
+							stepY = tileY;
+							stepX = (stepY - b) / m;
+							if (isBetween (stepY, y1, y2) && isBetween (stepX, x1, x2)) {
+								return new VectorCollisionInfo(checkTileData(tileX,tileY,flipped),stepX,stepY,tileX,tileY);
+							}
+							return null;
+						}
+					}
+					tileX = tileX + dir;
+					if (checkTileCollision (tileX, tileY, flipped)) {
+						stepX = tileX;
+						stepY = m * stepX + b;
+						if (isBetween (stepY, y1, y2) && isBetween (stepX, x1, x2)) {
+							return new VectorCollisionInfo(checkTileData(tileX,tileY,flipped),stepX,stepY,tileX,tileY);
+						}
+						return null;
+					}
+				}
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
 	}
 	/**
 	 * checks to see if the given object is colliding with a solid tile
@@ -89,7 +232,10 @@ public class Room2 {
 				
 				if (index == SPECIAL_TILE_ID) {
 					long pos = toPackedLong (wx,wy);
-					foundCollision = positionToEntitiys.get(pos).onCollision(obj);
+					foundCollision = positionToEntitiys.get(pos).doesColide(obj);
+					if (foundCollision) {
+						positionToEntitiys.get(pos).onCollision(obj);
+					}
 				} else if (dataList.get(index).isSolid()) {
 					foundCollision = true;
 				}
@@ -116,7 +262,10 @@ public class Room2 {
 				if (index == SPECIAL_TILE_ID) {
 					long pos = toPackedLong (wx,wy);
 					if (positionToEntitiys.get(pos).getData().getName().equals(tileId)) {
-					foundCollision = positionToEntitiys.get(pos).onCollision(obj);
+						foundCollision = positionToEntitiys.get(pos).doesColide(obj);
+						if (foundCollision) {
+							positionToEntitiys.get(pos).onCollision(obj);
+						}
 					}
 				} else if (dataList.get(index).getName().equals(tileId)) {
 					foundCollision= true;
@@ -140,7 +289,7 @@ public class Room2 {
 				
 				if (index == SPECIAL_TILE_ID) {
 					long pos = toPackedLong (wx,wy);
-					foundCollision = positionToEntitiys.get(pos).onCollision(obj);
+					foundCollision = positionToEntitiys.get(pos).doesColide(obj);
 					if (foundCollision) {
 					working.add(new MapTile (positionToEntitiys.get(pos).getData(),wx,wy));	
 					}
@@ -166,7 +315,7 @@ public class Room2 {
 				if (index == SPECIAL_TILE_ID) {
 					long pos = toPackedLong (wx,wy);
 					if (positionToEntitiys.get(pos).getData().getName().equals(tileName)) {
-						foundCollision = positionToEntitiys.get(pos).onCollision(obj);
+						foundCollision = positionToEntitiys.get(pos).doesColide(obj);
 						working.add(new MapTile (positionToEntitiys.get(pos).getData(),wx,wy));	
 					}
 				} else if (dataList.get(index).getName().equals(tileName)) {
@@ -317,14 +466,20 @@ public class Room2 {
 		}
 		
 		//importing tiles
-		//TODO deal with tileEntitys
 		int amountOfTiles = tileIcons.size();
 		int tileByteCount = getByteCount(amountOfTiles);
 		for (int wl = 0; wl < numLayers; wl++) {
 			if (backgrounds.get(wl)== null) {
 				for (int wy = 0; wy < mapWidth; wy++) {
 					for (int wx = 0; wx < mapHeight; wx++) {
-						tileData [wl][wy][wx] = getInteger(tileByteCount);
+						if (dataList.get(tileData[wl][wy][wx]).isSpecial()) {
+							tileData[wl][wy][wx] = SPECIAL_TILE_ID;
+							TileEntitiy enity = new TileEntitiy (dataList.get(tileData[wl][wy][wx]),tileIcons.get(tileData[wl][wy][wx]));
+							tileEntitiys.add(enity);
+							positionToEntitiys.put(toPackedLong(wx,wy),enity);
+						} else {
+							tileData [wl][wy][wx] = getInteger(tileByteCount);
+						}
 					}
 				}
 			}
@@ -665,19 +820,22 @@ public class Room2 {
 		 * draws the map chungus (and any special entitys that are associated with it)
 		 */
 		public void draw () {
-				
 				for (int l = 0; l <renderedImages.size(); l++) {
 					if (!this.isValid(l)) {
 						Graphics g = renderedImages.get(l).getGraphics();
 						if (backgrounds.get(l) == null) {
 						for (int wx = 0; wx < width; wx++) {
 							for (int wy = 0; wy < height; wy++) {
-								g.drawImage(tileIcons.get(tileData[l][wy + y][wx + x]),wy*16,wx*16,null);
+								if (tileData[l][wy + y][wx + x] == SPECIAL_TILE_ID){
+									g.drawImage(positionToEntitiys.get(toPackedLong(wx,wy)).getTexture(),wx*TILE_WIDTH,wy*TILE_HEIGHT,null);
+								}else { 
+									g.drawImage(tileIcons.get(tileData[l][wy + y][wx + x]),wy*TILE_HEIGHT,wx*TILE_WIDTH,null);
+								}
 							}
 						}
 						} else {
 							//TODO get this to work with animated backgrounds
-							BufferedImage working= backgrounds.get(l).getImage().getFrame(0).getSubimage(x*16, y*16, chungusWidth*16, chungusHeight*16);
+							BufferedImage working= backgrounds.get(l).getImage().getFrame(0).getSubimage(x*TILE_WIDTH, y*TILE_HEIGHT, chungusWidth*TILE_WIDTH, chungusHeight*TILE_HEIGHT);
 							g.drawImage(working,0,0,null);
 						}
 						valid.set(layerClassfications.get(l), true);
@@ -688,7 +846,6 @@ public class Room2 {
 				Graphics working = GameAPI.getWindow().getBufferGraphics();
 				working.drawImage(renderedImages.get(i),x      *16 - scrollX, y*16 - scrollY,null);
 			}
-		}
-		
+		}	
 	}
 }
