@@ -44,4 +44,10 @@ public class Background {
 	public double getScrollRateVertical () {
 		return scrollRateVertical;
 	}
+	public int getWidth () {
+		return getImage().getFrame(0).getWidth();
+	}
+	public int getHeight () {
+		return getImage().getFrame(0).getHeight();
+	}
 }

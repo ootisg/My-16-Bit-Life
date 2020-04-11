@@ -316,7 +316,7 @@ if (activeBox) {
 				}
 			}
 			if (fallBruh) {
-			MapTile[] collidingTiles = Room.getCollidingTiles (this.hitbox ());
+			MapTile[] collidingTiles = Room.getCollidingTiles (this);
 			this.setY (this.getY() + vy);
 			for (int i = 0; i < collidingTiles.length; i ++) {
 			    if (getY () + 32 >= collidingTiles [i].y && getY () + 32 <= collidingTiles [i].y + 16) {

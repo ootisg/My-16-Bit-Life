@@ -49,6 +49,7 @@ public class Slimelet extends Enemy {
 	}
 	@Override
 	public void enemyFrame () {
+	
 		//Random numbers correspond to sprite coordinates
 		int slimeOffset;
 		if (this.animation != 2) {

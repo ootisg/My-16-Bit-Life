@@ -2,6 +2,7 @@ package main;
 
 import java.io.FileNotFoundException;
 
+import gameObjects.AnimeTester;
 import gameObjects.BuggyBoi;
 import gameObjects.CannonTankEnemy;
 import gameObjects.CarSpawner;
@@ -117,6 +118,7 @@ public class GameCode {
 	static ImpatientCar car;
 	static CarSpawner spawner;
 	static MafiaShooter shooter;
+	static AnimeTester bleh;
 	public static void initialize () {
 		//Initialize sprites
 		//GameObject initialization
@@ -184,6 +186,7 @@ public class GameCode {
 		testJeffrey.inventory.addAmmo(paint);
 		x = x + 1;
 		}
+		bleh = new AnimeTester ();
 		//testTie.declare (32, 32);
 	//	testJeffrey.getInventory().addKill(boi);
 		//testJeffrey.getInventory().addKill(puncuation);
@@ -195,7 +198,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/snowmap.cmf");
+		Room.loadRoom ("resources/maps/leEpecerMap.RMF");
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
@@ -210,6 +213,7 @@ public class GameCode {
 		//trigger.declare(60,120);
 		//showTank.declare(280, 383);
 		//puncuation.declare(300, 200);
+		bleh.declare(0,0);
 		testLaddder.declare(150, 373);
 		//stop.declare(150, 200);
 	//	ball.declare(200,0);
@@ -244,7 +248,7 @@ public class GameCode {
 	}
 	
 	public static void beforeRender () {
-		Room.frameEvent ();
+		Room.render ();
 		
 	}
 	

@@ -110,6 +110,8 @@ public class DiscoBall extends Enemy {
 			newY1 = this.getY();
 			this.setX(x1);
 			this.setY(y1);
+			y1 = y1 - Room.getViewY();
+			newY1 = newY1 - Room.getViewY();
 			x1 = x1 - Room.getViewX();
 			newX1 = newX1 - Room.getViewX();
 			//deals with the second laser
@@ -137,6 +139,8 @@ public class DiscoBall extends Enemy {
 			newY2 = this.getY();
 			this.setX(x2);
 			this.setY(y2);
+			y2 = y2 - Room.getViewY();
+			newY2 = newY2 - Room.getViewY();
 			x2 = x2 - Room.getViewX();
 			newX2 = newX2 - Room.getViewX();
 			//deals with the third laser
@@ -164,6 +168,8 @@ public class DiscoBall extends Enemy {
 			newY3 = this.getY();
 			this.setX(x3);
 			this.setY(y3);
+			y3 = y3 - Room.getViewY();
+			newY3 = newY3 - Room.getViewY();
 			x3 = x3 - Room.getViewX();
 			newX3 = newX3 - Room.getViewX();
 			} 
@@ -174,7 +180,7 @@ public class DiscoBall extends Enemy {
 	}
 	@Override
 	public void draw () {
-		ballSprite.draw((int)this.getX() - Room.getViewX(), (int)this.getY());
+		ballSprite.draw((int)this.getX() - Room.getViewX(), (int)this.getY() - Room.getViewY());
 		if (timer < 30) {
 		lines.drawLine((int)x1 + 8, (int)y1 + 16, (int)newX1, (int)newY1);
 		lines.drawLine((int)x2 + 8, (int)y2 + 16, (int)newX2, (int)newY2);

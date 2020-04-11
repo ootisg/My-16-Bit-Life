@@ -12,9 +12,14 @@ public class TileEntitiy {
 	BufferedImage texture;
 	
 	
-	public TileEntitiy (TileData data, BufferedImage image) {
-	accociatedData = data;
-	image = texture;
+	public TileEntitiy () {
+	
+	}
+	public void setTexture(BufferedImage newTexture) {
+		texture = newTexture;
+	}
+	public void setTileData(TileData newData) {
+		accociatedData = newData;
 	}
 	/**
 	 * gets the image of the map entity
@@ -27,7 +32,6 @@ public class TileEntitiy {
 	 * @param o the object collideing with this tileEnity
 	 */
 	public void onCollision(GameObject o) {
-		
 	}
 	/**
 	 * override to make this tile entity not solid sometimes

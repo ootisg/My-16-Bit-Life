@@ -15,8 +15,8 @@ public class VectorCollisionInfo {
 	 */
 	public VectorCollisionInfo (TileData data, double x, double y,int tileX,int tileY) {
 		colidedTile = data;
-		x = collisionX;
-		y = collisionY;
+		collisionX = x;
+		collisionY = y;
 		this.tileX = tileX;
 		this.tileY = tileY;
 	}
