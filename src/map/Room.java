@@ -521,6 +521,7 @@ public class Room {
 				Room.mapWidth = mapWidth;
 				int numLayers = getInteger (4);
 				Room.numLayers = numLayers;
+				Room.collisionLayer = numLayers - 1;
 				int numObjects = getInteger (4);
 				tileData = new int[numLayers][mapHeight][mapWidth];
 		//Parse tile set list
@@ -542,13 +543,17 @@ public class Room {
 		}
 		
 		//import all backgrounds
-		for(int i = 0; i < backgroundList.length; i++) {
+		
+		for(int i = backgroundList.length - 1; i >=0; i--) {
 			Background newBackground;
 			if (!backgroundList[i].equals("_NULL")) {
-				newBackground = new Background (new Sprite ("resources/backgrounds/" +backgroundList[i]));
-				newBackground.setScrollRateHorizontal(Double.parseDouble(backgroundList[++i]));
-				newBackground.setScrollRateVertiacal(Double.parseDouble(backgroundList[++i]));
+				double scrollVertical = Double.parseDouble(backgroundList[i]);
+				double scrollHorizontal = Double.parseDouble(backgroundList[--i]);
+				newBackground = new Background (new Sprite ("resources/backgrounds/" +backgroundList[--i]));
+				newBackground.setScrollRateHorizontal(scrollHorizontal);
+				newBackground.setScrollRateVertiacal(scrollVertical);
 				backgrounds.add(newBackground);
+				
 			} else {
 				backgrounds.add(null);
 			}
@@ -559,6 +564,7 @@ public class Room {
 		int tileByteCount = getByteCount(amountOfTiles);
 		for (int wl = 0; wl < numLayers; wl++) {
 			if (backgrounds.get(wl)== null) {
+				
 				for (int wy = 0; wy < mapHeight; wy++) {
 					for (int wx = 0; wx < mapWidth; wx++) {
 						tileData [wl][wy][wx] = getInteger(tileByteCount);
@@ -831,12 +837,7 @@ public class Room {
 			for (int i = 0; i < numLayers; i++) {
 				if (isSpecialLayer(i)) {
 					boolean extraImage =false;
-					if (i== 1) {
-					valid.add(false);
-					renderedImages.add(null);
-					
-					mappedLayerIndex = mappedLayerIndex +1;
-					}else {
+					if (i!= 0) {
 						if (!isSpecialLayer (i-1)) {
 							mappedLayerIndex = mappedLayerIndex + 1;
 							extraImage = true;
@@ -852,7 +853,6 @@ public class Room {
 					if (extraImage) {
 						valid.add(false);
 						renderedImages.add(null);
-				
 					}
 				} else {
 					layerClassfications.add(mappedLayerIndex);
@@ -973,7 +973,6 @@ public class Room {
 					if (!this.isValid(l)) {
 						renderedImages.set(l,new BufferedImage (chungusWidth*TILE_HEIGHT,chungusWidth*TILE_HEIGHT,BufferedImage.TYPE_4BYTE_ABGR));
 						Graphics g = renderedImages.get(l).getGraphics();
-						
 						while (layerClassfications.get(currentLayer)>=l) {
 							if (backgrounds.get(currentLayer) == null) {
 							for (int wx = 0; wx < width; wx++) {
@@ -1006,7 +1005,7 @@ public class Room {
 					}
 				}
 				
-			for (int i = renderedImages.size() -1; i >= 0; i--) {
+			for (int i = 0; i < renderedImages.size(); i++) {
 				Graphics g = GameAPI.getWindow().getBufferGraphics();
 				g.drawImage(renderedImages.get(i),x*TILE_WIDTH - scrollX, y*TILE_HEIGHT - scrollY,null);
 			}

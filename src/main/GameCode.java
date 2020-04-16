@@ -198,10 +198,15 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/leEpecerMap.RMF");
+		Room.loadRoom ("resources/maps/test.rmf");
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
+		testLaddder.declare(150, 373);
+		//stop.declare(150, 200);
+	//	ball.declare(200,0);
+		//bug1.declare(400, 180);
+		/*bug2.declare(425, 175);
 		//leg.declare(150, 200);
 	//	boi.declare(40,300);
 		//newFly.declare(180,350);
@@ -214,11 +219,6 @@ public class GameCode {
 		//showTank.declare(280, 383);
 		//puncuation.declare(300, 200);
 		bleh.declare(0,0);
-		testLaddder.declare(150, 373);
-		//stop.declare(150, 200);
-	//	ball.declare(200,0);
-		//bug1.declare(400, 180);
-		/*bug2.declare(425, 175);
 		bug3.declare(450, 125);*/
 		/*bug4.declare(225, 150);
 		bug5.declare(250, 125);

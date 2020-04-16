@@ -13,6 +13,12 @@ public class Item extends GameObject {
 	ListTbox box;
 	LemonPacket packet;
 	public void Item () {
+		Class<?> c = this.getClass ();
+		try {
+			setSprite (new Sprite ("resources/sprites/" + c.getSimpleName () + ".png"));
+		} catch (Exception e) {
+			return;
+		}
 	}
 	//override to set effect
 	public void useItem(int witchCharictar) {
