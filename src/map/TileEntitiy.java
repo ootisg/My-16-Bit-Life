@@ -11,9 +11,13 @@ public class TileEntitiy {
 	
 	BufferedImage texture;
 	
-	
+	int x;
+	int y;
 	public TileEntitiy () {
-	
+
+	}
+	public void frameEvent() {
+		
 	}
 	public void setTexture(BufferedImage newTexture) {
 		texture = newTexture;
@@ -26,6 +30,18 @@ public class TileEntitiy {
 	 */
 	public BufferedImage getTexture () {
 		return texture;
+	}
+	public int getX() {
+		return x;
+	}
+	public int getY() {
+		return y;
+	}
+	public void setX(int newX) {
+		this.x = newX;
+	}
+	public void setY (int newY) {
+		this.y = newY;
 	}
 	/**
 	 * run code for the specfied tileEnitiy

@@ -40,7 +40,7 @@ public class Tbox extends GameObject {
 		renderBox = drawBox;
 	}
 	@Override
-	public void draw () {                                                                                                                                                                                                                                                                                 
+	public void draw () {  
 		if (timer == timerCloseing && timerCloseing != 0) {	
 			this.forget();
 		}

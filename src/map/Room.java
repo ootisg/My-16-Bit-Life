@@ -308,12 +308,9 @@ public class Room {
 			for (int wy = startY; wy <= endY; wy++) {
 				int index = tileData[collisionLayer][wy][wx];
 				if (index == SPECIAL_TILE_ID) {
-					
 					long pos = toPackedLong (wx,wy);
 					foundCollision = positionToEntitiys.get(pos).doesColide(obj);
-					if (foundCollision) {
-						positionToEntitiys.get(pos).onCollision(obj);
-					}
+					positionToEntitiys.get(pos).onCollision(obj);
 				} else if (dataList.get(index).isSolid()) {
 					
 					foundCollision = true;
@@ -410,6 +407,9 @@ public class Room {
 	public static boolean isSolid (int layer,int x, int y) {
 		return dataList.get(tileData[layer][y][x]).isSolid();
 	}
+	public static ArrayList<TileEntitiy> getEntitiys(){
+		return tileEntitiys;
+	}
 	/**
 	 * returns true if the specified tile is a solid tile (false if the tile is not loaded)
 	 * @param name the name of the specified tile
@@ -428,6 +428,10 @@ public class Room {
 	public static void render () {
 		Rectangle viewport = new Rectangle (scrollX,scrollY,GameAPI.getWindow().getResolution()[0],GameAPI.getWindow().getResolution()[1]);
 		if (isLoaded()) {
+			//runs code on tileEntitiys
+			for (int i = 0; i < tileEntitiys.size();i++) {
+				tileEntitiys.get(i).frameEvent();
+			}
 		for (int wy = 0; wy < mapChungi.length; wy++) {
 			for (int wx = 0; wx < mapChungi[0].length; wx++) {
 				MapChungus currentChungus = mapChungi[wy][wx];
@@ -570,6 +574,8 @@ public class Room {
 						tileData [wl][wy][wx] = getInteger(tileByteCount);
 						if (dataList.get(tileData[wl][wy][wx]).isSpecial()) {
 							TileEntitiy enity = dataList.get(tileData[wl][wy][wx]).makeEntity();
+							enity.setX(wx);
+							enity.setY(wy);
 							enity.setTileData(dataList.get(tileData[wl][wy][wx]));
 							enity.setTexture(tileIcons.get(tileData[wl][wy][wx]));
 							tileEntitiys.add(enity);
