@@ -312,7 +312,6 @@ public class Room {
 					foundCollision = positionToEntitiys.get(pos).doesColide(obj);
 					positionToEntitiys.get(pos).onCollision(obj);
 				} else if (dataList.get(index).isSolid()) {
-					
 					foundCollision = true;
 				}
 			}
@@ -357,7 +356,6 @@ public class Room {
 		for (int wx = startX; wx <= endX; wx++ ){
 			for (int wy = startY; wy <= endY; wy++) {
 				int index = tileData[collisionLayer][wy][wx];
-				
 				if (index == SPECIAL_TILE_ID) {
 					long pos = toPackedLong (wx,wy);
 					foundCollision = positionToEntitiys.get(pos).doesColide(obj);
@@ -426,7 +424,7 @@ public class Room {
 	 * renders the map and associated chungi
 	 */
 	public static void render () {
-		Rectangle viewport = new Rectangle (scrollX,scrollY,GameAPI.getWindow().getResolution()[0],GameAPI.getWindow().getResolution()[1]);
+		Rectangle viewport = new Rectangle (scrollX - 20,scrollY - 20,GameAPI.getWindow().getResolution()[0] + 40,GameAPI.getWindow().getResolution()[1] + 40);
 		if (isLoaded()) {
 			//runs code on tileEntitiys
 			for (int i = 0; i < tileEntitiys.size();i++) {
@@ -435,11 +433,13 @@ public class Room {
 		for (int wy = 0; wy < mapChungi.length; wy++) {
 			for (int wx = 0; wx < mapChungi[0].length; wx++) {
 				MapChungus currentChungus = mapChungi[wy][wx];
+				
 				Rectangle chungtangle = new Rectangle (currentChungus.getX()*TILE_WIDTH,currentChungus.getY()*TILE_HEIGHT,chungusWidth*TILE_WIDTH,chungusHeight*TILE_HEIGHT);
 				if (!viewport.intersects(chungtangle)) {
 					
 					if (!currentChungus.isFree()) {
 						currentChungus.freeImage();
+						currentChungus.invalidate();
 					}
 				} else {
 					currentChungus.draw();
@@ -525,7 +525,6 @@ public class Room {
 				Room.mapWidth = mapWidth;
 				int numLayers = getInteger (4);
 				Room.numLayers = numLayers;
-				Room.collisionLayer = numLayers - 1;
 				int numObjects = getInteger (4);
 				tileData = new int[numLayers][mapHeight][mapWidth];
 		//Parse tile set list
@@ -945,7 +944,12 @@ public class Room {
 		public void invalidate (int layer) {
 			valid.set(layerClassfications.get(layer), false);
 		}
-		
+		public void invalidate () {
+			for (int i = 0; i<valid.size(); i++) {
+				valid.set(i, false);
+			}
+		}
+
 		/**
 		 * returns wheather or not the map chungus is still valid
 		 * @return wheather or not the map chungus is still valid

@@ -26,6 +26,7 @@ public class TileData {
 	public TileData (String name) {
 		//Name is in the format [tileset name].[position in tileset]
 		this.name = name;
+		
 		this.isSolid = true;
 		//sets info for the defualt map
 		if (defaultMap == null) {
