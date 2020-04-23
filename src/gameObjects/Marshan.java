@@ -13,6 +13,14 @@ public class Marshan extends Enemy {
 		this.getAnimationHandler().setFrameTime(125);
 	}
 	@Override 
+	public String checkName () {
+		return "MARSH-AN";
+	}
+	@Override
+	public String checkEntry () {
+		return "THE ONLY RETURNING ENEMY (YOU SHOULD GET AUTOMOBILES AND THE EISENHOWER HIGHWAY SYTEM THE GAME, ITS FREE)";
+	}
+	@Override 
 	public void frameEvent () {
 		
 		if (this.getAnimationHandler().getFrame() == 12) {
