@@ -21,6 +21,7 @@ import gameObjects.ImpatientCar;
 import gameObjects.Ladder;
 import gameObjects.Leg;
 import gameObjects.MafiaShooter;
+import gameObjects.Marshan;
 import gameObjects.MissleadingStop;
 import gameObjects.Point;
 import gameObjects.Puncuation;
@@ -118,6 +119,7 @@ public class GameCode {
 	static ImpatientCar car;
 	static CarSpawner spawner;
 	static MafiaShooter shooter;
+	static Marshan marsh;
 	static AnimeTester bleh;
 	public static void initialize () {
 		//Initialize sprites
@@ -157,6 +159,7 @@ public class GameCode {
 		stop = new MissleadingStop();
 		slimelet = new SplittingSlimelet ();
 		testCrab = new CyclopesCrab();
+		marsh = new Marshan();
 		//trigger = new CutsceenTrigger();
 		microphone = new MagicMicrophone ();
 		triangle = new NinjaTriangle (new Sprite ("resources/sprites/config/stationary_ninja_triangle.txt"));
@@ -237,6 +240,7 @@ public class GameCode {
 		testPoint.declare(185, 380);
 		System.out.println(testPoint.generatePath(point));*/
 		//function.declare(120, 300);
+		marsh.declare(200,320);
 	}
 	
 	public static void beforeGameLogic () {
