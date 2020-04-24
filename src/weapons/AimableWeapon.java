@@ -1,11 +1,14 @@
 package weapons;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 import items.Item;
 import main.GameObject;
+import main.RenderLoop;
 import map.Room;
 import projectiles.Projectile;
 import resources.Sprite;
@@ -34,6 +37,13 @@ public class AimableWeapon extends Item {
 			this.setSprite (new Sprite (img));
 			renderedRotation = rotation;
 		}
+		if (this.hiboxBorders) {
+			if (this.hitbox() != null) {
+				Graphics g = RenderLoop.window.getBufferGraphics();
+				g.setColor(new Color(0xFFFFFF));
+				g.drawRect((int)(this.getX() + this.getHitboxXOffset() - Room.getViewX()),(int) (this.getY() + this.getHitboxYOffset() - Room.getViewY()), this.hitbox().width, this.hitbox().height);
+				}
+			}
 		getSprite ().draw ((int) getX () - Room.getViewX () - 5, (int) getY () - Room.getViewY () - 12, getAnimationHandler ().flipHorizontal (), false, 0);
 	}
 	public void clearImage () {

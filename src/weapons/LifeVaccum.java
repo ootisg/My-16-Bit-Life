@@ -4,30 +4,31 @@ import java.util.Random;
 
 import gameObjects.Enemy;
 import main.GameCode;
+import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
 import players.Jeffrey;
+import resources.AfterRenderDrawer;
 import resources.Sprite;
 
 public class LifeVaccum extends AimableWeapon {
-	Sprite wind;
 	Random RNG;
 	Boolean loseBattary;
-	Sprite outtaAmmo;
 	int timer;
 	int [] upgradeInfo;
 	Sprite vaccumSprite;
 	Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").getFirst ();
+	Wind wind = new Wind ();
+	public final Sprite OUTTA_AMMO = new Sprite ("resources/sprites/Outta_Ammo.png");
 	public LifeVaccum (Sprite sprite) {
 		super (sprite);
+		this.adjustHitboxBorders();
+		vaccumSprite = new Sprite( "resources/sprites/config/lifeVaccum.txt");
 		upgradeInfo = new int [] {0,0,0,0};
-		vaccumSprite = new Sprite ("resources/sprites/config/lifeVaccum.txt");
 		timer = 0;
-		RNG = new Random ();
-		outtaAmmo = new Sprite ("resources/sprites/Outta_Ammo.png");
+		RNG = new Random (); 
 		this.setSprite(vaccumSprite);
-		wind = new Sprite ("resources/sprites/config/wind.txt");
-		this.setHitboxAttributes(16, 0, 45, 32);
+		this.setHitboxAttributes(16, -16, 45, 32);
 		loseBattary = false;
 	}
 	@Override
@@ -80,22 +81,30 @@ public class LifeVaccum extends AimableWeapon {
 					}
 					}
 				}
-			boolean flipHorizontal;
-			if (jeffrey.getAnimationHandler().flipHorizontal()) {
-				flipHorizontal = true;
-			} else {
-				flipHorizontal = false;
-			}
-			if (flipHorizontal) {
-			wind.draw((int) this.getX() - (RNG.nextInt(21) + 1) -(Room.getViewX()), (int)this.getY() - RNG.nextInt(31) + 1, flipHorizontal, false, 0);
-			} else {
-				wind.draw(((int) this.getX() + (RNG.nextInt(21) + 1)) -(Room.getViewX()), (int)this.getY() - RNG.nextInt(31) + 1, flipHorizontal, false, 0);	
-			}
-			
+				wind.draw();
 		} else {
-			outtaAmmo.draw((int)this.getX() - Room.getViewX(), (int)this.getY() - 10);
+			AfterRenderDrawer.drawAfterRender((int)this.getX() - Room.getViewX(), (int)this.getY() - 10, OUTTA_AMMO);
 		}
 			jeffrey.vx = jeffrey.vx/2;
 	}
+		if (jeffrey.getAnimationHandler().flipHorizontal()) {
+			this.setHitboxAttributes(-48, -16, 49, 32);
+			wind.setX(this.getX() -48);
+			wind.setY(this.getY() - 16);
+			wind.getAnimationHandler().setFlipHorizontal(true);
+		} else {
+			this.setHitboxAttributes(12, -16, 49, 32);
+			wind.setX(this.getX() + 12);
+			wind.setY(this.getY() - 16);
+			wind.getAnimationHandler().setFlipHorizontal(false);
+		}
+	}
+	
+}
+class Wind extends GameObject {
+	public final Sprite WIND =  new Sprite ("resources/sprites/config/tornado.txt");
+	public Wind () {
+		this.getAnimationHandler().setFrameTime(50);
+		this.setSprite(WIND);
 	}
 }

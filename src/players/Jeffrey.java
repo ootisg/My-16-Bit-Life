@@ -13,6 +13,10 @@ import main.GameObject;
 import main.GameWindow;
 import main.InputManager;
 import main.RenderLoop;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
 import gui.Tbox;
 import gui.Textbox;
 import map.MapTile;
@@ -37,6 +41,7 @@ public class Jeffrey extends GameObject {
 	public boolean bindRight;
 	private int invulTimer;
 	private int specialCooldown;
+	private boolean scrolling = true;
 	public  double vx;
 	public double vy;
 	private double ax;
@@ -410,27 +415,28 @@ if (activeBox) {
 			this.setX(this.getXPrevious());
 			vx = 0;
 		}
-		double x = this.getX ();
-		double y = this.getY ();
-		int viewX = Room.getViewX ();
-		int viewY = Room.getViewY ();
-		if (y - viewY >= 320 && y - 320 < Room.getHeight () * 16 - 480) {
-			viewY = (int) y - 320;
-			Room.setView (Room.getViewX (), viewY);
+		if (scrolling) {
+			double x = this.getX ();
+			double y = this.getY ();
+			int viewX = Room.getViewX ();
+			int viewY = Room.getViewY ();
+			if (y - viewY >= 320 && y - 320 < Room.getHeight () * 16 - 480) {
+				viewY = (int) y - 320;
+				Room.setView (Room.getViewX (), viewY);
+			}
+			if (y - viewY <= 160 && y - 160 > 0) {
+				viewY = (int) y - 160;
+				Room.setView (Room.getViewX (), viewY);
+			}
+			if (x - viewX >= 427 && x - 427 < Room.getWidth () * 16 - 640) {
+				viewX = (int) x - 427;
+				Room.setView (viewX, Room.getViewY ());
+			}
+			if (x - viewX <= 213 && x - 213 > 0) {
+				viewX = (int) x - 213;
+				Room.setView (viewX, Room.getViewY ());
+			}
 		}
-		if (y - viewY <= 160 && y - 160 > 0) {
-			viewY = (int) y - 160;
-			Room.setView (Room.getViewX (), viewY);
-		}
-		if (x - viewX >= 427 && x - 427 < Room.getWidth () * 16 - 640) {
-			viewX = (int) x - 427;
-			Room.setView (viewX, Room.getViewY ());
-		}
-		if (x - viewX <= 213 && x - 213 > 0) {
-			viewX = (int) x - 213;
-			Room.setView (viewX, Room.getViewY ());
-		}
-	
 		//Damage animation
 		if (invulTimer != 0) {
 		if ((invulTimer / 2) % 2 == 1) {
@@ -619,6 +625,12 @@ if (activeBox) {
 	//stops the charictar from falling for a bit
 	public void stopFall(boolean fall) {
 		fallBruh = !fall;
+	}
+	/**
+	 * determines wheater or not jeffrey controls the scrolling of the game
+	 */
+	public void setScroll(boolean toScrollOrNotToScroll) {
+		scrolling = toScrollOrNotToScroll;
 	}
 	public double getHealth (int CharictarToCheck) {
 		if (CharictarToCheck == 0) {

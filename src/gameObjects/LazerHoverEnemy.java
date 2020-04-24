@@ -33,7 +33,7 @@ public LazerHoverEnemy () {
 	try {
 	if (this.getVariantAttribute("flip").equals("true")) {
 		setSprite(RIGHT_LASER);
-		this.moveRight = false;
+		this.moveRight = true;
 	}
 	} catch (NullPointerException e) {
 		

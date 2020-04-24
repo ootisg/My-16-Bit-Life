@@ -19,6 +19,7 @@ import gameObjects.FireRextinguser;
 import gameObjects.HitboxRightBottomBound;
 import gameObjects.ImpatientCar;
 import gameObjects.Ladder;
+import gameObjects.LazerHoverEnemy;
 import gameObjects.Leg;
 import gameObjects.MafiaShooter;
 import gameObjects.Marshan;
@@ -117,6 +118,7 @@ public class GameCode {
 	static FireHydrant hydrant;
 	static DiscoBall ball;
 	static ImpatientCar car;
+	static LazerHoverEnemy laser;
 	static CarSpawner spawner;
 	static MafiaShooter shooter;
 	static Marshan marsh;
@@ -168,6 +170,7 @@ public class GameCode {
 		testJeffrey.getInventory().addKill(extinguser);
 		testTie = new ClostridiumBowtielinea();
 		car = new ImpatientCar();
+		laser = new LazerHoverEnemy ();
 		testJeffrey.getInventory().addWeapon(gun, 0);
 		testJeffrey.getInventory().addWeapon(triangle, 0);
 		testJeffrey.getInventory().addWeapon(sword, 1);
@@ -200,7 +203,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/portalTest.rmf");
+		Room.loadRoom ("resources/maps/scrollTest.rmf");
 		gui = new Gui ();
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
@@ -240,7 +243,8 @@ public class GameCode {
 		testPoint.declare(185, 380);
 		System.out.println(testPoint.generatePath(point));*/
 		//function.declare(120, 300);
-		marsh.declare(200,320);
+		//marsh.declare(200,320);
+		laser.declare(120,270);
 	}
 	
 	public static void beforeGameLogic () {
