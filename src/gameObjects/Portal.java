@@ -53,12 +53,12 @@ public class Portal extends GameObject {
 		if (endY < 0) {
 			endY = 0;
 		}
-		if (endX > Room.getWidth() * Room.TILE_WIDTH) {
-			endX = Room.getWidth() * Room.TILE_WIDTH;
+		if (endX + RenderLoop.window.getResolution()[0] > Room.getWidth() * Room.TILE_WIDTH) {
+			endX = Room.getWidth() * Room.TILE_WIDTH - RenderLoop.window.getResolution()[0];
 			
 		}
-		if (endY > Room.getHeight() * Room.TILE_HEIGHT) {
-			endY = Room.getHeight() * Room.TILE_HEIGHT;
+		if (endY + RenderLoop.window.getResolution()[1] > Room.getHeight() * Room.TILE_HEIGHT) {
+			endY = (Room.getHeight() * Room.TILE_HEIGHT) - RenderLoop.window.getResolution()[1];
 			
 		}
 		if (startX != endX) {

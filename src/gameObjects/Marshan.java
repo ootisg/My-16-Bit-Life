@@ -31,18 +31,18 @@ public class Marshan extends Enemy {
 		}
 
 		if (timer != 0) {
-			if (timer % 2 == 1 ) {
+			if (timer % 9 == 8 ) {
 				this.getAnimationHandler().setAnimationFrame(12);
-				Disk d = new Disk (5.4);
-				d.declare(this.getX(),this.getY());
-				Disk e = new Disk (3.9);
-				e.declare(this.getX(),this.getY());
+				Disk d = new Disk (5.239);
+				d.declare(this.getX(),this.getY() - 6);
+				Disk e = new Disk (4.1);
+				e.declare(this.getX() - 10,this.getY() - 6);
 			} else {
 				this.getAnimationHandler().setAnimationFrame(11);
 			}
 			timer = timer + 1;
 		}
-		if (timer == 5) {
+		if (timer == 35) {
 			timer = 0;
 			this.getAnimationHandler().setFrameTime(125);
 			this.getAnimationHandler().resetImage(getSprite());

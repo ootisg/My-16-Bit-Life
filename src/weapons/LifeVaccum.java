@@ -22,7 +22,6 @@ public class LifeVaccum extends AimableWeapon {
 	public final Sprite OUTTA_AMMO = new Sprite ("resources/sprites/Outta_Ammo.png");
 	public LifeVaccum (Sprite sprite) {
 		super (sprite);
-		this.adjustHitboxBorders();
 		vaccumSprite = new Sprite( "resources/sprites/config/lifeVaccum.txt");
 		upgradeInfo = new int [] {0,0,0,0};
 		timer = 0;
@@ -70,11 +69,11 @@ public class LifeVaccum extends AimableWeapon {
 				if (this.isColliding(Enemy.enemyList.get(i))){
 					// no clue if this works
 					int damageDone = RNG.nextInt(2) + 2;
-					if (timer % 8 == 0) {
+					if (timer % 2 == 0) {
 						timer = 0;
 					Enemy.enemyList.get(i).damage (damageDone);
 				
-					jeffrey.samHealth = jeffrey.samHealth + ((int)damageDone/2 + 1);
+					jeffrey.samHealth = jeffrey.samHealth + ((int)damageDone/5 + .1);
 					if (jeffrey.samHealth >jeffrey.maxSamHealth) {
 						jeffrey.samHealth = jeffrey.maxSamHealth;
 					}
