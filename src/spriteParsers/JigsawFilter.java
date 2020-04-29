@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import resources.Sprite;
+
 public class JigsawFilter {
 
 	//Cannot be constructed
@@ -27,5 +29,9 @@ public class JigsawFilter {
 			}
 		}
 		return result;
+	}
+	
+	public static ArrayList<Point> filter (Sprite sprite, Sprite matchSprite, int color) {
+		return filter (PixelParser.parse (sprite), PixelParser.parse (matchSprite), color);
 	}
 }

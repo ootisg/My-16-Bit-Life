@@ -1,6 +1,8 @@
 package main;
 
+import java.awt.Rectangle;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import enemys.BuggyBoi;
 import enemys.CannonTankEnemy;
@@ -49,6 +51,10 @@ import players.TopDown;
 import players.TubeRaster;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
+import spriteParsers.HitboxFilter;
+import spriteParsers.JigsawFilter;
+import spriteParsers.ParsedFrame;
+import spriteParsers.PixelParser;
 import statusEffect.Status;
 import triggers.CutsceenTrigger;
 import triggers.Trigger;
@@ -193,8 +199,11 @@ public class GameCode {
 		testJeffrey.inventory.addAmmo(paint);
 		x = x + 1;
 		}
+<<<<<<< HEAD
 		bleh = new AnimeTester ();
 		
+=======
+>>>>>>> c56fca04607013fb6be604c72d848d7492717850
 		//testTie.declare (32, 32);
 	//	testJeffrey.getInventory().addKill(boi);
 		//testJeffrey.getInventory().addKill(puncuation);
@@ -207,6 +216,8 @@ public class GameCode {
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
 		Room.loadRoom ("resources/maps/scrollTest.rmf");
+		//bleh = new AnimeTester ();
+		//bleh.declare (0, 0);
 		gui = new Gui ();
 		ufo = new UFO();
 		//new TestObject ().declare (128, 200);
@@ -248,7 +259,12 @@ public class GameCode {
 		System.out.println(testPoint.generatePath(point));*/
 		//function.declare(120, 300);
 		//marsh.declare(200,320);
+<<<<<<< HEAD
 		ufo.declare(120,170);
+=======
+		laser.declare(120,270);
+	
+>>>>>>> c56fca04607013fb6be604c72d848d7492717850
 	}
 	
 	public static void beforeGameLogic () {

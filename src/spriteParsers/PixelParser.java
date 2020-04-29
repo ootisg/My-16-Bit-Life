@@ -14,12 +14,9 @@ public class PixelParser {
 	
 	public static ArrayList<ParsedFrame> parse (Sprite sprite) {
 		ArrayList<ParsedFrame> frames = new ArrayList<ParsedFrame> ();
-		BufferedImage[] images = sprite.getImages();
-		for (int i = 0; i < images.length; i ++) {
-			WritableRaster alpha = images [i].getAlphaRaster ();
-			WritableRaster color = images [i].getRaster ();
-			int[] colorSample = new int[4];
-			int[] alphaSample = new int[1];
+		for (int i = 0; i < sprite.getFrameCount (); i ++) {
+			WritableRaster alpha = sprite.getFrame (i).getAlphaRaster ();
+			WritableRaster color = sprite.getFrame (i).getRaster ();
 			ArrayList<Pixel> pixels = new ArrayList<Pixel> ();
 			for (int wy = 0; wy < alpha.getHeight (); wy ++) {
 				for (int wx = 0; wx < alpha.getWidth (); wx ++) {
