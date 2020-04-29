@@ -199,11 +199,6 @@ public class GameCode {
 		testJeffrey.inventory.addAmmo(paint);
 		x = x + 1;
 		}
-<<<<<<< HEAD
-		bleh = new AnimeTester ();
-		
-=======
->>>>>>> c56fca04607013fb6be604c72d848d7492717850
 		//testTie.declare (32, 32);
 	//	testJeffrey.getInventory().addKill(boi);
 		//testJeffrey.getInventory().addKill(puncuation);
@@ -259,12 +254,6 @@ public class GameCode {
 		System.out.println(testPoint.generatePath(point));*/
 		//function.declare(120, 300);
 		//marsh.declare(200,320);
-<<<<<<< HEAD
-		ufo.declare(120,170);
-=======
-		laser.declare(120,270);
-	
->>>>>>> c56fca04607013fb6be604c72d848d7492717850
 	}
 	
 	public static void beforeGameLogic () {

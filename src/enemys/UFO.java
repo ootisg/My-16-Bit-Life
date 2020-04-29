@@ -33,6 +33,14 @@ public class UFO extends Enemy {
 		
 	}
 	@Override 
+	public String checkName () {
+		return "MARSH-AN UFO";
+	}
+	@Override
+	public String checkEntry () {
+		return "YIKES DUDE";
+	}
+	@Override 
 	public void enemyFrame () {
 		timer = timer + 1;
 		if (this.isNearPlayerX(0, 400, 0, 400)) {
