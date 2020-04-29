@@ -1,6 +1,8 @@
 package main;
 
+import java.awt.Rectangle;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import gameObjects.AnimeTester;
 import gameObjects.BuggyBoi;
@@ -50,6 +52,10 @@ import players.TopDown;
 import players.TubeRaster;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
+import spriteParsers.HitboxFilter;
+import spriteParsers.JigsawFilter;
+import spriteParsers.ParsedFrame;
+import spriteParsers.PixelParser;
 import statusEffect.Status;
 import weapons.AimableWeapon;
 import weapons.LaserPointer;
@@ -191,7 +197,6 @@ public class GameCode {
 		testJeffrey.inventory.addAmmo(paint);
 		x = x + 1;
 		}
-		bleh = new AnimeTester ();
 		//testTie.declare (32, 32);
 	//	testJeffrey.getInventory().addKill(boi);
 		//testJeffrey.getInventory().addKill(puncuation);
@@ -204,6 +209,8 @@ public class GameCode {
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
 		Room.loadRoom ("resources/maps/scrollTest.rmf");
+		//bleh = new AnimeTester ();
+		//bleh.declare (0, 0);
 		gui = new Gui ();
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
@@ -245,6 +252,7 @@ public class GameCode {
 		//function.declare(120, 300);
 		//marsh.declare(200,320);
 		laser.declare(120,270);
+	
 	}
 	
 	public static void beforeGameLogic () {

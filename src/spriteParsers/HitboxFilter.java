@@ -4,6 +4,8 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import resources.Sprite;
+
 
 
 public class HitboxFilter {
@@ -34,5 +36,9 @@ public class HitboxFilter {
 			}
 		}
 		return result;
+	}
+	
+	public static ArrayList<Rectangle> filter (Sprite sprite, int color) {
+		return filter (PixelParser.parse (sprite), color);
 	}
 }
