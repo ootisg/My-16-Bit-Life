@@ -1,6 +1,6 @@
 package projectiles;
 
-import gameObjects.LivingPeriod;
+import enemys.LivingPeriod;
 import map.Room;
 import resources.Sprite;
 

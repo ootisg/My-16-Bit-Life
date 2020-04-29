@@ -1,5 +1,6 @@
 package gameObjects;
 
+import enemys.BuggyBoi;
 import main.GameObject;
 import projectiles.PokaDot;
 import resources.Sprite;

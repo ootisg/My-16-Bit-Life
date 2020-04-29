@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import gameObjects.Enemy;
+import enemys.Enemy;
 import gameObjects.Point;
 import items.Item;
 import main.GameCode;

@@ -1,5 +1,6 @@
 package gameObjects;
 
+import enemys.ImpatientCar;
 import main.GameObject;
 import resources.Sprite;
 

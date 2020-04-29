@@ -4,7 +4,7 @@ package weapons;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import gameObjects.Enemy;
+import enemys.Enemy;
 import main.RenderLoop;
 import map.Room;
 import resources.Sprite;

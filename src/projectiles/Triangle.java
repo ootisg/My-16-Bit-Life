@@ -2,7 +2,7 @@ package projectiles;
 
 import java.util.Random;
 
-import gameObjects.Enemy;
+import enemys.Enemy;
 import main.ObjectHandler;
 import map.Room;
 import resources.Sprite;

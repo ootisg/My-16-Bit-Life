@@ -2,7 +2,7 @@ package statusEffect;
 
 import java.util.Arrays;
 
-import gameObjects.Enemy;
+import enemys.Enemy;
 import main.GameObject;
 import players.Jeffrey;
 

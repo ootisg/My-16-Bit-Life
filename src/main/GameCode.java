@@ -2,34 +2,33 @@ package main;
 
 import java.io.FileNotFoundException;
 
+import enemys.BuggyBoi;
+import enemys.CannonTankEnemy;
+import enemys.Celing_boi;
+import enemys.ClostridiumBowtielinea;
+import enemys.CreepyButterfly;
+import enemys.CyclopesCrab;
+import enemys.DiscoBall;
+import enemys.DuoflyMinus;
+import enemys.DuoflyPlus;
+import enemys.FireHydrant;
+import enemys.FireRextinguser;
+import enemys.ImpatientCar;
+import enemys.LazerHoverEnemy;
+import enemys.MafiaShooter;
+import enemys.Marshan;
+import enemys.MissleadingStop;
+import enemys.Puncuation;
+import enemys.SplittingSlimelet;
+import enemys.TomatoFunction;
+import enemys.UFO;
 import gameObjects.AnimeTester;
-import gameObjects.BuggyBoi;
-import gameObjects.CannonTankEnemy;
 import gameObjects.CarSpawner;
-import gameObjects.Celing_boi;
-import gameObjects.ClostridiumBowtielinea;
-import gameObjects.CreepyButterfly;
-import gameObjects.CutsceenTrigger;
-import gameObjects.CyclopesCrab;
-import gameObjects.DiscoBall;
-import gameObjects.DuoflyMinus;
-import gameObjects.DuoflyPlus;
-import gameObjects.FireHydrant;
-import gameObjects.FireRextinguser;
 import gameObjects.HitboxRightBottomBound;
-import gameObjects.ImpatientCar;
 import gameObjects.Ladder;
-import gameObjects.LazerHoverEnemy;
 import gameObjects.Leg;
-import gameObjects.MafiaShooter;
-import gameObjects.Marshan;
-import gameObjects.MissleadingStop;
 import gameObjects.Point;
-import gameObjects.Puncuation;
-import gameObjects.SplittingSlimelet;
 import gameObjects.TemporaryWall;
-import gameObjects.TomatoFunction;
-import gameObjects.Trigger;
 import graphics3D.VectorCamera;
 import gui.Gui;
 import gui.ListTbox;
@@ -51,6 +50,8 @@ import players.TubeRaster;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
 import statusEffect.Status;
+import triggers.CutsceenTrigger;
+import triggers.Trigger;
 import weapons.AimableWeapon;
 import weapons.LaserPointer;
 import weapons.LifeVaccum;
@@ -123,6 +124,7 @@ public class GameCode {
 	static MafiaShooter shooter;
 	static Marshan marsh;
 	static AnimeTester bleh;
+	static UFO ufo;
 	public static void initialize () {
 		//Initialize sprites
 		//GameObject initialization
@@ -192,6 +194,7 @@ public class GameCode {
 		x = x + 1;
 		}
 		bleh = new AnimeTester ();
+		
 		//testTie.declare (32, 32);
 	//	testJeffrey.getInventory().addKill(boi);
 		//testJeffrey.getInventory().addKill(puncuation);
@@ -205,6 +208,7 @@ public class GameCode {
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
 		Room.loadRoom ("resources/maps/scrollTest.rmf");
 		gui = new Gui ();
+		ufo = new UFO();
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
@@ -244,7 +248,7 @@ public class GameCode {
 		System.out.println(testPoint.generatePath(point));*/
 		//function.declare(120, 300);
 		//marsh.declare(200,320);
-		laser.declare(120,270);
+		ufo.declare(120,170);
 	}
 	
 	public static void beforeGameLogic () {

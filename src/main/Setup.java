@@ -7,7 +7,8 @@ public class Setup {
 		ObjectHandler.addSearchPackage("gameObjects");
 		ObjectHandler.addSearchPackage("items");
 		ObjectHandler.addSearchPackage("weapons");
-		
+		ObjectHandler.addSearchPackage("enemys");
+		ObjectHandler.addSearchPackage("triggers");
 		
 	}
 }

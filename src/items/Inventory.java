@@ -3,8 +3,8 @@ package items;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import gameObjects.CreepyButterfly;
-import gameObjects.Enemy;
+import enemys.CreepyButterfly;
+import enemys.Enemy;
 import gameObjects.NPC;
 import main.GameCode;
 import npcs.Door;
@@ -27,7 +27,7 @@ public class Inventory {
 	Sprite lol;
 	int lifeBattary;
 	public Inventory (){
-		lifeBattary = 100;
+		lifeBattary = 1000;
 		money = 0;
 		WEXP = 0;
 		lol = new Sprite ("resources/sprites/blank.png");

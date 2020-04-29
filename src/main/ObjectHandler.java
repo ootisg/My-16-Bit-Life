@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Stack;
 
-import gameObjects.Enemy;
+import enemys.Enemy;
 
 /**
  * Stores and organizes references to all GameObjects, includes methods for searching and object interaction

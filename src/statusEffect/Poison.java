@@ -1,6 +1,6 @@
 package statusEffect;
 
-import gameObjects.Enemy;
+import enemys.Enemy;
 import main.GameCode;
 import main.GameObject;
 import players.Jeffrey;

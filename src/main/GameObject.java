@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import gameObjects.Enemy;
+import enemys.Enemy;
 import map.Room;
 import resources.Sprite;
 

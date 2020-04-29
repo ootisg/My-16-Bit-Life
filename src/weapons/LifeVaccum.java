@@ -2,7 +2,7 @@ package weapons;
 
 import java.util.Random;
 
-import gameObjects.Enemy;
+import enemys.Enemy;
 import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;

@@ -2,7 +2,7 @@ package projectiles;
 
 import java.util.Random;
 
-import gameObjects.Enemy;
+import enemys.Enemy;
 import map.Room;
 import resources.Sprite;
 
@@ -52,7 +52,7 @@ public class Fist extends Projectile {
 		if (guyToFuckUp != null) {
 			if (defult) {
 			DirectionBullet bullet = new DirectionBullet(this.getX(), this.getY());
-			this.setDirection(bullet.findDirection(guyToFuckUp));;
+			this.setDirection(bullet.findDirection(guyToFuckUp));
 			defult = false;
 			} else {
 				if (timer == 10) {
@@ -86,8 +86,8 @@ public class Fist extends Projectile {
 	 */
 	public Enemy findGuyToFuckUp (boolean checkFuckEmUp) {
 		if (!Enemy.enemyList.isEmpty()) {
-			double distanceToNearestEnemy = 420000;
-			double distanceToNearestEnemyFromCursor = 420000;
+			double distanceToNearestEnemy = 420069;
+			double distanceToNearestEnemyFromCursor = 420069;
 			int index = 420;
 			int fuckemupIndex = 420;
 			for (int i = 0; i < Enemy.enemyList.size(); i++) {
@@ -109,15 +109,15 @@ public class Fist extends Projectile {
 						distanceToNearestEnemy = xDist + yDist;
 						fuckemupIndex = i;
 					}
-					if (getCursorY() > Enemy.enemyList.get(i).getY()) {
-						yDist = getCursorY() - Enemy.enemyList.get(i).getY();
+					if (getCursorY() + Room.getViewY() > Enemy.enemyList.get(i).getY()) {
+						yDist = getCursorY() + Room.getViewY() - Enemy.enemyList.get(i).getY();
 					} else {
-						yDist = Enemy.enemyList.get(i).getY() - getCursorY();
+						yDist = Enemy.enemyList.get(i).getY() - (getCursorY() + Room.getViewY());
 					}
-					if (getCursorX() > Enemy.enemyList.get(i).getX()) {
-						xDist = getCursorX() - Enemy.enemyList.get(i).getX();
+					if (getCursorX() + Room.getViewX() > Enemy.enemyList.get(i).getX()) {
+						xDist = getCursorX() + Room.getViewX() - Enemy.enemyList.get(i).getX();
 					} else {
-						xDist = Enemy.enemyList.get(i).getX() - getCursorX();
+						xDist = Enemy.enemyList.get(i).getX() - (getCursorX() + Room.getViewX());
 					}
 					if (distanceToNearestEnemyFromCursor > xDist + yDist) {
 						distanceToNearestEnemyFromCursor = xDist + yDist;
