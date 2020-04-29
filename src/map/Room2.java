@@ -17,6 +17,8 @@ import resources.SpriteParser;
 
 public class Room2 {
 	
+	
+	
 	public Room2 () {
 		//Non-electric boogaloo
 	}

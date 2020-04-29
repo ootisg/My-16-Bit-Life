@@ -3,7 +3,6 @@ package map;
 public class TileData {
 	//Container class for tile metadata
 	private String name;
-	public double frictionCoefficient;
 	private boolean isSolid;
 	public TileData (String name, String args) {
 		//Name is in the format [tileset name].[position in tileset]
