@@ -18,6 +18,7 @@ public class TomatoFunction extends Enemy {
 		Random RNG;
 		Clip clip;
 		Leg leg6;
+		boolean decalre = true;
 		int patternNumber;
 		int shouldFlip;
 		boolean jeffreyOnYourRight;
@@ -45,14 +46,7 @@ public class TomatoFunction extends Enemy {
 		shouldFlip = 0;
 		leg7 = new Leg (7);
 		leg8 = new Leg (8);
-		leg1.declare(x-30,y -70);
-		leg2.declare(x -12,y - 77);
-		leg3.declare(x +30,y- 77);
-		leg4.declare(x + 45,y -70);
-		leg5.declare(x-30, y + 30);
-		leg6.declare(x -12,y + 38);
-		leg7.declare(x + 30,y + 38);
-		leg8.declare(x + 45, y + 30);
+	
 		this.setHitboxAttributes(0, 0, 65,  51 );
 	}
 	@Override 
@@ -64,8 +58,18 @@ public class TomatoFunction extends Enemy {
 		return "THE ULTIMATE FORM OF CONTENT CONTROL CLAIMING OWNERSHIP OF ALL CONCEPTS IN EXISTANCE COULD OF BEEN PEFECT IF FLOATS DIDEN'T CAP SO QUICKLY BUT ALL MASTERPEICES MUST BE DESTROIED AT SOME POINT A MOMENT OF SILENCE FOR WHAT COULD OF BEEN";
 	}
 	@Override
-	public void frameEvent () {
-
+	public void enemyFrame () {
+		if (decalre) {
+		leg1.declare(this.getX()-30,this.getY() -70);
+		leg2.declare(this.getX() -12,this.getY() - 77);
+		leg3.declare(this.getX() +30,this.getY()- 77);
+		leg4.declare(this.getX() + 45,this.getY() -70);
+		leg5.declare(this.getX()-30, this.getY() + 30);
+		leg6.declare(this.getX() -12,this.getY() + 38);
+		leg7.declare(this.getX() + 30,this.getY() + 38);
+		leg8.declare(this.getX() + 45, this.getY() + 30);
+		decalre = false;
+		}
 		//make legs de-attach as more damage is received
 		if (this.health < 2200 && leg1.isAttached()) {
 			leg1.deattach();

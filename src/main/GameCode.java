@@ -194,6 +194,7 @@ public class GameCode {
 		paintball = new RedBlackPaintBall(1);
 		paint = new BluePaint (1);
 		hydrant = new FireHydrant ();
+		function = new TomatoFunction(120, 300);
 		while (x <= 40) {
 		testJeffrey.inventory.addAmmo(paintball);
 		testJeffrey.inventory.addAmmo(paint);
