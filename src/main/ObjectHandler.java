@@ -311,6 +311,7 @@ public class ObjectHandler {
 		try {
 			return (GameObject)c.getConstructor().newInstance();
 		} catch (Exception e) {
+			
 			return null;
 		}
 	}

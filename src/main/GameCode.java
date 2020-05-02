@@ -138,7 +138,7 @@ public class GameCode {
 		testJeffrey = new Jeffrey ();
 		lameJeffrey = new NonPlayableJeffrey();
 		lameSam = new NonPlayableSam();
-		bug1 = new BuggyBoi();
+		//bug1 = new BuggyBoi();
 		bug2 = new BuggyBoi();
 		bug3 = new BuggyBoi();
 		bug4 = new BuggyBoi();
@@ -211,11 +211,11 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/scrollTest.rmf");
+		Room.loadRoom ("resources/maps/enemyTest.rmf");
 		//bleh = new AnimeTester ();
 		//bleh.declare (0, 0);
 		gui = new Gui ();
-		ufo = new UFO();
+		//ufo = new UFO();
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();

@@ -9,6 +9,6 @@ public class Setup {
 		ObjectHandler.addSearchPackage("weapons");
 		ObjectHandler.addSearchPackage("enemys");
 		ObjectHandler.addSearchPackage("triggers");
-		
+		ObjectHandler.addSearchPackage("theHeist");
 	}
 }

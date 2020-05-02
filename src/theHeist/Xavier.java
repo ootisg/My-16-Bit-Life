@@ -19,21 +19,22 @@ public class Xavier extends GameObject{
 	@Override
 	public void frameEvent () {
 		if (keyDown ('D')) {
-			this.goX(this.getX() + 1);
+			this.goX(this.getX() + 2);
 		}
 		if (keyDown ('A')) {
-			this.goX(this.getX() - 1);
+			this.goX(this.getX() - 2);
 		}
 		if (keyDown ('S')) {
-			this.goY(this.getY() + 1);
+			this.goY(this.getY() + 2);
 		}
 		if (keyDown ('W')) {
-			this.goY(this.getY() - 1);
+			this.goY(this.getY() - 2);
 		}
 		LinkedList<LinkedList<GameObject>> checkableObjects =  ObjectHandler.getChildrenByName("CheckableObject");
 		for (int i = 0; i < checkableObjects.size(); i++) {
 			for (int j = 0; j<checkableObjects.get(0).size(); j++) {
-				if (this.isColliding(checkableObjects.get(i).get(j)) && keyDown(10)) {
+				if (this.isColliding(checkableObjects.get(i).get(j)) && keyPressed(10)) {
+				
 					CheckableObject c = (CheckableObject) checkableObjects.get(i).get(j);
 					c.onCheck();
 				}
