@@ -10,31 +10,34 @@ import resources.Sprite;
 public class Zombee extends Enemy {
 	private boolean pathDecided;
 	int xToMove;
-	Sprite normalSprite;
-	Sprite woodSprite;
-	Sprite petrifiedWoodSprite;
 	Random decider;
 	int yToMove;
 	int timer;
+	private final static Sprite NORMAL_SPRITE = new Sprite ("resources/sprites/config/zombee.txt") ;
+	private final static Sprite WOOD_SPRITE = new Sprite ("resources/sprites/config/zombeeW.txt") ;
+	private final static Sprite PETRIFIED_WOOD_SPRITE = new Sprite ("resources/sprites/ZombeePW.txt") ;
 	public Zombee (){
-		if (this.getVariantAttribute("Type").equals("Normal")) {
-			normalSprite = new Sprite ("resources/sprites/config/zombee.txt");
-		this.setSprite(normalSprite);
-		this.health = 150;
-		this.defence = 0;
-		}
-		pathDecided = false;
-		if (this.getVariantAttribute("Type").equals("Wood")) {
-			this.health = 180;
-			this.defence = 100;
-			woodSprite = new Sprite ("resources/sprites/config/zombeeW.txt");
-			this.setSprite(woodSprite);
-		}
-		if (this.getVariantAttribute("Type").equals("PetrifiedWood")) {
-			this.health = 240;
-			this.defence = 150;
-			petrifiedWoodSprite = new Sprite ("resources/sprites/ZombeePW.txt");
-			this.setSprite(petrifiedWoodSprite);
+		if (this.getVariantAttribute("Type") != null) {
+			if (this.getVariantAttribute("Type").equals("Normal")) {
+			this.setSprite(NORMAL_SPRITE);
+			this.health = 150;
+			this.defence = 0;
+			}
+			pathDecided = false;
+			if (this.getVariantAttribute("Type").equals("Wood")) {
+				this.health = 180;
+				this.defence = 100;
+				this.setSprite(WOOD_SPRITE);
+			}
+			if (this.getVariantAttribute("Type").equals("PetrifiedWood")) {
+				this.health = 240;
+				this.defence = 150;
+				this.setSprite(PETRIFIED_WOOD_SPRITE);
+			}
+		} else {
+			this.setSprite(NORMAL_SPRITE);
+			this.health = 150;
+			this.defence = 0;	
 		}
 		xToMove = 0;
 		this.getAnimationHandler().setFrameTime(25);
