@@ -9,7 +9,7 @@ import resources.Sprite;
 
 public class Xavier extends GameObject{
 	public ArrayList <Item> currentItems = new ArrayList<Item>();
-	int iq = 0;
+	int iq = 3;
 	boolean patience = false;
 	boolean strength = false;
 	public Xavier() {
@@ -32,9 +32,9 @@ public class Xavier extends GameObject{
 		}
 		LinkedList<LinkedList<GameObject>> checkableObjects =  ObjectHandler.getChildrenByName("CheckableObject");
 		for (int i = 0; i < checkableObjects.size(); i++) {
-			for (int j = 0; j<checkableObjects.get(0).size(); j++) {
+			for (int j = 0; j<checkableObjects.get(i).size(); j++) {
 				if (this.isColliding(checkableObjects.get(i).get(j)) && keyPressed(10)) {
-				
+					
 					CheckableObject c = (CheckableObject) checkableObjects.get(i).get(j);
 					c.onCheck();
 				}

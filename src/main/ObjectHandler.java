@@ -191,12 +191,14 @@ public class ObjectHandler {
 	 * @param obj The GameObject whose class to add
 	 */
 	private static void addClass (GameObject obj) {
+	
 		Class<?> workingClass = obj.getClass ();
 		Stack<Class<?>> toAdd = new Stack<Class<?>> ();
 		while (!workingClass.getName ().equals ("main.GameObject") && getObjectsByName (workingClass.getSimpleName ()) == null) {
 			toAdd.push (workingClass);
 			workingClass = workingClass.getSuperclass ();
 		}
+	
 		while (!toAdd.isEmpty ()) {
 			Class<?> topClass = toAdd.pop ();
 			LinkedList<GameObject> usedList;

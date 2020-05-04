@@ -56,6 +56,7 @@ import spriteParsers.JigsawFilter;
 import spriteParsers.ParsedFrame;
 import spriteParsers.PixelParser;
 import statusEffect.Status;
+import theHeist.Worker;
 import triggers.CutsceenTrigger;
 import triggers.Trigger;
 import weapons.AimableWeapon;
@@ -122,6 +123,7 @@ public class GameCode {
 	static BluePaint paint;
 	static FairUseKey key;
 	static LaserPointer pointer;
+	static Worker worker;
 	static FireHydrant hydrant;
 	static DiscoBall ball;
 	static ImpatientCar car;
@@ -154,6 +156,7 @@ public class GameCode {
 		pointer = new LaserPointer ();
 		key = new FairUseKey(1);
 		guy = new PointGuy();
+		worker = new Worker ();
 		packet = new LemonPacket(1);
 		testJeffrey.getInventory().addFreind(lameJeffrey);
 		testJeffrey.getInventory().addFreind(lameSam);
@@ -211,7 +214,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/enemyTest2.rmf");
+		Room.loadRoom ("resources/maps/mcdonalds.rmf");
 		//bleh = new AnimeTester ();
 		//bleh.declare (0, 0);
 		gui = new Gui ();
@@ -222,6 +225,7 @@ public class GameCode {
 		testLaddder.declare(150, 373);
 		//stop.declare(150, 200);
 	//	ball.declare(200,0);
+		worker.declare(100,150);
 		//bug1.declare(400, 180);
 		/*bug2.declare(425, 175);
 		//leg.declare(150, 200);
