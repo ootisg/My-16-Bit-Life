@@ -1,0 +1,3 @@
+$src resources/sprites/Zombee_Tree.png
+
+grid 32 32

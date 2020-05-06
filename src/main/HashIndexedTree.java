@@ -126,9 +126,7 @@ public class HashIndexedTree<T,Q> {
 	 */
 	public void addChild (T parent, T key, Q element) {
 		Node head = elements.get (parent);
-		if (elements.get(key) == null) {
-			elements.put (key, head.add (element));
-		}
+		elements.put (key, head.add (element));
 	}
 	
 	/**
@@ -136,7 +134,6 @@ public class HashIndexedTree<T,Q> {
 	 * @param key The key of the node to remove
 	 */
 	public void removeChild (T key) {
-		
 		Node<Q> toRemove = elements.get (key);
 		toRemove.parent.remove (toRemove.data);
 		elements.remove (key);

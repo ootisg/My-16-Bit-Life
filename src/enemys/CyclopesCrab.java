@@ -26,7 +26,7 @@ public class CyclopesCrab extends Enemy {
 	public CyclopesCrab(){
 		this.setSprite(crabLeft);
 		this.getAnimationHandler().setFrameTime (166.7);
-		this.setHitboxAttributes(0, 0, 24, 12);
+		this.setHitboxAttributes(0, 0, 32, 16);
 		this.health = 38;
 		chillForASecond = false;
 		turrning = false;
@@ -69,10 +69,10 @@ public class CyclopesCrab extends Enemy {
 			otherGun.declare(this.getX(),this.getY());
 			otherGun.getAnimationHandler().setFlipHorizontal(true);
 		}
-		gun.setX(this.getX() + 20);
-		gun.setY(this.getY());
+		gun.setX(this.getX() + 30);
+		gun.setY(this.getY() + 2);
 		otherGun.setX(this.getX());
-		otherGun.setY(this.getY());
+		otherGun.setY(this.getY() + 2);
 		boolean lowered;
 		lowered = false;
 		boolean onFloor;
@@ -87,7 +87,7 @@ public class CyclopesCrab extends Enemy {
 			if (player.getX() >= this.getX()){
 				if (player.getX() - this.getX() > 4){
 					if (!stuck){
-					this.setX(getX() + 2);
+					this.setX(getX() + 1.5);
 					}
 					if (!moveRight){
 					moveRight = true;
@@ -101,7 +101,7 @@ public class CyclopesCrab extends Enemy {
 		} else {
 				if (player.getX() - this.getX() < 4){
 				if (!stuck){
-				this.setX(getX() - 2);
+				this.setX(getX() - 1.5);
 				}
 				if (moveRight){
 					turrning = true;

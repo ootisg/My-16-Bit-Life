@@ -12,7 +12,7 @@ public class Water extends Projectile {
 			this.getAnimationHandler().setFlipHorizontal(true);
 		}
 		this.setSprite(new Sprite ("resources/sprites/config/water.txt"));
-		this.setSpeed(2);
+		this.setSpeed(3);
 		this.setHitboxAttributes(0, 0, 16, 8);
 		this.getAnimationHandler().setFrameTime(30);
 	}
@@ -20,9 +20,9 @@ public class Water extends Projectile {
 	public void projectileFrame () {
 		if (this.isColliding(player)) {
 			if (this.getDirection() == 3.14) {
-				player.goX(this.getX() - 2);
+				player.goX(player.getX() - (this.speed * 1.2));
 			} else {
-				player.goX(this.getX()+ 2);
+				player.goX(player.getX() + (this.speed * 1.2));
 			}
 		}
 		if (this.goingIntoWall) {

@@ -39,8 +39,8 @@ public class Celing_boi extends Enemy {
 		this.getAnimationHandler().setFrameTime(100);
 		try {
 		if (this.getVariantAttribute("startPos").equals ("left")){
-		 place = 0;
-		 } 
+				place = 0;
+		 		} 
 		if (this.getVariantAttribute("startPos").equals ("middle")){
 				 place = 1;
 				 } 
@@ -48,19 +48,20 @@ public class Celing_boi extends Enemy {
 				 place = 2;
 				 direction = false;
 				} 
-		}catch (NumberFormatException e) { 
-			place = 0;
-		}
+		}catch (NullPointerException e) { 
+            
+				place = 0;
+			}
 		place = 0;
 		if (place == 0) {
 			this.setSprite(shootLeft);
 			}
-			if (place == 1) {
+		if (place == 1) {
 			this.setSprite(shootMiddle);
-			}
-			if (place == 2) {
+		}
+		if (place == 2) {
 			this.setSprite(shootRight);
-			}
+		}
 	}
 	@Override
 	public String checkEntry () {

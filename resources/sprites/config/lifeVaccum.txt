@@ -1,4 +1,4 @@
-$src resources/sprites/The Life Vacuum.png
+$src resources/sprites/lifeVacuum.png
 
 rectangle 0 0 16 12:
  grid 16 12;

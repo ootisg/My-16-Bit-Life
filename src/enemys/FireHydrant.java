@@ -9,7 +9,7 @@ public class FireHydrant extends Enemy {
 		this.setHealth(40);
 		this.defence = 40;
 		this.setSprite(new Sprite ("resources/sprites/config/hydrant.txt"));
-		this.setHitboxAttributes(0, 0, 16, 23);
+		this.setHitboxAttributes(1, 9, 14, 31);
 	}
 	@Override 
 	public String checkName () {
@@ -21,17 +21,17 @@ public class FireHydrant extends Enemy {
 	}
 	@Override 
 	public void enemyFrame () {
-		if (timer > 25) {
+		if (timer > 63) {
 			this.getAnimationHandler().setAnimationFrame(1);
 		} else {
 			this.getAnimationHandler().setAnimationFrame(0);
 		}
-		if (timer > 30) {
+		if (timer > 65) {
 			timer = 0;
 			Water water = new Water (true);
 			Water oil = new Water (false);
-			water.declare(this.getX() + 16,this.getY());
-			oil.declare(this.getX(), this.getY());
+			water.declare(this.getX() + 13,this.getY() + 16);
+			oil.declare(this.getX() - 11, this.getY() + 16);
 		}
 		timer = timer + 1;
 	}

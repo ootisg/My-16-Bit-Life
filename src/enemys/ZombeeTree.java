@@ -7,23 +7,27 @@ int timer;
 String info;
 Zombee bee;
 	public ZombeeTree (){
-		this.setSprite(new Sprite ("resources/sprites/Zombee tree.png"));
+		this.setSprite(new Sprite ("resources/sprites/config/Zombee_Tree.txt"));
 		this.setHitboxAttributes(22, 11, 70, 80);
-		if (this.getVariantAttribute("Type").equals("Normal")) {
-			this.health = 400;
-			this.defence = 60;
-			info = "N";
-			}
-			if (this.getVariantAttribute("Type").equals("Wood")) {
-				this.health = 700;
-				this.defence = 140;
-				info = "W";
-			}
-			if (this.getVariantAttribute("Type").equals("PetrifiedWood")) {
-				this.health = 1000;
-				this.defence = 250;
-				info = "PW";
-			}
+		try {
+	        if (this.getVariantAttribute("Type").equals("Normal")) {
+	            this.health = 400;
+	            this.defence = 60;
+	            info = "N";
+	            }
+	            if (this.getVariantAttribute("Type").equals("Wood")) {
+	                this.health = 700;
+	                this.defence = 140;
+	                info = "W";
+	            }
+	            if (this.getVariantAttribute("Type").equals("PetrifiedWood")) {
+	                this.health = 1000;
+	                this.defence = 250;
+	                info = "PW";
+	            }
+	    } catch (NullPointerException e) {
+	    	info = "N";
+	    }
 			timer = 0;
 	}
 	@Override 
@@ -32,7 +36,7 @@ Zombee bee;
 	}
 	@Override
 	public String checkEntry () {
-		return "ZOMBEES TOOK OVER A TREE VERY SIMPLE BACKSTORY (UNLIKE THE ORIGINAL ENTRY FOR THIS WITCH WAS DUMB)";
+		return "LIKE HONEY AND HEXAGONS, BEES ENJOY RHYMING. AS SUCH, THEY CAREFULLY PICKED THEIR HOME.";
 	}
 	@Override
 	public void enemyFrame() {

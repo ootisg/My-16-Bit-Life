@@ -15,7 +15,7 @@ public class Paintball extends Projectile {
 	Random RNG;
 	public Paintball () {
 		this.setSprite (paintball);
-		this.setSpeed (20);
+		this.setSpeed (16);
 		RNG = new Random ();
 		this.declare (0, 0);
 		this.setHitboxAttributes (0, 0, 4, 4);

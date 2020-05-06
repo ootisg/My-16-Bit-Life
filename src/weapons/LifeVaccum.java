@@ -73,7 +73,7 @@ public class LifeVaccum extends AimableWeapon {
 						timer = 0;
 					Enemy.enemyList.get(i).damage (damageDone);
 				
-					jeffrey.samHealth = jeffrey.samHealth + ((int)damageDone/5 + .1);
+					jeffrey.samHealth = jeffrey.samHealth + ((int)damageDone/4 + .2);
 					if (jeffrey.samHealth >jeffrey.maxSamHealth) {
 						jeffrey.samHealth = jeffrey.maxSamHealth;
 					}
@@ -84,7 +84,7 @@ public class LifeVaccum extends AimableWeapon {
 		} else {
 			AfterRenderDrawer.drawAfterRender((int)this.getX() - Room.getViewX(), (int)this.getY() - 10, OUTTA_AMMO);
 		}
-			jeffrey.vx = jeffrey.vx/2;
+			jeffrey.vx = jeffrey.vx/1.25;
 	}
 		if (jeffrey.getAnimationHandler().flipHorizontal()) {
 			this.setHitboxAttributes(-48, -16, 49, 32);

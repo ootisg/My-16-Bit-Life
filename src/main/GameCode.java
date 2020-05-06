@@ -56,7 +56,6 @@ import spriteParsers.JigsawFilter;
 import spriteParsers.ParsedFrame;
 import spriteParsers.PixelParser;
 import statusEffect.Status;
-import theHeist.Worker;
 import triggers.CutsceenTrigger;
 import triggers.Trigger;
 import weapons.AimableWeapon;
@@ -123,7 +122,6 @@ public class GameCode {
 	static BluePaint paint;
 	static FairUseKey key;
 	static LaserPointer pointer;
-	static Worker worker;
 	static FireHydrant hydrant;
 	static DiscoBall ball;
 	static ImpatientCar car;
@@ -140,7 +138,7 @@ public class GameCode {
 		testJeffrey = new Jeffrey ();
 		lameJeffrey = new NonPlayableJeffrey();
 		lameSam = new NonPlayableSam();
-		//bug1 = new BuggyBoi();
+		bug1 = new BuggyBoi();
 		bug2 = new BuggyBoi();
 		bug3 = new BuggyBoi();
 		bug4 = new BuggyBoi();
@@ -156,7 +154,6 @@ public class GameCode {
 		pointer = new LaserPointer ();
 		key = new FairUseKey(1);
 		guy = new PointGuy();
-		worker = new Worker ();
 		packet = new LemonPacket(1);
 		testJeffrey.getInventory().addFreind(lameJeffrey);
 		testJeffrey.getInventory().addFreind(lameSam);
@@ -197,7 +194,6 @@ public class GameCode {
 		paintball = new RedBlackPaintBall(1);
 		paint = new BluePaint (1);
 		hydrant = new FireHydrant ();
-		function = new TomatoFunction(120, 300);
 		while (x <= 40) {
 		testJeffrey.inventory.addAmmo(paintball);
 		testJeffrey.inventory.addAmmo(paint);
@@ -214,18 +210,17 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/mcdonalds.rmf");
+		Room.loadRoom ("resources/maps/junktest.rmf");
 		//bleh = new AnimeTester ();
 		//bleh.declare (0, 0);
 		gui = new Gui ();
-		//ufo = new UFO();
+		ufo = new UFO();
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
 		testLaddder.declare(150, 373);
 		//stop.declare(150, 200);
 	//	ball.declare(200,0);
-		worker.declare(100,150);
 		//bug1.declare(400, 180);
 		/*bug2.declare(425, 175);
 		//leg.declare(150, 200);

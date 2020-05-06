@@ -48,32 +48,29 @@ public class Zombee extends Enemy {
 		this.setHitboxAttributes(0, 0, 16, 10);
 	}
 	public Zombee (String W){
-		if (W.equals("N")) {
-			normalSprite = new Sprite ("resources/sprites/config/zombee.txt");
-			this.setSprite(normalSprite);
-		this.health = 150;
-		this.defence = 0;
-		}
-		pathDecided = false;
-		if (W.equals("W")) {
-			this.health = 180;
-			this.defence = 100;
-			woodSprite = new Sprite ("resources/sprites/config/zombeeW.txt");
-			this.setSprite(woodSprite);
-		}
-		if (W.equals("PW")) {
-			this.health = 240;
-			this.defence = 150;
-			petrifiedWoodSprite = new Sprite ("resources/sprites/ZombeePW.txt");
-			this.setSprite(petrifiedWoodSprite);
-		}
-		xToMove = 0;
-		decider = new Random ();
-		yToMove = 0;
-		timer = 0;
-		this.baseDamage = 20;
-		this.setHitboxAttributes(0, 0, 16, 10);
-	}
+        if (W.equals("N")) {
+            this.setSprite(NORMAL_SPRITE);
+        this.health = 150;
+        this.defence = 0;
+        }
+        pathDecided = false;
+        if (W.equals("W")) {
+            this.health = 180;
+            this.defence = 100;
+            this.setSprite(WOOD_SPRITE);
+        }
+        if (W.equals("PW")) {
+            this.health = 240;
+            this.defence = 150;
+            this.setSprite(PETRIFIED_WOOD_SPRITE);
+        }
+        xToMove = 0;
+        decider = new Random ();
+        yToMove = 0;
+        timer = 0;
+        this.baseDamage = 20;
+        this.setHitboxAttributes(0, 0, 16, 10);
+    }
 	@Override 
 	public String checkName () {
 		return "ZOMBEE";
