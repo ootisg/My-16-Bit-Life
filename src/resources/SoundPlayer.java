@@ -19,20 +19,17 @@ public class SoundPlayer implements LineListener{
 	AudioFormat format;
 	DataLine.Info info;
 	Clip backup;
+	Clip clip
 	public SoundPlayer (){
 	}
-	public void play (String songName, float volume, Clip clip){
+	public void play (String songName, float volume){
 		
-		//information regarding a song needs to go here an example is shown
-		//if (songName.equals("marsh")){
-			//GameCode.waitUntil = 1800;
-			// File soundFile;
-			//soundFile = new File ("music/marsh-ans theme version 2.wav");
-		//}
+		
 		try {
-		//stream = AudioSystem.getAudioInputStream(soundFile);
-		//format = stream.getFormat();
-		//DataLine.Info info = new DataLine.Info(Clip.class, format);
+		File soundFile = new File (songName);
+		stream = AudioSystem.getAudioInputStream(soundFile);
+		format = stream.getFormat();
+		DataLine.Info info = new DataLine.Info(Clip.class, format);
 		clip = (Clip) AudioSystem.getLine (info);
 		backup = clip;
 		clip.addLineListener(this);
@@ -40,11 +37,15 @@ public class SoundPlayer implements LineListener{
 		FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		gainControl.setValue(volume);
 		clip.start();
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
 		playing = true;
 		} catch (Exception e){
 		System.out.println("whoops (error message) ");
 		}
 		
+	}
+	public void stop () {
+		clip.stop();
 	}
 	public boolean isPlaying () {
 		return playing;

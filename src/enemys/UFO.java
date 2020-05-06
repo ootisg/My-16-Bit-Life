@@ -8,6 +8,7 @@ import main.ObjectHandler;
 import main.RenderLoop;
 import map.Room;
 import players.Jeffrey;
+import resources.LoopableSprite;
 import resources.Sprite;
 
 public class UFO extends Enemy {
@@ -22,6 +23,8 @@ public class UFO extends Enemy {
 	
 	int yTo;
 	
+	LoopableSprite laser;
+	
 	public static final Color LAZER_COLOR = new Color (0xE00000);
 	public static final int LAZER_OFFSET = 10;
 	public UFO () {
@@ -29,7 +32,8 @@ public class UFO extends Enemy {
 		this.setHitboxAttributes(0, 0, 32, 25);
 		this.setHealth(120);
 		this.defence = 20;
-
+		laser = new LoopableSprite (new Sprite ("resources/sprites/config/Fire.txt"),0,48,0,0);
+		laser.addEndSprite(new Sprite ("resources/sprites/config/fistIcon.txt"));
 		
 	}
 	@Override 
@@ -83,11 +87,8 @@ public class UFO extends Enemy {
 	public void draw () {
 		super.draw();
 		if (laserOn) {
-			Graphics2D g =(Graphics2D) RenderLoop.window.getBufferGraphics();
-			g.setStroke(new BasicStroke (5));
-			g.setColor(LAZER_COLOR);
-			g.drawLine((int)this.getX() - Room.getViewX() + 16, (int)this.getY() - Room.getViewY() + 25, (int)this.getX() - Room.getViewX() + 16, (int)(yTo + 18 + this.getY()));
-			}
+			laser.setDestanation((int)this.getX() - Room.getViewX() + 16, (int)(yTo + 18 + this.getY()));
+			laser.draw((int)this.getX() - Room.getViewX() + 16, (int)this.getY() - Room.getViewY() + 25);
 		}
-
+	}
 }

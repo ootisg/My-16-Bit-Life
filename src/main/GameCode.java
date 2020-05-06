@@ -254,6 +254,7 @@ public class GameCode {
 		System.out.println(testPoint.generatePath(point));*/
 		//function.declare(120, 300);
 		//marsh.declare(200,320);
+		ufo.declare(200,120);
 	}
 	
 	public static void beforeGameLogic () {
