@@ -26,6 +26,10 @@ public class GameLoop implements Runnable {
 	 * The image of the input from the past GameLogic frame
 	 */
 	static private InputManager inputImage;
+	/**
+	 * Whether or not the game logic has run at least once
+	 */
+	static private volatile boolean gameCodeHasRun = false;
 	
 	@Override
 	public void run () {
@@ -41,6 +45,7 @@ public class GameLoop implements Runnable {
 			ObjectHandler.callAll ();
 			RenderLoop.window.resetInputBuffers ();
 			GameCode.afterGameLogic ();
+			gameCodeHasRun = true;
 			//Calculate elapsed time and time to sleep for
 			lastUpdate = System.nanoTime ();
 			long elapsedTime = lastUpdate - startTime;
@@ -67,5 +72,12 @@ public class GameLoop implements Runnable {
 	 */
 	public static InputManager getInputImage () {
 		return inputImage;
+	}
+	
+	/**
+	 * Returns true if the game logic has been run at least once; false otherwise
+	 */
+	public static boolean hasRun () {
+		return gameCodeHasRun;
 	}
 }

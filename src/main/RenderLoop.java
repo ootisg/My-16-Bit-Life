@@ -33,6 +33,7 @@ public class RenderLoop {
 		GameLoop gameLoop = new GameLoop ();
 		Setup.initAll();
 		new Thread (gameLoop).start ();
+		while (!GameLoop.hasRun ()) {/*wait*/}
 		//Initializes lastUpdate to the current time
 		lastUpdate = System.nanoTime ();
 		while (true) {
