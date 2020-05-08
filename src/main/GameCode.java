@@ -50,6 +50,7 @@ import players.Jeffrey;
 import players.TopDown;
 import players.TubeRaster;
 import resources.AfterRenderDrawer;
+import resources.SoundPlayer;
 import resources.Sprite;
 import spriteParsers.HitboxFilter;
 import spriteParsers.JigsawFilter;
@@ -75,6 +76,7 @@ public class GameCode {
 	static DuoflyPlus testFly;
 	static DuoflyMinus testFly2;
 	public static Jeffrey testJeffrey;
+	public static SoundPlayer player;
 	//static TopDown td;
 	Textbox textbox;
 	static Celing_boi boi;

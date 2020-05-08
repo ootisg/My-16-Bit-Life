@@ -1,6 +1,7 @@
 package resources;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -19,7 +20,8 @@ public class SoundPlayer implements LineListener{
 	AudioFormat format;
 	DataLine.Info info;
 	Clip backup;
-	Clip clip
+	Clip clip;
+	public ArrayList <Clip> cliptwooowwowows = new ArrayList<Clip> ();
 	public SoundPlayer (){
 	}
 	public void play (String songName, float volume){
@@ -50,18 +52,19 @@ public class SoundPlayer implements LineListener{
 	public boolean isPlaying () {
 		return playing;
 	}
-	public void playSoundEffect (float volume, String effectName, Clip clip){
+	public void playSoundEffect (float volume, String effectName){
 		File soundFile;
 		soundFile = new File (effectName);
 		try {
 		stream = AudioSystem.getAudioInputStream(soundFile);
 		format = stream.getFormat();
 		DataLine.Info info2 = new DataLine.Info(Clip.class, format);
-		clip = (Clip) AudioSystem.getLine (info2);
-		clip.open (stream);
+		Clip clip2 = (Clip) AudioSystem.getLine (info2);
+		clip2.open (stream);
 		FloatControl gainControl2 = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		gainControl2.setValue(volume);
-		clip.start();
+		clip2.start();
+		cliptwooowwowows.add(clip2);
 		} catch (Exception e){
 		System.out.println("whoops (error message) ");
 		}

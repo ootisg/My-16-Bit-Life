@@ -25,7 +25,7 @@ public class JumpSceen {
 			jeffreyBox.remember(true);
 			nathanBox.remember(true);
 			nathanBox2.remember(true);
-			Cutsceen.playing = true;
+			CutsceenHandler.playing = true;
 			jeffreyBox2.remember(true);
 		}
 		if (lameJump) {
@@ -62,7 +62,7 @@ public class JumpSceen {
 			if (nathanBox2.isDone) {
 				nathanBox2.forget();
 				nathanBox2.isDone = false;
-				Cutsceen.playing = false;
+				CutsceenHandler.playing = false;
 			}
 			
 		if (firstBox) {
