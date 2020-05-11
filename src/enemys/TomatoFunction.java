@@ -23,7 +23,7 @@ public class TomatoFunction extends Enemy {
 		boolean jeffreyOnYourRight;
 		Leg leg7;
 		int movementTimer;
-		SoundPlayer player;
+
 		Leg leg8;
 		int timer;
 	public TomatoFunction (int x, int y) {
@@ -33,7 +33,6 @@ public class TomatoFunction extends Enemy {
 		leg1 = new Leg (1);
 		leg2 = new Leg (2);
 		leg3 = new Leg (3);
-		player = new SoundPlayer ();
 		movementTimer = 0;
 		leg4 = new Leg (4);
 		RNG = new Random ();
@@ -211,7 +210,7 @@ public class TomatoFunction extends Enemy {
 		}
 		if (patternNumber == 2) {
 			if (timer == 0) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg1.turnRed();
 				leg2.turnRed();
 				leg3.turnRed();
@@ -222,7 +221,7 @@ public class TomatoFunction extends Enemy {
 				leg8.turnRed();
 			}
 			if (timer == 40) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg1.turnGreen();
 				leg2.turnGreen();
 				leg3.turnGreen();
@@ -233,7 +232,7 @@ public class TomatoFunction extends Enemy {
 				leg8.turnGreen();
 			}
 			if (timer == 80) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg1.turnRed();
 				leg2.turnRed();
 				leg3.turnRed();
@@ -244,7 +243,7 @@ public class TomatoFunction extends Enemy {
 				leg8.turnRed();
 			}
 			if (timer == 120) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg1.turnGreen();
 				leg2.turnGreen();
 				leg3.turnGreen();
@@ -257,80 +256,80 @@ public class TomatoFunction extends Enemy {
 		}
 		if (patternNumber == 3) {
 			if (timer == 0) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg1.turnRed();
 			}
 			if (timer == 10) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg2.turnRed();
 			}
 			if (timer == 20) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg3.turnRed();
 			}
 			if (timer == 30) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg4.turnRed();
 			}
 			if (timer == 40) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg5.turnRed();
 			}
 			if (timer == 50) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg6.turnRed();
 			}
 			if (timer == 60) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg7.turnRed();
 			}
 			if (timer == 70) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg8.turnRed();
 			}
 			if (timer == 80) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg1.turnGreen();
 			}
 			if (timer == 90) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg2.turnGreen();
 			}
 			if (timer == 100) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg3.turnGreen();
 			}
 			if (timer == 110) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav" );
 				leg4.turnGreen();
 			}
 			if (timer == 120) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg5.turnGreen();
 			}
 			if (timer == 130) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg6.turnGreen();
 			}
 			if (timer == 140) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg7.turnGreen();
 			}
 			if (timer == 150) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg8.turnGreen();
 			}
 		}
 		if (patternNumber == 1) {
 			if (timer == 0) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg1.turnRed();
 				leg2.turnRed();
 				leg7.turnRed();
 				leg8.turnRed();
 			}
 			if (timer == 20) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg1.turnGreen();
 				leg2.turnGreen();
 				leg7.turnGreen();
@@ -341,14 +340,14 @@ public class TomatoFunction extends Enemy {
 				leg6.turnRed();
 			}
 			if (timer == 40) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg1.turnRed();
 				leg8.turnRed();
 				leg3.turnGreen();
 				leg6.turnGreen();
 			}
 			if (timer == 60) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg1.turnGreen();
 				leg8.turnGreen();
 				leg5.turnGreen();
@@ -359,14 +358,14 @@ public class TomatoFunction extends Enemy {
 				leg6.turnRed();
 			}
 			if (timer == 80) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg2.turnGreen();
 				leg7.turnGreen();
 				leg3.turnGreen();
 				leg6.turnGreen();
 			}
 			if (timer == 100) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg1.turnRed();
 				leg8.turnRed();
 				leg5.turnRed();
@@ -377,14 +376,14 @@ public class TomatoFunction extends Enemy {
 				leg6.turnRed();
 			}
 			if (timer == 120) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg1.turnGreen();
 				leg2.turnGreen();
 				leg7.turnGreen();
 				leg8.turnGreen();
 			}
 			if (timer == 140) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg1.turnRed();
 				leg2.turnRed();
 				leg7.turnRed();
@@ -395,7 +394,7 @@ public class TomatoFunction extends Enemy {
 				leg6.turnGreen();
 			}
 			if (timer == 159) {
-				player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav", clip );
+				GameCode.player.playSoundEffect(6F, "resources/audio/soundEffects/beep.wav");
 				leg1.turnGreen();
 				leg2.turnGreen();
 				leg7.turnGreen();

@@ -41,6 +41,8 @@ import items.FairUseKey;
 import items.LemonPacket;
 import items.RedBlackPaintBall;
 import items.Waffle;
+import json.JSONException;
+import json.JSONObject;
 import map.Room;
 import npcs.NonPlayableJeffrey;
 import npcs.NonPlayableRyan;
@@ -50,6 +52,7 @@ import players.Jeffrey;
 import players.TopDown;
 import players.TubeRaster;
 import resources.AfterRenderDrawer;
+import resources.SoundPlayer;
 import resources.Sprite;
 import spriteParsers.HitboxFilter;
 import spriteParsers.JigsawFilter;
@@ -75,6 +78,7 @@ public class GameCode {
 	static DuoflyPlus testFly;
 	static DuoflyMinus testFly2;
 	public static Jeffrey testJeffrey;
+	public static SoundPlayer player;
 	//static TopDown td;
 	Textbox textbox;
 	static Celing_boi boi;
@@ -131,7 +135,17 @@ public class GameCode {
 	static Marshan marsh;
 	static AnimeTester bleh;
 	static UFO ufo;
+	static String jsonTest = ""
+			+ "{"
+			+ "\"JSON\":\"TRUE\","
+			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
+			+ "}";
 	public static void initialize () {
+		try {
+			System.out.println (new JSONObject (jsonTest).toString ());
+		} catch (JSONException e) {
+			System.out.println (e);
+		}
 		//Initialize sprites
 		//GameObject initialization
 		testLaddder = new Ladder ();

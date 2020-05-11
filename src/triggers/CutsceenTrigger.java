@@ -1,6 +1,6 @@
 package triggers;
 
-import cutsceens.Cutsceen;
+import cutsceens.CutsceenHandler;
 import main.ObjectHandler;
 
 public class CutsceenTrigger extends Trigger {
@@ -10,9 +10,9 @@ public class CutsceenTrigger extends Trigger {
 	public void triggerEvent () {
 		if (this.Triggered()) {
 			try {
-			Cutsceen.playSceen(Integer.parseInt(this.getVariantAttribute("cutsceen")));
+			CutsceenHandler.playSceen(Integer.parseInt(this.getVariantAttribute("cutsceen")));
 			} catch (NumberFormatException e) {
-				Cutsceen.playSceen(1);
+				CutsceenHandler.playSceen(1);
 			}
 		}
 	}
@@ -24,11 +24,11 @@ public class CutsceenTrigger extends Trigger {
 	public void pausedEvent () {
 		if (this.Triggered()) {
 		try {
-		Cutsceen.playSceen(Integer.parseInt(this.getVariantAttribute("cutsceen")));
+		CutsceenHandler.playSceen(Integer.parseInt(this.getVariantAttribute("cutsceen")));
 		} catch (NumberFormatException e) {
-			Cutsceen.playSceen(1);
+			CutsceenHandler.playSceen(1);
 		}
-		if (!Cutsceen.playing) {
+		if (!CutsceenHandler.playing) {
 			ObjectHandler.pause(false);
 			this.eventFinished = true;
 		}
