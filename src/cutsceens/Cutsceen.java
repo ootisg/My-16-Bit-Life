@@ -146,4 +146,7 @@ public class Cutsceen extends GameObject {
 	public void runCustomCode() {
 		
 	}
+	public void addObjectToScene (GameObject obj) {
+		objectsToHandle.add (obj);
+	}
 }

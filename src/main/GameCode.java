@@ -41,6 +41,8 @@ import items.FairUseKey;
 import items.LemonPacket;
 import items.RedBlackPaintBall;
 import items.Waffle;
+import json.JSONException;
+import json.JSONObject;
 import map.Room;
 import npcs.NonPlayableJeffrey;
 import npcs.NonPlayableRyan;
@@ -133,7 +135,17 @@ public class GameCode {
 	static Marshan marsh;
 	static AnimeTester bleh;
 	static UFO ufo;
+	static String jsonTest = ""
+			+ "{"
+			+ "\"JSON\":\"TRUE\","
+			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
+			+ "}";
 	public static void initialize () {
+		try {
+			System.out.println (new JSONObject (jsonTest).toString ());
+		} catch (JSONException e) {
+			System.out.println (e);
+		}
 		//Initialize sprites
 		//GameObject initialization
 		testLaddder = new Ladder ();
