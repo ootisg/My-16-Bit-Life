@@ -15,9 +15,9 @@ public class BattleTrigger extends Trigger {
 	int timer;
 	boolean enemysSpawned;
 	 public BattleTrigger() {
+		 this.setHitboxAttributes(0, 0, 16, 16);
 		 xCoordinates = new double [200];
 		 yCoordinates = new double [200];
-		 this.setHitboxAttributes(0, 0, 16, 16);
 		 timer = 0;
 	}
 	@Override
@@ -50,20 +50,23 @@ public class BattleTrigger extends Trigger {
 				int x = 0;
 				while (uppyThing < ObjectHandler.getObjectsByName("PairingObject").size()) {
 					try {
+						
 					if(ObjectHandler.getObjectsByName("PairingObject").get(uppyThing).getVariantAttribute("Partner").equals(this.getVariantAttribute("Partner"))){
-					
 						LinkedList <GameObject> workingList = ((PairingObject) ObjectHandler.getObjectsByName("PairingObject").get(uppyThing)).getPairedObjects();
 						for (int i = 0; i < workingList.size(); i++) {
+						
 							xCoordinates [x] = workingList.get(i).getX();
 							yCoordinates [x] = workingList.get(i).getY();
+						
 							enemysToSpawn.add((Enemy)workingList.get(i));
 							workingList.get(i).forget();
 							x = x + 1;
 					}
-					uppyThing = uppyThing + 1;
 				}
+					uppyThing = uppyThing + 1;
 					} catch (NullPointerException e) {
-						uppyThing = uppyThing + 1;
+						timer = -1;
+						break;
 					}
 			}
 			for (int i = 0; i <= enemysToSpawn.size() - 1; i++ ) {

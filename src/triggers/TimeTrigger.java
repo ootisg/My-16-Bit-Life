@@ -3,6 +3,7 @@ package triggers;
 public class TimeTrigger extends Trigger {
 	int timer;
 	public TimeTrigger() {
+		 this.setHitboxAttributes(0, 0, 16, 16);
 		timer = 0;
 	}
 	@Override

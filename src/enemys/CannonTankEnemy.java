@@ -30,9 +30,13 @@ public CannonTankEnemy () {
 	hasTurned = false;
 	turrning = 0;
 	Variable = false;
+	try {
 	if (this.getVariantAttribute("flip").equals("true")) {
 		this.setSprite(cannonLeft);
 		this.moveRight =false;
+	}
+	} catch (NullPointerException e) {
+		
 	}
 	}
 	@Override 

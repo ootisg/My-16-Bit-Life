@@ -16,6 +16,11 @@ public class PairingObject extends GameObject {
 		if (pairedObject == null) {
 			if (ObjectHandler.checkCollisionChildren("GameObject", this).collisionOccured()) {
 				pairedObject = ObjectHandler.checkCollisionChildren("GameObject", this).getCollidingObjects();
+				for (int i = 0; i < pairedObject.size(); i++) {
+					if (pairedObject.get(i).getClass().getSimpleName().equals("Trigger")) {
+						pairedObject.remove(i);
+					}
+				}
 			}
 		}
 	}

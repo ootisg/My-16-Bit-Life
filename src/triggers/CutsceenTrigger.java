@@ -5,6 +5,7 @@ import main.ObjectHandler;
 
 public class CutsceenTrigger extends Trigger {
 	public CutsceenTrigger () {
+		 this.setHitboxAttributes(0, 0, 16, 16);
 	}
 	@Override
 	public void triggerEvent () {

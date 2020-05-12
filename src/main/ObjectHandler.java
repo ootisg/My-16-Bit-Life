@@ -155,6 +155,7 @@ public class ObjectHandler {
 		Iterator<GameObject> iter = objects.iterator ();
 		while (iter.hasNext ()) {
 			GameObject working = iter.next ();
+			
 			if (working.isColliding (object) && working != object) {
 				result.add (working);
 			}

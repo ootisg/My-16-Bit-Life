@@ -4,6 +4,7 @@ import java.util.Random;
 
 import gameObjects.DamageText;
 import main.GameCode;
+import main.ObjectHandler;
 import map.Room;
 import resources.Sprite;
 
@@ -83,10 +84,11 @@ public class Zombee extends Enemy {
 	public void frameEvent () {
 		if (timer%4 == 0) {
 			this.setHitboxAttributes(0, 0, 128, 128);
-			if (this.isColliding("gameObjects.ZombeeTree")) {
+			if (ObjectHandler.checkCollision("ZombeeTree", this).collisionOccured()) {
 				this.health = this.health + 1;
 				DamageText text;
-				text = new DamageText (1,this.getX(),this.getY());
+				text = new DamageText (1,this.getX(),this.getY(),true);
+				
 				text.declare(this.getX(), this.getY());
 			}
 			this.setHitboxAttributes(0, 0, 16, 10);

@@ -5,6 +5,7 @@ import main.ObjectHandler;
 public class WaitTrigger extends Trigger {
 	int timer;
 	public WaitTrigger() {
+		 this.setHitboxAttributes(0, 0, 16, 16);
 		timer = 0;
 	}
 	@Override

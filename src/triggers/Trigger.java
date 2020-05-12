@@ -32,6 +32,9 @@ public class Trigger extends GameObject {
 	
 	public void frameEvent () {
 		//sets the hitbox to work with the bottom bound
+		if (GameCode.testJeffrey.isColliding(this) && !Triggered && timer > 5 ) {
+			this.Triggered = true;
+		}
 		if (setHitbox) {
 			if ( this.getClass().getSimpleName().equals("Trigger")) {
 		int uppyThing = 0;
@@ -49,11 +52,14 @@ public class Trigger extends GameObject {
 			}
 		}
 		timer = timer +1;
+		
 		if (timer == 5 && this.getClass().getSimpleName().equals("Trigger")) {
+		
 			this.isCollidingChildren("Trigger");
 			ArrayList<Trigger> working = new ArrayList <Trigger> ();
-			
+			System.out.println ( ObjectHandler.checkCollisionChildren("Trigger", this).getCollidingObjects());
 			for (int i = 0; i != ObjectHandler.checkCollisionChildren("Trigger", this).getCollidingObjects().size(); i++) {
+			
 				if (!this.getCollisionInfo().getCollidingObjects().get(i).getClass().getSimpleName().equals("Trigger")) {
 					working.add((Trigger) ObjectHandler.checkCollisionChildren("Trigger", this).getCollidingObjects().get(i));
 				}
@@ -75,11 +81,10 @@ public class Trigger extends GameObject {
 				RessesiveTriggerList.add(working.get(iCopy));
 			}
 		}
-	if (GameCode.testJeffrey.isColliding(this) && !Triggered) {
-			this.Triggered = true;
-		}
+	
 	//code that is only run by the dominate trigger to activate the events of all the ressesive triggers
 	if (Triggered){
+		
 		//if all triggers have been triggered forget the dominate trigger
 		if (eventWeAreOn >= RessesiveTriggerList.size()) {
 			this.forget();

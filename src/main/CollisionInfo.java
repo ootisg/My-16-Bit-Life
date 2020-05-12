@@ -19,7 +19,7 @@ public class CollisionInfo {
 	 */
 	public CollisionInfo (LinkedList<GameObject> collisions) {
 		this.collisions = collisions;
-		if (this.collisions != null) {
+		if (!this.collisions.isEmpty()) {
 			this.collisionOccured = true;
 		}
 	}

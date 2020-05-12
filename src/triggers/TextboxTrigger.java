@@ -7,6 +7,7 @@ public class TextboxTrigger extends Trigger {
 	Textbox TriggeredTextbox;
 	public TextboxTrigger () {
 		TriggeredTextbox = new Textbox ("LOLMEMZ");
+		 this.setHitboxAttributes(0, 0, 16, 16);
 	}
 	public void triggerEvent() {
 		if (!TriggeredTextbox.declared()) {

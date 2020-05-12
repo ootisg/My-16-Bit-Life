@@ -8,6 +8,7 @@ import main.ObjectHandler;
 public class DoorTrigger extends Trigger {
 	TemporaryWall wallTomanage;
 	public DoorTrigger () {
+		 this.setHitboxAttributes(0, 0, 16, 16);
 	}
 	public void triggerEvent () {
 		for (int i = 0; i < ObjectHandler.getObjectsByName("TemporaryWall").size(); i++) {
