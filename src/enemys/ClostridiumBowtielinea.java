@@ -60,7 +60,6 @@ public String checkEntry () {
 		} else {
 			notGoingUp = true;
 		}
-		System.out.println(player.getX() - this.getX());
 		if (!Room.isColliding(this) && !isStopped && (!(player.getX() - this.getX() < 3) || !(this.getX() - player.getX() < 3))){
 		if (player.getX()> getX()){
 			setX(getX() + 3);

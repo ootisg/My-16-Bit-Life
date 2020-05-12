@@ -26,8 +26,6 @@ public class LoopableSprite extends Sprite {
 		int index = 0;
 		int tempX = x;
 		int tempY = y;
-		System.out.println(tempY);
-		System.out.println(desY);
 		boolean directionX = x > desX;
 		boolean directionY = y > desY;
 		while ((tempX > desX && directionX) || (tempX < desX && !directionX) || (tempY > desY && directionY) || (tempY < desY && !directionY)){

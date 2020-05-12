@@ -141,11 +141,7 @@ public class GameCode {
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		try {
-			System.out.println (new JSONObject (jsonTest).toString ());
-		} catch (JSONException e) {
-			System.out.println (e);
-		}
+		
 		//Initialize sprites
 		//GameObject initialization
 		testLaddder = new Ladder ();
@@ -224,7 +220,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/junktest.rmf");
+		Room.loadRoom ("resources/maps/pairingTest.rmf");
 		//bleh = new AnimeTester ();
 		//bleh.declare (0, 0);
 		gui = new Gui ();
@@ -268,7 +264,7 @@ public class GameCode {
 		System.out.println(testPoint.generatePath(point));*/
 		//function.declare(120, 300);
 		//marsh.declare(200,320);
-		ufo.declare(200,120);
+		//ufo.declare(200,120);
 	}
 	
 	public static void beforeGameLogic () {

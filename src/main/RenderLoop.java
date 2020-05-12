@@ -50,7 +50,6 @@ public class RenderLoop {
 			//Calculate elapsed time and time to sleep for
 			lastUpdate = System.nanoTime ();
 			long elapsedTime = lastUpdate - startTime;
-			System.out.println (elapsedTime);
 			int sleepTime = (int)((targetNanoseconds - elapsedTime) / 1000000) - 1;
 			if (sleepTime < 0) {
 				sleepTime = 0;

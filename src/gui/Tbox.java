@@ -83,7 +83,6 @@ public class Tbox extends GameObject {
 							icopy = icopy + 1;
 							if (icopy > text.length() -1) {
 								icopy = text.length() -1;
-								System.out.println(icopy);
 							}
 							yicopy = yicopy +1;
 						}
@@ -102,7 +101,6 @@ public class Tbox extends GameObject {
 							icopy = icopy + 1;
 							if (icopy > text.length() -1) {
 								icopy = text.length() -1;
-								System.out.println(icopy);
 							}
 							yicopy = yicopy +1;
 						}

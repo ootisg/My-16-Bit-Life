@@ -19,6 +19,7 @@ public class Trigger extends GameObject {
 		setHitbox = true;
 		Triggered = false;
 		eventFinished = false;
+		this.adjustHitboxBorders();
 		eventWeAreOn = 0;
 		timer = 0;
 	}
@@ -51,9 +52,10 @@ public class Trigger extends GameObject {
 		if (timer == 5 && this.getClass().getSimpleName().equals("Trigger")) {
 			this.isCollidingChildren("Trigger");
 			ArrayList<Trigger> working = new ArrayList <Trigger> ();
-			for (int i = 0; i != this.getCollisionInfo().getCollidingObjects().size(); i++) {
-				if (  this.getCollisionInfo().getCollidingObjects().get(i).getClass().getSimpleName().equals("WaitTrigger")||this.getCollisionInfo().getCollidingObjects().get(i).getClass().getSimpleName().equals("TimeTrigger")||this.getCollisionInfo().getCollidingObjects().get(i).getClass().getSimpleName().equals("TextboxTrigger") || this.getCollisionInfo().getCollidingObjects().get(i).getClass().getSimpleName().equals("CutsceenTrigger") || this.getCollisionInfo().getCollidingObjects().get(i).getClass().getSimpleName().equals("SoundTrigger")  || this.getCollisionInfo().getCollidingObjects().get(i).getClass().getSimpleName().equals("BattleTrigger") || this.getCollisionInfo().getCollidingObjects().get(i).getClass().getSimpleName().equals("DoorTrigger")|| this.getCollisionInfo().getCollidingObjects().get(i).getClass().getSimpleName().equals("UndoorTrigger")) {
-					working.add((Trigger) this.getCollisionInfo().getCollidingObjects().get(i));
+			
+			for (int i = 0; i != ObjectHandler.checkCollisionChildren("Trigger", this).getCollidingObjects().size(); i++) {
+				if (!this.getCollisionInfo().getCollidingObjects().get(i).getClass().getSimpleName().equals("Trigger")) {
+					working.add((Trigger) ObjectHandler.checkCollisionChildren("Trigger", this).getCollidingObjects().get(i));
 				}
 			}
 			while (RessesiveTriggerList.size() != working.size()) {

@@ -77,7 +77,6 @@ public class DamageText extends GameObject {
 				timesAmount = timesAmount/10;
 				amountOfZeros = amountOfZeros + 1;
 			}
-			System.out.println(amountOfZeros);
 			secondidget = new DamageText (amountOfZeros, copyOfamount -(frameToSet * copyOfTimesAmount), d + 8, e);
 			secondidget.declare(d, e);
 		} else {

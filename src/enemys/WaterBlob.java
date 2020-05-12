@@ -106,7 +106,6 @@ public class WaterBlob extends Enemy {
 		}
 		if (timer >=180 && !jumping) {
 			timer = RNG.nextInt(2);
-			System.out.println(timer);
 			if (timer == 0) {
 				dirction = false;
 			} else {
