@@ -2,6 +2,9 @@ package cutsceens;
 
 import java.util.ArrayList;
 
+import actions.MakeText;
+import json.JSONException;
+import json.JSONObject;
 import main.GameCode;
 import main.GameObject;
 import resources.Sprite;
@@ -10,6 +13,7 @@ public class Cutsceen extends GameObject {
 	ArrayList <GameObject> objectsToHandle = new ArrayList <GameObject> ();
 	ArrayList <Cutsceen> cutsceensToHandle = new ArrayList <Cutsceen> ();
 	ArrayList <Sprite> spritesToHandle = new ArrayList <Sprite> ();
+	ArrayList <CustomCutsceenEvent> customEvents = new ArrayList <CustomCutsceenEvent> ();
 	ArrayList <String> comands = new ArrayList <String> ();
 	public Cutsceen () {
 	}
@@ -80,8 +84,10 @@ public class Cutsceen extends GameObject {
 		spritesToHandle.add(newSprite);
 		objectsToHandle.add(onWhat);
 	}
-	public void customCode () {
+	public void customCode (CustomCutsceenEvent sceen, JSONObject object) {
 		comands.add("Custom");
+		comands.add(object.toString());
+		customEvents.add(sceen);
 	}
 	/**
 	 * returns true if the cutsceen is still playing
@@ -115,6 +121,9 @@ public class Cutsceen extends GameObject {
 			case "Custom":
 				this.runCustomCode();
 			}
+			return true;
+		} else {
+			return false;
 		}
 	}
 	public void runMoveSlowCode() {
@@ -129,21 +138,49 @@ public class Cutsceen extends GameObject {
 		
 	}
 	public void runMusicCode() {
-		
+		GameCode.player.play(comands.get(1), 6F);
+		comands.remove(0);
+		comands.remove(0);
 	}
 	public void runTextCode() {
-		
+		if (MakeText.makeText(comands.get(1))) {
+			comands.remove(0);
+			comands.remove(0);
+		}
 	}
 	public void runCutsceenCode() {
-		
+		if (!cutsceensToHandle.get(0).play()) {
+			comands.remove(0);
+			cutsceensToHandle.remove(0);
+		}
 	}
 	public void runAniamtionCode() {
-		
+		if (!objectsToHandle.get(0).getSprite().equals(spritesToHandle.get(1))) {
+			objectsToHandle.get(0).setSprite(spritesToHandle.get(1));
+		} else {
+			if (objectsToHandle.get(0).getAnimationHandler().getFrame() == objectsToHandle.get(0).getAnimationHandler().getImage().getFrameCount()) {
+				objectsToHandle.get(0).setSprite(spritesToHandle.get(0));
+				spritesToHandle.remove(0);
+				spritesToHandle.remove(0);
+				objectsToHandle.remove(0);
+				comands.remove(0);
+			}
+		}
 	}
 	public void runSpriteCode() {
-		
+		objectsToHandle.get(0).setSprite(spritesToHandle.get(0));
+		objectsToHandle.remove(0);
+		spritesToHandle.remove(0);
+		comands.remove(0);
 	}
 	public void runCustomCode() {
+		try {
+			this.customEvents.get(0).runEvent(this,new JSONObject (this.comands.get(1)));
+		} catch (JSONException e) {
+			this.customEvents.remove(0);
+			this.comands.remove(0);
+			this.comands.remove(0);
+		}
 		
 	}
 	public void addObjectToScene (GameObject obj) {

@@ -37,7 +37,7 @@ public class JSONUtil {
 		}
 	}
 	
-	public JSONObject loadJSONFile (String filepath) throws JSONException {
+	public static JSONObject loadJSONFile (String filepath) throws JSONException {
 		String fileString = "";
 		File f = new File (filepath);
 		Scanner s;

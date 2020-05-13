@@ -57,7 +57,6 @@ public class Trigger extends GameObject {
 		
 			this.isCollidingChildren("Trigger");
 			ArrayList<Trigger> working = new ArrayList <Trigger> ();
-			System.out.println ( ObjectHandler.checkCollisionChildren("Trigger", this).getCollidingObjects());
 			for (int i = 0; i != ObjectHandler.checkCollisionChildren("Trigger", this).getCollidingObjects().size(); i++) {
 			
 				if (!this.getCollisionInfo().getCollidingObjects().get(i).getClass().getSimpleName().equals("Trigger")) {

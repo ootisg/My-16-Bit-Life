@@ -1,12 +1,4 @@
-package cutsceens;
-
-import json.JSONException;
-import json.JSONObject;
-import json.JSONUtil;
-
-public class CutsceenLoader {
-	/**
-	 * {
+{
 	"usedObjects": [
 		{
 		everything in currly brace represents one object the usedObjects array contains all of those
@@ -24,17 +16,4 @@ public class CutsceenLoader {
 		}
 			... (list the actions in order to make them happen in that order)
 	]	
-}
-
-	 * @param filepath the path to the JSON formated file
-	 * @return the cutsceen 
-	 */
-	private static JSONObject getCutscene (String filepath) {
-		try {
-			return JSONUtil.loadJSONFile(filepath);
-		} catch (JSONException e) {
-			return null;
-		}
-	}
-	
 }
