@@ -1,0 +1,52 @@
+current cutscene functionality list
+
+objects -used to specify things regarding some events
+	requried paramtiters
+		"name" - can be anything but more specificly is used to specify what object you are refering to locally withing the config file
+		"type" - refers to the name of the object in terms of my-16-bit-life (ie CreepyButterfly, Zombee, CelingBoi, Jeffrey, ect.)
+		"genMethod" - refers to how the object is gotten
+			"create" - creates a brand new object to use
+				"x" - the x position of the new object
+				"y" - the y position of the new object
+			"hijack" - takes control of the first object of that type in the object handler 
+	optional paramiters
+		"persistent" - referst to wheather or not this object should stick around after the concustion of the cutscene (true for yes anything else for no) defaults too no	
+
+
+actions - (use the type paramiter paired with any of these to activate them in the order you want the events of you cutsceen to activate)
+	"moveSlow" - moves an object from point a to point b in a manor that doesent involve them telporting
+		requried parameters
+			object - refers to the object that is doing the moving (referenced by pairing the "name" paramiter with the object name)
+			"destinationX" - refers to the x coordinate of the destanation
+			"destinationY" - refers to the y coordinate of the destanation
+			"middleVelocity" - refers to the max speed the object will reach
+		optional parameters
+			"startVelocity" - refers to the speed the object starts at (defults to 0)
+			"endtVelocity" - refers to the speed the object will end at (defults to 0)
+			"startAcceleration" - refers to the speed at witch the object will go from the start velocity to the middle velocity (defults to infinity resulting in reaching max speed instantly)
+			"endAcceleration" - refers to the speed at witch the object will go from the middle velocity to the end velocity (defults to negative infinity resulting in an instant stop)
+	
+	"sound" - plays a sound effect in its entirity before countinuineing the cutsceen
+		"path" - refers to the filepath of the sound effect
+	
+	"music" - changes the currently playing music to the requested song
+		"path" - refers to the filepath of the new song
+
+	"text" - displays a textbox with the desired text
+		"text" - refers to the text to display
+
+	"playScene" - plays a diffrent cutsceen 
+		"path" - the path to the config file of the new cutscene
+
+	"animation" - plays an animation in its entirity before continuing the cutsceen
+		"path" - the path to the config for the sprite that causes the animation
+		object - the object that plays that animation (referenced by pairing the "name" paraimiter with the object name)
+	
+	"sprite" - changes somethings sprite to another sprite
+		"path" - the path to the new sprite
+		object - the object that gets the new sprite (referenced by pairing the "name" paraimiter with the object name)
+	
+	"custom" - runs custom code that would be writen in a class that implements the CutsceneEvent interface in the runEvent () method
+		"customEventType" - refers to the name of the class with the custom code
+		all other paramiters would be decided in the custom code as it would have access to the part of cutscene config file that relates to it
+	

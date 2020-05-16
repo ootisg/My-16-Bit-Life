@@ -14,7 +14,6 @@ public interface CutsceneEvent {
 			cutsceen.comands.remove(0);
 			cutseen.comands.remove(0);
 	 * @param cutsceen figure it out dumbass
-	 * @param object
 	 * @return true if the event has finished; false otherwise
 	 */
 	public boolean runEvent ();

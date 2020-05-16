@@ -2,6 +2,10 @@ package resources;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -21,7 +25,7 @@ public class SoundPlayer implements LineListener{
 	DataLine.Info info;
 	Clip backup;
 	Clip clip;
-	public ArrayList <Clip> cliptwooowwowows = new ArrayList<Clip> ();
+	public HashMap <String, Clip> cliptwooowwowows = new HashMap<String, Clip> ();
 	public SoundPlayer (){
 	}
 	public void play (String songName, float volume){
@@ -64,10 +68,24 @@ public class SoundPlayer implements LineListener{
 		FloatControl gainControl2 = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		gainControl2.setValue(volume);
 		clip2.start();
-		cliptwooowwowows.add(clip2);
+		cliptwooowwowows.put(effectName, clip2);
 		} catch (Exception e){
 		System.out.println("whoops (error message) ");
 		}
+	}
+	public Clip getClip (String clipName) {
+		ArrayList <String> entrysToRemove = new ArrayList <String> ();
+		Iterator<Entry<String, Clip>>iter = cliptwooowwowows.entrySet().iterator();
+		while (iter.hasNext()) {
+			Entry<String, Clip> working = iter.next();
+			if (!working.getValue().isActive()) {
+				entrysToRemove.add(working.getKey());
+			}
+		}
+		for (int i = 0; i < entrysToRemove.size(); i++) {
+			cliptwooowwowows.remove(entrysToRemove.get(i));
+		}
+		return cliptwooowwowows.get(clipName);
 	}
 	@Override
 	public void update(LineEvent event) {

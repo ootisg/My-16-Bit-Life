@@ -8,15 +8,19 @@ import main.GameCode;
  *
  */
 public class Playsound {
-	private static boolean wasOpen = false;
-	private static int effectNumber = 0;
+	private boolean wasOpen = false;
 	
-	public static boolean playSound(float volume, String soundPath) {
-		effectNumber = GameCode.player.cliptwooowwowows.size();
-		try {
-			
-		} catch (ArrayIndexOutOfBoundsException e) {
-			
+	public boolean playSound(float volume, String soundPath) {
+		if (GameCode.player.getClip(soundPath) == null && wasOpen) {
+			return true;
+		} else {
+			if (wasOpen) {
+				return false;
+			} else {
+				wasOpen = true;
+				GameCode.player.playSoundEffect(volume, soundPath);
+				return false;
+			}
 		}
 	}
 }

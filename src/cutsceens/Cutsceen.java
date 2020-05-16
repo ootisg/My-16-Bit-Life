@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import actions.MakeText;
+import actions.Playsound;
 import json.JSONArray;
 import json.JSONException;
 import json.JSONObject;
@@ -19,6 +20,8 @@ public class Cutsceen extends GameObject {
 	ArrayList <Sprite> spritesToHandle = new ArrayList <Sprite> ();
 	ArrayList <CutsceneEvent> customEvents = new ArrayList <CutsceneEvent> ();
 	ArrayList <String> comands = new ArrayList <String> ();
+	MoveSlowEvent event;
+	Playsound sound;
 	public Cutsceen (String filepath) {
 		JSONObject sceneData = CutsceenLoader.getCutscene (filepath);
 		JSONArray objsToUse = sceneData.getJSONArray ("usedObjects");
@@ -36,7 +39,7 @@ public class Cutsceen extends GameObject {
 		for (int i = 0; i < eventsList.size (); i++) {
 			JSONObject event = (JSONObject)eventsList.get (i);
 			//Switch statement babyyyyyyy
-			switch (comands.get(0)) {
+			switch (event.getString("type")) {
 			case "moveSlow":
 				//Get guarenteed params
 				GameObject objToMove = searchByName (event.getString("name")).obj;
@@ -65,25 +68,52 @@ public class Cutsceen extends GameObject {
 				moveSlowly (objToMove, desX, desY, startVelocity, middleVelocity, endVelocity, startAcceleration, endAcceleration);
 				break;
 			case "sound":
-				//yeet yeet
+				//get filepath
+				String path = event.getString("path");
+				//do the thing
+				playSound (path);
 				break;
 			case "music":
-				//yeet yeet
+				//get filepath
+				String file = event.getString("path");
+				//do the thing
+				playMusic (file);
 				break;
 			case "text":
-				//yeet yeet
+				//get filepath
+				String text = event.getString("text");
+				//do the thing
+				makeTextBox (text);
 				break;
 			case "playScene":
-				//yeet yeet
+				//get filepath
+				String coolPath = event.getString("path");
+				//do the thing
+				makeTextBox (coolPath);
 				break;
 			case "animation":
-				//yeet yeet
+				//get filepath and craft sprite
+				String spritePath = event.getString("path");
+				Sprite workingSprite = new Sprite (spritePath);
+				
+				// get gameObject
+				GameObject workingObject = searchByName (event.getString("name")).obj;
+				//do the thing
+				playAnimation (workingSprite,workingObject);
 				break;
 			case "sprite":
-				//yeet yeet
+				//get filepath and craft sprite
+				String sPath = event.getString("path");
+				Sprite wSprite = new Sprite (sPath);
+				
+				// get gameObject
+				GameObject wObject = searchByName (event.getString("name")).obj;
+				//do the thing
+				changeSprite (wSprite,wObject);
 				break;
 			case "custom":
 				//yeet yeet
+				customCode(CutsceneEvent.makeCutsceneEvent(event));
 				break;
 			}
 		}
@@ -138,9 +168,9 @@ public class Cutsceen extends GameObject {
 	 * plays a diffrent cutsceen
 	 * @param cutsceen
 	 */
-	public void playSceen (Cutsceen cutsceen) {
+	public void playSceen (String cutsceen) {
 		comands.add("playScene");
-		cutsceensToHandle.add(cutsceen);
+		cutsceensToHandle.add(new Cutsceen (cutsceen));
 	}
 	/**
 	 * plays through an animation once before switching back to the old sprite
@@ -163,9 +193,8 @@ public class Cutsceen extends GameObject {
 		spritesToHandle.add(newSprite);
 		objectsToHandle.add(searchByGameObject (onWhat));
 	}
-	public void customCode (CutsceneEvent sceen, JSONObject object) {
+	public void customCode (CutsceneEvent sceen) {
 		comands.add("custom");
-		comands.add(object.toString());
 		customEvents.add(sceen);
 	}
 	/**
@@ -207,13 +236,30 @@ public class Cutsceen extends GameObject {
 		}
 	}
 	public void runMoveSlowCode() {
-		
+		if (event == null) {
+		event = new MoveSlowEvent (objectsToHandle.get(0).obj, Integer.parseInt(comands.get(1)), Integer.parseInt(comands.get(2)), Double.parseDouble(comands.get(3)), Double.parseDouble(comands.get(4)), Double.parseDouble(comands.get(5)), Double.parseDouble(comands.get(6)), Double.parseDouble(comands.get(7)));
+		}
+		if (event.runEvent()) {
+			event = null;
+			comands.remove(0);
+			comands.remove(0);
+			comands.remove(0);
+			comands.remove(0);
+			comands.remove(0);
+			comands.remove(0);
+			comands.remove(0);
+			comands.remove(0);
+			objectsToHandle.remove(0);
+		}
 	}
 	public void runSoundCode() {
-		if (!GameCode.player.clip2.isOpen()) {
-		GameCode.player.playSoundEffect(6F, comands.get(1));
-		} else {
-			
+		if (sound == null) {
+			sound = new Playsound ();
+			}
+		if (sound.playSound(6F, comands.get(1))) {
+			sound = null;
+			comands.remove(0);
+			comands.remove(0);	
 		}
 		
 	}
@@ -254,13 +300,12 @@ public class Cutsceen extends GameObject {
 		comands.remove(0);
 	}
 	public void runCustomCode() {
-		try {
-			this.customEvents.get(0).runEvent(this,new JSONObject (this.comands.get(1)));
-		} catch (JSONException e) {
-			this.customEvents.remove(0);
-			this.comands.remove(0);
-			this.comands.remove(0);
+	
+		if (this.customEvents.get(0).runEvent()) {
+			customEvents.remove(0);
+			comands.remove(0);
 		}
+		
 		
 	}
 	private CutsceneObject generateCutsceneObject (JSONObject objData) {
@@ -291,6 +336,8 @@ public class Cutsceen extends GameObject {
 			} else {
 				obj.persistent = false;
 			}
+		} else {
+			obj.persistent = false;
 		}
 		
 		//Return the final object
