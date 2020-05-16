@@ -13,6 +13,7 @@ public class CutsceenLoader {
 			"name": "objectName"
 			"type": "objectType" (refers to what kind of object it is ie CreepyButterfly or Zombee)
 			"genMethod": "clone"
+			"persistent":"true" (whether or not the object sticks around after the cutscene)
 		}
 
 			... (for the sake of the example there is only one object)		
@@ -29,7 +30,7 @@ public class CutsceenLoader {
 	 * @param filepath the path to the JSON formated file
 	 * @return the cutsceen 
 	 */
-	private static JSONObject getCutscene (String filepath) {
+	public static JSONObject getCutscene (String filepath) {
 		try {
 			return JSONUtil.loadJSONFile(filepath);
 		} catch (JSONException e) {

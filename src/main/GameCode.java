@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import cutsceens.MoveSlowEvent;
 import enemys.BuggyBoi;
 import enemys.CannonTankEnemy;
 import enemys.Celing_boi;
@@ -132,6 +133,7 @@ public class GameCode {
 	static LazerHoverEnemy laser;
 	static CarSpawner spawner;
 	static MafiaShooter shooter;
+	static MoveSlowEvent slow;
 	static Marshan marsh;
 	static AnimeTester bleh;
 	static UFO ufo;
@@ -199,11 +201,12 @@ public class GameCode {
 		puncuation = new Puncuation ();
 		testJeffrey.getInventory().addKill(testTie);
 		testJeffrey.getInventory().addKill(puncuation);
+		hydrant = new FireHydrant ();
+		slow = new MoveSlowEvent (hydrant, 100, 100, 0, 30, 0, 3, -3);
 		newFly = new CreepyButterfly();
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall(1);
 		paint = new BluePaint (1);
-		hydrant = new FireHydrant ();
 		while (x <= 40) {
 		testJeffrey.inventory.addAmmo(paintball);
 		testJeffrey.inventory.addAmmo(paint);
@@ -265,6 +268,9 @@ public class GameCode {
 		//function.declare(120, 300);
 		//marsh.declare(200,320);
 		//ufo.declare(200,120);
+		hydrant.declare (400,400);
+		
+	
 	}
 	
 	public static void beforeGameLogic () {
@@ -272,7 +278,7 @@ public class GameCode {
 	}
 	
 	public static void afterGameLogic () {
-		
+		slow.runEvent();
 	}
 	
 	public static void beforeRender () {

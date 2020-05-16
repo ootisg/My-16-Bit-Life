@@ -1,42 +1,121 @@
 package cutsceens;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import actions.MakeText;
+import json.JSONArray;
 import json.JSONException;
 import json.JSONObject;
 import main.GameCode;
 import main.GameObject;
+import main.ObjectHandler;
 import resources.Sprite;
 
 public class Cutsceen extends GameObject {
-	ArrayList <GameObject> objectsToHandle = new ArrayList <GameObject> ();
+	ArrayList <CutsceneObject> objectsToHandle = new ArrayList <CutsceneObject> ();
+	ArrayList <CutsceneObject> objectsInScene = new ArrayList<CutsceneObject> ();
 	ArrayList <Cutsceen> cutsceensToHandle = new ArrayList <Cutsceen> ();
 	ArrayList <Sprite> spritesToHandle = new ArrayList <Sprite> ();
-	ArrayList <CustomCutsceenEvent> customEvents = new ArrayList <CustomCutsceenEvent> ();
+	ArrayList <CutsceneEvent> customEvents = new ArrayList <CutsceneEvent> ();
 	ArrayList <String> comands = new ArrayList <String> ();
-	public Cutsceen () {
+	public Cutsceen (String filepath) {
+		JSONObject sceneData = CutsceenLoader.getCutscene (filepath);
+		JSONArray objsToUse = sceneData.getJSONArray ("usedObjects");
+		JSONArray events = sceneData.getJSONArray ("events");
+		
+		//Get/add the objects to use
+		objectsInScene = new ArrayList<CutsceneObject> ();
+		ArrayList<Object> epicContents = events.getContents ();
+		for (int i = 0; i < epicContents.size (); i++) {
+			objectsInScene.add (generateCutsceneObject ((JSONObject)epicContents.get (i)));
+		}
+		
+		//Load in the cutscene events
+		ArrayList<Object> eventsList = events.getContents ();
+		for (int i = 0; i < eventsList.size (); i++) {
+			JSONObject event = (JSONObject)eventsList.get (i);
+			//Switch statement babyyyyyyy
+			switch (comands.get(0)) {
+			case "moveSlow":
+				//Get guarenteed params
+				GameObject objToMove = searchByName (event.getString("name")).obj;
+				int desX = event.getInt ("destinationX");
+				int desY = event.getInt ("destinationY");
+				double middleVelocity = event.getDouble ("middleVelocity");
+				//Set defaults for optional params
+				double startVelocity = 0;
+				double endVelocity = 0;
+				double startAcceleration = Double.POSITIVE_INFINITY;
+				double endAcceleration = Double.NEGATIVE_INFINITY;
+				//Set optional params if present
+				if (event.get("startVelocity") != null) {
+					startVelocity = event.getDouble("startVelocity");
+				}
+				if (event.get("endtVelocity") != null) {
+					endVelocity = event.getDouble("endVelocity");
+				}
+				if (event.get("startAcceleration") != null) {
+					startVelocity = event.getDouble("startAcceleration");
+				}
+				if (event.get("endAcceleration") != null) {
+					startVelocity = event.getDouble("endAcceleration");
+				}
+				//Do the thing
+				moveSlowly (objToMove, desX, desY, startVelocity, middleVelocity, endVelocity, startAcceleration, endAcceleration);
+				break;
+			case "sound":
+				//yeet yeet
+				break;
+			case "music":
+				//yeet yeet
+				break;
+			case "text":
+				//yeet yeet
+				break;
+			case "playScene":
+				//yeet yeet
+				break;
+			case "animation":
+				//yeet yeet
+				break;
+			case "sprite":
+				//yeet yeet
+				break;
+			case "custom":
+				//yeet yeet
+				break;
+			}
+		}
 	}
 	/**
 	 * moves an object to a destanation without just teleporting them there
 	 * @param objectToMove the object to move
-	 * @param time the time it takes to move them there (in frames)
 	 * @param desX the x coordinate of the destanation
 	 * @param desY the y coordinate of the destaination
+	 * @param startVelocity the velocity the object starts at
+	 * @param middleVelocity the "terminal" velocity of the object
+	 * @param endVelocity the velocity the object ends at
+	 * @param startAcceleration the acceleration to use to speed up the object at the start of this event
+	 * @param endAcceleration the acceleration to use to slow down the object at the end of this event
 	 */
-	public void moveSlowly(GameObject objectToMove, int time, int desX, int desY) {
-		objectsToHandle.add(objectToMove);
+	public void moveSlowly(GameObject objectToMove, int desX, int desY, double startVelocity, double middleVelocity, double endVelocity, double startAcceleration, double endAcceleration) {
+		objectsToHandle.add(searchByGameObject (objectToMove));
 		comands.add("moveSlow");
-		comands.add(Integer.toString(time));
 		comands.add(Integer.toString(desX));
 		comands.add(Integer.toString(desY));
-		}
+		comands.add(Double.toString(startVelocity));
+		comands.add(Double.toString(middleVelocity));
+		comands.add(Double.toString(endVelocity));
+		comands.add(Double.toString(startAcceleration));
+		comands.add(Double.toString(endAcceleration));
+	/*=*/}
 	/**
 	 * plays a sound effect
 	 * @param soundPath the filepath to the sound effect
 	 */
 	public void playSound (String soundPath) {
-		comands.add("Sound");
+		comands.add("sound");
 		comands.add(soundPath);
 	}
 	/**
@@ -44,7 +123,7 @@ public class Cutsceen extends GameObject {
 	 * @param soundPath the filepath of the song
 	 */
 	public void playMusic (String soundPath) {
-		comands.add("Music");
+		comands.add("music");
 		comands.add(soundPath);
 	}
 	/**
@@ -52,7 +131,7 @@ public class Cutsceen extends GameObject {
 	 * @param text the message to write to the scren
 	 */
 	public void makeTextBox (String text) {
-		comands.add("Text");
+		comands.add("text");
 		comands.add(text);
 	}
 	/**
@@ -60,7 +139,7 @@ public class Cutsceen extends GameObject {
 	 * @param cutsceen
 	 */
 	public void playSceen (Cutsceen cutsceen) {
-		comands.add("play");
+		comands.add("playScene");
 		cutsceensToHandle.add(cutsceen);
 	}
 	/**
@@ -72,7 +151,7 @@ public class Cutsceen extends GameObject {
 		comands.add("animation");
 		spritesToHandle.add(onWhat.getSprite());
 		spritesToHandle.add(animaiton);
-		objectsToHandle.add(onWhat);
+		objectsToHandle.add(searchByGameObject (onWhat));
 	}
 	/**
 	 * changes the sprite of an object to a new sprite
@@ -82,10 +161,10 @@ public class Cutsceen extends GameObject {
 	public void changeSprite (Sprite newSprite, GameObject onWhat) {
 		comands.add("sprite");
 		spritesToHandle.add(newSprite);
-		objectsToHandle.add(onWhat);
+		objectsToHandle.add(searchByGameObject (onWhat));
 	}
-	public void customCode (CustomCutsceenEvent sceen, JSONObject object) {
-		comands.add("Custom");
+	public void customCode (CutsceneEvent sceen, JSONObject object) {
+		comands.add("custom");
 		comands.add(object.toString());
 		customEvents.add(sceen);
 	}
@@ -100,16 +179,16 @@ public class Cutsceen extends GameObject {
 			case "moveSlow":
 				this.runMoveSlowCode();
 				break;
-			case "Sound":
+			case "sound":
 				this.runSoundCode();
 				break;
-			case "Music":
+			case "music":
 				this.runMusicCode();
 				break;
-			case "Text":
+			case "text":
 				this.runTextCode();
 				break;
-			case "play":
+			case "playScene":
 				this.runCutsceenCode();
 				break;
 			case "animation":
@@ -118,8 +197,9 @@ public class Cutsceen extends GameObject {
 			case "sprite":
 				this.runSpriteCode();
 				break;
-			case "Custom":
+			case "custom":
 				this.runCustomCode();
+				break;
 			}
 			return true;
 		} else {
@@ -155,11 +235,11 @@ public class Cutsceen extends GameObject {
 		}
 	}
 	public void runAniamtionCode() {
-		if (!objectsToHandle.get(0).getSprite().equals(spritesToHandle.get(1))) {
-			objectsToHandle.get(0).setSprite(spritesToHandle.get(1));
+		if (!objectsToHandle.get(0).obj.getSprite().equals(spritesToHandle.get(1))) {
+			objectsToHandle.get(0).obj.setSprite(spritesToHandle.get(1));
 		} else {
-			if (objectsToHandle.get(0).getAnimationHandler().getFrame() == objectsToHandle.get(0).getAnimationHandler().getImage().getFrameCount()) {
-				objectsToHandle.get(0).setSprite(spritesToHandle.get(0));
+			if (objectsToHandle.get(0).obj.getAnimationHandler().getFrame() == objectsToHandle.get(0).obj.getAnimationHandler().getImage().getFrameCount()) {
+				objectsToHandle.get(0).obj.setSprite(spritesToHandle.get(0));
 				spritesToHandle.remove(0);
 				spritesToHandle.remove(0);
 				objectsToHandle.remove(0);
@@ -168,7 +248,7 @@ public class Cutsceen extends GameObject {
 		}
 	}
 	public void runSpriteCode() {
-		objectsToHandle.get(0).setSprite(spritesToHandle.get(0));
+		objectsToHandle.get(0).obj.setSprite(spritesToHandle.get(0));
 		objectsToHandle.remove(0);
 		spritesToHandle.remove(0);
 		comands.remove(0);
@@ -183,7 +263,66 @@ public class Cutsceen extends GameObject {
 		}
 		
 	}
-	public void addObjectToScene (GameObject obj) {
-		objectsToHandle.add (obj);
+	private CutsceneObject generateCutsceneObject (JSONObject objData) {
+		CutsceneObject obj = null;
+		String genMethod = objData.getString ("genMethod");
+		if (genMethod.equals ("create")) {
+			obj = new CutsceneObject (ObjectHandler.getInstance (objData.getString ("type")));
+			obj.obj.declare (objData.getInt ("x"), objData.getInt ("y"));
+		} else if (genMethod.equals ("hijack")) {
+			obj = new CutsceneObject (ObjectHandler.getObjectsByName (objData.getString ("type")).get (0));
+		}
+		if (obj == null) {
+			return null;
+		}
+		
+		//Set name/id field
+		obj.id = objData.getString ("name");
+		
+		//Set persistence
+		if (genMethod.equals ("hijack")) {
+			obj.persistent = true;
+		} else {
+			obj.persistent = false;
+		}
+		if (objData.get ("persistent") != null) {
+			if (objData.getString ("persistent").equals ("true")) {
+				obj.persistent = true;
+			} else {
+				obj.persistent = false;
+			}
+		}
+		
+		//Return the final object
+		return obj;
+	}
+	public CutsceneObject searchByGameObject (GameObject obj) {
+		for (int i = 0; i < objectsInScene.size (); i++) {
+			CutsceneObject cobj = objectsInScene.get (i);
+			if (obj == cobj.obj) {
+				return cobj;
+			}
+		}
+		return null;
+	}
+	public CutsceneObject searchByName (String name) {
+		for (int i = 0; i < objectsInScene.size (); i++) {
+			CutsceneObject cobj = objectsInScene.get (i);
+			if (cobj.id.equals (name)) {
+				return cobj;
+			}
+		}
+		return null;
+	}
+	private static class CutsceneObject {
+		
+		public GameObject obj;
+		public String id = "null";
+		public boolean persistent = false;
+		
+		public CutsceneObject (GameObject obj) {
+			this.obj = obj;
+		}
+		
 	}
 }

@@ -124,6 +124,15 @@ public class JSONObject {
 	}
 	
 	/**
+	 * Returns the JSONObject associated with the given key
+	 * @param key the key to use
+	 * @return the associated JSONObject
+	 */
+	public JSONArray getJSONArray (String key) {
+		return (JSONArray)values.get (key);
+	}
+	
+	/**
 	 * Returns the String associated with the given key
 	 * @param key the key to use
 	 * @return the associated String
