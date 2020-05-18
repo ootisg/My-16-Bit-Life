@@ -18,7 +18,15 @@ actions - (use the type paramiter paired with any of these to activate them in t
 		requried parameters
 			object - refers to the object that is doing the moving (referenced by pairing the "name" paramiter with the object name)
 			"destinationX" - refers to the x coordinate of the destanation
+						or
+			"offsetX" - sets the x coordinate destanaion to the current postion of the object + the value of offsetY
+			IMPORTANT NOTE: offsetX is calcuater based on the position of the object at the START of the cutsceen not durring the event where this takes place
+
 			"destinationY" - refers to the y coordinate of the destanation
+						or
+			"offsetY" - sets the y coordinate destanaion to the current postion of the object + the value of offsetX
+			IMPORTANT NOTE: offsetY is calcuater based on the position of the object at the START of the cutsceen not durring the event where this takes place
+
 			"middleVelocity" - refers to the max speed the object will reach
 		optional parameters
 			"startVelocity" - refers to the speed the object starts at (defults to 0)
@@ -49,4 +57,11 @@ actions - (use the type paramiter paired with any of these to activate them in t
 	"custom" - runs custom code that would be writen in a class that implements the CutsceneEvent interface in the runEvent () method
 		"customEventType" - refers to the name of the class with the custom code
 		all other paramiters would be decided in the custom code as it would have access to the part of cutscene config file that relates to it
+
+chaining - a useful features that allows you to chain multiple actions together causesing them to all happen at the same time (esentially creating one action that does both things)
+	paramiter "chainInfo" -(can be used on any action)
+		"start" - signifes the start of a chain
+		any specifed value other than start (recomended paramiter is "end) - signifies the end of a chain 
+
+	any action inbetween the start and end of a chain will become part of that chain
 	

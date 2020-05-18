@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import cutsceens.Cutsceen;
 import cutsceens.MoveSlowEvent;
 import enemys.BuggyBoi;
 import enemys.CannonTankEnemy;
@@ -223,7 +224,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/PitTest.rmf");
+		Room.loadRoom ("resources/maps/jumpsceneTest.rmf");
 		//bleh = new AnimeTester ();
 		//bleh.declare (0, 0);
 		gui = new Gui ();
@@ -268,7 +269,6 @@ public class GameCode {
 		//function.declare(120, 300);
 		//marsh.declare(200,320);
 		//ufo.declare(200,120);
-		hydrant.declare (400,400);
 		
 	
 	}
@@ -278,7 +278,6 @@ public class GameCode {
 	}
 	
 	public static void afterGameLogic () {
-		slow.runEvent();
 	}
 	
 	public static void beforeRender () {

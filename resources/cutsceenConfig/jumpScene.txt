@@ -1,0 +1,41 @@
+{
+	"usedObjects": [
+		{
+			"name": "jeffrey",
+			"type": "Jeffrey",
+			"genMethod": "hijack",
+		}		
+	],
+	"events": [
+		{
+			"type": "text",
+			"text": "DANG IT HOW AM I GONNA GET UP THERE",
+		}
+		{
+			"type": "text",
+			"text": "JUST JUMP BY PRESSING THE SPACEBAR",
+		}
+		{
+			"type": "moveSlow",
+			"name": "jeffrey",
+			"offsetX": "0",
+			"offsetY": "-10",
+			"middleVelocity": "10",
+			"startAcceleration": "20",
+		}
+		{
+			"type": "moveSlow",
+			"offsetX": "0",
+			"name": "jeffrey",
+			"offsetY": "0",
+			"middleVelocity": "20",
+			"startAcceleration": "20",
+			"startVelocity": "10",
+		}
+		{
+			"type": "text",
+			"text": "OH WAIT CRAP I FORGOT TO TURN THE VIDEO GAME PHISICS                                                          OK TRY NOW",
+		}
+		
+	]	
+}
