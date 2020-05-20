@@ -116,6 +116,7 @@ public class Jeffrey extends GameObject {
 		this.vy = 0;
 		this.ax = 0;
 		this.ay = 0;
+		this.adjustHitboxBorders();
 		binded = false;
 		newWeapon = true;
 		witchCharictar = 0;

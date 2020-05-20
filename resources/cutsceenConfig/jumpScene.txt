@@ -19,7 +19,7 @@
 			"type": "moveSlow",
 			"name": "jeffrey",
 			"offsetX": "0",
-			"offsetY": "-10",
+			"offsetY": "10",
 			"middleVelocity": "10",
 			"startAcceleration": "20",
 		}
