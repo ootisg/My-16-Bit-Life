@@ -46,6 +46,9 @@ public class Semisolid extends TileEntitiy{
 			} 
 				return collide;
 		} else {
+			if (o.getClass().getPackageName().equals("projectiles")) {
+				return false;
+			}
 			return true;
 		}
 	}

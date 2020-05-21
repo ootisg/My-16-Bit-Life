@@ -18,8 +18,6 @@ public class Poison extends GameObject{
 	boolean firstRun;
 	public Poison(Enemy affected, int tier) {
 		affectedPerson = affected;
-		poisoned = new Sprite ("resources/sprites/config/jeffrey_idle_poisoned");
-		poisonedWalk = new Sprite ("resources/sprites/config/jeffrey_walking_poisoned");
 		timer = 0;
 		effectTimer = 0;
 		level = tier;
@@ -27,6 +25,8 @@ public class Poison extends GameObject{
 	}
 	public Poison (Jeffrey affected, int tier){
 		affectedMAN = affected; 
+		poisoned = new Sprite ("resources/sprites/config/jeffrey_idle_poisoned.txt");
+		poisonedWalk = new Sprite ("resources/sprites/config/jeffrey_walking_poisoned.txt");
 		timer = 0;
 		charictarAtStart = GameCode.testJeffrey.witchCharictar;
 		effectTimer = 0;

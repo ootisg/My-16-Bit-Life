@@ -61,6 +61,7 @@ import spriteParsers.JigsawFilter;
 import spriteParsers.ParsedFrame;
 import spriteParsers.PixelParser;
 import statusEffect.Status;
+import theHeist.Worker;
 import triggers.CutsceenTrigger;
 import triggers.Trigger;
 import weapons.AimableWeapon;
@@ -136,6 +137,7 @@ public class GameCode {
 	static MafiaShooter shooter;
 	static MoveSlowEvent slow;
 	static Marshan marsh;
+	static Worker work;
 	static AnimeTester bleh;
 	static UFO ufo;
 	static String jsonTest = ""
@@ -167,6 +169,7 @@ public class GameCode {
 		pointer = new LaserPointer ();
 		key = new FairUseKey(1);
 		guy = new PointGuy();
+		work = new Worker ();
 		packet = new LemonPacket(1);
 		testJeffrey.getInventory().addFreind(lameJeffrey);
 		testJeffrey.getInventory().addFreind(lameSam);
@@ -269,7 +272,7 @@ public class GameCode {
 		//function.declare(120, 300);
 		//marsh.declare(200,320);
 		//ufo.declare(200,120);
-		
+	
 	
 	}
 	

@@ -19,13 +19,13 @@ actions - (use the type paramiter paired with any of these to activate them in t
 			object - refers to the object that is doing the moving (referenced by pairing the "name" paramiter with the object name)
 			"destinationX" - refers to the x coordinate of the destanation
 						or
-			"offsetX" - sets the x coordinate destanaion to the current postion of the object + the value of offsetY
-			IMPORTANT NOTE: offsetX is calcuater based on the position of the object at the START of the cutsceen not durring the event where this takes place
+			"offsetX" - sets the x coordinate destanaion to the current postion of the object + the value of offsetX
+			IMPORTANT NOTE: offsetX is calculated based on the position of the object when the cutsceen object is constructed not durring the event where this takes place so make sure to construct in the correct place if nessary
 
 			"destinationY" - refers to the y coordinate of the destanation
 						or
-			"offsetY" - sets the y coordinate destanaion to the current postion of the object + the value of offsetX
-			IMPORTANT NOTE: offsetY is calcuater based on the position of the object at the START of the cutsceen not durring the event where this takes place
+			"offsetY" - sets the y coordinate destanaion to the current postion of the object + the value of offsetY
+			IMPORTANT NOTE: offsetX is calculated based on the position of the object when the cutsceen object is constructed not durring the event where this takes place so make sure to construct in the correct place if nessary
 
 			"middleVelocity" - refers to the max speed the object will reach
 		optional parameters
@@ -57,6 +57,10 @@ actions - (use the type paramiter paired with any of these to activate them in t
 	"custom" - runs custom code that would be writen in a class that implements the CutsceneEvent interface in the runEvent () method
 		"customEventType" - refers to the name of the class with the custom code
 		all other paramiters would be decided in the custom code as it would have access to the part of cutscene config file that relates to it
+	"changeMap" - changes the map to the specified map 
+		IMPORTANT NOTE: using change map causes all of the currently loaded objects to be purged as such the cutsceen will most likely be terminated by this command if it was being run from an object and if not it will crash if you try to use one of the methods that requries an object (probably)
+		"path" - refers to the path to the new map	
+
 
 chaining - a useful features that allows you to chain multiple actions together causesing them to all happen at the same time (esentially creating one action that does both things)
 	paramiter "chainInfo" -(can be used on any action)

@@ -22,15 +22,13 @@ public class Paintball_Weak extends Projectile {
 	}
 	@Override
 	public void projectileFrame () {
-		double xTo = this.getX () + Math.cos (direction) * speed;
-		double yTo = this.getY () + Math.sin (direction) * speed;
 		for (int i = 0; i < Enemy.enemyList.size(); i ++) {
 			if (this.isColliding(Enemy.enemyList.get(i))){
 				Enemy.enemyList.get(i).damage (RNG.nextInt(5) + 5);
 				this.forget ();
 			}
 		}
-		if (Room.isColliding (this.getX(),this.getY(), xTo, yTo) || this.goingIntoWall) {
+		if (this.goingIntoWall) {
 			this.forget ();
 		}
 	}

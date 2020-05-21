@@ -99,6 +99,7 @@ public class MagicMicrophone extends Item {
 	}
 	@Override 
 	public void pausedEvent () {
+		try {
 		if (box.getSelected() == 0) {
 			player.status.statusAppliedOnJeffrey[6] = true;
 			Power power = new Power (0);
@@ -130,6 +131,9 @@ public class MagicMicrophone extends Item {
 				box.close();
 			}
 			}
+		}
+		} catch (NullPointerException e) {
+			
 		}
 	}
 	int dealWithWhipFrame () {

@@ -11,6 +11,7 @@ import json.JSONObject;
 import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
+import map.Room;
 import resources.Sprite;
 
 public class Cutsceen extends GameObject {
@@ -20,8 +21,9 @@ public class Cutsceen extends GameObject {
 	ArrayList <Sprite> spritesToHandle = new ArrayList <Sprite> ();
 	ArrayList <CutsceneEvent> customEvents = new ArrayList <CutsceneEvent> ();
 	ArrayList <String> comands = new ArrayList <String> ();
-	MoveSlowEvent event;
-	Playsound sound;
+	ArrayList <MoveSlowEvent> event = new ArrayList <MoveSlowEvent> ();
+	ArrayList <Playsound> sound = new ArrayList <Playsound>();
+	ArrayList <MakeText> text = new ArrayList <MakeText> ();
 	boolean chaining = false;
 	public Cutsceen (String filepath) {
 		JSONObject sceneData = CutsceenLoader.getCutscene (filepath);
@@ -113,6 +115,12 @@ public class Cutsceen extends GameObject {
 				//do the thing
 				makeTextBox (coolPath,startChain,endChain);
 				break;
+			case "changeMap":
+				//get filepath
+				String neatPath = event.getString("path");
+				//do the thing
+				changeMap (neatPath,startChain,endChain);
+				break;
 			case "animation":
 				//get filepath and craft sprite
 				String spritePath = event.getString("path");
@@ -171,6 +179,16 @@ public class Cutsceen extends GameObject {
 	public void playSound (String soundPath, boolean startChain, boolean endChain) {
 		comands.add("sound");
 		comands.add(soundPath);
+		comands.add(Boolean.toString(startChain));
+		comands.add(Boolean.toString(endChain));
+	}
+	/**
+	 * changes the map
+	 * @param mapPath the path to the new Map
+	 */
+	public void changeMap (String mapPath, boolean startChain, boolean endChain) {
+		comands.add("changeMap");
+		comands.add(mapPath);
 		comands.add(Boolean.toString(startChain));
 		comands.add(Boolean.toString(endChain));
 	}
@@ -241,34 +259,37 @@ public class Cutsceen extends GameObject {
 	 * @return wheather or not the cutsceen is done playing
 	 */
 	public boolean play () {
-		return this.play(0,0,0,0,0);
+		return this.play(0,0,0,0,0,0,0,0);
 	}
-	private boolean play (int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber) {
+	private boolean play (int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber,  int slowEventNumber, int soundNumber,int textNumber) {
 		if (!comands.isEmpty()) {
 			switch (comands.get(commandNumber)) {
 			case "moveSlow":
-				this.runMoveSlowCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber);
+				this.runMoveSlowCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
 				break;
 			case "sound":
-				this.runSoundCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber);
+				this.runSoundCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
 				break;
 			case "music":
-				this.runMusicCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber);
+				this.runMusicCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
 				break;
 			case "text":
-				this.runTextCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber);
+				this.runTextCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
 				break;
 			case "playScene":
-				this.runCutsceenCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber);
+				this.runCutsceenCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
 				break;
 			case "animation":
-				this.runAniamtionCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber);
+				this.runAniamtionCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
 				break;
 			case "sprite":
-				this.runSpriteCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber);
+				this.runSpriteCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
 				break;
 			case "custom":
-				this.runCustomCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber);
+				this.runCustomCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+				break;
+			case "changeMap":
+				this.runChangeMapCode (commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
 				break;
 			}
 			return true;
@@ -276,26 +297,24 @@ public class Cutsceen extends GameObject {
 			return false;
 		}
 	}
-	public void runMoveSlowCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber) {
-		if (event == null) {
-		event = new MoveSlowEvent (objectsToHandle.get(objectNumber).obj, Integer.parseInt(comands.get(commandNumber + 1)), Integer.parseInt(comands.get(commandNumber + 2)), Double.parseDouble(comands.get(commandNumber + 3)), Double.parseDouble(comands.get(commandNumber + 4)), Double.parseDouble(comands.get(commandNumber + 5)), Double.parseDouble(comands.get(commandNumber + 6)), Double.parseDouble(comands.get(commandNumber + 7)));
+	public void runMoveSlowCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
+		if (slowEventNumber == event.size()) {
+		event.add(new MoveSlowEvent (objectsToHandle.get(objectNumber).obj, Integer.parseInt(comands.get(commandNumber + 1)), Integer.parseInt(comands.get(commandNumber + 2)), Double.parseDouble(comands.get(commandNumber + 3)), Double.parseDouble(comands.get(commandNumber + 4)), Double.parseDouble(comands.get(commandNumber + 5)), Double.parseDouble(comands.get(commandNumber + 6)), Double.parseDouble(comands.get(commandNumber + 7))));
 		}
-		if (event.runEvent()) {
+		if (event.get(slowEventNumber).runEvent()) {
 			//checks if it is the end of the chain
 			if (Boolean.parseBoolean(comands.get(commandNumber + 9))){
+				
 				//checks if it is the last event in the chain to conclude
+				
 				if (commandNumber == 0) {
+				
 					chaining = false;
 				} else {
 					//sets the new last event in the chian to the end of the chain if this concludes before anther event
 					comands.set(commandNumber - 1, "true");
 				}
 			}
-			//plays the event chained to this one one last time
-			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber + 9))) {
-				this.play(commandNumber + 10, objectNumber + 1, spriteNumber, cutsceenNumber, eventNumber);
-			}
-			event = null;
 			comands.remove(commandNumber);
 			comands.remove(commandNumber);
 			comands.remove(commandNumber);
@@ -304,9 +323,16 @@ public class Cutsceen extends GameObject {
 			comands.remove(commandNumber);
 			comands.remove(commandNumber);
 			comands.remove(commandNumber);
-			comands.remove(commandNumber);
-			comands.remove(commandNumber);
+			comands.remove(commandNumber);	
+			event.remove(slowEventNumber);
 			objectsToHandle.remove(objectNumber);
+			//plays the event chained to this one one last time
+			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+				comands.remove(commandNumber);
+				this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+			} else {
+				comands.remove(commandNumber);
+			}
 			return;
 		}
 		//starts chaining if this is the start of a chain
@@ -315,16 +341,15 @@ public class Cutsceen extends GameObject {
 		}
 		//plays the next element in the chain if it is chaining
 		if (chaining && !Boolean.parseBoolean(comands.get(commandNumber + 9))) {
-			this.play(commandNumber + 10, objectNumber + 1, spriteNumber, cutsceenNumber, eventNumber);
+			this.play(commandNumber + 10, objectNumber + 1, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber + 1,soundNumber,textNumber);
 		}
 	}
-	public void runSoundCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber) {
-		if (sound == null) {
-			sound = new Playsound ();
+	public void runSoundCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
+		if (soundNumber == sound.size()) {
+			sound.add(new Playsound ());
 			}
 	
-		if (sound.playSound(6F, comands.get(commandNumber + 1))) {
-			sound = null;
+		if (sound.get(soundNumber).playSound(6F, comands.get(commandNumber + 1))) {
 			//checks if it is the end of the chain
 			if (Boolean.parseBoolean(comands.get(commandNumber + 3))){
 				//checks if it is the last event in the chain to conclude
@@ -334,14 +359,16 @@ public class Cutsceen extends GameObject {
 					comands.set(commandNumber - 1, "true");
 				}
 			}
-			//plays the event chained to this one one last time
-			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber + 3))) {
-				this.play(commandNumber + 4, objectNumber, spriteNumber, cutsceenNumber, eventNumber);
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			sound.remove(soundNumber);
+			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+				comands.remove(commandNumber);
+				this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+			} else {
+				comands.remove(commandNumber);
 			}
-			comands.remove(commandNumber);
-			comands.remove(commandNumber);
-			comands.remove(commandNumber);
-			comands.remove(commandNumber);
 			return;
 		}
 		//starts chaining if this is the start of a chain
@@ -350,11 +377,11 @@ public class Cutsceen extends GameObject {
 		}
 		//plays the next element in the chain if it is chaining
 		if (chaining && !Boolean.parseBoolean(comands.get(commandNumber + 3))) {
-			this.play(commandNumber + 4, objectNumber, spriteNumber, cutsceenNumber, eventNumber);
+			this.play(commandNumber + 4, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber + 1,textNumber);
 		}
 		
 	}
-	public void runMusicCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber) {
+	public void runMusicCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
 		//plays the song
 		GameCode.player.play(comands.get(commandNumber + 1), 6F);
 		//checks if it is the end of the chain
@@ -370,20 +397,47 @@ public class Cutsceen extends GameObject {
 			if (Boolean.parseBoolean(comands.get(commandNumber + 2))) {
 				chaining = true;
 			}
-			//plays the next element in the chain if it is chaining
-			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber + 3))) {
-				this.play(commandNumber + 4, objectNumber, spriteNumber, cutsceenNumber, eventNumber);
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+				comands.remove(commandNumber);
+				this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+			} else {
+				comands.remove(commandNumber);
+			}
+	}
+	public void runChangeMapCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
+		//changes the map
+		Room.loadRoom(comands.get(commandNumber + 1));
+		//checks if it is the end of the chain
+			if (Boolean.parseBoolean(comands.get(commandNumber + 3))){
+				//checks if it is the last event in the chain to conclude
+				if (commandNumber == 0) {
+					chaining = false;
+				} else {
+					comands.set(commandNumber - 1, "true");
+				}
+			}
+			//starts chaining if this is the start of a chain
+			if (Boolean.parseBoolean(comands.get(commandNumber + 2))) {
+				chaining = true;
 			} 
 			comands.remove(commandNumber);
 			comands.remove(commandNumber);
 			comands.remove(commandNumber);
-			comands.remove(commandNumber);
-		
-		
-		
+			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+				comands.remove(commandNumber);
+				this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+			} else {
+				comands.remove(commandNumber);
+			}		
 	}
-	public void runTextCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber) {
-		if (MakeText.makeText(comands.get(commandNumber + 1))) {
+	public void runTextCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
+		if (textNumber == text.size()) {
+			text.add(new MakeText ());
+			}
+		if (text.get(textNumber).makeText(comands.get(commandNumber + 1))) {
 			//checks if it is the last event in the chain to conclude
 			if (Boolean.parseBoolean(comands.get(commandNumber + 3))){
 				if (commandNumber == 0) {
@@ -392,14 +446,16 @@ public class Cutsceen extends GameObject {
 					comands.set(commandNumber - 1, "true");
 				}
 			}
-			//plays the event chained to this one one last time
-			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber + 3))) {
-				this.play(commandNumber + 4, objectNumber, spriteNumber, cutsceenNumber, eventNumber);
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			text.remove(textNumber);
+			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+				comands.remove(commandNumber);
+				this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+			} else {
+				comands.remove(commandNumber);
 			}
-			comands.remove(commandNumber);
-			comands.remove(commandNumber);
-			comands.remove(commandNumber);
-			comands.remove(commandNumber);
 			return;
 		}
 			//starts chaining if this is the start of a chain
@@ -408,10 +464,10 @@ public class Cutsceen extends GameObject {
 			}
 			//plays the next element in the chain if it is chaining
 			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber + 3))) {
-				this.play(commandNumber + 4, objectNumber, spriteNumber, cutsceenNumber, eventNumber);
+				this.play(commandNumber + 4, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber + 1);
 			}
 	}
-	public void runCutsceenCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber) {
+	public void runCutsceenCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
 		if (!cutsceensToHandle.get(cutsceenNumber).play()) {
 			//checks if it is the last event in the chain to conclude
 			if (Boolean.parseBoolean(comands.get(commandNumber + 2))){
@@ -421,14 +477,16 @@ public class Cutsceen extends GameObject {
 					comands.set(commandNumber - 1, "true");
 				}
 			}
-			//plays the event chained to this one one last time
-			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber + 2))) {
-				this.play(commandNumber + 3, objectNumber, spriteNumber, cutsceenNumber, eventNumber);
-			}
-			comands.remove(commandNumber);
+			
 			comands.remove(commandNumber);
 			comands.remove(commandNumber);
 			cutsceensToHandle.remove(cutsceenNumber);
+			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+				comands.remove(commandNumber);
+				this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+			} else {
+				comands.remove(commandNumber);
+			}
 			return;
 		}
 		//starts chaining if this is the start of a chain
@@ -437,10 +495,10 @@ public class Cutsceen extends GameObject {
 		}
 		//plays the next element in the chain if it is chaining
 		if (chaining && !Boolean.parseBoolean(comands.get(commandNumber + 2))) {
-			this.play(commandNumber + 3, objectNumber, spriteNumber, cutsceenNumber + 1, eventNumber);
+			this.play(commandNumber + 3, objectNumber, spriteNumber, cutsceenNumber + 1, eventNumber,slowEventNumber,soundNumber,textNumber);
 		}
 	}
-	public void runAniamtionCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber) {
+	public void runAniamtionCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
 		if (!objectsToHandle.get(objectNumber).obj.getSprite().equals(spritesToHandle.get(spriteNumber + 1))) {
 			objectsToHandle.get(objectNumber).obj.setSprite(spritesToHandle.get(spriteNumber + 1));
 		} else {
@@ -454,16 +512,18 @@ public class Cutsceen extends GameObject {
 						comands.set(commandNumber - 1, "true");
 					}
 				}
-				//plays the event chained to this one one last time
-				if (chaining && !Boolean.parseBoolean(comands.get(commandNumber + 2))) {
-					this.play(commandNumber + 3, objectNumber + 1, spriteNumber + 2, cutsceenNumber, eventNumber);
-				}
+				
 				spritesToHandle.remove(spriteNumber);
 				spritesToHandle.remove(spriteNumber);
 				objectsToHandle.remove(objectNumber);
 				comands.remove(commandNumber);
 				comands.remove(commandNumber);
-				comands.remove(commandNumber);
+				if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+					comands.remove(commandNumber);
+					this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+				} else {
+					comands.remove(commandNumber);
+				}
 				return;
 			}
 		}
@@ -473,10 +533,10 @@ public class Cutsceen extends GameObject {
 			}
 			//plays the next element in the chain if it is chaining
 			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber + 2))) {
-				this.play(commandNumber + 3, objectNumber + 1, spriteNumber + 2, cutsceenNumber, eventNumber);
+				this.play(commandNumber + 3, objectNumber + 1, spriteNumber + 2, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
 			}
 	}
-	public void runSpriteCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber) {
+	public void runSpriteCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
 		objectsToHandle.get(objectNumber).obj.setSprite(spritesToHandle.get(spriteNumber));
 		//checks if it is the end of the chain
 		if (Boolean.parseBoolean(comands.get(commandNumber + 2))){
@@ -491,17 +551,18 @@ public class Cutsceen extends GameObject {
 		if (Boolean.parseBoolean(comands.get(commandNumber + 1))) {
 			chaining = true;
 		}
-		//plays the next element in the chain if it is chaining
-		if (chaining && !Boolean.parseBoolean(comands.get(commandNumber + 2))) {
-			this.play(commandNumber + 3, objectNumber + 1, spriteNumber + 1, cutsceenNumber, eventNumber);
-		} 
-		comands.remove(commandNumber);
 		comands.remove(commandNumber);
 		comands.remove(commandNumber);
 		objectsToHandle.remove(objectNumber);
 		spritesToHandle.remove(spriteNumber);
+		if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+			comands.remove(commandNumber);
+			this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+		} else {
+			comands.remove(commandNumber);
+		}
 	}
-	public void runCustomCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber) {
+	public void runCustomCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
 	
 		if (this.customEvents.get(eventNumber).runEvent()) {
 				//checks if it is the last event in the chain to conclude
@@ -512,14 +573,15 @@ public class Cutsceen extends GameObject {
 						comands.set(commandNumber - 1, "true");
 					}
 				}
-				//plays the event chained to this one one last time
-				if (chaining && !Boolean.parseBoolean(comands.get(commandNumber + 2))) {
-					this.play(commandNumber + 3, objectNumber, spriteNumber, cutsceenNumber, eventNumber + 1);
-				}
 			customEvents.remove(eventNumber);
 			comands.remove(commandNumber);
 			comands.remove(commandNumber);
-			comands.remove(commandNumber);
+			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+				comands.remove(commandNumber);
+				this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+			} else {
+				comands.remove(commandNumber);
+			}
 			return;
 		}
 		//starts chaining if this is the start of a chain
@@ -528,7 +590,7 @@ public class Cutsceen extends GameObject {
 				}
 				//plays the next element in the chain if it is chaining
 				if (chaining && !Boolean.parseBoolean(comands.get(commandNumber + 2))) {
-					this.play(commandNumber + 3, objectNumber, spriteNumber, cutsceenNumber, eventNumber + 1);
+					this.play(commandNumber + 3, objectNumber, spriteNumber, cutsceenNumber, eventNumber + 1,slowEventNumber,soundNumber,textNumber);
 				}
 		
 		

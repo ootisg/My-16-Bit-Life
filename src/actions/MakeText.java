@@ -5,8 +5,11 @@ import main.GameCode;
 
 public class MakeText {
 
-	static Textbox box;
-	public static boolean makeText(String text) {
+	Textbox box;
+	public MakeText () {
+		
+	}
+	public boolean makeText(String text) {
 		if (box == null) {
 			box = new Textbox (text);
 			box.changeUnpause();

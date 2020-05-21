@@ -1,10 +1,12 @@
 package theHeist;
 
+import cutsceens.Cutsceen;
 import main.ObjectHandler;
 import resources.Sprite;
 
 public class Worker extends CheckableObject {
 	boolean itemGot = false;
+	Cutsceen posibleScene;
 	public Worker () {
 		this.setHitboxAttributes(0, 32, 16, 16);
 		this.setSprite(new Sprite ("resources/sprites/the-heist/leners.png"));
@@ -31,8 +33,8 @@ public class Worker extends CheckableObject {
 	}
 	@Override
 	public void runOption1 () {
-		this.writeText("OK WELL WE DON'T SUPPORT THAT KIND OF BEHAVIOR YOUR GONNA HAVE TO COME WITH ME");
-		//leads to dungeon
+		ObjectHandler.pause(true);
+		posibleScene = new Cutsceen ("resources/cutsceenConfig/comeWithMe.txt");
 	}
 	@Override
 	public void runOption2 () {
@@ -70,5 +72,10 @@ public class Worker extends CheckableObject {
 			this.writeText("SORRY OUR MANAGER WAS COMPLAINIG ABOUT HOW WE WERE MAKEING TOO MUCH MONEY SO WE LIMITED IT TOO ONE ITEM PER CUSTOMER");
 		}
 	}
-	
+	@Override 
+	public void pausedEvent () {
+		if (posibleScene != null) {
+			posibleScene.play();
+		}
+	}
 }
