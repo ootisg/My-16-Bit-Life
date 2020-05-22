@@ -13,6 +13,11 @@ public class DirectionBullet extends Projectile {
 		this.setY(y);
 		this.setHitboxAttributes(0, 0, 1, 1);
 	}
+	/**
+	 * WARNING CAN CAUSE IMENSE LAG IF OVERUSED use with caution
+	 * @param objectToCheck the object to find the direction to 
+	 * @return the direction required to go towards that object 
+	 */
 	public double findDirection (GameObject objectToCheck) {
 		for (double temporaryDirection = 0; temporaryDirection <= 6.28; temporaryDirection = temporaryDirection + 0.001) {
 			for (int smallDistance = 0; smallDistance <= 500; smallDistance = smallDistance + 1) {
@@ -27,6 +32,11 @@ public class DirectionBullet extends Projectile {
 		}
 		return 420;
 	}
+	/**
+	 * much much much faster but a bit less acurate
+	 * @param objectToCheck the object to find the direction to 
+	 * @return the direction required to go towards that object (give or take a bit)
+	 */
 	public double findDirectionInaccurately (GameObject objectToCheck) {
 		for (double temporaryDirection = 0; temporaryDirection <= 6.28; temporaryDirection = temporaryDirection + 0.01) {
 			for (int smallDistance = 0; smallDistance <= 500; smallDistance = smallDistance + 1) {

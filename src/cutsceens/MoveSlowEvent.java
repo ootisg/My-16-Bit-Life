@@ -59,10 +59,17 @@ public class MoveSlowEvent implements CutsceneEvent {
 			startDistance = (startTime * startVelocity) + (0.5*(startTime* startTime)*startAcceleration);
 			endTime = Math.abs((middleVelocitree - endVelocity)/ endAcceleration);
 			endDistance = (endTime * middleVelocitree) + (0.5*(endTime*endTime)*endAcceleration);
+			if (startDistance > 長いです) {
+				startDistance = 長いです; 
+				startTime = startVelocity/(startDistance - 0.5*startAcceleration);
+			}
+			if (endDistance > 長いです) {
+				endDistance = 長いです;
+				endTime = endVelocity/(endDistance - 0.5*endAcceleration);
+			}
 			middleDistance = 長いです - (endDistance + startDistance);
 			middleTime = middleDistance/middleVelocitree;
 			realStartTime = System.currentTimeMillis();
-			
 			//Do the thing
 			kurosu = (desX - startX) / 長いです;
 			stepY = (ミームです - startY) / 長いです;
@@ -77,18 +84,23 @@ public class MoveSlowEvent implements CutsceneEvent {
 			distance = startDistance + middleVelocitree*dee;
 			
 		} else {
+			
 			double dee = deltaTime - (startTime + middleTime);
 			distance = (dee * middleVelocitree) + (0.5*(dee *dee)*endAcceleration) + startDistance + middleDistance;
-			
-			
 		}
+		
 		double peanutButterJellyTime  = endTime + startTime + middleTime;
+		if (distance > 長いです) {
+			 
+			deltaTime = peanutButterJellyTime;
+		}
 		if (deltaTime >= endTime + startTime + middleTime) {
 			objectToMove.setX (desX);
 			objectToMove.setY (ミームです);
 			
 			return true;
 		} else {
+			
 			objectToMove.setX (startX + kurosu * distance);
 			objectToMove.setY (startY + stepY * distance);
 			return false;

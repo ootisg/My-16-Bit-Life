@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import cutsceens.Cutsceen;
 import cutsceens.MoveSlowEvent;
 import enemys.BuggyBoi;
+import enemys.Candle;
 import enemys.CannonTankEnemy;
 import enemys.Celing_boi;
 import enemys.ClostridiumBowtielinea;
@@ -15,6 +16,7 @@ import enemys.CyclopesCrab;
 import enemys.DiscoBall;
 import enemys.DuoflyMinus;
 import enemys.DuoflyPlus;
+import enemys.FallingChandleer;
 import enemys.FireHydrant;
 import enemys.FireRextinguser;
 import enemys.ImpatientCar;
@@ -23,6 +25,7 @@ import enemys.MafiaShooter;
 import enemys.Marshan;
 import enemys.MissleadingStop;
 import enemys.Puncuation;
+import enemys.SplitSlimelet;
 import enemys.SplittingSlimelet;
 import enemys.TomatoFunction;
 import enemys.UFO;
@@ -137,9 +140,12 @@ public class GameCode {
 	static MafiaShooter shooter;
 	static MoveSlowEvent slow;
 	static Marshan marsh;
+	static FallingChandleer fall;
 	static Worker work;
+	static Candle candle;
 	static AnimeTester bleh;
 	static UFO ufo;
+	static SplitSlimelet split;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
@@ -194,6 +200,7 @@ public class GameCode {
 		testJeffrey.getInventory().addKill(extinguser);
 		testTie = new ClostridiumBowtielinea();
 		car = new ImpatientCar();
+		fall = new FallingChandleer ();
 		laser = new LazerHoverEnemy ();
 		testJeffrey.getInventory().addWeapon(gun, 0);
 		testJeffrey.getInventory().addWeapon(triangle, 0);
@@ -210,6 +217,7 @@ public class GameCode {
 		newFly = new CreepyButterfly();
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall(1);
+		candle = new Candle ();
 		paint = new BluePaint (1);
 		while (x <= 40) {
 		testJeffrey.inventory.addAmmo(paintball);
@@ -227,11 +235,12 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/semisolidTest5.rmf");
+		Room.loadRoom ("resources/maps/spiderTest.rmf");
 		//bleh = new AnimeTester ();
 		//bleh.declare (0, 0);
 		gui = new Gui ();
 		ufo = new UFO();
+		split = new SplitSlimelet ();
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
@@ -263,7 +272,7 @@ public class GameCode {
 		//car.declare(300,340);
 		//spawner.declare (300,320);
 		//testCrab.declare (20,300);
-		//shooter.declare(250,375);
+		//shooter.declare(250,300);
 		/*point = new Point (418,343);
 		point.declare(384,483);
 		Point testPoint = new Point (400,180);
@@ -272,8 +281,8 @@ public class GameCode {
 		//function.declare(120, 300);
 		//marsh.declare(200,320);
 		//ufo.declare(200,120);
-	
-	
+		//candle.declare(200,200);
+		fall.declare(300, 200);
 	}
 	
 	public static void beforeGameLogic () {

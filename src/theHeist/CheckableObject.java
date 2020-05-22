@@ -29,6 +29,13 @@ public class CheckableObject extends GameObject{
 	public void makeOptions (String [] options) {
 		t = new ListTbox ( 50, 400, options);
 	}
+	/**
+	 * makes the game play an ending and then reset
+	 * @param endingName the filepath to the cutscene with the ending
+	 */
+	public void leadToEnding (String endingPath ) {
+		
+	}
 	@Override 
 	//overriding this in child classes could cause problems for options
 	public void frameEvent () {

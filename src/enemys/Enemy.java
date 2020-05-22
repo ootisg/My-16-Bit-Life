@@ -64,6 +64,7 @@ public abstract class Enemy extends GameObject {
 	boolean adjustedSpeed;
 	boolean jumpDone;
 	boolean patrolBothWays;
+	double jumpMultiplyer;
 	boolean moveing;
 	int countdown;
 	boolean lockedRight;
@@ -71,6 +72,7 @@ public abstract class Enemy extends GameObject {
 	int waitForCollison;
 	private Stack <Point> path;
 	boolean chargeing;
+	int setmomentum= 420;
 	public Enemy () {
 		enemyList.add(this);
 		path = new Stack <Point>();
@@ -85,6 +87,7 @@ public abstract class Enemy extends GameObject {
 		leadingEnemyXPrevios = 0;
 		slope = 0;
 		circles = 0;
+		jumpMultiplyer = 1; 
 		nextPoint = new Point();
 		adjustedSpeed = false;
 		chargeTimer =0;
@@ -145,6 +148,7 @@ public abstract class Enemy extends GameObject {
 		boolean colidingSide;
 		colidingSide = false;
 		if (falls) {
+		
 			if (!(Room.isColliding(this))){
 				this.setX(getX() - 1);
 				if (Room.isColliding(this)){
@@ -169,7 +173,7 @@ public abstract class Enemy extends GameObject {
 		}
 
 		if (!onFloor && falls) {
-			
+			if (this.setmomentum == 420) {
 		momentum = momentum + 1;
 		if (momentum < 6){
 			this.setY(getY() + 1);
@@ -191,6 +195,9 @@ public abstract class Enemy extends GameObject {
 			this.setY(getY() + 5);
 			currentSpeed = 5;
 		}	
+	} else {
+		this.setY(this.getY() + setmomentum );
+	}
 	}
 		if (onFloor && momentum >= 1){
 			momentum = 0;
@@ -202,6 +209,14 @@ public abstract class Enemy extends GameObject {
 	}
 	public void enemyFrame () {
 		
+	}
+	/**
+	 * allows you to set the moment of the falling to a consont
+	 * @parm momentumConstant the new momenutm
+	 * (i suspect it may cause a bug with enemys being stuck in the floor but it has not happened yet)
+	 */
+	public void setMomentum (int momentumConstant ) {
+		setmomentum = momentumConstant;
 	}
 	//sets wheater the enemy falls or not
 	public void setFalls (boolean doesFall) {
@@ -464,10 +479,67 @@ if (chargeTimer == timeToCharge) {
 		}
 		
 	}
-
-	
-	//makes the enemy jump towards the player (based on the assumption that your enemy falls)
+	/**
+	 * allows you to change how long a jump goes on for
+	 * @param newMultiplier the new multiplyer for the jump time
+	 */
+	public void changeJumpTiemMultiplyer (double newMultiplier) {
+		jumpMultiplyer = newMultiplier;
+	}
+	//makes the enemy jump r (based on the assumption that your enemy falls)
 	public void jump (int horizontalBaseSpeed, int verticalBaseSpeed) {
+		timer = timer + 1;
+		if (lockedRight) {
+			if (timer <= 6 *jumpMultiplyer) {
+			this.goY(this.getY() - (verticalBaseSpeed/jumpMultiplyer));
+			this.goX(this.getX() + (horizontalBaseSpeed/jumpMultiplyer));
+			}
+			if (timer > 6*jumpMultiplyer && timer <=11*jumpMultiplyer) {
+				this.goY(this.getY() - ((verticalBaseSpeed/jumpMultiplyer) * 1.1));
+				this.goX(this.getX() +((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
+			}
+			if (timer > 11*jumpMultiplyer && timer <= 16*jumpMultiplyer) {
+				
+				this.goY(this.getY() - ((verticalBaseSpeed/jumpMultiplyer) * 1.1));
+				this.goX(this.getX() + ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
+				}
+			if (timer > 16*jumpMultiplyer && timer <= 32*jumpMultiplyer) {
+					this.goX(this.getX() + ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
+			}
+			if (timer > 32*jumpMultiplyer) {
+				timer = 0;
+				jumpDone = true;
+			}
+	}
+		if (!lockedRight) {
+		
+			if (timer <= 6*jumpMultiplyer) {
+				
+				this.goY(this.getY() - (verticalBaseSpeed/jumpMultiplyer));
+				this.goX(this.getX() - (horizontalBaseSpeed/jumpMultiplyer));
+			}
+			if (timer > 6*jumpMultiplyer && timer <=11*jumpMultiplyer) {
+				this.goY(this.getY() - ((verticalBaseSpeed/jumpMultiplyer) * 1.1));
+				this.goX(this.getX() - ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
+			}
+			if (timer > 11*jumpMultiplyer && timer <= 16*jumpMultiplyer) {
+				
+				this.goY(this.getY() - ((verticalBaseSpeed/jumpMultiplyer) * 1.1));
+				this.goX(this.getX() - ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
+				}
+			if (timer > 16*jumpMultiplyer && timer <= 32*jumpMultiplyer) {
+				this.goX(this.getX() - ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
+				}
+			if (timer > 32*jumpMultiplyer) {
+				timer = 0;
+				jumpDone = true;
+			}
+		}
+	}
+	/**
+	 * an arcaic jumping method kept for the use of the jumpyboi behavior not recomened for regular use (use jump instead)
+	 */
+	public void jumpOld (int horizontalBaseSpeed, int verticalBaseSpeed) {
 		timer = timer + 1;
 		if (lockedRight) {
 			if (timer <= 6) {
@@ -671,9 +743,9 @@ if (chargeTimer == timeToCharge) {
 			}
 			
 		}
-		this.setY(this.getY() -1);
+		this.setY(this.getY() - 1);
 		if (jumping) {
-			this.jump(horizontalSpeed, verticalSpeed);
+			this.jumpOld(horizontalSpeed, verticalSpeed);
 		}
 		if (jumping && this.isJumpDone()) {
 			countdown = waitTime;

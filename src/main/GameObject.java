@@ -512,7 +512,45 @@ public abstract class GameObject extends GameAPI {
 			return true;
 		}
 	}
-	
+	/**
+	 * returns true if you could go to that x posision without being in a wall
+	 * @param val the x posion to test
+	 * @return true if that ya dummy
+	 */
+	public boolean checkX(double val) {
+		xprevious = x;
+		spriteX =  (spriteX + (val - x));
+		x = val;
+		if (Room.isColliding(this)) {
+			x = xprevious;
+			spriteX = (spriteX - (val- x));
+			return false;
+		} else {
+			x = xprevious;
+			spriteX = (spriteX - (val- x));
+			return true;
+		}
+	}
+
+	/**
+	 * returns true if you could go to that y posision without being in a wall
+	 * @param val the y posion to test
+	 * @return true if that ya dummy
+	 */
+	public boolean checkY(double val) {
+		yprevious = y;
+		spriteY =  (spriteY + (val - y));
+		y = val;
+		if (Room.isColliding(this)) {
+			y = yprevious;
+			spriteY = (spriteY - (val - y));
+			return false;
+		} else {
+			y = yprevious;
+			spriteY = (spriteY - (val - y));
+			return true;
+		}
+	}
 	/**
 	 * Updates the y component of this GameObject's position.
 	 * @param val The new value to use

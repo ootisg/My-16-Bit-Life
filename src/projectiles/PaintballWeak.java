@@ -7,13 +7,13 @@ import main.ObjectHandler;
 import map.Room;
 import resources.Sprite;
 
-public class Paintball_Weak extends Projectile {
+public class PaintballWeak extends Projectile {
 	
 	public static final Sprite paintball = new Sprite ("resources/sprites/redblack_ball_weak.png");
 	
 	//This class is not yet commented
 	Random RNG;
-	public Paintball_Weak () {
+	public PaintballWeak () {
 		this.setSprite (paintball);
 		this.setSpeed (15);
 		RNG = new Random ();

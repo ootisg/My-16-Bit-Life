@@ -9,7 +9,7 @@ import map.Room;
 import players.Jeffrey;
 import projectiles.Fist;
 import projectiles.Paintball;
-import projectiles.Paintball_Weak;
+import projectiles.PaintballWeak;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
 
@@ -115,8 +115,8 @@ public class redBlackPaintBallGun extends AimableWeapon {
 			this.shoot (new Paintball ());
 			jeffrey.inventory.removeItem(testball);
 			if (upgradeInfo [2] >= 1) {
-			this.shoot(new Paintball_Weak(), this.rotation + (3.14/32));
-			this.shoot(new Paintball_Weak(), this.rotation - (3.14/32));
+			this.shoot(new PaintballWeak(), this.rotation + (3.14/32));
+			this.shoot(new PaintballWeak(), this.rotation - (3.14/32));
 			}
 			} else {
 			this.shoot(new Fist ());

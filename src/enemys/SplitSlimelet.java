@@ -13,6 +13,7 @@ public class SplitSlimelet extends Enemy {
 		attackingSprite = new Sprite ("resources/sprites/config/Split_Slimelet_Jumping.txt");
 		this.setSprite(idleSprite);
 		this.setHitboxAttributes(0, 0, 44, 48);
+		this.adjustHitboxBorders();
 		this.getAnimationHandler().setFrameTime(100);
 	}
 	@Override 

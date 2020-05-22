@@ -16,6 +16,7 @@ public class MafiaShooter extends Enemy {
 	public MafiaShooter () {
 		this.setFalls(true);
 		timer = 0;
+		this.changeJumpTiemMultiplyer(0.5);
 		this.setSprite(shooter);
 		this.setHealth(150);
 		this.setHitboxAttributes(0, 0, 16, 32);
@@ -30,6 +31,7 @@ public class MafiaShooter extends Enemy {
 	}
 	@Override 
 	public void enemyFrame () {
+
 		if (!this.getSprite().equals(mafiaShooterAttack)) {
 		this.patrol(0, 0, 75, 0, 75, mafiaShooterAttack, shooter, 2, 0,0, 0, 16, 32);
 		} else {
@@ -46,8 +48,9 @@ public class MafiaShooter extends Enemy {
 					bullet.declare(this.getX(),this.getY() + 10);	
 				}
 			}
+			
 			if (!this.jumpDone) {
-			this.jump(0, 7);
+			this.jump(0, 5);
 			} else {
 			this.setY(this.getY()  + 1);
 			if (Room.isColliding(this)) {
