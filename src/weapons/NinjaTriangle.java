@@ -5,12 +5,15 @@ package weapons;
 
 import java.util.Arrays;
 
+import main.ObjectHandler;
+import players.Jeffrey;
 import projectiles.Triangle;
 import resources.Sprite;
 
 public class NinjaTriangle extends AimableWeapon{
 	public int [] upgradeInfo;
 	public static boolean inHand = true;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").getFirst();
 	public NinjaTriangle(Sprite sprite) {
 		super(sprite);
 		upgradeInfo = new int [4];
@@ -47,7 +50,7 @@ public class NinjaTriangle extends AimableWeapon{
 		if (!NinjaTriangle.inHand) {
 			this.getAnimationHandler().hide();
 		}
-		if (NinjaTriangle.inHand && mouseButtonPressed (0)) {
+		if (NinjaTriangle.inHand && mouseButtonPressed (0) && !j.isCrouched()) {
 			NinjaTriangle.inHand = false;
 			Triangle projectileForme;
 			if (this.getAnimationHandler().flipHorizontal()) {

@@ -78,19 +78,19 @@ public class redBlackPaintBallGun extends AimableWeapon {
 	@Override
 	public void frameEvent () {
 		if (firstRun) {
-			AfterRenderDrawer.drawAfterRender(260, 0, paintballiconSprite, 0, true);
+			AfterRenderDrawer.drawAfterRender(350, 0, paintballiconSprite, 0, true);
 			firstRun = false;
 		}
 		if (upgradeInfo [3] >= 1 && mouseButtonPressed (2)) {
 			if (!fists) {
 			fists = true;
-			AfterRenderDrawer.removeElement(paintballiconSprite, 260, 0);
-			AfterRenderDrawer.drawAfterRender(260, 0, fisticonSprite, 0, true);
+			AfterRenderDrawer.removeElement(paintballiconSprite, 350, 0);
+			AfterRenderDrawer.drawAfterRender(350, 0, fisticonSprite, 0, true);
 			box = new Tbox (this.getX() - Room.getViewX() ,this.getY(), 20, 2, "SHOOT THOSE FISTS BRO", false);
 			} else {
 			fists = false;
-			AfterRenderDrawer.removeElement(fisticonSprite, 260, 0);
-			AfterRenderDrawer.drawAfterRender(260, 0, paintballiconSprite, 0, true);
+			AfterRenderDrawer.removeElement(fisticonSprite, 350, 0);
+			AfterRenderDrawer.drawAfterRender(350, 0, paintballiconSprite, 0, true);
 			box = new Tbox (this.getX() - Room.getViewX(),this.getY(), 20, 2, "STOP DEM FISTS", false);
 			}
 			
@@ -101,15 +101,15 @@ public class redBlackPaintBallGun extends AimableWeapon {
 		if (!itsOver) {
 		ammoAmount.setContent(Integer.toString(jeffrey.getInventory().checkItemAmount(paint)));
 		} else {
-		AfterRenderDrawer.removeElement(paintballiconSprite, 260, 0);
-		AfterRenderDrawer.removeElement(fisticonSprite, 260, 0);
+		AfterRenderDrawer.removeElement(paintballiconSprite, 350, 0);
+		AfterRenderDrawer.removeElement(fisticonSprite, 350, 0);
 		ammoAmount.setContent("");
 		itsOver = false;
 		}
 		if (this.cooldown > 0) {
 			this.cooldown --;
 		}
-		if (mouseButtonClicked (0) && cooldown == 0 ) {
+		if (mouseButtonClicked (0) && cooldown == 0 && !jeffrey.isCrouched()) {
 			if ((jeffrey.inventory.checkAmmo(testball) && !fists) || jeffrey.inventory.checkAmmo(testball)&& (jeffrey.inventory.checkAmmo(paint) && fists)) {
 			if (!this.fists) {
 			this.shoot (new Paintball ());

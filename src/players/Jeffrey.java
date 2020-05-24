@@ -52,6 +52,7 @@ public class Jeffrey extends GameObject {
 	public boolean standingOnPlatform;
 	public boolean binded;
 	private int index;
+	private boolean crouching = false;
 	private boolean newWeapon;
 	public boolean canSwitch;
 	public int witchCharictar;
@@ -71,6 +72,9 @@ public class Jeffrey extends GameObject {
 	public Sprite ryanMicrophoneIdle;
 	public Sprite ryanMicrophoneWalking;
 	private Tbox weaponBox;
+	private Sprite jeffreyCrouching;
+	private Sprite samCrouching;
+	private Sprite ryanCrouching;
 	private boolean activeBox;
 	boolean messWithFrameTime;
 	private int boxTimer;
@@ -95,6 +99,9 @@ public class Jeffrey extends GameObject {
 		jeffreyIdle = new Sprite("resources/sprites/config/jeffrey_idle.txt");
 		jeffreyWalking = new Sprite ("resources/sprites/config/jeffrey_walking.txt");
 		samWalking = new Sprite ("resources/sprites/config/sam_walking.txt");
+		jeffreyCrouching = new Sprite ("resources/sprites/config/crouching_Jeffrey.txt");
+		samCrouching = new Sprite ("resources/sprites/config/crouching_Sam.txt");
+		ryanCrouching = new Sprite ("resources/sprites/config/crouching_Ryan.txt");
 		inventory = new Inventory();
 		standingOnPlatform = false;
 		this.standSprite = new Sprite("resources/sprites/config/jeffrey_idle.txt");
@@ -132,6 +139,9 @@ public class Jeffrey extends GameObject {
 	public void changeFrameTime (boolean toChangeOrNotToChange) {
 		messWithFrameTime = toChangeOrNotToChange;
 	}
+	public boolean isCrouched () {
+		return crouching;
+	}
 public Item getWeapon () {
 	if (newWeapon) {
 		wpn =  inventory.findWeaponAtIndex(index, witchCharictar);
@@ -148,6 +158,48 @@ if (activeBox) {
 	}
 	@Override
 	public void frameEvent () {
+		if (keyDown ('S')) {
+			crouching = true;
+			this.changeSprite(false);
+			if (!(this.getSprite().equals(jeffreyCrouching) || this.getSprite().equals(samCrouching) || this.getSprite().equals(ryanCrouching))) {
+				switch (witchCharictar){
+				case 0:
+					this.setSprite(jeffreyCrouching);
+					break;
+				case 1:
+					this.setSprite(samCrouching);
+					break;
+				case 2:
+					this.setSprite(ryanCrouching);
+					break;
+				}
+				this.getAnimationHandler().setRepeat(false);
+				
+			}
+			if (this.getAnimationHandler().getFrame() == 2) {
+				this.setHitboxAttributes(0, 15, 16, 17);
+				this.getWeapon().setY(this.getWeapon().getY() + 16);
+			}
+		} else {
+			if ((this.getSprite().equals(jeffreyCrouching) || this.getSprite().equals(samCrouching) || this.getSprite().equals(ryanCrouching))) {
+				switch (witchCharictar){
+				case 0:
+					this.setSprite(jeffreyWalking);
+					break;
+				case 1:
+					this.setSprite(samWalking);
+					break;
+				case 2:
+					this.setSprite(ryanWalking);
+					break;
+				}
+			this.changeSprite = true;
+			this.getWeapon().setY(this.getWeapon().getY() - 16);
+			crouching = false;
+			this.getAnimationHandler().setRepeat(true);
+			this.setHitboxAttributes(4, 4, 7, 27);
+			}
+		}
 		if (activeBox) {
 		weaponBox.setX(this.getX() - Room.getViewX());
 		weaponBox.setY(this.getY() - 10);
@@ -178,9 +230,15 @@ if (activeBox) {
 					newWeapon = true;
 					if (samHealth >= 0) {
 					witchCharictar = 1;
+					if (isCrouched()) {
+						this.setSprite(samCrouching);
+					}
 					switchTimer = 0;
 					} else {
 					witchCharictar = 2;
+					if (isCrouched()) {
+						this.setSprite(ryanCrouching);
+					}
 					switchTimer = 0;
 					}
 				}
@@ -198,9 +256,15 @@ if (activeBox) {
 					newWeapon = true;
 					if (ryanHealth >= 0) {
 					witchCharictar = 2;
+					if (isCrouched()) {
+						this.setSprite(ryanCrouching);
+					}
 					switchTimer = 0;
 					} else {
 					witchCharictar = 0;
+					if (isCrouched()) {
+						this.setSprite(jeffreyCrouching);
+					}
 					switchTimer = 0;
 					}
 				}
@@ -217,9 +281,15 @@ if (activeBox) {
 					newWeapon = true;
 					if (jeffreyHealth >= 0) {
 					witchCharictar = 0;
+					if (isCrouched()) {
+						this.setSprite(jeffreyCrouching);
+					}
 					switchTimer = 0;
 					} else {
 					witchCharictar = 1;
+					if (isCrouched()) {
+						this.setSprite(samCrouching);
+					}
 					switchTimer = 0;
 					}
 				}
@@ -242,25 +312,30 @@ if (activeBox) {
 			}
 			if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone")) {
 				standSprite = ryanMicrophoneIdle;
+				if (!crouching) {
 				this.getWeapon().frameEvent();
 				walkSprite = ryanMicrophoneWalking;
 				if (isWalking && !this.getSprite().equals(walkSprite) && changeSprite) {
 					this.setSprite(walkSprite);
 				}
 				}
+				}
 		}
 		if (witchCharictar == 1 && (!this.getSprite().equals(samIdle) || !this.getSprite().equals(samWalking))) {
 			standSprite = samIdle;
 			walkSprite = samWalking;
+			if (!crouching) {
 			if (isWalking && !this.getSprite().equals(walkSprite) && !this.getWeapon().getClass().getSimpleName().equals("SlimeSword")) {
 				this.setSprite(walkSprite);
 			}
 			if (this.getWeapon().getClass().getSimpleName().equals("SlimeSword")) {
 			standSprite = samSword;
+			
 			this.getWeapon().frameEvent();
 			walkSprite = samWalkingSword;
 			if (isWalking && !this.getSprite().equals(walkSprite) && changeSprite) {
 				this.setSprite(walkSprite);
+			}
 			}
 			}
 		}
@@ -448,11 +523,19 @@ if (activeBox) {
 		}
 		if (this.getAnimationHandler().flipHorizontal ()) {
 			this.getWeapon().setX (this.getX () - 5);
+			if (!this.isCrouched()) {
 			this.getWeapon().setY (this.getY () + 16);
+			} else {
+				this.getWeapon().setY (this.getY () + 30);	
+			}
 			this.getWeapon().getAnimationHandler().setFlipHorizontal (true);
 		} else {
 			this.getWeapon().setX (this.getX () + 11);
-			this.getWeapon().setY (this.getY () + 16);
+			if (!this.isCrouched()) {
+				this.getWeapon().setY (this.getY () + 16);
+				} else {
+					this.getWeapon().setY (this.getY () + 30);	
+				}
 			this.getWeapon().getAnimationHandler().setFlipHorizontal (false);
 		}
 		try {

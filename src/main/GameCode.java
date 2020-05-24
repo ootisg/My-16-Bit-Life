@@ -30,6 +30,7 @@ import enemys.SplittingSlimelet;
 import enemys.TomatoFunction;
 import enemys.UFO;
 import gameObjects.AnimeTester;
+import gameObjects.BreakableObject;
 import gameObjects.CarSpawner;
 import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
@@ -141,9 +142,11 @@ public class GameCode {
 	static MoveSlowEvent slow;
 	static Marshan marsh;
 	static FallingChandleer fall;
+	static BreakableObject test;
 	static Worker work;
 	static Candle candle;
 	static AnimeTester bleh;
+	static Cutsceen testSceen;
 	static UFO ufo;
 	static SplitSlimelet split;
 	static String jsonTest = ""
@@ -176,6 +179,7 @@ public class GameCode {
 		key = new FairUseKey(1);
 		guy = new PointGuy();
 		work = new Worker ();
+		test = new BreakableObject ();
 		packet = new LemonPacket(1);
 		testJeffrey.getInventory().addFreind(lameJeffrey);
 		testJeffrey.getInventory().addFreind(lameSam);
@@ -217,6 +221,7 @@ public class GameCode {
 		newFly = new CreepyButterfly();
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall(1);
+		testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
 		candle = new Candle ();
 		paint = new BluePaint (1);
 		while (x <= 40) {
@@ -282,7 +287,9 @@ public class GameCode {
 		//marsh.declare(200,320);
 		//ufo.declare(200,120);
 		//candle.declare(200,200);
-		fall.declare(300, 200);
+		//fall.declare(300, 200);
+		//test.declare(300,300);
+		//test.Break(new Sprite [] {new Sprite ("resources/sprites/shard.png")}, 7, 1, 2, 0,3.14);
 	}
 	
 	public static void beforeGameLogic () {
@@ -290,6 +297,7 @@ public class GameCode {
 	}
 	
 	public static void afterGameLogic () {
+		testSceen.play();
 	}
 	
 	public static void beforeRender () {

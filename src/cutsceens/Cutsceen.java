@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import actions.MakeText;
 import actions.Playsound;
+import gameObjects.BreakableObject;
 import json.JSONArray;
 import json.JSONException;
 import json.JSONObject;
@@ -141,6 +142,39 @@ public class Cutsceen extends GameObject {
 				//do the thing
 				changeSprite (wSprite,wObject,startChain,endChain);
 				break;
+			case "break":
+				//get filepath and craft sprite
+				ArrayList <Object> spritePaths = event.getJSONArray("paths").getContents();
+				ArrayList <Sprite> workingBEEEE = new ArrayList <Sprite>();
+				int amountOfShards = event.getInt("shardNum");
+				double minSpeed = 1;
+				double maxSpeed = 3;
+				double minDirection = 0;
+				double maxDirection = 3.14;
+				if (event.get("minSpeed") != null) {
+					minSpeed = event.getDouble("minSpeed");
+				}
+				if (event.get("maxSpeed") != null) {
+					maxSpeed = event.getDouble("maxSpeed");
+				}
+				if (event.get("minDirection") != null) {
+					minDirection = event.getDouble("minDirection");
+				}
+				if (event.get("maxDirecion") != null) {
+					maxDirection = event.getDouble("maxDirection");
+				}
+				for (int b = 0; b < spritePaths.size(); b++) {
+					JSONObject workingThePrequil = (JSONObject) (spritePaths.get(b));
+					String working = workingThePrequil.getString("path");
+					workingBEEEE.add(new Sprite ("resources/sprites/" + working + ".png"));
+				}
+				
+				
+				// get gameObject
+				BreakableObject BEEEObject = (BreakableObject) searchByName (event.getString("name")).obj;
+				//do the thing
+				breakObject (workingBEEEE,BEEEObject,amountOfShards,minSpeed,maxSpeed,minDirection,maxDirection,startChain,endChain);
+				break;
 			case "custom":
 				//yeet yeet
 				customCode(CutsceneEvent.makeCutsceneEvent(event),startChain,endChain);
@@ -181,6 +215,31 @@ public class Cutsceen extends GameObject {
 		comands.add(soundPath);
 		comands.add(Boolean.toString(startChain));
 		comands.add(Boolean.toString(endChain));
+	}
+	/**
+	 * breaks an object into shards (only works if you object extends breakable object)
+	 * @param posibleShards the sprites that the shards can be
+	 * @param objectToBreak the object to break
+	 * @param amountOfShards the amount of shards the object breaks into
+	 * @param minSpeed the mininum speed of the shards
+	 * @param maxSpeed the maximum speed of the shards
+	 * @param minDirection the minimum direction of the object (in radians)
+	 * @param maxDirection the maximum direction of the object (in radians)
+	 */
+	public void breakObject (ArrayList <Sprite> posibleShards,BreakableObject objectToBreak, int amountOfShards,double minSpeed, double maxSpeed, double minDirection, double maxDirection,boolean startChain,boolean endChain) {
+		comands.add("break");
+		comands.add(Integer.toString(amountOfShards));
+		comands.add(Double.toString(minSpeed));
+		comands.add(Double.toString(maxSpeed));
+		comands.add(Double.toString(minDirection));
+		comands.add(Double.toString(maxDirection));
+		for (int i  = 0; i < posibleShards.size(); i++) {
+		spritesToHandle.add(posibleShards.get(i));
+		}
+		objectsToHandle.add(searchByGameObject (objectToBreak));
+		comands.add(Boolean.toString(startChain));
+		comands.add(Boolean.toString(endChain));
+		spritesToHandle.add(null);
 	}
 	/**
 	 * changes the map
@@ -290,6 +349,9 @@ public class Cutsceen extends GameObject {
 				break;
 			case "changeMap":
 				this.runChangeMapCode (commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+				break;
+			case "break":
+				this.runBreakCode (commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
 				break;
 			}
 			return true;
@@ -555,6 +617,54 @@ public class Cutsceen extends GameObject {
 		comands.remove(commandNumber);
 		objectsToHandle.remove(objectNumber);
 		spritesToHandle.remove(spriteNumber);
+		if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+			comands.remove(commandNumber);
+			this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+		} else {
+			comands.remove(commandNumber);
+		}
+	}
+
+	public void runBreakCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
+		
+		objectsToHandle.get(objectNumber).obj.setSprite(spritesToHandle.get(spriteNumber));
+		BreakableObject working = (BreakableObject)objectsToHandle.get(objectNumber).obj;
+		int workingIndex = spriteNumber;
+		while (true) {
+			if (this.spritesToHandle.get(workingIndex) == null) {
+				break;
+			}
+			workingIndex = workingIndex + 1;
+		}
+		Sprite [] usableArray = new Sprite [workingIndex - spriteNumber];
+		for (int i = 0; i < usableArray.length; i++) {
+			usableArray[i] = spritesToHandle.get(spriteNumber + i);
+		}
+		working.Break(usableArray, Integer.parseInt(comands.get(commandNumber + 1)), Double.parseDouble(comands.get(commandNumber + 2)), Double.parseDouble(comands.get(commandNumber + 3)), Double.parseDouble(comands.get(commandNumber + 4)), Double.parseDouble(comands.get(commandNumber + 5)));
+		//checks if it is the end of the chain
+		if (Boolean.parseBoolean(comands.get(commandNumber + 7))){
+			//checks if it is the last event in the chain to conclude
+			if (commandNumber == 0) {
+				chaining = false;
+			} else {
+				comands.set(commandNumber - 1, "true");
+			}
+		}
+		//starts chaining if this is the start of a chain
+		if (Boolean.parseBoolean(comands.get(commandNumber + 6))) {
+			chaining = true;
+		}
+		comands.remove(commandNumber);
+		comands.remove(commandNumber);
+		comands.remove(commandNumber);
+		comands.remove(commandNumber);
+		comands.remove(commandNumber);
+		comands.remove(commandNumber);
+		comands.remove(commandNumber);
+		objectsToHandle.remove(objectNumber);
+		for (int i = 0; i < workingIndex - spriteNumber; i++) {
+		spritesToHandle.remove(spriteNumber);
+		}
 		if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
 			comands.remove(commandNumber);
 			this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);

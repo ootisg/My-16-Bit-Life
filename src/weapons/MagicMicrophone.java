@@ -59,7 +59,7 @@ public class MagicMicrophone extends Item {
 			box = new ListTbox (this.getX() - Room.getViewX(),this.getY() + Room.getViewY(),new String [] {"JEFFREY","SAM","RYAN"});
 			ObjectHandler.pause(true);
 		}
-		if (this.mouseButtonDown(0) && !GameCode.testJeffrey.getSprite().equals(GameCode.testJeffrey.ryanWhipping)) {
+		if (this.mouseButtonDown(0) && !GameCode.testJeffrey.getSprite().equals(GameCode.testJeffrey.ryanWhipping) && !player.isCrouched()) {
 			GameCode.testJeffrey.getAnimationHandler().setRepeat(false);
 			GameCode.testJeffrey.setSprite(GameCode.testJeffrey.ryanWhipping);
 			GameCode.testJeffrey.getAnimationHandler().setFrameTime(10);

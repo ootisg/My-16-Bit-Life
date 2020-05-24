@@ -129,7 +129,7 @@ public class SlimeSword extends Item {
 					player.vx = 0;
 					player.setX(desX);
 				}
-				if (!mouseButtonDown(2)) {
+				if (!mouseButtonDown(2) && !player.isCrouched()) {
 					Point currentPoint = new Point (this.getX(),this.getY());
 					Point mousePoint = new Point (desX,desY);
 					slope =currentPoint.getSlope(mousePoint);
@@ -200,7 +200,7 @@ public class SlimeSword extends Item {
 			x = x - Room.getViewX();
 			desX = desX - Room.getViewX();
 		} 
-		if ((this.keyPressed(32)|| this.mouseButtonPressed(0)) && extended) {
+		if (((this.keyPressed(32)|| this.mouseButtonPressed(0)) && extended) && !player.isCrouched()) {
 			extended = false;
 			player.stopFall(false);
 			player.vy = 0;
@@ -209,7 +209,7 @@ public class SlimeSword extends Item {
 		if (broke && !mouseButtonDown (2)) {
 			broke = false;
 		}
-		if (this.mouseButtonDown(0) && !GameCode.testJeffrey.getSprite().equals(samSwingSprite) && !extended ) {
+		if (this.mouseButtonDown(0) && !GameCode.testJeffrey.getSprite().equals(samSwingSprite) && !extended && !player.isCrouched() ) {
 			GameCode.testJeffrey.setSprite(samSwingSprite);
 			GameCode.testJeffrey.getAnimationHandler().setFrameTime(50);
 			GameCode.testJeffrey.getAnimationHandler().setRepeat(false);

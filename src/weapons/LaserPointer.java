@@ -5,8 +5,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import enemys.Enemy;
+import main.ObjectHandler;
 import main.RenderLoop;
 import map.Room;
+import players.Jeffrey;
 import resources.Sprite;
 
 public class LaserPointer extends AimableWeapon {
@@ -14,6 +16,7 @@ public class LaserPointer extends AimableWeapon {
 	double x;
 	double y;
 	double realX;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	double realY;
 	double newX;
 	double newY;
@@ -54,7 +57,7 @@ public class LaserPointer extends AimableWeapon {
 	}
 	@Override 
 	public void frameEvent () {
-		if (mouseButtonDown(0)) {
+		if (mouseButtonDown(0) && !j.isCrouched()) {
 			x = this.getX();
 			y = this.getY();
 			int count = 0;

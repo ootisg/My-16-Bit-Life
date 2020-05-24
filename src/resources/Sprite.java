@@ -179,7 +179,20 @@ public class Sprite {
 	public int getFrameCount () {
 		return images.length;
 	}
-	
+	/**
+	 * returns the width of the sprite
+	 * @return the width of the sprite
+	 */
+	public int getWidth() {
+		return images[0].getWidth();
+	}
+	/**
+	 * returns the height of the sprite
+	 * @return the height of the sprite
+	 */
+	public int getHeight() {
+		return images[0].getHeight();
+	}
 	/**
 	 * Constructs a sprite with the given image. Does not support caching.
 	 * @param image The image to use
@@ -208,7 +221,19 @@ public class Sprite {
 			RenderLoop.window.getBufferGraphics ().drawImage (images [frame], usedX, usedY, null);
 		}
 	}
-	
+	/**
+	 * Draws the given frame of this sprite at the given x and y coordinates. with the given dimentions
+	 * @param usedX The x coordinate to draw this sprite at
+	 * @param usedY The y coordinate to draw this sprite at
+	 * @param frame The frame of this sprite to draw
+	 * @param width the width to cut the sprite off at
+	 * @param height the height to cut the sprite off at
+	 */
+	public void draw (int usedX, int usedY, int frame, int width,int height) {
+		if (frame < images.length) {
+			RenderLoop.window.getBufferGraphics ().drawImage (	images[frame].getSubimage(0, 0, width, height), usedX, usedY, null);
+		}
+	}
 	/**
 	 * Draws the given frame of this sprite at the given x and y coordinates.
 	 * @param usedX The x coordinate to draw this sprite at

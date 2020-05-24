@@ -59,7 +59,7 @@ public class LifeVaccum extends AimableWeapon {
 	public void frameEvent () {
 		timer = timer + 1;
 		// this may need to be a diffrent number
-		if (mouseButtonDown (0)) {
+		if (mouseButtonDown (0) && !jeffrey.isCrouched()) {
 			if (jeffrey.getInventory().checkLifeVaccumBattary() > 0) {
 			if (loseBattary) {
 				jeffrey.getInventory().subtractLifeVaccumBattary(1);

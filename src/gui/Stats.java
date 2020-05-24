@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import main.GameCode;
 import main.GameObject;
+import main.ObjectHandler;
 import main.RenderLoop;
 import players.Jeffrey;
 import resources.AfterRenderDrawer;
@@ -13,19 +14,27 @@ import resources.Sprite;
 public class Stats extends GameObject {
 	//public int totalHearts = 10;
 	Tbox charictarName;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	Tbox weaponName;
 	Tbox ammoAmount;
 	Sprite weaponSprite;
+	public static final Sprite HEALTH_BORDER_SPRITE = new Sprite ("resources/sprites/Health_Border.png");
+	public static final Sprite HEALTH_SPRITE = new Sprite ("resources/sprites/Health_Bar.png");
+	public static final Sprite JEFFREY_BAR = new Sprite ("resources/sprites/Character_Border_Jeffrey.png");
+	public static final Sprite SAM_BAR = new Sprite ("resources/sprites/Character_Border_Sam.png");
+	public static final Sprite RYAN_BAR = new Sprite ("resources/sprites/Character_Border_Ryan.png");
+	public static final Sprite EMPTY_BAR = new Sprite ("resources/sprites/Empty_Bar.png");
+	public static final Sprite CHARICTAR_SPRITE = new Sprite ("resources/sprites/charictar_bar.png");
 	public Stats () {
 		charictarName = new Tbox (0,0,20,1,"JEFFREY", false);
-		charictarName.declare(460,-6);
+		charictarName.declare(75,-6);
 		charictarName.setScrollRate(0);
-		weaponName = new Tbox (0,0,24,1, "REDBLACK PAINTBALL GUN", false);
-		weaponName.declare(31, -6);
+		weaponName = new Tbox (460,0,24,1, "REDBLACK PAINTBALL GUN", false);
+		weaponName.declare(400, -6);
 		weaponSprite = new Sprite("resources/sprites/blank.png");
 		weaponName.setScrollRate(0);
 		ammoAmount = new Tbox (0,0,24,1, "0", false);
-		ammoAmount.declare(252,-6);
+		ammoAmount.declare(340,-6);
 		ammoAmount.setScrollRate(0);
 		charictarName.keepOpen(true);
 		weaponName.keepOpen(true);
@@ -69,21 +78,55 @@ public class Stats extends GameObject {
 	public void draw () {
 		Graphics buffer = RenderLoop.window.getBufferGraphics ();
 		buffer.setColor (new Color(0xFF0000));
+		HEALTH_BORDER_SPRITE.draw(160,0);
+		if (GameCode.testJeffrey.witchCharictar == 0) {
+			if (j.samHealth > 0) {
+			SAM_BAR.draw(0, 0);
+			} else if(j.ryanHealth > 0) {
+				RYAN_BAR.draw(0,0);
+			} else {
+				EMPTY_BAR.draw(0, 0);
+			}
+			}
+			if (GameCode.testJeffrey.witchCharictar == 1) {
+				if (j.ryanHealth > 0) {
+					RYAN_BAR.draw(0, 0);
+					} else if(j.jeffreyHealth > 0) {
+						JEFFREY_BAR.draw(0,0);
+					} else {
+						EMPTY_BAR.draw(0, 0);
+					}
+			}
+			if (GameCode.testJeffrey.witchCharictar == 2) {
+				if (j.jeffreyHealth > 0) {
+					JEFFREY_BAR.draw(0, 0);
+					} else if(j.samHealth > 0) {
+						SAM_BAR.draw(0,0);
+					} else {
+						EMPTY_BAR.draw(0, 0);
+					}
+			}
 		if (GameCode.testJeffrey.witchCharictar ==0 ) {
-		buffer.fillRect (300, 0, (int)(160 * (GameCode.testJeffrey.getHealth() / GameCode.testJeffrey.maxJeffreyHealth)), 16);
+			if (j.getHealth() > 0) {
+			HEALTH_SPRITE.draw(160,0,0,(int)(170 * (GameCode.testJeffrey.getHealth() / GameCode.testJeffrey.maxJeffreyHealth)), 24);
+			}
 		}
 		if (GameCode.testJeffrey.witchCharictar ==1 ) {
-			buffer.fillRect (300, 0, (int)(160 * (GameCode.testJeffrey.getHealth() / GameCode.testJeffrey.maxSamHealth)), 16);
+			if (j.getHealth() > 0) {
+			HEALTH_SPRITE.draw(160,0,0,(int)(170 * (GameCode.testJeffrey.getHealth() / GameCode.testJeffrey.maxSamHealth)), 24);
+			}
 			}
 		if (GameCode.testJeffrey.witchCharictar ==2 ) {
-			buffer.fillRect (300, 0, (int)(160 * (GameCode.testJeffrey.getHealth() / GameCode.testJeffrey.maxRyanHealth)), 16);
+			if (j.getHealth() > 0) {
+			HEALTH_SPRITE.draw(160,0,0,(int)(170 * (GameCode.testJeffrey.getHealth() / GameCode.testJeffrey.maxRyanHealth)), 24);
+			}
 			}
 		buffer.setColor (new Color(0x000000));
-		buffer.drawRect (300, 0, 160, 16);
 		buffer.setColor(new Color (0xFFFF00));
-		buffer.fillRect(0, 0, GameCode.testJeffrey.switchTimer, 16);
 		buffer.setColor(new Color (0x000000));
-		buffer.drawRect(0, 0, 30, 16);
-		weaponSprite.draw(230, 0);
+		if (j.switchTimer != 0) {
+		CHARICTAR_SPRITE.draw(0, 0, 0, 45*j.switchTimer/30, 24);
+		}
+		weaponSprite.draw(144, 0);
 	}
 }
