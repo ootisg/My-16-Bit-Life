@@ -12,12 +12,14 @@
 		{
 		"type": "break",
 		"name":"test",
+		"minDirection": 0,
+		"maxDirecion": 6.28,
 		"paths": [
 			{
 			"path":"shard"
 			}
 			],
-		"shardNum":"1",
+		"shardNum":"10",
 		}
 		
 	]	

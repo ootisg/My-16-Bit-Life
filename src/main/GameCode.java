@@ -221,7 +221,7 @@ public class GameCode {
 		newFly = new CreepyButterfly();
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall(1);
-		testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
+		//testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
 		candle = new Candle ();
 		paint = new BluePaint (1);
 		while (x <= 40) {
@@ -240,7 +240,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/spiderTest.rmf");
+		Room.loadRoom ("resources/maps/slimelet_test.rmf");
 		//bleh = new AnimeTester ();
 		//bleh.declare (0, 0);
 		gui = new Gui ();
@@ -286,6 +286,7 @@ public class GameCode {
 		//function.declare(120, 300);
 		//marsh.declare(200,320);
 		//ufo.declare(200,120);
+		work.declare(100,200);
 		//candle.declare(200,200);
 		//fall.declare(300, 200);
 		//test.declare(300,300);
@@ -297,7 +298,6 @@ public class GameCode {
 	}
 	
 	public static void afterGameLogic () {
-		testSceen.play();
 	}
 	
 	public static void beforeRender () {

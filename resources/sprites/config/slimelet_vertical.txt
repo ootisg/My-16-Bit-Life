@@ -1,4 +1,4 @@
 $src resources/sprites/slimelet.png
 
-rectangle 0 0 32 16:
+rectangle 0 16 32 16:
 	grid 16 16;

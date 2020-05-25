@@ -1,5 +1,12 @@
 package enemys;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import gameObjects.Slime;
 import main.GameLoop;
 import map.Room;
@@ -27,6 +34,15 @@ public class Slimelet extends Enemy {
 	private boolean altFrame;
 	private boolean converse;
 	private boolean conversePrevious;
+	@Override
+	public void declare () {
+		System.out.println ("Oh no you don't");
+	}
+	@Override
+	public void declare (double x, double y) {
+		BetterSlimelet bs = new BetterSlimelet ();
+		bs.declare (x, y);
+	}
 	public Slimelet () {
 		//this.setSprite (slimeletClimbHorizontal);
 		this.getAnimationHandler ().setFrameTime (111.11);
@@ -39,6 +55,36 @@ public class Slimelet extends Enemy {
 		this.defence = 0;
 		this.health = 47;
 		this.conversePrevious = false;
+		BufferedImage slimeFrames = new BufferedImage (32,64,BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics g = slimeFrames.getGraphics ();
+		for (int fy = 0; fy < 4; fy++) {
+			for (int fx = 0; fx < 2; fx++) {
+				int x1, y1, x2, y2;
+				if ((fy & 1) == 1) {
+					x1 = fx * 16 + 16;
+					x2 = fx * 16;
+				} else {
+					x1 = fx * 16;
+					x2 = x1 + 16;
+				}
+				if ((fy & 2) == 2) {
+					y1 = fy * 16 + 16;
+					y2 = y1 - 16;
+				} else {
+					y1 = fy * 16;
+					y2 = y1 + 16;
+				}
+				System.out.println (x1 + ", " + y1 + ", " + x2 + ", " + y2);
+				g.drawImage(slimeletVertical.getFrame(fx), x1, y1, x2, y2, 0, 0, 16, 16, null);
+			}
+		}
+		File f = new File ("lolmemz.png");
+		try {
+			ImageIO.write(slimeFrames, "png", f);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	@Override 
 	public String checkName () {
