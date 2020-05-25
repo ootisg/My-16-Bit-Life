@@ -457,7 +457,7 @@ if (activeBox) {
 			if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone") && this.getAnimationHandler().flipHorizontal()) {
 				if (GameCode.testJeffrey.getSprite().equals(ryanWhipping) || GameCode.testJeffrey.getSprite().equals(whipLength)) {
 					this.desyncSpriteX(0);
-				}
+				}	
 				}
 			this.getAnimationHandler().setFlipHorizontal (false);
 			if (vy == 0 && !isWalking) {

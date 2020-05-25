@@ -1,0 +1,3 @@
+$src resources/sprites/ufo_laser_a.png
+
+grid 16 16

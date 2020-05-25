@@ -71,6 +71,7 @@ import triggers.Trigger;
 import weapons.AimableWeapon;
 import weapons.LaserPointer;
 import weapons.LifeVaccum;
+import weapons.MagicMarker;
 import weapons.MagicMicrophone;
 import weapons.NinjaTriangle;
 import weapons.SlimeSword;
@@ -115,6 +116,7 @@ public class GameCode {
 	static BuggyBoi bug7;
 	static BuggyBoi bug8;
 	static MagicMicrophone microphone;
+	static MagicMarker marker;
 	static TomatoFunction function;
 	static FireRextinguser extinguser;
 	static LifeVaccum vaccum;
@@ -174,7 +176,7 @@ public class GameCode {
 		ball = new DiscoBall();
 		bug8 = new BuggyBoi();
 		lameRyan = new NonPlayableRyan();
-		gun = new redBlackPaintBallGun(new Sprite ("resources/sprites/redblack_gun.png"));
+		gun = new redBlackPaintBallGun(	new Sprite ("resources/sprites/redblack_gun.png"));
 		pointer = new LaserPointer ();
 		key = new FairUseKey(1);
 		guy = new PointGuy();
@@ -198,6 +200,7 @@ public class GameCode {
 		marsh = new Marshan();
 		//trigger = new CutsceenTrigger();
 		microphone = new MagicMicrophone ();
+		marker = new MagicMarker (new Sprite ("resources/sprites/config/marker_weapon_red.txt"));
 		triangle = new NinjaTriangle (new Sprite ("resources/sprites/config/stationary_ninja_triangle.txt"));
 		testJeffrey.getInventory().addWeapon (microphone, 2);
 		extinguser = new FireRextinguser ();
@@ -209,6 +212,7 @@ public class GameCode {
 		testJeffrey.getInventory().addWeapon(gun, 0);
 		testJeffrey.getInventory().addWeapon(triangle, 0);
 		testJeffrey.getInventory().addWeapon(sword, 1);
+		testJeffrey.getInventory().addWeapon(marker, 2);
 		int x = 0;
 		shooter = new MafiaShooter();
 		//boi = new Celing_boi();
@@ -240,7 +244,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/lampTest.rmf");
+		Room.loadRoom ("resources/maps/pitstuff.rmf");
 		//bleh = new AnimeTester ();
 		//bleh.declare (0, 0);
 		gui = new Gui ();
@@ -286,7 +290,7 @@ public class GameCode {
 		//function.declare(120, 300);
 		//marsh.declare(200,320);
 		//ufo.declare(200,120);
-		work.declare(100,200);
+		//work.declare(100,200);
 		//candle.declare(200,200);
 		//fall.declare(300, 200);
 		//test.declare(300,300);

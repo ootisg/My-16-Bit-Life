@@ -23,7 +23,8 @@ public class Celing_boi extends Enemy {
 	public Celing_boi () {
 		direction = true;
 		timer = 0;
-		this.setHealth(30);
+		setHitboxAttributes (0, 0, 15, 10);
+		this.health = 30;
 		this.defence = 0;
 		shooting = true;
 		MiddleToLeft = new Sprite ("resources/sprites/config/Ceiling_Boi_moving_right_from_left.txt");

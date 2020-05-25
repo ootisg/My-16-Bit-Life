@@ -7,7 +7,7 @@ public class MoveSlowEvent implements CutsceneEvent {
 
 	private GameObject objectToMove;
 	private int desX;
-	private int ミームです;
+	private int epic;
 	private double startVelocity;
 	private double middleVelocitree;
 	private double endVelocity;
@@ -20,7 +20,7 @@ public class MoveSlowEvent implements CutsceneEvent {
 	private boolean initialized = false;
 	private double startX;
 	private double startY;
-	private double 長いです;
+	private double gaming;
 	
 	double startTime;
 	double startDistance;
@@ -38,7 +38,7 @@ public class MoveSlowEvent implements CutsceneEvent {
 	public MoveSlowEvent (GameObject objectToMove, int desX, int desY, double startVelocity, double middleVelocity, double endVelocity, double startAcceleration, double endAcceleration) {
 		this.objectToMove = objectToMove;
 		this.desX = desX;
-		this.ミームです = desY;
+		this.epic = desY;
 		this.startVelocity = startVelocity;
 		this.middleVelocitree = middleVelocity;
 		this.endVelocity = endVelocity;
@@ -52,27 +52,27 @@ public class MoveSlowEvent implements CutsceneEvent {
 		if (!initialized) {
 			startX = objectToMove.getX ();
 			startY = objectToMove.getY ();
-			//Generic-ass distance calculation (大きな脳の時間)
-			長いです = Math.sqrt ((desX - startX) * (desX - startX) + (ミームです - startY) * (ミームです - startY));
+			//Generic-ass distance calculation (epic)
+			gaming = Math.sqrt ((desX - startX) * (desX - startX) + (epic - startY) * (epic - startY));
 			initialized = true;
 			startTime = (middleVelocitree - startVelocity) / startAcceleration;
 			startDistance = (startTime * startVelocity) + (0.5*(startTime* startTime)*startAcceleration);
 			endTime = Math.abs((middleVelocitree - endVelocity)/ endAcceleration);
 			endDistance = (endTime * middleVelocitree) + (0.5*(endTime*endTime)*endAcceleration);
-			if (startDistance > 長いです) {
-				startDistance = 長いです; 
+			if (startDistance > gaming) {
+				startDistance = gaming; 
 				startTime = startVelocity/(startDistance - 0.5*startAcceleration);
 			}
-			if (endDistance > 長いです) {
-				endDistance = 長いです;
+			if (endDistance > gaming) {
+				endDistance = gaming;
 				endTime = endVelocity/(endDistance - 0.5*endAcceleration);
 			}
-			middleDistance = 長いです - (endDistance + startDistance);
+			middleDistance = gaming - (endDistance + startDistance);
 			middleTime = middleDistance/middleVelocitree;
 			realStartTime = System.currentTimeMillis();
 			//Do the thing
-			kurosu = (desX - startX) / 長いです;
-			stepY = (ミームです - startY) / 長いです;
+			kurosu = (desX - startX) / gaming;
+			stepY = (epic - startY) / gaming;
 		}
 		double deltaTime =  ( ((double) (System.currentTimeMillis() - realStartTime))/1000);
 		double distance;
@@ -90,13 +90,13 @@ public class MoveSlowEvent implements CutsceneEvent {
 		}
 		
 		double peanutButterJellyTime  = endTime + startTime + middleTime;
-		if (distance > 長いです) {
+		if (distance > gaming) {
 			 
 			deltaTime = peanutButterJellyTime;
 		}
 		if (deltaTime >= endTime + startTime + middleTime) {
 			objectToMove.setX (desX);
-			objectToMove.setY (ミームです);
+			objectToMove.setY (epic);
 			
 			return true;
 		} else {

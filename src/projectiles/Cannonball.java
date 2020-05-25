@@ -36,7 +36,7 @@ public class Cannonball extends Projectile{
 			this.forget();
 		}
 		try{
-		if (Room.isColliding(this) && !hitSomething){
+		if (this.goingIntoWall && !hitSomething){
 			setSprite (explosion);
 			hitSomething = true;
 			setSpeed (0);

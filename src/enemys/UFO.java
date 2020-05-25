@@ -32,8 +32,8 @@ public class UFO extends Enemy {
 		this.setHitboxAttributes(0, 0, 32, 25);
 		this.setHealth(120);
 		this.defence = 20;
-		laser = new LoopableSprite (new Sprite ("resources/sprites/config/Fire.txt"),0,48,0,0);
-		laser.addEndSprite(new Sprite ("resources/sprites/config/fistIcon.txt"));
+		laser = new LoopableSprite (new Sprite ("resources/sprites/config/ufo_laser_a.txt"),0,48,0,0);
+		laser.addEndSprite(new Sprite ("resources/sprites/config/ufo_laser_c.txt"));
 		
 	}
 	@Override 

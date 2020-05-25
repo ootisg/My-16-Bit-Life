@@ -25,6 +25,7 @@ public class AimableWeapon extends Item {
 		this.renderedRotation = -1;
 		img = new BufferedImage (sprite.getFrame (0).getWidth (), sprite.getFrame (0).getHeight (), sprite.getFrame (0).getType ());
 	}
+	
 	@Override
 	public void draw () {
 		if (rotation != renderedRotation) {
@@ -52,7 +53,9 @@ public class AimableWeapon extends Item {
 	public void setRotation (double rotation) {
 		this.rotation = rotation;
 	}
-	
+	public void changeSprite (Sprite newSprite) {
+        src = newSprite;
+    }
 	public Sprite getUnrotatedSprite () {
 		return this.getSprite();
 	}
