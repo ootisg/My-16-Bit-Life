@@ -13,6 +13,7 @@ public class TileEntitiy {
 	
 	int x;
 	int y;
+	int layer;
 	public TileEntitiy () {
 
 	}
@@ -37,11 +38,17 @@ public class TileEntitiy {
 	public int getY() {
 		return y;
 	}
+	public int getLayer () {
+		return layer;
+	}
 	public void setX(int newX) {
 		this.x = newX;
 	}
 	public void setY (int newY) {
 		this.y = newY;
+	}
+	public void setLayer (int newLayer) {
+		layer = newLayer;
 	}
 	/**
 	 * run code for the specfied tileEnitiy

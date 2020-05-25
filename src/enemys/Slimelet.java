@@ -55,36 +55,7 @@ public class Slimelet extends Enemy {
 		this.defence = 0;
 		this.health = 47;
 		this.conversePrevious = false;
-		BufferedImage slimeFrames = new BufferedImage (32,64,BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics g = slimeFrames.getGraphics ();
-		for (int fy = 0; fy < 4; fy++) {
-			for (int fx = 0; fx < 2; fx++) {
-				int x1, y1, x2, y2;
-				if ((fy & 1) == 1) {
-					x1 = fx * 16 + 16;
-					x2 = fx * 16;
-				} else {
-					x1 = fx * 16;
-					x2 = x1 + 16;
-				}
-				if ((fy & 2) == 2) {
-					y1 = fy * 16 + 16;
-					y2 = y1 - 16;
-				} else {
-					y1 = fy * 16;
-					y2 = y1 + 16;
-				}
-				System.out.println (x1 + ", " + y1 + ", " + x2 + ", " + y2);
-				g.drawImage(slimeletVertical.getFrame(fx), x1, y1, x2, y2, 0, 0, 16, 16, null);
-			}
-		}
-		File f = new File ("lolmemz.png");
-		try {
-			ImageIO.write(slimeFrames, "png", f);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 	}
 	@Override 
 	public String checkName () {

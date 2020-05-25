@@ -410,6 +410,15 @@ public class Room {
 		return tileEntitiys;
 	}
 	/**
+	 * gets the chungus that contains the tile at this position
+	 * @param x the x position of the tile in question (in tiles)
+	 * @param y the y position of the tile in question (in tiles)
+	 * @return the map chungus asociated
+	 */
+	public static MapChungus getChungus (int x, int y) {	
+		return mapChungi[y/chungusHeight][x/chungusWidth];
+	}
+	/**
 	 * returns true if the specified tile is a solid tile (false if the tile is not loaded)
 	 * @param name the name of the specified tile
 	 * @return true if its solid like a rock or my mixtape
@@ -576,6 +585,7 @@ public class Room {
 							TileEntitiy enity = dataList.get(tileData[wl][wy][wx]).makeEntity();
 							enity.setX(wx);
 							enity.setY(wy);
+							enity.setLayer(wl);
 							enity.setTileData(dataList.get(tileData[wl][wy][wx]));
 							enity.setTexture(tileIcons.get(tileData[wl][wy][wx]));
 							tileEntitiys.add(enity);
@@ -609,7 +619,19 @@ public class Room {
 		mapChungi = new MapChungus [gridHidth][gridWidth];
 		for (int wx = 0; wx < mapChungi[0].length; wx++) {
 			for (int wy = 0; wy<mapChungi.length; wy++) {
-				mapChungi[wy][wx] = new MapChungus(wx*chungusWidth,wy*chungusHeight);
+				MapChungus workingChungus =  new MapChungus(wx*chungusWidth,wy*chungusHeight);
+				int workingX = Math.min(workingChungus.getX() + chungusWidth,mapWidth);
+				int workingY = Math.min(workingChungus.getY() + chungusHeight,mapHeight);
+				for (int wwwwX = workingChungus.getX(); wwwwX <workingX; wwwwX ++) {
+					for (int wwwwY = workingChungus.getY(); wwwwY <workingY; wwwwY ++) {
+						for (int wwwwL = 0; wwwwL <numLayers; wwwwL ++) {
+							if (tileData[wwwwL][wwwwY][wwwwX] == SPECIAL_TILE_ID) {
+								workingChungus.addTileEntity(positionToEntitiys.get(toPackedLong(wwwwX,wwwwY)));
+							}
+						}
+					}
+				}
+				mapChungi[wy][wx] = workingChungus;
 			}
 		}
 		isLoaded = true;
@@ -804,7 +826,7 @@ public class Room {
 	 * @author GOD 
 	 *(god made map chungus)
 	 */
-	private static class MapChungus {
+	public static class MapChungus {
 		ArrayList <BufferedImage> renderedImages; // the compressed images sorted by layer (and each layer contains all layers that wont cause problems)
 		// if you don't understand this anymore your stupid
 		 private ArrayList <Boolean> valid; // states wheather each of the images is valid
@@ -825,7 +847,7 @@ public class Room {
 		 * @param x the x coordinate of the map chungus (in tiles)
 		 * @param y the y coordinate of the map chungus (in tiles)
 		 */
-		public MapChungus (int x, int y) {
+		public MapChungus (int x, int y) { 
 			layerClassfications = new ArrayList<Integer>();
 			tilelist = new ArrayList<TileEntitiy> ();
 			renderedImages = new ArrayList<BufferedImage>();
@@ -847,6 +869,7 @@ public class Room {
 			int mappedLayerIndex = 0;
 			for (int i = 0; i < numLayers; i++) {
 				if (isSpecialLayer(i)) {
+				
 					boolean extraImage =false;
 					if (i!= 0) {
 						if (!isSpecialLayer (i-1)) {
@@ -942,6 +965,7 @@ public class Room {
 		 */
 		public void addTileEntity (TileEntitiy entity) {
 			tilelist.add(entity);
+		
 		}
 		
 		/**
@@ -995,7 +1019,8 @@ public class Room {
 								for (int wy = 0; wy < height; wy++) {
 									if (tileData[currentLayer][wy + y][wx + x] == SPECIAL_TILE_ID){
 										g.drawImage(positionToEntitiys.get(toPackedLong(wx + x,wy + y)).getTexture(),wx*TILE_WIDTH,wy*TILE_HEIGHT,null);
-									}else {
+									
+									} else {
 										g.drawImage(tileIcons.get(tileData[currentLayer][wy + y][wx + x]),wx*TILE_HEIGHT,wy*TILE_WIDTH,null);
 									}
 								}

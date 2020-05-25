@@ -32,6 +32,7 @@ public class TileData {
 		if (defaultMap == null) {
 			defaultMap = getFile(DEFAULT_NAME);
 		}
+		
 		attributes = getFile (name + ".txt"); // sets info specific to this tile
 		isSolid = Boolean.valueOf(getAttribute("solid"));
 		if (getAttribute("tileEntity") != null) {
