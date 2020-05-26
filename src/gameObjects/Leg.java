@@ -1,6 +1,8 @@
 package gameObjects;
 
 import main.GameObject;
+import main.ObjectHandler;
+import players.Jeffrey;
 
 import java.util.Random;
 
@@ -91,6 +93,7 @@ public class Leg extends GameObject{
 	Sprite ShortBottomLeftRedMoveing;
 	Sprite ShortBottomLeftRedFliping;
 	Sprite ShortBottomLeftRedWall;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	public Leg(int legNumber) {
 		LongTopRightGreenIdle = new Sprite ("resources/sprites/config/Tomato function/Tomato_Function_Long_Top_Green_Right_Leg_Idle.txt");
 		LongTopRightGreenMoveing = new Sprite ("resources/sprites/config/Tomato function/Tomato_Function_Long_Top_Green_Right_Leg_Moveing.txt");
@@ -663,8 +666,8 @@ public class Leg extends GameObject{
 		}
 		timer = timer + 1;
 		if (red & !deattached) {
-			if (this.isColliding(GameCode.testJeffrey)) {
-				GameCode.testJeffrey.damage(RNG.nextInt(30) + 10);
+			if (this.isColliding(j)) {
+				j.damage(RNG.nextInt(30) + 10);
 			}
 		}
 		if (deattached) {

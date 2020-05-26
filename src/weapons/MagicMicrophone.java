@@ -19,9 +19,9 @@ public class MagicMicrophone extends Item {
 	boolean whippingLeft;
 	int timer;
 	int [] upgradeInfo;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	boolean addTime;
 	ListTbox box;
-	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").getFirst ();
 	public  MagicMicrophone () {
 		upgradeInfo = new int [] {0,0,0,1};
 		this.setSprite(new Sprite ("resources/sprites/blank.png"));
@@ -59,38 +59,38 @@ public class MagicMicrophone extends Item {
 			box = new ListTbox (this.getX() - Room.getViewX(),this.getY() + Room.getViewY(),new String [] {"JEFFREY","SAM","RYAN"});
 			ObjectHandler.pause(true);
 		}
-		if (this.mouseButtonDown(0) && !GameCode.testJeffrey.getSprite().equals(GameCode.testJeffrey.ryanWhipping) && !player.isCrouched()) {
-			GameCode.testJeffrey.getAnimationHandler().setRepeat(false);
-			GameCode.testJeffrey.setSprite(GameCode.testJeffrey.ryanWhipping);
-			GameCode.testJeffrey.getAnimationHandler().setFrameTime(10);
-			GameCode.testJeffrey.changeSprite(false);
-			if (GameCode.testJeffrey.getAnimationHandler().flipHorizontal() ) {
+		if (this.mouseButtonDown(0) && !j.getSprite().equals(j.ryanWhipping) && !j.isCrouched()) {
+			j.getAnimationHandler().setRepeat(false);
+			j.setSprite(j.ryanWhipping);
+			j.getAnimationHandler().setFrameTime(10);
+			j.changeSprite(false);
+			if (j.getAnimationHandler().flipHorizontal() ) {
 				whippingLeft = true;
-				GameCode.testJeffrey.desyncSpriteX(-34);
+				j.desyncSpriteX(-34);
 			}
 		}
-		this.setX(GameCode.testJeffrey.getX());
-		this.setY(GameCode.testJeffrey.getY());
-		if (GameCode.testJeffrey.getSprite().equals(GameCode.testJeffrey.ryanWhipping) && GameCode.testJeffrey.getAnimationHandler().getFrame() == 7 && !addTime) {
-			GameCode.testJeffrey.setSprite(GameCode.testJeffrey.whipLength);
-			GameCode.testJeffrey.getAnimationHandler().setFrameTime(0);
-			GameCode.testJeffrey.changeFrameTime(false);
-			GameCode.testJeffrey.getAnimationHandler().setAnimationFrame(this.dealWithWhipFrame());
+		this.setX(j.getX());
+		this.setY(j.getY());
+		if (j.getSprite().equals(j.ryanWhipping) && j.getAnimationHandler().getFrame() == 7 && !addTime) {
+			j.setSprite(j.whipLength);
+			j.getAnimationHandler().setFrameTime(0);
+			j.changeFrameTime(false);
+			j.getAnimationHandler().setAnimationFrame(this.dealWithWhipFrame());
 		}
 		if (addTime) {
 			timer = timer + 1;
 			if (timer == 5) {
-				GameCode.testJeffrey.getAnimationHandler().setAnimationFrame(7);
+				j.getAnimationHandler().setAnimationFrame(7);
 			}
 			if (timer == 10) {
 				timer = 0;
 				addTime =false;
-				GameCode.testJeffrey.getAnimationHandler().setRepeat(true);
-				GameCode.testJeffrey.changeFrameTime(true);
-				GameCode.testJeffrey.changeSprite(true);
-				GameCode.testJeffrey.setSprite(GameCode.testJeffrey.ryanMicrophoneWalking);
-				if (GameCode.testJeffrey.getAnimationHandler().flipHorizontal()) {
-					GameCode.testJeffrey.desyncSpriteX(0);
+				j.getAnimationHandler().setRepeat(true);
+				j.changeFrameTime(true);
+				j.changeSprite(true);
+				j.setSprite(j.ryanMicrophoneWalking);
+				if (j.getAnimationHandler().flipHorizontal()) {
+					j.desyncSpriteX(0);
 					whippingLeft = false;
 				}
 			}
@@ -101,30 +101,30 @@ public class MagicMicrophone extends Item {
 	public void pausedEvent () {
 		try {
 		if (box.getSelected() == 0) {
-			player.status.statusAppliedOnJeffrey[6] = true;
+			Jeffrey.status.statusAppliedOnJeffrey[6] = true;
 			Power power = new Power (0);
 			power.declare();
-			player.status.statusAppliedOnJeffrey[7] = true;
+			Jeffrey.status.statusAppliedOnJeffrey[7] = true;
 			Regeneration regen = new Regeneration (0);
 			regen.declare();
 			ObjectHandler.pause(false);
 			box.close();
 		} else {
 			if (box.getSelected() == 1) {
-				player.status.statusAppliedOnSam[6] = true;
+				Jeffrey.status.statusAppliedOnSam[6] = true;
 				Power power = new Power (1);
 				power.declare();
-				player.status.statusAppliedOnSam[7] = true;
+				Jeffrey.status.statusAppliedOnSam[7] = true;
 				Regeneration regen = new Regeneration (1);
 				regen.declare();
 				ObjectHandler.pause(false);
 				box.close();
 			} else {
 				if (box.getSelected() == 2) {
-				player.status.statusAppliedOnRyan[6] = true;
+				Jeffrey.status.statusAppliedOnRyan[6] = true;
 				Power power = new Power (2);
 				power.declare();
-				player.status.statusAppliedOnRyan[7] = true;
+				Jeffrey.status.statusAppliedOnRyan[7] = true;
 				Regeneration regen = new Regeneration (2);
 				regen.declare();
 				ObjectHandler.pause(false);
@@ -140,7 +140,7 @@ public class MagicMicrophone extends Item {
 		int length = 0;
 		for (int v = 0; v <= 7; v = v + 1 ) {
 			length = length + 4;
-			if (!GameCode.testJeffrey.getAnimationHandler().flipHorizontal()) {
+			if (!j.getAnimationHandler().flipHorizontal()) {
 				this.setHitboxAttributes(13, 14, length, 13);	
 			} else {
 				this.setHitboxAttributes(-34, 14, length, 13);

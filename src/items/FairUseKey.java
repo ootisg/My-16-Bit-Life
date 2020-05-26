@@ -1,12 +1,15 @@
 package items;
 
 import main.GameCode;
+import main.ObjectHandler;
 import map.Room;
+import players.Jeffrey;
 import gui.Tbox;
 import resources.Sprite;
 
 public class FairUseKey extends Item {
 	int amountToAdd;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	Sprite FUKey = new Sprite("resources/sprites/key.png");
 	public FairUseKey () {
 		this.setSprite(FUKey); 
@@ -38,9 +41,9 @@ public class FairUseKey extends Item {
 		} else {
 		this.setY(this.getY() - 1);
 		}
-		if (this.isColliding(GameCode.testJeffrey)) {
-		Tbox box = new Tbox (GameCode.testJeffrey.getX(), GameCode.testJeffrey.getY() - 8, 28, 1, "YOU GOT A FAIR USE KEY", true);
-		GameCode.testJeffrey.inventory.addKeyItem(this);
+		if (this.isColliding(j)) {
+		Tbox box = new Tbox (j.getX(), j.getY() - 8, 28, 1, "YOU GOT A FAIR USE KEY", true);
+		Jeffrey.inventory.addKeyItem(this);
 		this.forget();
 		}
 	}

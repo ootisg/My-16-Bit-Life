@@ -3,6 +3,7 @@ package items;
 import main.GameCode;
 import gui.Tbox;
 import map.Room;
+import players.Jeffrey;
 import resources.Sprite;
 
 public class RedBlackPaintBall extends Item{
@@ -41,10 +42,10 @@ public class RedBlackPaintBall extends Item{
 		} else {
 		this.setY(this.getY() - 1);
 		}
-		if (this.isColliding(GameCode.testJeffrey)) {
-		Tbox box = new Tbox (GameCode.testJeffrey.getX(), GameCode.testJeffrey.getY() - 8, 28, 1, "YOU GOT " + Integer.toString(amountToAdd) + " PAINTBALLS", true);
+		if (this.isColliding(j)) {
+		Tbox box = new Tbox (j.getX(), j.getY() - 8, 28, 1, "YOU GOT " + Integer.toString(amountToAdd) + " PAINTBALLS", true);
 		while (amountToAdd != 0) {
-		GameCode.testJeffrey.inventory.addAmmo(this);
+		Jeffrey.getInventory().addAmmo(this);
 		amountToAdd = amountToAdd - 1;
 		}
 		this.forget();

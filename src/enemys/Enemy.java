@@ -291,8 +291,8 @@ public abstract class Enemy extends GameObject {
 		player.damage (this.baseDamage);
 	}
 	public void deathEvent () {
-		if (!GameCode.testJeffrey.getInventory().checkKill(this)) {
-			GameCode.testJeffrey.getInventory().addKill(this);
+		if (!player.getInventory().checkKill(this)) {
+			player.getInventory().addKill(this);
 		}
 		enemyList.remove(this);
 		this.forget ();
@@ -308,7 +308,7 @@ public abstract class Enemy extends GameObject {
 	//returns true if there is a celling or floor between the enemy and the player
 			public boolean checkPlayerPositionRelativeToCellings () {
 				double x = this.getX();
-				super.setX(GameCode.testJeffrey.getX());
+				super.setX(player.getX());
 					for (int i = 0; true; i++) {
 						this.setY(this.getY () + i);
 						if (Room.isColliding(this)) {
@@ -369,7 +369,7 @@ public abstract class Enemy extends GameObject {
 				return false;
 		}
 	public void damage (int amount) {
-		if (GameCode.testJeffrey.checkIfPowerful()) {
+		if (player.checkIfPowerful()) {
 			amount = (int) ((amount * 1.2) - defence);
 			if(amount <= 0){
 				amount = 1;
@@ -401,24 +401,24 @@ public abstract class Enemy extends GameObject {
 	}
 	//used in conjunction with charge
 	public void getChargeLine () {
-		if (((GameCode.testJeffrey.getX() > this.getX()) && GameCode.testJeffrey.getY() > this.getY())) {
+		if (((player.getX() > this.getX()) && player.getY() > this.getY())) {
 			xToMove = RNG.nextInt(3) + 1;
 			yToMove = RNG.nextInt(3) + 1;
 			this.getAnimationHandler().setFlipHorizontal(false);
 		}
-if ((GameCode.testJeffrey.getX() < this.getX()) && GameCode.testJeffrey.getY() > this.getY()) {
+if ((player.getX() < this.getX()) && player.getY() > this.getY()) {
 	xToMove = RNG.nextInt(3) + 1;
 	xToMove = xToMove * -1;
 	this.getAnimationHandler().setFlipHorizontal(true);
 	yToMove = RNG.nextInt(3) + 1;	
 		}
-if ((GameCode.testJeffrey.getX() > this.getX()) && GameCode.testJeffrey.getY() < this.getY()) {
+if ((player.getX() > this.getX()) && player.getY() < this.getY()) {
 	xToMove = RNG.nextInt(3) + 1;
 	yToMove = RNG.nextInt(3) + 1;
 	yToMove = yToMove * -1;
 	this.getAnimationHandler().setFlipHorizontal(false);
 }
-if ((GameCode.testJeffrey.getX() < this.getX()) && GameCode.testJeffrey.getY() < this.getY()) {
+if ((player.getX() < this.getX()) && player.getY() < this.getY()) {
 	xToMove = RNG.nextInt(3) + 1;
 	yToMove = RNG.nextInt(3) + 1;
 	yToMove = yToMove * -1;
@@ -660,7 +660,7 @@ if (chargeTimer == timeToCharge) {
 	 * @return if the player is in that box
 	 */
 	public boolean isNearPlayerX (int rangebound1Right, int rangebound2Right, int rangebound1Left, int rangebound2Left) {
-		if ( ((this.getX() - GameCode.testJeffrey.getX()  <= -rangebound1Right) && (this.getX() - GameCode.testJeffrey.getX()  >= -rangebound2Right)) || ((GameCode.testJeffrey.getX() >= this.getX() - rangebound2Left) &&(GameCode.testJeffrey.getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls() )) {
+		if ( ((this.getX() - player.getX()  <= -rangebound1Right) && (this.getX() - player.getX()  >= -rangebound2Right)) || ((player.getX() >= this.getX() - rangebound2Left) &&(player.getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls() )) {
 			return true;
 		} else {
 			return false;
@@ -675,7 +675,7 @@ if (chargeTimer == timeToCharge) {
 	 * @return if the player is in that box
 	 */
 	public boolean isNearPlayerY (int rangebound1Top, int rangebound2Top, int rangebound1Bottom, int rangebound2Bottom) {
-		if ( ((this.getY() - GameCode.testJeffrey.getY()  >= rangebound1Top) && (this.getY() - GameCode.testJeffrey.getY()  <= rangebound2Top)) || ((GameCode.testJeffrey.getY() >= this.getY() + rangebound1Bottom) &&(GameCode.testJeffrey.getY() <= this.getY() + rangebound2Bottom)) && !this.checkPlayerPositionRelativeToCellings() ) {
+		if ( ((this.getY() - player.getY()  >= rangebound1Top) && (this.getY() - player.getY()  <= rangebound2Top)) || ((player.getY() >= this.getY() + rangebound1Bottom) &&(player.getY() <= this.getY() + rangebound2Bottom)) && !this.checkPlayerPositionRelativeToCellings() ) {
 			return true;
 		} else {
 			return false;
@@ -690,7 +690,7 @@ if (chargeTimer == timeToCharge) {
 	 * @return if the player is in that box
 	 */
 	public boolean isNearPlayerXWithoutCheckingWalls (int rangebound1Right, int rangebound2Right, int rangebound1Left, int rangebound2Left) {
-		if ( ((this.getX() - GameCode.testJeffrey.getX()  <= -rangebound1Right) && (this.getX() - GameCode.testJeffrey.getX()  >= -rangebound2Right)) || ((GameCode.testJeffrey.getX() >= this.getX() - rangebound2Left) &&(GameCode.testJeffrey.getX() <= this.getX() - rangebound1Left))) {
+		if ( ((this.getX() - player.getX()  <= -rangebound1Right) && (this.getX() - player.getX()  >= -rangebound2Right)) || ((player.getX() >= this.getX() - rangebound2Left) &&(player.getX() <= this.getX() - rangebound1Left))) {
 			return true;
 		} else {
 			return false;
@@ -705,7 +705,7 @@ if (chargeTimer == timeToCharge) {
 	 * @return if the player is in that box
 	 */
 	public boolean isNearPlayerYWithoutCheckingWalls (int rangebound1Top, int rangebound2Top, int rangebound1Bottom, int rangebound2Bottom) {
-		if ( ((this.getY() - GameCode.testJeffrey.getY()  >= rangebound1Top) && (this.getY() - GameCode.testJeffrey.getY()  <= rangebound2Top)) || ((GameCode.testJeffrey.getY() >= this.getY() + rangebound1Bottom) &&(GameCode.testJeffrey.getY() <= this.getY() + rangebound2Bottom))) {
+		if ( ((this.getY() - player.getY()  >= rangebound1Top) && (this.getY() - player.getY()  <= rangebound2Top)) || ((player.getY() >= this.getY() + rangebound1Bottom) &&(player.getY() <= this.getY() + rangebound2Bottom))) {
 			return true;
 		} else {
 			return false;
@@ -795,13 +795,13 @@ if (chargeTimer == timeToCharge) {
 		}
 		waitForCollison = waitForCollison + 1;
 		if (moveRight || patrolBothWays) {
-			if ( ((this.getX() - GameCode.testJeffrey.getX()  < -rangebound1Right) && (this.getX() - GameCode.testJeffrey.getX()  > -rangebound2Right) ) ) {
+			if ( ((this.getX() - player.getX()  < -rangebound1Right) && (this.getX() - player.getX()  > -rangebound2Right) ) ) {
 				this.moveing = false;
 				if (!(this.getSprite().equals(attackingSprite)) && canFuckWithSprite) {
 				this.setSprite(attackingSprite);
 				} 
 				} else {
-					if((!patrolBothWays && ((GameCode.testJeffrey.getX() >= this.getX() - rangebound2Left) &&(GameCode.testJeffrey.getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls())) ) {
+					if((!patrolBothWays && ((player.getX() >= this.getX() - rangebound2Left) &&(player.getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls())) ) {
 					moveing = true;
 					if (adjustedSpeed) {
 						speed = 0;
@@ -814,13 +814,13 @@ if (chargeTimer == timeToCharge) {
 				}
 		} 
 		if (!moveRight || patrolBothWays) {
-			if ( (GameCode.testJeffrey.getX() >= this.getX() - rangebound2Left) &&(GameCode.testJeffrey.getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls() ) {
+			if ( (player.getX() >= this.getX() - rangebound2Left) &&(player.getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls() ) {
 				this.moveing = false;
 				if (!(this.getSprite().equals(attackingSprite)) && canFuckWithSprite) {
 				this.setSprite(attackingSprite);
 			}
 			} else {
-				if (!(patrolBothWays && ((this.getX() - GameCode.testJeffrey.getX()  < -rangebound1Right) && (this.getX() - GameCode.testJeffrey.getX()  > -rangebound2Right)))) {
+				if (!(patrolBothWays && ((this.getX() - player.getX()  < -rangebound1Right) && (this.getX() - player.getX()  > -rangebound2Right)))) {
 				moveing = true;
 				if (adjustedSpeed) {
 					speed = 0;

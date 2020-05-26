@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
+import players.Jeffrey;
 import resources.Sprite;
 
 public class Trigger extends GameObject {
 	Boolean setHitbox;
 	Boolean Triggered;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	Boolean eventFinished;
 	int timer;
 	int eventWeAreOn;
@@ -32,7 +34,7 @@ public class Trigger extends GameObject {
 	
 	public void frameEvent () {
 		//sets the hitbox to work with the bottom bound
-		if (GameCode.testJeffrey.isColliding(this) && !Triggered && timer > 5 ) {
+		if (j.isColliding(this) && !Triggered && timer > 5 ) {
 			this.Triggered = true;
 		}
 		if (setHitbox) {

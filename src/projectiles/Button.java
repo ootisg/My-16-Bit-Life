@@ -30,7 +30,7 @@ public class Button extends Projectile {
 		}
 		if (isColliding(j)){
 			int poisonChance = rand.nextInt(4) + 1;
-			if ((!GameCode.testJeffrey.status.checkStatus(0, GameCode.testJeffrey.witchCharictar) && poisonChance == 1)){
+			if ((!Jeffrey.status.checkStatus(0, j.witchCharictar) && poisonChance == 1)){
 				poison.declare(0, 0);
 			} 
 			player.damage(7);

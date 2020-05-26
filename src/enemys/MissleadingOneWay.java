@@ -1,12 +1,15 @@
 package enemys;
 
 import main.GameCode;
+import main.ObjectHandler;
+import players.Jeffrey;
 import resources.Sprite;
 import statusEffect.Oneway;
 
 public class MissleadingOneWay extends Enemy {
 	Oneway finalWay;
 	Sprite signSprite;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 		public MissleadingOneWay () {
 			signSprite = new Sprite ("resources/sprites/config/Missleading_oneway.txt");
 			this.setSprite(signSprite);
@@ -22,15 +25,15 @@ public class MissleadingOneWay extends Enemy {
 	}
 	@Override
 		public void frameEvent () {
-			if (GameCode.testJeffrey.getX() - this.getX() < 150 &&GameCode.testJeffrey.getX() - this.getX() >= -150 ) {
+			if (j.getX() - this.getX() < 150 &&j.getX() - this.getX() >= -150 ) {
 				finalWay = new Oneway (this.getAnimationHandler().flipHorizontal());
 				finalWay.declare(0, 0);
 			} else {
-				GameCode.testJeffrey.status.statusAppliedOnJeffrey[1] = false;
-				GameCode.testJeffrey.status.statusAppliedOnSam [1] = false;
-				GameCode.testJeffrey.status.statusAppliedOnRyan[1] = false;
-					GameCode.testJeffrey.bindLeft = false;	
-					GameCode.testJeffrey.bindRight = false;
+				Jeffrey.status.statusAppliedOnJeffrey[1] = false;
+				Jeffrey.status.statusAppliedOnSam [1] = false;
+				Jeffrey.status.statusAppliedOnRyan[1] = false;
+					j.bindLeft = false;	
+					j.bindRight = false;
 			}
 		}
 	@Override 

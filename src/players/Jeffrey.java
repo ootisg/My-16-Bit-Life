@@ -48,7 +48,7 @@ public class Jeffrey extends GameObject {
 	private double ay;
 	InputManager manager;
 	public boolean onLadder;
-	public Inventory inventory;
+	public static  Inventory inventory;
 	public boolean standingOnPlatform;
 	public boolean binded;
 	private int index;
@@ -79,7 +79,7 @@ public class Jeffrey extends GameObject {
 	boolean messWithFrameTime;
 	private int boxTimer;
 	private boolean fallBruh;
-	public Status status;
+	public static Status status;
 	public Jeffrey () {
 		//This class is not yet commented
 		this.declare (0, 0);
@@ -430,7 +430,7 @@ if (activeBox) {
 			}
 		
 			if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone") && !this.getAnimationHandler().flipHorizontal()) {
-			if (GameCode.testJeffrey.getSprite().equals(ryanWhipping) || GameCode.testJeffrey.getSprite().equals(whipLength)) {
+			if (this.getSprite().equals(ryanWhipping) || this.getSprite().equals(whipLength)) {
 				this.desyncSpriteX(-34);
 				
 			}
@@ -455,7 +455,7 @@ if (activeBox) {
 				}
 			}
 			if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone") && this.getAnimationHandler().flipHorizontal()) {
-				if (GameCode.testJeffrey.getSprite().equals(ryanWhipping) || GameCode.testJeffrey.getSprite().equals(whipLength)) {
+				if (this.getSprite().equals(ryanWhipping) || this.getSprite().equals(whipLength)) {
 					this.desyncSpriteX(0);
 				}	
 				}
@@ -633,8 +633,8 @@ if (activeBox) {
 			invulTimer = 15;
 		}
 	}
-	public Inventory getInventory () {
-		return this.inventory;
+	public static Inventory getInventory () {
+		return Jeffrey.inventory;
 	}
 	public boolean checkIfBrittle() {
 		if (this.witchCharictar == 0) {

@@ -1,11 +1,14 @@
 package projectiles;
 
 import main.GameCode;
+import main.ObjectHandler;
 import map.Room;
+import players.Jeffrey;
 import resources.Sprite;
 
 public class PokaDot extends Projectile {
 	public boolean hitSomething;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	public PokaDot (double direction) {
 	this.setSprite(new Sprite ("resources/sprites/config/PokaDot.txt"));
 	this.setDirection(direction);
@@ -37,7 +40,7 @@ public class PokaDot extends Projectile {
 		if (this.outsideTheMap) {
 			this.forget();
 		}
-		if (isColliding(GameCode.testJeffrey) && !hitSomething){
+		if (isColliding(j) && !hitSomething){
 			player.damage(7);
 			hitSomething = true;
 			this.forget();

@@ -1,7 +1,9 @@
 package items;
 
 import main.GameCode;
+import main.ObjectHandler;
 import map.Room;
+import players.Jeffrey;
 import gui.Tbox;
 import resources.Sprite;
 import statusEffect.Fastness;
@@ -10,6 +12,7 @@ import statusEffect.Power;
 
 public class LemonPacket extends Item {
 	int amountToAdd;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	Sprite lemonPacket = new Sprite ("resources/sprites/Lemon_Packet.png");
 public LemonPacket () {
 	this.setSprite(lemonPacket); 
@@ -37,13 +40,13 @@ fastness = new Fastness(witchCharictar);
 fastness.declare();
 GameCode.gui.menu.frozen = false;
 if (witchCharictar == 0) {
-	GameCode.testJeffrey.status.statusAppliedOnJeffrey[2] = true;
+	Jeffrey.status.statusAppliedOnJeffrey[2] = true;
 }
 if (witchCharictar == 1) {
-	GameCode.testJeffrey.status.statusAppliedOnSam[2] = true;
+	Jeffrey.status.statusAppliedOnSam[2] = true;
 }
 if (witchCharictar == 2) {
-	GameCode.testJeffrey.status.statusAppliedOnRyan[2] = true;
+	Jeffrey.status.statusAppliedOnRyan[2] = true;
 }
 this.forget();
 }
@@ -65,18 +68,18 @@ public void frameEvent () {
 		this.setY(this.getY() + 3);
 	}
 	this.setY(this.getY() - 1);
-	if (this.isColliding(GameCode.testJeffrey)) {
+	if (this.isColliding(j)) {
 	if (amountToAdd != 1) {
-		Tbox box = new Tbox (GameCode.testJeffrey.getX(), GameCode.testJeffrey.getY() - 8, 28, 2, "YOU GOT " + Integer.toString(amountToAdd) + " LEMON PACKETS THEY LOOK VERY TANTALIZING", true);
+		Tbox box = new Tbox (j.getX(), j.getY() - 8, 28, 2, "YOU GOT " + Integer.toString(amountToAdd) + " LEMON PACKETS THEY LOOK VERY TANTALIZING", true);
 		while (amountToAdd != 0) {
-			GameCode.testJeffrey.inventory.addConsumable(this);
+			Jeffrey.inventory.addConsumable(this);
 			amountToAdd = amountToAdd - 1;
 			}
 		this.forget();
 		} else {
-			Tbox box = new Tbox (GameCode.testJeffrey.getX(), GameCode.testJeffrey.getY() - 8, 28, 1, "YOU GOT A LEMON PACKET", true);
+			Tbox box = new Tbox (j.getX(), j.getY() - 8, 28, 1, "YOU GOT A LEMON PACKET", true);
 			while (amountToAdd != 0) {
-				GameCode.testJeffrey.inventory.addConsumable(this);
+				Jeffrey.inventory.addConsumable(this);
 				amountToAdd = amountToAdd - 1;
 				}
 			this.forget();

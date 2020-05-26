@@ -61,25 +61,25 @@ public class Stats extends GameObject {
 			sprites.hearts.draw ((numHearts - 1) * 16, 0);
 		}*/
 	
-		if (GameCode.testJeffrey.witchCharictar == 0) {
+		if (j.witchCharictar == 0) {
 		charictarName.setContent("JEFFREY");
 		}
-		if (GameCode.testJeffrey.witchCharictar == 1) {
+		if (j.witchCharictar == 1) {
 		charictarName.setContent("SAM");
 		}
-		if (GameCode.testJeffrey.witchCharictar == 2) {
+		if (j.witchCharictar == 2) {
 		charictarName.setContent("RYAN");
 		}
-		weaponName.setContent(GameCode.testJeffrey.getWeapon().checkName());
-		weaponSprite = GameCode.testJeffrey.getWeapon().getUnrotatedSprite();
-		ammoAmount.setContent(Integer.toString(GameCode.testJeffrey.getInventory().checkAmmoAmountOfWeapon(GameCode.testJeffrey.getWeapon())));
+		weaponName.setContent(j.getWeapon().checkName());
+		weaponSprite = j.getWeapon().getUnrotatedSprite();
+		ammoAmount.setContent(Integer.toString(j.getInventory().checkAmmoAmountOfWeapon(j.getWeapon())));
 	}
 	@Override 
 	public void draw () {
 		Graphics buffer = RenderLoop.window.getBufferGraphics ();
 		buffer.setColor (new Color(0xFF0000));
 		HEALTH_BORDER_SPRITE.draw(160,0);
-		if (GameCode.testJeffrey.witchCharictar == 0) {
+		if (j.witchCharictar == 0) {
 			if (j.samHealth > 0) {
 			SAM_BAR.draw(0, 0);
 			} else if(j.ryanHealth > 0) {
@@ -88,7 +88,7 @@ public class Stats extends GameObject {
 				EMPTY_BAR.draw(0, 0);
 			}
 			}
-			if (GameCode.testJeffrey.witchCharictar == 1) {
+			if (j.witchCharictar == 1) {
 				if (j.ryanHealth > 0) {
 					RYAN_BAR.draw(0, 0);
 					} else if(j.jeffreyHealth > 0) {
@@ -97,7 +97,7 @@ public class Stats extends GameObject {
 						EMPTY_BAR.draw(0, 0);
 					}
 			}
-			if (GameCode.testJeffrey.witchCharictar == 2) {
+			if (j.witchCharictar == 2) {
 				if (j.jeffreyHealth > 0) {
 					JEFFREY_BAR.draw(0, 0);
 					} else if(j.samHealth > 0) {
@@ -106,19 +106,19 @@ public class Stats extends GameObject {
 						EMPTY_BAR.draw(0, 0);
 					}
 			}
-		if (GameCode.testJeffrey.witchCharictar ==0 ) {
+		if (j.witchCharictar ==0 ) {
 			if (j.getHealth() > 0) {
-			HEALTH_SPRITE.draw(160,0,0,(int)(170 * (GameCode.testJeffrey.getHealth() / GameCode.testJeffrey.maxJeffreyHealth)), 24);
+			HEALTH_SPRITE.draw(160,0,0,(int)(170 * (j.getHealth() / j.maxJeffreyHealth)), 24);
 			}
 		}
-		if (GameCode.testJeffrey.witchCharictar ==1 ) {
+		if (j.witchCharictar ==1 ) {
 			if (j.getHealth() > 0) {
-			HEALTH_SPRITE.draw(160,0,0,(int)(170 * (GameCode.testJeffrey.getHealth() / GameCode.testJeffrey.maxSamHealth)), 24);
+			HEALTH_SPRITE.draw(160,0,0,(int)(170 * (j.getHealth() / j.maxSamHealth)), 24);
 			}
 			}
-		if (GameCode.testJeffrey.witchCharictar ==2 ) {
+		if (j.witchCharictar ==2 ) {
 			if (j.getHealth() > 0) {
-			HEALTH_SPRITE.draw(160,0,0,(int)(170 * (GameCode.testJeffrey.getHealth() / GameCode.testJeffrey.maxRyanHealth)), 24);
+			HEALTH_SPRITE.draw(160,0,0,(int)(170 * (j.getHealth() / j.maxRyanHealth)), 24);
 			}
 			}
 		buffer.setColor (new Color(0x000000));

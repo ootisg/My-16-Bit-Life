@@ -10,34 +10,36 @@ import map.TileData;
 import players.Jeffrey;
 
 public class Ladder extends GameObject {
+	Jeffrey j;
 	public Ladder () {
+		j =  (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	}
 	public void frameEvent () {
 		Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 		if (Room.isColliding(jeffrey, "Ladder.png:0")&& keyPressed('W')) {
-			GameCode.testJeffrey.onLadder = true;
-			GameCode.testJeffrey.vy = 0;
-			GameCode.testJeffrey.vx = 0;
+			j.onLadder = true;
+			j.vy = 0;
+			j.vx = 0;
 			MapTile[] ladder = Room.getCollidingTiles(jeffrey, "Ladder.png:0");
 			jeffrey.setX(ladder[0].x);
 			
 		}
-		if (GameCode.testJeffrey.onLadder && keyDown ('W') && Room.isColliding(jeffrey, "Ladder.png:0")) {
+		if (j.onLadder && keyDown ('W') && Room.isColliding(jeffrey, "Ladder.png:0")) {
 			jeffrey.setY(jeffrey.getY() -3);
 		}
 		jeffrey.setY(jeffrey.getY() + 3);
-		if (GameCode.testJeffrey.onLadder && keyDown ('S') && Room.isColliding(jeffrey, "Ladder.png:0")) {
+		if (j.onLadder && keyDown ('S') && Room.isColliding(jeffrey, "Ladder.png:0")) {
 			jeffrey.setY(jeffrey.getY() + 3);
 		}
 		jeffrey.setY(jeffrey.getY() - 3);
 		jeffrey.setY(jeffrey.getY() + 1);
-		if (Room.isColliding(jeffrey, "Ladder.png:0") && !GameCode.testJeffrey.onLadder && jeffrey.vy>0) {
-			GameCode.testJeffrey.vy = 0;
+		if (Room.isColliding(jeffrey, "Ladder.png:0") && !j.onLadder && jeffrey.vy>0) {
+			j.vy = 0;
 			jeffrey.isJumping = false;
 		} 
 		jeffrey.setY(jeffrey.getY() - 1);
-		if (GameCode.testJeffrey.onLadder && (keyPressed (32))){
-			GameCode.testJeffrey.onLadder = false;
+		if (j.onLadder && (keyPressed (32))){
+			j.onLadder = false;
 		}
 	}
 }

@@ -3,6 +3,7 @@ package statusEffect;
 import enemys.Enemy;
 import main.GameCode;
 import main.GameObject;
+import main.ObjectHandler;
 import players.Jeffrey;
 import resources.Sprite;
 import statusEffect.Status;
@@ -13,6 +14,7 @@ public class Poison extends GameObject{
 	int effectTimer;
 	int level;
 	Sprite poisoned;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	Sprite poisonedWalk;
 	int charictarAtStart;
 	boolean firstRun;
@@ -28,7 +30,7 @@ public class Poison extends GameObject{
 		poisoned = new Sprite ("resources/sprites/config/jeffrey_idle_poisoned.txt");
 		poisonedWalk = new Sprite ("resources/sprites/config/jeffrey_walking_poisoned.txt");
 		timer = 0;
-		charictarAtStart = GameCode.testJeffrey.witchCharictar;
+		charictarAtStart = j.witchCharictar;
 		effectTimer = 0;
 		level = tier;
 		affectedMAN.walkSprite = poisonedWalk;
@@ -41,17 +43,17 @@ public class Poison extends GameObject{
 		affectedMAN.standSprite = poisoned;
 		if (firstRun) {
 			if (charictarAtStart == 0) {
-			GameCode.testJeffrey.status.statusAppliedOnJeffrey [0] = true;
+			Jeffrey.status.statusAppliedOnJeffrey [0] = true;
 			}
 			if (charictarAtStart == 1) {
-				GameCode.testJeffrey.status.statusAppliedOnSam [0] = true;	
+				Jeffrey.status.statusAppliedOnSam [0] = true;	
 			}
 			firstRun = false;
 		}
-		if ((!GameCode.testJeffrey.status.statusAppliedOnJeffrey [0] && charictarAtStart == 0) || (!GameCode.testJeffrey.status.statusAppliedOnSam [0] && charictarAtStart == 1)) {
+		if ((!Jeffrey.status.statusAppliedOnJeffrey [0] && charictarAtStart == 0) || (!Jeffrey.status.statusAppliedOnSam [0] && charictarAtStart == 1)) {
 			this.forget();
 		}
-		if (GameCode.testJeffrey.witchCharictar == charictarAtStart) {
+		if (j.witchCharictar == charictarAtStart) {
 		if (affectedMAN.getSprite().equals(poisoned)) {
 		}
 		if( !(affectedPerson == null) && ((timer == 150 && level == 1) || (timer == 120 && level == 2) || (timer == 90 && level == 3) || (timer == 60 && level == 4))){
@@ -73,10 +75,10 @@ public class Poison extends GameObject{
 			affectedMAN.walkSprite = new Sprite ("resources/sprites/config/jeffrey_walking");
 			affectedMAN.standSprite = new Sprite ("resources/sprites/config/jeffrey_idle");
 			if (charictarAtStart == 0) {
-				GameCode.testJeffrey.status.statusAppliedOnJeffrey [0] = false;
+				Jeffrey.status.statusAppliedOnJeffrey [0] = false;
 				}
 				if (charictarAtStart == 1) {
-					GameCode.testJeffrey.status.statusAppliedOnSam [0] = false;	
+					Jeffrey.status.statusAppliedOnSam [0] = false;	
 				}
 			this.forget();
 			}

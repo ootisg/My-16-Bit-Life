@@ -13,7 +13,7 @@
 		"type": "break",
 		"name":"test",
 		"minDirection": 0,
-		"maxDirecion": 6.28,
+		"maxDirection": 6.28,
 		"paths": [
 			{
 			"path":"shard"

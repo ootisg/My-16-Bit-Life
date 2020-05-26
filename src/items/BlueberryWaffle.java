@@ -2,13 +2,16 @@ package items;
 
 import gui.Tbox;
 import main.GameCode;
+import main.ObjectHandler;
 import map.Room;
+import players.Jeffrey;
 import resources.Sprite;
 import statusEffect.Regeneration;
 
 public class BlueberryWaffle extends Item{
 	int amountToAdd;
 	Sprite waffle = new Sprite ("resources/sprites/Blueberry_Waffle.png");
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 public BlueberryWaffle () {
 	this.setSprite(waffle); 
 	try {
@@ -26,21 +29,21 @@ public BlueberryWaffle (int amount) {
 @Override
 public void useItem(int witchCharictar) {
 	if (witchCharictar == 0) {
-		GameCode.testJeffrey.jeffreyHealth = GameCode.testJeffrey.jeffreyHealth + 60;
-		if (GameCode.testJeffrey.jeffreyHealth >= GameCode.testJeffrey.maxJeffreyHealth ) {
-			GameCode.testJeffrey.jeffreyHealth = GameCode.testJeffrey.maxJeffreyHealth;
+		j.jeffreyHealth = j.jeffreyHealth + 60;
+		if (j.jeffreyHealth >= j.maxJeffreyHealth ) {
+			j.jeffreyHealth = j.maxJeffreyHealth;
 		}
 	}
 	if (witchCharictar == 1) {
-		GameCode.testJeffrey.samHealth = GameCode.testJeffrey.samHealth + 40;
-		if (GameCode.testJeffrey.samHealth >= GameCode.testJeffrey.maxSamHealth ) {
-			GameCode.testJeffrey.samHealth = GameCode.testJeffrey.maxSamHealth;
+		j.samHealth = j.samHealth + 40;
+		if (j.samHealth >= j.maxSamHealth ) {
+			j.samHealth = j.maxSamHealth;
 		}
 	}
 	if (witchCharictar == 2) {
-		GameCode.testJeffrey.ryanHealth = GameCode.testJeffrey.maxRyanHealth + 40;
-		if (GameCode.testJeffrey.ryanHealth >= GameCode.testJeffrey.maxRyanHealth ) {
-			GameCode.testJeffrey.ryanHealth = GameCode.testJeffrey.maxRyanHealth;
+		j.ryanHealth = j.maxRyanHealth + 40;
+		if (j.ryanHealth >= j.maxRyanHealth ) {
+			j.ryanHealth = j.maxRyanHealth;
 		}
 	}
 	Regeneration regeneration;
@@ -67,18 +70,18 @@ public String getItemType() {
 			this.setY(this.getY() + 3);
 		}
 		this.setY(this.getY() - 1);
-		if (this.isColliding(GameCode.testJeffrey)) {
+		if (this.isColliding(j)) {
 		if (amountToAdd != 1) {
-			Tbox box = new Tbox (GameCode.testJeffrey.getX(), GameCode.testJeffrey.getY() - 8, 28, 2, "YOU GOT " + Integer.toString(amountToAdd) + " WAFFLES THEY LOOK REALLY FREAKIN TASTY", true);
+			Tbox box = new Tbox (j.getX(), j.getY() - 8, 28, 2, "YOU GOT " + Integer.toString(amountToAdd) + " WAFFLES THEY LOOK REALLY FREAKIN TASTY", true);
 			while (amountToAdd != 0) {
-				GameCode.testJeffrey.inventory.addConsumable(this);
+				Jeffrey.inventory.addConsumable(this);
 				amountToAdd = amountToAdd - 1;
 				}
 			this.forget();
 			} else {
-				Tbox box = new Tbox (GameCode.testJeffrey.getX(), GameCode.testJeffrey.getY() - 8, 28, 1, "YOU GOT A WAFFLE", true);
+				Tbox box = new Tbox (j.getX(), j.getY() - 8, 28, 1, "YOU GOT A WAFFLE", true);
 				while (amountToAdd != 0) {
-					GameCode.testJeffrey.inventory.addConsumable(this);
+					Jeffrey.inventory.addConsumable(this);
 					amountToAdd = amountToAdd - 1;
 					}
 				this.forget();

@@ -209,42 +209,42 @@ public class SlimeSword extends Item {
 		if (broke && !mouseButtonDown (2)) {
 			broke = false;
 		}
-		if (this.mouseButtonDown(0) && !GameCode.testJeffrey.getSprite().equals(samSwingSprite) && !extended && !player.isCrouched() ) {
-			GameCode.testJeffrey.setSprite(samSwingSprite);
-			GameCode.testJeffrey.getAnimationHandler().setFrameTime(50);
-			GameCode.testJeffrey.getAnimationHandler().setRepeat(false);
-			GameCode.testJeffrey.changeSprite(false);
-			if (GameCode.testJeffrey.getAnimationHandler().flipHorizontal()) {
-				GameCode.testJeffrey.desyncSpriteX(-34);
+		if (this.mouseButtonDown(0) && !player.getSprite().equals(samSwingSprite) && !extended && !player.isCrouched() ) {
+			player.setSprite(samSwingSprite);
+			player.getAnimationHandler().setFrameTime(50);
+			player.getAnimationHandler().setRepeat(false);
+			player.changeSprite(false);
+			if (player.getAnimationHandler().flipHorizontal()) {
+				player.desyncSpriteX(-34);
 				faceingLeft = true;
 			}
 		}
-		if (GameCode.testJeffrey.getSprite().equals(samSwingSprite)) {
-		if (faceingLeft && !GameCode.testJeffrey.getAnimationHandler().flipHorizontal()) {
-			GameCode.testJeffrey.desyncSpriteX(0);
+		if (player.getSprite().equals(samSwingSprite)) {
+		if (faceingLeft && !player.getAnimationHandler().flipHorizontal()) {
+			player.desyncSpriteX(0);
 			faceingLeft = false;
 		}
-		if (!faceingLeft && GameCode.testJeffrey.getAnimationHandler().flipHorizontal()) {
-			GameCode.testJeffrey.desyncSpriteX(-34);
+		if (!faceingLeft && player.getAnimationHandler().flipHorizontal()) {
+			player.desyncSpriteX(-34);
 			faceingLeft = true;
 		}
 		}
-		if (GameCode.testJeffrey.getSprite().equals(samSwingSprite) && GameCode.testJeffrey.getAnimationHandler().getFrame() ==  11) {
-			GameCode.testJeffrey.changeSprite(true);
-			GameCode.testJeffrey.setSprite(samWalkingSword);
-			GameCode.testJeffrey.getAnimationHandler().setRepeat(true);
+		if (player.getSprite().equals(samSwingSprite) && player.getAnimationHandler().getFrame() ==  11) {
+			player.changeSprite(true);
+			player.setSprite(samWalkingSword);
+			player.getAnimationHandler().setRepeat(true);
 			hitEnemys.removeAll(hitEnemys);
-			if (GameCode.testJeffrey.getAnimationHandler().flipHorizontal()) {
-				GameCode.testJeffrey.desyncSpriteX(0);
+			if (player.getAnimationHandler().flipHorizontal()) {
+				player.desyncSpriteX(0);
 				faceingLeft = false;
 			}
 		}
 		
-		if (GameCode.testJeffrey.getSprite().equals(samSwingSprite)) {
-			if (GameCode.testJeffrey.getAnimationHandler().flipHorizontal()) {
-			this.createExpandingHitBoxBasedOnADiffrentObject(new int [] { -34, -34, -34, -34,-22,-19,-24,-22,-24, -24,-34,-34}, new int [] {0,0,0,3,24,30,40,36,33,4,0,0}, new int [] {0,0,0,11,2,2,2,14,21,22,0,0} , new int [] {0,0,0,11,10,7,11,26,16,7,0,0} , GameCode.testJeffrey);
+		if (player.getSprite().equals(samSwingSprite)) {
+			if (player.getAnimationHandler().flipHorizontal()) {
+			this.createExpandingHitBoxBasedOnADiffrentObject(new int [] { -34, -34, -34, -34,-22,-19,-24,-22,-24, -24,-34,-34}, new int [] {0,0,0,3,24,30,40,36,33,4,0,0}, new int [] {0,0,0,11,2,2,2,14,21,22,0,0} , new int [] {0,0,0,11,10,7,11,26,16,7,0,0} , player);
 			} else {
-				this.createExpandingHitBoxBasedOnADiffrentObject(new int [] { 0, 0, 0, 45,0,0,0,0,0, 36,0,0}, new int [] {0,0,0,3,24,30,40,36,33,4,0,0}, new int [] {0,0,0,11,2,2,2,14,21,22,0,0} , new int [] {0,0,0,11,10,7,11,26,16,7,0,0} , GameCode.testJeffrey);
+				this.createExpandingHitBoxBasedOnADiffrentObject(new int [] { 0, 0, 0, 45,0,0,0,0,0, 36,0,0}, new int [] {0,0,0,3,24,30,40,36,33,4,0,0}, new int [] {0,0,0,11,2,2,2,14,21,22,0,0} , new int [] {0,0,0,11,10,7,11,26,16,7,0,0} , player);
 			}
 		}
 		for (int i = 0; i < Enemy.enemyList.size(); i ++) {

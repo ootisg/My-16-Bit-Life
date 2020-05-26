@@ -6,20 +6,23 @@ import gui.Tbox;
 import gui.Textbox;
 import main.GameCode;
 import main.GameObject;
+import main.ObjectHandler;
+import players.Jeffrey;
 import resources.Sprite;
 
 public class Item extends GameObject {
 	Boolean activeBox = false;
 	ListTbox box;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	LemonPacket packet;
-	public void Item () {
+	/*public Item () {
 		Class<?> c = this.getClass ();
 		try {
 			setSprite (new Sprite ("resources/sprites/" + c.getSimpleName () + ".png"));
 		} catch (Exception e) {
 			return;
 		}
-	}
+	} */
 	//override to set effect
 	public void useItem(int witchCharictar) {
 		Textbox box;
@@ -58,11 +61,11 @@ public class Item extends GameObject {
 		return returnArray;
 	}
 	public void allwaysRunItemStuff (int witchCharitar) {
-		if (GameCode.testJeffrey.checkIfSomeoneIsLemoney(witchCharitar) && !activeBox && this.getItemType().equals("Consumable") && !this.checkName().equals("LEMON PACKET")) {
+		if (j.checkIfSomeoneIsLemoney(witchCharitar) && !activeBox && this.getItemType().equals("Consumable") && !this.checkName().equals("LEMON PACKET")) {
 			Tbox twobox2furios;
 			activeBox = true;
 			packet = new LemonPacket ();
-			if (GameCode.testJeffrey.getInventory().checkConsumable(packet)) {
+			if (Jeffrey.getInventory().checkConsumable(packet)) {
 			twobox2furios = new Tbox (100, 80, 24, 8, "HE DOESEN'T WANT THAT HE WANTS LEMON PACKETS HE WILL ONLY EAT IT IF HE CAN HAVE LEMON PACKETS WITH IT", true);
 			twobox2furios.setScrollRate(0);
 			box = new ListTbox (290,400, new String []{"WHATEVER TAKE IT DUDE", "SCREW THAT"});
@@ -78,8 +81,8 @@ public class Item extends GameObject {
 			if(box.getSelected() == 0) {
 				this.useItem(witchCharitar);
 				packet.useItem(witchCharitar);
-				GameCode.testJeffrey.getInventory().removeItem(this);
-				GameCode.testJeffrey.getInventory().removeItem(packet);
+				Jeffrey.getInventory().removeItem(this);
+				Jeffrey.getInventory().removeItem(packet);
 				box.close();
 			}
 			if (box.getSelected() == 1) {
@@ -94,9 +97,9 @@ public class Item extends GameObject {
 			this.useItem(witchCharitar);
 			activeBox = true;
 		}
-		if ((!GameCode.testJeffrey.checkIfSomeoneIsLemoney(witchCharitar) || this.checkName().equals("LEMON PACKET")) && this.getItemType().equals("Consumable")) {
+		if ((!j.checkIfSomeoneIsLemoney(witchCharitar) || this.checkName().equals("LEMON PACKET")) && this.getItemType().equals("Consumable")) {
 			this.useItem(witchCharitar);
-			GameCode.testJeffrey.getInventory().removeItem(this);
+			Jeffrey.getInventory().removeItem(this);
 		}
 	}
  	//overriden in AimableWeapon

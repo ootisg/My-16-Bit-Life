@@ -79,13 +79,13 @@ public class Point extends GameObject {
 		/*while(Room.isColliding(this)){
 			this.setY(this.getY() + 1);
 		}*/
-		if (Room.doHitboxVectorCollison(this.hitbox(), destanation.x, destanation.y) == null) {
+		if ( Room.getCollisionInfo(this.hitbox().getX(), this.hitbox().getY(), destanation.x, this.y + (yDiffrence/3)) == null) {
 			//System.out.println("debug");
 			return destanation;
 		} else {
 			try {
-			double crashX = Room.doHitboxVectorCollison(this.hitbox(), destanation.x, this.y + (yDiffrence/3))[0];
-			double crashY = Room.doHitboxVectorCollison(this.hitbox(), destanation.x, this.y + (yDiffrence/3))[1];
+			double crashX = Room.getCollisionInfo(this.hitbox().getX(), this.hitbox().getY(), destanation.x, this.y + (yDiffrence/3)).getCollisionX();
+			double crashY =  Room.getCollisionInfo(this.hitbox().getX(), this.hitbox().getY(), destanation.x, this.y + (yDiffrence/3)).getCollisionY();
 			try {
 			//points.pop();
 			this.getAnimationHandler().hide();
@@ -120,21 +120,21 @@ public class Point extends GameObject {
 		int devation2 = 0;
 		double yDiffrence;
 		yDiffrence = destanation.y - this.y;
-		double crashX = Room.doHitboxVectorCollison(this.hitbox(), destanation.x, this.y + (yDiffrence/3) )[0];
-		double crashY = Room.doHitboxVectorCollison(this.hitbox(), destanation.x, this.y + (yDiffrence/3))[1];
-		if (Room.doHitboxVectorCollison(this.hitbox(), destanation.x + xto, crashY) == null) {
+		double crashX = Room.getCollisionInfo(this.hitbox().getX(),this.hitbox().getY(), destanation.x, this.y + (yDiffrence/3)).getCollisionX();
+		double crashY = Room.getCollisionInfo(this.hitbox().getX(),this.hitbox().getY(), destanation.x, this.y + (yDiffrence/3)).getCollisionY();
+		if (Room.getCollisionInfo(this.hitbox().getX(),this.hitbox().getY(), destanation.x + xto, crashY) == null) {
 			Point coolPoint = new Point (destanation.x, crashY);
 			coolPoint.declare(coolPoint.x, coolPoint.y);
 			return coolPoint;
 		}
-		while (Room.doHitboxVectorCollison(this.hitbox(), (destanation.x + xto), crashY) != null) {
+		while (Room.getCollisionInfo(this.hitbox().getX(), this.hitbox().getY(), (destanation.x + xto), crashY) != null) {
 			xto = xto + 1;
 			devation1 = devation1 + 1;
 			if (devation1 == 690) {
 				break;
 			}
 		}
-		while (Room.doHitboxVectorCollison(this.hitbox(), destanation.x + xto1, crashY) != null) {
+		while (Room.getCollisionInfo(this.hitbox().getX(),this.hitbox().getY(), destanation.x + xto1, crashY) != null) {
 			xto1 = xto1 - 1;
 			devation2 = devation2 + 1;
 			if (devation2 == 690) {
@@ -143,7 +143,7 @@ public class Point extends GameObject {
 		}
 		if (devation1 == 690 && devation2 == 690 ) {
 			try {
-			crashY = Room.doHitboxVectorCollison(this.hitbox(), destanation.x, this.y - (yDiffrence/3))[1];
+			crashY = Room.getCollisionInfo(this.hitbox().getX(),this.hitbox().getY(), destanation.x, this.y - (yDiffrence/3)).getCollisionY();
 			} catch (NullPointerException e) {
 			crashY = this.y - (yDiffrence/3);
 			}
@@ -151,14 +151,14 @@ public class Point extends GameObject {
 			devation1 = 0;
 			xto = 0;
 			xto1 = 0;
-			while (Room.doHitboxVectorCollison(this.hitbox(), (destanation.x + xto), crashY) != null) {
+			while (Room.getCollisionInfo(this.hitbox().getX(),this.hitbox().getY(), (destanation.x + xto), crashY) != null) {
 				xto = xto + 1;
 				devation1 = devation1 + 1;
 				if (devation1 == 690) {
 					break;
 				}
 			}
-			while (Room.doHitboxVectorCollison(this.hitbox(), destanation.x + xto1, crashY) != null) {
+			while (Room.getCollisionInfo(this.hitbox().getX(),this.hitbox().getY(), destanation.x + xto1, crashY) != null) {
 				xto1 = xto1 - 1;
 				devation2 = devation2 + 1;
 				if (devation2 == 690) {

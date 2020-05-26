@@ -31,6 +31,6 @@ public class BreakableObject extends GameObject {
 			currentShard.setHitboxAttributes(currentSprite.getWidth()/3,currentSprite.getHeight()/3, currentSprite.getWidth()/3, currentSprite.getHeight()/3);
 			currentShard.declare(this.getX(),this.getY());
 		}
-		this.forget();
+		
 	}
 }

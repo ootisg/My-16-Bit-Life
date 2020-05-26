@@ -3,6 +3,8 @@ package gameObjects;
 import items.Item;
 import main.GameCode;
 import main.GameObject;
+import main.ObjectHandler;
+import players.Jeffrey;
 import resources.Sprite;
 import gui.Textbox;
 
@@ -28,6 +30,7 @@ public class NPC extends GameObject{
 	int amountToTake;
 	int exchangeItem;
 	int charictarToRecive;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	Boolean disapear;
 	int amountOfItemMessages;
 	Boolean setup;
@@ -201,8 +204,8 @@ public class NPC extends GameObject{
 		
 		try {
 		if (diolog.isDone && diolog != null) {
-			if (!GameCode.testJeffrey.getInventory().checkFreinds(this)) {
-				GameCode.testJeffrey.getInventory().addFreind(this);
+			if (!Jeffrey.getInventory().checkFreinds(this)) {
+				Jeffrey.getInventory().addFreind(this);
 			}
 			messageSeenOnce = true;
 			diolog = null;
@@ -221,18 +224,18 @@ public class NPC extends GameObject{
 			messageSeenOnce = false;
 			}
 		}
-		if (checkForItem && GameCode.testJeffrey.inventory.checkItemAmount(itemCheck) >= amountOfItemNeeded) {
+		if (checkForItem && Jeffrey.inventory.checkItemAmount(itemCheck) >= amountOfItemNeeded) {
 			itemFound = true;
 			amountOfNonDefultMessages = amountOfItemMessages;
 			index = 1;
 			checkForItem = false;
 			if (keepItem) {
 				for (int i =amountOfItemNeeded; i == 0; i = i - 1) {
-				GameCode.testJeffrey.inventory.removeItem(itemCheck);
+				Jeffrey.inventory.removeItem(itemCheck);
 				}
 			}
 		}
-		if (this.isColliding (GameCode.testJeffrey) && (keyPressed (84) || proximityTriggered) && (diolog == null || diolog.isDone == true)) {
+		if (this.isColliding (j) && (keyPressed (84) || proximityTriggered) && (diolog == null || diolog.isDone == true)) {
 			if (!itemFound) {
 			diolog = new Textbox (messages [0]);
 			} else {
@@ -241,17 +244,17 @@ public class NPC extends GameObject{
 			diolog.chagePause();
 			diolog.declare((int)this.getX(), (int)this.getY() - 140);
 			if (giveItem != 0) {
-				GameCode.testJeffrey.getInventory().addItem(freeItem);
+				Jeffrey.getInventory().addItem(freeItem);
 			}
 			if (itemFound && disapear) {
 				this.forget();
 			}
-			if (proximityTriggered && this.isColliding (GameCode.testJeffrey)) {
-				GameCode.testJeffrey.vx = 0;
-				if (this.getX()> GameCode.testJeffrey.getX()) {
-					GameCode.testJeffrey.setX(GameCode.testJeffrey.getX() - 5);
+			if (proximityTriggered && this.isColliding (j)) {
+				j.vx = 0;
+				if (this.getX()> j.getX()) {
+					j.setX(j.getX() - 5);
 				} else {
-					GameCode.testJeffrey.setX(GameCode.testJeffrey.getX() + 5);
+					j.setX(j.getX() + 5);
 			}
 			}
 		}

@@ -37,7 +37,7 @@ public class Candle extends Enemy {
 	
 	}
 	public void damage (int amount) {
-		if (GameCode.testJeffrey.checkIfPowerful()) {
+		if (j.checkIfPowerful()) {
 			amount = (int) ((amount * 1.2) - defence);
 			if(amount <= 0){
 				amount = 1;

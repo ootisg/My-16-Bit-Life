@@ -1,9 +1,12 @@
 package enemys;
 
 import main.GameCode;
+import main.ObjectHandler;
+import players.Jeffrey;
 import resources.Sprite;
 
 public class MissleadingStop extends Enemy {
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	public MissleadingStop () {
 		this.setDeath(false);
 		this.setSprite(new Sprite ("resources/sprites/config/Missleading_stop.txt"));
@@ -20,20 +23,20 @@ public class MissleadingStop extends Enemy {
 	@Override
 	public void frameEvent () {
 		if (this.health <= 0) {
-			if (!GameCode.testJeffrey.getInventory().checkKill(this)) {
-				GameCode.testJeffrey.getInventory().addKill(this);
+			if (!Jeffrey.getInventory().checkKill(this)) {
+				Jeffrey.getInventory().addKill(this);
 			}
 			enemyList.remove(this);		
 			this.forget();
 		}
-		if (GameCode.testJeffrey.getX() - this.getX() < 150 &&GameCode.testJeffrey.getX() - this.getX() >= -150 && this.declared()) {
-			GameCode.testJeffrey.status.statusAppliedOnJeffrey[3] = true;
-			GameCode.testJeffrey.status.statusAppliedOnRyan[3]= true;
-			GameCode.testJeffrey.status.statusAppliedOnSam[3] = true;
+		if (j.getX() - this.getX() < 150 &&j.getX() - this.getX() >= -150 && this.declared()) {
+			Jeffrey.status.statusAppliedOnJeffrey[3] = true;
+			Jeffrey.status.statusAppliedOnRyan[3]= true;
+			Jeffrey.status.statusAppliedOnSam[3] = true;
 		} else {
-			GameCode.testJeffrey.status.statusAppliedOnJeffrey[3] = false;
-			GameCode.testJeffrey.status.statusAppliedOnRyan[3]= false;
-			GameCode.testJeffrey.status.statusAppliedOnSam[3] = false;
+			Jeffrey.status.statusAppliedOnJeffrey[3] = false;
+			Jeffrey.status.statusAppliedOnRyan[3]= false;
+			Jeffrey.status.statusAppliedOnSam[3] = false;
 		}
 	}
 	@Override 

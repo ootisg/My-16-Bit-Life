@@ -6,6 +6,7 @@ import gameObjects.DamageText;
 import main.GameCode;
 import main.ObjectHandler;
 import map.Room;
+import players.Jeffrey;
 import resources.Sprite;
 
 public class Zombee extends Enemy {
@@ -14,6 +15,7 @@ public class Zombee extends Enemy {
 	Random decider;
 	int yToMove;
 	int timer;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	private final static Sprite NORMAL_SPRITE = new Sprite ("resources/sprites/config/zombee.txt") ;
 	private final static Sprite WOOD_SPRITE = new Sprite ("resources/sprites/config/zombeeW.txt") ;
 	private final static Sprite PETRIFIED_WOOD_SPRITE = new Sprite ("resources/sprites/ZombeePW.txt") ;
@@ -93,27 +95,27 @@ public class Zombee extends Enemy {
 			}
 			this.setHitboxAttributes(0, 0, 16, 10);
 		}
-		if (((GameCode.testJeffrey.getX() > this.getX()) && GameCode.testJeffrey.getY() > this.getY()) && !pathDecided) {
+		if (((j.getX() > this.getX()) && j.getY() > this.getY()) && !pathDecided) {
 			xToMove = decider.nextInt(3) + 1;
 			yToMove = decider.nextInt(3) + 1;
 			this.getAnimationHandler().setFlipHorizontal(false);
 			pathDecided = true;
 		}
-if ((GameCode.testJeffrey.getX() < this.getX()) && GameCode.testJeffrey.getY() > this.getY()&& !pathDecided) {
+if ((j.getX() < this.getX()) && j.getY() > this.getY()&& !pathDecided) {
 	xToMove = decider.nextInt(3) + 1;
 	xToMove = xToMove * -1;
 	this.getAnimationHandler().setFlipHorizontal(true);
 	yToMove = decider.nextInt(3) + 1;
 	pathDecided = true;		
 		}
-if ((GameCode.testJeffrey.getX() > this.getX()) && GameCode.testJeffrey.getY() < this.getY()&& !pathDecided) {
+if ((j.getX() > this.getX()) && j.getY() < this.getY()&& !pathDecided) {
 	xToMove = decider.nextInt(3) + 1;
 	yToMove = decider.nextInt(3) + 1;
 	yToMove = yToMove * -1;
 	this.getAnimationHandler().setFlipHorizontal(false);
 	pathDecided = true;
 }
-if ((GameCode.testJeffrey.getX() < this.getX()) && GameCode.testJeffrey.getY() < this.getY()&& !pathDecided) {
+if ((j.getX() < this.getX()) && j.getY() < this.getY()&& !pathDecided) {
 	xToMove = decider.nextInt(3) + 1;
 	yToMove = decider.nextInt(3) + 1;
 	yToMove = yToMove * -1;
@@ -143,7 +145,7 @@ if (Room.isColliding(this)) {
 		this.getAnimationHandler().setFlipHorizontal(false);
 	}
 }
-if (this.isColliding(GameCode.testJeffrey)) {
+if (this.isColliding(j)) {
 	this.attackEvent();
 }
 	}

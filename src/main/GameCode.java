@@ -85,7 +85,7 @@ public class GameCode {
 	static CreepyButterfly newFly;
 	static DuoflyPlus testFly;
 	static DuoflyMinus testFly2;
-	public static Jeffrey testJeffrey;
+	public static Jeffrey J;
 	public static SoundPlayer player;
 	//static TopDown td;
 	Textbox textbox;
@@ -160,8 +160,8 @@ public class GameCode {
 		
 		//Initialize sprites
 		//GameObject initialization
+		J = new Jeffrey ();
 		testLaddder = new Ladder ();
-		testJeffrey = new Jeffrey ();
 		lameJeffrey = new NonPlayableJeffrey();
 		lameSam = new NonPlayableSam();
 		bug1 = new BuggyBoi();
@@ -183,16 +183,16 @@ public class GameCode {
 		work = new Worker ();
 		test = new BreakableObject ();
 		packet = new LemonPacket(1);
-		testJeffrey.getInventory().addFreind(lameJeffrey);
-		testJeffrey.getInventory().addFreind(lameSam);
-		testJeffrey.getInventory().addFreind(lameRyan);
-		testJeffrey.getInventory().addFreind(guy);
-		testJeffrey.getInventory().addKeyItem(key);
-		testJeffrey.getInventory().addConsumable(gun);
-		testJeffrey.getInventory().addConsumable(packet);
+		Jeffrey.getInventory().addFreind(lameJeffrey);
+		Jeffrey.getInventory().addFreind(lameSam);
+		Jeffrey.getInventory().addFreind(lameRyan);
+		Jeffrey.getInventory().addFreind(guy);
+		Jeffrey.getInventory().addKeyItem(key);
+		Jeffrey.getInventory().addConsumable(gun);
+		Jeffrey.getInventory().addConsumable(packet);
 		vaccum = new LifeVaccum (new Sprite ("resources/sprites/config/lifeVaccum.txt"));
-		testJeffrey.getInventory().addWeapon(vaccum, 1);
-		testJeffrey.getInventory().addWeapon(pointer, 0);
+		Jeffrey.getInventory().addWeapon(vaccum, 1);
+		Jeffrey.getInventory().addWeapon(pointer, 0);
 		sword = new SlimeSword();
 		stop = new MissleadingStop();
 		slimelet = new SplittingSlimelet ();
@@ -202,40 +202,40 @@ public class GameCode {
 		microphone = new MagicMicrophone ();
 		marker = new MagicMarker (new Sprite ("resources/sprites/config/marker_weapon_red.txt"));
 		triangle = new NinjaTriangle (new Sprite ("resources/sprites/config/stationary_ninja_triangle.txt"));
-		testJeffrey.getInventory().addWeapon (microphone, 2);
+		Jeffrey.getInventory().addWeapon (microphone, 2);
 		extinguser = new FireRextinguser ();
-		testJeffrey.getInventory().addKill(extinguser);
+		Jeffrey.getInventory().addKill(extinguser);
 		testTie = new ClostridiumBowtielinea();
 		car = new ImpatientCar();
 		fall = new FallingChandleer ();
 		laser = new LazerHoverEnemy ();
-		testJeffrey.getInventory().addWeapon(gun, 0);
-		testJeffrey.getInventory().addWeapon(triangle, 0);
-		testJeffrey.getInventory().addWeapon(sword, 1);
-		testJeffrey.getInventory().addWeapon(marker, 2);
+		Jeffrey.getInventory().addWeapon(gun, 0);
+		Jeffrey.getInventory().addWeapon(triangle, 0);
+		Jeffrey.getInventory().addWeapon(sword, 1);
+		Jeffrey.getInventory().addWeapon(marker, 2);
 		int x = 0;
 		shooter = new MafiaShooter();
 		//boi = new Celing_boi();
 		waffle = new Waffle (4);
 		puncuation = new Puncuation ();
-		testJeffrey.getInventory().addKill(testTie);
-		testJeffrey.getInventory().addKill(puncuation);
+		Jeffrey.getInventory().addKill(testTie);
+		Jeffrey.getInventory().addKill(puncuation);
 		hydrant = new FireHydrant ();
 		slow = new MoveSlowEvent (hydrant, 100, 100, 0, 30, 0, 3, -3);
 		newFly = new CreepyButterfly();
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall(1);
-		//testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
+		testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
 		candle = new Candle ();
 		paint = new BluePaint (1);
 		while (x <= 40) {
-		testJeffrey.inventory.addAmmo(paintball);
-		testJeffrey.inventory.addAmmo(paint);
+		Jeffrey.inventory.addAmmo(paintball);
+		Jeffrey.inventory.addAmmo(paint);
 		x = x + 1;
 		}
 		//testTie.declare (32, 32);
-	//	testJeffrey.getInventory().addKill(boi);
-		//testJeffrey.getInventory().addKill(puncuation);
+	//	Jeffrey.getInventory().addKill(boi);
+		//Jeffrey.getInventory().addKill(puncuation);
 		//cam = new VectorCamera (0, 0);
 		//Uncomment the above line if you want to see them
 		//GameObject declaration

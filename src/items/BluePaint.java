@@ -2,12 +2,15 @@ package items;
 
 import gui.Tbox;
 import main.GameCode;
+import main.ObjectHandler;
 import map.Room;
+import players.Jeffrey;
 import resources.Sprite;
 
 public class BluePaint extends Item{
 	int amountToAdd;
 	Sprite paintball;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	public BluePaint () {
 		paintball = new Sprite ("resources/sprites/Blue_Paint.png");
 		this.setSprite(paintball); 
@@ -41,10 +44,10 @@ public class BluePaint extends Item{
 		} else {
 		this.setY(this.getY() - 1);
 		}
-		if (this.isColliding(GameCode.testJeffrey)) {
-		Tbox box = new Tbox (GameCode.testJeffrey.getX(), GameCode.testJeffrey.getY() - 8, 28, 1, "YOU GOT " + Integer.toString(amountToAdd) + " GLOBS OF PAINT (HOWEVER THOSE ARE QUANTAFIED)", true);
+		if (this.isColliding(j)) {
+		Tbox box = new Tbox (j.getX(), j.getY() - 8, 28, 1, "YOU GOT " + Integer.toString(amountToAdd) + " GLOBS OF PAINT (HOWEVER THOSE ARE QUANTAFIED)", true);
 		while (amountToAdd != 0) {
-		GameCode.testJeffrey.inventory.addAmmo(this);
+		Jeffrey.inventory.addAmmo(this);
 		amountToAdd = amountToAdd - 1;
 		}
 		this.forget();
