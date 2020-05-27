@@ -35,6 +35,7 @@ import gameObjects.CarSpawner;
 import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
 import gameObjects.Leg;
+import gameObjects.Plant;
 import gameObjects.Point;
 import gameObjects.TemporaryWall;
 import graphics3D.VectorCamera;
@@ -144,6 +145,7 @@ public class GameCode {
 	static MoveSlowEvent slow;
 	static Marshan marsh;
 	static FallingChandleer fall;
+	static Plant plant;
 	static BreakableObject test;
 	static Worker work;
 	static Candle candle;
@@ -227,6 +229,7 @@ public class GameCode {
 		paintball = new RedBlackPaintBall(1);
 		testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
 		candle = new Candle ();
+		plant = new Plant ();
 		paint = new BluePaint (1);
 		while (x <= 40) {
 		Jeffrey.inventory.addAmmo(paintball);
@@ -244,7 +247,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/pitstuff.rmf");
+		Room.loadRoom ("resources/maps/lagtest.rmf");
 		//bleh = new AnimeTester ();
 		//bleh.declare (0, 0);
 		gui = new Gui ();
@@ -295,6 +298,7 @@ public class GameCode {
 		//fall.declare(300, 200);
 		//test.declare(300,300);
 		//test.Break(new Sprite [] {new Sprite ("resources/sprites/shard.png")}, 7, 1, 2, 0,3.14);
+		plant.declare(320,300);
 	}
 	
 	public static void beforeGameLogic () {

@@ -16,7 +16,10 @@ import resources.Sprite;
  *
  */
 public abstract class GameObject extends GameAPI {
-	
+	/**
+	 * if true code for this wont run
+	 */
+	private boolean blackListed = false;
 	/**
 	 * x-coordinate of this GameObject
 	 */
@@ -163,7 +166,6 @@ public abstract class GameObject extends GameAPI {
 				workingAttribute.setValue (value);
 			}
 		}
-		
 		/**
 		 * Sets the attributes to the values indicated in the data string attributeData
 		 * @param attributeData TODO
@@ -228,7 +230,21 @@ public abstract class GameObject extends GameAPI {
 		xprevious = x;
 		yprevious = y;
 	}
-	
+	/**
+	 * makes code for this object no longer run
+	 */
+	public void blackList () {
+		blackListed = true;
+	}
+	/**
+	 * makes code for this object run again
+	 */
+	public void whiteList () {
+		blackListed = false;
+	}
+	public boolean isBlackListed () {
+		return blackListed;
+	}
 	/**
 	 * Inserts this object into the static instance of ObjectHandler, effectively scheduling it for calls to frameEvent and draw, in addition to allowing collision detection with it.
 	 */

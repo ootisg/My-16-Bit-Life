@@ -490,7 +490,7 @@ public class Room {
 			if (objList.get (i) != null) {
 				int listSize = objList.get (i).size ();
 				for (int j = 0; j < listSize; j ++) {
-					if (objList.get (i).get (0) != null) {
+					if (objList.get (i).get (0) != null ) {
 						objList.get (i).get (0).forget ();
 					}
 				}

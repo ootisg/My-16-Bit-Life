@@ -222,10 +222,12 @@ public class ObjectHandler {
 		}
 		GameObject[] allObjsArray = allObjsList.toArray (new GameObject[0]);
 		for (int i = 0; i < allObjsArray.length; i ++) {
-			if (!isPaused) {
-			allObjsArray [i].frameEvent ();
-			} else {
-			allObjsArray[i].pausedEvent();
+			if (!allObjsArray[i].isBlackListed()) {
+				if (!isPaused) {
+				allObjsArray [i].frameEvent ();
+				} else {
+				allObjsArray[i].pausedEvent();
+				}
 			}
 		}
 	}
