@@ -1,5 +1,6 @@
 package weapons;
 
+import java.util.Iterator;
 import java.util.Random;
 
 import enemys.Enemy;
@@ -29,6 +30,7 @@ public class LifeVaccum extends AimableWeapon {
 		this.setSprite(vaccumSprite);
 		this.setHitboxAttributes(16, -16, 45, 32);
 		loseBattary = false;
+		this.adjustHitboxBorders();
 	}
 	@Override
 	public String checkName() {
@@ -60,9 +62,9 @@ public class LifeVaccum extends AimableWeapon {
 		timer = timer + 1;
 		// this may need to be a diffrent number
 		if (mouseButtonDown (0) && !jeffrey.isCrouched()) {
-			if (jeffrey.getInventory().checkLifeVaccumBattary() > 0) {
+			if (Jeffrey.getInventory().checkLifeVaccumBattary() > 0) {
 			if (loseBattary) {
-				jeffrey.getInventory().subtractLifeVaccumBattary(1);
+				Jeffrey.getInventory().subtractLifeVaccumBattary(1);
 			}
 			loseBattary = !loseBattary;
 			for (int i = 0; i < Enemy.enemyList.size(); i ++) {
@@ -86,6 +88,19 @@ public class LifeVaccum extends AimableWeapon {
 		}
 			jeffrey.vx = jeffrey.vx/1.25;
 	}
+		if (mouseButtonDown (2) && !jeffrey.isCrouched()) {
+			if (this.isColliding("Box")) {
+				Iterator<GameObject> iter = this.getCollisionInfo().getCollidingObjects().iterator();
+				while (iter.hasNext()) {
+					GameObject working = iter.next();
+					if (jeffrey.getAnimationHandler().flipHorizontal()) {
+						working.goX(working.getX() -2);
+					} else {
+						working.goX(working.getX() +2);
+					}
+				}
+			}
+		}
 		if (jeffrey.getAnimationHandler().flipHorizontal()) {
 			this.setHitboxAttributes(-48, -16, 49, 32);
 			wind.setX(this.getX() -48);

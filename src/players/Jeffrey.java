@@ -158,7 +158,7 @@ if (activeBox) {
 	}
 	@Override
 	public void frameEvent () {
-		if (keyDown ('S')) {
+		if (keyDown ('S') && !onLadder) {
 			crouching = true;
 			this.changeSprite(false);
 			if (!(this.getSprite().equals(jeffreyCrouching) || this.getSprite().equals(samCrouching) || this.getSprite().equals(ryanCrouching))) {

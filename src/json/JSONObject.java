@@ -165,7 +165,6 @@ public class JSONObject {
 	 * @return the associated double
 	 */
 	public double getDouble (String key) {
-		System.out.println(key);
 		return Double.parseDouble(values.get (key).toString());
 	}
 	

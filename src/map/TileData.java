@@ -7,6 +7,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import main.GameObject;
+
 
 
 public class TileData {
@@ -14,7 +16,7 @@ public class TileData {
 	private String name;
 	private boolean isSolid;
 	private boolean isSpecial;
-	
+	private GameObject observer = null;
 	private TileEntitiy partner;
 	
 	private HashMap <String,String> attributes;// info about specific tile 
@@ -40,6 +42,9 @@ public class TileData {
 		} else {
 			isSpecial = false;
 		}
+	}
+	public void setSolid (boolean newSolidity) {
+		isSolid = newSolidity;
 	}
 /**
  * returns the tileEntitiy associated witht this type of tile (null if no tile Entitiy is associated)

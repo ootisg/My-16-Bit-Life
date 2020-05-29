@@ -670,6 +670,7 @@ public abstract class GameObject extends GameAPI {
 				return true;
 			}
 		}
+		
 	
 	/**
 	 * Sets the variants specified in attributeData to the respective values.

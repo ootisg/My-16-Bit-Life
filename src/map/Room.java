@@ -29,7 +29,9 @@ public class Room {
 	private static ArrayList <TileData> dataList;  // sorted by numeric ID
 	private static HashMap <String,TileData> nameList; //indexed by tile name
 	private static ArrayList <BufferedImage> tileIcons; //yeah? (sorted by numeric ID)
+
 	
+	private static HashMap <Long, GameObject> mapObjects = new HashMap <Long, GameObject>(); //objects that should be considered collisions with the map
 	
 	private static int [][][] tileData; //all tiles listed by numeric ID
 	private static ArrayList <Background> backgrounds;// all backgrounds sorted by layers
@@ -107,7 +109,7 @@ public class Room {
 		}
 	}
 	
-	private static long toPackedLong (int x, int y) {
+	public static long toPackedLong (int x, int y) {
 		long a = x;
 		long b = y;
 		a |= b << 32;
@@ -307,19 +309,25 @@ public class Room {
 		for (int wx = startX; wx <= endX; wx++ ){
 			for (int wy = startY; wy <= endY; wy++) {
 				int index = tileData[collisionLayer][wy][wx];
-				if (index == SPECIAL_TILE_ID) {
-					long pos = toPackedLong (wx,wy);
-					positionToEntitiys.get(pos).onCollision(obj);
-					if (!foundCollision) {
-					foundCollision = positionToEntitiys.get(pos).doesColide(obj);
+				if (mapObjects.get(toPackedLong(wx,wy)) == null) {
+					if (index == SPECIAL_TILE_ID) {
+						long pos = toPackedLong (wx,wy);
+						positionToEntitiys.get(pos).onCollision(obj);
+						if (!foundCollision) {
+						foundCollision = positionToEntitiys.get(pos).doesColide(obj);
+						}
+					} else if (dataList.get(index).isSolid()) {
+						foundCollision = true;
 					}
-				} else if (dataList.get(index).isSolid()) {
-					foundCollision = true;
+			} else {
+				if (obj.isColliding(mapObjects.get(toPackedLong(wx,wy))) && !obj.equals(mapObjects.get(toPackedLong(wx,wy)))) {
+					return true;
 				}
 			}
 		}
-		return foundCollision;
 	}
+	return foundCollision;
+}
 
 	public static boolean isColliding (GameObject obj, String tileId) {
 		Rectangle hitbox = obj.hitbox();
@@ -347,8 +355,7 @@ public class Room {
 			}
 		}
 		return foundCollision;
-	}
-	
+}
 	public static MapTile[] getCollidingTiles (GameObject obj) {
 		Rectangle hitbox = obj.hitbox();
 		ArrayList<MapTile> working =new ArrayList<MapTile>();
@@ -359,6 +366,7 @@ public class Room {
 		for (int wx = startX; wx <= endX; wx++ ){
 			for (int wy = startY; wy <= endY; wy++) {
 				int index = tileData[collisionLayer][wy][wx];
+				if (mapObjects.get(toPackedLong(wx,wy)) == null) {
 				if (index == SPECIAL_TILE_ID) {
 					long pos = toPackedLong (wx,wy);
 					if (positionToEntitiys.get(pos).doesColide(obj)) {
@@ -367,6 +375,11 @@ public class Room {
 				} else if (dataList.get(index).isSolid()) {
 					working.add(new MapTile (dataList.get(index),wx*TILE_WIDTH,wy*TILE_HEIGHT));
 				}
+				} else{
+					if (obj.isColliding(mapObjects.get(toPackedLong(wx,wy)))) {
+						working.add(new MapTile (dataList.get(index),(int)mapObjects.get(toPackedLong(wx,wy)).getX(),(int)mapObjects.get(toPackedLong(wx,wy)).getY()));
+					}
+				}
 			}
 		}
 		return working.toArray(new MapTile[0]);
@@ -374,15 +387,13 @@ public class Room {
 	public static MapTile[] getCollidingTiles (GameObject obj, String tileName) {
 		Rectangle hitbox = obj.hitbox();
 		ArrayList<MapTile> working =new ArrayList<MapTile>();
-		
 		int startX = Math.max(hitbox.x/TILE_WIDTH,0);
 		int startY = Math.max(hitbox.y/TILE_HEIGHT,0);
 		int endX = Math.min((hitbox.x + hitbox.width)/TILE_WIDTH,mapWidth-1);
 		int endY = Math.min((hitbox.y + hitbox.height)/TILE_HEIGHT,mapHeight-1);
 		for (int wx = startX; wx <= endX; wx++ ){
 			for (int wy = startY; wy <= endY; wy++) {
-				int index = tileData[collisionLayer][wy][wx];
-				
+				int index = tileData[collisionLayer][wy][wx]; 			
 				if (index == SPECIAL_TILE_ID) {
 					long pos = toPackedLong (wx,wy);
 					if (positionToEntitiys.get(pos).getData().getName().equals(tileName)) {
@@ -395,7 +406,31 @@ public class Room {
 		}
 		return working.toArray(new MapTile[0]);
 	}
-	
+	/**
+	 * returns all tiles colliding with this solid or not
+	 * @param obj the object to check against
+	 * @return all tiles inside that object
+	 */
+public static MapTile[] getAllCollidingTiles (GameObject obj) {
+		Rectangle hitbox = obj.hitbox();
+		ArrayList<MapTile> working =new ArrayList<MapTile>();
+		int startX = Math.max(hitbox.x/TILE_WIDTH,0);
+		int startY = Math.max(hitbox.y/TILE_HEIGHT,0);
+		int endX = Math.min((hitbox.x + hitbox.width)/TILE_WIDTH,mapWidth-1);
+		int endY = Math.min((hitbox.y + hitbox.height)/TILE_HEIGHT,mapHeight-1);
+		for (int wx = startX; wx <= endX; wx++ ){
+			for (int wy = startY; wy <= endY; wy++) {
+				int index = tileData[collisionLayer][wy][wx];
+				if (index == SPECIAL_TILE_ID) {
+					long pos = toPackedLong (wx,wy);
+						working.add(new MapTile (positionToEntitiys.get(pos).getData(),wx*TILE_WIDTH,wy*TILE_HEIGHT));	
+				} else {
+					working.add(new MapTile (dataList.get(index),wx*TILE_WIDTH,wy*TILE_HEIGHT));
+				}
+			}
+		}
+		return working.toArray(new MapTile[0]);
+	}
 	/**
 	 * returns true if the specified tile is a solid tile
 	 * @param layer the layer the tile is on
@@ -605,7 +640,7 @@ public class Room {
 			int y = getInteger(heightByteCount);
 			int object = getInteger(objectByteCount);
 			String variantInfo = getString (';');
-			variantInfo = variantInfo.replace("#","");
+			variantInfo = variantInfo.replace("#","&");
 			variantInfo = variantInfo.replace(",","&");
 			GameObject objectToUse = ObjectHandler.getInstance(objectList[object]);
 			objectToUse.setVariantAttributes(variantInfo);
@@ -819,6 +854,13 @@ public class Room {
 	 */
 	public static boolean isLoaded () {
 		return isLoaded;
+	}
+	public static HashMap <Long, GameObject> getMapObjects() {
+		return mapObjects;
+	}
+
+	public static void setMapObjects(HashMap <Long, GameObject> mapObjects) {
+		Room.mapObjects = mapObjects;
 	}
 	//its a map chunk ... a big map chunk
 	/**

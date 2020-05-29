@@ -4,17 +4,38 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import main.GameObject;
+import map.Room;
 import resources.Sprite;
 
 public class TemporaryWall extends GameObject {
 	public boolean activated;
-	public static ArrayList <TemporaryWall> walls = new ArrayList <TemporaryWall>();
+	private boolean wasActivated;
 	public TemporaryWall () {
 		activated = false;
+		wasActivated = false;
 		this.setHitboxAttributes(0, 0, 16, 16);
 		this.getAnimationHandler().hide();
-		walls.add(this);
 	}
+	@Override
+	public void frameEvent () {
+		if (this.activated) {
+			Room.getMapObjects().put(Room.toPackedLong((int)this.getX()/16, (int)this.getY()/16),this);
+			try {
+			this.setSprite(new Sprite ("resources/sprites/" + this.getVariantAttribute("sprite") + ".png"));
+			this.setHitboxAttributes(0, 0, this.getSprite().getFrame(0).getWidth(), this.getSprite().getFrame(0).getHeight());
+			} catch (NullPointerException e) {
+				
+			}
+			this.getAnimationHandler().show();
+			wasActivated = true;
+		} else {
+			if (wasActivated) {
+				Room.getMapObjects().remove(Room.toPackedLong((int)this.getX()/16, (int)this.getY()/16));
+				this.forget();
+			}
+		}
+	}
+	/*
 	public boolean isHitting (Rectangle box) {
 		this.setSprite(new Sprite ("resources/sprites/" + this.getVariantAttribute("sprite") + ".png"));
 		if (activated) {
@@ -27,7 +48,7 @@ public class TemporaryWall extends GameObject {
 		} else {
 			return false;
 		}
-	}
+	}*/
 	
 
 }

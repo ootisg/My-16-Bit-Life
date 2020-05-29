@@ -156,6 +156,7 @@ public class Plant extends BreakableObject {
 				}
 			}
 			if (inPot) {
+				try {
 				if (this.isCollidingChildren("Enemy") || this.isCollidingChildren("Projectile")) {
 					broken = true;
 					j.whiteList();
@@ -163,6 +164,9 @@ public class Plant extends BreakableObject {
 					this.Break(new Sprite [] {new Sprite ("resources/sprites/config/Plant/shards/shard1.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard2.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard3.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard4.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard5.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard6.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard7.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard8.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard9.txt")},this.getX(),this.getY() + 18, 9, 2, 4, 0, 3.14);
 					this.setSprite(new Sprite ("resources/sprites/Broken_Plant.png"));
 				}
+			} catch (NullPointerException e) {
+				
+			}
 			}
 		}
 	}

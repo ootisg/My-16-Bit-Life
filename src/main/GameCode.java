@@ -30,11 +30,13 @@ import enemys.SplittingSlimelet;
 import enemys.TomatoFunction;
 import enemys.UFO;
 import gameObjects.AnimeTester;
+import gameObjects.Box;
 import gameObjects.BreakableObject;
 import gameObjects.CarSpawner;
 import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
 import gameObjects.Leg;
+import gameObjects.MoveingPlatform;
 import gameObjects.Plant;
 import gameObjects.Point;
 import gameObjects.TemporaryWall;
@@ -142,6 +144,7 @@ public class GameCode {
 	static LazerHoverEnemy laser;
 	static CarSpawner spawner;
 	static MafiaShooter shooter;
+	static Box box;
 	static MoveSlowEvent slow;
 	static Marshan marsh;
 	static FallingChandleer fall;
@@ -150,6 +153,7 @@ public class GameCode {
 	static Worker work;
 	static Candle candle;
 	static AnimeTester bleh;
+	static MoveingPlatform platform;
 	static Cutsceen testSceen;
 	static UFO ufo;
 	static SplitSlimelet split;
@@ -229,6 +233,7 @@ public class GameCode {
 		paintball = new RedBlackPaintBall(1);
 		testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
 		candle = new Candle ();
+		box = new Box();
 		plant = new Plant ();
 		paint = new BluePaint (1);
 		while (x <= 40) {
@@ -247,7 +252,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/lagtest.rmf");
+		Room.loadRoom ("resources/maps/doorTriggerTest.rmf");
 		//bleh = new AnimeTester ();
 		//bleh.declare (0, 0);
 		gui = new Gui ();
@@ -298,7 +303,8 @@ public class GameCode {
 		//fall.declare(300, 200);
 		//test.declare(300,300);
 		//test.Break(new Sprite [] {new Sprite ("resources/sprites/shard.png")}, 7, 1, 2, 0,3.14);
-		plant.declare(320,300);
+		//plant.declare(320,300);
+		//box.declare(320,300);
 	}
 	
 	public static void beforeGameLogic () {
