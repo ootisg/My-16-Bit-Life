@@ -22,12 +22,22 @@ public class LaserPointer extends AimableWeapon {
 	double newY;
 	int [] tierInfo;
 	Sprite stickSprite = new Sprite ("resources/sprites/laserPointer.png");
+	int fireTimer = 0;
+	int power = 0;
+	
 	public LaserPointer () {
 		super(new Sprite ("resources/sprites/laserPointer.png"));
 		lol = RenderLoop.window.getBufferGraphics();
-		lol.setColor(new Color (0xF01313));
-		tierInfo = new int [] {0,0,0,0};
+		tierInfo = new int [] {2,0,0,1};
 		this.setHitboxAttributes(0, 0, 4, 4);
+		//Checks for "Green Light" upgrade
+		if (tierInfo [3] >= 1) {
+			lol.setColor(new Color (0x13F013));
+			power = 1;
+		} else {
+			lol.setColor(new Color (0xF01313));
+			power = 0;
+		}
 	}
 	@Override
 	public String checkName () {
@@ -40,7 +50,7 @@ public class LaserPointer extends AimableWeapon {
 	@Override
 		public String [] getUpgrades () {
 			String [] returnArray;
-			returnArray = new String [] {"LASER 2", "ELECTRIC BOOGLO", "AND KNUCKLES", "NEW FUNKEY MODE"};
+			returnArray = new String [] {"CHARGE FIRE???", "ELECTRIC BOOGLO", "AND KNUCKLES", "GREEN LIGHT"};
 			return returnArray;
 		}
 	@Override 
@@ -58,6 +68,7 @@ public class LaserPointer extends AimableWeapon {
 	@Override 
 	public void frameEvent () {
 		if (mouseButtonDown(0) && !j.isCrouched()) {
+			fireTimer++;
 			x = this.getX();
 			y = this.getY();
 			int count = 0;
@@ -76,9 +87,37 @@ public class LaserPointer extends AimableWeapon {
 				Boolean end = false;
 				for (int i = 0; i < Enemy.enemyList.size(); i++) {
 					if (Enemy.enemyList.get(i).isColliding(this)) {
-						Enemy.enemyList.get(i).damage(1);
 						end = true;
-						break;
+						//Determines charge fire power.
+						if (tierInfo[0] == 0 && fireTimer % 3 == 1) {
+							Enemy.enemyList.get(i).damage(1 + power);
+						}
+						//Tier 1 charge fire. 60 frames after firing, it shoots faster.
+						if (tierInfo[0] == 1) {
+							if (fireTimer < 60 && fireTimer % 3 == 1) {
+								Enemy.enemyList.get(i).damage(1 + power);
+								break;
+							}
+							if (fireTimer >= 60 && fireTimer % 2 == 1) {
+								Enemy.enemyList.get(i).damage(2 + power);
+								break;							
+							}
+						}
+						//Tier 2 charge fire. Goes from every 3 frames to every 2 frames, then eventually 2 damage per frame
+						if (tierInfo[0] == 2) {
+							if (fireTimer < 60 && fireTimer % 3 == 1) {
+								Enemy.enemyList.get(i).damage(1 + power);
+								break;
+							}
+							if (fireTimer >= 60 && fireTimer <= 150 && fireTimer % 2 == 1) {
+								Enemy.enemyList.get(i).damage(1 + power);
+								break;							
+							}
+							if (fireTimer > 150) {
+								Enemy.enemyList.get(i).damage(2 + power);
+								break;
+							}
+						}
 					}
 				}
 				if (end) {
@@ -103,6 +142,7 @@ public class LaserPointer extends AimableWeapon {
 			y = this.getY();
 			newX = this.getX();
 			newY = this.getY();
+			fireTimer = 0;
 		}
 	}
 	public void draw () {

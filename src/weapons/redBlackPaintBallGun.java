@@ -109,7 +109,7 @@ public class redBlackPaintBallGun extends AimableWeapon {
 		if (this.cooldown > 0) {
 			this.cooldown --;
 		}
-		if (mouseButtonClicked (0) && cooldown == 0 && !jeffrey.isCrouched()) {
+		if (mouseButtonClicked (0) && cooldown == 0 && !jeffrey.isCrouched() && !mouseButtonReleased (0)) {
 			if ((jeffrey.inventory.checkAmmo(testball) && !fists) || jeffrey.inventory.checkAmmo(testball)&& (jeffrey.inventory.checkAmmo(paint) && fists)) {
 			if (!this.fists) {
 			this.shoot (new Paintball ());
