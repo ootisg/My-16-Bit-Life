@@ -17,7 +17,6 @@ public class Candle extends Enemy {
 	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	public Candle () {
 	this.setHealth(90);
-	this.setFalls(true);
 	this.setHitboxAttributes(0, 0, 16, 16);
 	this.setSprite(new Sprite ("resources/sprites/candle.png"));	
 	this.adjustHitboxBorders();

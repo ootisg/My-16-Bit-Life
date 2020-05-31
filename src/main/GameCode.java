@@ -16,6 +16,7 @@ import enemys.CyclopesCrab;
 import enemys.DiscoBall;
 import enemys.DuoflyMinus;
 import enemys.DuoflyPlus;
+import enemys.Enemy;
 import enemys.FallingChandleer;
 import enemys.FireHydrant;
 import enemys.FireRextinguser;
@@ -109,15 +110,6 @@ public class GameCode {
 	static Ladder testLadder;
 	static Leg leg;
 	static SlimeSword sword;
-	static SplittingSlimelet slimelet;
-	static BuggyBoi bug1;
-	static BuggyBoi bug2;
-	static BuggyBoi bug3;
-	static BuggyBoi bug4;
-	static BuggyBoi bug5;
-	static BuggyBoi bug6;
-	static BuggyBoi bug7;
-	static BuggyBoi bug8;
 	static MagicMicrophone microphone;
 	static MagicMarker marker;
 	static TomatoFunction function;
@@ -170,17 +162,8 @@ public class GameCode {
 		testLaddder = new Ladder ();
 		lameJeffrey = new NonPlayableJeffrey();
 		lameSam = new NonPlayableSam();
-		bug1 = new BuggyBoi();
-		bug2 = new BuggyBoi();
-		bug3 = new BuggyBoi();
-		bug4 = new BuggyBoi();
-		bug5 = new BuggyBoi();
-		bug6 = new BuggyBoi();
-		bug7 = new BuggyBoi();
 		//function = new TomatoFunction (120, 340);
 		spawner = new CarSpawner(true);
-		ball = new DiscoBall();
-		bug8 = new BuggyBoi();
 		lameRyan = new NonPlayableRyan();
 		gun = new redBlackPaintBallGun(	new Sprite ("resources/sprites/redblack_gun.png"));
 		pointer = new LaserPointer ();
@@ -200,44 +183,26 @@ public class GameCode {
 		Jeffrey.getInventory().addWeapon(vaccum, 1);
 		Jeffrey.getInventory().addWeapon(pointer, 0);
 		sword = new SlimeSword();
-		stop = new MissleadingStop();
-		slimelet = new SplittingSlimelet ();
-		testCrab = new CyclopesCrab();
-		marsh = new Marshan();
 		//trigger = new CutsceenTrigger();
 		microphone = new MagicMicrophone ();
 		marker = new MagicMarker (new Sprite ("resources/sprites/config/marker_weapon_red.txt"));
 		triangle = new NinjaTriangle (new Sprite ("resources/sprites/config/stationary_ninja_triangle.txt"));
 		Jeffrey.getInventory().addWeapon (microphone, 2);
-		extinguser = new FireRextinguser ();
-		Jeffrey.getInventory().addKill(extinguser);
-		testTie = new ClostridiumBowtielinea();
-		car = new ImpatientCar();
-		fall = new FallingChandleer ();
-		laser = new LazerHoverEnemy ();
 		Jeffrey.getInventory().addWeapon(gun, 0);
 		Jeffrey.getInventory().addWeapon(triangle, 0);
 		Jeffrey.getInventory().addWeapon(sword, 1);
 		Jeffrey.getInventory().addWeapon(marker, 2);
 		int x = 0;
-		shooter = new MafiaShooter();
 		//boi = new Celing_boi();
 		waffle = new Waffle (4);
-		puncuation = new Puncuation ();
-		Jeffrey.getInventory().addKill(testTie);
-		Jeffrey.getInventory().addKill(puncuation);
-		hydrant = new FireHydrant ();
 		slow = new MoveSlowEvent (hydrant, 100, 100, 0, 30, 0, 3, -3);
-		newFly = new CreepyButterfly();
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall(1);
 		testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
-		candle = new Candle ();
 		box = new Box();
 		plant = new Plant ();
 		paint = new BluePaint (1);
-		while (x <= 40) {
-		Jeffrey.inventory.addAmmo(paintball);
+		while (x <40) {
 		Jeffrey.inventory.addAmmo(paint);
 		x = x + 1;
 		}
@@ -252,12 +217,10 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/doorTriggerTest.rmf");
+		Room.loadRoom ("resources/maps/crushTest.rmf");
 		//bleh = new AnimeTester ();
 		//bleh.declare (0, 0);
 		gui = new Gui ();
-		ufo = new UFO();
-		split = new SplitSlimelet ();
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
@@ -308,7 +271,6 @@ public class GameCode {
 	}
 	
 	public static void beforeGameLogic () {
-		
 	}
 	
 	public static void afterGameLogic () {

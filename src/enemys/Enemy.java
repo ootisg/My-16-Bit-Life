@@ -210,6 +210,12 @@ public abstract class Enemy extends GameObject {
 	public void enemyFrame () {
 		
 	}
+	public void suffocate () {
+		this.damage(this.getHealth()/10);
+		if (this.health <= 0) {
+			this.deathEvent();
+		}
+	}
 	/**
 	 * allows you to set the moment of the falling to a consont
 	 * @parm momentumConstant the new momenutm

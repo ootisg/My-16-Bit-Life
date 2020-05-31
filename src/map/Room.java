@@ -30,8 +30,9 @@ public class Room {
 	private static HashMap <String,TileData> nameList; //indexed by tile name
 	private static ArrayList <BufferedImage> tileIcons; //yeah? (sorted by numeric ID)
 
-	
 	private static HashMap <Long, GameObject> mapObjects = new HashMap <Long, GameObject>(); //objects that should be considered collisions with the map
+	
+	private static ArrayList<GameObject> mapObjectsUsed = new ArrayList<GameObject> ();
 	
 	private static int [][][] tileData; //all tiles listed by numeric ID
 	private static ArrayList <Background> backgrounds;// all backgrounds sorted by layers
@@ -300,6 +301,7 @@ public class Room {
 	 * @return wheather or not its touching a solid tile
 	 */
 	public static boolean isColliding (GameObject obj) {
+		mapObjectsUsed = new ArrayList<GameObject> ();
 		Rectangle hitbox = obj.hitbox();
 		int startX = Math.max(hitbox.x/TILE_WIDTH,0);
 		int startY = Math.max(hitbox.y/TILE_HEIGHT,0);
@@ -321,6 +323,7 @@ public class Room {
 					}
 			} else {
 				if (obj.isColliding(mapObjects.get(toPackedLong(wx,wy))) && !obj.equals(mapObjects.get(toPackedLong(wx,wy)))) {
+					mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)));
 					return true;
 				}
 			}
@@ -330,6 +333,7 @@ public class Room {
 }
 
 	public static boolean isColliding (GameObject obj, String tileId) {
+		mapObjectsUsed = new ArrayList<GameObject> ();
 		Rectangle hitbox = obj.hitbox();
 		int startX = Math.max(hitbox.x/TILE_WIDTH,0);
 		int startY = Math.max(hitbox.y/TILE_HEIGHT,0);
@@ -357,6 +361,7 @@ public class Room {
 		return foundCollision;
 }
 	public static MapTile[] getCollidingTiles (GameObject obj) {
+		mapObjectsUsed = new ArrayList<GameObject> ();
 		Rectangle hitbox = obj.hitbox();
 		ArrayList<MapTile> working =new ArrayList<MapTile>();
 		int startX = Math.max(hitbox.x/TILE_WIDTH,0);
@@ -377,6 +382,7 @@ public class Room {
 				}
 				} else{
 					if (obj.isColliding(mapObjects.get(toPackedLong(wx,wy)))) {
+						mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)));
 						working.add(new MapTile (dataList.get(index),(int)mapObjects.get(toPackedLong(wx,wy)).getX(),(int)mapObjects.get(toPackedLong(wx,wy)).getY()));
 					}
 				}
@@ -385,6 +391,7 @@ public class Room {
 		return working.toArray(new MapTile[0]);
 	}
 	public static MapTile[] getCollidingTiles (GameObject obj, String tileName) {
+		mapObjectsUsed = new ArrayList<GameObject> ();
 		Rectangle hitbox = obj.hitbox();
 		ArrayList<MapTile> working =new ArrayList<MapTile>();
 		int startX = Math.max(hitbox.x/TILE_WIDTH,0);
@@ -862,6 +869,15 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 	public static void setMapObjects(HashMap <Long, GameObject> mapObjects) {
 		Room.mapObjects = mapObjects;
 	}
+	
+	/**
+	 * Returns the MapObjects collided with in the most recent room collision call
+	 * @return YEET
+	 */
+	public static ArrayList<GameObject> getObjectCollisionInfo () {
+		return mapObjectsUsed;
+	}
+	
 	//its a map chunk ... a big map chunk
 	/**
 	 * a portion of the map
