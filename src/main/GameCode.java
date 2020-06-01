@@ -1,4 +1,4 @@
-package main;
+	package main;
 
 import java.awt.Rectangle;
 import java.io.FileNotFoundException;
@@ -34,6 +34,7 @@ import gameObjects.AnimeTester;
 import gameObjects.Box;
 import gameObjects.BreakableObject;
 import gameObjects.CarSpawner;
+import gameObjects.Cursor;
 import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
 import gameObjects.Leg;
@@ -73,6 +74,7 @@ import theHeist.Worker;
 import triggers.CutsceenTrigger;
 import triggers.Trigger;
 import weapons.AimableWeapon;
+import weapons.Bombs;
 import weapons.LaserPointer;
 import weapons.LifeVaccum;
 import weapons.MagicMarker;
@@ -112,6 +114,7 @@ public class GameCode {
 	static SlimeSword sword;
 	static MagicMicrophone microphone;
 	static MagicMarker marker;
+	static Bombs bomb;
 	static TomatoFunction function;
 	static FireRextinguser extinguser;
 	static LifeVaccum vaccum;
@@ -184,12 +187,14 @@ public class GameCode {
 		sword = new SlimeSword();
 		microphone = new MagicMicrophone ();
 		marker = new MagicMarker (new Sprite ("resources/sprites/config/marker_weapon_red.txt"));
+		bomb = new Bombs (new Sprite ("resources/sprites/config/bomb_active_blue.txt"));
 		triangle = new NinjaTriangle (new Sprite ("resources/sprites/config/stationary_ninja_triangle.txt"));
 		Jeffrey.getInventory().addWeapon (microphone, 2);
 		Jeffrey.getInventory().addWeapon(gun, 0);
 		Jeffrey.getInventory().addWeapon(triangle, 0);
 		Jeffrey.getInventory().addWeapon(sword, 1);
 		Jeffrey.getInventory().addWeapon(marker, 2);
+		Jeffrey.getInventory().addWeapon(bomb, 2);
 		int x = 0;
 		//boi = new Celing_boi();
 		waffle = new Waffle (4);
@@ -228,7 +233,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/crushTest.rmf");
+		Room.loadRoom ("resources/maps/PitStuff2.rmf");
 		//bleh = new AnimeTester ();
 		//bleh.declare (0, 0);
 		gui = new Gui ();

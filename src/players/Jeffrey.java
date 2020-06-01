@@ -68,6 +68,8 @@ public class Jeffrey extends GameObject {
 	public Sprite ryanWhipping;
 	public Sprite whipLength;
 	public int switchTimer;
+	public int nextCharacter = 0;
+	public boolean keepAdding = true;
 	private Tbox textbox;
 	public Sprite ryanMicrophoneIdle;
 	public Sprite ryanMicrophoneWalking;
@@ -210,37 +212,114 @@ if (activeBox) {
 		activeBox = false;
 		boxTimer = 0;
 		}
+		
+		//Switch meter stuff
 		if (keyDown('Q')) {
-			switchTimer = switchTimer + 1;
+			switchTimer++;
 		}
-		if (!keyDown('Q')) {
+		/*if (!keyDown('Q')) {
 			switchTimer = 0;
+		}*/
+		
+		//Sets max number of characters to 3
+		if (nextCharacter > 2) {
+			nextCharacter = 0;
 		}
 		
+		//The "tap Q to toggle" mechanic.
+		if (switchTimer > 0 && switchTimer <=5 && !keyDown('Q')) {
+			if (keepAdding) {
+				keepAdding = false;
+				nextCharacter++;
+				switchTimer = 0;
+				if (jeffreyHealth <= 0 && nextCharacter == 0) {
+					nextCharacter++;
+				}
+				if (samHealth <= 0 && nextCharacter == 1) {
+					nextCharacter++;
+				}
+				if (ryanHealth <= 0 && nextCharacter == 2) {
+					nextCharacter++;
+				}
+			}
+		} else {
+			keepAdding = true;
+			if (switchTimer > 5 && switchTimer < 30 && !keyDown('Q')) {
+				switchTimer = 0;
+			}
+		}
+		
+		//Makes it so you cannot switch into the same character
+		switch (nextCharacter) {
+			case 0:
+				if (witchCharictar == 0) {
+					nextCharacter = 1;
+				}
+				break;
+			case 1:
+				if (witchCharictar == 1) {
+					nextCharacter = 2;
+				}
+				break;
+			case 2:
+				if (witchCharictar == 2) {
+					nextCharacter = 0;
+				}
+		}
+		
+		//System.out.println(nextCharacter);
+		
+		//Decides what character to switch into.
 		if (switchTimer == 30) {
+			switch (nextCharacter) {
+				case 0:
+					wpn.onSwitch();
+					wpn.forget();
+					newWeapon = true;
+					if (jeffreyHealth > 0) {
+						nextCharacter++;
+						witchCharictar = 0;
+						if (isCrouched()) {
+							this.setSprite(jeffreyCrouching);
+						}
+					}
+					switchTimer = 0;
+					break;
+				case 1:
+					wpn.onSwitch();
+					wpn.forget();
+					newWeapon = true;
+					if (samHealth > 0) {
+						nextCharacter++;
+						witchCharictar = 1;
+						if (isCrouched()) {
+							this.setSprite(samCrouching);
+						}
+					}
+					switchTimer = 0;
+					break;
+				case 2:
+					wpn.onSwitch();
+					wpn.forget();
+					newWeapon = true;
+					if (ryanHealth > 0) {
+						nextCharacter++;
+						witchCharictar = 2;
+						if (isCrouched()) {
+							this.setSprite(ryanCrouching);
+						}
+					}
+					switchTimer = 0;
+					break;
+			}
+			
+			
 			if (witchCharictar == 0) {
 				if ((samHealth <= 0) && (ryanHealth <= 0)) {
 					textbox = new Tbox (this.getX(), 340, 25, 8, "LUL NO ... SAM AND RYAN HAVE NO HP" , false);
 					//the Room.getVeiwY may need to be minus
 					textbox.declare(this.getX() - Room.getViewX(),this.getY() - 10 + Room.getViewY());
 					switchTimer = 0;
-				} else {
-					wpn.onSwitch();
-					wpn.forget();
-					newWeapon = true;
-					if (samHealth >= 0) {
-					witchCharictar = 1;
-					if (isCrouched()) {
-						this.setSprite(samCrouching);
-					}
-					switchTimer = 0;
-					} else {
-					witchCharictar = 2;
-					if (isCrouched()) {
-						this.setSprite(ryanCrouching);
-					}
-					switchTimer = 0;
-					}
 				}
 			}
 			
@@ -250,50 +329,18 @@ if (activeBox) {
 					//the Room.getVeiwY may need to be minus
 					textbox.declare(this.getX() - Room.getViewX(),this.getY() - 10 + Room.getViewY());
 					switchTimer = 0;
-				} else {
-					wpn.onSwitch();
-					wpn.forget();
-					newWeapon = true;
-					if (ryanHealth >= 0) {
-					witchCharictar = 2;
-					if (isCrouched()) {
-						this.setSprite(ryanCrouching);
-					}
-					switchTimer = 0;
-					} else {
-					witchCharictar = 0;
-					if (isCrouched()) {
-						this.setSprite(jeffreyCrouching);
-					}
-					switchTimer = 0;
-					}
 				}
 			}
+			
 			if ((witchCharictar == 2) && (switchTimer != 0)) {
 				if ((jeffreyHealth <= 0) && (samHealth <= 0)) {
 					textbox = new Tbox (this.getX(), 340, 25, 8, "SAM AND JEFFREY GOT NOSCOPED ITS UP TO RYAN NOW" , false);
 					//the Room.getVeiwY may need to be minus
 					textbox.declare(this.getX() - Room.getViewX(),this.getY() - 10 + Room.getViewY());
 					switchTimer = 0;
-				} else {
-					wpn.onSwitch();
-					wpn.forget();
-					newWeapon = true;
-					if (jeffreyHealth >= 0) {
-					witchCharictar = 0;
-					if (isCrouched()) {
-						this.setSprite(jeffreyCrouching);
-					}
-					switchTimer = 0;
-					} else {
-					witchCharictar = 1;
-					if (isCrouched()) {
-						this.setSprite(samCrouching);
-					}
-					switchTimer = 0;
-					}
 				}
-			} 
+			}
+			
 			if (index > inventory.amountOfWeapons(witchCharictar)) {
 				index = 0;
 			}

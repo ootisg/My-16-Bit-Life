@@ -6,12 +6,13 @@ import map.Room;
 import main.GameLoop;
 import players.Jeffrey;
 import resources.Sprite;
+import projectiles.Explosion;
 
 
 public class Cannonball extends Projectile{
 	
 	public static final Sprite cannonball = new Sprite ("resources/sprites/config/tank_cannonball.txt");
-	public static final Sprite explosion = new Sprite ("resources/sprites/config/tank_explosion.txt");
+	Explosion explosion = new Explosion(50, 0, true, false);
 	
 	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 	boolean hitSomething = false;
@@ -37,21 +38,15 @@ public class Cannonball extends Projectile{
 		}
 		try{
 		if (this.goingIntoWall && !hitSomething){
-			setSprite (explosion);
-			hitSomething = true;
-			setSpeed (0);
-			setY (getY());
+			explosion.declare(this.getX() - 12,this.getY() - 12);
+			this.forget();
 		}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			this.forget();
 		}
 		if (isColliding(player) && !hitSomething){
-			player.damage(7);
-			setSprite (explosion);
-			hitSomething = true;
-			setSpeed (0);
-			setY (getY());
-			
+			explosion.declare(this.getX() - 12,this.getY() - 12);
+			this.forget();
 			}
 	}
 }
