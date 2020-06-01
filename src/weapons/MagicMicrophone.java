@@ -136,6 +136,14 @@ public class MagicMicrophone extends Item {
 			
 		}
 	}
+	@Override 
+	public void onSwitch () {
+		j.changeSprite(true);
+		j.getAnimationHandler().setRepeat(true);
+		if (whippingLeft) {
+			j.desyncSpriteX(0);
+		}
+	}
 	int dealWithWhipFrame () {
 		int length = 0;
 		for (int v = 0; v <= 7; v = v + 1 ) {

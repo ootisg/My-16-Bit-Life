@@ -61,11 +61,21 @@ public class MoveSlowEvent implements CutsceneEvent {
 			endDistance = (endTime * middleVelocitree) + (0.5*(endTime*endTime)*endAcceleration);
 			if (startDistance > gaming) {
 				startDistance = gaming; 
-				startTime = startVelocity/(startDistance - 0.5*startAcceleration);
+				double distanceCopy = gaming;
+				startTime = 0;
+				while (distanceCopy > 0) {
+					distanceCopy = distanceCopy - (startVelocity/10 + startAcceleration/10 *startTime );
+					startTime = startTime + 0.1; 
+				}
 			}
 			if (endDistance > gaming) {
 				endDistance = gaming;
-				endTime = endVelocity/(endDistance - 0.5*endAcceleration);
+				double distanceCopy = gaming;
+				endTime = 0;
+				while (distanceCopy > 0) {
+					distanceCopy = distanceCopy - (endVelocity/10 + endAcceleration/10 *endTime );
+					endTime = endTime + 0.1; 
+				}
 			}
 			middleDistance = gaming - (endDistance + startDistance);
 			middleTime = middleDistance/middleVelocitree;

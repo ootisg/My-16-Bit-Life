@@ -11,17 +11,13 @@ public class CreepyButterfly extends Enemy {
 	
 	public static final Sprite butterflySprite = new Sprite ("resources/sprites/config/creepy_butterfly.txt");
 	
-	//This class is not yet commented
-	private double x;
-	private double y;
+	//This class is not yet commented 
 	private Random RNG;
 	public CreepyButterfly () {
 		setSprite (butterflySprite);
 		setHitboxAttributes (0, 0, 16, 16);
 		getAnimationHandler ().setFrameTime (55.5);
 		player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
-		x = -1;
-		y = -1;
 		RNG = new Random ();
 		this.health = 1;
 		this.defence = 0;
@@ -36,43 +32,22 @@ public class CreepyButterfly extends Enemy {
 	}
 	@Override
 	public void enemyFrame () {
-		if (x == -1) {
-			x = this.getX ();
-			y = this.getY ();
-		}
 		double targetX = player.getX ();
 		double targetY = player.getY ();
-		if (((targetX > this.getX() && targetX < this.getX() + 22) || (targetX < this.getX() && targetX> this.getX() - 22) &&  ((targetY > this.getY() && targetY < this.getY() + 22) || (targetY < this.getY() && targetY> this.getY() - 22))) || Room.isColliding(this) ) {
-			int gayBabyJail;
-			double xCopy = this.getX();
-			double yCopy = this.getY();
-			gayBabyJail =RNG.nextInt(359);
-			x = x + Math.cos (gayBabyJail) * 6;
-			y = y + Math.sin (gayBabyJail) * 6;
-			setX ((int) x);
-			setY ((int) y);
-			while (Room.isColliding(this)) {
-				this.setX(xCopy);
-				this.setY(yCopy);
-				x = x - Math.cos(gayBabyJail) * 6;
-				y = y - Math.sin(gayBabyJail) * 6;
-				gayBabyJail = RNG.nextInt (359);
-				x = x + Math.cos (gayBabyJail) * 6;
-				y = y + Math.sin (gayBabyJail) * 6;
-				setX ((int) x);
-				setY ((int) y);
-			}
+		if (((targetX > this.getX() && targetX < this.getX() + 22) || (targetX < this.getX() && targetX> this.getX() - 22) &&  ((targetY > this.getY() && targetY < this.getY() + 22) || (targetY < this.getY() && targetY> this.getY() - 22)))) {
+				double gayBabyJail;
+				gayBabyJail = RNG.nextInt (6) + (RNG.nextInt(27) + 1)/100.0;
+				goX ((int)  this.getX() + Math.cos (gayBabyJail) * 6);
+				goY ((int) this.getY() + Math.sin (gayBabyJail) * 6);
 		} else {
-		if (Math.sqrt ((x - targetX) * (x - targetX) + (y - targetY) * (y - targetY)) <= 128) {
-			double slope = (y - targetY) / (x - targetX);
+		if (Math.sqrt ((this.getX() - targetX) * (this.getX() - targetX) + (this.getY() - targetY) * (this.getY() - targetY)) <= 128) {
+			double slope = (this.getY() - targetY) / (this.getX() - targetX);
 			double angle = Math.atan (slope);
-			if (x > targetX) {
+			if (this.getX() > targetX) {
 				angle -= Math.PI;
 			}
-			x = x + Math.cos (angle) * 6;
-			y = y + Math.sin (angle) * 6;
-			setX ((int) x);
-			setY ((int) y);
+			goX ((int) this.getX() + Math.cos (angle) * 6);
+			goY ((int) this.getY() + Math.sin (angle) * 6);
 		}
 		}
 	}
