@@ -22,11 +22,13 @@ public class Bombs extends AimableWeapon {
 	int timer;
 	int cooldown;
 	int [] upgradeInfo;
+	boolean inHand = false;
+	BombsProjectile bomb = null;
 	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	public static final Sprite newBomb = new Sprite ("resources/sprites/config/bomb_active_blue.txt");
 	private Sprite bombIconSprite;
 	boolean firstRun = true;
-	
+	private int power = 0;
 	public  Bombs (Sprite sprite) {
 		super(sprite);
 		upgradeInfo = new int [] {0,0,0,0};
@@ -71,14 +73,40 @@ public class Bombs extends AimableWeapon {
 		if (cooldown > 0) {
 			cooldown--;
 		}
-		if (mouseButtonClicked (0) && !j.isCrouched() && !mouseButtonReleased (0)) {
-			this.shoot(new BombsProjectile());
-			//The two lines below are for test throwing, and it always throws them in the same angle.
-			//The this.shoot doesn't actually shoot and I have no clue why
-			BombsProjectile bomb = new BombsProjectile();
-			bomb.declare(j.getX() + 8, j.getY() + 8);
-			
-			cooldown = 5;
+		if (mouseButtonPressed(0) && !j.isCrouched()) {
+			bomb = new BombsProjectile();
+			inHand = true;
 		}
-	}	
+		if (inHand) {
+			bomb.projectileFrame();
+			power = power + 1;
+			if (!this.getAnimationHandler().flipHorizontal()) {
+				bomb.setX(this.getX()- 8);
+				bomb.setY(this.getY() - 27);
+				AfterRenderDrawer.drawAfterRender((int)this.getX()- 8, (int)this.getY() - 27, bomb.getSprite(),bomb.getAnimationHandler().getFrame());
+			} else {
+				bomb.setX(this.getX()+ 8);
+				bomb.setY(this.getY() - 27);
+				AfterRenderDrawer.drawAfterRender((int)this.getX()+ 8, (int)this.getY() - 27, bomb.getSprite(),bomb.getAnimationHandler().getFrame());
+			}
+			if (bomb.timer > 120) {
+				inHand = false;
+			}
+		}
+		if ( inHand && !mouseButtonDown(0)) {
+			
+			bomb.throwBomb();
+			if (!this.getAnimationHandler().flipHorizontal()) {
+				bomb.setFakeDireciton(true);
+				bomb.setVx(12*(1 + power/60.0));
+			} else {
+				bomb.setVx( -1*12*(1 + power/60.0));
+				bomb.setFakeDireciton(false);
+			}
+			this.shoot(bomb);
+			cooldown = 5;
+			inHand = false;
+			power = 0;
+		}	
+	}
 }

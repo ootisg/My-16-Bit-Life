@@ -34,7 +34,6 @@ import gameObjects.AnimeTester;
 import gameObjects.Box;
 import gameObjects.BreakableObject;
 import gameObjects.CarSpawner;
-import gameObjects.Cursor;
 import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
 import gameObjects.Leg;
@@ -233,7 +232,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/PitStuff2.rmf");
+		Room.loadRoom ("resources/maps/PitStuff.rmf");
 		//bleh = new AnimeTester ();
 		//bleh.declare (0, 0);
 		gui = new Gui ();
