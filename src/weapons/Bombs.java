@@ -103,6 +103,7 @@ public class Bombs extends AimableWeapon {
 				bomb.setVx( -1*12*(1 + power/60.0));
 				bomb.setFakeDireciton(false);
 			}
+			bomb.setVy(18*(1 + power/60.0));
 			this.shoot(bomb);
 			cooldown = 5;
 			inHand = false;

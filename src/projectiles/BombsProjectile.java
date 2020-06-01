@@ -27,7 +27,7 @@ public class BombsProjectile extends Projectile{
 		this.setSprite(newBomb);
 		this.getAnimationHandler().setFrameTime(100);
 		this.setHitboxAttributes(0, 0, 14, 18);
-		this.setSpeed(0.2);
+		this.setSpeed(0);
 		this.setDirection(direction);
 		vx = 12;
 		vy = 12;
@@ -42,7 +42,7 @@ public class BombsProjectile extends Projectile{
 					vx = 0;
 				}
 				if (!inzialaized) {
-					vy = -18 * this.getDirection();
+					vy = -vy * this.getDirection();
 					inzialaized = true;
 				}
 			} else {
@@ -51,7 +51,7 @@ public class BombsProjectile extends Projectile{
 					vx = 0;
 				}
 				if (!inzialaized) {
-					vy = 18 * (this.getDirection() - 3.14);
+					vy = vy * (this.getDirection() - 3.14);
 					inzialaized = true;
 				}
 			}
@@ -84,6 +84,9 @@ public class BombsProjectile extends Projectile{
 	}
 	public void setVx (double newVx) {
 		vx = newVx;
+	}
+	public void setVy (double newVy) {
+		vy = newVy;
 	}
 	public void setFakeDireciton (boolean newDireciton) {
 		fakeDirection = newDireciton;
