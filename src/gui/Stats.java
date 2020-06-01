@@ -23,8 +23,11 @@ public class Stats extends GameObject {
 	public static final Sprite JEFFREY_BAR = new Sprite ("resources/sprites/Character_Border_Jeffrey.png");
 	public static final Sprite SAM_BAR = new Sprite ("resources/sprites/Character_Border_Sam.png");
 	public static final Sprite RYAN_BAR = new Sprite ("resources/sprites/Character_Border_Ryan.png");
-	public static final Sprite EMPTY_BAR = new Sprite ("resources/sprites/Empty_Bar.png");
+	public static final Sprite EMPTY_BAR = new Sprite ("resources/sprites/Character_Border_Empty.png");
 	public static final Sprite CHARICTAR_SPRITE = new Sprite ("resources/sprites/charictar_bar.png");
+	public int nextCharacter;
+	int currentBar = 0;
+	
 	public Stats () {
 		charictarName = new Tbox (0,0,20,1,"JEFFREY", false);
 		charictarName.declare(75,-6);
@@ -79,7 +82,60 @@ public class Stats extends GameObject {
 		Graphics buffer = RenderLoop.window.getBufferGraphics ();
 		buffer.setColor (new Color(0xFF0000));
 		HEALTH_BORDER_SPRITE.draw(160,0);
-		if (j.witchCharictar == 0) {
+		
+		currentBar = j.nextCharacter;
+		switch (currentBar) {
+			case 0:
+				if (j.jeffreyHealth > 0) {
+					JEFFREY_BAR.draw(0, 0);	
+				}
+				if (j.jeffreyHealth <= 0) {
+					j.nextCharacter++;
+				}
+				if (j.jeffreyHealth <= 0 && (j.samHealth <= 0 || j.ryanHealth <= 0)) {
+					EMPTY_BAR.draw(0, 0);
+				}
+				break;
+			case 1:
+				if (j.samHealth > 0) {
+					SAM_BAR.draw(0, 0);	
+				}
+				if (j.samHealth <= 0) {
+					j.nextCharacter++;
+				}
+				if (j.samHealth <= 0 && (j.jeffreyHealth <= 0 || j.ryanHealth <= 0)) {
+					EMPTY_BAR.draw(0, 0);
+				}
+				break;
+			case 2:
+				if (j.ryanHealth > 0) {
+					RYAN_BAR.draw(0, 0);	
+				}
+				if (j.ryanHealth <= 0) {
+					j.nextCharacter++;
+				}
+				if (j.ryanHealth <= 0 && (j.jeffreyHealth <= 0 || j.samHealth <= 0)) {
+					EMPTY_BAR.draw(0, 0);
+				}
+				break;
+			default:
+				if (j.ryanHealth > 0) {
+					RYAN_BAR.draw(0, 0);	
+				}
+				if (j.ryanHealth <= 0 && j.jeffreyHealth > 0) {
+					JEFFREY_BAR.draw(0, 0);
+				}
+				if (j.ryanHealth <= 0 && j.jeffreyHealth <= 0) {
+					SAM_BAR.draw(0, 0);
+				}
+				break;
+		}
+		//Sam's doesn't work properly and I'm lazy rn so this fixes his character switch bar when J + R are dead.
+		if (j.witchCharictar == 1 && j.jeffreyHealth <= 0 && j.ryanHealth <= 0) {
+			EMPTY_BAR.draw(0,0);
+		}
+		
+		/* if (j.witchCharictar == 0) {
 			if (j.samHealth > 0) {
 			SAM_BAR.draw(0, 0);
 			} else if(j.ryanHealth > 0) {
@@ -105,7 +161,7 @@ public class Stats extends GameObject {
 					} else {
 						EMPTY_BAR.draw(0, 0);
 					}
-			}
+			} */
 		if (j.witchCharictar ==0 ) {
 			if (j.getHealth() > 0) {
 			HEALTH_SPRITE.draw(160,0,0,(int)(170 * (j.getHealth() / j.maxJeffreyHealth)), 24);

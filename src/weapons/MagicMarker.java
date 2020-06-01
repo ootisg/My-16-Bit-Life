@@ -1,17 +1,12 @@
 package weapons;
 
 import gui.Tbox;
-import items.BluePaint;
-import items.RedBlackPaintBall;
 import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
 import players.Jeffrey;
-import projectiles.Fist;
 import projectiles.MarkerPaint;
-import projectiles.Paintball;
-import projectiles.PaintballWeak;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
 
@@ -130,7 +125,7 @@ public class MagicMarker extends AimableWeapon {
 		}
 		if (textTimer > 0) {
 			AfterRenderDrawer.drawAfterRender((int)this.getX() - Room.getViewX(), (int)this.getY() - 20, outtaAmmo);
-			textTimer = textTimer - 1;
+			textTimer--;
 		}
 	}
 	

@@ -49,6 +49,7 @@ public abstract class Projectile extends GameObject {
 	}
 	//decides weather or not to keep the object around when it goes outside the map
 	// ps I don't know how to spell weather
+	// That is the word describing outside. The weather is nice. You're wanting whether, as in "whether or not."
 	public void keep () {
 		keep = !keep;
 	}

@@ -28,7 +28,7 @@ public class LaserPointer extends AimableWeapon {
 	public LaserPointer () {
 		super(new Sprite ("resources/sprites/laserPointer.png"));
 		lol = RenderLoop.window.getBufferGraphics();
-		tierInfo = new int [] {2,0,0,1};
+		tierInfo = new int [] {0,0,0,1};
 		this.setHitboxAttributes(0, 0, 4, 4);
 		//Checks for "Green Light" upgrade
 		if (tierInfo [3] >= 1) {
@@ -89,34 +89,34 @@ public class LaserPointer extends AimableWeapon {
 					if (Enemy.enemyList.get(i).isColliding(this)) {
 						end = true;
 						//Determines charge fire power.
-						if (tierInfo[0] == 0 && fireTimer % 3 == 1) {
-							Enemy.enemyList.get(i).damage(1 + power);
-						}
-						//Tier 1 charge fire. 60 frames after firing, it shoots faster.
-						if (tierInfo[0] == 1) {
-							if (fireTimer < 60 && fireTimer % 3 == 1) {
-								Enemy.enemyList.get(i).damage(1 + power);
-								break;
-							}
-							if (fireTimer >= 60 && fireTimer % 2 == 1) {
-								Enemy.enemyList.get(i).damage(2 + power);
-								break;							
-							}
-						}
-						//Tier 2 charge fire. Goes from every 3 frames to every 2 frames, then eventually 2 damage per frame
-						if (tierInfo[0] == 2) {
-							if (fireTimer < 60 && fireTimer % 3 == 1) {
-								Enemy.enemyList.get(i).damage(1 + power);
-								break;
-							}
-							if (fireTimer >= 60 && fireTimer <= 150 && fireTimer % 2 == 1) {
-								Enemy.enemyList.get(i).damage(1 + power);
-								break;							
-							}
-							if (fireTimer > 150) {
-								Enemy.enemyList.get(i).damage(2 + power);
-								break;
-							}
+						switch (tierInfo[0]) {
+							case 0:
+								if (fireTimer % 3 == 1) {
+									Enemy.enemyList.get(i).damage(1 + power);
+									break;
+								}
+							case 1:
+								if (fireTimer < 60 && fireTimer % 3 == 1) {
+									Enemy.enemyList.get(i).damage(1 + power);
+									break;
+								}
+								if (fireTimer >= 60 && fireTimer % 2 == 1) {
+									Enemy.enemyList.get(i).damage(2 + power);
+									break;							
+								}
+							case 2:
+								if (fireTimer < 60 && fireTimer % 3 == 1) {
+									Enemy.enemyList.get(i).damage(1 + power);
+									break;
+								}
+								if (fireTimer >= 60 && fireTimer <= 150 && fireTimer % 2 == 1) {
+									Enemy.enemyList.get(i).damage(1 + power);
+									break;							
+								}
+								if (fireTimer > 150) {
+									Enemy.enemyList.get(i).damage(2 + power);
+									break;
+								}
 						}
 					}
 				}
