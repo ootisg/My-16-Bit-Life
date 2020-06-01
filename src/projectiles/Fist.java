@@ -20,7 +20,6 @@ public class Fist extends Projectile {
 		defult = true;
 		RNG = new Random ();
 		this.getAnimationHandler().setFrameTime(10);
-		this.declare (0, 0);
 		this.setHitboxAttributes (0, 0, 24, 14);
 	}
 	@Override 

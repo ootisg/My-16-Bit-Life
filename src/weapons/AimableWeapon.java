@@ -82,6 +82,7 @@ public class AimableWeapon extends Item {
 			endX = this.getX () + Math.cos (ang - Math.PI / 180 * 15) * 14;
 			endY = this.getY () + Math.sin (ang - Math.PI / 180 * 15) * 14;
 		}
+		projectile.declare();
 		projectile.setAttributes (endX, endY, ang);
 	}
 }

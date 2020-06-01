@@ -76,22 +76,19 @@ public class MoveSlowEvent implements CutsceneEvent {
 		}
 		double deltaTime =  ( ((double) (System.currentTimeMillis() - realStartTime))/1000);
 		double distance;
-		
 		if (deltaTime < startTime) {
 			distance = (deltaTime * startVelocity) + (0.5*(deltaTime *deltaTime)*startAcceleration);	
 		} else                 /*long ass else if*/       if (deltaTime < middleTime + startTime) {
 			double dee = deltaTime - startTime;
 			distance = startDistance + middleVelocitree*dee;
-			
-		} else {
-			
+		} else {		
 			double dee = deltaTime - (startTime + middleTime);
 			distance = (dee * middleVelocitree) + (0.5*(dee *dee)*endAcceleration) + startDistance + middleDistance;
 		}
 		
 		double peanutButterJellyTime  = endTime + startTime + middleTime;
+		
 		if (distance > gaming) {
-			 
 			deltaTime = peanutButterJellyTime;
 		}
 		if (deltaTime >= endTime + startTime + middleTime) {

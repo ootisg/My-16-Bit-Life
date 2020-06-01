@@ -17,7 +17,6 @@ public class Paintball extends Projectile {
 		this.setSprite (paintball);
 		this.setSpeed (16);
 		RNG = new Random ();
-		this.declare (0, 0);
 		this.setHitboxAttributes (0, 0, 4, 4);
 	}
 	@Override

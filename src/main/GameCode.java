@@ -168,6 +168,7 @@ public class GameCode {
 		key = new FairUseKey(1);
 		//guy = new PointGuy();
 		work = new Worker ();
+		fall = new FallingChandleer ();
 		test = new BreakableObject ();
 		packet = new LemonPacket(1);
 		Jeffrey.getInventory().addFreind(lameJeffrey);
@@ -192,7 +193,6 @@ public class GameCode {
 		int x = 0;
 		//boi = new Celing_boi();
 		waffle = new Waffle (4);
-		slow = new MoveSlowEvent (hydrant, 100, 100, 0, 30, 0, 3, -3);
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall(1);
 		testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
@@ -203,7 +203,7 @@ public class GameCode {
 		//waffle = new Waffle (4);
 		//puncuation = new Puncuation ();
 		//hydrant = new FireHydrant ();
-		slow = new MoveSlowEvent (hydrant, 100, 100, 0, 30, 0, 3, -3);
+		//slow = new MoveSlowEvent (hydrant, 100, 100, 0, 30, 0, 3, -3);
 		//newFly = new CreepyButterfly();
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall(1);
@@ -213,6 +213,7 @@ public class GameCode {
 		//plant = new Plant ();
 		paint = new BluePaint (1);
 		while (x <40) {
+		Jeffrey.inventory.addAmmo(paintball);
 		Jeffrey.inventory.addAmmo(paint);
 		x = x + 1;
 		}
@@ -227,11 +228,9 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-
 		Room.loadRoom ("resources/maps/crushTest.rmf");
 		//bleh = new AnimeTester ();
 		//bleh.declare (0, 0);
-		gui = new Gui ();
 		gui = new Gui ();
 		//ufo = new UFO();
 		//split = new SplitSlimelet ();
@@ -277,7 +276,7 @@ public class GameCode {
 		//ufo.declare(200,120);
 		//work.declare(100,200);
 		//candle.declare(200,200);
-		//fall.declare(300, 200);
+		fall.declare(300, 100);
 		//test.declare(300,300);
 		//test.Break(new Sprite [] {new Sprite ("resources/sprites/shard.png")}, 7, 1, 2, 0,3.14);
 		//plant.declare(320,300);
