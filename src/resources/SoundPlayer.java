@@ -65,12 +65,13 @@ public class SoundPlayer implements LineListener{
 		DataLine.Info info2 = new DataLine.Info(Clip.class, format);
 		Clip clip2 = (Clip) AudioSystem.getLine (info2);
 		clip2.open (stream);
-		FloatControl gainControl2 = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		FloatControl gainControl2 = (FloatControl) clip2.getControl(FloatControl.Type.MASTER_GAIN);
 		gainControl2.setValue(volume);
 		clip2.start();
 		cliptwooowwowows.put(effectName, clip2);
 		} catch (Exception e){
-		System.out.println("whoops (error message) ");
+		e.printStackTrace();
+		System.out.println("whoops (error message with sound player) ");
 		}
 	}
 	public Clip getClip (String clipName) {

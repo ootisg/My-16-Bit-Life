@@ -164,24 +164,24 @@ public class Stats extends GameObject {
 			} */
 		if (j.witchCharictar ==0 ) {
 			if (j.getHealth() > 0) {
-			HEALTH_SPRITE.draw(160,0,0,(int)(170 * (j.getHealth() / j.maxJeffreyHealth)), 24);
+			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (j.getHealth() / j.maxJeffreyHealth)))), 24);
 			}
 		}
 		if (j.witchCharictar ==1 ) {
-			if (j.getHealth() > 0) {
-			HEALTH_SPRITE.draw(160,0,0,(int)(170 * (j.getHealth() / j.maxSamHealth)), 24);
+			if (j.getHealth() > 0) {				
+			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (j.getHealth() / j.maxSamHealth)))), 24);
 			}
 			}
 		if (j.witchCharictar ==2 ) {
 			if (j.getHealth() > 0) {
-			HEALTH_SPRITE.draw(160,0,0,(int)(170 * (j.getHealth() / j.maxRyanHealth)), 24);
+			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (j.getHealth() / j.maxRyanHealth)))), 24);
 			}
 			}
 		buffer.setColor (new Color(0x000000));
 		buffer.setColor(new Color (0xFFFF00));
 		buffer.setColor(new Color (0x000000));
 		if (j.switchTimer != 0) {
-		CHARICTAR_SPRITE.draw(0, 0, 0, 45*j.switchTimer/30, 24);
+		CHARICTAR_SPRITE.draw(0, 0, 0, (int) (Math.ceil(45*j.switchTimer/30.0)), 24);
 		}
 		weaponSprite.draw(144, 0);
 	}

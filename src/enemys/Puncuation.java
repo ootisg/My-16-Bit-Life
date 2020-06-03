@@ -22,6 +22,7 @@ public class Puncuation extends Enemy {
 	Period projectile;
 	int timer;
 	boolean shooting;
+	boolean inzialized = false;
 	public Puncuation () {
 		this.health = 300;
 		timer = 0;
@@ -41,18 +42,7 @@ public class Puncuation extends Enemy {
 		this.setSprite(idleQuestion);
 		question = true;
 		this.getAnimationHandler().setFrameTime(150);
-		try {
-		if (this.getVariantAttribute("puncuation").equals("question")) {
-			question = true;
-			this.setHitboxAttributes(6, 1, 14, 25);
-		} else {
-			question = false;
-			this.setHitboxAttributes(11, 0, 6, 28);
-		}
-		}catch (NullPointerException e) {
-			question = true;
-			this.setHitboxAttributes(6, 1, 14, 25);
-		}
+		
 	}
 	@Override 
 	public String checkName () {
@@ -64,6 +54,21 @@ public class Puncuation extends Enemy {
 	}
 	@Override 
 	public void enemyFrame () {
+		if (!inzialized) {
+			try {
+				if (this.getVariantAttribute("puncuation").equals("question")) {
+					question = true;
+					this.setHitboxAttributes(6, 1, 14, 25);
+				} else {
+					question = false;
+					this.setHitboxAttributes(11, 0, 6, 28);
+				}
+				}catch (NullPointerException e) {
+					question = true;
+					this.setHitboxAttributes(6, 1, 14, 25);
+				}
+			inzialized = true;
+		}
 		this.Charge(40);
 		if (!chargeLineAquired && (this.isNearPlayerX(0, 200, 0, 200) && this.isNearPlayerY(0, 200, 0, 200)) && !shooting) {
 			if (question) {

@@ -34,6 +34,7 @@ import gameObjects.AnimeTester;
 import gameObjects.Box;
 import gameObjects.BreakableObject;
 import gameObjects.CarSpawner;
+import gameObjects.Fan;
 import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
 import gameObjects.Leg;
@@ -151,6 +152,7 @@ public class GameCode {
 	static Cutsceen testSceen;
 	static UFO ufo;
 	static SplitSlimelet split;
+	static Fan fan;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
@@ -160,6 +162,7 @@ public class GameCode {
 		
 		//Initialize sprites
 		//GameObject initialization
+		player = new SoundPlayer ();
 		J = new Jeffrey ();
 		testLaddder = new Ladder ();
 		lameJeffrey = new NonPlayableJeffrey();
@@ -216,6 +219,7 @@ public class GameCode {
 		//box = new Box();
 		//plant = new Plant ();
 		paint = new BluePaint (1);
+		fan = new Fan();
 		while (x <40) {
 		Jeffrey.inventory.addAmmo(paintball);
 		Jeffrey.inventory.addAmmo(paint);
@@ -232,8 +236,9 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/PitStuff.rmf");
-		//bleh = new AnimeTester ();
+		Room.loadRoom ("resources/maps/fanTest.rmf");
+		//bleh = new AnimeTester ()
+		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);
 		gui = new Gui ();
 		//ufo = new UFO();
@@ -280,7 +285,7 @@ public class GameCode {
 		//ufo.declare(200,120);
 		//work.declare(100,200);
 		//candle.declare(200,200);
-		fall.declare(300, 100);
+		//fall.declare(300, 100);
 		//test.declare(300,300);
 		//test.Break(new Sprite [] {new Sprite ("resources/sprites/shard.png")}, 7, 1, 2, 0,3.14);
 		//plant.declare(320,300);

@@ -198,8 +198,10 @@ public class Leg extends GameObject{
 		timer = 0;
 		setHitboxAttributes(0,0, 48, 89);
 		getAnimationHandler ().setFrameTime (112.5);
+		
 	}
 	public void turnRed () {
+		if (this.isAttached()) {
 		red = true;
 		switch (legShit) {
 		case 1:
@@ -227,7 +229,7 @@ public class Leg extends GameObject{
 			this.setSprite(LongBottomRightRedIdle);
 			break;
 		}
-		
+		}	
 	}
 	public boolean isAttached () {
 		return !deattached;
@@ -243,6 +245,7 @@ public class Leg extends GameObject{
 		
 	}
 	public void turnGreen() {
+		if (this.isAttached()) {
 		red = false;
 		switch (legShit) {
 		case 1:
@@ -270,8 +273,10 @@ public class Leg extends GameObject{
 			this.setSprite(LongBottomRightGreenIdle);
 			break;
 		}
+		}
 	}
 	public void moveLeft () {
+		if (this.isAttached()) {
 		wouldOfBeenFlipped = false;
 		if (!red) {
 		switch (legShit) {
@@ -332,7 +337,9 @@ public class Leg extends GameObject{
 		scootin = true;
 		timer = 0;
 		}
+		}
 	public void moveRight () {
+		if (this.isAttached()) {
 		wouldOfBeenFlipped = true;
 		if (!red) {
 		switch (legShit) {
@@ -391,16 +398,22 @@ public class Leg extends GameObject{
 	}
 		scootin = true;
 		timer = 0;
+		}
 	}
 	public void keepMovingRight(){
+		if (this.isAttached ()) {
 		reallyScootin = true;
 		this.moveRight();
+		}
 	}
 	public void keepMovingLeft(){
+		if (this.isAttached()) {
 		reallyScootin = true;
 		this.moveLeft();
+		}
 	}
 	public void flip () {
+		if (this.isAttached()) {
 		if (!red) {
 		switch (legShit) {
 		case 1:
@@ -459,11 +472,15 @@ public class Leg extends GameObject{
 		flipin = true; 
 		timer = 0;
 		}
+	}
 	public void stop() {
+		if (this.isAttached()) {
 		this.reallyScootin = false;
+		}
 	}
 	@Override
 	public void frameEvent() {
+		if (!deattached) {
 		if (scootin && timer == 5) {
 			if (wouldOfBeenFlipped) {
 				if (reallyScootin) {
@@ -670,7 +687,7 @@ public class Leg extends GameObject{
 				j.damage(RNG.nextInt(30) + 10);
 			}
 		}
-		if (deattached) {
+		} else {
 			this.setSprite(FinalSprite);
 			this.setX(finalx);
 			

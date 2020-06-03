@@ -12,7 +12,7 @@ import projectiles.Explosion;
 public class Cannonball extends Projectile{
 	
 	public static final Sprite cannonball = new Sprite ("resources/sprites/config/tank_cannonball.txt");
-	Explosion explosion = new Explosion(50, 0, true, false);
+	Explosion explosion = new Explosion(10, 0, true, false);
 	
 	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 	boolean hitSomething = false;

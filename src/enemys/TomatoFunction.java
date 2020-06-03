@@ -54,7 +54,7 @@ public class TomatoFunction extends Enemy {
 		leg6.declare(x -12,y + 38);
 		leg7.declare(x + 30,y + 38);
 		leg8.declare(x + 45, y + 30);
-		this.setHitboxAttributes(0, 0, 65,  51 );
+		this.setHitboxAttributes(0, 0, 65, 51);
 	}
 	@Override 
 	public String checkName () {
@@ -65,8 +65,7 @@ public class TomatoFunction extends Enemy {
 		return "THE ULTIMATE FORM OF CONTENT CONTROL CLAIMING OWNERSHIP OF ALL CONCEPTS IN EXISTANCE COULD OF BEEN PEFECT IF FLOATS DIDEN'T CAP SO QUICKLY BUT ALL MASTERPEICES MUST BE DESTROIED AT SOME POINT A MOMENT OF SILENCE FOR WHAT COULD OF BEEN";
 	}
 	@Override
-	public void frameEvent () {
-
+	public void enemyFrame () {
 		//make legs de-attach as more damage is received
 		if (this.health < 2200 && leg1.isAttached()) {
 			leg1.deattach();
@@ -404,5 +403,18 @@ public class TomatoFunction extends Enemy {
 			}
 		}
 		timer = timer + 1;
+	}
+	@Override 
+	public void deathEvent () {
+		super.deathEvent();
+		leg1.forget();
+		leg2.forget();
+		leg3.forget();
+		leg4.forget();
+		leg5.forget();
+		leg6.forget();
+		leg7.forget();
+		leg8.forget();
+		
 	}
 }
