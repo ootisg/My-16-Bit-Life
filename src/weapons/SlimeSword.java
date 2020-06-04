@@ -229,7 +229,7 @@ public class SlimeSword extends Item {
 			faceingLeft = true;
 		}
 		}
-		if (player.getSprite().equals(samSwingSprite) && player.getAnimationHandler().getFrame() ==  11) {
+		if (player.getSprite().equals(samSwingSprite) && player.getAnimationHandler().getFrame() ==  9) {
 			player.changeSprite(true);
 			player.setSprite(samWalkingSword);
 			player.getAnimationHandler().setRepeat(true);
