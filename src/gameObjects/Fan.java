@@ -16,12 +16,15 @@ import resources.Sprite;
  *
  */
 public class Fan extends MapObject {
-	Sprite VERTICAL = new Sprite ("resources/sprites/fanVeritacal.png");
-	Sprite HORIZONTAL = new Sprite ("resources/sprites/fanHorizontal.png");
+	Sprite Up = new Sprite ("resources/sprites/config/fan_up.txt");
+	Sprite Down = new Sprite ("resources/sprites/config/fan_down.txt");
+	Sprite Horizontal = new Sprite  ("resources/sprites/config/fan_horizontal.txt");
+	
 	double power;
 	double range;
 	boolean inzialized = false;
 	public Fan () {
+		this.getAnimationHandler().setFrameTime(30);
 		this.adjustHitboxBorders();
 		
 	}
@@ -32,38 +35,35 @@ public class Fan extends MapObject {
 				switch (this.getVariantAttribute("Direction")) {
 				case "Up":
 					this.setHitboxAttributes(0, 0,60, 16);
-					this.getAnimationHandler().setFlipVertical(true);
-					this.setSprite(VERTICAL);
+					this.setSprite(Up);
 					break;
 				case "Down":	
-					this.setSprite(VERTICAL);
+					this.setSprite(Down);
 					this.setHitboxAttributes(0, 0,60, 16);
 					break;
 				case "Left":
-					this.setSprite(HORIZONTAL);
+					this.setSprite(Horizontal);
 					this.setHitboxAttributes(0, 0,16, 60);
 					break;
 				case "Right":
-					this.setSprite(HORIZONTAL);
+					this.setSprite(Horizontal);
 					this.setHitboxAttributes(0, 0,16, 60);
 					this.getAnimationHandler().setFlipHorizontal(true);
 					break;
 				}
 			} catch (NullPointerException e) {
-				this.setSprite(VERTICAL);
+				this.setSprite(Up);
 				this.setHitboxAttributes(0, 0,60, 16);
-				this.getAnimationHandler().setFlipVertical(true);
 			}
 			try {
 				power = Double.parseDouble(this.getVariantAttribute("power"));
 			} catch (NullPointerException e) {
-				if (this.getSprite().equals(VERTICAL)) {
-				if (this.getAnimationHandler().flipVertical()) {
-					power = 3;
-				} else {
-				
-					power = 1;
-				}
+				if (this.getSprite().equals(Up) || this.getSprite().equals(Down)) {
+					if (this.getSprite().equals(Up)) {
+						power = 3;
+					} else {
+						power = 1;
+					}
 				} else {
 					power = 1;
 				}
@@ -71,8 +71,8 @@ public class Fan extends MapObject {
 			inzialized =true;
 		}
 		super.frameEvent();
-		if (this.getSprite().equals(VERTICAL)) {
-			if (this.getAnimationHandler().flipVertical()) {
+		if (this.getSprite().equals(Up) || this.getSprite().equals(Down)) {
+			if (this.getSprite().equals(Up)) {
 				// code for upwards fan
 				if (Room.getCollisionInfo(this.getX(), this.getY(), this.getX(), 0) != null) {
 					range = this.getY() - Room.getCollisionInfo(this.getX(), this.getY(), this.getX(), 0).getTileY()*Room.TILE_HEIGHT;
