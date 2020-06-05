@@ -77,10 +77,6 @@ public class MagicMarker extends AimableWeapon {
 	}
 	@Override
 	public void frameEvent () {
-		if (firstRun) {
-			AfterRenderDrawer.drawAfterRender(350, 0, paintballiconSprite, 0, true);
-			firstRun = false;
-		}
 		if (mouseButtonPressed (2)) {
 			color = color + 1;
 			if (color > 6) {

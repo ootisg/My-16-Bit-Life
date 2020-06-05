@@ -22,6 +22,7 @@ public class Bombs extends AimableWeapon {
 	int timer;
 	int cooldown;
 	int [] upgradeInfo;
+	boolean itsOver = false;
 	boolean inHand = false;
 	BombsProjectile bomb = null;
 	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
@@ -65,10 +66,20 @@ public class Bombs extends AimableWeapon {
 		return newBomb;
 	}
 	@Override
+	public void onSwitch () {
+		AfterRenderDrawer.removeElement(bombIconSprite, 350, 0);
+		firstRun = true;
+		itsOver = true;
+	}
+	@Override
 	public void frameEvent () {
 		if (firstRun) {
+			if (!itsOver) {
 			AfterRenderDrawer.drawAfterRender(350, 0, bombIconSprite, 0, true);
 			firstRun = false;
+			} else {
+				itsOver = false;
+			}
 		}
 		if (cooldown > 0) {
 			cooldown--;

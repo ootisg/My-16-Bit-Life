@@ -28,7 +28,6 @@ public class Door extends MapObject {
 	}
 	@Override
 	public void frameEvent () {
-		System.out.println(open);
 		if (!inizialized) {
 			inizialized = true;
 			if (this.getVariantAttribute("keyName") != null && !this.getVariantAttribute("keyName").equals("nv")) {

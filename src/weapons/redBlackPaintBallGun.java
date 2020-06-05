@@ -99,7 +99,7 @@ public class redBlackPaintBallGun extends AimableWeapon {
 		}
 		Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").getFirst ();
 		if (!itsOver) {
-		ammoAmount.setContent(Integer.toString(jeffrey.getInventory().checkItemAmount(paint)));
+		ammoAmount.setContent(Integer.toString(Jeffrey.getInventory().checkItemAmount(paint)));
 		} else {
 		AfterRenderDrawer.removeElement(paintballiconSprite, 350, 0);
 		AfterRenderDrawer.removeElement(fisticonSprite, 350, 0);
@@ -110,18 +110,18 @@ public class redBlackPaintBallGun extends AimableWeapon {
 			this.cooldown --;
 		}
 		if (mouseButtonClicked (0) && cooldown == 0 && !jeffrey.isCrouched() && !mouseButtonReleased (0)) {
-			if ((jeffrey.inventory.checkAmmo(testball) && !fists) || jeffrey.inventory.checkAmmo(testball)&& (jeffrey.inventory.checkAmmo(paint) && fists)) {
+			if ((Jeffrey.getInventory().checkAmmo(testball) && !fists) || Jeffrey.getInventory().checkAmmo(testball)&& (Jeffrey.getInventory().checkAmmo(paint) && fists)) {
 			if (!this.fists) {
 			this.shoot (new Paintball ());
-			jeffrey.inventory.removeItem(testball);
+			Jeffrey.getInventory().removeItem(testball);
 			if (upgradeInfo [2] >= 1) {
 			this.shoot(new PaintballWeak(), this.rotation + (3.14/32));
 			this.shoot(new PaintballWeak(), this.rotation - (3.14/32));
 			}
 			} else {
 			this.shoot(new Fist ());
-			jeffrey.inventory.removeItem(paint);
-			jeffrey.inventory.removeItem(testball);
+			Jeffrey.getInventory().removeItem(paint);
+			Jeffrey.getInventory().removeItem(testball);
 			}
 			cooldown = 5;
 			} else {
