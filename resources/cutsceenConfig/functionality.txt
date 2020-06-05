@@ -9,6 +9,7 @@ objects -used to specify things regarding some events
 				"x" - the x position of the new object
 				"y" - the y position of the new object
 			"hijack" - takes control of the first object of that type in the object handler 
+			"pass" - implys that you plan to pass this object into the cutscene in code
 	optional paramiters
 		"persistent" - referst to wheather or not this object should stick around after the concustion of the cutscene (true for yes anything else for no) defaults too no	
 

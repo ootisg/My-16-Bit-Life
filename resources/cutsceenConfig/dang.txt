@@ -1,0 +1,11 @@
+{
+	"usedObjects": [		
+	],
+	"events": [
+		{
+			"type": "text",
+			"text": "DANG IT I CAN'T GET THROUGH THIS DOOR IF ONLY I HAD A KEY",
+		}
+		
+	]	
+}

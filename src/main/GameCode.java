@@ -34,6 +34,7 @@ import gameObjects.AnimeTester;
 import gameObjects.Box;
 import gameObjects.BreakableObject;
 import gameObjects.CarSpawner;
+import gameObjects.Door;
 import gameObjects.Fan;
 import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
@@ -147,6 +148,7 @@ public class GameCode {
 	static BreakableObject test;
 	static Worker work;
 	static Candle candle;
+	static Door door;
 	static AnimeTester bleh;
 	static MoveingPlatform platform;
 	static Cutsceen testSceen;
@@ -173,6 +175,7 @@ public class GameCode {
 		key = new FairUseKey(1);
 		//guy = new PointGuy();
 		work = new Worker ();
+		door = new Door ();
 		fall = new FallingChandleer ();
 		test = new BreakableObject ();
 		packet = new LemonPacket(1);
@@ -236,7 +239,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/fanTest.rmf");
+		Room.loadRoom ("resources/maps/doorTest.rmf");
 		//bleh = new AnimeTester ()
 		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);
@@ -286,6 +289,7 @@ public class GameCode {
 		//work.declare(100,200);
 		//candle.declare(200,200);
 		//fall.declare(300, 100);
+		//door.declare(100,350);
 		//test.declare(300,300);
 		//test.Break(new Sprite [] {new Sprite ("resources/sprites/shard.png")}, 7, 1, 2, 0,3.14);
 		//plant.declare(320,300);
@@ -296,6 +300,7 @@ public class GameCode {
 	}
 	
 	public static void afterGameLogic () {
+		door.setKeyType("FairUseKey");
 	}
 	
 	public static void beforeRender () {

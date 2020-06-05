@@ -87,7 +87,7 @@ public class Fan extends MapObject {
 					while (innerIter.hasNext()) {
 						GameObject reallyWorkin = innerIter.next();
 						if (reallyWorkin.hitbox() != null) {
-							if (reallyWorkin.getX() + reallyWorkin.hitbox().getWidth() > this.getX() && reallyWorkin.getX() < this.getX() + this.hitbox().width && reallyWorkin.getY() +reallyWorkin.hitbox().getHeight() < this.getY() && reallyWorkin.getY() > this.getY()-range) {
+							if (reallyWorkin.getX() + reallyWorkin.getHitboxXOffset() + reallyWorkin.hitbox().getWidth() > this.getX() && reallyWorkin.getX() + reallyWorkin.getHitboxXOffset() < this.getX() + this.hitbox().width && reallyWorkin.getY() +reallyWorkin.hitbox().getHeight() + reallyWorkin.getHitboxYOffset()  < this.getY() && reallyWorkin.getY() + reallyWorkin.getHitboxYOffset()  > this.getY()-range) {
 								double distance = this.getY() - reallyWorkin.getY();
 								if (reallyWorkin.getClass().getSimpleName().equals("Jeffrey")) {
 									if (keyDown (32)) {
@@ -124,7 +124,7 @@ public class Fan extends MapObject {
 					while (innerIter.hasNext()) {
 						GameObject reallyWorkin = innerIter.next();
 						if (reallyWorkin.hitbox() != null) {
-							if (reallyWorkin.getX() + reallyWorkin.hitbox().getWidth() > this.getX() && reallyWorkin.getX() < this.getX() + this.hitbox().width && reallyWorkin.getY() > this.getY() && reallyWorkin.getY() < this.getY()+range) {
+							if (reallyWorkin.getX() + reallyWorkin.getHitboxXOffset() + reallyWorkin.hitbox().getWidth() > this.getX() && reallyWorkin.getX() + reallyWorkin.getHitboxXOffset() < this.getX() + this.hitbox().width && reallyWorkin.getY() + reallyWorkin.getHitboxYOffset() > this.getY() && reallyWorkin.getY() + reallyWorkin.getHitboxYOffset() < this.getY()+range) {
 								double distance = reallyWorkin.getY() - this.getY();
 									reallyWorkin.goY(reallyWorkin.getY() + power/(distance/400));
 							}
@@ -148,7 +148,7 @@ public class Fan extends MapObject {
 					while (innerIter.hasNext()) {
 						GameObject reallyWorkin = innerIter.next();
 						if (reallyWorkin.hitbox() != null) {
-							if (reallyWorkin.getY()< this.getY() + this.hitbox().height && reallyWorkin.getY() + reallyWorkin.hitbox().height > this.getY()&& reallyWorkin.getX() < this.getX() && reallyWorkin.getX() > this.getX()-range) {
+							if (reallyWorkin.getY() + reallyWorkin.getHitboxYOffset() < this.getY() + this.hitbox().height && reallyWorkin.getY() + reallyWorkin.getHitboxYOffset()  + reallyWorkin.hitbox().height > this.getY()&& reallyWorkin.getX() + reallyWorkin.getHitboxXOffset() < this.getX() && reallyWorkin.getX() + reallyWorkin.getHitboxXOffset() > this.getX()-range) {
 								double distance = this.getX() - reallyWorkin.getX();
 									reallyWorkin.goX(reallyWorkin.getX() - power/(distance/400));
 							}
@@ -170,7 +170,7 @@ public class Fan extends MapObject {
 					while (innerIter.hasNext()) {
 						GameObject reallyWorkin = innerIter.next();
 						if (reallyWorkin.hitbox() != null) {
-							if (reallyWorkin.getY()< this.getY() + this.hitbox().height && reallyWorkin.getY() > this.getY()&& reallyWorkin.getX() > this.getX() && reallyWorkin.getX() < this.getX()+range) {
+							if (reallyWorkin.getY() + reallyWorkin.getHitboxYOffset() < this.getY() + this.hitbox().height && reallyWorkin.getY() + reallyWorkin.getHitboxYOffset() > this.getY()&& reallyWorkin.getX() + reallyWorkin.getHitboxXOffset() > this.getX() + this.hitbox().getWidth() && reallyWorkin.getX() + reallyWorkin.getHitboxXOffset()  < this.getX() + this.hitbox().width+range) {
 								double distance = reallyWorkin.getX() - this.getX();
 									reallyWorkin.goX(reallyWorkin.getX() + power/(distance/400));
 							}

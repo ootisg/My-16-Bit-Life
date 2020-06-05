@@ -12,8 +12,12 @@ public class FairUseKey extends Item {
 	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	Sprite FUKey = new Sprite("resources/sprites/key.png");
 	public FairUseKey () {
-		this.setSprite(FUKey); 
+		this.setSprite(FUKey);
+		try {
 		amountToAdd = Integer.parseInt(this.getVariantAttribute("amountToAdd"));
+		} catch (NumberFormatException e) {
+		amountToAdd = 0;
+		}
 		this.setHitboxAttributes(0, 0, 9, 5);
 	}
 	public FairUseKey (int ItemAmount) {

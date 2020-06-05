@@ -25,8 +25,18 @@ public class Cutsceen extends GameObject {
 	ArrayList <MoveSlowEvent> event = new ArrayList <MoveSlowEvent> ();
 	ArrayList <Playsound> sound = new ArrayList <Playsound>();
 	ArrayList <MakeText> text = new ArrayList <MakeText> ();
+	GameObject [] passedObjects;
 	boolean chaining = false;
 	public Cutsceen (String filepath) {
+		passedObjects = null;
+		this.consturcterCode(filepath);
+	}
+	
+	public Cutsceen (String filepath, GameObject [] passedObjects) {
+		this.passedObjects = passedObjects;
+		this.consturcterCode(filepath);
+	}
+	private void consturcterCode (String filepath) {
 		JSONObject sceneData = CutsceenLoader.getCutscene (filepath);
 		JSONArray objsToUse = sceneData.getJSONArray ("usedObjects");
 		JSONArray events = sceneData.getJSONArray ("events");
@@ -713,6 +723,12 @@ public class Cutsceen extends GameObject {
 			obj.obj.declare (objData.getInt ("x"), objData.getInt ("y"));
 		} else if (genMethod.equals ("hijack")) {
 			obj = new CutsceneObject (ObjectHandler.getObjectsByName (objData.getString ("type")).get (0));
+		} else if (genMethod.equals("pass")) {
+			for (int i = 0; i <passedObjects.length; i++) {
+				if (passedObjects[i].getClass().getSimpleName().equals(objData.getString("type"))){
+					obj = new CutsceneObject(passedObjects[i]);
+				}
+			}
 		}
 		if (obj == null) {
 			return null;
@@ -767,6 +783,8 @@ public class Cutsceen extends GameObject {
 		public CutsceneObject (GameObject obj) {
 			this.obj = obj;
 		}
-		
+		public boolean isPersistant () {
+			return persistent;
+		}
 	}
 }

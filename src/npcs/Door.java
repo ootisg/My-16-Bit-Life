@@ -7,7 +7,7 @@ import resources.Sprite;
 public class Door extends NPC{
 	Sprite door;
 	public Door (){
-		door = new Sprite ("resources/sprites/gate.png");
+		door = new Sprite ("resources/sprites/Door.png");
 		this.setSprite(door);
 		this.changeTriggering();
 		this.setHitboxAttributes(0,0,5,32);

@@ -79,6 +79,19 @@ public class MapObject  extends GameObject {
 							}
 					}
 				}
+			}
 		}
+		public void reverseCollision () {
+			for (int j = 0; j<affectedTiles.size(); j++) {
+				Room.getMapObjects().remove(Room.toPackedLong(affectedTiles.get(j).x/16,affectedTiles.get(j).y/16));
+				affectedTiles.remove(j);
+			}
+		}
+		@Override 
+		public boolean isColliding (GameObject withWhat) {
+			withWhat.setHitboxAttributes((int)withWhat.getHitboxXOffset() - 2, (int)withWhat.getHitboxYOffset() -2 , withWhat.hitbox().width + 4, withWhat.hitbox().height + 4);
+			boolean workint = super.isColliding(withWhat);
+			withWhat.setHitboxAttributes((int)withWhat.getHitboxXOffset() + 2, (int)withWhat.getHitboxYOffset() +2 , withWhat.hitbox().width - 4, withWhat.hitbox().height - 4);
+			return workint;
 		}
 	}
