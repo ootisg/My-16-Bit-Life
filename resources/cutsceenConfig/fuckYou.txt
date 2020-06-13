@@ -1,0 +1,11 @@
+{
+"usedObjects": [		
+	],
+	"events": [
+		{
+			"type": "text",
+			"text": "DUDE FUCK OFF",
+		}
+		
+	]
+}

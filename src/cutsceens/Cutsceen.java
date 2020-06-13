@@ -6,6 +6,8 @@ import java.util.HashMap;
 import actions.MakeText;
 import actions.Playsound;
 import gameObjects.BreakableObject;
+import gui.ListTbox;
+import items.Item;
 import json.JSONArray;
 import json.JSONException;
 import json.JSONObject;
@@ -13,6 +15,7 @@ import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
+import players.Jeffrey;
 import resources.Sprite;
 
 public class Cutsceen extends GameObject {
@@ -25,8 +28,12 @@ public class Cutsceen extends GameObject {
 	ArrayList <MoveSlowEvent> event = new ArrayList <MoveSlowEvent> ();
 	ArrayList <Playsound> sound = new ArrayList <Playsound>();
 	ArrayList <MakeText> text = new ArrayList <MakeText> ();
+	ListTbox box = null;
+	private boolean played = false;
 	GameObject [] passedObjects;
 	boolean chaining = false;
+	String reconsturctionPath;
+	GameObject [] linkedObjects;
 	public Cutsceen (String filepath) {
 		passedObjects = null;
 		this.consturcterCode(filepath);
@@ -38,6 +45,16 @@ public class Cutsceen extends GameObject {
 	}
 	private void consturcterCode (String filepath) {
 		JSONObject sceneData = CutsceenLoader.getCutscene (filepath);
+		if (sceneData.getString("linkedScene") != null) {
+			reconsturctionPath = sceneData.getString("linkedScene"); 
+		} else {
+			reconsturctionPath = filepath;
+		}
+		if (sceneData.getJSONArray("linkedObjects") != null) {
+		linkedObjects = (GameObject []) sceneData.getJSONArray("linkedObjects").getContents().toArray();
+		} else {
+		linkedObjects = passedObjects;
+		}
 		JSONArray objsToUse = sceneData.getJSONArray ("usedObjects");
 		JSONArray events = sceneData.getJSONArray ("events");
 		//Get/add the objects to use
@@ -123,8 +140,9 @@ public class Cutsceen extends GameObject {
 			case "playScene":
 				//get filepath
 				String coolPath = event.getString("path");
+				GameObject [] passedObjects = (GameObject []) event.getJSONArray ("passedObjects").getContents().toArray();
 				//do the thing
-				makeTextBox (coolPath,startChain,endChain);
+				playSceen (coolPath,passedObjects,startChain,endChain);
 				break;
 			case "changeMap":
 				//get filepath
@@ -151,6 +169,60 @@ public class Cutsceen extends GameObject {
 				GameObject wObject = searchByName (event.getString("name")).obj;
 				//do the thing
 				changeSprite (wSprite,wObject,startChain,endChain);
+				break;
+			case "giveItem":
+				CutsceneObject wItem = searchByName (event.getString("item"));
+				int amount;
+				if (event.get("amount") != null) {
+					amount = event.getInt("amount");
+				} else {
+					amount = 1;
+				}
+					
+				giveItem(wItem,amount,startChain,endChain);
+				break;
+			case "removeItem":
+				CutsceneObject workingItem = searchByName (event.getString("item"));
+				int wowDUDE;
+				if (event.get("amount") != null) {
+					wowDUDE = event.getInt("amount");
+				} else {
+					wowDUDE = 1;
+				}
+				removeItem(workingItem, wowDUDE, startChain,endChain);
+			case "removeMoney":
+				int wowBRO;
+				if (event.get("amount") != null) {
+					wowBRO = event.getInt("amount");
+				} else {
+					wowBRO = 1;
+				}
+				removeMoney(wowBRO, startChain,endChain);
+			case "giveMoney":
+				int amountOfWEXP;
+				if (event.get("amount") != null) {
+					amountOfWEXP = event.getInt("amount");
+				} else {
+					amountOfWEXP= 1;
+				}
+				giveMoney(amountOfWEXP, startChain,endChain);
+				break;
+			case "removeWEXP":
+				int wo;
+				if (event.get("amount") != null) {
+					wo = event.getInt("amount");
+				} else {
+					wo = 1;
+				}
+				removeWEXP(wo, startChain,endChain);
+			case "giveWEXP":
+				int amountOfWEXP2;
+				if (event.get("amount") != null) {
+					amountOfWEXP2 = event.getInt("amount");
+				} else {
+					amountOfWEXP2= 1;
+				}
+				giveWEXP(amountOfWEXP2, startChain,endChain);
 				break;
 			case "break":
 				//get filepath and craft sprite
@@ -185,6 +257,32 @@ public class Cutsceen extends GameObject {
 				//do the thing
 				breakObject (workingBEEEE,BEEEObject,amountOfShards,minSpeed,maxSpeed,minDirection,maxDirection,startChain,endChain);
 				break;
+			case "choice":
+				Object [] choices =  event.getJSONArray ("choices").getContents().toArray();
+				Object [] sceens = event.getJSONArray ("sceens").getContents().toArray();
+				ArrayList [] objectsPerSceen = new ArrayList [choices.length];
+				for (int bee = 0; bee < objectsPerSceen.length; bee++) {
+					try {
+					for (int k = 0; k < event.getJSONArray((String)choices[bee]).getContents().size(); k++) {
+						String working = (String) event.getJSONArray((String)choices[bee]).getContents().get(k);
+							objectsPerSceen[bee].add(this.searchByName(working));
+						}
+					} catch (NullPointerException e) {
+					objectsPerSceen[bee] = null;
+					}
+					this.makeChoice(choices, sceens, objectsPerSceen, startChain, endChain);
+				}
+			case "hasItem":
+				CutsceneObject itemToCheck = searchByName (event.getString("item"));
+				String yesSceen = (String) event.getString("yesScene");
+				ArrayList objectsForScene = new ArrayList ();
+					try {
+						objectsForScene = event.getJSONArray("yes").getContents();
+					} catch (NullPointerException e) {
+						objectsForScene = null;
+					}
+					this.checkItem(yesSceen, objectsForScene, itemToCheck, startChain, endChain);
+				break;	
 			case "custom":
 				//yeet yeet
 				customCode(CutsceneEvent.makeCutsceneEvent(event),startChain,endChain);
@@ -217,6 +315,22 @@ public class Cutsceen extends GameObject {
 		comands.add(Boolean.toString(endChain));
 	/*=*/}
 	/**
+	 * runs diffrent cutscenes based on wheather or not the player has a specific item
+	 */
+	public void checkItem (String yesScene, ArrayList pasedObjects, CutsceneObject itemToCheck, boolean startChain, boolean endChain) {
+		comands.add("checkItem");
+		if (pasedObjects == null) {
+		comands.add("0");
+		}
+		comands.add(yesScene);
+		objectsToHandle.add(itemToCheck);
+		if (pasedObjects != null) {
+			for (int i = 0; i < pasedObjects.size(); i++) {
+				objectsToHandle.add(new CutsceneObject ((GameObject) pasedObjects.get(i)));
+			}
+		}
+		}
+	/**
 	 * plays a sound effect
 	 * @param soundPath the filepath to the sound effect
 	 */
@@ -225,6 +339,59 @@ public class Cutsceen extends GameObject {
 		comands.add(soundPath);
 		comands.add(Boolean.toString(startChain));
 		comands.add(Boolean.toString(endChain));
+	}
+	public void giveItem (CutsceneObject Item, int amount, boolean startChain, boolean endChain) {
+		comands.add("giveItem");
+		comands.add(Integer.toString(amount));
+		comands.add(Boolean.toString(startChain));
+		comands.add(Boolean.toString(endChain));
+		objectsToHandle.add(Item);
+	}
+	public void giveMoney ( int amount, boolean startChain, boolean endChain) {
+		comands.add("giveMoney");
+		comands.add(Integer.toString(amount));
+		comands.add(Boolean.toString(startChain));
+		comands.add(Boolean.toString(endChain));
+	}
+	public void removeMoney ( int amount, boolean startChain, boolean endChain) {
+		comands.add("removeMoney");
+		comands.add(Integer.toString(amount));
+		comands.add(Boolean.toString(startChain));
+		comands.add(Boolean.toString(endChain));
+	}
+	public void giveWEXP ( int amount, boolean startChain, boolean endChain) {
+		comands.add("giveWEXP");
+		comands.add(Integer.toString(amount));
+		comands.add(Boolean.toString(startChain));
+		comands.add(Boolean.toString(endChain));
+	}
+	public void removeWEXP ( int amount, boolean startChain, boolean endChain) {
+		comands.add("removeWEXP");
+		comands.add(Integer.toString(amount));
+		comands.add(Boolean.toString(startChain));
+		comands.add(Boolean.toString(endChain));
+	}
+	public void removeItem (CutsceneObject Item, int amount, boolean startChain, boolean endChain) {
+		comands.add("removeItem");
+		comands.add(Integer.toString(amount));
+		comands.add(Boolean.toString(startChain));
+		comands.add(Boolean.toString(endChain));
+		objectsToHandle.add(Item);
+	}
+	public void makeChoice (Object[] choices, Object[] sceens, ArrayList <GameObject> [] pasedObjects, boolean startChain, boolean endChain) {
+		comands.add("choice");
+		comands.add(Integer.toString(choices.length));
+		comands.add(Integer.toString(sceens.length));
+		for (int i = 0; i < choices.length; i++) {
+			comands.add((String)choices[i]);
+		}
+		for (int i = 0; i < sceens.length; i++) {
+			if (passedObjects != null) {
+			cutsceensToHandle.add(new Cutsceen((String)sceens[i],(GameObject []) pasedObjects[i].toArray()));
+			} else {
+			cutsceensToHandle.add(new Cutsceen((String)sceens[i],null));	
+			}
+		}
 	}
 	/**
 	 * breaks an object into shards (only works if you object extends breakable object)
@@ -285,9 +452,9 @@ public class Cutsceen extends GameObject {
 	 * plays a diffrent cutsceen
 	 * @param cutsceen
 	 */
-	public void playSceen (String cutsceen, boolean startChain, boolean endChain) {
+	public void playSceen (String cutsceen, GameObject [] passedObjects, boolean startChain, boolean endChain) {
 		comands.add("playScene");
-		cutsceensToHandle.add(new Cutsceen (cutsceen));
+		cutsceensToHandle.add(new Cutsceen (cutsceen,passedObjects));
 		comands.add(Boolean.toString(startChain));
 		comands.add(Boolean.toString(endChain));
 	}
@@ -331,42 +498,124 @@ public class Cutsceen extends GameObject {
 		return this.play(0,0,0,0,0,0,0,0);
 	}
 	private boolean play (int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber,  int slowEventNumber, int soundNumber,int textNumber) {
-		if (!comands.isEmpty()) {
-			switch (comands.get(commandNumber)) {
-			case "moveSlow":
-				this.runMoveSlowCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
-				break;
-			case "sound":
-				this.runSoundCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
-				break;
-			case "music":
-				this.runMusicCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
-				break;
-			case "text":
-				this.runTextCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
-				break;
-			case "playScene":
-				this.runCutsceenCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
-				break;
-			case "animation":
-				this.runAniamtionCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
-				break;
-			case "sprite":
-				this.runSpriteCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
-				break;
-			case "custom":
-				this.runCustomCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
-				break;
-			case "changeMap":
-				this.runChangeMapCode (commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
-				break;
-			case "break":
-				this.runBreakCode (commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
-				break;
+			if (!comands.isEmpty()) {
+				switch (comands.get(commandNumber)) {
+				case "moveSlow":
+					this.runMoveSlowCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "sound":
+					this.runSoundCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "music":
+					this.runMusicCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "text":
+					this.runTextCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "playScene":
+					this.runCutsceenCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "animation":
+					this.runAniamtionCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "sprite":
+					this.runSpriteCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "custom":
+					this.runCustomCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "changeMap":
+					this.runChangeMapCode (commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "choice":
+					this.runChoiceCode (commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "giveItem":
+					this.runAddItemCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "removeItem":
+					this.runRemoveItemCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "giveWEXP":
+					this.runAddWEXPCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "giveMoney":
+					this.runAddMoneyCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "removeWEXP":
+					this.runRemoveWEXPCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "removeMoney":
+					this.runRemoveMoneyCode(commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				case "checkItem":
+					this.runCheckItemCode(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber, slowEventNumber, soundNumber, textNumber);
+					break;
+				case "break":
+					this.runBreakCode (commandNumber,objectNumber,spriteNumber,cutsceenNumber,eventNumber,slowEventNumber,soundNumber,textNumber);
+					break;
+				}
+				return true;
+			} else {
+				comands.clear();
+				objectsToHandle.clear();
+				spritesToHandle.clear();
+				cutsceensToHandle.clear();
+				spritesToHandle.clear();
+				customEvents.clear();
+				event.clear();
+				sound.clear();
+				text.clear();
+				this.passedObjects = this.linkedObjects;
+				this.consturcterCode(reconsturctionPath);
+				return false;
 			}
-			return true;
-		} else {
-			return false;
+	}
+private void runCheckItemCode (int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
+	int objects = Integer.parseInt(comands.get(commandNumber + 1));
+		if (Jeffrey.getInventory().checkItem((Item) objectsToHandle.get(objectNumber).obj)) {
+				GameObject [] working = new GameObject [objects];
+				for (int i = 0; i < objects; i++) {
+					working [i] = objectsToHandle.get(objectNumber + 1 + i).obj;
+				}
+				String employeeOfTheMonth = comands.get(commandNumber + 2);
+				comands.clear();
+				objectsToHandle.clear();
+				spritesToHandle.clear();
+				cutsceensToHandle.clear();
+				spritesToHandle.clear();
+				customEvents.clear();
+				event.clear();
+				sound.clear();
+				text.clear();
+				passedObjects = working;
+				this.consturcterCode(employeeOfTheMonth);
+			} else {
+				comands.remove(0);
+				comands.remove(0);
+				comands.remove(0);
+				for (int i = 0; i < objects + 1; i++) {
+				objectsToHandle.remove(0);
+				}
+			}
+	}
+	private void runChoiceCode (int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
+		
+		if (box == null) {
+			String [] options = new String [Integer.parseInt(comands.get(commandNumber + 1))];
+			for (int i = 0; i<options.length; i++) {
+				options[i] = comands.get(commandNumber + i + 3);
+			}
+			box = new ListTbox (100,100,options);
+		}
+		if (box.getSelected() != -1) {
+			if (box.declared()) {
+				box.close();
+			}
+			if (!cutsceensToHandle.get(cutsceenNumber + box.getSelected()).play()) {
+				box = null;
+				comands.clear();
+			}
 		}
 	}
 	public void runMoveSlowCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
@@ -452,6 +701,162 @@ public class Cutsceen extends GameObject {
 			this.play(commandNumber + 4, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber + 1,textNumber);
 		}
 		
+	}
+	public void runRemoveItemCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
+		for (int i = 0; i < Integer.parseInt(comands.get(commandNumber + 1)); i++){
+			Jeffrey.getInventory().removeItem((Item)objectsToHandle.get(objectNumber).obj);
+			}
+		//checks if it is the end of the chain
+			if (Boolean.parseBoolean(comands.get(commandNumber + 3))){
+				//checks if it is the last event in the chain to conclude
+				if (commandNumber == 0) {
+					chaining = false;
+				} else {
+					comands.set(commandNumber - 1, "true");
+				}
+			}
+			//starts chaining if this is the start of a chain
+			if (Boolean.parseBoolean(comands.get(commandNumber + 2))) {
+				chaining = true;
+			}
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			objectsToHandle.remove(objectNumber);
+			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+				comands.remove(commandNumber);
+				this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+			} else {
+				comands.remove(commandNumber);
+			}
+	}
+	public void runAddItemCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
+		for (int i = 0; i < Integer.parseInt(comands.get(commandNumber + 1)); i++){
+		Jeffrey.getInventory().addItem((Item)objectsToHandle.get(objectNumber).obj);
+		}
+		//checks if it is the end of the chain
+			if (Boolean.parseBoolean(comands.get(commandNumber + 3))){
+				//checks if it is the last event in the chain to conclude
+				if (commandNumber == 0) {
+					chaining = false;
+				} else {
+					comands.set(commandNumber - 1, "true");
+				}
+			}
+			//starts chaining if this is the start of a chain
+			if (Boolean.parseBoolean(comands.get(commandNumber + 2))) {
+				chaining = true;
+			}
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			objectsToHandle.remove(objectNumber);
+			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+				comands.remove(commandNumber);
+				this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+			} else {
+				comands.remove(commandNumber);
+			}
+	}
+	public void runRemoveWEXPCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
+		Jeffrey.getInventory().subractWEXP(Integer.parseInt(comands.get(commandNumber + 1)));
+		//checks if it is the end of the chain
+			if (Boolean.parseBoolean(comands.get(commandNumber + 3))){
+				//checks if it is the last event in the chain to conclude
+				if (commandNumber == 0) {
+					chaining = false;
+				} else {
+					comands.set(commandNumber - 1, "true");
+				}
+			}
+			//starts chaining if this is the start of a chain
+			if (Boolean.parseBoolean(comands.get(commandNumber + 2))) {
+				chaining = true;
+			}
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+				comands.remove(commandNumber);
+				this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+			} else {
+				comands.remove(commandNumber);
+			}
+	}
+	public void runAddWEXPCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
+		Jeffrey.getInventory().addWEXP(Integer.parseInt(comands.get(commandNumber + 1)));
+		//checks if it is the end of the chain
+			if (Boolean.parseBoolean(comands.get(commandNumber + 3))){
+				//checks if it is the last event in the chain to conclude
+				if (commandNumber == 0) {
+					chaining = false;
+				} else {
+					comands.set(commandNumber - 1, "true");
+				}
+			}
+			//starts chaining if this is the start of a chain
+			if (Boolean.parseBoolean(comands.get(commandNumber + 2))) {
+				chaining = true;
+			}
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+				comands.remove(commandNumber);
+				this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+			} else {
+				comands.remove(commandNumber);
+			}
+	}
+	public void runRemoveMoneyCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
+		Jeffrey.getInventory().subractMoney(Integer.parseInt(comands.get(commandNumber + 1)));
+		//checks if it is the end of the chain
+			if (Boolean.parseBoolean(comands.get(commandNumber + 3))){
+				//checks if it is the last event in the chain to conclude
+				if (commandNumber == 0) {
+					chaining = false;
+				} else {
+					comands.set(commandNumber - 1, "true");
+				}
+			}
+			//starts chaining if this is the start of a chain
+			if (Boolean.parseBoolean(comands.get(commandNumber + 2))) {
+				chaining = true;
+			}
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+				comands.remove(commandNumber);
+				this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+			} else {
+				comands.remove(commandNumber);
+			}
+	}
+	public void runAddMoneyCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
+		Jeffrey.getInventory().addMoney(Integer.parseInt(comands.get(commandNumber + 1)));
+		//checks if it is the end of the chain
+			if (Boolean.parseBoolean(comands.get(commandNumber + 3))){
+				//checks if it is the last event in the chain to conclude
+				if (commandNumber == 0) {
+					chaining = false;
+				} else {
+					comands.set(commandNumber - 1, "true");
+				}
+			}
+			//starts chaining if this is the start of a chain
+			if (Boolean.parseBoolean(comands.get(commandNumber + 2))) {
+				chaining = true;
+			}
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			comands.remove(commandNumber);
+			if (chaining && !Boolean.parseBoolean(comands.get(commandNumber))) {
+				comands.remove(commandNumber);
+				this.play(commandNumber, objectNumber, spriteNumber, cutsceenNumber, eventNumber,slowEventNumber,soundNumber,textNumber);
+			} else {
+				comands.remove(commandNumber);
+			}
 	}
 	public void runMusicCode(int commandNumber,int objectNumber, int spriteNumber, int cutsceenNumber, int eventNumber, int slowEventNumber, int soundNumber,int textNumber) {
 		//plays the song
@@ -720,7 +1125,25 @@ public class Cutsceen extends GameObject {
 		String genMethod = objData.getString ("genMethod");
 		if (genMethod.equals ("create")) {
 			obj = new CutsceneObject (ObjectHandler.getInstance (objData.getString ("type")));
-			obj.obj.declare (objData.getInt ("x"), objData.getInt ("y"));
+			double x = 0;
+			double y = 0;
+			try {
+				x = objData.getDouble ("x");
+			} catch (NumberFormatException | NullPointerException e) {
+				
+			}
+			try {
+				y = objData.getDouble ("y");
+			} catch (NumberFormatException | NullPointerException e) {
+				
+			}
+			if (objData.getString("declare") == null) {
+				obj.obj.declare (x,y);
+			} else {
+				if (!objData.getString("declare").equals("no")) {
+				obj.obj.declare (x,y);
+				}
+			}
 		} else if (genMethod.equals ("hijack")) {
 			obj = new CutsceneObject (ObjectHandler.getObjectsByName (objData.getString ("type")).get (0));
 		} else if (genMethod.equals("pass")) {

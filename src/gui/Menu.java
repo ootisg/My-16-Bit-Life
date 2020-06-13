@@ -15,6 +15,7 @@ public class Menu extends GameObject{
 	Sprite menuSprite;
 	boolean iterateTab;
 	boolean notChanged;
+	boolean prepared = false;
 	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	int charictarIndex;
 	boolean mouseControls;
@@ -104,6 +105,9 @@ public class Menu extends GameObject{
 	}
 	@Override
 	public void pausedEvent () {
+		if (!keyDown('E')) {
+			prepared = true;
+		}
 		boolean abortCheck = false;
 		// mouse controls for the tabs
 		if (getCursorX() > 25 && getCursorX() < 481 && getCursorY() > 64 && getCursorY() < 116 && mouseButtonPressed (0)){
@@ -194,10 +198,11 @@ public class Menu extends GameObject{
 			}
 		}
 		//closes the menu if b is pressed
-	if (keyPressed('B') && !notChanged && !frozen) {
+	if (keyDown('E') && prepared && !notChanged && !frozen) {
 			this.cleanUp();
 			ObjectHandler.pause(false);
 			this.forget();
+			
 		}
 		if (notChanged) {
 			// sets up the textboxes insially

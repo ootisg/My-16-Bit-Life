@@ -1,0 +1,22 @@
+{
+	"usedObjects": [
+		{
+		"name": "key",	
+		"type": "FairUseKey",
+		"genMethod": "create",
+		"declare": "no",
+		}
+	],
+	"events": [
+		{
+			"type": "removeItem",
+			"item": "key",
+			"amount": "1",
+		}
+		{
+		"type": "text", 
+			"text" : "MY KEY NOW DICKHEAD",
+		}
+		
+	]	
+}

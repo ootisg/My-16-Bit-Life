@@ -1,9 +1,8 @@
 package npcs;
 
-import gameObjects.NPC;
 import resources.Sprite;
 
-public class NonPlayableRyan extends NPC {
+public class NonPlayableRyan extends LegacyNPC {
 
 	public NonPlayableRyan () {
 		this.setSprite(new Sprite ("resources/sprites/config/ryan_idle.txt"));

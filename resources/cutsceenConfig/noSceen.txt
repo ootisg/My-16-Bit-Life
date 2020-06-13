@@ -1,0 +1,12 @@
+{
+"linkedScene":"resources/cutsceenConfig/fuckYou.txt",
+"usedObjects": [		
+	],
+	"events": [
+		{
+			"type": "text",
+			"text": "WELL FUCK YOU TOO",
+		}
+		
+	]
+}

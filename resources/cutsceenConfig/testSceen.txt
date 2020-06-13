@@ -1,0 +1,22 @@
+{
+	"usedObjects": [
+		{
+		"name": "key",	
+		"type": "FairUseKey",
+		"genMethod": "create",
+		"declare": "no",
+		}
+	],
+	"events": [
+		{
+			"type": "hasItem",
+			"item": "key",
+			"yesScene": "resources/cutsceenConfig/keySceen.txt",
+		}
+		{
+		"type": "text", 
+			"text" : "dang if you had a fair use key I would be so into that",
+		}
+		
+	]	
+}

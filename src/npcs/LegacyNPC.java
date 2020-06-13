@@ -1,4 +1,4 @@
-package gameObjects;
+package npcs;
 
 import items.Item;
 import main.GameCode;
@@ -8,7 +8,7 @@ import players.Jeffrey;
 import resources.Sprite;
 import gui.Textbox;
 
-public class NPC extends GameObject{
+public class LegacyNPC extends NPC{
 	Textbox diolog;
 	Boolean proximityTriggered;
 	String [] messages;
@@ -34,7 +34,7 @@ public class NPC extends GameObject{
 	Boolean disapear;
 	int amountOfItemMessages;
 	Boolean setup;
-	public NPC () {
+	public LegacyNPC () {
 		itemCheck = new Item ();
 		setup = true;
 		amountOfItemMessages = 1;
@@ -137,8 +137,8 @@ public class NPC extends GameObject{
 				this.setSprite(new Sprite ("resources/sprites/config/point_guy.txt"));
 			}
 				int i = 0;
-				while (this.getVariantAttribute("message " +Integer.toString(i + 1)) != null) {
-					messages[i] = this.getVariantAttribute("message " + Integer.toString(i+1));
+				while (this.getVariantAttribute("message" +Integer.toString(i + 1)) != null) {
+					messages[i] = this.getVariantAttribute("message" + Integer.toString(i+1));
 					if (i > 1) {
 						checkToChange = true;
 					}
@@ -146,8 +146,8 @@ public class NPC extends GameObject{
 				}
 				amountOfNonDefultMessages = i;
 				i = 0;
-				while (this.getVariantAttribute("itemMessage " +Integer.toString(i + 1)) != null) {
-					itemMessages[i] = this.getVariantAttribute("itemMessage " + Integer.toString(i+1));
+				while (this.getVariantAttribute("itemMessage" +Integer.toString(i + 1)) != null) {
+					itemMessages[i] = this.getVariantAttribute("itemMessage" + Integer.toString(i+1));
 					if (i > 1) {
 						checkToChange = true;
 					}

@@ -15,6 +15,7 @@ public class Triangle extends Projectile{
 	double oldDirection;
 	int timer;
 	int pickupTimer;
+	int recallTimer = 0;
 	boolean stuckInRoom;
 	boolean consectuive;
 	double oldSpeed;
@@ -27,6 +28,7 @@ public class Triangle extends Projectile{
 		this.setSpeed(speed);
 		stopped = false;
 		stuckInRoom = false;
+		this.adjustHitboxBorders();
 		consectuive = true;
 		RNG = new Random ();
 		pickupTimer = 0;
@@ -91,8 +93,10 @@ public class Triangle extends Projectile{
 			}
 			}
 			//deals with the recalling of the triangle
-			if (mouseButtonPressed (2)) {
+			recallTimer = recallTimer + 1;
+			if (mouseButtonPressed (2) && recallTimer > 10) {
 				DirectionBullet bullet;
+				recallTimer = 0;
 				bullet = new DirectionBullet (this.getX(), this.getY());
 				Triangle returningTriangle;
 				double directionToGo = bullet.findDirection(player);
@@ -286,6 +290,7 @@ public class Triangle extends Projectile{
 			this.forget();
 		}
 		} catch (ArrayIndexOutOfBoundsException e){
+			e.printStackTrace();
 			Triangle nextTriangle;
 			nextTriangle = new Triangle (oldDirection + 3.14, speed, amountOfBounces + 1, copyTriangle);
 			nextTriangle.declare(this.getX() - 10,this.getY());

@@ -94,7 +94,7 @@ public class Jeffrey extends GameObject {
 		ryanMicrophoneWalking = new Sprite("resources/sprites/config/ryan_walking_microphone.txt");
 		ryanIdle = new Sprite ("resources/sprites/config/ryan_idle.txt");
 		ryanWalking = new Sprite ("resources/sprites/config/ryan_walking.txt");
-		changeSprite = true;;
+		changeSprite = true;
 		samSword = new Sprite ("resources/sprites/config/sam_idle_with_sword.txt");
 		samWalkingSword = new Sprite ("resources/sprites/config/sam_walking_with_sword.txt");
 		samIdle = new Sprite ("resources/sprites/config/sam_idle.txt");

@@ -8,6 +8,7 @@ import map.Room;
 
 public class Gui extends GameObject {
 	Stats stats;
+	boolean prepared = true;
 	public Menu menu;
 	public Gui () {
 		stats = new Stats ();
@@ -16,16 +17,19 @@ public class Gui extends GameObject {
 	}
 	@Override
 	public void frameEvent () {
-		stats.frameEvent();
-		if (keyPressed ('E')) {
+		if (keyDown('E')&& prepared ) {
 			menu = new Menu ();
 			menu.declare(0 + Room.getViewX(), 0);
 			ObjectHandler.pause (true);
+		}
+		if (!keyDown ('E')) {
+			prepared = true;
 		}
 	}
 	@Override
 	public void pausedEvent () {
 	stats.frameEvent();	
+	prepared = false;
 	}
 	@Override
 	public void forget () {

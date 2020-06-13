@@ -1,10 +1,9 @@
 package npcs;
 
-import gameObjects.NPC;
 import items.FairUseKey;
 import resources.Sprite;
 
-public class Door extends NPC{
+public class Door extends LegacyNPC{
 	Sprite door;
 	public Door (){
 		door = new Sprite ("resources/sprites/Door.png");

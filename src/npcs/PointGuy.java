@@ -1,9 +1,8 @@
 package npcs;
 
-import gameObjects.NPC;
 import resources.Sprite;
 
-public class PointGuy extends NPC {
+public class PointGuy extends LegacyNPC {
 	public PointGuy () {
 		this.setSprite(new Sprite ("resources/sprites/config/point_guy.txt"));
 		this.setHitboxAttributes(0, 0, 17, 22);

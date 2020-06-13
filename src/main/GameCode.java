@@ -173,7 +173,7 @@ public class GameCode {
 		gun = new redBlackPaintBallGun(	new Sprite ("resources/sprites/redblack_gun.png"));
 		pointer = new LaserPointer ();
 		key = new FairUseKey(1);
-		//guy = new PointGuy();
+		guy = new PointGuy();
 		work = new Worker ();
 		door = new Door ();
 		fall = new FallingChandleer ();
@@ -183,8 +183,7 @@ public class GameCode {
 		Jeffrey.getInventory().addFreind(lameSam);
 		Jeffrey.getInventory().addFreind(lameRyan);
 		Jeffrey.getInventory().addFreind(guy);
-		Jeffrey.getInventory().addKeyItem(key);
-		Jeffrey.getInventory().addConsumable(gun);
+		//Jeffrey.getInventory().addKeyItem(key);
 		Jeffrey.getInventory().addConsumable(packet);
 		vaccum = new LifeVaccum (new Sprite ("resources/sprites/config/lifeVaccum.txt"));
 		Jeffrey.getInventory().addWeapon(vaccum, 1);
@@ -217,7 +216,6 @@ public class GameCode {
 		//newFly = new CreepyButterfly();
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall(1);
-		testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
 		//candle = new Candle ();
 		//box = new Box();
 		//plant = new Plant ();
@@ -239,7 +237,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/doorTest.rmf");
+		Room.loadRoom ("resources/maps/NPCTest.rmf");
 		//bleh = new AnimeTester ()
 		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);
@@ -300,12 +298,10 @@ public class GameCode {
 	}
 	
 	public static void afterGameLogic () {
-		door.setKeyType("FairUseKey");
 	}
 	
 	public static void beforeRender () {
 		Room.render ();
-		
 	}
 	
 	public static void afterRender () {

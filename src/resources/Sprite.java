@@ -133,6 +133,7 @@ public class Sprite {
 	public Sprite (String imagepath) {
 		String[] splitPath = imagepath.split ("\\.");
 		if (splitPath.length != 0 && splitPath [splitPath.length - 1].equals ("txt")) {
+		
 			parsePath = imagepath;
 			images = new SpriteParser (imagepath).parse ();
 			if (images.length > 1) {

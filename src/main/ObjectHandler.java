@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -221,6 +222,8 @@ public class ObjectHandler {
 			allObjsList.addAll (allObjsIter.next ());
 		}
 		GameObject[] allObjsArray = allObjsList.toArray (new GameObject[0]);
+		GameLogicComparator comp = new GameLogicComparator ();
+		Arrays.parallelSort (allObjsArray, comp);
 		for (int i = 0; i < allObjsArray.length; i ++) {
 			if (!allObjsArray[i].isBlackListed()) {
 				if (!isPaused) {
@@ -257,6 +260,8 @@ public class ObjectHandler {
 			allObjsList.addAll (allObjsIter.next ());
 		}
 		GameObject[] allObjsArray = allObjsList.toArray (new GameObject[0]);
+		RenderComparator comp = new RenderComparator ();
+		Arrays.parallelSort (allObjsArray, comp);
 		unlock ();
 		for (int i = 0; i < allObjsArray.length; i ++) {
 			allObjsArray [i].draw ();

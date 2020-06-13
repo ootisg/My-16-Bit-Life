@@ -19,6 +19,7 @@ public class JSONObject {
 		values = new HashMap<String, Object> ();
 		String noWhitespace = "";
 		boolean remove = true;
+		long ct = System.nanoTime ();
 		for (int i = 0; i < value.length(); i ++) {
 			if (value.charAt(i) == '"') {
 				remove = !remove;

@@ -5,9 +5,9 @@ import java.util.Iterator;
 
 import enemys.CreepyButterfly;
 import enemys.Enemy;
-import gameObjects.NPC;
 import main.GameCode;
 import npcs.Door;
+import npcs.NPC;
 import resources.Sprite;
 import weapons.LifeVaccum;
 import weapons.Unarmed;
@@ -226,6 +226,13 @@ public class Inventory {
 		return false;
 	}
 	// checkItem returns true if the item is in the players inventory
+	public boolean checkItem (Item itemToCheck) {
+		if (checkConsumable(itemToCheck) || checkKey(itemToCheck) || checkAmmo(itemToCheck) || checkWeapons(itemToCheck) ){
+			return true;
+		} else {
+			return false;
+		}
+	}
 	public boolean checkConsumable (Item itemtoCheck) {
 		for (Item item : this.consuables) {
 		if (item.getClass().equals(itemtoCheck.getClass())){
@@ -287,6 +294,25 @@ public class Inventory {
 				if (item.getClass().equals(itemtoCheck.getClass())){
 					return true;
 		}
+		}
+		}
+		
+		return false;
+	}
+	public boolean checkWeapons (Item itemtoCheck) {
+		for (Item item : this.jeffreyWeapons) {
+			if (item.getClass().equals(itemtoCheck.getClass())){
+				return true;
+		}
+		}
+			for (Item nutz : this.samWeapons) {
+				if (nutz.getClass().equals(itemtoCheck.getClass())){
+					return true;
+		}
+		}
+			for (Item dude : this.ryanWeapons) {
+				if (dude.getClass().equals(itemtoCheck.getClass())){
+					return true;
 		}
 		}
 		
