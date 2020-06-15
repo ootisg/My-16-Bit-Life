@@ -1,5 +1,9 @@
 package main;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+
 import resources.Sprite;
 
 public class AnimationHandler {
@@ -28,7 +32,10 @@ public class AnimationHandler {
 	 * Whether or not this animation repeats
 	 */
 	private boolean repeat;
-	
+	/**
+	 * make true to make the sprite alternate from going forward to back to backward to forward
+	 */
+	private boolean alternate = false;
 	/**
 	 * Whether or not to apply horizontal flip
 	 */
@@ -40,13 +47,31 @@ public class AnimationHandler {
 	 */
 	private boolean flipVertical;
 	
+	
+	
+	/**
+	 * deal with the reversal
+	 */
+	private boolean reverse = false;
+	private boolean hasReversed = false;
+	
+	/**
+	 * the height to draw too
+	 */
+	private int height;
+	
+	/**
+	 * the width to draw too
+	 */
+	
+	private int width;
+	
 	/**
 	 * Constructs a new AnimationHandler with the given image, defaulting to a static image.
 	 * @param image The image to use
 	 */
 	public AnimationHandler (Sprite image) {
 		this (image, 0);
-		repeat = true;
 	}
 	
 	/**
@@ -60,6 +85,12 @@ public class AnimationHandler {
 		startFrame = 0;
 		this.frameTime = frameTime;
 		repeat = true;
+		try {
+			width = image.getFrame(0).getWidth();
+			height = image.getFrame(0).getHeight();
+		} catch (NullPointerException e) {
+			
+		}
 	}
 	
 	/**
@@ -77,10 +108,21 @@ public class AnimationHandler {
 				long elapsedTime = RenderLoop.frameStartTime () - startTime;
 				int elapsedFrames = ((int)(((double)elapsedTime) / ((double)frameTime)) + startFrame);
 				if (!repeat && elapsedFrames >= image.getFrameCount ()) {
-					image.draw ((int)x, (int)y, flipHorizontal, flipVertical, image.getFrameCount () - 1);
+					image.draw ((int)x, (int)y, flipHorizontal, flipVertical, image.getFrameCount () - 1,width,height);
 				} else {
 					int frame = elapsedFrames % image.getFrameCount ();
-					image.draw ((int)x, (int)y, flipHorizontal, flipVertical, frame);
+					if (frame == 0 && alternate) {
+						if (!hasReversed) {
+						reverse = !reverse;
+						hasReversed = true;
+						}
+					} else {
+						hasReversed = false;
+					}
+					if (reverse) {
+						frame = (image.getFrameCount() - 1) - frame;
+					}
+					image.draw ((int)x, (int)y, flipHorizontal, flipVertical, frame,width,height);
 				}
 			}
 		}
@@ -93,6 +135,8 @@ public class AnimationHandler {
 	 */
 	public void setImage (Sprite image) {
 		this.image = image;
+		width = image.getFrame(0).getWidth();
+		height = image.getFrame(0).getHeight();
 	}
 	
 	/**
@@ -129,7 +173,30 @@ public class AnimationHandler {
 	public void setRepeat (boolean repeats) {
 		repeat = repeats;
 	}
-	
+	/**
+	 * makes the sprite alternate
+	 */
+	public void enableAlternate () {
+		alternate = true;
+	}
+	/**
+	 * makes the sprite not alternate
+	 */
+	public void disableAlternate () {
+		alternate = false;
+	}
+	/**
+	 * changes how far out it draws the image
+	 */
+	public void setHeight(int newHeight) {
+		height = newHeight;
+	}
+	/**
+	 * changes how far to the right it draws the image
+	 */
+	public void setWidth(int newWidht) {
+		width = newWidht;
+	}
 	/**
 	 * Gets the image used by this AnimationHandler.
 	 * @return The image field for this AnimationHandler
@@ -137,7 +204,21 @@ public class AnimationHandler {
 	public Sprite getImage () {
 		return image;
 	}
-	
+	/**
+	 * scales the image to a specific size
+	 *@param width the width you want
+	 *@param height the height you want
+	 */
+	public void scale (int width, int height) {
+		for (int i = 0; i < image.getFrameCount(); i++) {
+			Image img =image.getFrame(i).getScaledInstance(width, height, Image.SCALE_FAST);
+			BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+			Graphics2D bGr = bimage.createGraphics();
+		    bGr.drawImage(img, 0, 0, null);
+		    bGr.dispose();
+			image.setFrame(i,bimage);
+		}
+	}
 	/**
 	 * Gets the frame which would be drawn at the time this method is called. Not guarenteed to be the frame that will be drawn next.
 	 * @return The current frame for this AnimationHandler
@@ -145,12 +226,22 @@ public class AnimationHandler {
 	public int getFrame () {
 		if (image != null) {
 			long elapsedTime = RenderLoop.frameStartTime () - startTime;
-			return ((int)(((double)elapsedTime) / ((double)frameTime)) + startFrame) % image.getFrameCount ();
+			int frame = ((int)(((double)elapsedTime) / ((double)frameTime)) + startFrame) % image.getFrameCount ();
+			if (reverse) {
+			return (image.getFrameCount() -1) - frame;
+			} else {
+			return frame;
+			}
 		} else {
 			return -1;
 		}
 	}
-	
+	public int getWidth () {
+		return width;
+	}
+	public int getHeight () {
+		return height;
+	}
 	/**
 	 * Gets the time each frame should be displayed.
 	 * @return The length of time, in milliseconds, to display each frame

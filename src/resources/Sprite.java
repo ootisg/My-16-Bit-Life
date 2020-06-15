@@ -264,7 +264,37 @@ public class Sprite {
 			RenderLoop.window.getBufferGraphics ().drawImage (getFrame (frame), usedX, usedY, usedX + getFrame (frame).getWidth (), usedY + getFrame (frame).getHeight (), x1, y1, x2, y2, null);
 		}
 	}
-	
+	/**
+	 * Draws the given frame of this sprite at the given x and y coordinates.
+	 * @param usedX The x coordinate to draw this sprite at
+	 * @param usedY The y coordinate to draw this sprite at
+	 * @param flipHorizontal whether to apply horizontal flip
+	 * @param flipVertical whether to apply vertical flip
+	 * @param frame The frame of this sprite to draw
+	 * @param width The widht to draw too
+	 * @param height the height to draw too
+	 */
+	public void draw (int usedX, int usedY, boolean flipHorizontal, boolean flipVertical, int frame, int width, int height) {
+		
+		int x1, x2, y1, y2;
+		if (flipHorizontal) {
+			x1 = getFrame (frame).getWidth ();
+			x2 = 0;
+		} else {
+			x1 = 0;
+			x2 = getFrame (frame).getWidth ();
+		}
+		if (flipVertical) {
+			y1 = getFrame (frame).getHeight ();
+			y2 = 0;
+		} else {
+			y1 = 0;
+			y2 = getFrame (frame).getHeight ();
+		}
+		if (frame < images.length) {
+			RenderLoop.window.getBufferGraphics ().drawImage (getFrame (frame).getSubimage(0, 0, width, height), usedX, usedY, usedX + getFrame(frame).getWidth(), usedY + + getFrame(frame).getHeight(), x1, y1, x2, y2, null);
+		}
+	}
 	/**
 	 * Gets the BufferedImage representing the given frame of the sprite.
 	 * @param frame The frame to get
@@ -273,7 +303,14 @@ public class Sprite {
 	public BufferedImage getFrame (int frame) {
 		return images [frame];
 	}
-	
+	/**
+	 * sets any frame of the animation to anything you want
+	 * @param frame the frame to change
+	 * @param newImage the new image
+	 */
+	public void setFrame (int frame, BufferedImage newImage) {
+		images[frame] = newImage;
+	}
 	/**
 	 * Gets the filepath of the image used to create this sprite.
 	 * @return the filepath of this sprite's image; returns null if not applicable

@@ -343,14 +343,20 @@ public abstract class GameObject extends GameAPI {
 	private boolean runPixelCollsions (GameObject pixelObject, Rectangle hitboxObject) {
 		Raster mask;
 		mask = pixelObject.getAnimationHandler().getImage().getFrame(pixelObject.getAnimationHandler().getFrame()).getAlphaRaster();
+		
 		int [] sample = new int [1];
 		Rectangle working = pixelObject.hitbox().intersection(hitboxObject);
-		int startPosX = (int) (pixelObject.hitbox().getX() - working.x);
-		int startPosY =(int) (pixelObject.hitbox().getY() - working.y);
-		
+		int startPosX = (int) (working.x - pixelObject.hitbox().getX());
+		int startPosY =(int) (working.y - pixelObject.hitbox().getY());
+		if (startPosX < 0) {
+			startPosX = startPosX*-1;
+		}
+		if (startPosY < 0) {
+			startPosY = startPosY*-1;
+		}
 		for (int wy = 0; wy < working.height; wy++) {
 			for (int wx = 0; wx < working.width; wx++){
-				mask.getPixel (wx + startPosX,wy + startPosY,sample);
+				mask.getPixel (startPosX + wx, startPosY + wy,sample);	
 				if (sample[0] != 0) {
 					return true;
 				}
@@ -369,6 +375,18 @@ public abstract class GameObject extends GameAPI {
 		int startPosY =(int) (pixelObject.hitbox().getY() - working.y);
 		int startPos_1 = (int)(hitboxObject.hitbox().getX() - working.x);
 		int startPosbee = (int)(hitboxObject.hitbox().getY() - working.y);
+		if (startPosX < 0) {
+			startPosX = startPosX*-1;
+		}
+		if (startPosY < 0) {
+			startPosY = startPosY*-1;
+		}
+		if (startPos_1 < 0) {
+			startPos_1 = startPos_1*-1;
+		}
+		if (startPosbee < 0) {
+			startPosbee = startPosbee*-1;
+		}
 		for (int wy = 0; wy < working.height; wy++) {
 			for (int wx = 0; wx < working.width; wx++){
 				mask1.getPixel (wx + startPosX,wy + startPosY,sample);
