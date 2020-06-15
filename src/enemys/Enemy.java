@@ -825,8 +825,9 @@ if (chargeTimer == timeToCharge) {
 				if (!(this.getSprite().equals(attackingSprite)) && canFuckWithSprite) {
 				this.setSprite(attackingSprite);
 			}
+			}
 			} else {
-				if (!(patrolBothWays && ((this.getX() - player.getX()  < -rangebound1Right) && (this.getX() - player.getX()  > -rangebound2Right)))) {
+				if (!(((this.getX() - player.getX()  < -rangebound1Right) && (this.getX() - player.getX()  > -rangebound2Right)))) {
 				moveing = true;
 				if (adjustedSpeed) {
 					speed = 0;
@@ -837,7 +838,6 @@ if (chargeTimer == timeToCharge) {
 				}
 				}
 			}
-		}
 		if (patrolBothWays && this.getSprite().equals(attackingSprite)) {
 			turnAroundDurringAttack (fatAss);
 			if (speed == 0) {

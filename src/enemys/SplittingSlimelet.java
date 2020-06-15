@@ -29,7 +29,8 @@ public class SplittingSlimelet extends Enemy {
 		this.setDeath(false);
 		baby = new SplitSlimelet();
 		child = new SplitSlimelet ();
-		this.setHitboxAttributes(37, 0, 63, 64);
+		this.setHitboxAttributes(2, 98, 0, 64);
+		this.enablePixelCollisions();
 		this.setFalls(true);
 		moveingSprite = new Sprite ("resources/sprites/config/splitting_slimelet_moveing.txt");
 		attackingSprite = new Sprite ("resources/sprites/config/splitting_slimelet_attacking.txt");
@@ -71,7 +72,7 @@ public class SplittingSlimelet extends Enemy {
 		}
 	}
 		//boolean overridePlayerInput = false;	
-		this.patrol(40, 70, 90, -5, 15, attackingSprite, moveingSprite, -2, 0,37,0,63,64);
+		this.patrol(40, 60, 90, -5, 15, attackingSprite, moveingSprite, -2, 0,37,0,63,64);
 		if (this.health <= 0) {
 			if (deathTimer == 0) {
 			this.setSpriteChangeing(false);

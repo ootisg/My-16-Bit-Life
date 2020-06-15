@@ -65,7 +65,10 @@ public class AnimationHandler {
 	 */
 	
 	private int width;
-	
+	/**
+	 * tells the handler wherether or not to keep the sprite to scale
+	 */
+	private boolean keepScale = false;
 	/**
 	 * Constructs a new AnimationHandler with the given image, defaulting to a static image.
 	 * @param image The image to use
@@ -135,8 +138,14 @@ public class AnimationHandler {
 	 */
 	public void setImage (Sprite image) {
 		this.image = image;
+		if ((width == 0 && height == 0) || !keepScale) {
 		width = image.getFrame(0).getWidth();
 		height = image.getFrame(0).getHeight();
+		} else {
+			if (width != image.getFrame(0).getWidth() || height != image.getFrame(0).getHeight()) {
+				this.scale(width, height);
+			}
+		}
 	}
 	
 	/**
@@ -148,7 +157,20 @@ public class AnimationHandler {
 		startTime = RenderLoop.frameStartTime ();
 		startFrame = 0;
 	}
-	
+	/**
+	 * makes the animation handler keep the sprite to scale
+	 * ie will NOT allow changes to width and height
+	 */
+	public void keepScale () {
+		keepScale = true;
+	}
+	/**
+	 * makes the animation handler not keep the sprite to scale
+	 * ie will allow changes to width and height
+	 */
+	public void dontKeepScale () {
+		keepScale = false;
+	}
 	/**
 	 * Sets the current frame of the animation to the given frame.
 	 * @param frame The frame to use
@@ -184,6 +206,8 @@ public class AnimationHandler {
 	 */
 	public void disableAlternate () {
 		alternate = false;
+		reverse = false;
+		this.setAnimationFrame(0);
 	}
 	/**
 	 * changes how far out it draws the image
@@ -218,6 +242,8 @@ public class AnimationHandler {
 		    bGr.dispose();
 			image.setFrame(i,bimage);
 		}
+		this.width = width;
+		this.height = height;
 	}
 	/**
 	 * Gets the frame which would be drawn at the time this method is called. Not guarenteed to be the frame that will be drawn next.

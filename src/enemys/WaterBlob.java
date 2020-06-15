@@ -12,54 +12,57 @@ import resources.Sprite;
 
 public class WaterBlob extends Enemy {
 	//And what do you know, I don't have the water blob sprites either
-	private Spritesheet blobSheet = new Spritesheet ("resources/sprites/Water Blob.png");
-	private Sprite leftJumpSprite = new Sprite (blobSheet, new int [] {0}, new int [] {100}, 80,60, 40, 32);
-	private Sprite rightJumpSprite = new Sprite (blobSheet, new int [] {80}, new int [] {20}, 80,60, 40,32);
-	private Sprite idleSprite = new Sprite (blobSheet, new int [] {80}, new int [] {100}, 80,60,40,32);
-	private Sprite dropletSprite = new Sprite (blobSheet, new int [] {80,160,0,80,160}, new int [] {100, 100,160, 160, 160}, 80,80,40,32);
 	private int timer;
 	private Random RNG;
 	private boolean dirction;
 	private boolean jumping;
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").getFirst();
 	private boolean falling;
 	private int oldTimer;
+	private static final Sprite LEFT_JUMP_SPRITE = new Sprite ("resources/sprites/config/waterBlobLeftJump.txt");
+	private static final Sprite RIGHT_JUMP_SPRITE = new Sprite ("resources/sprites/config/waterBlobRightJump.txt");
+	private static final Sprite IDLE_SPRITE = new Sprite ("resources/sprites/config/waterBlobIdle.txt");
+	private static final Sprite DROPLET_SPRITE = new Sprite ("resources/sprites/config/waterBlobDroplet.txt");
 	public WaterBlob () {
 		jumping = false;
-		this.setSprite (idleSprite);
+		this.setSprite (IDLE_SPRITE);
 		setHitboxAttributes (0, 0, 40, 32);
+		this.enablePixelCollisions();
 		this.health = 80;
 		this.defence = 0;
 		timer = 0;
 		RNG = new Random ();
-		getAnimationHandler ().setFrameTime (333.33);
+		this.getAnimationHandler().keepScale();
+		getAnimationHandler ().setFrameTime (150);
 		dirction = true;
 		falling = false;
 		oldTimer = 0;
+		this.getAnimationHandler().scale(40, 32);
 	}
 	public void attackEvent() {
-		Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
+		super.attackEvent();
 		if (oldTimer == 0) {
 			if (timer != 0) {
 				oldTimer = timer;
-				if (jeffrey.inventory.amountOfConsumables() == 0) {
+				if (Jeffrey.getInventory().amountOfConsumables() == 0) {
 					Tbox box;
 					box = new Tbox (this.getX(),this.getY() - 45, 12, 4, new String ("YOU HAVE NO ITEMS WHAT A MORRON"), true);
 				} else {
-				Item itemToRemove = jeffrey.inventory.findConsumableAtIndex(RNG.nextInt(jeffrey.inventory.amountOfConsumables()));
+				Item itemToRemove = Jeffrey.getInventory().findConsumableAtIndex(RNG.nextInt(Jeffrey.getInventory().amountOfConsumables()));
 				Tbox box;
 				box = new Tbox (this.getX(),this.getY() - 45, 12, 4, new String ("A " + itemToRemove.checkName() + " WAS RUINED"), true);
-				jeffrey.inventory.removeItem(itemToRemove);
+				Jeffrey.getInventory().removeItem(itemToRemove);
 				}
 			} else {
 				oldTimer = 1;
-				if (jeffrey.inventory.amountOfConsumables() == 0) {
+				if (Jeffrey.getInventory().amountOfConsumables() == 0) {
 					Tbox box;
 					box = new Tbox (this.getX(),this.getY() - 45, 12, 4, new String ("YOU HAVE NO ITEMS WHAT A MORRON"), true);
 				} else {
-				Item itemToRemove = jeffrey.inventory.findConsumableAtIndex(RNG.nextInt(jeffrey.inventory.amountOfConsumables()));
+				Item itemToRemove = Jeffrey.getInventory().findConsumableAtIndex(RNG.nextInt(Jeffrey.getInventory().amountOfConsumables()));
 				Tbox box;
 				box = new Tbox (this.getX(),this.getY() - 45, 12, 4, new String ("A " + itemToRemove.checkName() + " WAS RUINED"), true);
-				jeffrey.inventory.removeItem(itemToRemove);
+				Jeffrey.getInventory().removeItem(itemToRemove);
 				}
 			}
 		}
@@ -69,29 +72,38 @@ public class WaterBlob extends Enemy {
 		if (timer - 60 > oldTimer ) {
 			oldTimer = 0;
 		}
-		if (RNG.nextInt(900) == 666 && !jumping && !falling) {
+		if (this.isNearPlayerX(10, 100, 10, 100) && !jumping && !falling) {
+			if (j.getX()>this.getX()) {
+				dirction = true;
+			} else {
+				dirction = false;
+			}
 			jumping = true;
 			timer = 0;
 		}
 		if (jumping) {
 			if (dirction) {
-				if (!this.getSprite().equals(rightJumpSprite)){
-				this.setSprite(rightJumpSprite);
+				if (!this.getSprite().equals(RIGHT_JUMP_SPRITE)){
+				this.setSprite(RIGHT_JUMP_SPRITE);
+				this.getAnimationHandler().setRepeat(false);
 				}
 			} else {
-				if (!this.getSprite().equals(leftJumpSprite)){
-					this.setSprite(leftJumpSprite);
+				if (!this.getSprite().equals(LEFT_JUMP_SPRITE)){
+					this.setSprite(LEFT_JUMP_SPRITE);
+					this.getAnimationHandler().setRepeat(false);
 			}
 		}
 			this.setY(this.getY() -4);
 			if (Room.isColliding(this)) {
 				this.setY(this.getY() + 4);
-				timer = 30;
+				timer = 60;
 			}
-			if (timer == 30) {
+			if ( timer == 60|| j.getX() > this.getX() && j.getX() < this.getX() + this.hitbox().getWidth()) {
 				falling = true;
-				if (!this.getSprite().equals(dropletSprite)) {
-					this.setSprite(dropletSprite);
+				if (!this.getSprite().equals(DROPLET_SPRITE)) {
+					this.setSprite(DROPLET_SPRITE);
+					this.getAnimationHandler().setRepeat(true);
+					this.getAnimationHandler().enableAlternate();
 				}
 				timer = 0;
 				jumping = false;
@@ -99,23 +111,16 @@ public class WaterBlob extends Enemy {
 		}
 		if (!falling) {
 		if (dirction) {
-			this.setX(this.getX() + 1);
+			if (!this.goX(this.getX() + 2)) {
+			dirction = false;	
+			}
 		} else {
-			this.setX(this.getX() - 1);
-		}
-		}
-		if (timer >=180 && !jumping) {
-			timer = RNG.nextInt(2);
-			if (timer == 0) {
-				dirction = false;
-			} else {
-				dirction = true;
+			if (!this.goX(this.getX() - 2)) {
+			dirction = true;
 			}
 		}
-		timer = timer + 1;
-		if (Room.isColliding(this) && !falling && !jumping) {
-			dirction = !dirction;
 		}
+		timer = timer + 1;
 		this.setY(this.getY() + 5);
 		if (!Room.isColliding(this) && !falling && !jumping) {
 			jumping =true;
@@ -123,23 +128,17 @@ public class WaterBlob extends Enemy {
 		}
 		this.setY(this.getY() - 5);
 		if (falling) {
-			if (timer == 38 && (getAnimationHandler ().getFrameTime() != 0)) {
-				timer = 0;
-				this.setHitboxAttributes(0, 0, 40, 32);
-				getAnimationHandler ().setFrameTime(0);
-			}
-			this.setY(this.getY() + 1);
+			this.setY(this.getY() + 5);
 			if (Room.isColliding(this)) {
-				this.setY(this.getY()- 1);
+				this.setY(this.getY()- 5);
 				if (!Room.isColliding(this)) {
-					this.setSprite(idleSprite);
-					
+					this.setSprite(IDLE_SPRITE);
+					this.getAnimationHandler().disableAlternate();
 					while(Room.isColliding(this)) {
 						this.setY(this.getY() + 1);
 						
 					}
 					setHitboxAttributes (0, 0, 40, 32);
-					getAnimationHandler().setFrameTime(150);
 					falling = false;
 				}
 			}

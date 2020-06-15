@@ -26,10 +26,13 @@ import enemys.MafiaShooter;
 import enemys.Marshan;
 import enemys.MissleadingStop;
 import enemys.Puncuation;
+import enemys.RollingChairCavelry;
+import enemys.Sheep;
 import enemys.SplitSlimelet;
 import enemys.SplittingSlimelet;
 import enemys.TomatoFunction;
 import enemys.UFO;
+import enemys.WaterBlob;
 import gameObjects.AnimeTester;
 import gameObjects.Box;
 import gameObjects.BreakableObject;
@@ -155,6 +158,8 @@ public class GameCode {
 	static UFO ufo;
 	static SplitSlimelet split;
 	static Fan fan;
+	static Sheep sheep;
+	static SplittingSlimelet splitting;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
@@ -174,6 +179,7 @@ public class GameCode {
 		pointer = new LaserPointer ();
 		key = new FairUseKey(1);
 		guy = new PointGuy();
+		splitting = new SplittingSlimelet ();
 		work = new Worker ();
 		door = new Door ();
 		fall = new FallingChandleer ();
@@ -237,7 +243,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/FireflyTest.rmf");
+		Room.loadRoom ("resources/maps/DoorTriggerTest.rmf");
 		//bleh = new AnimeTester ()
 		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);
@@ -292,6 +298,7 @@ public class GameCode {
 		//test.Break(new Sprite [] {new Sprite ("resources/sprites/shard.png")}, 7, 1, 2, 0,3.14);
 		//plant.declare(320,300);
 		//box.declare(300,35);
+		splitting.declare(100,100);
 	}
 	
 	public static void beforeGameLogic () {

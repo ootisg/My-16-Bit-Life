@@ -1,0 +1,4 @@
+$src resources/sprites/Water Blob.png
+
+rectangle 0 80 80 80:
+	grid 80 80;

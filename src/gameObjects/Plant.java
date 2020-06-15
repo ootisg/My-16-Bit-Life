@@ -15,6 +15,8 @@ public class Plant extends BreakableObject {
 	
 	private Jeffrey j = (Jeffrey)ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	
+	private int despawnTimer = 0;
+	
 	private int originX;
 	private int originY;
 	
@@ -166,6 +168,8 @@ public class Plant extends BreakableObject {
 				
 			}
 			}
+		} else {
+		this.despawnAllCoolLike(200);
 		}
 	}
 	public void makeBroken () {

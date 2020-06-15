@@ -75,8 +75,15 @@ public abstract class GameObject extends GameAPI {
 	/**
 	 * The variant of this GameObject
 	 */
+	/**
+	 * coordinates where the sprites are drawn
+	 */
 	protected double spriteX;
 	private double spriteY;
+	/**
+	 * for use with despawnAllCoolLike
+	 */
+	private int despawnTimer;
 	
 	protected boolean hiboxBorders = false;
 	
@@ -785,8 +792,18 @@ public abstract class GameObject extends GameAPI {
 				return true;
 			}
 		}
-		
-	
+		/**
+		 * flashes in and out a bit before despawning
+		 */
+		public void despawnAllCoolLike(int timeTillEnd) {
+			despawnTimer = despawnTimer + 1;
+			if (despawnTimer % (timeTillEnd/despawnTimer) == 0) {
+				this.visible = !this.visible;
+			}
+			if (despawnTimer == timeTillEnd) {
+				this.forget();
+		}
+	}
 	/**
 	 * Sets the variants specified in attributeData to the respective values.
 	 * @param attributeData The attributes as a formatted String, as specified by the setAttributes method in the class GameObject.Variant
