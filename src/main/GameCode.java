@@ -243,7 +243,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/DoorTriggerTest.rmf");
+		Room.loadRoom ("resources/maps/mcdonalds.rmf");
 		//bleh = new AnimeTester ()
 		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);
@@ -298,7 +298,8 @@ public class GameCode {
 		//test.Break(new Sprite [] {new Sprite ("resources/sprites/shard.png")}, 7, 1, 2, 0,3.14);
 		//plant.declare(320,300);
 		//box.declare(300,35);
-		splitting.declare(100,100);
+		//splitting.declare(100,100);
+		work.declare(100,100);
 	}
 	
 	public static void beforeGameLogic () {
