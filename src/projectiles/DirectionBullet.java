@@ -19,36 +19,15 @@ public class DirectionBullet extends Projectile {
 	 * @return the direction required to go towards that object 
 	 */
 	public double findDirection (GameObject objectToCheck) {
-		for (double temporaryDirection = 0; temporaryDirection <= 6.28; temporaryDirection = temporaryDirection + 0.001) {
-			for (int smallDistance = 0; smallDistance <= 500; smallDistance = smallDistance + 1) {
-				if (this.isColliding(objectToCheck)) {
-					return temporaryDirection;
-				}
-				this.setX (this.getX () + Math.cos (temporaryDirection));
-				this.setY (this.getY () + Math.sin (temporaryDirection));
-			}
-			this.setX(originalX);
-			this.setY(originalY);
+		double workingX = objectToCheck.getX() - this.getX();
+		double workingY = Math.abs(objectToCheck.getY() - this.getY());
+		double hype = workingX*workingX + workingY*workingY;
+		hype = Math.sqrt(hype);
+		if (this.getY() > objectToCheck.getY()) {
+			return Math.PI + Math.acos(-workingX/hype); 
+		} else {
+			return Math.acos(workingX/hype);
 		}
-		return 420;
 	}
-	/**
-	 * much much much faster but a bit less acurate
-	 * @param objectToCheck the object to find the direction to 
-	 * @return the direction required to go towards that object (give or take a bit)
-	 */
-	public double findDirectionInaccurately (GameObject objectToCheck) {
-		for (double temporaryDirection = 0; temporaryDirection <= 6.28; temporaryDirection = temporaryDirection + 0.01) {
-			for (int smallDistance = 0; smallDistance <= 500; smallDistance = smallDistance + 1) {
-				if (this.isColliding(objectToCheck)) {
-					return temporaryDirection;
-				}
-				this.setX (this.getX () + Math.cos (temporaryDirection));
-				this.setY (this.getY () + Math.sin (temporaryDirection));
-			}
-			this.setX(originalX);
-			this.setY(originalY);
-		}
-		return 420;
-	}
+	
 }

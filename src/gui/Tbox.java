@@ -38,6 +38,7 @@ public class Tbox extends GameObject {
 		this.letterPos = 0;
 		timer = 0;
 		renderBox = drawBox;
+		
 	}
 	@Override
 	public void draw () {  
