@@ -133,10 +133,11 @@ public class LaserPointer extends AimableWeapon {
 			newX = this.getX();
 			newY = this.getY();
 			this.setX(x - Room.getViewX());
-			this.setY(y);
-			//potentially add y stuff if it becomes a problem
+			this.setY(y - Room.getViewY());
 			x = x - Room.getViewX();
+			y = y - Room.getViewY();
 			newX = newX - Room.getViewX();
+			newY = newY - Room.getViewY();
 		} else {
 			x = this.getX();
 			y = this.getY();

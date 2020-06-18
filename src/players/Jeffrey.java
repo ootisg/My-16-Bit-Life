@@ -12,10 +12,12 @@ import main.GameCode;
 import main.GameObject;
 import main.GameWindow;
 import main.InputManager;
+import main.ObjectHandler;
 import main.RenderLoop;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import gui.Tbox;
 import gui.Textbox;
@@ -160,6 +162,18 @@ if (activeBox) {
 	}
 	@Override
 	public void frameEvent () {
+		/* uncomment to have pushing x crash the game
+		 * if (keyDown('X')) {
+		
+			ArrayList<ArrayList<Double>> yeet = new ArrayList<ArrayList<Double>> ();
+			while (true) {
+				yeet.add(new ArrayList <Double>());
+				ArrayList <Double> working = yeet.get(yeet.size() -1);
+				for (int i = 0; i < 1000000; i++ ) {
+					working.add(Math.random());
+				}
+			}
+		}*/
 		if (keyDown ('S') && !onLadder) {
 			crouching = true;
 			this.changeSprite(false);

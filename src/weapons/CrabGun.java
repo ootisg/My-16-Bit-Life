@@ -25,7 +25,7 @@ public class CrabGun extends AimableWeapon {
 			
 			DirectionBullet bullet;
 			bullet = new DirectionBullet(this.getX(),this.getY());
-			double suggestedDirection = bullet.findDirectionInaccurately(player);
+			double suggestedDirection = bullet.findDirection(player);
 			if (!this.getAnimationHandler().flipHorizontal()) {
 				if (suggestedDirection > 5 || (suggestedDirection % 6.28 + 6.28) < 7.28 ) {
 					this.setRotation(suggestedDirection);

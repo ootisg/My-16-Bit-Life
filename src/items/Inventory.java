@@ -381,16 +381,12 @@ public class Inventory {
 			return 256;
 		}
 		public int checkAmmoAmountOfWeapon (Item weaponToCheck) {
-			redBlackPaintBallGun testGun;
-			testGun = new redBlackPaintBallGun(lol);
-			if (weaponToCheck.getClass().equals(testGun.getClass())) {
+			if (weaponToCheck.getClass().getSimpleName().equals("redBlackPaintBallGun")) {
 				RedBlackPaintBall ball;
 				ball = new RedBlackPaintBall (1);
 				return (this.checkItemAmount(ball));
 			}
-			LifeVaccum testVaccum;
-			testVaccum = new LifeVaccum(lol);
-			if (weaponToCheck.getClass().equals(testVaccum.getClass())) {
+			if (weaponToCheck.getClass().getSimpleName().equals("LifeVaccum")) {
 				return (lifeBattary);
 			}
 			return (0);

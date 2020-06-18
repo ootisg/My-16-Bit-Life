@@ -51,7 +51,7 @@ public class Fist extends Projectile {
 		if (guyToFuckUp != null) {
 			if (defult) {
 			DirectionBullet bullet = new DirectionBullet(this.getX(), this.getY());
-			this.setDirection(bullet.findDirectionInaccurately(guyToFuckUp));
+			this.setDirection(bullet.findDirection(guyToFuckUp));
 			defult = false;
 			} else {
 				if (timer == 10) {
