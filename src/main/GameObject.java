@@ -68,6 +68,12 @@ public abstract class GameObject extends GameAPI {
 	 * lol yes = pixel collisions my guy
 	 */
 	private boolean pixelCollisions = false;
+	
+	/**
+	 * If true, this GameObject persists between room transitions
+	 */
+	private boolean persistent = false;
+	
 	/**
 	 * The AnimationHandler object used to render this GameObject
 	 */
@@ -582,6 +588,14 @@ public abstract class GameObject extends GameAPI {
 	public double getGameLogicPriority () {
 		return gameLogicPriority;
 	}
+
+	/**
+	 * Returns the persistence of this GameObject as a boolean
+	 * @return if true, this object will persist through room transitions; returns false otherwise
+	 */
+	public boolean isPersistent () {
+		return persistent;
+	}
 	
 	public void desyncSpriteX(int offset) {
 		spriteX = x + offset;
@@ -837,6 +851,14 @@ public abstract class GameObject extends GameAPI {
 	 */
 	public void setGameLogicPriority (double gameLogicPriority) {
 		this.gameLogicPriority = gameLogicPriority;
+	}
+	
+	/**
+	 * Sets the persistence of this GameObject
+	 * @param persistent this object will persist through room transitions if true; not if false
+	 */
+	public void setPersistence (boolean persistent) {
+		this.persistent = persistent;
 	}
 	
 	public void hide () {
