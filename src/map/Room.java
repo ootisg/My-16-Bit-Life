@@ -531,9 +531,14 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 		for (int i = 0; i < objList.size (); i ++) { 
 			if (objList.get (i) != null) {
 				int listSize = objList.get (i).size ();
+				int deletThis = 0;
 				for (int j = 0; j < listSize; j ++) {
-					if (objList.get (i).get (0) != null ) {
-						objList.get (i).get (0).forget ();
+					if (objList.get (i).get (0) != null) {
+						if (!objList.get (i).get (deletThis).isPersistent ()) {
+							objList.get (i).get (deletThis).forget ();
+						} else {
+							deletThis++;
+						}
 					}
 				}
 			}
