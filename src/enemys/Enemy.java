@@ -494,51 +494,64 @@ if (chargeTimer == timeToCharge) {
 	}
 	//makes the enemy jump r (based on the assumption that your enemy falls)
 	public void jump (int horizontalBaseSpeed, int verticalBaseSpeed) {
-		timer = timer + 1;
-		if (lockedRight) {
-			if (timer <= 6 *jumpMultiplyer) {
-			this.goY(this.getY() - (verticalBaseSpeed/jumpMultiplyer));
-			this.goX(this.getX() + (horizontalBaseSpeed/jumpMultiplyer));
-			}
-			if (timer > 6*jumpMultiplyer && timer <=11*jumpMultiplyer) {
-				this.goY(this.getY() - ((verticalBaseSpeed/jumpMultiplyer) * 1.1));
-				this.goX(this.getX() +((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
-			}
-			if (timer > 11*jumpMultiplyer && timer <= 16*jumpMultiplyer) {
-				
-				this.goY(this.getY() - ((verticalBaseSpeed/jumpMultiplyer) * 1.1));
-				this.goX(this.getX() + ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
-				}
-			if (timer > 16*jumpMultiplyer && timer <= 32*jumpMultiplyer) {
-					this.goX(this.getX() + ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
-			}
-			if (timer > 32*jumpMultiplyer) {
-				timer = 0;
-				jumpDone = true;
-			}
-	}
-		if (!lockedRight) {
-		
-			if (timer <= 6*jumpMultiplyer) {
-				
+		if (!this.jumpDone) {
+			timer = timer + 1;
+			if (lockedRight) {
+				if (timer <= 6 *jumpMultiplyer) {
 				this.goY(this.getY() - (verticalBaseSpeed/jumpMultiplyer));
-				this.goX(this.getX() - (horizontalBaseSpeed/jumpMultiplyer));
-			}
-			if (timer > 6*jumpMultiplyer && timer <=11*jumpMultiplyer) {
-				this.goY(this.getY() - ((verticalBaseSpeed/jumpMultiplyer) * 1.1));
-				this.goX(this.getX() - ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
-			}
-			if (timer > 11*jumpMultiplyer && timer <= 16*jumpMultiplyer) {
-				
-				this.goY(this.getY() - ((verticalBaseSpeed/jumpMultiplyer) * 1.1));
-				this.goX(this.getX() - ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
+				this.goX(this.getX() + (horizontalBaseSpeed/jumpMultiplyer));
 				}
-			if (timer > 16*jumpMultiplyer && timer <= 32*jumpMultiplyer) {
-				this.goX(this.getX() - ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
+				if (timer > 6*jumpMultiplyer && timer <=11*jumpMultiplyer) {
+					this.goY(this.getY() - ((verticalBaseSpeed/jumpMultiplyer) * 1.1));
+					this.goX(this.getX() +((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
 				}
-			if (timer > 32*jumpMultiplyer) {
-				timer = 0;
-				jumpDone = true;
+				if (timer > 11*jumpMultiplyer && timer <= 16*jumpMultiplyer) {
+					
+					this.goY(this.getY() - ((verticalBaseSpeed/jumpMultiplyer) * 1.1));
+					this.goX(this.getX() + ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
+					}
+				if (timer > 16*jumpMultiplyer && timer <= 32*jumpMultiplyer) {
+						this.goX(this.getX() + ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
+				}
+				if (timer > 32*jumpMultiplyer) {
+					timer = 0;
+					jumpDone = true;
+				}
+		}
+			if (!lockedRight) {
+			
+				if (timer <= 6*jumpMultiplyer) {
+					
+					this.goY(this.getY() - (verticalBaseSpeed/jumpMultiplyer));
+					this.goX(this.getX() - (horizontalBaseSpeed/jumpMultiplyer));
+				}
+				if (timer > 6*jumpMultiplyer && timer <=11*jumpMultiplyer) {
+					this.goY(this.getY() - ((verticalBaseSpeed/jumpMultiplyer) * 1.1));
+					this.goX(this.getX() - ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
+				}
+				if (timer > 11*jumpMultiplyer && timer <= 16*jumpMultiplyer) {
+					
+					this.goY(this.getY() - ((verticalBaseSpeed/jumpMultiplyer) * 1.1));
+					this.goX(this.getX() - ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
+					}
+				if (timer > 16*jumpMultiplyer && timer <= 32*jumpMultiplyer) {
+					this.goX(this.getX() - ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
+					}
+				if (timer > 32*jumpMultiplyer) {
+					timer = 0;
+					jumpDone = true;
+				}
+			}
+		} else {
+			this.setY(this.getY() + 1);
+			if (Room.isColliding(this)) {
+				this.jumpDone = false;
+			}
+			this.setY(this.getY() -1);
+			if (!lockedRight) {
+				this.goX(this.getX() - ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
+			} else {
+				this.goX(this.getX() + ((horizontalBaseSpeed/jumpMultiplyer) * 1.1));
 			}
 		}
 	}

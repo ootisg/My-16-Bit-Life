@@ -42,7 +42,7 @@ public class Spider extends Enemy {
 				this.getAnimationHandler().setFrameTime(6);
 			}
 		}
-		this.setY(this.getY () - 4);
+		this.setY(this.getY () - 5);
 		if (this.lockedRight) {
 			if (!checkX(this.getX() + 4)) {
 				this.lockedRight = false;
@@ -54,7 +54,7 @@ public class Spider extends Enemy {
 				this.getAnimationHandler().setFlipHorizontal(true);
 			}
 		}
-		this.setY(this.getY () + 4);
+		this.setY(this.getY () + 5);
 	}
 
 }

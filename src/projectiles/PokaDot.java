@@ -1,6 +1,5 @@
 package projectiles;
 
-import main.GameCode;
 import main.ObjectHandler;
 import map.Room;
 import players.Jeffrey;
@@ -20,7 +19,7 @@ public class PokaDot extends Projectile {
 		this.setSprite(sprite);
 		this.setDirection(direction);
 		hitSomething = false;
-		this.setHitboxAttributes(0, 0, 4, 4);
+		this.setHitboxAttributes(0, 0, this.getSprite().getFrame(0).getWidth(), this.getSprite().getFrame(0).getHeight());
 		this.setSpeed(2);
 	}
 	@Override

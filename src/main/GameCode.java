@@ -28,6 +28,7 @@ import enemys.MissleadingStop;
 import enemys.Puncuation;
 import enemys.RollingChairCavelry;
 import enemys.Sheep;
+import enemys.SpearThrower;
 import enemys.SplitSlimelet;
 import enemys.SplittingSlimelet;
 import enemys.TomatoFunction;
@@ -39,6 +40,7 @@ import gameObjects.BreakableObject;
 import gameObjects.CarSpawner;
 import gameObjects.Door;
 import gameObjects.Fan;
+import gameObjects.Glider;
 import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
 import gameObjects.Leg;
@@ -160,6 +162,8 @@ public class GameCode {
 	static Fan fan;
 	static Sheep sheep;
 	static SplittingSlimelet splitting;
+	static SpearThrower spearGuy;
+	static Glider glider;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
@@ -185,6 +189,7 @@ public class GameCode {
 		fall = new FallingChandleer ();
 		test = new BreakableObject ();
 		packet = new LemonPacket(1);
+		spearGuy = new SpearThrower ();
 		Jeffrey.getInventory().addFreind(lameJeffrey);
 		Jeffrey.getInventory().addFreind(lameSam);
 		Jeffrey.getInventory().addFreind(lameRyan);
@@ -213,6 +218,7 @@ public class GameCode {
 		testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
 		box = new Box();
 		plant = new Plant ();
+		glider =new Glider();
 		//shooter = new MafiaShooter();
 		//boi = new Celing_boi();
 		//waffle = new Waffle (4);
@@ -243,7 +249,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/cameraTest.rmf");
+		Room.loadRoom ("resources/maps/spiderTest.rmf");
 		//bleh = new AnimeTester ()
 		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);
@@ -299,7 +305,8 @@ public class GameCode {
 		//plant.declare(320,300);
 		//box.declare(300,35);
 		//splitting.declare(100,100);
-		work.declare(100,100);
+		//work.declare(100,100);
+		glider.declare(60, 60);
 	}
 	
 	public static void beforeGameLogic () {
