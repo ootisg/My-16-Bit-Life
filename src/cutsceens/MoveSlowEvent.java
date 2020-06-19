@@ -84,6 +84,7 @@ public class MoveSlowEvent implements CutsceneEvent {
 			kurosu = (desX - startX) / gaming;
 			stepY = (epic - startY) / gaming;
 		}
+		
 		double deltaTime =  ( ((double) (System.currentTimeMillis() - realStartTime))/1000);
 		double distance;
 		if (deltaTime < startTime) {

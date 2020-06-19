@@ -489,6 +489,7 @@ public class Cutsceen extends GameObject {
 		return this.play(0,0);
 	}
 	private boolean play (int commandNumber,int dataNumber) {
+
 			if (!comands.isEmpty()) {
 				boolean keepGoing = false;
 				switch (comands.get(commandNumber)) {

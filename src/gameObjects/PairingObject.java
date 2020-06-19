@@ -9,6 +9,7 @@ public class PairingObject extends GameObject {
 	LinkedList <GameObject> pairedObject;
 	public PairingObject () {
 		this.setHitboxAttributes (0,0,16,16);
+		this.setGameLogicPriority(-1);
 	
 	}
 	@Override 

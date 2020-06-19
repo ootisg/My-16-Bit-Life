@@ -1,7 +1,8 @@
 package triggers;
 
+
 import cutsceens.Cutsceen;
-import cutsceens.CutsceenHandler;
+import main.GameObject;
 import main.ObjectHandler;
 
 public class CutsceenTrigger extends Trigger {
@@ -12,21 +13,29 @@ public class CutsceenTrigger extends Trigger {
 	}
 	@Override
 	public void triggerEvent () {
-	ObjectHandler.pause(true);
-	this.Triggered = true;
-	 if (this.getVariantAttribute("cutsceen") != null) {
-			associatedCutsceen = new Cutsceen ( "resources/cutsceenConfig/" + this.getVariantAttribute("cutsceen") + ".txt");
-		 } else {
-			 associatedCutsceen = new Cutsceen ("resources/cutsceenConfig/misconfiguredSceen.txt"); 
-		}
-	}
-	@Override 
-	public void pausedEvent () {
-		if (this.Triggered()) {
-		if (!associatedCutsceen.play()) {
-			ObjectHandler.pause(false);
-			this.eventFinished = true;
+	
+	if (!this.Triggered) {
+
+		ObjectHandler.pause(true);
+		this.Triggered = true;
+		 if (this.getVariantAttribute("cutsceen") != null) {
+			 	if (this.getVariantAttribute("Partner") != null) {
+			 		GameObject [] working = new GameObject [this.getPairedObject().getPairedObjects().toArray().length];
+			 		for (int i = 0; i < this.getPairedObject().getPairedObjects().toArray().length; i++) {
+			 			working[i] = (GameObject)this.getPairedObject().getPairedObjects().toArray()[i];
+			 		}
+			 		associatedCutsceen = new Cutsceen ( "resources/cutsceenConfig/" + this.getVariantAttribute("cutsceen") + ".txt",working);
+			 	} else {
+			 		associatedCutsceen = new Cutsceen ( "resources/cutsceenConfig/" + this.getVariantAttribute("cutsceen") + ".txt");
+			 	}
+			 } else {
+				 associatedCutsceen = new Cutsceen ("resources/cutsceenConfig/misconfiguredSceen.txt"); 
 			}
-		}
+		} else {
+			if (!associatedCutsceen.play()) {
+				ObjectHandler.pause(false);
+				this.eventFinished = true;
+			}
+		}	
 	}
 }
