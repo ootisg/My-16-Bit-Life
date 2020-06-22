@@ -78,12 +78,15 @@ public class DarkOverlay extends GameObject {
 				perminteListNotReally.add(temporaryList.get(index));
 			}
 			int endPoint;
-			if (!perminteListNotReally.isEmpty()) {
-				endPoint = perminteListNotReally.get(0).pairedObject.getVeiwport().y + perminteListNotReally.get(0).pairedObject.getVeiwport().height;
-				g.fillRect(0, currentPosition, perminteListNotReally.get(0).pairedObject.getVeiwport().x, endPoint);
+			if (!ppList.isEmpty()) {
+				endPoint = ppList.peek().pointPos;
 			} else {
 				endPoint = Room.getHeight() * 16;
-				g.fillRect(0, currentPosition, Room.getWidth()*16, endPoint);
+			}
+			if (!perminteListNotReally.isEmpty()) {
+				g.fillRect(0, currentPosition, perminteListNotReally.get(0).pairedObject.getVeiwport().x, endPoint - currentPosition);
+			} else {
+				g.fillRect(0, currentPosition, Room.getWidth()*16, endPoint - currentPosition);
 			}
 			for (int i = 0; i < perminteListNotReally.size(); i++) {
 				if (!perminteListNotReally.get(i).isDrawn) {
@@ -91,9 +94,12 @@ public class DarkOverlay extends GameObject {
 				perminteListNotReally.get(i).isDrawn = true;
 				}
 				if (i != perminteListNotReally.size() -1) {
-					g.fillRect((int) (perminteListNotReally.get(i).pairedObject.getVeiwport().x + perminteListNotReally.get(i).pairedObject.getVeiwport().getWidth()) , currentPosition, perminteListNotReally.get(i + 1).pairedObject.getVeiwport().x, endPoint);
+					//System.out.println(perminteListNotReally.get(i + 1).pairedObject.getVeiwport().x + ", ");
+					//System.out.println(perminteListNotReally.get(i).pairedObject.getVeiwport().x);
+					//System.out.println ((perminteListNotReally.get(i).pairedObject.getVeiwport().x + perminteListNotReally.get(i).pairedObject.getVeiwport().getWidth()) + ", " + (currentPosition + perminteListNotReally.get(i).pairedObject.getVeiwport().height) + ", " + (int) (perminteListNotReally.get(i + 1).pairedObject.getVeiwport().x -(perminteListNotReally.get(i).pairedObject.getVeiwport().x + perminteListNotReally.get(i).pairedObject.getVeiwport().getWidth())) + ", " + (endPoint - currentPosition));
+					g.fillRect((int) (perminteListNotReally.get(i).pairedObject.getVeiwport().x + perminteListNotReally.get(i).pairedObject.getVeiwport().getWidth()) , currentPosition,(int) (perminteListNotReally.get(i + 1).pairedObject.getVeiwport().x -(perminteListNotReally.get(i).pairedObject.getVeiwport().x + perminteListNotReally.get(i).pairedObject.getVeiwport().getWidth())), endPoint - currentPosition);
 				} else {
-					g.fillRect((int) (perminteListNotReally.get(i).pairedObject.getVeiwport().x + perminteListNotReally.get(i).pairedObject.getVeiwport().getWidth()) , currentPosition, Room.getWidth()*16, endPoint);
+					g.fillRect((int) (perminteListNotReally.get(i).pairedObject.getVeiwport().x + perminteListNotReally.get(i).pairedObject.getVeiwport().getWidth()) , currentPosition,(int) (Room.getWidth()*16 -(perminteListNotReally.get(i).pairedObject.getVeiwport().x + perminteListNotReally.get(i).pairedObject.getVeiwport().getWidth())), endPoint - currentPosition );
 				}
 			}
 		}

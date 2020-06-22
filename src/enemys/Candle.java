@@ -72,7 +72,7 @@ public class Candle extends Enemy implements LightSource {
 	}
 	@Override
 	public Rectangle getVeiwport() {
-		return new Rectangle ((int)this.getX() - 10, (int)this.getY() -10, (int)this.getX() + 26, (int)this.getY() + 26);
+		return new Rectangle ((int)this.getX() - 10, (int)this.getY() -10, 36,  36);
 	}
 	@Override
 	public boolean getLit() {
