@@ -39,6 +39,7 @@ public class Stats extends GameObject {
 		ammoAmount = new Tbox (0,0,24,1, "0", false);
 		ammoAmount.declare(340,-6);
 		ammoAmount.setScrollRate(0);
+		this.setRenderPriority(420);
 		charictarName.keepOpen(true);
 		weaponName.keepOpen(true);
 		ammoAmount.keepOpen(true);

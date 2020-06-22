@@ -38,6 +38,7 @@ import gameObjects.AnimeTester;
 import gameObjects.Box;
 import gameObjects.BreakableObject;
 import gameObjects.CarSpawner;
+import gameObjects.DarkOverlay;
 import gameObjects.Door;
 import gameObjects.Fan;
 import gameObjects.Glider;
@@ -159,6 +160,7 @@ public class GameCode {
 	static Cutsceen testSceen;
 	static UFO ufo;
 	static SplitSlimelet split;
+	static DarkOverlay lay;
 	static Fan fan;
 	static Sheep sheep;
 	static SplittingSlimelet splitting;
@@ -188,6 +190,7 @@ public class GameCode {
 		door = new Door ();
 		fall = new FallingChandleer ();
 		test = new BreakableObject ();
+		lay = new DarkOverlay();
 		packet = new LemonPacket(1);
 		spearGuy = new SpearThrower ();
 		Jeffrey.getInventory().addFreind(lameJeffrey);
@@ -249,7 +252,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/spiderTest.rmf");
+		Room.loadRoom ("resources/maps/DarkTest.rmf");
 		//bleh = new AnimeTester ()
 		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);
@@ -306,7 +309,8 @@ public class GameCode {
 		//box.declare(300,35);
 		//splitting.declare(100,100);
 		//work.declare(100,100);
-		glider.declare(60, 60);
+		//glider.declare(60, 60);
+		lay.declare();
 	}
 	
 	public static void beforeGameLogic () {

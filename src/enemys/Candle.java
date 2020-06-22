@@ -1,6 +1,11 @@
 package enemys;
 
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+
 import gameObjects.DamageText;
+import gameObjects.DarkOverlay;
+import gameObjects.LightSource;
 import main.GameCode;
 import main.ObjectHandler;
 import players.Jeffrey;
@@ -9,7 +14,7 @@ import projectiles.PokaDot;
 import resources.Sprite;
 
 
-public class Candle extends Enemy {
+public class Candle extends Enemy implements LightSource {
 	PokaDot fireball;
 	int timer = 0;
 	int flameHealth = 30;
@@ -20,6 +25,7 @@ public class Candle extends Enemy {
 	this.setHitboxAttributes(0, 0, 16, 16);
 	this.setSprite(new Sprite ("resources/sprites/candle.png"));	
 	this.adjustHitboxBorders();
+	DarkOverlay.addLightSources(this);
 	}
 	@Override
 	public void enemyFrame () {
@@ -58,5 +64,22 @@ public class Candle extends Enemy {
 		if (this.flameHealth <= 0) {
 			extinguesed = true;
 			}
+	}
+	@Override
+	public void forget () {
+		DarkOverlay.removeLightSources(this);
+		super.forget();
+	}
+	@Override
+	public Rectangle getVeiwport() {
+		return new Rectangle ((int)this.getX() - 10, (int)this.getY() -10, (int)this.getX() + 26, (int)this.getY() + 26);
+	}
+	@Override
+	public boolean getLit() {
+		return true;
+	}
+	@Override
+	public BufferedImage getOverlay() {
+		return new Sprite ("resources/sprites/overlays/candleOverlay.png").getFrame(0);
 	}
 }
