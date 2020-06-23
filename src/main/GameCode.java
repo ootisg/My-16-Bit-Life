@@ -45,6 +45,7 @@ import gameObjects.Glider;
 import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
 import gameObjects.Leg;
+import gameObjects.LightSource;
 import gameObjects.MoveingPlatform;
 import gameObjects.Plant;
 import gameObjects.Point;
@@ -241,6 +242,8 @@ public class GameCode {
 		Jeffrey.inventory.addAmmo(paint);
 		x = x + 1;
 		}
+		//LightSource.writeLightSourceImage (36, 255, 200, 0, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is yellow-ish
+		LightSource.writeLightSourceImage (36, 0, 200, 255, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is blue-ish
 		//testTie.declare (32, 32);
 	//	Jeffrey.getInventory().addKill(boi);
 		//Jeffrey.getInventory().addKill(puncuation);
