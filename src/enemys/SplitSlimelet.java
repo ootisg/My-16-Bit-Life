@@ -2,7 +2,7 @@ package enemys;
 
 import resources.Sprite;
 
-public class SplitSlimelet extends Enemy {
+public class SplitSlimelet extends PresetEnemy {
 	Sprite idleSprite;
 	Sprite attackingSprite;
 	public SplitSlimelet () {

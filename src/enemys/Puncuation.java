@@ -6,7 +6,7 @@ import players.Jeffrey;
 import projectiles.Period;
 import resources.Sprite;
 
-public class Puncuation extends Enemy {
+public class Puncuation extends PresetEnemy {
 	public Sprite idleExclamation;
 	public Sprite idleQuestion;
 	public Sprite bendingExclamation;

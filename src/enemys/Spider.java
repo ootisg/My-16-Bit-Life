@@ -5,7 +5,7 @@ import java.util.Arrays;
 import map.Room;
 import resources.Sprite;
 
-public class Spider extends Enemy {
+public class Spider extends PresetEnemy {
 	public static final Sprite LANDING_SPRITE = new Sprite ("resources/sprites/config/landingSpider.txt");
 	public static final Sprite WOBBLING_SPRITE = new Sprite ("resources/sprites/config/wobblingSpider.txt");
 	public static final Sprite JUMPING_SPRITE = new Sprite ("resources/sprites/config/jumpingSpider.txt");

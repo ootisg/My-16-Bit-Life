@@ -6,7 +6,7 @@ import map.Room;
 import projectiles.PokaDot;
 import resources.Sprite;
 
-public class MafiaShooter extends Enemy {
+public class MafiaShooter extends PresetEnemy {
 	Sprite shooter = new Sprite ("resources/sprites/mafiaShooter.png");
 	Sprite mafiaShooterAttack = new Sprite ("resources/sprites/mafiaShooterAttack.png");
 	int timer;

@@ -2,7 +2,7 @@ package enemys;
 
 import resources.Sprite;
 
-public class LivingPeriod extends Enemy{
+public class LivingPeriod extends PresetEnemy{
 	public Sprite period;
 	public LivingPeriod () {
 	period = new Sprite ("resources/sprites/config/Period.txt");

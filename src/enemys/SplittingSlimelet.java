@@ -6,7 +6,7 @@ import main.GameCode;
 import map.Room;
 import resources.Sprite;
 
-public class SplittingSlimelet extends Enemy {
+public class SplittingSlimelet extends PresetEnemy {
 	Sprite moveingSprite;
 	Sprite attackingSprite;
 	Sprite splittingSprite;

@@ -4,7 +4,7 @@ import map.Room;
 import projectiles.PokaDot;
 import resources.Sprite;
 
-public class SpearThrower extends Enemy {
+public class SpearThrower extends PresetEnemy {
 	int coolDownTimer = 0;
 	public SpearThrower () {
 		this.lockedRight = true;

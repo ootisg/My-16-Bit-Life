@@ -12,7 +12,7 @@ import main.GameObject;
 import main.ObjectHandler;
 import resources.Sprite;
 
-public class BuggyBoi extends Enemy {
+public class BuggyBoi extends PresetEnemy {
 	private int speed;
 	private boolean circling;
 	Stack <Point> path;

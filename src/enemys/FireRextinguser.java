@@ -4,7 +4,7 @@ import main.AnimationHandler;
 import projectiles.Fire;
 import resources.Sprite;
 
-public class FireRextinguser extends Enemy {
+public class FireRextinguser extends PresetEnemy {
 	public Sprite idleSprite;
 	public Sprite attackingSprite;
 	Fire fire;

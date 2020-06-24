@@ -4,9 +4,9 @@ import projectiles.Disk;
 import resources.Sprite;
 
 public class Marshan extends Enemy {
-
+	int timer = 0;
 	public Marshan() {
-		int timer = 0;
+		
 		this.setHealth(60);
 		defence = 0;
 		this.setSprite(new Sprite ("resources/sprites/config/Marshan.txt"));
