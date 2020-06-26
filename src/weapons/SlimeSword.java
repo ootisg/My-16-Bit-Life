@@ -33,6 +33,8 @@ public class SlimeSword extends Item {
 	double desY;
 	double slope;
 	boolean extended;
+	double fifthteenthX;
+	double fifthteenthY;
 	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").getFirst ();
 	int [] upgradeInfo;
 	Graphics2D graphics =(Graphics2D) RenderLoop.window.getBufferGraphics();
@@ -75,82 +77,88 @@ public class SlimeSword extends Item {
 	public void frameEvent() {
 		if (extended && (currX != desX || currY != desY)) {
 			if (desX > currX) {
-				currX = currX + 5;
+				currX = currX + 30;
 				if (currX > desX) {
 					currX = desX;
+					fifthteenthX = (desX - player.getX())/15;
 				}
 			} else {
-				currX = currX - 5;
+				currX = currX - 30;
 				if (currX < desX) {
 					currX = desX;
+					fifthteenthX = ( player.getX() - desX)/15;
 				}
 			}
 			if (desY > currY) {
-				currY = currY + (5*slope);
+				currY = currY + (30*slope);
 				if (currY > desY) {
 					currY = desY;
+					fifthteenthY = (desY - player.getY())/15;
 				}
 			} else {
-				currY = currY + (5*slope);
+				currY = currY + (30*slope);
 				if (currY < desY) {
 					currY = desY;
+					fifthteenthY = (player.getY() - desY)/15;
 				}
 			}
 		} else {
 			if (extended) {
-				double slack =  player.getY() - desY;
-				if (slack < 0) {
-					slack = slack * -1;
-				}
-				if (slack > 1) {
-					double toUse = slack/15;
-					if (toUse > 8) {
-						toUse = 8;
-					}
-				if ((desX - player.getX() > slack && desX - player.getX() > 0) ||(player.getX() - desX > slack && player.getX() - desX > 0)) {
-					if (player.getX() > desX) {
-						player.vx = -toUse;
-					} else {
-						player.vx = toUse;
-						
-					}
-					
-				}
-				//System.out.println(player.getX() - desX);
-				if (!(player.getX() < desX + 10 && player.getX() > desX -10)) {
-				if (player.getX() > desX) {
-					player.vx = player.vx  -(toUse/10);
-				} else {
-					player.vx = player.vx + (toUse/10);
-					
-				}
-				}
-				} else {
-					player.vx = 0;
-					player.setX(desX);
-				}
-				if (!mouseButtonDown(2) && !player.isCrouched()) {
+				if (mouseButtonDown(2)) {
 					Point currentPoint = new Point (this.getX(),this.getY());
 					Point mousePoint = new Point (desX,desY);
 					slope =currentPoint.getSlope(mousePoint);
-					player.stopFall(true);
-					int slopeDeturent;
-					if (slope > 0) {
-						slopeDeturent = 1;
+					player.stopFall(true); 
+					if (fifthteenthX > Room.TILE_WIDTH) {
+						fifthteenthX = Room.TILE_WIDTH;
+						}
+					if (fifthteenthY> Room.TILE_HEIGHT) {
+						fifthteenthY = Room.TILE_HEIGHT;
+						}
+						if (player.getY ()  > desY) {
+							player.goY(player.getY() - fifthteenthY);
+						} else {
+							player.goY(player.getY() + fifthteenthY);
+						}
+						player.binded = true;
+						if (player.getX() > desX) {
+						
+							player.goX(player.getX() - fifthteenthX);
+						} else {
+							player.goX(player.getX() + fifthteenthX);
+						}
+				} else {
+					player.binded = false;
+					player.stopFall(true); 
+					double slack =  player.getY() - desY;
+					if (slack < 0) {
+						slack = slack * -1;
+					}
+					if (slack > 1) {
+						double toUse = slack/15;
+						if (toUse > 8) {
+							toUse = 8;
+						}
+					if (!(player.getX() < desX + 10 && player.getX() > desX -10)) {
+					if (player.getX() > desX) {
+						player.vx = player.vx  -(toUse/10);
 					} else {
-						slopeDeturent = -1;
+						player.vx = player.vx + (toUse/10);
 					}
-					if (!Double.isNaN(slope)) {
-					player.goY(player.getY() + (slopeDeturent*1));
 					}
-					if ( !Double.isNaN(slope)&& (slope > 0 && player.getY() > desY) || (slope < 0 && player.getY() < desY)) {
-						player.goY(player.getY() - (slopeDeturent*1));
+					if (player.vx > 15.9 && player.vx > 0) {
+						player.vx = 15.9;
 					}
-				} 
+					if (player.vx < -15.9 && player.vx  < 0) {
+						player.vx = -15.9;
+					}
+					} else {
+						player.vx = 0;
+						player.goX(desX);
+					}
+				}
 			}
 		}
-		this.setX(player.getX());
-		this.setY(player.getY());
 		if (this.mouseButtonPressed(2)&& !extended && !broke) {
 			extended = true;
 			this.setHitboxAttributes(11, 0, 3, 3);
@@ -158,9 +166,8 @@ public class SlimeSword extends Item {
 			y = this.getY();
 			currX = x;
 			currY = y;
-			int count = 0;
 			Point currentPoint = new Point (x,y);
-			Point mousePoint = new Point (getCursorX(),getCursorY());
+			Point mousePoint = new Point (getCursorX() + Room.getViewX(),getCursorY() + Room.getViewY());
 			slope =currentPoint.getSlope(mousePoint);
 			int toUse = 1;
 			if (slope > 5 || slope < -5) {
@@ -174,7 +181,6 @@ public class SlimeSword extends Item {
 			
 			while (true) {
 				try {
-					count = count + 1;
 				if (!change) {
 				if (!this.goXandY(this.getX() - toUse, this.getY() + slope)) {
 					break;
@@ -184,7 +190,20 @@ public class SlimeSword extends Item {
 						break;
 					}
 				}
-				if (count > 400 ) {
+				if (this.getY() < 0) {
+					this.setY(0);
+					break;
+				}
+				if (this.getX() < 0) {
+					this.setX(0);
+					break;
+				}
+				if (this.getX() > Room.getWidth() * 16) {
+					this.setX(Room.getWidth() * 16);
+					break;
+				}
+				if (this.getY() > Room.getHeight() * 16) {
+					this.setY(Room.getHeight() * 16);
 					break;
 				}
 				} catch (ArrayIndexOutOfBoundsException e) {
@@ -193,23 +212,20 @@ public class SlimeSword extends Item {
 			}
 			desX = this.getX();
 			desY = this.getY();
-			this.setX(x - Room.getViewX());
-			this.setY(y);
 			
-			//potentially add y stuff if it becomes a problem
-			x = x - Room.getViewX();
-			desX = desX - Room.getViewX();
+			
 		} 
-		if (((this.keyPressed(32)|| this.mouseButtonPressed(0)) && extended) && !player.isCrouched()) {
+		if ((this.keyPressed(32)&& extended) && !player.isCrouched()) {
 			extended = false;
 			player.stopFall(false);
 			player.vy = 0;
 			broke = true;
+			player.binded = false;
 		}
 		if (broke && !mouseButtonDown (2)) {
 			broke = false;
 		}
-		if (this.mouseButtonDown(0) && !player.getSprite().equals(samSwingSprite) && !extended && !player.isCrouched() ) {
+		if (this.mouseButtonDown(0) && !player.getSprite().equals(samSwingSprite)  && !player.isCrouched() ) {
 			player.setSprite(samSwingSprite);
 			player.getAnimationHandler().setFrameTime(50);
 			player.getAnimationHandler().setRepeat(false);
@@ -262,7 +278,7 @@ public class SlimeSword extends Item {
 	public void draw () {
 		super.draw();
 		if (extended) {
-		graphics.drawLine((int)this.getX(), (int)this.getY(), (int)currX, (int)currY);
+		graphics.drawLine((int)this.getX() - Room.getViewX(), (int)this.getY() - Room.getViewY(), (int)currX - Room.getViewX(), (int)currY - Room.getViewY());
 		}
 	}
 }

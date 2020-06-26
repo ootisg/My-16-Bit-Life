@@ -102,7 +102,7 @@ public class DamageText extends GameObject {
 	}
 	@Override
 	public void frameEvent(){
-		AfterRenderDrawer.drawAfterRender((x- Room.getViewX()), y, damageText, damageFrame);
+		AfterRenderDrawer.drawAfterRender((x- Room.getViewX()), y - Room.getViewY(), damageText, damageFrame);
 		momentum = momentum + 1;
 		if (momentum < 6){
 			y = y + 2;

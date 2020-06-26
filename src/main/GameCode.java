@@ -186,14 +186,12 @@ public class GameCode {
 		pointer = new LaserPointer ();
 		key = new FairUseKey(1);
 		guy = new PointGuy();
-		splitting = new SplittingSlimelet ();
 		work = new Worker ();
 		door = new Door ();
 		fall = new FallingChandleer ();
 		test = new BreakableObject ();
 		lay = new DarkOverlay();
 		packet = new LemonPacket(1);
-		spearGuy = new SpearThrower ();
 		Jeffrey.getInventory().addFreind(lameJeffrey);
 		Jeffrey.getInventory().addFreind(lameSam);
 		Jeffrey.getInventory().addFreind(lameRyan);
@@ -255,7 +253,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/DarkTest.rmf");
+		Room.loadRoom ("resources/maps/marshmap.rmf");
 		//bleh = new AnimeTester ()
 		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);
@@ -313,7 +311,6 @@ public class GameCode {
 		//splitting.declare(100,100);
 		//work.declare(100,100);
 		//glider.declare(60, 60);
-		lay.declare();
 	}
 	
 	public static void beforeGameLogic () {
