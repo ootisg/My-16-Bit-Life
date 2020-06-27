@@ -91,7 +91,9 @@ public class Bombs extends AimableWeapon {
 		}
 		if (inHand) {
 			bomb.projectileFrame();
-			power = power + 1;
+			if (mouseButtonDown(2)) {
+				power++;
+			}
 			if (!this.getAnimationHandler().flipHorizontal()) {
 				bomb.setX(this.getX()- 8);
 				bomb.setY(this.getY() - 27);
