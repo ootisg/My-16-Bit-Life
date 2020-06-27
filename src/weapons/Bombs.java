@@ -30,6 +30,7 @@ public class Bombs extends AimableWeapon {
 	private Sprite bombIconSprite;
 	boolean firstRun = true;
 	private int power = 0;
+	public static final Sprite INDICATOR_SPRITE = new Sprite ("resources/sprites/x.png");
 	public  Bombs (Sprite sprite) {
 		super(sprite);
 		upgradeInfo = new int [] {0,0,0,0};
@@ -84,7 +85,7 @@ public class Bombs extends AimableWeapon {
 		if (cooldown > 0) {
 			cooldown--;
 		}
-		if (mouseButtonPressed(0) && !j.isCrouched()) {
+		if (mouseButtonPressed(0) && !j.isCrouched() && cooldown == 0) {
 			bomb = new BombsProjectile();
 			inHand = true;
 		}
@@ -100,8 +101,17 @@ public class Bombs extends AimableWeapon {
 				bomb.setY(this.getY() - 27);
 				AfterRenderDrawer.drawAfterRender((int)this.getX()+ 8, (int)this.getY() - 27, bomb.getSprite(),bomb.getAnimationHandler().getFrame());
 			}
+			double [] landPoint = new double [2]; 
+			double [] landInfo = this.simulateShot(bomb, this.getRotation());
+			if (!this.getAnimationHandler().flipHorizontal()) {
+				landPoint = bomb.computeLandPoint(landInfo[0],landInfo[1],landInfo[2], 12*(1 + power/60.0), 18*(1 + power/60.0), true);
+			} else {
+				landPoint = bomb.computeLandPoint(landInfo[0],landInfo[1],landInfo[2], -1*12*(1 + power/60.0), 18*(1 + power/60.0), false);
+			}
+			AfterRenderDrawer.drawAfterRender((int)landPoint[0] - Room.getViewX(), (int)landPoint[1] - Room.getViewY(), INDICATOR_SPRITE);
 			if (bomb.timer > 120) {
 				inHand = false;
+				power = 0;
 			}
 		}
 		if ( inHand && !mouseButtonDown(0)) {

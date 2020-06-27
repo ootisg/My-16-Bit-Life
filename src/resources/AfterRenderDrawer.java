@@ -44,11 +44,15 @@ public class AfterRenderDrawer {
 	public static void clear () {
 		int currentIndex = 0;
 		while (objectsToDraw.size() != currentIndex) {
-			
+			try {
 			if (!objectsToDraw.get(currentIndex).keep()) {
 			objectsToDraw.remove(currentIndex);
 			} else {
 			currentIndex = currentIndex + 1;
+			}
+			} catch (NullPointerException e) {
+				currentIndex = currentIndex + 1;
+				System.out.println("hey check back at after render drawer 55 and see if that thing worked");
 			}
 		}
 	}

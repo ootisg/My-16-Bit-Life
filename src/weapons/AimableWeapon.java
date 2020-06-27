@@ -85,4 +85,21 @@ public class AimableWeapon extends Item {
 		projectile.declare();
 		projectile.setAttributes (endX, endY, ang);
 	}
+	public double [] simulateShot (Projectile projectile, double direction) {
+		double ang = direction;
+		double endX;
+		double endY;
+		if (getAnimationHandler ().flipHorizontal ()) {
+			ang = Math.PI - ang;
+		}
+		if (getAnimationHandler ().flipHorizontal ()) {
+			endX = this.getX () + Math.cos (ang + Math.PI / 180 * 15) * 14 + 4;
+			endY = this.getY () + Math.sin (ang + Math.PI / 180 * 15) * 14;
+		} else {
+			endX = this.getX () + Math.cos (ang - Math.PI / 180 * 15) * 14;
+			endY = this.getY () + Math.sin (ang - Math.PI / 180 * 15) * 14;
+		}
+		double [] working = new double [] {endX,endY,ang};
+		return working;
+	}
 }

@@ -13,6 +13,6 @@ public class NonPlayableJeffrey extends LegacyNPC {
 	}
 	@Override
 	public String checkEntry () {
-		return "OUR \"HERO\" THINKS HE IS A LOT COOLER THAN HE ACTUALLY IS ";
+		return "THINKS HE IS A LOT COOLER THAN HE ACTUALLY IS ";
 	}
 }

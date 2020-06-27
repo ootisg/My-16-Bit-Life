@@ -5,6 +5,7 @@ import main.ObjectHandler;
 import map.Room;
 import main.GameLoop;
 import players.Jeffrey;
+import resources.AfterRenderDrawer;
 import resources.Sprite;
 
 
@@ -78,6 +79,42 @@ public class BombsProjectile extends Projectile{
 			explosion.declare(this.getX() - 8,this.getY() - 8);
 			this.forget();
 		}
+	}
+	public double [] computeLandPoint (double positionX, double positionY, double direction, double workingVx, double workingVy, boolean workingFakeDireciton) {
+		int fakeTimer = timer;
+		double fakeVx = workingVx;
+		double fakeVy;
+		double workingX = positionX;
+		double workingY = positionY;
+		if (workingFakeDireciton) {
+			fakeVy = -workingVy * direction;
+		} else {
+			fakeVy = workingVy * (direction - 3.14);
+		}
+		while (fakeTimer < 120) {
+			if (workingFakeDireciton) {
+				fakeVx = fakeVx - 0.3;
+				if (fakeVx < 0) {
+					fakeVx = 0;
+				}
+			} else {
+				fakeVx = fakeVx + 0.3;
+				if (fakeVx > 0) {
+					fakeVx = 0;
+				}
+			}
+
+			if (this.checkXandY(workingX,workingY)) {
+				
+				workingY = workingY - (fakeVy / 3);
+				workingX = workingX + (fakeVx / 3);
+				AfterRenderDrawer.drawAfterRender((int)workingX - Room.getViewX(), (int)workingY - Room.getViewY(), new Sprite ("resources/sprites/lightBall.png"));
+				fakeVy--;
+			}
+			fakeTimer = fakeTimer + 1;
+		}
+		double [] results = new double [] {workingX,workingY};
+		return results;
 	}
 	public void throwBomb () {
 		thrown = true;

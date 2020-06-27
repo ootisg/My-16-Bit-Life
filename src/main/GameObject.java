@@ -666,6 +666,7 @@ public abstract class GameObject extends GameAPI {
 	}
 	/**
 	 * returns true if you could go to that x posision without being in a wall
+	 * probably will conflict with a problamatic y positon use checkXAndY to avoid that
 	 * @param val the x posion to test
 	 * @return true if that ya dummy
 	 */
@@ -686,6 +687,7 @@ public abstract class GameObject extends GameAPI {
 
 	/**
 	 * returns true if you could go to that y posision without being in a wall
+	 *  probably will conflict with a problamatic x positon use checkXAndY to avoid that
 	 * @param val the y posion to test
 	 * @return true if that ya dummy
 	 */
@@ -700,6 +702,33 @@ public abstract class GameObject extends GameAPI {
 		} else {
 			y = yprevious;
 			spriteY = (spriteY - (val - y));
+			return true;
+		}
+	}
+	/**
+	 * returns true if you could go to that  posision without being in a wall
+	 * @param xval the x position to test
+	 * @param yval the y position to test
+	 * @return true if that ya dummy
+	 */
+	public boolean checkXandY(double xval, double yval) {
+		xprevious = x;
+		spriteX =  (spriteX + (xval - x));
+		x = xval;
+		yprevious = y;
+		spriteY =  (spriteY + (yval - y));
+		y = yval;
+		if (Room.isColliding(this)) {
+			x = xprevious;
+			spriteX = (spriteX - (xval- x));
+			y = yprevious;
+			spriteY = (spriteY - (yval - y));
+			return false;
+		} else {
+			x = xprevious;
+			spriteX = (spriteX - (xval- x));
+			y = yprevious;
+			spriteY = (spriteY - (yval - y));
 			return true;
 		}
 	}
