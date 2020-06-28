@@ -109,12 +109,6 @@ public class TileData {
 		}
 		
 	}
-	public void setPartner (TileEntitiy newPartner) {
-		partner = newPartner;
-	}
-	public TileEntitiy getPartner () {
-		return partner;
-	}
 	public String getName () {
 		return name;
 	}

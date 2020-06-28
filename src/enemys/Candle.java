@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import gameObjects.DamageText;
 import gameObjects.DarkOverlay;
+import gameObjects.Extinguisable;
 import gameObjects.LightSource;
 import main.GameCode;
 import main.ObjectHandler;
@@ -14,7 +15,7 @@ import projectiles.PokaDot;
 import resources.Sprite;
 
 
-public class Candle extends Enemy implements LightSource {
+public class Candle extends Enemy implements LightSource, Extinguisable {
 	PokaDot fireball;
 	int timer = 0;
 	int flameHealth = 30;
@@ -81,5 +82,10 @@ public class Candle extends Enemy implements LightSource {
 	@Override
 	public BufferedImage getOverlay() {
 		return new Sprite ("resources/sprites/overlays/candleOverlay.png").getFrame(0);
+	}
+	@Override
+	public void extinguse() {
+		this.extinguesed = true;
+		
 	}
 }

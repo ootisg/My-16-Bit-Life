@@ -83,6 +83,7 @@ import triggers.CutsceenTrigger;
 import triggers.Trigger;
 import weapons.AimableWeapon;
 import weapons.Bombs;
+import weapons.FireExtingueser;
 import weapons.LaserPointer;
 import weapons.LifeVaccum;
 import weapons.MagicMarker;
@@ -124,7 +125,6 @@ public class GameCode {
 	static MagicMarker marker;
 	static Bombs bomb;
 	static TomatoFunction function;
-	static FireRextinguser extinguser;
 	static LifeVaccum vaccum;
 	static Trigger trigger;
 	static TemporaryWall wall;
@@ -167,6 +167,7 @@ public class GameCode {
 	static SplittingSlimelet splitting;
 	static SpearThrower spearGuy;
 	static Glider glider;
+	static FireExtingueser extinguser;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
@@ -178,6 +179,7 @@ public class GameCode {
 		//GameObject initialization
 		player = new SoundPlayer ();
 		J = new Jeffrey ();
+		extinguser = new FireExtingueser (new Sprite ("resources/sprites/config/Fire_Rextinguisher_Idle.txt"));
 		testLaddder = new Ladder ();
 		lameJeffrey = new NonPlayableJeffrey();
 		lameSam = new NonPlayableSam();
@@ -192,6 +194,7 @@ public class GameCode {
 		test = new BreakableObject ();
 		lay = new DarkOverlay();
 		packet = new LemonPacket(1);
+		Jeffrey.getInventory().addWeapon(extinguser, 0);
 		Jeffrey.getInventory().addFreind(lameJeffrey);
 		Jeffrey.getInventory().addFreind(lameSam);
 		Jeffrey.getInventory().addFreind(lameRyan);
@@ -253,7 +256,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/marshmap.rmf");
+		Room.loadRoom ("resources/maps/extinguserTest.rmf");
 		//bleh = new AnimeTester ()
 		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);

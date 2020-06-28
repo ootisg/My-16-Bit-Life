@@ -375,7 +375,7 @@ public class Room {
 				if (index == SPECIAL_TILE_ID) {
 					long pos = toPackedLong (wx,wy);
 					if (positionToEntitiys.get(pos).doesColide(obj)) {
-						working.add(new MapTile (positionToEntitiys.get(pos).getData(),wx*TILE_WIDTH,wy*TILE_HEIGHT));	
+						working.add(new MapTile (positionToEntitiys.get(pos).getData(),wx*TILE_WIDTH,wy*TILE_HEIGHT,positionToEntitiys.get(pos)));	
 					}
 				} else if (dataList.get(index).isSolid()) {
 					working.add(new MapTile (dataList.get(index),wx*TILE_WIDTH,wy*TILE_HEIGHT));
