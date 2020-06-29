@@ -527,7 +527,7 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 		tileEntitiys = new ArrayList<TileEntitiy>();
 		positionToEntitiys = new HashMap<Long,TileEntitiy>();
 		//purges the gameObjects
-		LinkedList<LinkedList<GameObject>> objList = ObjectHandler.getChildrenByName("GameObject");
+		ArrayList<ArrayList<GameObject>> objList = ObjectHandler.getChildrenByName("GameObject");
 		for (int i = 0; i < objList.size (); i ++) { 
 			if (objList.get (i) != null) {
 				int listSize = objList.get (i).size ();

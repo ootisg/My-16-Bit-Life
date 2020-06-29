@@ -1,5 +1,6 @@
 package gameObjects;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -79,8 +80,8 @@ public class Fan extends MapObject {
 				} else {
 					range = this.getY();
 				}
-				LinkedList<LinkedList<GameObject>> working = ObjectHandler.getChildrenByName("GameObject");
-				Iterator<LinkedList <GameObject>> iter = working.iterator();
+				ArrayList<ArrayList<GameObject>> working = ObjectHandler.getChildrenByName("GameObject");
+				Iterator<ArrayList <GameObject>> iter = working.iterator();
 				Iterator <GameObject> innerIter;
 				while (iter.hasNext()) {
 					innerIter = iter.next().iterator();
@@ -116,8 +117,8 @@ public class Fan extends MapObject {
 				} else {
 					range = Room.getHeight()*Room.TILE_HEIGHT - this.getY();
 				}
-				LinkedList<LinkedList<GameObject>> working = ObjectHandler.getChildrenByName("GameObject");
-				Iterator<LinkedList <GameObject>> iter = working.iterator();
+				ArrayList<ArrayList<GameObject>> working = ObjectHandler.getChildrenByName("GameObject");
+				Iterator<ArrayList <GameObject>> iter = working.iterator();
 				Iterator <GameObject> innerIter;
 				while (iter.hasNext()) {
 					innerIter = iter.next().iterator();
@@ -140,8 +141,8 @@ public class Fan extends MapObject {
 				} else {
 					range = this.getX();
 				}
-				LinkedList<LinkedList<GameObject>> working = ObjectHandler.getChildrenByName("GameObject");
-				Iterator<LinkedList <GameObject>> iter = working.iterator();
+				ArrayList<ArrayList<GameObject>> working = ObjectHandler.getChildrenByName("GameObject");
+				Iterator<ArrayList <GameObject>> iter = working.iterator();
 				Iterator <GameObject> innerIter;
 				while (iter.hasNext()) {
 					innerIter = iter.next().iterator();
@@ -162,8 +163,8 @@ public class Fan extends MapObject {
 				} else {
 					range = Room.getWidth()*Room.TILE_WIDTH - this.getX();
 				}
-				LinkedList<LinkedList<GameObject>> working = ObjectHandler.getChildrenByName("GameObject");
-				Iterator<LinkedList <GameObject>> iter = working.iterator();
+				ArrayList<ArrayList<GameObject>> working = ObjectHandler.getChildrenByName("GameObject");
+				Iterator<ArrayList <GameObject>> iter = working.iterator();
 				Iterator <GameObject> innerIter;
 				while (iter.hasNext()) {
 					innerIter = iter.next().iterator();

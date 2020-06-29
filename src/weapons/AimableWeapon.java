@@ -2,6 +2,7 @@ package weapons;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -76,7 +77,7 @@ public class AimableWeapon extends Item {
 			ang = Math.PI - ang;
 		}
 		if (getAnimationHandler ().flipHorizontal ()) {
-			endX = this.getX () + Math.cos (ang + Math.PI / 180 * 15) * 14 + 4;
+			endX = this.getX () + Math.cos (ang + Math.PI /180 * 15) * 14 + 4;
 			endY = this.getY () + Math.sin (ang + Math.PI / 180 * 15) * 14;
 		} else {
 			endX = this.getX () + Math.cos (ang - Math.PI / 180 * 15) * 14;
@@ -85,8 +86,8 @@ public class AimableWeapon extends Item {
 		projectile.declare();
 		projectile.setAttributes (endX, endY, ang);
 	}
-	public double [] simulateShot (Projectile projectile, double direction) {
-		double ang = direction;
+	public double [] simulateShot () {
+		double ang = this.getRotation();
 		double endX;
 		double endY;
 		if (getAnimationHandler ().flipHorizontal ()) {
@@ -101,5 +102,12 @@ public class AimableWeapon extends Item {
 		}
 		double [] working = new double [] {endX,endY,ang};
 		return working;
+	}
+	public Point getNextPos (double speed) {
+		Point newPoint = new Point ();
+		double [] working = this.simulateShot();
+		newPoint.x = (int) (working[0] + Math.cos (working[2]) * speed); 
+		newPoint.y = (int) (working[1] + Math.sin (working[2]) * speed);
+		return newPoint;
 	}
 }

@@ -201,7 +201,7 @@ public class GameCode {
 		Jeffrey.getInventory().addFreind(guy);
 		//Jeffrey.getInventory().addKeyItem(key);
 		Jeffrey.getInventory().addConsumable(packet);
-		vaccum = new LifeVaccum (new Sprite ("resources/sprites/config/lifeVaccum.txt"));
+		vaccum = new LifeVaccum ();
 		Jeffrey.getInventory().addWeapon(vaccum, 1);
 		Jeffrey.getInventory().addWeapon(pointer, 0);
 		sword = new SlimeSword();
@@ -256,7 +256,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/extinguserTest.rmf");
+		Room.loadRoom ("resources/maps/marshMap.rmf");
 		//bleh = new AnimeTester ()
 		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);

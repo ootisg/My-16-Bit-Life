@@ -30,7 +30,7 @@ public class Xavier extends GameObject{
 		if (keyDown ('W')) {
 			this.goY(this.getY() - 2);
 		}
-		LinkedList<LinkedList<GameObject>> checkableObjects =  ObjectHandler.getChildrenByName("CheckableObject");
+		ArrayList<ArrayList<GameObject>> checkableObjects =  ObjectHandler.getChildrenByName("CheckableObject");
 		for (int i = 0; i < checkableObjects.size(); i++) {
 			for (int j = 0; j<checkableObjects.get(i).size(); j++) {
 				if (this.isColliding(checkableObjects.get(i).get(j)) && keyPressed(10)) {

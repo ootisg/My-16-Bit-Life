@@ -35,7 +35,7 @@ public class SlimeSword extends Item {
 	boolean extended;
 	double fifthteenthX;
 	double fifthteenthY;
-	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").getFirst ();
+	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 	int [] upgradeInfo;
 	Graphics2D graphics =(Graphics2D) RenderLoop.window.getBufferGraphics();
 	public SlimeSword () {

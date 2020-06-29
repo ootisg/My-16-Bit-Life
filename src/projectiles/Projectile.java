@@ -18,16 +18,21 @@ public abstract class Projectile extends GameObject {
 	boolean keep = false;
 	boolean goingIntoWall;
 	boolean outsideTheMap = false;
-	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").getFirst ();
+	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 	@Override
 	public void frameEvent () {
 		projectileFrame ();
+		//implemnt quartersteps
 		try {
 		RNG = new Random ();
-		if (!this.goX (this.getX () + Math.cos (direction) * speed) || !this.goY (this.getY () + Math.sin (direction) * speed)) {
-			goingIntoWall = true;
-		} else {
-			goingIntoWall = false;
+		double quarterstepX =  (Math.cos (direction) * speed)/4;
+		double quarterstepY =  (Math.sin (direction) * speed)/4;
+		for (int i = 0; i < 4; i++) {
+			if (!this.goX (this.getX () + quarterstepX) || !this.goY (this.getY () + quarterstepY)) {
+				goingIntoWall = true;
+			} else {
+				goingIntoWall = false;
+			}
 		}
 		if (getX () < 0 || getY () < 0 || getX () > Room.getWidth () *16 || getY () > Room.getHeight () * 16) {
 			if (keep) {

@@ -120,6 +120,7 @@ public class LaserPointer extends AimableWeapon {
 						}
 					}
 				}
+				
 				if (end) {
 					break;
 				}

@@ -12,7 +12,7 @@ public class Laser extends Projectile{
 	
 	public static final Sprite laser = new Sprite ("resources/sprites/config/laser.txt");
 	
-	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").getFirst ();
+	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 	boolean hitSomething = false;
 	int animation = 0;
 	

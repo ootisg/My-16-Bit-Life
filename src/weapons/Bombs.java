@@ -97,14 +97,14 @@ public class Bombs extends AimableWeapon {
 			if (!this.getAnimationHandler().flipHorizontal()) {
 				bomb.setX(this.getX()- 8);
 				bomb.setY(this.getY() - 27);
-				AfterRenderDrawer.drawAfterRender((int)this.getX()- 8, (int)this.getY() - 27, bomb.getSprite(),bomb.getAnimationHandler().getFrame());
+				AfterRenderDrawer.drawAfterRender((int)(this.getX()- 8) - Room.getViewX(), (int)(this.getY() - 27) - Room.getViewY() , bomb.getSprite(),bomb.getAnimationHandler().getFrame());
 			} else {
 				bomb.setX(this.getX()+ 8);
 				bomb.setY(this.getY() - 27);
-				AfterRenderDrawer.drawAfterRender((int)this.getX()+ 8, (int)this.getY() - 27, bomb.getSprite(),bomb.getAnimationHandler().getFrame());
+				AfterRenderDrawer.drawAfterRender((int)(this.getX()+ 8) - Room.getViewX(), (int)(this.getY() - 27) - Room.getViewY(), bomb.getSprite(),bomb.getAnimationHandler().getFrame());
 			}
 			double [] landPoint = new double [2]; 
-			double [] landInfo = this.simulateShot(bomb, this.getRotation());
+			double [] landInfo = this.simulateShot();
 			if (!this.getAnimationHandler().flipHorizontal()) {
 				landPoint = bomb.computeLandPoint(landInfo[0],landInfo[1],landInfo[2], 12*(1 + power/60.0), 18*(1 + power/60.0), true);
 			} else {

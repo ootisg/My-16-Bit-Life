@@ -10,14 +10,23 @@ public class Foam extends Projectile {
 	public Foam () {
 		this.setHitboxAttributes(0,0, 4, 4);
 		this.setSprite(new Sprite ("resources/sprites/foam.png"));
-		this.setSpeed(5);
+		this.setSpeed(20);
 	}
 	@Override 
 	public void frameEvent () {
 		timer = timer + 1;
-		if (timer > 60) {
+		if (timer == 90) {
+			forget ();
+			return;
+		}
+		if (timer % 3 == 0) {
+			this.setSpeed(this.getSpeed() - 5);
+			
+		}
+		if (this.getSpeed() <= 0) {
 			falling = true;
 			this.setDirection(Math.PI/2);
+			this.setSpeed(3);
 		}
 		if (this.goingIntoWall) {
 			falling = true;

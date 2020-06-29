@@ -1,0 +1,3 @@
+$src resources/sprites/switch.png
+
+grid 32 20

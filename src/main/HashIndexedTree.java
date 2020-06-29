@@ -2,7 +2,7 @@ package main;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 /**
  * A hierarchical data structure with fast access through a HashTable.
@@ -51,7 +51,7 @@ public class HashIndexedTree<T,Q> {
 		/**
 		 * The children this node has
 		 */
-		public LinkedList<Node<R>> children;
+		public ArrayList<Node<R>> children;
 		
 		/**
 		 * Constructs a new node with the given parent node.
@@ -59,7 +59,7 @@ public class HashIndexedTree<T,Q> {
 		 */
 		public Node (Node parent) {
 			this.parent = parent;
-			this.children = new LinkedList<Node<R>> ();
+			this.children = new ArrayList<Node<R>> ();
 		}
 		
 		/**
@@ -94,8 +94,8 @@ public class HashIndexedTree<T,Q> {
 		 * Returns a list of all of this node's children, starting at the bottom of the tree.
 		 * @return A linked list containing all of this node's children
 		 */
-		public LinkedList<R> getAllChildren () {
-			LinkedList<R> result = new LinkedList<R> ();
+		public ArrayList<R> getAllChildren () {
+			ArrayList<R> result = new ArrayList<R> ();
 			getAllChildren (result);
 			return result;
 		}
@@ -104,7 +104,7 @@ public class HashIndexedTree<T,Q> {
 		 * A recursive method which traverses the entire tree under this node.
 		 * @param fillList The list to store the found elements
 		 */
-		private void getAllChildren (LinkedList<R> fillList) {
+		private void getAllChildren (ArrayList<R> fillList) {
 			Iterator<Node<R>> iter = children.iterator ();
 			while (iter.hasNext ()) {
 				Node<R> workingNode = iter.next ();
@@ -144,8 +144,8 @@ public class HashIndexedTree<T,Q> {
 	 * @param parentKey The index of the parent node
 	 * @return A list containing all the children stored under the parent key
 	 */
-	public LinkedList<Q> getAllChildren (T parentKey) {
-		LinkedList<Q> result = new LinkedList<Q> ();
+	public ArrayList<Q> getAllChildren (T parentKey) {
+		ArrayList<Q> result = new ArrayList<Q> ();
 		Node<Q> head = elements.get (parentKey);
 		return head.getAllChildren ();
 	}

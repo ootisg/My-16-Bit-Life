@@ -1,12 +1,13 @@
 package gameObjects;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import main.GameObject;
 import main.ObjectHandler;
 
 public class PairingObject extends GameObject {
-	LinkedList <GameObject> pairedObject;
+	ArrayList <GameObject> pairedObject;
 	public PairingObject () {
 		this.setHitboxAttributes (0,0,16,16);
 		this.setGameLogicPriority(-1);
@@ -25,7 +26,7 @@ public class PairingObject extends GameObject {
 			}
 		}
 	}
-	public LinkedList <GameObject> getPairedObjects (){
+	public ArrayList <GameObject> getPairedObjects (){
 		return pairedObject;
 	}
 }

@@ -13,7 +13,7 @@ import resources.Sprite;
 public class NinjaTriangle extends AimableWeapon{
 	public int [] upgradeInfo;
 	public static boolean inHand = true;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").getFirst();
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get (0);
 	public NinjaTriangle(Sprite sprite) {
 		super(sprite);
 		upgradeInfo = new int [4];

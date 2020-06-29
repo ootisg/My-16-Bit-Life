@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 
@@ -27,19 +27,19 @@ public class ObjectHandler {
 	/**
 	 * Stores all the classes currently in use, and their respective objects
 	 */
-	private static HashIndexedTree<String, LinkedList<GameObject>> classTrees = new HashIndexedTree <String, LinkedList<GameObject>> ("GameObject", null);
+	private static HashIndexedTree<String, ArrayList<GameObject>> classTrees = new HashIndexedTree <String, ArrayList<GameObject>> ("GameObject", null);
 	/**
 	 * The elements to add
 	 */
-	private static LinkedList<GameObject> addQueue = new LinkedList<GameObject> ();
+	private static ArrayList<GameObject> addQueue = new ArrayList<GameObject> ();
 	/**
 	 * The elements to remove
 	 */
-	private static LinkedList<GameObject> removeQueue = new LinkedList<GameObject> ();
+	private static ArrayList<GameObject> removeQueue = new ArrayList<GameObject> ();
 	/*
 	 * im blue daba de
 	 */
-	private static LinkedList <String> packages = new LinkedList<String> ();
+	private static ArrayList <String> packages = new ArrayList<String> ();
 	/*
 	 * no u
 	 */
@@ -56,7 +56,7 @@ public class ObjectHandler {
 	 * @param objName The name of the object's class, as given by getClass().getSimpleName() by default
 	 * @return All the objects of the given type, as a linked list
 	 */
-	public static LinkedList<GameObject> getObjectsByName (String objName) {
+	public static ArrayList<GameObject> getObjectsByName (String objName) {
 		return classTrees.get (objName);
 	}
 	
@@ -65,7 +65,7 @@ public class ObjectHandler {
 	 * @param objName The name of the parent's class, as given by getClass().getSimpleName() by default
 	 * @return All the objects which are children of the given type, in a two-dimensional linked list, grouped by type
 	 */
-	public static LinkedList<LinkedList<GameObject>> getChildrenByName (String objName) {
+	public static ArrayList<ArrayList<GameObject>> getChildrenByName (String objName) {
 		return classTrees.getAllChildren (objName);
 	}
 	
@@ -84,7 +84,7 @@ public class ObjectHandler {
 	 */
 	public static void insert (GameObject obj, String name) {
 		if (mutable) {
-			LinkedList<GameObject> objList = getObjectsByName (name);
+			ArrayList<GameObject> objList = getObjectsByName (name);
 			if (objList == null) {
 				addClass (obj);
 				objList = getObjectsByName (name);
@@ -112,7 +112,7 @@ public class ObjectHandler {
 	 * @return true if the object was successfully removed; false otherwise
 	 */
 	private static boolean remove (GameObject obj, String name) {
-		LinkedList<GameObject> objList = getObjectsByName (name);
+		ArrayList<GameObject> objList = getObjectsByName (name);
 		if (objList == null) {
 			return false;
 		}
@@ -136,30 +136,33 @@ public class ObjectHandler {
 	}
 	
 	//Helper method for collision checking
-	private static LinkedList<GameObject> getColliding (String objType, GameObject object) {
-		LinkedList<GameObject> checkList = getObjectsByName (objType);
+	private static ArrayList<GameObject> getColliding (String objType, GameObject object) {
+		ArrayList<GameObject> checkList = getObjectsByName (objType);
 		return getColliding (checkList, object);
 	}
 	
 	//Helper method for collision checking
-	private static CollisionInfo checkCollision (LinkedList<GameObject> objects, GameObject object) {
+	private static CollisionInfo checkCollision (ArrayList<GameObject> objects, GameObject object) {
 		//Make a CollisionInfo object
 		return new CollisionInfo (getColliding (objects, object));
 	}
 	
 	//Helper method for collision checking
-	private static LinkedList<GameObject> getColliding (LinkedList<GameObject> objects, GameObject object) {
-		LinkedList<GameObject> result = new LinkedList<GameObject> ();
+	private static ArrayList<GameObject> getColliding (ArrayList<GameObject> objects, GameObject object) {
+		ArrayList<GameObject> result = new ArrayList<GameObject> ();
 		if (objects == null) {
 			return result;
 		}
-		Iterator<GameObject> iter = objects.iterator ();
-		while (iter.hasNext ()) {
-			GameObject working = iter.next ();
-			
-			if (working.isColliding (object) && working != object) {
-				result.add (working);
+		try {
+			for (int i = 0; i < objects.size (); i++) {
+				GameObject working = objects.get(i);
+				
+				if (working.isColliding (object) && working != object) {
+					result.add (working);
+				}
 			}
+		} catch (IndexOutOfBoundsException e) {
+			//do nothing
 		}
 		return result;
 	}
@@ -175,13 +178,13 @@ public class ObjectHandler {
 	}
 	
 	//Helper method for collision checking with children
-	private static LinkedList<GameObject> getCollidingChildren (String parentType, GameObject object) {
-		LinkedList<LinkedList<GameObject>> lists = getChildrenByName (parentType);
-		LinkedList<GameObject> result = new LinkedList<GameObject> ();
+	private static ArrayList<GameObject> getCollidingChildren (String parentType, GameObject object) {
+		ArrayList<ArrayList<GameObject>> lists = getChildrenByName (parentType);
+		ArrayList<GameObject> result = new ArrayList<GameObject> ();
 		if (lists == null) {
 			return result;
 		}
-		Iterator<LinkedList<GameObject>> iter = lists.iterator ();
+		Iterator<ArrayList<GameObject>> iter = lists.iterator ();
 		while (iter.hasNext ()) {
 			result.addAll (getColliding (iter.next (), object));
 		}
@@ -201,9 +204,9 @@ public class ObjectHandler {
 		}
 		while (!toAdd.isEmpty ()) {
 			Class<?> topClass = toAdd.pop ();
-			LinkedList<GameObject> usedList;
+			ArrayList<GameObject> usedList;
 			if (toAdd.isEmpty ()) {
-				usedList = new LinkedList<GameObject> ();
+				usedList = new ArrayList<GameObject> ();
 			} else {
 				usedList = null;
 			}
@@ -215,9 +218,9 @@ public class ObjectHandler {
 	 * Calls the frameEvent method of all GameObjects in ObjectHandler
 	 */
 	public static void callAll () {
-		LinkedList<LinkedList<GameObject>> allObjs = getChildrenByName ("GameObject");
-		LinkedList<GameObject> allObjsList = new LinkedList<GameObject> ();
-		Iterator<LinkedList<GameObject>> allObjsIter = allObjs.iterator ();
+		ArrayList<ArrayList<GameObject>> allObjs = getChildrenByName ("GameObject");
+		ArrayList<GameObject> allObjsList = new ArrayList<GameObject> ();
+		Iterator<ArrayList<GameObject>> allObjsIter = allObjs.iterator ();
 		while (allObjsIter.hasNext ()) {
 			allObjsList.addAll (allObjsIter.next ());
 		}
@@ -253,9 +256,9 @@ public class ObjectHandler {
 	 */
 	public static void renderAll () {
 		lock ();
-		LinkedList<LinkedList<GameObject>> allObjs = getChildrenByName ("GameObject");
-		LinkedList<GameObject> allObjsList = new LinkedList<GameObject> ();
-		Iterator<LinkedList<GameObject>> allObjsIter = allObjs.iterator ();
+		ArrayList<ArrayList<GameObject>> allObjs = getChildrenByName ("GameObject");
+		ArrayList<GameObject> allObjsList = new ArrayList<GameObject> ();
+		Iterator<ArrayList<GameObject>> allObjsIter = allObjs.iterator ();
 		while (allObjsIter.hasNext ()) {
 			allObjsList.addAll (allObjsIter.next ());
 		}

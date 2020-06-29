@@ -16,7 +16,7 @@ public class WaterBlob extends Enemy {
 	private Random RNG;
 	private boolean dirction;
 	private boolean jumping;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").getFirst();
+	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	private boolean falling;
 	private int oldTimer;
 	private static final Sprite LEFT_JUMP_SPRITE = new Sprite ("resources/sprites/config/waterBlobLeftJump.txt");

@@ -97,7 +97,7 @@ public class redBlackPaintBallGun extends AimableWeapon {
 			box.setScrollRate(0);
 			box.configureTimerCloseing(30);
 		}
-		Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").getFirst ();
+		Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 		if (!itsOver) {
 		ammoAmount.setContent(Integer.toString(Jeffrey.getInventory().checkItemAmount(paint)));
 		} else {

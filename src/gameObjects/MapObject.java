@@ -39,7 +39,7 @@ public class MapObject  extends GameObject {
 			}
 		}
 		this.isCollidingChildren("GameObject");
-		LinkedList <GameObject> collidingObjects = this.getCollisionInfo().getCollidingObjects();
+		ArrayList <GameObject> collidingObjects = this.getCollisionInfo().getCollidingObjects();
 		Iterator <GameObject> iter = collidingObjects.iterator();
 		while(iter.hasNext()) {
 			GameObject currentObject = iter.next();

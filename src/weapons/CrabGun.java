@@ -11,7 +11,7 @@ public class CrabGun extends AimableWeapon {
 	public static final Sprite crabGunBullet = new Sprite ("resources/sprites/config/Cyclops_Crab_Gun_Bullet.txt");
 	public static final Sprite crabGunFireing = new Sprite ("resources/sprites/config/Cyclops_Crab_Gun_Firing.txt");
 	Sprite idleSprite;
-	private static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").getFirst ();
+	private static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 	public CrabGun (Sprite spriteToUse) {
 		super(spriteToUse);
 		idleSprite = spriteToUse;

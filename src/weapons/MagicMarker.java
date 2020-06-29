@@ -106,7 +106,7 @@ public class MagicMarker extends AimableWeapon {
 				changeSprite (redMarker);
 				break;
 		}
-		Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").getFirst ();
+		Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 		ammoAmount.setContent("");
 		itsOver = false;
 		if (this.cooldown > 0) {

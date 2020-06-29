@@ -52,7 +52,7 @@ public class BattleTrigger extends Trigger {
 					try {
 						
 					if(ObjectHandler.getObjectsByName("PairingObject").get(uppyThing).getVariantAttribute("Partner").equals(this.getVariantAttribute("Partner"))){
-						LinkedList <GameObject> workingList = ((PairingObject) ObjectHandler.getObjectsByName("PairingObject").get(uppyThing)).getPairedObjects();
+						ArrayList <GameObject> workingList = ((PairingObject) ObjectHandler.getObjectsByName("PairingObject").get(uppyThing)).getPairedObjects();
 						for (int i = 0; i < workingList.size(); i++) {
 						
 							xCoordinates [x] = workingList.get(i).getX();
