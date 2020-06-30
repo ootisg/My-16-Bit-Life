@@ -67,8 +67,6 @@ public class LifeVaccum extends Item {
 		}
 		timer = timer + 1;
 		// this may need to be a diffrent number
-		wind.setX(this.getX());
-		wind.setY(this.getY());
 		if (mouseButtonDown (0) && !jeffrey.isCrouched()) {
 			if (Jeffrey.getInventory().checkLifeVaccumBattary() > 0) {
 			if (loseBattary) {
@@ -99,8 +97,8 @@ public class LifeVaccum extends Item {
 		wind.hide();
 	}
 		if (mouseButtonDown (2) && !jeffrey.isCrouched()) {
-			if (this.isColliding("Box")) {
-				Iterator<GameObject> iter = this.getCollisionInfo().getCollidingObjects().iterator();
+			if (wind.isColliding("Box")) {
+				Iterator<GameObject> iter = wind.getCollisionInfo().getCollidingObjects().iterator();
 				while (iter.hasNext()) {
 					GameObject working = iter.next();
 					if (jeffrey.getAnimationHandler().flipHorizontal()) {
@@ -117,7 +115,7 @@ public class LifeVaccum extends Item {
 			wind.setY(this.getY() - 16);
 			wind.getAnimationHandler().setFlipHorizontal(true);
 		} else {
-			wind.setHitboxAttributes(0, 0, 49, 32);
+			wind.setHitboxAttributes(0,0, 49, 32);
 			wind.setX(this.getX() + 12);
 			wind.setY(this.getY() - 16);
 			wind.getAnimationHandler().setFlipHorizontal(false);
@@ -130,7 +128,7 @@ class Wind extends GameObject {
 	public Wind () {
 		this.adjustHitboxBorders();
 		this.getAnimationHandler().setFrameTime(50);
-		this.setHitboxAttributes(-48, 0, 49, 32);
+		this.setHitboxAttributes(0, 0, 49, 32);
 		this.setSprite(WIND);
 		
 	}

@@ -9,8 +9,9 @@ import main.GameObject;
 import main.ObjectHandler;
 import players.Jeffrey;
 import resources.Sprite;
+import switches.Activateable;
 
-public class Door extends MapObject {
+public class Door extends MapObject implements Activateable {
 	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	boolean open = false;
 	boolean inizialized = false;
@@ -23,9 +24,16 @@ public class Door extends MapObject {
 	boolean endPlaying = false;
 	boolean startPlaying = false;
 	boolean doStuff = false;
+	
+	boolean paired = false;
+	boolean queened = false;
+	boolean active = false;
+	
 	public Door () {
-		
+		this.setHitboxAttributes(0, 0, 16, 16);
 	}
+	//start scene usally refers to the cutscene that plays when you don't have the key to open the door howevver if using this with a switch
+	// it instead represents the cutscene that plays when the door closes
 	@Override
 	public void frameEvent () {
 		if (!inizialized) {
@@ -36,7 +44,7 @@ public class Door extends MapObject {
 				keyName = "Key";
 			}
 			if (this.getVariantAttribute("startSceen") != null && !this.getVariantAttribute("startSceen").equals("nv")) {
-				startSceen = new Cutsceen ("resources/cutsceenConfig/" + this.getVariantAttribute("startSceen"));
+				startSceen = new Cutsceen ("resources/cutsceenConfig/" + this.getVariantAttribute("startSceen"),new GameObject [] {this} );
 			}else {
 				startSceen = null;
 			}
@@ -72,83 +80,17 @@ public class Door extends MapObject {
 			}
 			
 		}
-		if (startPlaying && startSceen != null) {
-			if (!startSceen.play()) {
-				startSceen = null;
-				startPlaying = false;
-			}
-		}
-		if (endPlaying && endSceen != null) {
-			if (!endSceen.play()) {
-				endSceen = null;
-				endPlaying = false;
-				Class<?> c;
-				try {
-					c = Class.forName("items." + keyName);
-					Jeffrey.getInventory().removeItem((Item)c.getConstructor().newInstance());
-				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					//e.printStackTrace();
-				}
-				open = true;
-				this.reverseCollision();
-			}
-		}
-		if (!open) {
-		super.frameEvent();
-			if (this.isColliding(j)) {
-				try {
-					Class <?> c = Class.forName("items." + keyName);
-					if (Jeffrey.getInventory().checkKey((Item)c.getConstructor().newInstance())){
-							if (endSceen != null) {
-								if (!endPause) {
-									endPlaying = true;
-								} else {
-									sceen = true;
-									ObjectHandler.pause(true);
-									doStuff = true;
-								}
-							} 
-						} else {
-							if (startSceen != null) {
-								if (!startPause) {
-									startPlaying = true;
-								} else {
-									sceen = false;
-									ObjectHandler.pause(true);
-									doStuff = true;
-								}
-							} 
-						}
-					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-							| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
-						if (endSceen != null) {
-							if (!endPause) {
-								if (!endSceen.play()) {
-									endSceen = null;
-								}
-							} else {
-								sceen = true;
-								ObjectHandler.pause(true);
-								doStuff = true;
-							}
-					}  else {
-						open = true;
-						this.reverseCollision();
-					}
+		if (!paired) {
+			if (startPlaying && startSceen != null) {
+				if (!startSceen.play()) {
+					startSceen = null;
+					startPlaying = false;
 				}
 			}
-		}
-	}
-	@Override 
-	public void pausedEvent () {
-		if (doStuff) {
-			if (sceen) {
+			if (endPlaying && endSceen != null) {
 				if (!endSceen.play()) {
 					endSceen = null;
-					ObjectHandler.pause(false);
-					doStuff = false;
+					endPlaying = false;
 					Class<?> c;
 					try {
 						c = Class.forName("items." + keyName);
@@ -161,16 +103,149 @@ public class Door extends MapObject {
 					open = true;
 					this.reverseCollision();
 				}
-			} else {
+			}
+			if (!open) {
+			super.frameEvent();
+				if (this.isColliding(j)) {
+					try {
+						Class <?> c = Class.forName("items." + keyName);
+						if (Jeffrey.getInventory().checkKey((Item)c.getConstructor().newInstance())){
+								if (endSceen != null) {
+									if (!endPause) {
+										endPlaying = true;
+									} else {
+										sceen = true;
+										ObjectHandler.pause(true);
+										doStuff = true;
+									}
+								} 
+							} else {
+								if (startSceen != null) {
+									if (!startPause) {
+										startPlaying = true;
+									} else {
+										sceen = false;
+										ObjectHandler.pause(true);
+										doStuff = true;
+									}
+								} 
+							}
+						} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+								| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
+							if (endSceen != null) {
+								if (!endPause) {
+									if (!endSceen.play()) {
+										endSceen = null;
+									}
+								} else {
+									sceen = true;
+									ObjectHandler.pause(true);
+									doStuff = true;
+								}
+						}  else {
+							open = true;
+							this.reverseCollision();
+						}
+					}
+				}
+			}
+		} else {
+			if (endPlaying) {
+				if (!endSceen.play()) {
+					endSceen = null;
+					open = true;
+					if (queened) {
+						queened = false;
+						startPlaying = true;
+					}
+					endPlaying = false;
+					if (this.getVariantAttribute("startSceen") != null && !this.getVariantAttribute("startSceen").equals("nv")) {
+						startSceen = new Cutsceen ("resources/cutsceenConfig/" + this.getVariantAttribute("startSceen"),new GameObject [] {this});
+					}else {
+						startSceen = null;
+					}
+					this.reverseCollision();
+				}
+			}
+			if (startPlaying) {
 				if (!startSceen.play()) {
 					startSceen = null;
-					ObjectHandler.pause(false);
-					doStuff = false;
+					open = false;
+					if (queened) {
+						queened = false;
+						endPlaying = true;
+					}
+					startPlaying = false;
+					if (this.getVariantAttribute("endSceen") != null && !this.getVariantAttribute("endSceen").equals("nv")) {
+						endSceen = new Cutsceen ("resources/cutsceenConfig/" + this.getVariantAttribute("endSceen"),new GameObject [] {this});
+					} else {
+						endSceen = null;
+					}
+					this.reverseCollision();
+				} 
+			}
+		}
+	}
+	@Override 
+	public void pausedEvent () {
+		if (!paired) {
+			if (doStuff) {
+				if (sceen) {
+					if (!endSceen.play()) {
+						endSceen = null;
+						ObjectHandler.pause(false);
+						doStuff = false;
+						Class<?> c;
+						try {
+							c = Class.forName("items." + keyName);
+							Jeffrey.getInventory().removeItem((Item)c.getConstructor().newInstance());
+						} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+								| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							//e.printStackTrace();
+						}
+						open = true;
+						this.reverseCollision();
+					}
+				} else {
+					if (!startSceen.play()) {
+						startSceen = null;
+						ObjectHandler.pause(false);
+						doStuff = false;
+					}
 				}
 			}
 		}
 	}
 	public void setKeyType (String keyType) {
 		this.keyName = keyType;
+	}
+	@Override
+	public void activate() {
+		active = true;
+		queened = false;
+		if (!startPlaying) {
+			endPlaying = true;
+		} else {
+			queened = true;
+		}
+	}
+	@Override
+	public void deactivate() {
+		active = false;
+		queened = false;
+		if (!endPlaying) {
+			startPlaying = true;
+		} else {
+			queened = true;
+		}
+	}
+	@Override
+	public boolean isActivated() {
+		return active;
+	}
+	@Override
+	public void pair() {
+		paired = true;
 	}
 }

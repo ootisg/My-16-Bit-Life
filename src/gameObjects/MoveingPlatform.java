@@ -9,8 +9,9 @@ import main.ObjectHandler;
 import map.Room;
 import players.Jeffrey;
 import resources.Sprite;
+import switches.Activateable;
 
-public class MoveingPlatform extends MapObject {
+public class MoveingPlatform extends MapObject implements Activateable {
 	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	Stack <Point> pointsToMoveTo = new Stack <Point> ();
 	private Stack <Point> path = new Stack <Point> ();
@@ -21,6 +22,7 @@ public class MoveingPlatform extends MapObject {
 	Point nextPoint = new Point();
 	int originalX;
 	int originalY;
+	private boolean active;
 	public MoveingPlatform () {
 		this.setHitboxAttributes(0, 0, 20, 16);
 	}
@@ -31,12 +33,19 @@ public class MoveingPlatform extends MapObject {
 				try {
 					this.setSprite(new Sprite ("resources/sprites/" +this.getVariantAttribute("spritePath")));
 					this.setHitboxAttributes(0, 0, this.getSprite().getFrame(0).getWidth(), this.getSprite().getFrame(0).getHeight());
-				} catch (NullPointerException e) {
+				} catch (NullPointerException  e) {
 					this.setSprite(new Sprite ("resources/sprites/default_platform.png"));
 				}
 				firstTime = false;
 				originalX = (int) this.getX();
 				originalY = (int) this.getY();
+				if (this.getVariantAttribute("active") != null) {
+					if (!(this.getVariantAttribute("active").equals("nv") || this.getVariantAttribute("active").equals("false"))) {
+						active = true;
+					} else {
+						active = false;
+					}
+				}
 			}
 			inzialized = true;
 			try {
@@ -66,11 +75,13 @@ public class MoveingPlatform extends MapObject {
 				pointsToMoveTo.push(new Point (originalX , originalY - 100));	
 			}
 		}
-		try {
-		this.followPresetPath(pointsToMoveTo, 1);
-		}
-		catch (NumberFormatException e ) {
+		if (this.active) {
+			try {
 			this.followPresetPath(pointsToMoveTo, 1);
+			}
+			catch (NumberFormatException e ) {
+				this.followPresetPath(pointsToMoveTo, 1);
+			}
 		}
 	}
 	/**
@@ -257,5 +268,21 @@ public class MoveingPlatform extends MapObject {
 		} else {
 			inzialized = false;
 		}
+	}
+	@Override
+	public void activate() {
+		active = true;
+	}
+	@Override
+	public void deactivate() {
+		active = false;
+	}
+	@Override
+	public boolean isActivated() {
+		return active;
+	}
+	@Override
+	public void pair() {
+		
 	}
 }

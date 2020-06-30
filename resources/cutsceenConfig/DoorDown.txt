@@ -1,0 +1,20 @@
+{
+	"usedObjects": [
+		{
+			"name": "openingDoor",
+			"type": "Door",
+			"genMethod": "pass",
+		}		
+	],
+	"events": [
+		{
+			"type": "moveSlow",
+			"name": "openingDoor",
+			"offsetX": "0",
+			"offsetY": "33",
+			"middleVelocity": "30",
+			"startAcceleration": "20",
+			"endAcceleration": "10",
+		}
+	]	
+}

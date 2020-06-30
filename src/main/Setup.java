@@ -11,5 +11,6 @@ public class Setup {
 		ObjectHandler.addSearchPackage("triggers");
 		ObjectHandler.addSearchPackage("theHeist");
 		ObjectHandler.addSearchPackage("npcs");
+		ObjectHandler.addSearchPackage("switches");
 	}
 }

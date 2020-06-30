@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import enemys.Enemy;
+import main.GameObject;
 import main.ObjectHandler;
 import main.RenderLoop;
 import map.Room;
@@ -64,6 +65,42 @@ public class LaserPointer extends AimableWeapon {
 	@Override 
 	public Sprite getUnrotatedSprite () {
 		return stickSprite;
+	}
+	public boolean isCollidingLaser (GameObject obectToCheck) {
+		int count =0;
+		x = this.getX();
+		y = this.getY();
+		if (mouseButtonDown(0) && !j.isCrouched()) {
+			while (true) {
+				count = count + 1;
+				try {
+				if (!this.getAnimationHandler().flipHorizontal()) {
+				if (!this.goX (this.getX() + Math.cos (rotation)) || !this.goY (this.getY () + Math.sin (rotation))) {
+					break;
+				}
+				} else {
+					if (!this.goX (this.getX() - Math.cos (rotation)) || !this.goY (this.getY () + Math.sin (rotation))) {
+						break;
+					}	
+				}
+				if (this.isColliding(obectToCheck)){
+					this.setX(x - Room.getViewX());
+					this.setY(y - Room.getViewY());
+					return true;
+				}
+				if (count > 900) {
+					break;
+				}
+				} catch (ArrayIndexOutOfBoundsException e) {
+					break;
+				}
+			}
+			this.setX(x- Room.getViewX());
+			this.setY(y - Room.getViewY());
+			return false;
+		} else {
+			return false;
+		}
 	}
 	@Override 
 	public void frameEvent () {
@@ -148,7 +185,7 @@ public class LaserPointer extends AimableWeapon {
 		}
 	}
 	public void draw () {
-		if (mouseButtonDown(0)) {
+		if (mouseButtonDown(0) && !j.isCrouched()) {
 		lol.drawLine((int)x,(int) y, (int)newX, (int)newY);
 		}
 	}

@@ -2,9 +2,11 @@ package enemys;
 
 import projectiles.Water;
 import resources.Sprite;
+import switches.Activateable;
 
-public class FireHydrant extends Enemy {
+public class FireHydrant extends Enemy implements Activateable{
 	int timer = 0;
+	boolean activated = true;
 	public FireHydrant () {
 		this.setHealth(40);
 		this.defence = 40;
@@ -21,18 +23,36 @@ public class FireHydrant extends Enemy {
 	}
 	@Override 
 	public void enemyFrame () {
-		if (timer > 63) {
-			this.getAnimationHandler().setAnimationFrame(1);
-		} else {
-			this.getAnimationHandler().setAnimationFrame(0);
+		if (activated) {
+			if (timer > 63) {
+				this.getAnimationHandler().setAnimationFrame(1);
+			} else {
+				this.getAnimationHandler().setAnimationFrame(0);
+			}
+			if (timer > 65) {
+				timer = 0;
+				Water water = new Water (true);
+				Water oil = new Water (false);
+				water.declare(this.getX() + 13,this.getY() + 16);
+				oil.declare(this.getX() - 11, this.getY() + 16);
+			}
+			timer = timer + 1;
 		}
-		if (timer > 65) {
-			timer = 0;
-			Water water = new Water (true);
-			Water oil = new Water (false);
-			water.declare(this.getX() + 13,this.getY() + 16);
-			oil.declare(this.getX() - 11, this.getY() + 16);
-		}
-		timer = timer + 1;
+	}
+	@Override
+	public void activate() {
+		activated = true;
+	}
+	@Override
+	public void deactivate() {
+		activated = false;
+	}
+	@Override
+	public boolean isActivated() {
+		return activated;
+	}
+	@Override
+	public void pair() {
+		
 	}
 }

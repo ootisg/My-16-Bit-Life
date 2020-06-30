@@ -4,9 +4,11 @@ import main.GameCode;
 import main.ObjectHandler;
 import players.Jeffrey;
 import resources.Sprite;
+import switches.Activateable;
 
-public class MissleadingStop extends Enemy {
+public class MissleadingStop extends Enemy implements Activateable {
 	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
+	boolean activated = true;
 	public MissleadingStop () {
 		this.setDeath(false);
 		this.setSprite(new Sprite ("resources/sprites/config/Missleading_stop.txt"));
@@ -22,21 +24,23 @@ public class MissleadingStop extends Enemy {
 }
 	@Override
 	public void frameEvent () {
-		if (this.health <= 0) {
-			if (!Jeffrey.getInventory().checkKill(this)) {
-				Jeffrey.getInventory().addKill(this);
+		if (activated) {
+			if (this.health <= 0) {
+				if (!Jeffrey.getInventory().checkKill(this)) {
+					Jeffrey.getInventory().addKill(this);
+				}
+				enemyList.remove(this);		
+				this.forget();
 			}
-			enemyList.remove(this);		
-			this.forget();
-		}
-		if (j.getX() - this.getX() < 150 &&j.getX() - this.getX() >= -150 && this.declared()) {
-			Jeffrey.status.statusAppliedOnJeffrey[3] = true;
-			Jeffrey.status.statusAppliedOnRyan[3]= true;
-			Jeffrey.status.statusAppliedOnSam[3] = true;
-		} else {
-			Jeffrey.status.statusAppliedOnJeffrey[3] = false;
-			Jeffrey.status.statusAppliedOnRyan[3]= false;
-			Jeffrey.status.statusAppliedOnSam[3] = false;
+			if (j.getX() - this.getX() < 150 &&j.getX() - this.getX() >= -150 && this.declared()) {
+				Jeffrey.status.statusAppliedOnJeffrey[3] = true;
+				Jeffrey.status.statusAppliedOnRyan[3]= true;
+				Jeffrey.status.statusAppliedOnSam[3] = true;
+			} else {
+				Jeffrey.status.statusAppliedOnJeffrey[3] = false;
+				Jeffrey.status.statusAppliedOnRyan[3]= false;
+				Jeffrey.status.statusAppliedOnSam[3] = false;
+			}
 		}
 	}
 	@Override 
@@ -46,5 +50,21 @@ public class MissleadingStop extends Enemy {
 	@Override
 	public String checkEntry () {
 		return "ITS AN OCTOGON WHITCH HAS 1 2 3 4 5 6 7 8 EPIC SIDES AND 1 2 3 4 5 6 7 8 AWESOME ANGLES";
+	}
+	@Override
+	public void activate() {
+		activated = true;
+	}
+	@Override
+	public void deactivate() {
+		activated = false;
+	}
+	@Override
+	public boolean isActivated() {
+		return activated;
+	}
+	@Override
+	public void pair() {
+		
 	}
 }

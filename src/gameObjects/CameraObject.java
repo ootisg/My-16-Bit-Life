@@ -6,8 +6,9 @@ import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
 import players.Jeffrey;
+import switches.Activateable;
 
-public class CameraObject extends GameObject {
+public class CameraObject extends GameObject implements Activateable {
 	boolean inControl = false;
 	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	public CameraObject () {
@@ -39,5 +40,25 @@ public class CameraObject extends GameObject {
 	public void giveUpControl () {
 		j.setScroll(true);
 		inControl = false;
+	}
+	@Override
+	public void activate() {
+		if (!this.inControl) {
+			this.takeControl();
+		}
+	}
+	@Override
+	public void deactivate() {
+		if (this.inControl) {
+			this.giveUpControl();
+		}
+	}
+	@Override 
+	public boolean isActivated () {
+		return this.inControl;
+	}
+	@Override
+	public void pair() {
+
 	}
 }

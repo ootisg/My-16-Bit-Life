@@ -29,4 +29,23 @@ public class PairingObject extends GameObject {
 	public ArrayList <GameObject> getPairedObjects (){
 		return pairedObject;
 	}
-}
+	public ArrayList <PairingObject> getPairedParingObjects() {
+		ArrayList <GameObject> working= ObjectHandler.getObjectsByName("PairingObject");
+		ArrayList <PairingObject> pairedObjects = new ArrayList <PairingObject>();
+		for (int i = 0; i < working.size(); i++) {
+			PairingObject workingPairing = (PairingObject) working.get(i);
+			if (workingPairing.getVariantAttribute("Partner").equals(this.getVariantAttribute("Partner")) && !workingPairing.equals(this)) {
+				pairedObjects.add(workingPairing);
+				}
+			}
+		return pairedObjects;
+		}
+	public ArrayList <GameObject> getPairedPairedObjects (){
+		ArrayList <GameObject> working = new ArrayList<GameObject> ();
+		ArrayList <PairingObject> pairedObjects = this.getPairedParingObjects();
+		for (int i =0; i < pairedObjects.size(); i++) {
+			working.addAll(pairedObjects.get(i).getPairedObjects());
+			}
+		return working;
+		}
+	}

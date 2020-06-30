@@ -694,6 +694,7 @@ if (activeBox) {
 			invulTimer = 15;
 		}
 	}
+	
 	public static Inventory getInventory () {
 		return Jeffrey.inventory;
 	}

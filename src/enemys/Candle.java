@@ -85,7 +85,6 @@ public class Candle extends Enemy implements LightSource, Extinguisable {
 	}
 	@Override
 	public void extinguse() {
-		this.extinguesed = true;
-		
+		this.extinguesed = true;	
 	}
 }

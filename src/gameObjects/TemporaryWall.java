@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import main.GameObject;
 import map.Room;
 import resources.Sprite;
+import switches.Activateable;
 
-public class TemporaryWall extends GameObject {
+public class TemporaryWall extends GameObject implements Activateable {
 	public boolean activated;
 	private boolean wasActivated;
 	public TemporaryWall () {
@@ -31,7 +32,7 @@ public class TemporaryWall extends GameObject {
 		} else {
 			if (wasActivated) {
 				Room.getMapObjects().remove(Room.toPackedLong((int)this.getX()/16, (int)this.getY()/16));
-				this.forget();
+				wasActivated = false;
 			}
 		}
 	}
@@ -49,6 +50,22 @@ public class TemporaryWall extends GameObject {
 			return false;
 		}
 	}*/
+	@Override
+	public void activate() {
+		this.activated = true;
+	}
+	@Override
+	public void deactivate() {
+		this.activated = false;
+	}
+	@Override
+	public boolean isActivated() {
+		return this.activated;
+	}
+	@Override
+	public void pair() {
+		
+	}
 	
 
 }
