@@ -114,7 +114,7 @@ public class AnimationHandler {
 					image.draw ((int)x, (int)y, flipHorizontal, flipVertical, image.getFrameCount () - 1,width,height);
 				} else {
 					int frame = elapsedFrames % image.getFrameCount ();
-					if (frame == 0 && alternate) {
+					if (frame == 0 && alternate && image.getFrameCount() != 1 && elapsedFrames > 1) {
 						if (!hasReversed) {
 						reverse = !reverse;
 						hasReversed = true;
@@ -138,6 +138,7 @@ public class AnimationHandler {
 	 */
 	public void setImage (Sprite image) {
 		this.image = image;
+		reverse = false;
 		if ((width == 0 && height == 0) || !keepScale) {
 		width = image.getFrame(0).getWidth();
 		height = image.getFrame(0).getHeight();

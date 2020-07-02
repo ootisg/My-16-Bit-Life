@@ -104,7 +104,8 @@ public class BombsProjectile extends Projectile{
 				}
 			}
 
-			if (this.checkXandY(workingX,workingY)) {
+			if (
+				this.checkXandY(workingX,workingY)) {
 				
 				workingY = workingY - (fakeVy / 3);
 				workingX = workingX + (fakeVx / 3);

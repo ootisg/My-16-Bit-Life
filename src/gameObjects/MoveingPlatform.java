@@ -120,144 +120,110 @@ public class MoveingPlatform extends MapObject implements Activateable {
 		if (slopeMagnatue < 0) {
 			slopeMagnatue = slopeMagnatue * -1;
 		}
+		this.setY(this.getY() - 4);
+		this.isCollidingChildren("GameObject");
+		ArrayList <GameObject> collidingObjects = this.getCollisionInfo().getCollidingObjects();
+		this.setY(this.getY() + 4);
 		if (!Double.isInfinite(slope)) {
 		//System.out.println(slopeMagnatue);
-		if (slopeMagnatue != 0) {
-		if (nextPoint.getX() < this.getX()){
-		if (!this.goXandY(this.getX()- ((1.0/slopeMagnatue) * speed),this.getY()+(slope/slopeMagnatue) * speed)) {
-			reCheck = true;
-			this.goX(this.getX()- ((1.0/slopeMagnatue) * speed));
-			this.goY(this.getY()+(slope/slopeMagnatue) * speed);
-			j.setY(j.getY() + 4);
-			if (this.isColliding(j)) {
-				j.setY(j.getY() - 4);
-				j.goX(j.getX()- ((1.0/slopeMagnatue) * speed));	
-						j.goY(this.getY() - 31);
-				j.setY(j.getY() + 4);
+			
+		
+			if (slopeMagnatue != 0) {
+			if (nextPoint.getX() < this.getX()){
+			if (!this.goXandY(this.getX()- ((1.0/slopeMagnatue) * speed),this.getY()+(slope/slopeMagnatue) * speed)) {
+				reCheck = true;
+				this.goX(this.getX()- ((1.0/slopeMagnatue) * speed));
+				this.goY(this.getY()+(slope/slopeMagnatue) * speed);
+				for (int i = 0; i < collidingObjects.size(); i++) {
+					collidingObjects.get(i).goX(collidingObjects.get(i).getX()- ((1.0/slopeMagnatue) * speed));	
+					collidingObjects.get(i).goY(this.getY() );
+				}
+			}  else {
+				for (int i = 0; i < collidingObjects.size(); i++) {
+					collidingObjects.get(i).goX(collidingObjects.get(i).getX()- ((1.0/slopeMagnatue) * speed));
+					collidingObjects.get(i).goY(this.getY() );
+				}
+				if (reCheck) {
+					Point currentPosition = new Point (this.getX(),this.getY());
+					slope = currentPosition.getSlope(nextPoint);
+					reCheck = false;
+				}
 			}
-			j.setY(j.getY() - 4);
-		}  else {
-			j.setY(j.getY() + 4);
-			if (this.isColliding(j)) {
-				j.setY(j.getY() - 4);
-			j.goX(j.getX()- ((1.0/slopeMagnatue) * speed));
-					j.goY(this.getY() - 31);
-			j.setY(j.getY() + 4);
+			} else {
+			if (!this.goXandY(this.getX()+ ((1.0/slopeMagnatue) * speed), this.getY()+(slope/slopeMagnatue) * speed)) {
+				reCheck = true;
+				this.goX(this.getX()+ ((1.0/slopeMagnatue) * speed));
+				this.goY(this.getY()+(slope/slopeMagnatue) * speed);
+				for (int i = 0; i < collidingObjects.size(); i++) {
+					collidingObjects.get(i).goX(collidingObjects.get(i).getX()+ ((1.0/slopeMagnatue) * speed));	
+					collidingObjects.get(i).goY(this.getY() );
+				}
+			}  else {
+				for (int i = 0; i < collidingObjects.size(); i++) {
+					collidingObjects.get(i).goX(collidingObjects.get(i).getX()+ ((1.0/slopeMagnatue) * speed));
+					collidingObjects.get(i).goY(this.getY() );
+				}
+				if (reCheck) {
+					Point currentPosition = new Point (this.getX(),this.getY());
+					slope = currentPosition.getSlope(nextPoint);
+					reCheck = false;
+				}
 			}
-			j.setY(j.getY() - 4);
-			if (reCheck) {
-				Point currentPosition = new Point (this.getX(),this.getY());
-				slope = currentPosition.getSlope(nextPoint);
-				reCheck = false;
 			}
-		}
-		} else {
-		if (!this.goXandY(this.getX()+ ((1.0/slopeMagnatue) * speed), this.getY()+(slope/slopeMagnatue) * speed)) {
-			reCheck = true;
-			this.goX(this.getX()+ ((1.0/slopeMagnatue) * speed));
-			this.goY(this.getY()+(slope/slopeMagnatue) * speed);
-			j.setY(j.getY() + 4);
-			if (this.isColliding(j)) {
-				j.setY(j.getY() - 4);
-				j.goX(j.getX()+ ((1.0/slopeMagnatue) * speed));	
-						j.goY(this.getY() - 31);
-				j.setY(j.getY() + 4);
+			} else {
+			if (nextPoint.getX() < this.getX()){
+			if (!this.goXandY(this.getX()- (1 * speed), this.getY()+slope * speed)) {
+				reCheck = true;
+				this.goX(this.getX()- 1 * speed);
+				this.goY(this.getY()+slope * speed);
+				for (int i = 0; i < collidingObjects.size(); i++) {
+					collidingObjects.get(i).goX(collidingObjects.get(i).getX()- 1 * speed);
+					collidingObjects.get(i).goY(this.getY() );
+				}
+			}  else {
+				for (int i = 0; i < collidingObjects.size(); i++) {
+					collidingObjects.get(i).goX(collidingObjects.get(i).getX()- (1 * speed));
+					collidingObjects.get(i).goY(this.getY() );
+				}
+				if (reCheck) {
+					Point currentPosition = new Point (this.getX(),this.getY());
+					slope = currentPosition.getSlope(nextPoint);
+					reCheck = false;
+				}
 			}
-			j.setY(j.getY() - 4);
-		}  else {
-			j.setY(j.getY() + 4);
-			if (this.isColliding(j)) {
-				j.setY(j.getY() - 4);
-			j.goX(j.getX()+ ((1.0/slopeMagnatue) * speed));
-					j.goY(this.getY() - 31);
-			j.setY(j.getY() + 4);
+			} else {
+			if (!this.goXandY(this.getX()+ (1 * speed), this.getY()+slope * speed)) {
+				reCheck = true;
+				this.goX(this.getX()+ 1 * speed);
+				this.goY(this.getY()+slope * speed);
+				for (int i = 0; i < collidingObjects.size(); i++) {
+					collidingObjects.get(i).goX(collidingObjects.get(i).getX()+ 1 * speed);
+					collidingObjects.get(i).goY(this.getY() );
+				}
+			} else {
+				for (int i = 0; i < collidingObjects.size(); i++) {
+					collidingObjects.get(i).goX(collidingObjects.get(i).getX()+ (1 * speed));
+					collidingObjects.get(i).goY(this.getY() );
+				}
+				if (reCheck) {
+					Point currentPosition = new Point (this.getX(),this.getY());
+					slope = currentPosition.getSlope(nextPoint);
+					reCheck = false;
+				}
 			}
-			j.setY(j.getY() - 4);
-			if (reCheck) {
-				Point currentPosition = new Point (this.getX(),this.getY());
-				slope = currentPosition.getSlope(nextPoint);
-				reCheck = false;
 			}
-		}
-		}
-		} else {
-		if (nextPoint.getX() < this.getX()){
-		if (!this.goXandY(this.getX()- (1 * speed), this.getY()+slope * speed)) {
-			reCheck = true;
-			this.goX(this.getX()- 1 * speed);
-			this.goY(this.getY()+slope * speed);
-			j.setY(j.getY() + 4);
-			if (this.isColliding(j)) {
-				j.setY(j.getY() - 4);
-				j.goX(j.getX()- 1 * speed);
-						j.goY(this.getY() - 31);
-				j.setY(j.getY() + 4);
-			}
-			j.setY(j.getY() - 4);
-		}  else {
-			j.setY(j.getY() + 4);
-			if (this.isColliding(j)) {
-				j.setY(j.getY() - 4);
-			j.goX(j.getX()- (1 * speed));
-					j.goY(this.getY() - 31);
-			j.setY(j.getY() + 4);
-			}
-			j.setY(j.getY() - 4);
-			if (reCheck) {
-				Point currentPosition = new Point (this.getX(),this.getY());
-				slope = currentPosition.getSlope(nextPoint);
-				reCheck = false;
-			}
-		}
-		} else {
-		if (!this.goXandY(this.getX()+ (1 * speed), this.getY()+slope * speed)) {
-			reCheck = true;
-			this.goX(this.getX()+ 1 * speed);
-			this.goY(this.getY()+slope * speed);
-			j.setY(j.getY() + 4);
-			if (this.isColliding(j)) {
-				j.setY(j.getY() - 4);
-				j.goX(j.getX()+ 1 * speed);
-						j.goY(this.getY() - 31);
-				j.setY(j.getY() + 4);
-			}
-			j.setY(j.getY() - 4);
-		} else {
-			j.setY(j.getY() + 4);
-			if (this.isColliding(j)) {
-				j.setY(j.getY() - 4);
-			j.goX(j.getX()+ (1 * speed));
-					j.goY(this.getY() - 31);
-			j.setY(j.getY() + 4);
-			}
-			j.setY(j.getY() - 4);
-			if (reCheck) {
-				Point currentPosition = new Point (this.getX(),this.getY());
-				slope = currentPosition.getSlope(nextPoint);
-				reCheck = false;
-			}
-		}
-		}
 		}
 		} else {
 			if (slope > 0) {
 				this.setY(this.getY()+ speed);
-				j.setY(j.getY() + 4);
-				if (this.isColliding(j)) {
-					j.setY(j.getY() - 4);
-				j.setY(this.getY() - 31);
-				j.setY(j.getY() + 4);
+				for (int i = 0; i < collidingObjects.size(); i++) {
+					collidingObjects.get(i).setY(this.getY() );
 				}
-				j.setY(j.getY() - 4);
 			} else {
 				this.goY(this.getY()- speed);
-				j.setY(j.getY() + 4);
-				if (this.isColliding(j)) {
-					j.setY(j.getY() - 4);
-						j.goY(this.getY() - 31);
-				j.setY(j.getY() + 4);
+				for (int i = 0; i < collidingObjects.size(); i++) {
+					collidingObjects.get(i).goY(this.getY() );
 				}
-				j.setY(j.getY() - 4);
 			}
 			if (reCheck) {
 				Point currentPosition = new Point (this.getX(),this.getY());

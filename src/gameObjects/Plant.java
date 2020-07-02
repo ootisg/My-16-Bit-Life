@@ -5,13 +5,12 @@ import map.Room;
 import players.Jeffrey;
 import resources.Sprite;
 
-public class Plant extends BreakableObject {
+public class Plant extends EnterableObject {
 	
 	private boolean inPot = false;
 	
 	private boolean inzialize = true;
 	
-	private boolean broken = false;
 	
 	private Jeffrey j = (Jeffrey)ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	
@@ -45,55 +44,18 @@ public class Plant extends BreakableObject {
 		this.adjustHitboxBorders();
 	}
 	public boolean isExposed() {
-		return !broken && !(this.getSprite().equals(J_IDLE) || this.getSprite().equals(R_IDLE) || this.getSprite().equals(S_IDLE));
+		return !this.isBroken && !(this.getSprite().equals(J_IDLE) || this.getSprite().equals(R_IDLE) || this.getSprite().equals(S_IDLE));
 	}
 	@Override 
 	public void frameEvent () {
-		if (!broken) {
+		super.frameEvent();
+		if (!this.isBroken) {
 			if (inzialize) {
 				this.setY(this.getY() - 35);
 				inzialize = false;
 			}
 			this.goY(this.getY() + 2);
-			if (j.isColliding(this) && !inPot) {
-				originX = (int) this.getX();
-				originY = (int) this.getY();
-				if (j.witchCharictar == 0) {
-					this.setSprite(J_IDLE);
-				}
-				if (j.witchCharictar == 1) {
-					this.setSprite(S_IDLE);
-				}
-				if (j.witchCharictar == 2) {
-					this.setSprite(R_IDLE);
-				}
-				j.getAnimationHandler().hide();
-				j.blackList();
-				inPot = true;
-			}
 			if (inPot) {
-				double x = this.getX ();
-				double y = this.getY ();
-				int viewX = Room.getViewX ();
-				int viewY = Room.getViewY ();
-				if (y - viewY >= 320 && y - 320 < Room.getHeight () * 16 - 480) {
-					viewY = (int) y - 320;
-					Room.setView (Room.getViewX (), viewY);
-				}
-				if (y - viewY <= 160 && y - 160 > 0) {
-					viewY = (int) y - 160;
-					Room.setView (Room.getViewX (), viewY);
-				}
-				if (x - viewX >= 427 && x - 427 < Room.getWidth () * 16 - 640) {
-					viewX = (int) x - 427;
-					Room.setView (viewX, Room.getViewY ());
-				}
-				if (x - viewX <= 213 && x - 213 > 0) {
-					viewX = (int) x - 213;
-					Room.setView (viewX, Room.getViewY ());
-				}
-				j.setX(this.getX());
-				j.setY(this.getY());
 				if (keyDown('D') || keyDown ('A')) {
 					if (!(this.getSprite().equals(R_UP) || this.getSprite().equals(J_UP) || this.getSprite().equals(S_UP))) {
 						if (this.getSprite().equals(J_DOWN) || this.getSprite().equals(J_IDLE)) {
@@ -159,21 +121,36 @@ public class Plant extends BreakableObject {
 					}
 				}
 			}
-			if (inPot) {
-				try {
-				if (this.isCollidingChildren("Enemy") || this.isCollidingChildren("Projectile")) {
-					this.makeBroken();
-				}
-			} catch (NullPointerException e) {
-				
-			}
-			}
 		} else {
 		this.despawnAllCoolLike(200);
 		}
 	}
+	@Override
+	public void onBreak() {
+		this.makeBroken();
+	}
+	@Override
+	public void onEntry() {
+		if (!this.isBroken) {
+			this.inside = true;
+			originX = (int) this.getX();
+			originY = (int) this.getY();
+			if (j.witchCharictar == 0) {
+				this.setSprite(J_IDLE);
+			}
+			if (j.witchCharictar == 1) {
+				this.setSprite(S_IDLE);
+			}
+			if (j.witchCharictar == 2) {
+				this.setSprite(R_IDLE);
+			}
+			j.getAnimationHandler().hide();
+			j.blackList();
+			inPot = true;
+		}
+	}
 	public void makeBroken () {
-		broken = true;
+		this.isBroken = true;
 		j.whiteList();
 		j.getAnimationHandler().show();
 		this.Break(new Sprite [] {new Sprite ("resources/sprites/config/Plant/shards/shard1.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard2.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard3.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard4.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard5.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard6.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard7.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard8.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard9.txt")},this.getX(),this.getY() + 18, 9, 2, 4, 0, 3.14);

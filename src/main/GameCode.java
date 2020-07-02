@@ -20,6 +20,7 @@ import enemys.Enemy;
 import enemys.FallingChandleer;
 import enemys.FireHydrant;
 import enemys.FireRextinguser;
+import enemys.FlowerEnemy;
 import enemys.ImpatientCar;
 import enemys.LazerHoverEnemy;
 import enemys.MafiaShooter;
@@ -39,11 +40,13 @@ import gameObjects.Box;
 import gameObjects.BreakableObject;
 import gameObjects.CarSpawner;
 import gameObjects.DarkOverlay;
+import gameObjects.DashPad;
 import gameObjects.Door;
 import gameObjects.Fan;
 import gameObjects.Glider;
 import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
+import gameObjects.LaunchPlant;
 import gameObjects.Leg;
 import gameObjects.LightSource;
 import gameObjects.MoveingPlatform;
@@ -167,7 +170,10 @@ public class GameCode {
 	static SplittingSlimelet splitting;
 	static SpearThrower spearGuy;
 	static Glider glider;
+	static DashPad pad;
 	static FireExtingueser extinguser;
+	static LaunchPlant lPlant;
+	static FlowerEnemy flower;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
@@ -194,6 +200,7 @@ public class GameCode {
 		test = new BreakableObject ();
 		lay = new DarkOverlay();
 		packet = new LemonPacket(1);
+		pad = new DashPad ();
 		Jeffrey.getInventory().addWeapon(extinguser, 0);
 		Jeffrey.getInventory().addFreind(lameJeffrey);
 		Jeffrey.getInventory().addFreind(lameSam);
@@ -224,6 +231,7 @@ public class GameCode {
 		box = new Box();
 		plant = new Plant ();
 		glider =new Glider();
+		lPlant = new LaunchPlant ();
 		//shooter = new MafiaShooter();
 		//boi = new Celing_boi();
 		//waffle = new Waffle (4);
@@ -238,13 +246,14 @@ public class GameCode {
 		//plant = new Plant ();
 		paint = new BluePaint (1);
 		fan = new Fan();
+		flower = new FlowerEnemy ();
 		while (x <40) {
 		Jeffrey.inventory.addAmmo(paintball);
 		Jeffrey.inventory.addAmmo(paint);
 		x = x + 1;
 		}
 		//LightSource.writeLightSourceImage (36, 255, 200, 0, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is yellow-ish
-		LightSource.writeLightSourceImage (36, 0, 200, 255, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is blue-ish
+		//LightSource.writeLightSourceImage (36, 0, 200, 255, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is blue-ish
 		//testTie.declare (32, 32);
 	//	Jeffrey.getInventory().addKill(boi);
 		//Jeffrey.getInventory().addKill(puncuation);
@@ -256,7 +265,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/laserSwitchTest.rmf");
+		Room.loadRoom ("resources/maps/spiderTest.rmf");
 		//bleh = new AnimeTester ()
 		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);
@@ -310,10 +319,13 @@ public class GameCode {
 		//test.declare(300,300);
 		//test.Break(new Sprite [] {new Sprite ("resources/sprites/shard.png")}, 7, 1, 2, 0,3.14);
 		//plant.declare(320,300);
-		//box.declare(300,35);
+		//box.declare(300,35);d
 		//splitting.declare(100,100);
 		//work.declare(100,100);
 		//glider.declare(60, 60);
+		pad.declare(100,350);
+		//lPlant.declare(100,350);
+		//flower.declare(100, 250);
 	}
 	
 	public static void beforeGameLogic () {
