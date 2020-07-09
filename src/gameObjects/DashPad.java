@@ -22,9 +22,9 @@ public class DashPad extends GameObject implements Activateable{
 		if (!inzialized) {
 			if (this.getVariantAttribute("Direction") != null) {
 				if (this.getVariantAttribute("Direction").equals("Right")) {
-					direction = true;
-				} else {
 					direction = false;
+				} else {
+					direction = true;
 				}
 			}
 			if (this.getVariantAttribute("active") != null) {

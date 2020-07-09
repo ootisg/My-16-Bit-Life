@@ -49,6 +49,7 @@ import gameObjects.Ladder;
 import gameObjects.LaunchPlant;
 import gameObjects.Leg;
 import gameObjects.LightSource;
+import gameObjects.Minecart;
 import gameObjects.MoveingPlatform;
 import gameObjects.Plant;
 import gameObjects.Point;
@@ -174,6 +175,7 @@ public class GameCode {
 	static FireExtingueser extinguser;
 	static LaunchPlant lPlant;
 	static FlowerEnemy flower;
+	static Minecart cart;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
@@ -201,6 +203,7 @@ public class GameCode {
 		lay = new DarkOverlay();
 		packet = new LemonPacket(1);
 		pad = new DashPad ();
+		cart = new Minecart ();
 		Jeffrey.getInventory().addWeapon(extinguser, 0);
 		Jeffrey.getInventory().addFreind(lameJeffrey);
 		Jeffrey.getInventory().addFreind(lameSam);
@@ -265,7 +268,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/spiderTest.rmf");
+		Room.loadRoom ("resources/maps/railCheck.rmf");
 		//bleh = new AnimeTester ()
 		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);
@@ -323,9 +326,10 @@ public class GameCode {
 		//splitting.declare(100,100);
 		//work.declare(100,100);
 		//glider.declare(60, 60);
-		pad.declare(100,350);
+		//pad.declare(100,350);
 		//lPlant.declare(100,350);
 		//flower.declare(100, 250);
+		cart.declare(400, 100);
 	}
 	
 	public static void beforeGameLogic () {

@@ -154,9 +154,9 @@ public class ObjectHandler {
 			return result;
 		}
 		try {
+			
 			for (int i = 0; i < objects.size (); i++) {
 				GameObject working = objects.get(i);
-				
 				if (working.isColliding (object) && working != object) {
 					result.add (working);
 				}

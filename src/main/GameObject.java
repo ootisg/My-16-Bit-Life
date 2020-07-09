@@ -3,7 +3,11 @@ package main;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
+import java.awt.image.WritableRaster;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -41,7 +45,7 @@ public abstract class GameObject extends GameAPI {
 	/**
 	 * The width of this GameObject's hitbox
 	 */
-	private boolean visible = true;
+	public boolean visible = true;
 	private double hitboxWidth;
 	/**
 	 * The height of this GameObject's hitbox
@@ -324,6 +328,7 @@ public abstract class GameObject extends GameAPI {
 			}
 		}
 	}
+	
 	/**
 	 * turns on pixel collisions
 	 */
@@ -369,9 +374,12 @@ public abstract class GameObject extends GameAPI {
 		}
 		for (int wy = 0; wy < working.height; wy++) {
 			for (int wx = 0; wx < working.width; wx++){
+				try {
 				mask.getPixel (startPosX + wx, startPosY + wy,sample);	
 				if (sample[0] != 0) {
 					return true;
+				}
+				} catch (IndexOutOfBoundsException e) {
 				}
 			}
 		}
@@ -402,16 +410,80 @@ public abstract class GameObject extends GameAPI {
 		}
 		for (int wy = 0; wy < working.height; wy++) {
 			for (int wx = 0; wx < working.width; wx++){
+				try {
 				mask1.getPixel (wx + startPosX,wy + startPosY,sample);
 				if (sample[0] != 0) {
-					mask3.getPixel (wx + startPosbee,wy + startPos_1,sample);
+					mask3.getPixel (wx + startPos_1,wy + startPosbee,sample);
 						if (sample[0] != 0) {
 							return true;
 					}
 				}
+				} catch (ArrayIndexOutOfBoundsException e) {
+				}
 			}
 		}
 		return false;
+	}
+	/**
+	 * uses the rotate method in animation handler to rotate the sprite also adjusts the hitbox to match (kinda)
+	 * @param rotation the angle to rotate the sprte to (actually in degrees belive it or not)
+	 */
+	public void rotateSprite (double rotation) {
+		BufferedImage working = this.getAnimationHandler().rotate(rotation,this.getSprite().getFrame(this.getAnimationHandler().getFrame()));
+		//copy pasted from stack overflow
+		  WritableRaster raster = working.getAlphaRaster();
+		    int width = raster.getWidth();
+		    int height = raster.getHeight();
+		    int left = 0;
+		    int top = 0;
+		    int right = width - 1;
+		    int bottom = height - 1;
+		    int minRight = width - 1;
+		    int minBottom = height - 1;
+
+		    top:
+		    for (;top < bottom; top++){
+		        for (int x = 0; x < width; x++){
+		            if (raster.getSample(x, top, 0) != 0){
+		                minRight = x;
+		                minBottom = top;
+		                break top;
+		            }
+		        }
+		    }
+
+		    left:
+		    for (;left < minRight; left++){
+		        for (int y = height - 1; y > top; y--){
+		            if (raster.getSample(left, y, 0) != 0){
+		                minBottom = y;
+		                break left;
+		            }
+		        }
+		    }
+
+		    bottom:
+		    for (;bottom > minBottom; bottom--){
+		        for (int x = width - 1; x >= left; x--){
+		            if (raster.getSample(x, bottom, 0) != 0){
+		                minRight = x;
+		                break bottom;
+		            }
+		        }
+		    }
+
+		    right:
+		    for (;right > minRight; right--){
+		        for (int y = bottom; y >= top; y--){
+		            if (raster.getSample(right, y, 0) != 0){
+		                break right;
+		            }
+		        }
+		    }
+
+		  working = working.getSubimage(left, top, right - left + 1, bottom - top + 1);
+		  this.setHitboxAttributes(0, 0,working.getWidth() ,working.getHeight());
+		  this.getSprite().setFrame(this.getAnimationHandler().getFrame(), working);
 	}
 	/**
 	 * Runs a collision check between this GameObject and another GameObject. Does not generate a CollisionInfo object.
@@ -419,6 +491,7 @@ public abstract class GameObject extends GameAPI {
 	 * @return True if the objects collide; false otherwise
 	 */
 	public boolean isColliding (GameObject obj) {
+	
 		Rectangle thisHitbox = hitbox ();
 		Rectangle objHitbox = obj.hitbox ();
 		
@@ -891,9 +964,11 @@ public abstract class GameObject extends GameAPI {
 	}
 	
 	public void hide () {
+		this.visible = false;
 		this.getAnimationHandler().hide();
 	}
 	public void show () {
+		this.visible = true;
 		this.getAnimationHandler().show();
 	}
 }

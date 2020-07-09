@@ -76,9 +76,9 @@ public class Jeffrey extends GameObject {
 	public Sprite ryanMicrophoneIdle;
 	public Sprite ryanMicrophoneWalking;
 	private Tbox weaponBox;
-	private Sprite jeffreyCrouching;
-	private Sprite samCrouching;
-	private Sprite ryanCrouching;
+	public Sprite jeffreyCrouching;
+	public Sprite samCrouching;
+	public Sprite ryanCrouching;
 	private boolean activeBox;
 	boolean messWithFrameTime;
 	private int boxTimer;

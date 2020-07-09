@@ -8,7 +8,7 @@ public class Foam extends Projectile {
 	boolean falling = false;
 	int timer = 0;
 	public Foam () {
-		this.setHitboxAttributes(0,0, 4, 4);
+		this.setHitboxAttributes(0,0, 7, 7);
 		this.setSprite(new Sprite ("resources/sprites/foam.png"));
 		this.setSpeed(20);
 	}
@@ -67,4 +67,5 @@ public class Foam extends Projectile {
 			this.setY (this.getY () - Math.sin (direction) * speed);
 		}
 	}
+	
 }

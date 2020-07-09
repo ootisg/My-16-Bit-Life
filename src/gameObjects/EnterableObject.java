@@ -53,13 +53,18 @@ public class EnterableObject extends BreakableObject {
 	}
 	public void onEntry () {
 		j.getAnimationHandler().hide();
+		j.getWeapon().blackList();
+		j.getWeapon().hide();
 		j.blackList();
+		inside = true;
 	}
 	public void onBreak () {
 		isBroken = true;
 	}
 	public void exit () {
 		inside = false;
+		j.getWeapon().whiteList();
+		j.getWeapon().show();
 		j.getAnimationHandler().show();
 		j.whiteList();
 		}

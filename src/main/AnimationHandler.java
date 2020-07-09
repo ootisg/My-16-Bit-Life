@@ -2,8 +2,11 @@ package main;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
+import map.Room;
 import resources.Sprite;
 
 public class AnimationHandler {
@@ -54,7 +57,7 @@ public class AnimationHandler {
 	 */
 	private boolean reverse = false;
 	private boolean hasReversed = false;
-	
+	private double currentRotation = 0;
 	/**
 	 * the height to draw too
 	 */
@@ -69,6 +72,10 @@ public class AnimationHandler {
 	 * tells the handler wherether or not to keep the sprite to scale
 	 */
 	private boolean keepScale = false;
+	/**
+	 * what the fuck ever
+	 */
+	private boolean rotationsEnabled = false;
 	/**
 	 * Constructs a new AnimationHandler with the given image, defaulting to a static image.
 	 * @param image The image to use
@@ -148,7 +155,31 @@ public class AnimationHandler {
 			}
 		}
 	}
-	
+	public double getRotation () {
+		return currentRotation;
+	}
+	//lots of code copy pasted from stack overflow here
+	public BufferedImage rotate (double rotation, BufferedImage startImg) {
+		double workingRotation = rotation - currentRotation;
+		currentRotation = currentRotation + workingRotation;
+		double rads = Math.toRadians(workingRotation);
+		double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
+		int w = startImg.getWidth();
+		int h = startImg.getHeight();
+		int newWidth = (int) Math.floor(w * cos + h * sin);
+        int newHeight = (int) Math.floor(h * cos + w * sin);
+		BufferedImage newImg = new BufferedImage (newWidth,newHeight,startImg.getType());
+		Graphics2D graphic = newImg.createGraphics();
+		AffineTransform at = new AffineTransform();
+		at.translate((newWidth - w) / 2, (newHeight - h) / 2);
+        int x = w / 2;
+        int y = h / 2;
+        at.rotate(rads, x, y);
+        graphic.setTransform(at);
+	    graphic.drawImage(startImg, 0, 0, null);
+		graphic.dispose();
+		return newImg;
+	}
 	/**
 	 * Sets the image used by this AnimationHandler to the given sprite, and restarts the animation from the beginning.
 	 * @param image The image to use
@@ -255,6 +286,9 @@ public class AnimationHandler {
 			long elapsedTime = RenderLoop.frameStartTime () - startTime;
 			int frame = ((int)(((double)elapsedTime) / ((double)frameTime)) + startFrame) % image.getFrameCount ();
 			if (reverse) {
+				if ((image.getFrameCount() -1) - frame == 0){
+					reverse = false;
+				}
 			return (image.getFrameCount() -1) - frame;
 			} else {
 			return frame;

@@ -8,17 +8,21 @@ import resources.Sprite;
 public class LaunchPlant extends EnterableObject  {
 	boolean wasInside = false;
 	public LaunchPlant () {
-		this.setSprite(new Sprite ("resources/sprites/config/Plant/J_Idle.txt"));
-		this.setHitboxAttributes(0,0,16,48);
+		this.setSprite(new Sprite ("resources/sprites/config/launchFlower.txt"));
+		this.setHitboxAttributes(0,0,16,16);
+		this.getAnimationHandler().setFrameTime(0);
+		this.enablePixelCollisions();
+		this.getAnimationHandler().enableAlternate();
 	}
 	@Override 
 	public void frameEvent () {
 		super.frameEvent();
-		if (wasInside && !this.isColliding(j)) {
+		if (this.getAnimationHandler().getFrame() == 0 && this.getAnimationHandler().getFrameTime() > 0) {
+			this.getAnimationHandler().setFrameTime(0);
 			wasInside = false;
 		}
 		if (this.inside) {
-			if (mouseButtonDown(0) || keyDown (32)) {
+			if (this.getAnimationHandler().getFrame() == 7) {
 				this.exit();
 				this.wasInside = true;
 				j.vy = -20;
@@ -28,8 +32,10 @@ public class LaunchPlant extends EnterableObject  {
 	@Override
 	public void onEntry() {
 		if (!wasInside) {
+			this.getAnimationHandler().setFrameTime(200);
+			this.getAnimationHandler().setAnimationFrame(1);
 			super.onEntry();
-			inside = true;
 		}
 	}
+	
 }

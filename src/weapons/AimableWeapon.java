@@ -29,25 +29,27 @@ public class AimableWeapon extends Item {
 	
 	@Override
 	public void draw () {
-		if (rotation != renderedRotation) {
-			BufferedImage startImg = src.getFrame (0);
-			AffineTransform transform = new AffineTransform ();
-			transform.rotate (rotation, 5, 12);
-			AffineTransformOp operation = new AffineTransformOp (transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-			img = new BufferedImage (this.src.getFrame (0).getWidth (), this.src.getFrame (0).getHeight (), this.src.getFrame (0).getType ());
-			operation.filter (startImg, img);
-			this.setSprite (new Sprite (img));
-			renderedRotation = rotation;
-		}
-		if (this.hiboxBorders) {
-			if (this.hitbox() != null) {
-				Graphics g = RenderLoop.window.getBufferGraphics();
-				g.setColor(new Color(0xFFFFFF));
-				g.drawRect((int)(this.getX() + this.getHitboxXOffset() - Room.getViewX()),(int) (this.getY() + this.getHitboxYOffset() - Room.getViewY()), this.hitbox().width, this.hitbox().height);
-				}
+		if (this.visible) {
+			if (rotation != renderedRotation) {
+				BufferedImage startImg = src.getFrame (0);
+				AffineTransform transform = new AffineTransform ();
+				transform.rotate (rotation, 5, 12);
+				AffineTransformOp operation = new AffineTransformOp (transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+				img = new BufferedImage (this.src.getFrame (0).getWidth (), this.src.getFrame (0).getHeight (), this.src.getFrame (0).getType ());
+				operation.filter (startImg, img);
+				this.setSprite (new Sprite (img));
+				renderedRotation = rotation;
 			}
-		getSprite ().draw ((int) getX () - Room.getViewX () - 5, (int) getY () - Room.getViewY () - 12, getAnimationHandler ().flipHorizontal (), false, 0);
-	}
+			if (this.hiboxBorders) {
+				if (this.hitbox() != null) {
+					Graphics g = RenderLoop.window.getBufferGraphics();
+					g.setColor(new Color(0xFFFFFF));
+					g.drawRect((int)(this.getX() + this.getHitboxXOffset() - Room.getViewX()),(int) (this.getY() + this.getHitboxYOffset() - Room.getViewY()), this.hitbox().width, this.hitbox().height);
+					}
+				}
+			getSprite ().draw ((int) getX () - Room.getViewX () - 5, (int) getY () - Room.getViewY () - 12, getAnimationHandler ().flipHorizontal (), false, 0);
+		}
+	}	
 	public void clearImage () {
 		//BufferedImage usedImage = src.getImageArray ()[0];
 	}
