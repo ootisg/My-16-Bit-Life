@@ -383,7 +383,7 @@ public class Inventory {
 		public int checkAmmoAmountOfWeapon (Item weaponToCheck) {
 			if (weaponToCheck.getClass().getSimpleName().equals("redBlackPaintBallGun")) {
 				RedBlackPaintBall ball;
-				ball = new RedBlackPaintBall (1);
+				ball = new RedBlackPaintBall ();
 				return (this.checkItemAmount(ball));
 			}
 			if (weaponToCheck.getClass().getSimpleName().equals("LifeVaccum")) {
@@ -405,7 +405,7 @@ public class Inventory {
 			try {
 			return ammo.get(index);
 			} catch (IndexOutOfBoundsException e) {
-				return new RedBlackPaintBall(1);
+				return new RedBlackPaintBall();
 				}
 		}
 		public Item findItemAtIndex (int index) {

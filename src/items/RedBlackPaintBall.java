@@ -1,24 +1,12 @@
 package items;
 
-import main.GameCode;
-import gui.Tbox;
-import map.Room;
-import players.Jeffrey;
 import resources.Sprite;
 
 public class RedBlackPaintBall extends Item{
-	int amountToAdd;
 	Sprite paintball;
 	public RedBlackPaintBall () {
 		paintball = new Sprite ("resources/sprites/redblack_ball.png");
 		this.setSprite(paintball); 
-		amountToAdd = Integer.parseInt(this.getVariantAttribute ("AmountDroped"));
-		this.setHitboxAttributes(0, 0, 4, 4);
-	}
-	public RedBlackPaintBall (int amountOfBalls) {
-		paintball = new Sprite ("resources/sprites/redblack_ball.png");
-		this.setSprite(paintball); 
-		amountToAdd = amountOfBalls;
 		this.setHitboxAttributes(0, 0, 4, 4);
 	}
 	@Override
@@ -32,23 +20,5 @@ public class RedBlackPaintBall extends Item{
 	@Override 
 	public String getItemType() {
 		return "Ammo";
-	}
-	@Override 
-	public void frameEvent() {
-		
-		this.setY(this.getY() + 1);
-		if (!(Room.isColliding(this))) {
-			this.setY(this.getY() + 3);
-		} else {
-		this.setY(this.getY() - 1);
-		}
-		if (this.isColliding(j)) {
-		Tbox box = new Tbox (j.getX(), j.getY() - 8, 28, 1, "YOU GOT " + Integer.toString(amountToAdd) + " PAINTBALLS", true);
-		while (amountToAdd != 0) {
-		Jeffrey.getInventory().addAmmo(this);
-		amountToAdd = amountToAdd - 1;
-		}
-		this.forget();
-		}
 	}
 }

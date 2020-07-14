@@ -1,9 +1,8 @@
 package main;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.ArrayList;
-
+import java.util.LinkedList;
 /**
  * A hierarchical data structure with fast access through a HashTable.
  * @author nathan
@@ -51,7 +50,7 @@ public class HashIndexedTree<T,Q> {
 		/**
 		 * The children this node has
 		 */
-		public ArrayList<Node<R>> children;
+		public LinkedList<Node<R>> children;
 		
 		/**
 		 * Constructs a new node with the given parent node.
@@ -59,7 +58,7 @@ public class HashIndexedTree<T,Q> {
 		 */
 		public Node (Node parent) {
 			this.parent = parent;
-			this.children = new ArrayList<Node<R>> ();
+			this.children = new LinkedList<Node<R>> ();
 		}
 		
 		/**
@@ -102,17 +101,17 @@ public class HashIndexedTree<T,Q> {
 		
 		/**
 		 * A recursive method which traverses the entire tree under this node.
-		 * @param fillList The list to store the found elements
+		 * @param result The list to store the found elements
 		 */
-		private void getAllChildren (ArrayList<R> fillList) {
+		private void getAllChildren (ArrayList<R> result) {
 			Iterator<Node<R>> iter = children.iterator ();
 			while (iter.hasNext ()) {
 				Node<R> workingNode = iter.next ();
 				if (workingNode.children != null) {
-					workingNode.getAllChildren (fillList);
+					workingNode.getAllChildren (result);
 				}
 				if (workingNode.data != null) {
-					fillList.add (workingNode.data);
+					result.add (workingNode.data);
 				}
 			}
 		}
@@ -126,14 +125,17 @@ public class HashIndexedTree<T,Q> {
 	 */
 	public void addChild (T parent, T key, Q element) {
 		Node head = elements.get (parent);
-		elements.put (key, head.add (element));
+		if (elements.get(key) == null) {
+			elements.put (key, head.add (element));
+		}
 	}
-	
+
 	/**
 	 * Removes the child indexed by the given key.
 	 * @param key The key of the node to remove
 	 */
 	public void removeChild (T key) {
+
 		Node<Q> toRemove = elements.get (key);
 		toRemove.parent.remove (toRemove.data);
 		elements.remove (key);

@@ -118,7 +118,7 @@ public class Glider extends EnterableObject {
 		this.isBroken = true;
 		this.exit();
 		j.setY(j.getY() - 16);
-		this.Break(new Sprite [] {new Sprite ("resources/sprites/config/Plant/shards/shard1.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard2.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard3.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard4.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard5.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard6.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard7.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard8.txt"), new Sprite ("resources/sprites/config/Plant/shards/shard9.txt")},this.getX(),this.getY() + 18, 9, 2, 4, 0, 3.14);
+		this.Break(new Shard [] {new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard1.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard2.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard3.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard4.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard5.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard6.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard7.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard8.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard9.txt"))},this.getX(),this.getY() + 18, 9, 2, 4, 0, 3.14);
 		Glider plant = new Glider();
 		plant.declare(originX, originY);
 	}

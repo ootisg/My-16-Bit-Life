@@ -38,10 +38,10 @@ public class redBlackPaintBallGun extends AimableWeapon {
 		textTimer = 0;
 		paintballiconSprite = new Sprite ("resources/sprites/config/paintballIcon.txt");
 		fisticonSprite = new Sprite ("resources/sprites/config/fistIcon.txt");
-		paint = new BluePaint (1);
+		paint = new BluePaint ();
 		this.cooldown = 0;
 		upgradeInfo = new int [] {0,0,1,1};
-		testball = new RedBlackPaintBall (1);
+		testball = new RedBlackPaintBall ();
 		this.setSprite(gunSprite);
 	}
 	@Override

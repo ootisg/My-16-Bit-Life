@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import cutsceens.Cutsceen;
 import cutsceens.MoveSlowEvent;
 import enemys.BuggyBoi;
+import enemys.Cactus;
 import enemys.Candle;
 import enemys.CannonTankEnemy;
 import enemys.Celing_boi;
@@ -176,6 +177,7 @@ public class GameCode {
 	static LaunchPlant lPlant;
 	static FlowerEnemy flower;
 	static Minecart cart;
+	static Cactus cactus;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
@@ -194,14 +196,14 @@ public class GameCode {
 		lameRyan = new NonPlayableRyan();
 		gun = new redBlackPaintBallGun(	new Sprite ("resources/sprites/redblack_gun.png"));
 		pointer = new LaserPointer ();
-		key = new FairUseKey(1);
+		key = new FairUseKey();
 		guy = new PointGuy();
 		work = new Worker ();
 		door = new Door ();
 		fall = new FallingChandleer ();
 		test = new BreakableObject ();
 		lay = new DarkOverlay();
-		packet = new LemonPacket(1);
+		packet = new LemonPacket();
 		pad = new DashPad ();
 		cart = new Minecart ();
 		Jeffrey.getInventory().addWeapon(extinguser, 0);
@@ -227,14 +229,15 @@ public class GameCode {
 		Jeffrey.getInventory().addWeapon(bomb, 2);
 		int x = 0;
 		//boi = new Celing_boi();
-		waffle = new Waffle (4);
+		waffle = new Waffle ();
 		testLadder = new Ladder ();
-		paintball = new RedBlackPaintBall(1);
+		paintball = new RedBlackPaintBall();
 		testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
 		box = new Box();
 		plant = new Plant ();
 		glider =new Glider();
 		lPlant = new LaunchPlant ();
+		cactus = new Cactus ();
 		//shooter = new MafiaShooter();
 		//boi = new Celing_boi();
 		//waffle = new Waffle (4);
@@ -243,11 +246,11 @@ public class GameCode {
 		//slow = new MoveSlowEvent (hydrant, 100, 100, 0, 30, 0, 3, -3);
 		//newFly = new CreepyButterfly();
 		testLadder = new Ladder ();
-		paintball = new RedBlackPaintBall(1);
+		paintball = new RedBlackPaintBall();
 		//candle = new Candle ();
 		//box = new Box();
 		//plant = new Plant ();
-		paint = new BluePaint (1);
+		paint = new BluePaint ();
 		fan = new Fan();
 		flower = new FlowerEnemy ();
 		while (x <40) {
@@ -268,7 +271,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/railCheck.rmf");
+		Room.loadRoom ("resources/maps/coinTest.rmf");
 		//bleh = new AnimeTester ()
 		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);
@@ -329,7 +332,8 @@ public class GameCode {
 		//pad.declare(100,350);
 		//lPlant.declare(100,350);
 		//flower.declare(100, 250);
-		cart.declare(400, 100);
+		//cart.declare(0, 100);
+		cactus.declare(100,100);
 	}
 	
 	public static void beforeGameLogic () {

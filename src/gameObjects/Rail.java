@@ -86,7 +86,6 @@ public class Rail extends GameObject {
 						epicCart.setY(epicCart.getY() - 1);
 					}
 				}
-				epicCart.vx = epicCart.vx + 1;
 			}
 		}
 			break;
@@ -103,7 +102,6 @@ public class Rail extends GameObject {
 						currentCart.setY(currentCart.getY() - 1);
 					}
 					}
-				currentCart.vx = currentCart.vx - 1;
 				}
 			}
 			break;

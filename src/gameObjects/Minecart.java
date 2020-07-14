@@ -24,7 +24,13 @@ public class Minecart extends EnterableObject{
 	@Override 
 	public void frameEvent () {
 		super.frameEvent();
-			if (vx != 0 && falling) {
+		if (this.direction == 1) {
+			vx = vx + 1;
+		}
+		if (this.direction == 2) {
+			vx = vx -1;
+		}
+			if (vx != 0 && falling && this.isColliding("Rail")) {
 				if ((direction == 1 && vx < 0) || (direction == 2 && vx > 0)){ 
 					this.goY(this.getY() - (Math.abs(vx)));
 				} else {

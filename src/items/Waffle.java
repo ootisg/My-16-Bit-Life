@@ -8,80 +8,44 @@ import players.Jeffrey;
 import resources.Sprite;
 
 public class Waffle extends Item{
-	int amountToAdd;
 	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	Sprite waffle = new Sprite ("resources/sprites/Waffle.png");
-public Waffle () {
-	this.setSprite(waffle); 
-	try {
-	amountToAdd = Integer.parseInt(this.getVariantAttribute("Amount"));
-	}catch (NumberFormatException e) {
-	amountToAdd = 1;
+	public Waffle () {
+		this.setSprite(waffle); 
+		this.setHitboxAttributes(0, 0, 14, 20);
 	}
-	this.setHitboxAttributes(0, 0, 14, 20);
-}
-public Waffle (int amount) {
-	this.setSprite(waffle); 
-	amountToAdd = amount;
-	this.setHitboxAttributes(0, 0, 14, 20);
-}
-@Override
-public void useItem(int witchCharictar) {
-	if (witchCharictar == 0) {
-		j.jeffreyHealth = j.jeffreyHealth + 60;
-		if (j.jeffreyHealth >= j.maxJeffreyHealth ) {
-			j.jeffreyHealth = j.maxJeffreyHealth;
-		}
-	}
-	if (witchCharictar == 1) {
-		j.samHealth = j.samHealth + 40;
-		if (j.samHealth >= j.maxSamHealth ) {
-			j.samHealth = j.maxSamHealth;
-		}
-	}
-	if (witchCharictar == 2) {
-		j.ryanHealth = j.maxRyanHealth + 40;
-		if (j.ryanHealth >= j.maxRyanHealth ) {
-			j.ryanHealth = j.maxRyanHealth;
-		}
-	}
-	GameCode.gui.menu.frozen = false;
-	this.forget();
-}	
-@Override
-public String checkEnetry() {
-	return "JEFFREYS FAVORATE FOOD - IT IS TASTY AND PROBABLY HEALTHY BECAUSE IT WOULDENT MAKE YOU RECOVER HP IF IT WASENT";
-}
-public String checkName () {
-	return "WAFFLE";
-}
-@Override 
-public String getItemType() {
-	return "Consumable";
-}
-	@Override 
-	public void frameEvent () {
-		this.setY(this.getY() + 1);
-		if (!(Room.isColliding(this))) {
-			this.setY(this.getY() + 3);
-		}
-		this.setY(this.getY() - 1);
-		if (this.isColliding(j)) {
-		if (amountToAdd != 1) {
-			Tbox box = new Tbox (j.getX(), j.getY() - 8, 28, 3, "YOU GOT " + Integer.toString(amountToAdd) + " WAFFLES.  THEY LOOK REALLY FREAKIN TASTY", true);
-			while (amountToAdd != 0) {
-				Jeffrey.inventory.addConsumable(this);
-				amountToAdd = amountToAdd - 1;
-				}
-			this.forget();
-			} else {
-				Tbox box = new Tbox (j.getX(), j.getY() - 8, 28, 1, "YOU GOT A WAFFLE", true);
-				while (amountToAdd != 0) {
-					Jeffrey.inventory.addConsumable(this);
-					amountToAdd = amountToAdd - 1;
-					}
-				this.forget();
+	@Override
+	public void useItem(int witchCharictar) {
+		if (witchCharictar == 0) {
+			j.jeffreyHealth = j.jeffreyHealth + 60;
+			if (j.jeffreyHealth >= j.maxJeffreyHealth ) {
+				j.jeffreyHealth = j.maxJeffreyHealth;
 			}
 		}
+		if (witchCharictar == 1) {
+			j.samHealth = j.samHealth + 40;
+			if (j.samHealth >= j.maxSamHealth ) {
+				j.samHealth = j.maxSamHealth;
+			}
+		}
+		if (witchCharictar == 2) {
+			j.ryanHealth = j.maxRyanHealth + 40;
+			if (j.ryanHealth >= j.maxRyanHealth ) {
+				j.ryanHealth = j.maxRyanHealth;
+			}
+		}
+		GameCode.gui.menu.frozen = false;
+		this.forget();
+	}	
+	@Override
+	public String checkEnetry() {
+		return "JEFFREYS FAVORATE FOOD - IT IS TASTY AND PROBABLY HEALTHY BECAUSE IT WOULDENT MAKE YOU RECOVER HP IF IT WASENT";
+	}
+	public String checkName () {
+		return "WAFFLE";
+	}
+	@Override 
+	public String getItemType() {
+		return "Consumable";
 	}
 }

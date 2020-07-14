@@ -8,8 +8,11 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Stack;
 
+import gameObjects.BreakableObject;
 import gameObjects.DamageText;
+import gameObjects.ItemDropRate;
 import gameObjects.Point;
+import items.Item;
 import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
@@ -19,7 +22,7 @@ import projectiles.DirectionBullet;
 import resources.Sprite;
 
 
-public abstract class Enemy extends GameObject {
+public abstract class Enemy extends BreakableObject {
 	//Template for enemies
 	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 	// list of delared enemys
@@ -42,6 +45,8 @@ public abstract class Enemy extends GameObject {
 	boolean adjustedSpeed;
 	boolean diesNormally;
 	int setmomentum= 420;
+	int timer = 0;
+	ArrayList <ItemDropRate> drops = new ArrayList<ItemDropRate>();
 	public Enemy () {
 		enemyList.add(this);
 		momentum = 0;
@@ -61,6 +66,16 @@ public abstract class Enemy extends GameObject {
 	@Override
 	public void frameEvent () {
 		enemyFrame ();
+		super.frameEvent();
+		timer = timer + 1;
+		if (timer == 2) {
+			if (this.isCollidingChildren("Item")) {
+				for (int i = 0; i < this.getCollisionInfo().getCollidingObjects().size(); i++ ){
+					drops.add(new ItemDropRate ((Item)this.getCollisionInfo().getCollidingObjects().get(i),100));
+					this.getCollisionInfo().getCollidingObjects().get(i).forget();
+				}
+			}
+		}
 		if (beingKnockedBack) {
 			this.falls = true;
 			if (knockbackTime == 0) {
@@ -147,8 +162,35 @@ public abstract class Enemy extends GameObject {
 			currentSpeed = 0;
 		}
 	}
+	public void setDrops (ItemDropRate [] drops) {
+		for (int i = 0; i < drops.length; i++) {
+			this.drops.add(drops[i]);
+		}
+	}
 	public void enemyFrame () {
 		
+	}
+	//override to set code that runs on drop
+	public void dropStuff() {
+		ArrayList<Item> working = new ArrayList <Item> ();
+		for (int i = 0; i < drops.size(); i++) {
+			Random rand = new Random ();
+			for (int j = 0; j <drops.get(i).getMaxDrop(); j ++) {
+				if (j < drops.get(i).getMinDrop()){
+					working.add(drops.get(i).getItem());
+				} else {
+					int dropChance = rand.nextInt(100) + 1;
+					if (dropChance < drops.get(i).getDropRate()) {
+						working.add(drops.get(i).getItem());
+					}
+				}
+			}
+		}
+		Item [] moreWorking = new Item [working.size()];
+		for (int i = 0; i < working.size(); i++) {
+			moreWorking[i] = working.get(i);
+		}
+		this.Break(moreWorking, 0, 1, 0, 6.28);
 	}
 	public void suffocate () {
 		this.damage(this.getHealth()/10);
@@ -241,6 +283,7 @@ public abstract class Enemy extends GameObject {
 			Jeffrey.getInventory().addKill(this);
 		}
 		enemyList.remove(this);
+		this.dropStuff();
 		this.forget ();
 	}
 	//override to set entrys of stuff 

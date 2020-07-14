@@ -3,10 +3,10 @@ package theHeist;
 import main.ObjectHandler;
 import resources.Sprite;
 
-public class Coin extends CheckableObject{
+public class CoolCoin extends CheckableObject{
 
 	
-	public Coin () {
+	public CoolCoin () {
 		this.setSprite(new Sprite ("resources/sprites/the-heist/Coin.png"));
 		this.setHitboxAttributes(0, 0, 16, 16);
 	}
