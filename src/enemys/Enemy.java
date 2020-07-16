@@ -190,7 +190,7 @@ public abstract class Enemy extends BreakableObject {
 		for (int i = 0; i < working.size(); i++) {
 			moreWorking[i] = working.get(i);
 		}
-		this.Break(moreWorking, 0, 1, 0, 6.28);
+		this.Break(moreWorking, 0, 1, 7*3.1415926535/6, 11*Math.PI/6);
 	}
 	public void suffocate () {
 		this.damage(this.getHealth()/10);

@@ -2,6 +2,8 @@ package resources;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -210,7 +212,10 @@ public class Sprite {
 	public void draw (int usedX, int usedY) {
 		draw (usedX, usedY, 0);
 	}
-	
+	public void draw (int usedX, int usedY, AffineTransform transform) {
+		AffineTransformOp working = new AffineTransformOp (transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		
+	}
 	/**
 	 * Draws the given frame of this sprite at the given x and y coordinates.
 	 * @param usedX The x coordinate to draw this sprite at
