@@ -64,6 +64,7 @@ public class Room {
 	public static final int TILE_WIDTH = 16;
 	public static final int TILE_HEIGHT = 16;
 	public static final int SPECIAL_TILE_ID = -1;
+	public static final int ZREO = 0;
 	
 	private Room () {
 		//Non-electric boogaloo

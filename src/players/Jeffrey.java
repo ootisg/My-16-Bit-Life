@@ -84,11 +84,13 @@ public class Jeffrey extends GameObject {
 	private int boxTimer;
 	private boolean fallBruh;
 	public static Status status;
+	private boolean [] party;
 	public Jeffrey () {
 		//This class is not yet commented
 		this.declare (0, 0);
 		index = 0;
 		fallBruh = true;
+		party = new boolean [] {true,true,true};
 		messWithFrameTime = true;
 		ryanWhipping = new Sprite ("resources/sprites/config/microphoneWhip.txt");
 		whipLength = new Sprite ("resources/sprites/config/microphoneWhipVariableFrame.txt");
@@ -162,18 +164,7 @@ if (activeBox) {
 	}
 	@Override
 	public void frameEvent () {
-		/* uncomment to have pushing x crash the game
-		 * if (keyDown('X')) {
 		
-			ArrayList<ArrayList<Double>> yeet = new ArrayList<ArrayList<Double>> ();
-			while (true) {
-				yeet.add(new ArrayList <Double>());
-				ArrayList <Double> working = yeet.get(yeet.size() -1);
-				for (int i = 0; i < 1000000; i++ ) {
-					working.add(Math.random());
-				}
-			}
-		}*/
 		if (keyDown ('S') && !onLadder) {
 			crouching = true;
 			this.changeSprite(false);
@@ -229,23 +220,25 @@ if (activeBox) {
 		
 		//Switch meter stuff
 		if (keyDown('Q')) {
-			switchTimer++;
+			if (this.checkSwitch()) {
+				switchTimer++;
+			}
 		}
 		/*if (!keyDown('Q')) {
 			switchTimer = 0;
 		}*/
 		
-		//Sets max number of characters to 3
-		if (nextCharacter > 2) {
-			nextCharacter = 0;
-		}
 		
+	
 		//The "tap Q to toggle" mechanic.
 		if (switchTimer > 0 && switchTimer <=5 && !keyDown('Q')) {
 			if (keepAdding) {
 				keepAdding = false;
 				nextCharacter++;
 				switchTimer = 0;
+				if (nextCharacter > 2) {
+					nextCharacter = 0;
+				}
 				if (jeffreyHealth <= 0 && nextCharacter == 0) {
 					nextCharacter++;
 				}
@@ -255,6 +248,11 @@ if (activeBox) {
 				if (ryanHealth <= 0 && nextCharacter == 2) {
 					nextCharacter++;
 				}
+				//Sets max number of characters to 3
+				if (nextCharacter > 2) {
+					nextCharacter = 0;
+				}
+				this.runSwitchCode();
 			}
 		} else {
 			keepAdding = true;
@@ -267,17 +265,17 @@ if (activeBox) {
 		switch (nextCharacter) {
 			case 0:
 				if (witchCharictar == 0) {
-					nextCharacter = 1;
+					this.runSwitchCode();
 				}
 				break;
 			case 1:
 				if (witchCharictar == 1) {
-					nextCharacter = 2;
+					this.runSwitchCode();
 				}
 				break;
 			case 2:
 				if (witchCharictar == 2) {
-					nextCharacter = 0;
+					this.runSwitchCode();
 				}
 		}
 		
@@ -285,48 +283,8 @@ if (activeBox) {
 		
 		//Decides what character to switch into.
 		if (switchTimer == 30) {
-			switch (nextCharacter) {
-				case 0:
-					wpn.onSwitch();
-					wpn.forget();
-					newWeapon = true;
-					if (jeffreyHealth > 0) {
-						nextCharacter++;
-						witchCharictar = 0;
-						if (isCrouched()) {
-							this.setSprite(jeffreyCrouching);
-						}
-					}
-					switchTimer = 0;
-					break;
-				case 1:
-					wpn.onSwitch();
-					wpn.forget();
-					newWeapon = true;
-					if (samHealth > 0) {
-						nextCharacter++;
-						witchCharictar = 1;
-						if (isCrouched()) {
-							this.setSprite(samCrouching);
-						}
-					}
-					switchTimer = 0;
-					break;
-				case 2:
-					wpn.onSwitch();
-					wpn.forget();
-					newWeapon = true;
-					if (ryanHealth > 0) {
-						nextCharacter++;
-						witchCharictar = 2;
-						if (isCrouched()) {
-							this.setSprite(ryanCrouching);
-						}
-					}
-					switchTimer = 0;
-					break;
-			}
-			
+			this.runCharictarSwitchCode(nextCharacter);
+			this.runSwitchCode();
 			
 			if (witchCharictar == 0) {
 				if ((samHealth <= 0) && (ryanHealth <= 0)) {
@@ -676,6 +634,37 @@ if (activeBox) {
 			}
 		}
 	}
+	private void runSwitchCode () {
+		int startMemer = nextCharacter;
+		while (!(party[nextCharacter]) || witchCharictar == nextCharacter) {
+			nextCharacter = nextCharacter + 1;
+			
+			if (nextCharacter > 2) {
+				nextCharacter = 0;
+			}
+			if (startMemer == nextCharacter) {
+				break;
+			}
+		}
+	}
+	/**
+	 * @return true if it is posible to switch to another charictar false otherwise
+	 * 
+	 */
+	public boolean checkSwitch () {
+		int startMemer = nextCharacter;
+		int temp = nextCharacter;
+		while (!(party[temp]) || witchCharictar == temp) {
+			temp = temp + 1;
+			if (temp > 2) {
+				temp = 0;
+			}
+			if (startMemer == temp) {	
+				return false;
+			}
+		}
+		return true;
+	}
 	public void damage (double baseDamage) {
 		switchTimer = 0;
 		if (invulTimer == 0) {
@@ -771,6 +760,81 @@ if (activeBox) {
 	//stops the charictar from falling for a bit
 	public void stopFall(boolean fall) {
 		fallBruh = !fall;
+	}
+	/**
+	 * runs the correct code to have the player switch to controling any charictar 
+	 * @param witchCharacter the charictar to switch too
+	 */
+	public void runCharictarSwitchCode(int witchCharacter) {
+		switch (witchCharacter) {
+		case 0:
+			wpn.onSwitch();
+			wpn.forget();
+			newWeapon = true;
+			if (jeffreyHealth > 0) {
+				nextCharacter++;
+				witchCharictar = 0;
+				if (isCrouched()) {
+					this.setSprite(jeffreyCrouching);
+				}
+			}
+			switchTimer = 0;
+			break;
+		case 1:
+			wpn.onSwitch();
+			wpn.forget();
+			newWeapon = true;
+			if (samHealth > 0) {
+				nextCharacter++;
+				witchCharictar = 1;
+				if (isCrouched()) {
+					this.setSprite(samCrouching);
+				}
+			}
+			switchTimer = 0;
+			break;
+		case 2:
+			wpn.onSwitch();
+			wpn.forget();
+			newWeapon = true;
+			if (ryanHealth > 0) {
+				nextCharacter++;
+				witchCharictar = 2;
+				if (isCrouched()) {
+					this.setSprite(ryanCrouching);
+				}
+			}
+			switchTimer = 0;
+			break;
+	}
+	if (nextCharacter > 2 ) {
+		nextCharacter = 0;
+	}
+	}
+	/**
+	 * removes a character from the party
+	 * @param witchCharacter the character to remove (0 for Jeffrey 1 for Ryan 2 for Sam anything else will do nothing)
+	 */
+	public void removeCharacter (int witchCharacter) {
+		try {
+			party[witchCharacter] = false;
+			if (this.witchCharictar == witchCharacter) {
+				int lol = witchCharacter;
+				int startMemer = lol;
+				while (!(party[lol])) {
+					lol = lol + 1;
+					if (lol > 2) {
+						lol = 0;
+					}
+					if (startMemer == lol) {
+						break;
+					}	
+				}
+				this.runCharictarSwitchCode(lol);
+			 }
+		} catch (IndexOutOfBoundsException e) {
+			
+		}
 	}
 	/**
 	 * determines wheater or not jeffrey controls the scrolling of the game

@@ -14,18 +14,15 @@ public class CarWithSign extends ImpatientCar  {
 				if (this.getVariantAttribute("type").equals("oneWay")) {
 					stopOrWay = true;
 					way = new MissleadingOneWay();
-					way.hide();
 					way.declare();
 				} else {
 					stopOrWay = false;
 					stop = new MissleadingStop();
-					stop.hide();
 					stop.declare();
 				}
 			} else {
 				stopOrWay = false;
 				stop = new MissleadingStop();
-				stop.hide();
 				stop.declare();
 			}
 			inzialized = true;

@@ -271,7 +271,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/coinTest.rmf");
+		Room.loadRoom ("resources/maps/railCheck.rmf");
 		//bleh = new AnimeTester ()
 		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);
@@ -332,8 +332,8 @@ public class GameCode {
 		//pad.declare(100,350);
 		//lPlant.declare(100,350);
 		//flower.declare(100, 250);
-		//cart.declare(0, 100);
-		cactus.declare(100,100);
+		cart.declare(400, 100);
+		//cactus.declare(100,100);
 	}
 	
 	public static void beforeGameLogic () {

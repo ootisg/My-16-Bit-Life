@@ -1,5 +1,7 @@
 package gameObjects;
 
+import resources.Sprite;
+
 public class RailSegment {
 	
 	private Point start;
@@ -25,6 +27,7 @@ public class RailSegment {
 		this.startPos = prev.getEndPos ();
 		this.length = distance (start, end);
 		this.endPos = this.startPos + this.length;
+
 	}
 	
 	public RailSegment (Point start, Point end) {
@@ -42,11 +45,15 @@ public class RailSegment {
 	public RailSegment getNext () {
 		return next;
 	}
-	
+	public void setStart (Point start) {
+		this.start = start;
+	}
 	public Point getStart () {
 		return start;
 	}
-	
+	public void setEnd (Point end) {
+		this.end = end;
+	}
 	public Point getEnd () {
 		return end;
 	}
@@ -66,24 +73,27 @@ public class RailSegment {
 	public boolean hasNext () {
 		return next != null;
 	}
+	public void setNext (RailSegment next) {
+		this.next = next;
+	}
 	
-	public Point traverse (double dist) {
+	public Point traverse (double dist,Point startPoint) {
 		double slope = (end.y - start.y)/(end.x - start.x);
 		switch (this.getDirection()){
 		case STRATE_RAIL_DIRCTION:
 			if (start.x < end.x) {
-				return new Point (start.x + dist, start.y);
+				return new Point (startPoint.x + dist, startPoint.y);
 			} else {
-				return new Point (start.x - dist,start.y);
+				return new Point (startPoint.x - dist,startPoint.y);
 			}
 		case UPLEFT_RIGHT_DIRECTION:
-			return new Point (start.x - dist, start.y - (dist*slope));
+			return new Point (startPoint.x - dist, startPoint.y - (dist*slope));
 		case UPRIGHT_RAIL_DIRECTION:
-			return new Point (start.x + dist, start.y - (dist*slope));
+			return new Point (startPoint.x + dist, startPoint.y - (dist*slope));
 		case DOWNLEFT_RAIL_DIRECTION:
-			return new Point (start.x - dist, start.y + (dist*slope));
+			return new Point (startPoint.x - dist, startPoint.y + (dist*slope));
 		case DOWNRIGHT_RAIL_DIRECTION:
-			return new Point (start.x + dist, start.y + (dist*slope));
+			return new Point (startPoint.x + dist, startPoint.y + (dist*slope));
 			
 		}
 		return null;
@@ -103,20 +113,41 @@ public class RailSegment {
 		if (minePos + dist > length) {
 			if (next != null) {
 			minecart.setCurrentRailPosition(next);
-			next.moveCart (minecart, dist - length);
+			switch (next.getDiffrentKindOfDirection()) {
+			case STRATE_RAIL_DIRCTION:
+				minecart.setSprite(new Sprite ("resources/sprites/Minecart.png"));
+				break;
+			case UPLEFT_RIGHT_DIRECTION:
+				minecart.setSprite(new Sprite ("resources/sprites/MinecartUpLeft.png"));
+				break;
+			case UPRIGHT_RAIL_DIRECTION:
+				minecart.setSprite(new Sprite ("resources/sprites/MinecartUpRight.png"));
+				break;
+			}
+			next.moveCart (minecart, dist - (length - minePos));
 			} else {
 				minecart.takeOffRails();
-				minecart.setPosition (end);
+				minecart.setTrackPosition(endPos);
 			}
 		} else {
-			Point newPt = traverse (dist);
+			Point newPt = traverse (dist,minecart.getMidpoint());
 			newPt.y = newPt.y + getMinecartHeightOffset ();
+			minecart.setTrackPosition(minecart.getTrackPositionPls() + dist);
 			minecart.setPosition (newPt);
 		}
 	}
 	
 	private double distance (Point a, Point b) {
-		return (a.y - b.y) * (a.y - b.y) + (a.x - b.x) * (a.x - b.x);
+		return Math.sqrt((a.y - b.y) * (a.y - b.y) + (a.x - b.x) * (a.x - b.x));
+	}
+	public int getDiffrentKindOfDirection() {
+		if (end.y == start.y) {
+			return STRATE_RAIL_DIRCTION;
+		} else if ( end.x<start.x){
+			return UPLEFT_RIGHT_DIRECTION;
+		} else  {
+			return UPRIGHT_RAIL_DIRECTION;
+		}
 	}
 	private int getDirection () {
 		if (end.y == start.y) {
@@ -124,7 +155,7 @@ public class RailSegment {
 		} else if ((end.y > start.y && end.x>start.x)){
 			return DOWNRIGHT_RAIL_DIRECTION;
 		} else if (end.y> start.y) {
-			return DOWNRIGHT_RAIL_DIRECTION;
+			return DOWNLEFT_RAIL_DIRECTION;
 		} else if (end.x>start.x){
 			return UPRIGHT_RAIL_DIRECTION;
 		} else {
