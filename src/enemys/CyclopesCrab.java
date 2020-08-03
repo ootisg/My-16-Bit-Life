@@ -1,6 +1,7 @@
 package enemys;
 
 import map.Room;
+import players.Jeffrey;
 import resources.Sprite;
 import weapons.AimableWeapon;
 import weapons.CrabGun;
@@ -83,9 +84,9 @@ public class CyclopesCrab extends Enemy {
 		height = 0;
 		boolean toClimbOrNotToClimb;
 		toClimbOrNotToClimb = false;
-		if (player.getX() - this.getX() < 75 && player.getY() - this.getY() < 370){
-			if (player.getX() >= this.getX()){
-				if (player.getX() - this.getX() > 4){
+		if (Jeffrey.getActiveJeffrey().getX() - this.getX() < 75 && Jeffrey.getActiveJeffrey().getY() - this.getY() < 370){
+			if (Jeffrey.getActiveJeffrey().getX() >= this.getX()){
+				if (Jeffrey.getActiveJeffrey().getX() - this.getX() > 4){
 					if (!stuck){
 					this.setX(getX() + 1.5);
 					}
@@ -99,7 +100,7 @@ public class CyclopesCrab extends Enemy {
 				}
 			}		
 		} else {
-				if (player.getX() - this.getX() < 4){
+				if (Jeffrey.getActiveJeffrey().getX() - this.getX() < 4){
 				if (!stuck){
 				this.setX(getX() - 1.5);
 				}

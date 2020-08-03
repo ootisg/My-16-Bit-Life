@@ -144,9 +144,9 @@ public void enemyFrame () {
 		if (this.isColliding(Jeffrey.getActiveJeffrey())) {
 			System.out.println(Math.abs(direction));
 			if (direction != 0) {
-			player.damage(RNG.nextInt(Math.abs(direction)) * 5);
+				Jeffrey.getActiveJeffrey().damage(RNG.nextInt(Math.abs(direction)) * 5);
 			} else {
-				player.damage(RNG.nextInt(10));	
+				Jeffrey.getActiveJeffrey().damage(RNG.nextInt(10));	
 			}
 		}
 		

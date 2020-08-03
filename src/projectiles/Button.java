@@ -32,7 +32,7 @@ public class Button extends Projectile {
 			if ((!Jeffrey.status.checkStatus(0, Jeffrey.getActiveJeffrey().witchCharictar) && poisonChance == 1)){
 				poison.declare(0, 0);
 			} 
-			player.damage(7);
+			Jeffrey.getActiveJeffrey().damage(7);
 		}
 	}
 }

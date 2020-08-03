@@ -1,6 +1,7 @@
 package enemys;
 
 import map.Room;
+import players.Jeffrey;
 import resources.Sprite;
 
 public class InvincibleBlob extends Enemy {
@@ -56,6 +57,6 @@ public class InvincibleBlob extends Enemy {
 	}
 	@Override
 	public void attackEvent () {
-		player.damage (this.baseDamage);
+		Jeffrey.getActiveJeffrey().damage (this.baseDamage);
 	}
 }

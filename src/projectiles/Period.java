@@ -2,6 +2,7 @@ package projectiles;
 
 import enemys.LivingPeriod;
 import map.Room;
+import players.Jeffrey;
 import resources.Sprite;
 
 public class Period extends Projectile {
@@ -23,7 +24,7 @@ public class Period extends Projectile {
 			period.declare(this.getX(),this.getY());
 			this.forget();
 		}
-		if (this.isColliding(player)) {
+		if (this.isColliding(Jeffrey.getActiveJeffrey())) {
 			period = new LivingPeriod();
 			period.declare(this.getX(),this.getY());
 			this.forget();

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import enemys.Enemy;
 import map.Room;
+import players.Jeffrey;
 import resources.Sprite;
 
 public class Explosion extends Projectile {
@@ -31,8 +32,8 @@ public class Explosion extends Projectile {
 	
 	@Override 
 	public void projectileFrame () {
-		if (this.isColliding(player) && hP) {
-			player.damage(pD);
+		if (this.isColliding(Jeffrey.getActiveJeffrey()) && hP) {
+			Jeffrey.getActiveJeffrey().damage(pD);
 		}
 		//Calculates enemy damage, and just like the ninja triangle, explosions hit enemies multiple times.
 		//Players are only safe because of invincibility frames lol

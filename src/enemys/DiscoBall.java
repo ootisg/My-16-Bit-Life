@@ -6,6 +6,7 @@ import java.util.Random;
 
 import main.RenderLoop;
 import map.Room;
+import players.Jeffrey;
 import resources.Sprite;
 import switches.Activateable;
 
@@ -98,8 +99,8 @@ public class DiscoBall extends Enemy implements Activateable {
 						break;
 					}
 					
-					if (this.isColliding(player)) {
-					player.damage(3);
+					if (this.isColliding(Jeffrey.getActiveJeffrey())) {
+						Jeffrey.getActiveJeffrey().damage(3);
 					break;
 					}
 					if (count > 900) {
@@ -127,8 +128,8 @@ public class DiscoBall extends Enemy implements Activateable {
 					if (!this.goX (this.getX() + Math.cos (rotation2)) || !this.goY (this.getY () + Math.sin (rotation2))) {
 						break;
 					}
-					if (this.isColliding(player)) {
-					player.damage(3);
+					if (this.isColliding(Jeffrey.getActiveJeffrey())) {
+						Jeffrey.getActiveJeffrey().damage(3);
 					break;
 					}
 					if (count > 900) {
@@ -156,8 +157,8 @@ public class DiscoBall extends Enemy implements Activateable {
 					if (!this.goX (this.getX() + Math.cos (rotation3)) || !this.goY (this.getY () + Math.sin (rotation3))) {
 						break;
 					}
-					if (this.isColliding(player)) {
-					player.damage(3);
+					if (this.isColliding(Jeffrey.getActiveJeffrey())) {
+						Jeffrey.getActiveJeffrey().damage(3);
 					break;
 					}
 					if (count > 900) {

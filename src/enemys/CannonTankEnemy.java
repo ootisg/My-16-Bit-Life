@@ -1,6 +1,7 @@
 package enemys;
 
 import map.Room;
+import players.Jeffrey;
 import projectiles.Cannonball;
 import resources.Sprite;
 
@@ -49,7 +50,7 @@ public CannonTankEnemy () {
 	}
 	@Override
 	public void enemyFrame(){
-		if ((getY () - player.getY() <= 16 && getY () - player.getY() >= -16) && cooldown >= 20 && ((player.getX () > getX() && moveRight) || (player.getX() < getX() && !moveRight)) ){
+		if ((getY () - Jeffrey.getActiveJeffrey().getY() <= 16 && getY () - Jeffrey.getActiveJeffrey().getY() >= -16) && cooldown >= 20 && ((Jeffrey.getActiveJeffrey().getX () > getX() && moveRight) || (Jeffrey.getActiveJeffrey().getX() < getX() && !moveRight)) ){
 			moveing = true;
 			cooldown = 0;
 			cannonBalls = cannonBalls + 1;

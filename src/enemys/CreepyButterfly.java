@@ -17,7 +17,6 @@ public class CreepyButterfly extends Enemy {
 		setSprite (butterflySprite);
 		setHitboxAttributes (0, 0, 16, 16);
 		getAnimationHandler ().setFrameTime (55.5);
-		player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 		RNG = new Random ();
 		this.health = 1;
 		this.defence = 0;
@@ -32,8 +31,8 @@ public class CreepyButterfly extends Enemy {
 	}
 	@Override
 	public void enemyFrame () {
-		double targetX = player.getX ();
-		double targetY = player.getY ();
+		double targetX = Jeffrey.getActiveJeffrey().getX ();
+		double targetY = Jeffrey.getActiveJeffrey().getY ();
 		if (((targetX > this.getX() && targetX < this.getX() + 22) || (targetX < this.getX() && targetX> this.getX() - 22) &&  ((targetY > this.getY() && targetY < this.getY() + 22) || (targetY < this.getY() && targetY> this.getY() - 22)))) {
 				double gayBabyJail;
 				gayBabyJail = RNG.nextInt (6) + (RNG.nextInt(27) + 1)/100.0;

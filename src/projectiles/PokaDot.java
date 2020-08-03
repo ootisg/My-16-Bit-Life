@@ -39,7 +39,7 @@ public class PokaDot extends Projectile {
 			this.forget();
 		}
 		if (isColliding(Jeffrey.getActiveJeffrey()) && !hitSomething){
-			player.damage(7);
+			Jeffrey.getActiveJeffrey().damage(7);
 			hitSomething = true;
 			this.forget();
 			

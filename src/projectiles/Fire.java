@@ -2,6 +2,7 @@ package projectiles;
 
 import java.util.Random;
 
+import players.Jeffrey;
 import resources.Sprite;
 
 public class Fire extends Projectile {
@@ -18,8 +19,8 @@ public class Fire extends Projectile {
 	}
 	@Override
 	public void projectileFrame () {
-		if (this.isColliding(player)) {
-			player.damage(RNG.nextInt(50) + 45);
+		if (this.isColliding(Jeffrey.getActiveJeffrey())) {
+			Jeffrey.getActiveJeffrey().damage(RNG.nextInt(50) + 45);
 		}
 		if (this.getAnimationHandler().getFrame() ==  9) {
 			this.forget();

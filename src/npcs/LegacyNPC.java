@@ -234,7 +234,7 @@ public class LegacyNPC extends NPC{
 				}
 			}
 		}
-		if (this.isColliding (j) && (keyPressed (84) || proximityTriggered) && (diolog == null || diolog.isDone == true)) {
+		if (this.isColliding (Jeffrey.getActiveJeffrey()) && (keyPressed (84) || proximityTriggered) && (diolog == null || diolog.isDone == true)) {
 			if (!itemFound) {
 			diolog = new Textbox (messages [0]);
 			} else {
@@ -248,12 +248,12 @@ public class LegacyNPC extends NPC{
 			if (itemFound && disapear) {
 				this.forget();
 			}
-			if (proximityTriggered && this.isColliding (j)) {
-				j.vx = 0;
-				if (this.getX()> j.getX()) {
-					j.setX(j.getX() - 5);
+			if (proximityTriggered && this.isColliding (Jeffrey.getActiveJeffrey())) {
+				Jeffrey.getActiveJeffrey().vx = 0;
+				if (this.getX()> Jeffrey.getActiveJeffrey().getX()) {
+					Jeffrey.getActiveJeffrey().setX(Jeffrey.getActiveJeffrey().getX() - 5);
 				} else {
-					j.setX(j.getX() + 5);
+					Jeffrey.getActiveJeffrey().setX(Jeffrey.getActiveJeffrey().getX() + 5);
 			}
 			}
 		}
