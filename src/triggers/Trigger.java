@@ -14,7 +14,6 @@ import resources.Sprite;
 public class Trigger extends GameObject {
 	boolean setHitbox;
 	boolean Triggered;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	boolean eventFinished;
 	int timer;
 	boolean persistant;
@@ -41,7 +40,7 @@ public class Trigger extends GameObject {
 	
 	public void frameEvent () {
 		//sets the hitbox to work with the bottom bound
-		if (j.isColliding(this) && !Triggered && timer > 5 ) {
+		if (Jeffrey.getActiveJeffrey().isColliding(this) && !Triggered && timer > 5 ) {
 			this.Triggered = true;
 		}
 		if (setHitbox) {
@@ -111,7 +110,7 @@ public class Trigger extends GameObject {
 			if (!persistant) {
 				this.forget();
 			} else {
-				if (!this.isColliding(j)) {
+				if (!this.isColliding(Jeffrey.getActiveJeffrey())) {
 					Triggered = false;
 					eventWeAreOn = 0;
 					eventSet = eventSet + 1;
@@ -143,7 +142,7 @@ public class Trigger extends GameObject {
 				if (!persistant) {
 					this.forget();
 				} else {
-					if (!this.isColliding(j)) {
+					if (!this.isColliding(Jeffrey.getActiveJeffrey())) {
 						eventWeAreOn = 0;
 						Triggered = false;
 						eventSet = eventSet + 1;

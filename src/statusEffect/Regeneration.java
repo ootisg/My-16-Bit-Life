@@ -10,7 +10,6 @@ public class Regeneration extends GameObject {
 	int charictar; 
 	int timer = 0;
 	int time = 300;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	public Regeneration ( int charictarToModerate) {
 	charictar = charictarToModerate;
 	}
@@ -18,26 +17,26 @@ public class Regeneration extends GameObject {
 	public void frameEvent () {
 		if (timer % 15 == 0) {
 			if (charictar == 0) {
-				if (j.jeffreyHealth < j.maxJeffreyHealth) {
-					j.jeffreyHealth = j.jeffreyHealth + 1;
+				if (Jeffrey.jeffreyHealth < Jeffrey.maxJeffreyHealth) {
+					Jeffrey.jeffreyHealth = Jeffrey.jeffreyHealth + 1;
 				}
 			}
 				if (charictar == 1) {
-					if (j.samHealth < j.maxSamHealth) {
-						j.samHealth = j.samHealth + 1;
+					if (Jeffrey.samHealth < Jeffrey.maxSamHealth) {
+						Jeffrey.samHealth = Jeffrey.samHealth + 1;
 					}
 				}
 					if (charictar == 2) {
-						if (j.ryanHealth < j.maxRyanHealth) {
-							j.ryanHealth = j.ryanHealth + 1;
+						if (Jeffrey.ryanHealth < Jeffrey.maxRyanHealth) {
+							Jeffrey.ryanHealth = Jeffrey.ryanHealth + 1;
 						}
 					}
 					DamageText text;
-					text = new DamageText (1, j.getX(), j.getY(), true);
+					text = new DamageText (1, Jeffrey.getActiveJeffrey().getX(), Jeffrey.getActiveJeffrey().getY(), true);
 					text.declare(0,0);
 					timer = timer + 1;
 		}
-		if (j.witchCharictar == charictar) {
+		if (Jeffrey.getActiveJeffrey().witchCharictar == charictar) {
 		timer = timer + 1;
 		}
 		if (charictar == 0) {

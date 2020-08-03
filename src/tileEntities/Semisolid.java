@@ -18,14 +18,13 @@ public class Semisolid extends TileEntitiy{
 	}
 	@Override 
 	public void frameEvent () {
-		Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
-		if (j.vy < 0 || ((j.getX() + 7 < this.getX()*16 && j.vx > 0 && j.isColliding(new Rectangle ((this.getX() * 16) - 6,this.getY()*16,8,16))) || (j.vx < 0 && j.isColliding(new Rectangle ((this.getX()* 16) + 14,this.getY()* 16,8,16))))){
+		if (Jeffrey.getActiveJeffrey().vy < 0 || ((Jeffrey.getActiveJeffrey().getX() + 7 < this.getX()*16 && Jeffrey.getActiveJeffrey().vx > 0 && Jeffrey.getActiveJeffrey().isColliding(new Rectangle ((this.getX() * 16) - 6,this.getY()*16,8,16))) || (Jeffrey.getActiveJeffrey().vx < 0 && Jeffrey.getActiveJeffrey().isColliding(new Rectangle ((this.getX()* 16) + 14,this.getY()* 16,8,16))))){
 			
 			collide = false;
 		} 
 		if (!collide) {
 		
-			MapTile [] collidingTiles = Room.getCollidingTiles(j,this.getType());
+			MapTile [] collidingTiles = Room.getCollidingTiles(Jeffrey.getActiveJeffrey(),this.getType());
 			boolean working = true;
 			for (int i = 0; i < collidingTiles.length; i++) {
 				if (collidingTiles[i].y == this.getY()*16) {

@@ -48,7 +48,6 @@ public class Firefly extends GameObject implements Activateable{
 	}
 	private class Light extends GameObject {
 		int height = 240;
-		Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 		double returnX;
 		double returnY;
 		boolean active = true;
@@ -84,9 +83,9 @@ public class Firefly extends GameObject implements Activateable{
 				this.setHitboxAttributes(0, 16, 208, height);
 				this.getAnimationHandler().setHeight(height);
 				this.getAnimationHandler().scale(208, height);
-				if (this.isColliding(j)) {
-					j.setX(returnX);
-					j.setY(returnY);
+				if (this.isColliding(Jeffrey.getActiveJeffrey())) {
+					Jeffrey.getActiveJeffrey().setX(returnX);
+					Jeffrey.getActiveJeffrey().setY(returnY);
 				}
 				if (this.isColliding("Plant")) {
 					Iterator<GameObject> iter = this.getCollisionInfo().getCollidingObjects().iterator();

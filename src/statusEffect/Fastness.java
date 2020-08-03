@@ -9,13 +9,12 @@ public class Fastness extends GameObject {
 	int charictar; 
 	int timer = 0;
 	int time = 900;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	public Fastness (int charictarToModerate) {
 		charictar = charictarToModerate;
 	}
 	@Override
 	public void frameEvent () {
-		if (j.witchCharictar == charictar) {
+		if (Jeffrey.getActiveJeffrey().witchCharictar == charictar) {
 		timer = timer + 1;
 		}
 		if (charictar == 0) {

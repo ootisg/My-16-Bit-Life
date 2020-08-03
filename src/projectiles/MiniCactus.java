@@ -6,7 +6,6 @@ import players.Jeffrey;
 import resources.Sprite;
 
 public class MiniCactus extends Projectile {
-	private Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	public MiniCactus () {
 		this.setSpeed(10);
 		this.setSprite(new Sprite("resources/sprites/miniCactus.png"));

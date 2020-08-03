@@ -14,7 +14,6 @@ import resources.Sprite;
 public class Stats extends GameObject {
 	//public int totalHearts = 10;
 	Tbox charictarName;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	Tbox weaponName;
 	Tbox ammoAmount;
 	Sprite weaponSprite;
@@ -64,18 +63,18 @@ public class Stats extends GameObject {
 			sprites.hearts.draw ((numHearts - 1) * 16, 0);
 		}*/
 	
-		if (j.witchCharictar == 0) {
+		if (Jeffrey.getActiveJeffrey().witchCharictar == 0) {
 		charictarName.setContent("JEFFREY");
 		}
-		if (j.witchCharictar == 1) {
+		if (Jeffrey.getActiveJeffrey().witchCharictar == 1) {
 		charictarName.setContent("SAM");
 		}
-		if (j.witchCharictar == 2) {
+		if (Jeffrey.getActiveJeffrey().witchCharictar == 2) {
 		charictarName.setContent("RYAN");
 		}
-		weaponName.setContent(j.getWeapon().checkName());
-		weaponSprite = j.getWeapon().getUnrotatedSprite();
-		ammoAmount.setContent(Integer.toString(j.getInventory().checkAmmoAmountOfWeapon(j.getWeapon())));
+		weaponName.setContent(Jeffrey.getActiveJeffrey().getWeapon().checkName());
+		weaponSprite = Jeffrey.getActiveJeffrey().getWeapon().getUnrotatedSprite();
+		ammoAmount.setContent(Integer.toString(Jeffrey.getInventory().checkAmmoAmountOfWeapon(Jeffrey.getActiveJeffrey().getWeapon())));
 	}
 	@Override 
 	public void draw () {
@@ -83,34 +82,34 @@ public class Stats extends GameObject {
 		buffer.setColor (new Color(0xFF0000));
 		HEALTH_BORDER_SPRITE.draw(160,0);
 		int currentBar;
-		if (j.checkSwitch()) {
-			currentBar = j.nextCharacter;
+		if (Jeffrey.getActiveJeffrey().checkSwitch()) {
+			currentBar = Jeffrey.getActiveJeffrey().nextCharacter;
 		} else {
 			currentBar = 69;
 		}
 		switch (currentBar) {
 			case 0:
-				if (j.jeffreyHealth > 0) {
+				if (Jeffrey.jeffreyHealth > 0) {
 					JEFFREY_BAR.draw(0, 0);	
 				}
-				if (j.jeffreyHealth <= 0) {
-					j.nextCharacter++;
+				if (Jeffrey.jeffreyHealth <= 0) {
+					Jeffrey.getActiveJeffrey().nextCharacter++;
 				}
 				break;
 			case 1:
-				if (j.samHealth > 0) {
+				if (Jeffrey.samHealth > 0) {
 					SAM_BAR.draw(0, 0);	
 				}
-				if (j.samHealth <= 0) {
-					j.nextCharacter++;
+				if (Jeffrey.samHealth <= 0) {
+					Jeffrey.getActiveJeffrey().nextCharacter++;
 				}
 				break;
 			case 2:
-				if (j.ryanHealth > 0) {
+				if (Jeffrey.ryanHealth > 0) {
 					RYAN_BAR.draw(0, 0);	
 				}
-				if (j.ryanHealth <= 0) {
-					j.nextCharacter++;
+				if (Jeffrey.ryanHealth <= 0) {
+					Jeffrey.getActiveJeffrey().nextCharacter++;
 				}
 				break;
 			default:
@@ -145,26 +144,26 @@ public class Stats extends GameObject {
 						EMPTY_BAR.draw(0, 0);
 					}
 			} */
-		if (j.witchCharictar ==0 ) {
-			if (j.getHealth() > 0) {
-			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (j.getHealth() / j.maxJeffreyHealth)))), 24);
+		if (Jeffrey.getActiveJeffrey().witchCharictar ==0 ) {
+			if (Jeffrey.getActiveJeffrey().getHealth() > 0) {
+			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (Jeffrey.getActiveJeffrey().getHealth() / Jeffrey.maxJeffreyHealth)))), 24);
 			}
 		}
-		if (j.witchCharictar ==1 ) {
-			if (j.getHealth() > 0) {				
-			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (j.getHealth() / j.maxSamHealth)))), 24);
+		if (Jeffrey.getActiveJeffrey().witchCharictar ==1 ) {
+			if (Jeffrey.getActiveJeffrey().getHealth() > 0) {				
+			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (Jeffrey.getActiveJeffrey().getHealth() / Jeffrey.maxSamHealth)))), 24);
 			}
 			}
-		if (j.witchCharictar ==2 ) {
-			if (j.getHealth() > 0) {
-			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (j.getHealth() / j.maxRyanHealth)))), 24);
+		if (Jeffrey.getActiveJeffrey().witchCharictar ==2 ) {
+			if (Jeffrey.getActiveJeffrey().getHealth() > 0) {
+			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (Jeffrey.getActiveJeffrey().getHealth() / Jeffrey.maxRyanHealth)))), 24);
 			}
 			}
 		buffer.setColor (new Color(0x000000));
 		buffer.setColor(new Color (0xFFFF00));
 		buffer.setColor(new Color (0x000000));
-		if (j.switchTimer != 0) {
-		CHARICTAR_SPRITE.draw(0, 0, 0, (int) (Math.ceil(45*j.switchTimer/30.0)), 24);
+		if (Jeffrey.getActiveJeffrey().switchTimer != 0) {
+		CHARICTAR_SPRITE.draw(0, 0, 0, (int) (Math.ceil(45*Jeffrey.getActiveJeffrey().switchTimer/30.0)), 24);
 		}
 		weaponSprite.draw(144, 0);
 	}

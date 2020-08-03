@@ -10,7 +10,6 @@ public class DashPad extends GameObject implements Activateable{
 	boolean direction = false;
 	boolean inzialized = false;
 	boolean activated = true;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	public DashPad () {
 		this.setHitboxAttributes(0, 0, 48, 8);
 		this.adjustHitboxBorders();
@@ -41,12 +40,12 @@ public class DashPad extends GameObject implements Activateable{
 			this.getAnimationHandler().setFlipHorizontal(true);
 		} 
 
-		if (j.isColliding(this) && activated) {
+		if (Jeffrey.getActiveJeffrey().isColliding(this) && activated) {
 			if (direction) {
 				this.getAnimationHandler().setFlipHorizontal(true);
-				j.vx = -15.999999;
+				Jeffrey.getActiveJeffrey().vx = -15.999999;
 			} else {
-				j.vx = 15.99999;
+				Jeffrey.getActiveJeffrey().vx = 15.99999;
 			}
 		}
 	}

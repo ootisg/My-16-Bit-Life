@@ -18,7 +18,6 @@ public class Puncuation extends PresetEnemy {
 	boolean chargeLineAquired;
 	boolean question;
 	boolean period;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	Period projectile;
 	int timer;
 	boolean shooting;
@@ -102,7 +101,7 @@ public class Puncuation extends PresetEnemy {
 		}
 		if ((this.getSprite().equals(bendingExclamation) && this.getAnimationHandler().getFrame() == 3)  || (this.getSprite().equals(bendingQuestion) && this.getAnimationHandler().getFrame() == 3) ) {
 			shooting = false;
-			if (this.getX()> j.getX()) {
+			if (this.getX()> Jeffrey.getActiveJeffrey().getX()) {
 				projectile = new Period (3.14);
 				projectile.declare(this.getX(),this.getY());
 			} else {

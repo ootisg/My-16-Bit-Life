@@ -14,7 +14,6 @@ public class JumpSceen {
 	static boolean secondBox = false;
 	static boolean lameJump = false;
 	static int timer = 0;
-	static Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	static boolean thirdBox = false;
 	static boolean lastBox = false;
 	static boolean intizalStuff = true;
@@ -36,10 +35,10 @@ public class JumpSceen {
 			}
 			timer = timer + 1;
 			if (timer >20 && timer <=40) {
-				j.setY(j.getY() -1 );
+				Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() -1 );
 			}
 			if (timer > 40) {
-				j.setY(j.getY() +1 );
+				Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() +1 );
 			}
 			if (timer == 61) {
 				lameJump = false;

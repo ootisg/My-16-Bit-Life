@@ -13,9 +13,6 @@ public class Glider extends EnterableObject {
 	
 	private boolean goingRight = true;
 	private boolean falling = false;
-
-	private Jeffrey j = (Jeffrey)ObjectHandler.getObjectsByName("Jeffrey").get(0);
-	
 	
 	private int originX;
 	private int originY;
@@ -106,8 +103,8 @@ public class Glider extends EnterableObject {
 	public void onEntry () {
 		originX = (int) this.getX();
 		originY = (int) this.getY();
-		j.getAnimationHandler().hide();
-		j.blackList();
+		Jeffrey.getActiveJeffrey().getAnimationHandler().hide();
+		Jeffrey.getActiveJeffrey().blackList();
 		this.inside = true;
 	}
 	@Override
@@ -117,7 +114,7 @@ public class Glider extends EnterableObject {
 	public void makeBroken () {
 		this.isBroken = true;
 		this.exit();
-		j.setY(j.getY() - 16);
+		Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() - 16);
 		this.Break(new Shard [] {new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard1.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard2.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard3.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard4.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard5.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard6.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard7.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard8.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard9.txt"))},this.getX(),this.getY() + 18, 9, 2, 4, 0, 3.14);
 		Glider plant = new Glider();
 		plant.declare(originX, originY);

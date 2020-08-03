@@ -16,8 +16,7 @@ public class SpikeDown extends TileEntitiy{
 	@Override 
 	public void frameEvent () {
 		if (dontCollide) {
-			Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
-			if (Room.getCollidingTiles(j,this.getType()).length == 0) {
+			if (Room.getCollidingTiles(Jeffrey.getActiveJeffrey(),this.getType()).length == 0) {
 			dontCollide = false;
 			}
 		}

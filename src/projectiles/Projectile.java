@@ -18,7 +18,6 @@ public abstract class Projectile extends GameObject {
 	boolean keep = false;
 	boolean goingIntoWall;
 	boolean outsideTheMap = false;
-	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 	@Override
 	public void frameEvent () {
 		projectileFrame ();
@@ -85,8 +84,8 @@ public abstract class Projectile extends GameObject {
 	}
 	//makes player get damaged by projectile if put in projectileFrame
 	public void makeDamageingProjectile (int damageRandom, int garentiedDamage) {
-		if (this.isColliding(player)) {
-			player.damage(RNG.nextInt(damageRandom) + garentiedDamage);
+		if (this.isColliding(Jeffrey.getActiveJeffrey())) {
+			Jeffrey.getActiveJeffrey().damage(RNG.nextInt(damageRandom) + garentiedDamage);
 		}
 	}
 	public void SpinAwayFromWall () {

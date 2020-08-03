@@ -184,11 +184,10 @@ public class GameCode {
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		
+		Room.loadRoom ("resources/maps/characterTest3.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
-		J = new Jeffrey ();
 		extinguser = new FireExtingueser (new Sprite ("resources/sprites/config/Fire_Rextinguisher_Idle.txt"));
 		testLaddder = new Ladder ();
 		lameJeffrey = new NonPlayableJeffrey();
@@ -271,7 +270,7 @@ public class GameCode {
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
-		Room.loadRoom ("resources/maps/railCheck.rmf");
+
 		//bleh = new AnimeTester ()
 		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);
@@ -332,7 +331,7 @@ public class GameCode {
 		//pad.declare(100,350);
 		//lPlant.declare(100,350);
 		//flower.declare(100, 250);
-		cart.declare(400, 100);
+		//cart.declare(400, 100);
 		//cactus.declare(100,100);
 	}
 	

@@ -12,7 +12,6 @@ public class LaserPointerSwitch extends Switch {
 	boolean activated = false;
 	ArrayList <LaserPointerSwitch> commerads = new ArrayList <LaserPointerSwitch> ();
 	boolean inzialized = false;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	public LaserPointerSwitch () {
 		this.setSprite(new Sprite ("resources/sprites/orb.png"));
 		this.setHitboxAttributes(0, 0, 16, 16);
@@ -30,8 +29,8 @@ public class LaserPointerSwitch extends Switch {
 			inzialized = true;
 		}
 		if (!this.isActivated()) {
-			if (j.getWeapon().getClass().getSimpleName().equals("LaserPointer")) {
-				LaserPointer thePointer = (LaserPointer)j.getWeapon();
+			if (Jeffrey.getActiveJeffrey().getWeapon().getClass().getSimpleName().equals("LaserPointer")) {
+				LaserPointer thePointer = (LaserPointer)Jeffrey.getActiveJeffrey().getWeapon();
 				if (thePointer.isCollidingLaser(this)) {
 					this.activated = true;
 				} else {

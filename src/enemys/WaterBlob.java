@@ -16,7 +16,6 @@ public class WaterBlob extends Enemy {
 	private Random RNG;
 	private boolean dirction;
 	private boolean jumping;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	private boolean falling;
 	private int oldTimer;
 	private static final Sprite LEFT_JUMP_SPRITE = new Sprite ("resources/sprites/config/waterBlobLeftJump.txt");
@@ -73,7 +72,7 @@ public class WaterBlob extends Enemy {
 			oldTimer = 0;
 		}
 		if (this.isNearPlayerX(10, 100, 10, 100) && !jumping && !falling) {
-			if (j.getX()>this.getX()) {
+			if (Jeffrey.getActiveJeffrey().getX()>this.getX()) {
 				dirction = true;
 			} else {
 				dirction = false;
@@ -98,7 +97,7 @@ public class WaterBlob extends Enemy {
 				this.setY(this.getY() + 4);
 				timer = 60;
 			}
-			if ( timer == 60|| j.getX() > this.getX() && j.getX() < this.getX() + this.hitbox().getWidth()) {
+			if ( timer == 60|| Jeffrey.getActiveJeffrey().getX() > this.getX() && Jeffrey.getActiveJeffrey().getX() < this.getX() + this.hitbox().getWidth()) {
 				falling = true;
 				if (!this.getSprite().equals(DROPLET_SPRITE)) {
 					this.setSprite(DROPLET_SPRITE);

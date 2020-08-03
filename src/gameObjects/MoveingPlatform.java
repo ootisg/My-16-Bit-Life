@@ -12,7 +12,6 @@ import resources.Sprite;
 import switches.Activateable;
 
 public class MoveingPlatform extends MapObject implements Activateable {
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	Stack <Point> pointsToMoveTo = new Stack <Point> ();
 	private Stack <Point> path = new Stack <Point> ();
 	private double slope =0;

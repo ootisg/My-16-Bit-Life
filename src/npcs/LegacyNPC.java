@@ -30,7 +30,6 @@ public class LegacyNPC extends NPC{
 	int amountToTake;
 	int exchangeItem;
 	int charictarToRecive;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	Boolean disapear;
 	int amountOfItemMessages;
 	Boolean setup;

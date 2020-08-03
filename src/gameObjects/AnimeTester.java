@@ -34,7 +34,6 @@ public class AnimeTester extends GameObject {
 			mx = getCursorX ();
 			my = getCursorY ();
 		}
-		Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 		Graphics2D g = (Graphics2D)GameAPI.getWindow ().getBufferGraphics ();
 		g.setColor(new Color(0x0000FF));
 		g.setStroke (new BasicStroke (2));

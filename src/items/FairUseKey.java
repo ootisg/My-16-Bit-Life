@@ -5,7 +5,6 @@ import players.Jeffrey;
 import resources.Sprite;
 
 public class FairUseKey extends Item {
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	Sprite FUKey = new Sprite("resources/sprites/key.png");
 	public FairUseKey () {
 		this.setSprite(FUKey); 

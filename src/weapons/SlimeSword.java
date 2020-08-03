@@ -35,7 +35,6 @@ public class SlimeSword extends Item {
 	boolean extended;
 	double fifthteenthX;
 	double fifthteenthY;
-	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 	int [] upgradeInfo;
 	Graphics2D graphics =(Graphics2D) RenderLoop.window.getBufferGraphics();
 	public SlimeSword () {
@@ -80,26 +79,26 @@ public class SlimeSword extends Item {
 				currX = currX + 30;
 				if (currX > desX) {
 					currX = desX;
-					fifthteenthX = (desX - player.getX())/15;
+					fifthteenthX = (desX - Jeffrey.getActiveJeffrey().getX())/15;
 				}
 			} else {
 				currX = currX - 30;
 				if (currX < desX) {
 					currX = desX;
-					fifthteenthX = ( player.getX() - desX)/15;
+					fifthteenthX = ( Jeffrey.getActiveJeffrey().getX() - desX)/15;
 				}
 			}
 			if (desY > currY) {
 				currY = currY + (30*slope);
 				if (currY > desY) {
 					currY = desY;
-					fifthteenthY = (desY - player.getY())/15;
+					fifthteenthY = (desY - Jeffrey.getActiveJeffrey().getY())/15;
 				}
 			} else {
 				currY = currY + (30*slope);
 				if (currY < desY) {
 					currY = desY;
-					fifthteenthY = (player.getY() - desY)/15;
+					fifthteenthY = (Jeffrey.getActiveJeffrey().getY() - desY)/15;
 				}
 			}
 		} else {
@@ -108,29 +107,29 @@ public class SlimeSword extends Item {
 					Point currentPoint = new Point (this.getX(),this.getY());
 					Point mousePoint = new Point (desX,desY);
 					slope =currentPoint.getSlope(mousePoint);
-					player.stopFall(true); 
+					Jeffrey.getActiveJeffrey().stopFall(true); 
 					if (fifthteenthX > Room.TILE_WIDTH) {
 						fifthteenthX = Room.TILE_WIDTH;
 						}
 					if (fifthteenthY> Room.TILE_HEIGHT) {
 						fifthteenthY = Room.TILE_HEIGHT;
 						}
-						if (player.getY ()  > desY) {
-							player.goY(player.getY() - fifthteenthY);
+						if (Jeffrey.getActiveJeffrey().getY ()  > desY) {
+							Jeffrey.getActiveJeffrey().goY(Jeffrey.getActiveJeffrey().getY() - fifthteenthY);
 						} else {
-							player.goY(player.getY() + fifthteenthY);
+							Jeffrey.getActiveJeffrey().goY(Jeffrey.getActiveJeffrey().getY() + fifthteenthY);
 						}
-						player.binded = true;
-						if (player.getX() > desX) {
+						Jeffrey.getActiveJeffrey().binded = true;
+						if (Jeffrey.getActiveJeffrey().getX() > desX) {
 						
-							player.goX(player.getX() - fifthteenthX);
+							Jeffrey.getActiveJeffrey().goX(Jeffrey.getActiveJeffrey().getX() - fifthteenthX);
 						} else {
-							player.goX(player.getX() + fifthteenthX);
+							Jeffrey.getActiveJeffrey().goX(Jeffrey.getActiveJeffrey().getX() + fifthteenthX);
 						}
 				} else {
-					player.binded = false;
-					player.stopFall(true); 
-					double slack =  player.getY() - desY;
+					Jeffrey.getActiveJeffrey().binded = false;
+					Jeffrey.getActiveJeffrey().stopFall(true); 
+					double slack =  Jeffrey.getActiveJeffrey().getY() - desY;
 					if (slack < 0) {
 						slack = slack * -1;
 					}
@@ -139,22 +138,22 @@ public class SlimeSword extends Item {
 						if (toUse > 8) {
 							toUse = 8;
 						}
-					if (!(player.getX() < desX + 10 && player.getX() > desX -10)) {
-					if (player.getX() > desX) {
-						player.vx = player.vx  -(toUse/10);
+					if (!(Jeffrey.getActiveJeffrey().getX() < desX + 10 && Jeffrey.getActiveJeffrey().getX() > desX -10)) {
+					if (Jeffrey.getActiveJeffrey().getX() > desX) {
+						Jeffrey.getActiveJeffrey().vx = Jeffrey.getActiveJeffrey().vx  -(toUse/10);
 					} else {
-						player.vx = player.vx + (toUse/10);
+						Jeffrey.getActiveJeffrey().vx = Jeffrey.getActiveJeffrey().vx + (toUse/10);
 					}
 					}
-					if (player.vx > 15.9 && player.vx > 0) {
-						player.vx = 15.9;
+					if (Jeffrey.getActiveJeffrey().vx > 15.9 && Jeffrey.getActiveJeffrey().vx > 0) {
+						Jeffrey.getActiveJeffrey().vx = 15.9;
 					}
-					if (player.vx < -15.9 && player.vx  < 0) {
-						player.vx = -15.9;
+					if (Jeffrey.getActiveJeffrey().vx < -15.9 && Jeffrey.getActiveJeffrey().vx  < 0) {
+						Jeffrey.getActiveJeffrey().vx = -15.9;
 					}
 					} else {
-						player.vx = 0;
-						player.goX(desX);
+						Jeffrey.getActiveJeffrey().vx = 0;
+						Jeffrey.getActiveJeffrey().goX(desX);
 					}
 				}
 			}
@@ -215,52 +214,52 @@ public class SlimeSword extends Item {
 			
 			
 		} 
-		if ((this.keyPressed(32)&& extended) && !player.isCrouched()) {
+		if ((this.keyPressed(32)&& extended) && !Jeffrey.getActiveJeffrey().isCrouched()) {
 			extended = false;
-			player.stopFall(false);
-			player.vy = 0;
+			Jeffrey.getActiveJeffrey().stopFall(false);
+			Jeffrey.getActiveJeffrey().vy = 0;
 			broke = true;
-			player.binded = false;
+			Jeffrey.getActiveJeffrey().binded = false;
 		}
 		if (broke && !mouseButtonDown (2)) {
 			broke = false;
 		}
-		if (this.mouseButtonDown(0) && !player.getSprite().equals(samSwingSprite)  && !player.isCrouched() ) {
-			player.setSprite(samSwingSprite);
-			player.getAnimationHandler().setFrameTime(50);
-			player.getAnimationHandler().setRepeat(false);
-			player.changeSprite(false);
-			if (player.getAnimationHandler().flipHorizontal()) {
-				player.desyncSpriteX(-34);
+		if (this.mouseButtonDown(0) && !Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite)  && !Jeffrey.getActiveJeffrey().isCrouched() ) {
+			Jeffrey.getActiveJeffrey().setSprite(samSwingSprite);
+			Jeffrey.getActiveJeffrey().getAnimationHandler().setFrameTime(50);
+			Jeffrey.getActiveJeffrey().getAnimationHandler().setRepeat(false);
+			Jeffrey.getActiveJeffrey().changeSprite(false);
+			if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
+				Jeffrey.getActiveJeffrey().desyncSpriteX(-34);
 				faceingLeft = true;
 			}
 		}
-		if (player.getSprite().equals(samSwingSprite)) {
-		if (faceingLeft && !player.getAnimationHandler().flipHorizontal()) {
-			player.desyncSpriteX(0);
+		if (Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite)) {
+		if (faceingLeft && !Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
+			Jeffrey.getActiveJeffrey().desyncSpriteX(0);
 			faceingLeft = false;
 		}
-		if (!faceingLeft && player.getAnimationHandler().flipHorizontal()) {
-			player.desyncSpriteX(-34);
+		if (!faceingLeft && Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
+			Jeffrey.getActiveJeffrey().desyncSpriteX(-34);
 			faceingLeft = true;
 		}
 		}
-		if (player.getSprite().equals(samSwingSprite) && player.getAnimationHandler().getFrame() ==  9) {
-			player.changeSprite(true);
-			player.setSprite(samWalkingSword);
-			player.getAnimationHandler().setRepeat(true);
+		if (Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite) && Jeffrey.getActiveJeffrey().getAnimationHandler().getFrame() ==  9) {
+			Jeffrey.getActiveJeffrey().changeSprite(true);
+			Jeffrey.getActiveJeffrey().setSprite(samWalkingSword);
+			Jeffrey.getActiveJeffrey().getAnimationHandler().setRepeat(true);
 			hitEnemys.removeAll(hitEnemys);
-			if (player.getAnimationHandler().flipHorizontal()) {
-				player.desyncSpriteX(0);
+			if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
+				Jeffrey.getActiveJeffrey().desyncSpriteX(0);
 				faceingLeft = false;
 			}
 		}
 		
-		if (player.getSprite().equals(samSwingSprite)) {
-			if (player.getAnimationHandler().flipHorizontal()) {
-			this.createExpandingHitBoxBasedOnADiffrentObject(new int [] { -34, -34, -34, -34,-22,-19,-24,-22,-24, -24,-34,-34}, new int [] {0,0,0,3,24,30,40,36,33,4,0,0}, new int [] {0,0,0,11,2,2,2,14,21,22,0,0} , new int [] {0,0,0,11,10,7,11,26,16,7,0,0} , player);
+		if (Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite)) {
+			if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
+			this.createExpandingHitBoxBasedOnADiffrentObject(new int [] { -34, -34, -34, -34,-22,-19,-24,-22,-24, -24,-34,-34}, new int [] {0,0,0,3,24,30,40,36,33,4,0,0}, new int [] {0,0,0,11,2,2,2,14,21,22,0,0} , new int [] {0,0,0,11,10,7,11,26,16,7,0,0} , Jeffrey.getActiveJeffrey());
 			} else {
-				this.createExpandingHitBoxBasedOnADiffrentObject(new int [] { 0, 0, 0, 45,0,0,0,0,0, 36,0,0}, new int [] {0,0,0,3,24,30,40,36,33,4,0,0}, new int [] {0,0,0,11,2,2,2,14,21,22,0,0} , new int [] {0,0,0,11,10,7,11,26,16,7,0,0} , player);
+				this.createExpandingHitBoxBasedOnADiffrentObject(new int [] { 0, 0, 0, 45,0,0,0,0,0, 36,0,0}, new int [] {0,0,0,3,24,30,40,36,33,4,0,0}, new int [] {0,0,0,11,2,2,2,14,21,22,0,0} , new int [] {0,0,0,11,10,7,11,26,16,7,0,0} , Jeffrey.getActiveJeffrey());
 			}
 		}
 		for (int i = 0; i < Enemy.enemyList.size(); i ++) {

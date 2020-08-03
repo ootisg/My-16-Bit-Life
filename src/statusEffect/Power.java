@@ -7,7 +7,6 @@ import players.Jeffrey;
 
 public class Power extends GameObject {
 	int charictar; 
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	int timer = 0;
 	int time = 900;
 	public Power (int charictarToModerate) {
@@ -15,7 +14,7 @@ public class Power extends GameObject {
 	}
 	@Override
 	public void frameEvent () {
-		if (j.witchCharictar == charictar) {
+		if (Jeffrey.getActiveJeffrey().witchCharictar == charictar) {
 		timer = timer + 1;
 		}
 		if (charictar == 0) {

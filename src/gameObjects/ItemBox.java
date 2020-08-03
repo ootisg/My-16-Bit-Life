@@ -15,7 +15,6 @@ public class ItemBox extends GameObject {
 		private ArrayList <Item> item = new ArrayList<Item> ();
 		private boolean inzialized = false;
 		private boolean playing = false;
-		Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 		public ItemBox () {
 			this.setHitboxAttributes(0, 0, 32, 16);
 			this.setSprite(new Sprite ("resources/sprites/chestClosed.png"));
@@ -45,7 +44,7 @@ public class ItemBox extends GameObject {
 					working.forget();
 				}
 			}
-			if (this.isColliding(j) && !open && keyDown (10)) {
+			if (this.isColliding(Jeffrey.getActiveJeffrey()) && !open && keyDown (10)) {
 				open = true;
 				if (cutscene == null) {
 					this.onOpen();

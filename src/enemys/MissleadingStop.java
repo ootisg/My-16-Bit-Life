@@ -7,7 +7,6 @@ import resources.Sprite;
 import switches.Activateable;
 
 public class MissleadingStop extends Enemy implements Activateable {
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	boolean activated = true;
 	public MissleadingStop () {
 		this.setDeath(false);
@@ -32,7 +31,7 @@ public class MissleadingStop extends Enemy implements Activateable {
 				enemyList.remove(this);		
 				this.forget();
 			}
-			if (j.getX() - this.getX() < 150 &&j.getX() - this.getX() >= -150 && this.declared()) {
+			if (Jeffrey.getActiveJeffrey().getX() - this.getX() < 150 &&Jeffrey.getActiveJeffrey().getX() - this.getX() >= -150 && this.declared()) {
 				Jeffrey.status.statusAppliedOnJeffrey[3] = true;
 				Jeffrey.status.statusAppliedOnRyan[3]= true;
 				Jeffrey.status.statusAppliedOnSam[3] = true;

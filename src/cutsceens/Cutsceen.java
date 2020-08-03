@@ -6,6 +6,7 @@ import java.util.HashMap;
 import actions.MakeText;
 import actions.Playsound;
 import gameObjects.BreakableObject;
+import gameObjects.Shard;
 import gui.ListTbox;
 import items.Item;
 import json.JSONArray;
@@ -740,9 +741,9 @@ private boolean runCheckItemCode (int commandNumber,int dataNumber) {
 			}
 			workingIndex = workingIndex + 1;
 		}
-		Sprite [] usableArray = new Sprite [workingIndex - (dataNumber+ 1)];
+		Shard [] usableArray = new Shard [workingIndex - (dataNumber+ 1)];
 		for (int i = 0; i < usableArray.length; i++) {
-			usableArray[i] = availableData.get(dataNumber + 1 + i).getSprite();
+			usableArray[i] = new Shard (availableData.get(dataNumber + 1 + i).getSprite());
 		}
 		working.Break(usableArray, Integer.parseInt(comands.get(commandNumber + 1)), Double.parseDouble(comands.get(commandNumber + 2)), Double.parseDouble(comands.get(commandNumber + 3)), Double.parseDouble(comands.get(commandNumber + 4)), Double.parseDouble(comands.get(commandNumber + 5)));
 		return false;

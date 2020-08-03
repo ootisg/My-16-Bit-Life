@@ -312,6 +312,7 @@ public class ObjectHandler {
 				objectClasses.put(name,c);
 				return c;
 			} catch (Exception e) {
+			//e.printStackTrace();
 			//do nothin
 			}
 		}
@@ -319,6 +320,7 @@ public class ObjectHandler {
 	}
 	public static GameObject getInstance (String name) {
 		Class<?> c = getClassFromString(name);
+		
 		try {
 			return (GameObject)c.getConstructor().newInstance();
 		} catch (Exception e) {

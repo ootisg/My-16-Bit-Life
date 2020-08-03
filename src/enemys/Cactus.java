@@ -11,7 +11,6 @@ import resources.Sprite;
 
 public class Cactus extends Enemy { 
 	private MiniCactus partner;
-	private Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	private int coolDown = 0;
 	public Cactus () {
 		this.setSprite(new Sprite ("resources/sprites/cactus.png"));
@@ -27,7 +26,7 @@ public class Cactus extends Enemy {
 			partner = new MiniCactus();
 			partner.declare(this.getX(),this.getY());
 			DirectionBullet bullet = new DirectionBullet(this.getX(),this.getY());
-			partner.setDirection(bullet.findDirection(j));
+			partner.setDirection(bullet.findDirection(Jeffrey.getActiveJeffrey()));
 		} else {
 			if (!partner.declared()) {
 				coolDown = coolDown + 1;

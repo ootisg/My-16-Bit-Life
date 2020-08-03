@@ -9,7 +9,6 @@ import statusEffect.Regeneration;
 
 public class BlueberryWaffle extends Item{
 	Sprite waffle = new Sprite ("resources/sprites/Blueberry_Waffle.png");
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 public BlueberryWaffle () {
 	this.setSprite(waffle); 
 	this.setHitboxAttributes(0, 0, 14, 20);
@@ -17,21 +16,21 @@ public BlueberryWaffle () {
 @Override
 public void useItem(int witchCharictar) {
 	if (witchCharictar == 0) {
-		j.jeffreyHealth = j.jeffreyHealth + 60;
-		if (j.jeffreyHealth >= j.maxJeffreyHealth ) {
-			j.jeffreyHealth = j.maxJeffreyHealth;
+		Jeffrey.jeffreyHealth = Jeffrey.jeffreyHealth + 60;
+		if (Jeffrey.jeffreyHealth >= Jeffrey.maxJeffreyHealth ) {
+			Jeffrey.jeffreyHealth = Jeffrey.maxJeffreyHealth;
 		}
 	}
 	if (witchCharictar == 1) {
-		j.samHealth = j.samHealth + 40;
-		if (j.samHealth >= j.maxSamHealth ) {
-			j.samHealth = j.maxSamHealth;
+		Jeffrey.samHealth = Jeffrey.samHealth + 40;
+		if (Jeffrey.samHealth >= Jeffrey.maxSamHealth ) {
+			Jeffrey.samHealth = Jeffrey.maxSamHealth;
 		}
 	}
 	if (witchCharictar == 2) {
-		j.ryanHealth = j.maxRyanHealth + 40;
-		if (j.ryanHealth >= j.maxRyanHealth ) {
-			j.ryanHealth = j.maxRyanHealth;
+		Jeffrey.ryanHealth = Jeffrey.maxRyanHealth + 40;
+		if (Jeffrey.ryanHealth >= Jeffrey.maxRyanHealth ) {
+			Jeffrey.ryanHealth = Jeffrey.maxRyanHealth;
 		}
 	}
 	Regeneration regeneration;

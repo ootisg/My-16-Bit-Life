@@ -11,7 +11,6 @@ import statusEffect.Lemoney;
 import statusEffect.Power;
 
 public class LemonPacket extends Item {
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	Sprite lemonPacket = new Sprite ("resources/sprites/Lemon_Packet.png");
 	public LemonPacket () {
 		this.setSprite(lemonPacket); 

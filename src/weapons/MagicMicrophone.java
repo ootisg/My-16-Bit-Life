@@ -19,7 +19,6 @@ public class MagicMicrophone extends Item {
 	boolean whippingLeft;
 	int timer;
 	int [] upgradeInfo;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	boolean addTime;
 	ListTbox box;
 	public  MagicMicrophone () {
@@ -59,38 +58,38 @@ public class MagicMicrophone extends Item {
 			box = new ListTbox (this.getX() - Room.getViewX(),this.getY() + Room.getViewY(),new String [] {"JEFFREY","SAM","RYAN"});
 			ObjectHandler.pause(true);
 		}
-		if (this.mouseButtonDown(0) && !j.getSprite().equals(j.ryanWhipping) && !j.isCrouched()) {
-			j.getAnimationHandler().setRepeat(false);
-			j.setSprite(j.ryanWhipping);
-			j.getAnimationHandler().setFrameTime(10);
-			j.changeSprite(false);
-			if (j.getAnimationHandler().flipHorizontal() ) {
+		if (this.mouseButtonDown(0) && !Jeffrey.getActiveJeffrey().getSprite().equals(Jeffrey.RYAN_WHIPPING) && !Jeffrey.getActiveJeffrey().isCrouched()) {
+			Jeffrey.getActiveJeffrey().getAnimationHandler().setRepeat(false);
+			Jeffrey.getActiveJeffrey().setSprite(Jeffrey.RYAN_WHIPPING);
+			Jeffrey.getActiveJeffrey().getAnimationHandler().setFrameTime(10);
+			Jeffrey.getActiveJeffrey().changeSprite(false);
+			if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal() ) {
 				whippingLeft = true;
-				j.desyncSpriteX(-34);
+				Jeffrey.getActiveJeffrey().desyncSpriteX(-34);
 			}
 		}
-		this.setX(j.getX());
-		this.setY(j.getY());
-		if (j.getSprite().equals(j.ryanWhipping) && j.getAnimationHandler().getFrame() == 7 && !addTime) {
-			j.setSprite(j.whipLength);
-			j.getAnimationHandler().setFrameTime(0);
-			j.changeFrameTime(false);
-			j.getAnimationHandler().setAnimationFrame(this.dealWithWhipFrame());
+		this.setX(Jeffrey.getActiveJeffrey().getX());
+		this.setY(Jeffrey.getActiveJeffrey().getY());
+		if (Jeffrey.getActiveJeffrey().getSprite().equals(Jeffrey.RYAN_WHIPPING) && Jeffrey.getActiveJeffrey().getAnimationHandler().getFrame() == 7 && !addTime) {
+			Jeffrey.getActiveJeffrey().setSprite(Jeffrey.WHIP_LENGTH);
+			Jeffrey.getActiveJeffrey().getAnimationHandler().setFrameTime(0);
+			Jeffrey.getActiveJeffrey().changeFrameTime(false);
+			Jeffrey.getActiveJeffrey().getAnimationHandler().setAnimationFrame(this.dealWithWhipFrame());
 		}
 		if (addTime) {
 			timer = timer + 1;
 			if (timer == 5) {
-				j.getAnimationHandler().setAnimationFrame(7);
+				Jeffrey.getActiveJeffrey().getAnimationHandler().setAnimationFrame(7);
 			}
 			if (timer == 10) {
 				timer = 0;
 				addTime =false;
-				j.getAnimationHandler().setRepeat(true);
-				j.changeFrameTime(true);
-				j.changeSprite(true);
-				j.setSprite(j.ryanMicrophoneWalking);
-				if (j.getAnimationHandler().flipHorizontal()) {
-					j.desyncSpriteX(0);
+				Jeffrey.getActiveJeffrey().getAnimationHandler().setRepeat(true);
+				Jeffrey.getActiveJeffrey().changeFrameTime(true);
+				Jeffrey.getActiveJeffrey().changeSprite(true);
+				Jeffrey.getActiveJeffrey().setSprite(Jeffrey.RYAN_MICROPHONE_WALKING);
+				if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
+					Jeffrey.getActiveJeffrey().desyncSpriteX(0);
 					whippingLeft = false;
 				}
 			}
@@ -138,17 +137,17 @@ public class MagicMicrophone extends Item {
 	}
 	@Override 
 	public void onSwitch () {
-		j.changeSprite(true);
-		j.getAnimationHandler().setRepeat(true);
+		Jeffrey.getActiveJeffrey().changeSprite(true);
+		Jeffrey.getActiveJeffrey().getAnimationHandler().setRepeat(true);
 		if (whippingLeft) {
-			j.desyncSpriteX(0);
+			Jeffrey.getActiveJeffrey().desyncSpriteX(0);
 		}
 	}
 	int dealWithWhipFrame () {
 		int length = 0;
 		for (int v = 0; v <= 7; v = v + 1 ) {
 			length = length + 4;
-			if (!j.getAnimationHandler().flipHorizontal()) {
+			if (!Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
 				this.setHitboxAttributes(13, 14, length, 13);	
 			} else {
 				this.setHitboxAttributes(-34, 14, length, 13);

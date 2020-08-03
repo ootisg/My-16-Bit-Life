@@ -12,7 +12,6 @@ import resources.Sprite;
 import switches.Activateable;
 
 public class Door extends MapObject implements Activateable {
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	boolean open = false;
 	boolean inizialized = false;
 	String keyName;
@@ -106,7 +105,7 @@ public class Door extends MapObject implements Activateable {
 			}
 			if (!open) {
 			super.frameEvent();
-				if (this.isColliding(j)) {
+				if (this.isColliding(Jeffrey.getActiveJeffrey())) {
 					try {
 						Class <?> c = Class.forName("items." + keyName);
 						if (Jeffrey.getInventory().checkKey((Item)c.getConstructor().newInstance())){

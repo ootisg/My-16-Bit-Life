@@ -19,7 +19,6 @@ public class LifeVaccum extends Item {
 	int timer;
 	int [] upgradeInfo;
 	Sprite vaccumSprite;
-	Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 	Wind wind = new Wind ();
 	boolean inzialized = false;
 	public final Sprite OUTTA_AMMO = new Sprite ("resources/sprites/Outta_Ammo.png");
@@ -67,7 +66,7 @@ public class LifeVaccum extends Item {
 		}
 		timer = timer + 1;
 		// this may need to be a diffrent number
-		if (mouseButtonDown (0) && !jeffrey.isCrouched()) {
+		if (mouseButtonDown (0) && !Jeffrey.getActiveJeffrey().isCrouched()) {
 			if (Jeffrey.getInventory().checkLifeVaccumBattary() > 0) {
 			if (loseBattary) {
 				Jeffrey.getInventory().subtractLifeVaccumBattary(1);
@@ -81,9 +80,9 @@ public class LifeVaccum extends Item {
 						timer = 0;
 					Enemy.enemyList.get(i).damage (damageDone);
 				
-					jeffrey.samHealth = jeffrey.samHealth + ((int)damageDone/4 + .2);
-					if (jeffrey.samHealth >jeffrey.maxSamHealth) {
-						jeffrey.samHealth = jeffrey.maxSamHealth;
+					Jeffrey.samHealth = Jeffrey.samHealth + ((int)damageDone/4 + .2);
+					if (Jeffrey.samHealth >Jeffrey.maxSamHealth) {
+						Jeffrey.samHealth = Jeffrey.maxSamHealth;
 					}
 					}
 					}
@@ -92,16 +91,16 @@ public class LifeVaccum extends Item {
 		} else {
 			AfterRenderDrawer.drawAfterRender((int)this.getX() - Room.getViewX(), (int)this.getY() - 10, OUTTA_AMMO);
 		}
-			jeffrey.vx = jeffrey.vx/1.25;
+			Jeffrey.getActiveJeffrey().vx = Jeffrey.getActiveJeffrey().vx/1.25;
 	} else {
 		wind.hide();
 	}
-		if (mouseButtonDown (2) && !jeffrey.isCrouched()) {
+		if (mouseButtonDown (2) && !Jeffrey.getActiveJeffrey().isCrouched()) {
 			if (wind.isColliding("Box")) {
 				Iterator<GameObject> iter = wind.getCollisionInfo().getCollidingObjects().iterator();
 				while (iter.hasNext()) {
 					GameObject working = iter.next();
-					if (jeffrey.getAnimationHandler().flipHorizontal()) {
+					if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
 						working.goX(working.getX() -2);
 					} else {
 						working.goX(working.getX() +2);
@@ -109,7 +108,7 @@ public class LifeVaccum extends Item {
 				}
 			}
 		}
-		if (jeffrey.getAnimationHandler().flipHorizontal()) {
+		if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
 			wind.setHitboxAttributes(0, 0, 49, 32);
 			wind.setX(this.getX() -48);
 			wind.setY(this.getY() - 16);

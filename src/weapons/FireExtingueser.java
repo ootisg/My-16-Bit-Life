@@ -8,7 +8,6 @@ import projectiles.Foam;
 import resources.Sprite;
 
 public class FireExtingueser extends AimableWeapon {
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get (0);
 	public FireExtingueser(Sprite sprite) {
 		super(sprite);
 	}
@@ -42,7 +41,7 @@ public class FireExtingueser extends AimableWeapon {
 	public void frameEvent () {
 		// cause cunncurrent stuff if it works properly
 		int numParticles = 10;
-		if (mouseButtonDown (0) && !j.isCrouched()) {
+		if (mouseButtonDown (0) && !Jeffrey.getActiveJeffrey().isCrouched()) {
 			for (int i = 0; i < numParticles; i++) {
 				Point newPoint = new Point ();
 				double [] working = this.simulateShot();

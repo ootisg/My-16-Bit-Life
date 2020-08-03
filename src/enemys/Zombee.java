@@ -15,7 +15,6 @@ public class Zombee extends Enemy {
 	Random decider;
 	int yToMove;
 	int timer;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	private final static Sprite NORMAL_SPRITE = new Sprite ("resources/sprites/config/zombee.txt") ;
 	private final static Sprite WOOD_SPRITE = new Sprite ("resources/sprites/config/zombeeW.txt") ;
 	private final static Sprite PETRIFIED_WOOD_SPRITE = new Sprite ("resources/sprites/ZombeePW.txt") ;
@@ -95,27 +94,27 @@ public class Zombee extends Enemy {
 			}
 			this.setHitboxAttributes(0, 0, 16, 10);
 		}
-		if (((j.getX() > this.getX()) && j.getY() > this.getY()) && !pathDecided) {
+		if (((Jeffrey.getActiveJeffrey().getX() > this.getX()) && Jeffrey.getActiveJeffrey().getY() > this.getY()) && !pathDecided) {
 			xToMove = decider.nextInt(3) + 1;
 			yToMove = decider.nextInt(3) + 1;
 			this.getAnimationHandler().setFlipHorizontal(false);
 			pathDecided = true;
 		}
-if ((j.getX() < this.getX()) && j.getY() > this.getY()&& !pathDecided) {
+if ((Jeffrey.getActiveJeffrey().getX() < this.getX()) && Jeffrey.getActiveJeffrey().getY() > this.getY()&& !pathDecided) {
 	xToMove = decider.nextInt(3) + 1;
 	xToMove = xToMove * -1;
 	this.getAnimationHandler().setFlipHorizontal(true);
 	yToMove = decider.nextInt(3) + 1;
 	pathDecided = true;		
 		}
-if ((j.getX() > this.getX()) && j.getY() < this.getY()&& !pathDecided) {
+if ((Jeffrey.getActiveJeffrey().getX() > this.getX()) && Jeffrey.getActiveJeffrey().getY() < this.getY()&& !pathDecided) {
 	xToMove = decider.nextInt(3) + 1;
 	yToMove = decider.nextInt(3) + 1;
 	yToMove = yToMove * -1;
 	this.getAnimationHandler().setFlipHorizontal(false);
 	pathDecided = true;
 }
-if ((j.getX() < this.getX()) && j.getY() < this.getY()&& !pathDecided) {
+if ((Jeffrey.getActiveJeffrey().getX() < this.getX()) && Jeffrey.getActiveJeffrey().getY() < this.getY()&& !pathDecided) {
 	xToMove = decider.nextInt(3) + 1;
 	yToMove = decider.nextInt(3) + 1;
 	yToMove = yToMove * -1;
@@ -145,7 +144,7 @@ if (Room.isColliding(this)) {
 		this.getAnimationHandler().setFlipHorizontal(false);
 	}
 }
-if (this.isColliding(j)) {
+if (this.isColliding(Jeffrey.getActiveJeffrey())) {
 	this.attackEvent();
 }
 	}

@@ -17,7 +17,6 @@ public class LaserPointer extends AimableWeapon {
 	double x;
 	double y;
 	double realX;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	double realY;
 	double newX;
 	double newY;
@@ -70,7 +69,7 @@ public class LaserPointer extends AimableWeapon {
 		int count =0;
 		x = this.getX();
 		y = this.getY();
-		if (mouseButtonDown(0) && !j.isCrouched()) {
+		if (mouseButtonDown(0) && !Jeffrey.getActiveJeffrey().isCrouched()) {
 			while (true) {
 				count = count + 1;
 				try {
@@ -104,7 +103,7 @@ public class LaserPointer extends AimableWeapon {
 	}
 	@Override 
 	public void frameEvent () {
-		if (mouseButtonDown(0) && !j.isCrouched()) {
+		if (mouseButtonDown(0) && !Jeffrey.getActiveJeffrey().isCrouched()) {
 			fireTimer++;
 			x = this.getX();
 			y = this.getY();
@@ -185,7 +184,7 @@ public class LaserPointer extends AimableWeapon {
 		}
 	}
 	public void draw () {
-		if (mouseButtonDown(0) && !j.isCrouched()) {
+		if (mouseButtonDown(0) && !Jeffrey.getActiveJeffrey().isCrouched()) {
 		lol.drawLine((int)x,(int) y, (int)newX, (int)newY);
 		}
 	}

@@ -11,7 +11,6 @@ public class FallingChandleer extends GameObject {
 	boolean falling = false;
 	MoveSlowEvent event;
 	boolean rising = false;
-	Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	int origioalPosiotn;
 	public FallingChandleer () {
 		this.setSprite(new Sprite ("resources/sprites/chandleer.png"));
@@ -19,11 +18,11 @@ public class FallingChandleer extends GameObject {
 	}
 	@Override 
 	public void frameEvent () {
-		if (isColliding (player)) {
+		if (isColliding (Jeffrey.getActiveJeffrey())) {
 			attackEvent ();
 		}
 		
-		if ((player.getX() > this.getX () + 8 && player.getX() < this.getX() +22 || falling) && !rising) {
+		if ((Jeffrey.getActiveJeffrey().getX() > this.getX () + 8 && Jeffrey.getActiveJeffrey().getX() < this.getX() +22 || falling) && !rising) {
 			falling = true;
 			if (event == null) {
 				origioalPosiotn = (int)this.getY();
@@ -57,6 +56,6 @@ public class FallingChandleer extends GameObject {
 		}
 	}
 	public void attackEvent () {
-		player.damage (5);
+		Jeffrey.getActiveJeffrey().damage (5);
 	}
 }

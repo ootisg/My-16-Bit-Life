@@ -7,7 +7,6 @@ import resources.Sprite;
 import statusEffect.Fastness;
 
 public class ChoclateWaffle extends Item{
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	private static final Sprite WAFFLE = new Sprite ("resources/sprites/Chocolate_Waffle.png");
 	public ChoclateWaffle () {
 		this.setSprite(WAFFLE); 
@@ -16,21 +15,21 @@ public class ChoclateWaffle extends Item{
 	@Override
 	public void useItem(int witchCharictar) {
 		if (witchCharictar == 0) {
-			j.jeffreyHealth = j.jeffreyHealth + 70;
-			if (j.jeffreyHealth >= j.maxJeffreyHealth ) {
-				j.jeffreyHealth = j.maxJeffreyHealth;
+			Jeffrey.jeffreyHealth = Jeffrey.jeffreyHealth + 70;
+			if (Jeffrey.jeffreyHealth >= Jeffrey.maxJeffreyHealth ) {
+				Jeffrey.jeffreyHealth = Jeffrey.maxJeffreyHealth;
 			}
 		}
 		if (witchCharictar == 1) {
-			j.samHealth = j.samHealth + 50;
-			if (j.samHealth >= j.maxSamHealth ) {
-				j.samHealth = j.maxSamHealth;
+			Jeffrey.samHealth = Jeffrey.samHealth + 50;
+			if (Jeffrey.samHealth >= Jeffrey.maxSamHealth ) {
+				Jeffrey.samHealth = Jeffrey.maxSamHealth;
 			}
 		}
 		if (witchCharictar == 2) {
-			j.ryanHealth = j.maxRyanHealth + 50;
-			if (j.ryanHealth >= j.maxRyanHealth ) {
-				j.ryanHealth = j.maxRyanHealth;
+			Jeffrey.ryanHealth = Jeffrey.maxRyanHealth + 50;
+			if (Jeffrey.ryanHealth >= Jeffrey.maxRyanHealth ) {
+				Jeffrey.ryanHealth = Jeffrey.maxRyanHealth;
 			}
 		}
 		Fastness fast;

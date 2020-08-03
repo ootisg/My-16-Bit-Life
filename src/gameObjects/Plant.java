@@ -11,9 +11,6 @@ public class Plant extends EnterableObject {
 	
 	private boolean inzialize = true;
 	
-	
-	private Jeffrey j = (Jeffrey)ObjectHandler.getObjectsByName("Jeffrey").get(0);
-	
 	private int despawnTimer = 0;
 	
 	private int originX;
@@ -135,24 +132,24 @@ public class Plant extends EnterableObject {
 			this.inside = true;
 			originX = (int) this.getX();
 			originY = (int) this.getY();
-			if (j.witchCharictar == 0) {
+			if (Jeffrey.getActiveJeffrey().witchCharictar == 0) {
 				this.setSprite(J_IDLE);
 			}
-			if (j.witchCharictar == 1) {
+			if (Jeffrey.getActiveJeffrey().witchCharictar == 1) {
 				this.setSprite(S_IDLE);
 			}
-			if (j.witchCharictar == 2) {
+			if (Jeffrey.getActiveJeffrey().witchCharictar == 2) {
 				this.setSprite(R_IDLE);
 			}
-			j.getAnimationHandler().hide();
-			j.blackList();
+			Jeffrey.getActiveJeffrey().getAnimationHandler().hide();
+			Jeffrey.getActiveJeffrey().blackList();
 			inPot = true;
 		}
 	}
 	public void makeBroken () {
 		this.isBroken = true;
-		j.whiteList();
-		j.getAnimationHandler().show();
+		Jeffrey.getActiveJeffrey().whiteList();
+		Jeffrey.getActiveJeffrey().getAnimationHandler().show();
 		this.Break(new Shard [] {new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard1.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard2.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard3.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard4.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard5.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard6.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard7.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard8.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard9.txt"))},this.getX(),this.getY() + 18, 9, 2, 4, 0, 3.14);
 		this.setSprite(new Sprite ("resources/sprites/Broken_Plant.png"));
 		Plant plant = new Plant();

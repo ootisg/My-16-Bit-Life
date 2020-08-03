@@ -14,7 +14,6 @@ public class Poison extends GameObject{
 	int effectTimer;
 	int level;
 	Sprite poisoned;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	Sprite poisonedWalk;
 	int charictarAtStart;
 	boolean firstRun;
@@ -30,7 +29,7 @@ public class Poison extends GameObject{
 		poisoned = new Sprite ("resources/sprites/config/jeffrey_idle_poisoned.txt");
 		poisonedWalk = new Sprite ("resources/sprites/config/jeffrey_walking_poisoned.txt");
 		timer = 0;
-		charictarAtStart = j.witchCharictar;
+		charictarAtStart = Jeffrey.getActiveJeffrey().witchCharictar;
 		effectTimer = 0;
 		level = tier;
 		affectedMAN.walkSprite = poisonedWalk;
@@ -53,7 +52,7 @@ public class Poison extends GameObject{
 		if ((!Jeffrey.status.statusAppliedOnJeffrey [0] && charictarAtStart == 0) || (!Jeffrey.status.statusAppliedOnSam [0] && charictarAtStart == 1)) {
 			this.forget();
 		}
-		if (j.witchCharictar == charictarAtStart) {
+		if (Jeffrey.getActiveJeffrey().witchCharictar == charictarAtStart) {
 		if (affectedMAN.getSprite().equals(poisoned)) {
 		}
 		if( !(affectedPerson == null) && ((timer == 150 && level == 1) || (timer == 120 && level == 2) || (timer == 90 && level == 3) || (timer == 60 && level == 4))){

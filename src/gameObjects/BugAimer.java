@@ -2,11 +2,11 @@ package gameObjects;
 
 import enemys.BuggyBoi;
 import main.GameObject;
+import players.Jeffrey;
 import projectiles.PokaDot;
 import resources.Sprite;
 
 public class BugAimer extends GameObject {
-	//Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	BuggyBoi friend;
 	int xDisplacement;
 	int yDisplacement;

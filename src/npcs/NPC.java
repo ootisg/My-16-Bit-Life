@@ -10,7 +10,6 @@ public class NPC extends GameObject {
 	Cutsceen attachedCutscene;
 	boolean playing = false;
 	boolean inzalized = false;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	public NPC () {
 	}
 	public String checkName (){
@@ -45,7 +44,7 @@ public class NPC extends GameObject {
 			this.setHitboxAttributes(0, 0, this.getSprite().getWidth(), this.getSprite().getHeight());
 			inzalized = true;
 		}
-		if (keyDown (10) && !playing && j.isColliding(this)) {
+		if (keyDown (10) && !playing && Jeffrey.getActiveJeffrey().isColliding(this)) {
 			Jeffrey.getInventory().addFreind(this);
 			ObjectHandler.pause(true);
 			playing = true;

@@ -16,7 +16,6 @@ public class Menu extends GameObject{
 	boolean iterateTab;
 	boolean notChanged;
 	boolean prepared = false;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	int charictarIndex;
 	boolean mouseControls;
 	Tbox nameBox;
@@ -463,13 +462,13 @@ public class Menu extends GameObject{
 		nameBox.setContent(Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName());
 		entryBox.setContent(Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkEntry());
 		if (Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("JEFFREY")) {
-			healthBox.setContent(Integer.toString((int)j.getHealth(0)) + "/" + Integer.toString((int) j.maxJeffreyHealth));
+			healthBox.setContent(Integer.toString((int)Jeffrey.getActiveJeffrey().getHealth(0)) + "/" + Integer.toString((int) Jeffrey.maxJeffreyHealth));
 			}
 			if (Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("SAM")) {
-				healthBox.setContent(Integer.toString((int)j.getHealth(1)) + "/" + Integer.toString((int) j.maxSamHealth));
+				healthBox.setContent(Integer.toString((int)Jeffrey.getActiveJeffrey().getHealth(1)) + "/" + Integer.toString((int) Jeffrey.maxSamHealth));
 				}
 			if (Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("RYAN")) {
-				healthBox.setContent(Integer.toString((int)j.getHealth(2)) + "/" + Integer.toString((int) j.maxRyanHealth));
+				healthBox.setContent(Integer.toString((int)Jeffrey.getActiveJeffrey().getHealth(2)) + "/" + Integer.toString((int) Jeffrey.maxRyanHealth));
 				}
 		}
 		//draws stuff for page 2
@@ -1239,7 +1238,7 @@ public class Menu extends GameObject{
 	public void setUpNewPlayableCharictar () {
 		if (Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("JEFFREY")) {
 			//creates a new display of jeffreys health when it gets changed to the charitar page if jeffrey's page is the active page
-		healthBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY()+ 280, 16,9,Integer.toString((int)j.getHealth(0)) + "/" + Integer.toString((int) j.maxJeffreyHealth), false);
+		healthBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY()+ 280, 16,9,Integer.toString((int)Jeffrey.getActiveJeffrey().getHealth(0)) + "/" + Integer.toString((int) Jeffrey.maxJeffreyHealth), false);
 		healthBox.setScrollRate(0);
 		healthBox.keepOpen(true);
 		//adds the weapons owned by jeffrey to the after render draw arraylist (adds a question mark for the ones he doesen't own) if jeffrey's page is the active page
@@ -1254,7 +1253,7 @@ public class Menu extends GameObject{
 		
 		if (Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("SAM")) {
 			//creates a new display of sam's health when it gets changed to the charitar page is sam's page is the active page
-			healthBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY()+ 280, 16,9,Integer.toString((int)j.getHealth(1)) + "/" + Integer.toString((int) j.maxSamHealth), false);
+			healthBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY()+ 280, 16,9,Integer.toString((int)Jeffrey.getActiveJeffrey().getHealth(1)) + "/" + Integer.toString((int) Jeffrey.maxSamHealth), false);
 			healthBox.setScrollRate(0);
 			healthBox.keepOpen(true);
 			//adds the weapons owned by sam to the after render draw arraylist (adds a question mark for the ones he doesen't own) if sam's page is the active page
@@ -1268,7 +1267,7 @@ public class Menu extends GameObject{
 			}
 		if (Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("RYAN")) {
 			//creates a new display of Ryan's health when it gets changed to the charitar page is Ryan's page is the active page
-			healthBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY()+ 280, 16,9,Integer.toString((int)j.getHealth(2)) + "/" + Integer.toString((int) j.maxRyanHealth), false);
+			healthBox = new Tbox(this.getX() + 35 - Room.getViewX(), this.getY()+ 280, 16,9,Integer.toString((int)Jeffrey.getActiveJeffrey().getHealth(2)) + "/" + Integer.toString((int) Jeffrey.maxRyanHealth), false);
 			healthBox.setScrollRate(0);
 			healthBox.keepOpen(true);
 			//adds the weapons owned by Ryan to the after render draw arraylist (adds a question mark for the ones he doesen't own) if sam's page is the active page

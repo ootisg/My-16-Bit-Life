@@ -31,6 +31,7 @@ public class MagicMarker extends AimableWeapon {
 	Tbox box;
 	private int [] upgradeInfo;
 	Tbox ammoAmount;
+	boolean inzilaztion = false;
 	public MagicMarker(Sprite sprite) {
 		super(sprite);
 		ammoAmount = new Tbox (0,0,24,1, "0", false);
@@ -41,8 +42,6 @@ public class MagicMarker extends AimableWeapon {
 		this.cooldown = 0;
 		upgradeInfo = new int [] {0,0,0,0};
 		this.setSprite(Marker);
-		GameObject player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
-		setY (player.getY() + 16);
 	}
 	@Override
 	public String checkName () {
@@ -77,6 +76,10 @@ public class MagicMarker extends AimableWeapon {
 	}
 	@Override
 	public void frameEvent () {
+		if (!inzilaztion) {
+			setY (Jeffrey.getActiveJeffrey().getY() + 16);
+			inzilaztion = true;
+		}
 		if (mouseButtonPressed (2)) {
 			color = color + 1;
 			if (color > 6) {

@@ -11,7 +11,6 @@ public class MissleadingOneWay extends Enemy implements Activateable{
 	Oneway finalWay;
 	Sprite signSprite;
 	boolean activated = true;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 		public MissleadingOneWay () {
 			signSprite = new Sprite ("resources/sprites/config/Missleading_oneway.txt");
 			this.setSprite(signSprite);
@@ -28,15 +27,15 @@ public class MissleadingOneWay extends Enemy implements Activateable{
 	@Override
 		public void frameEvent () {
 		if (activated) {
-			if (j.getX() - this.getX() < 150 &&j.getX() - this.getX() >= -150 ) {
+			if (Jeffrey.getActiveJeffrey().getX() - this.getX() < 150 &&Jeffrey.getActiveJeffrey().getX() - this.getX() >= -150 ) {
 				finalWay = new Oneway (this.getAnimationHandler().flipHorizontal());
 				finalWay.declare(0, 0);
 			} else {
 				Jeffrey.status.statusAppliedOnJeffrey[1] = false;
 				Jeffrey.status.statusAppliedOnSam [1] = false;
 				Jeffrey.status.statusAppliedOnRyan[1] = false;
-					j.bindLeft = false;	
-					j.bindRight = false;
+				Jeffrey.getActiveJeffrey().bindLeft = false;	
+				Jeffrey.getActiveJeffrey().bindRight = false;
 			}
 		}
 	}

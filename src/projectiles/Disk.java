@@ -5,7 +5,6 @@ import players.Jeffrey;
 import resources.Sprite;
 
 public class Disk extends Projectile {
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	public Disk(double direction) {
 		this.setDirection(direction);
 		this.setSpeed(2);
@@ -18,8 +17,8 @@ public class Disk extends Projectile {
 	public void frameEvent () {
 		this.setX (this.getX () + Math.cos (direction) * speed); 
 		this.setY (this.getY () + Math.sin (direction) * speed);
-		if (this.isColliding(j)) {
-			j.damage(20);
+		if (this.isColliding(Jeffrey.getActiveJeffrey())) {
+			Jeffrey.getActiveJeffrey().damage(20);
 		}
 		if (this.outsideTheMap) {
 			this.forget();

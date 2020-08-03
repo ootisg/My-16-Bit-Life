@@ -23,7 +23,6 @@ import resources.Sprite;
 public class Item extends Projectile {
 	Boolean activeBox = false;
 	ListTbox box;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	LemonPacket packet;
 	double direction;
 	double speed;
@@ -90,7 +89,7 @@ public class Item extends Projectile {
 		return returnArray;
 	}
 	public void allwaysRunItemStuff (int witchCharitar) {
-		if (j.checkIfSomeoneIsLemoney(witchCharitar) && !activeBox && this.getItemType().equals("Consumable") && !this.checkName().equals("LEMON PACKET")) {
+		if (Jeffrey.getActiveJeffrey().checkIfSomeoneIsLemoney(witchCharitar) && !activeBox && this.getItemType().equals("Consumable") && !this.checkName().equals("LEMON PACKET")) {
 			Tbox twobox2furios;
 			activeBox = true;
 			packet = new LemonPacket ();
@@ -126,7 +125,7 @@ public class Item extends Projectile {
 			this.useItem(witchCharitar);
 			activeBox = true;
 		}
-		if ((!j.checkIfSomeoneIsLemoney(witchCharitar) || this.checkName().equals("LEMON PACKET")) && this.getItemType().equals("Consumable")) {
+		if ((!Jeffrey.getActiveJeffrey().checkIfSomeoneIsLemoney(witchCharitar) || this.checkName().equals("LEMON PACKET")) && this.getItemType().equals("Consumable")) {
 			this.useItem(witchCharitar);
 			Jeffrey.getInventory().removeItem(this);
 		}
@@ -135,7 +134,7 @@ public class Item extends Projectile {
 	public void projectileFrame () {
 		this.goY(this.getY() + 1);
 		if (!maganatized) {
-			if (j.getX() < this.getX() + 50 && j.getX() > this.getX() - 50 && j.getY() < this.getY() + 50 && j.getY() > this.getY() - 50) {
+			if (Jeffrey.getActiveJeffrey().getX() < this.getX() + 50 && Jeffrey.getActiveJeffrey().getX() > this.getX() - 50 && Jeffrey.getActiveJeffrey().getY() < this.getY() + 50 && Jeffrey.getActiveJeffrey().getY() > this.getY() - 50) {
 				maganatized = true;
 			}
 			if (this.getDirection() % 6.28 > 1.57 && this.getDirection() %6.28 < 4.7) {
@@ -175,14 +174,14 @@ public class Item extends Projectile {
 				this.goY( this.getY() + 3);
 			}
 			} else {
-				if (!(j.getX() < this.getX() + 50 && j.getX() > this.getX() - 50 && j.getY() < this.getY() + 50 && j.getY() > this.getY() - 50)) {
+				if (!(Jeffrey.getActiveJeffrey().getX() < this.getX() + 50 && Jeffrey.getActiveJeffrey().getX() > this.getX() - 50 && Jeffrey.getActiveJeffrey().getY() < this.getY() + 50 && Jeffrey.getActiveJeffrey().getY() > this.getY() - 50)) {
 					maganatized = false;
 				}
 				DirectionBullet bullet = new DirectionBullet (this.getX(),this.getY());
-				this.setDirection(bullet.findDirection(j));
+				this.setDirection(bullet.findDirection(Jeffrey.getActiveJeffrey()));
 				this.setSpeed(5);
 			}
-		if (this.isColliding(j)) {
+		if (this.isColliding(Jeffrey.getActiveJeffrey())) {
 			if (tbox.declared()) {
 				String [] words = tbox.getContent().split(" ");
 				int length = 0;
@@ -199,7 +198,7 @@ public class Item extends Projectile {
 					tbox.setContent(tbox.getContent() + " AND A " + this.checkName() + " X 1");
 				}
 			} else {
-				tbox = new Tbox (j.getX(), j.getY() - 8, 28, 2, "YOU GOT A " + this.checkName() + " X 1", true);
+				tbox = new Tbox (Jeffrey.getActiveJeffrey().getX(), Jeffrey.getActiveJeffrey().getY() - 8, 28, 2, "YOU GOT A " + this.checkName() + " X 1", true);
 			}
 			this.onPickup();
 			this.forget();

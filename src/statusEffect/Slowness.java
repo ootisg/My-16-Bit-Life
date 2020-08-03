@@ -8,14 +8,13 @@ import players.Jeffrey;
 public class Slowness extends GameObject {
 	int charictar; 
 	int timer = 0;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	int time = 900;
 	public Slowness ( int charictarToModerate) {
 	charictar = charictarToModerate;
 	}
 	@Override
 	public void frameEvent () {
-		if (j.witchCharictar == charictar) {
+		if (Jeffrey.getActiveJeffrey().witchCharictar == charictar) {
 		timer = timer + 1;
 		}
 		if (charictar == 0) {

@@ -25,7 +25,6 @@ public class Bombs extends AimableWeapon {
 	boolean itsOver = false;
 	boolean inHand = false;
 	BombsProjectile bomb = null;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0); 
 	public static final Sprite newBomb = new Sprite ("resources/sprites/config/bomb_active_blue.txt");
 	private Sprite bombIconSprite;
 	boolean firstRun = true;
@@ -85,7 +84,7 @@ public class Bombs extends AimableWeapon {
 		if (cooldown > 0) {
 			cooldown--;
 		}
-		if (mouseButtonPressed(0) && !j.isCrouched() && cooldown == 0) {
+		if (mouseButtonPressed(0) && !Jeffrey.getActiveJeffrey().isCrouched() && cooldown == 0) {
 			bomb = new BombsProjectile();
 			inHand = true;
 		}

@@ -8,13 +8,12 @@ import players.Jeffrey;
 public class EnterableObject extends BreakableObject {
 	protected boolean inside = false;
 	protected boolean isBroken = false;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	public EnterableObject () {
 		
 	}
 	@Override 
 	public void frameEvent () {
-		if (j.isColliding(this) && !inside && !this.isBroken ) {
+		if (Jeffrey.getActiveJeffrey().isColliding(this) && !inside && !this.isBroken ) {
 			this.onEntry();
 			
 		}
@@ -39,8 +38,8 @@ public class EnterableObject extends BreakableObject {
 				viewX = (int) x - 213;
 				Room.setView (viewX, Room.getViewY ());
 			}
-			j.setX(this.getX());
-			j.setY(this.getY());
+			Jeffrey.getActiveJeffrey().setX(this.getX());
+			Jeffrey.getActiveJeffrey().setY(this.getY());
 			try {
 				if (this.isCollidingChildren("Enemy") || this.isCollidingChildren("Projectile")) {
 					this.onBreak();
@@ -52,10 +51,10 @@ public class EnterableObject extends BreakableObject {
 		
 	}
 	public void onEntry () {
-		j.getAnimationHandler().hide();
-		j.getWeapon().blackList();
-		j.getWeapon().hide();
-		j.blackList();
+		Jeffrey.getActiveJeffrey().getAnimationHandler().hide();
+		Jeffrey.getActiveJeffrey().getWeapon().blackList();
+		Jeffrey.getActiveJeffrey().getWeapon().hide();
+		Jeffrey.getActiveJeffrey().blackList();
 		inside = true;
 	}
 	public void onBreak () {
@@ -63,9 +62,9 @@ public class EnterableObject extends BreakableObject {
 	}
 	public void exit () {
 		inside = false;
-		j.getWeapon().whiteList();
-		j.getWeapon().show();
-		j.getAnimationHandler().show();
-		j.whiteList();
+		Jeffrey.getActiveJeffrey().getWeapon().whiteList();
+		Jeffrey.getActiveJeffrey().getWeapon().show();
+		Jeffrey.getActiveJeffrey().getAnimationHandler().show();
+		Jeffrey.getActiveJeffrey().whiteList();
 		}
 	}

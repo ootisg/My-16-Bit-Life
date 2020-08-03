@@ -6,7 +6,6 @@ import resources.Sprite;
 
 public class Lever extends Switch {
 	private static final Sprite SWITCH_SPRITE = new Sprite ("resources/sprites/config/switch.txt");
-	private Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	public Lever () {
 		this.setSprite(SWITCH_SPRITE);
 		this.adjustHitboxBorders();
@@ -15,7 +14,7 @@ public class Lever extends Switch {
 	@Override
 	public void frameEvent () {
 		super.frameEvent();
-		if (j.isColliding(this) && keyPressed(10)) {
+		if (Jeffrey.getActiveJeffrey().isColliding(this) && keyPressed(10)) {
 			if (this.isActivated()) {
 				this.getAnimationHandler().setAnimationFrame(0);
 				this.onFlip();

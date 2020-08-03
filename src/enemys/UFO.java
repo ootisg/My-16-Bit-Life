@@ -12,7 +12,6 @@ import resources.LoopableSprite;
 import resources.Sprite;
 
 public class UFO extends Enemy {
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	boolean chaseing = false;
 	
 	boolean direction = true;
@@ -48,15 +47,15 @@ public class UFO extends Enemy {
 	public void enemyFrame () {
 		timer = timer + 1;
 		if (this.isNearPlayerX(0, 400, 0, 400)) {
-			if (this.getX() + LAZER_OFFSET > j.getX()) {
+			if (this.getX() + LAZER_OFFSET > Jeffrey.getActiveJeffrey().getX()) {
 				this.goX(this.getX() - 3);
-				if (this.getX() + LAZER_OFFSET < j.getX()) {		
-					this.goX(j.getX() - LAZER_OFFSET);	
+				if (this.getX() + LAZER_OFFSET < Jeffrey.getActiveJeffrey().getX()) {		
+					this.goX(Jeffrey.getActiveJeffrey().getX() - LAZER_OFFSET);	
 				}
 			} else {
 				this.goX(this.getX() + 3);
-				if (this.getX() + LAZER_OFFSET > j.getX()) {		
-					this.goX(j.getX() - LAZER_OFFSET);	
+				if (this.getX() + LAZER_OFFSET > Jeffrey.getActiveJeffrey().getX()) {		
+					this.goX(Jeffrey.getActiveJeffrey().getX() - LAZER_OFFSET);	
 				}
 			
 			}
@@ -73,9 +72,9 @@ public class UFO extends Enemy {
 			while (true) {
 				this.setHitboxAttributes(15, 0, 1, 25 + yTo);
 				yTo = yTo + 1;
-				if (Room.isColliding(this) || yTo > Room.getViewY() + RenderLoop.window.getResolution()[1] || this.isColliding(j)) {
-					if (this.isColliding(j)) {
-						j.damage(12);
+				if (Room.isColliding(this) || yTo > Room.getViewY() + RenderLoop.window.getResolution()[1] || this.isColliding(Jeffrey.getActiveJeffrey())) {
+					if (this.isColliding(Jeffrey.getActiveJeffrey())) {
+						Jeffrey.getActiveJeffrey().damage(12);
 					}
 					break;
 				}

@@ -20,7 +20,6 @@ public class Candle extends Enemy implements LightSource, Extinguisable {
 	int timer = 0;
 	int flameHealth = 30;
 	boolean extinguesed = false;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	public Candle () {
 	this.setHealth(90);
 	this.setHitboxAttributes(0, 0, 16, 16);
@@ -33,7 +32,7 @@ public class Candle extends Enemy implements LightSource, Extinguisable {
 	timer = timer + 1;
 	if (timer == 30 && !extinguesed) {
 		DirectionBullet bullet = new DirectionBullet (this.getX(), this.getY());
-		fireball = new PokaDot(bullet.findDirection(j));
+		fireball = new PokaDot(bullet.findDirection(Jeffrey.getActiveJeffrey()));
 		fireball.declare(this.getX(),this.getY());
 		timer = 0;
 		}
@@ -43,7 +42,7 @@ public class Candle extends Enemy implements LightSource, Extinguisable {
 	
 	}
 	public void damage (int amount) {
-		if (j.checkIfPowerful()) {
+		if (Jeffrey.getActiveJeffrey().checkIfPowerful()) {
 			amount = (int) ((amount * 1.2) - defence);
 			if(amount <= 0){
 				amount = 1;

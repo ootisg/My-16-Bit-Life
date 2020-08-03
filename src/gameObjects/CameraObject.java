@@ -10,7 +10,6 @@ import switches.Activateable;
 
 public class CameraObject extends GameObject implements Activateable {
 	boolean inControl = false;
-	Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	public CameraObject () {
 		this.setHitboxAttributes(0, 0, 16, 16);
 	}
@@ -34,11 +33,11 @@ public class CameraObject extends GameObject implements Activateable {
 			CameraObject working = (CameraObject) iter.next();
 			working.giveUpControl();
 		}
-		j.setScroll(false);
+		Jeffrey.setScroll(false);
 		inControl = true;
 	}
 	public void giveUpControl () {
-		j.setScroll(true);
+		Jeffrey.setScroll(true);
 		inControl = false;
 	}
 	@Override
