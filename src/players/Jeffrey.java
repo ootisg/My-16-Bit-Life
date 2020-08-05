@@ -643,132 +643,8 @@ if (activeBox) {
 		}
 	}
 }
-	public static Jeffrey getActiveJeffrey () {
-		ArrayList <GameObject> jeffreys = ObjectHandler.getObjectsByName("Jeffrey");
-		for (int i = 0; i < jeffreys.size(); i++) {
-			Jeffrey j = (Jeffrey)jeffreys.get(i);
-			if (j.isActive()) {
-				return j;
-			}
-		}
-		return null;
-	}
-	/**
-	 * creates a new jeffrey with party 2 and sets this jeffrey to only have party 1
-	 * note having no charictars in either party WILL cause an infinte loop
-	 * @param party1 the group you want for the first party expressed as a boolean array (example: {true,false,true} would be a party of Jeffrey and Ryan)
-	 * @param party2 the group you want for the first party expressed as a boolean array (example: {false,true,false} would be a party of only sam)
-	 * @return the new Jeffrey
-	 */
-	public Jeffrey splitParty (boolean [] party1, boolean [] party2) {
-		this.party = party1;
-		Jeffrey j = new Jeffrey ();
-		j.party = party2;
-		j.active = false;
-		while (true) {
-			if (!party1[witchCharictar]) {
-				if (party2[witchCharictar]) {
-					j.active = true;
-					this.active = false;
-					break;
-				} else {
-					witchCharictar = witchCharictar + 1;
-				}
-			} else {
-				break;
-			}
-		}
-		return j;
-	}
-	/**
-	 * sets the party that is shared across all Jeffreys
-	 * @param party the entire party that is currently being used expressed as a boolean array (example: {true,true,true} represents a party consisting of jeffrey, sam and ryan)
-	 */
-	public static void setFullParty (boolean [] party) {
-		fullParty = party;
-	}
-	/**
-	 * destroys all jeffreys that have a portion of the party and gives all of the party members to this jeffrey
-	 * @param party every party member that should be in this new party
-	 */
-	public void joinPartys (boolean [] party) {
-		ArrayList <GameObject> working = ObjectHandler.getObjectsByName("Jeffrey");
-		for (int i = 0; i < working.size(); i++) {
-			Jeffrey j = (Jeffrey) working.get(i);
-			if (!j.equals(this)) {
-				boolean destroy = false;
-				for (int b = 0; b < party.length; b++) {
-					if (j.party[b] && party[b]) {
-						this.party[b] = true;
-						destroy = true;
-						if (j.active) {
-							active = true;
-						}
-					}
-				}
-				if (destroy) {
-					j.forget();
-				}
-			}
-		}
-		
-	}
-	public boolean isActive () {
-		return active;
-	}
-	private void runSwitchCode () {
-		int startMemer = nextCharacter;
-		while (!(fullParty[nextCharacter]) || witchCharictar == nextCharacter) {
-			nextCharacter = nextCharacter + 1;
-			
-			if (nextCharacter > 2) {
-				nextCharacter = 0;
-			}
-			if (startMemer == nextCharacter) {
-				break;
-			}
-		}
-	}
-	private void switchToAPartyMember () {
-		int startMemer = nextCharacter;
-		while (!(party[nextCharacter]) || witchCharictar == nextCharacter) {
-			nextCharacter = nextCharacter + 1;	
-			if (nextCharacter > 2) {
-				nextCharacter = 0;
-			}
-			if (startMemer == nextCharacter) {
-				break;
-			}
-		}
-		this.runCharictarSwitchCode(nextCharacter);
-		while (!(party[nextCharacter]) || witchCharictar == nextCharacter) {
-			nextCharacter = nextCharacter + 1;	
-			if (nextCharacter > 2) {
-				nextCharacter = 0;
-			}
-			if (startMemer == nextCharacter) {
-				break;
-			}
-		}
-	}
-	/**
-	 * @return true if it is posible to switch to another charictar false otherwise
-	 * 
-	 */
-	public boolean checkSwitch () {
-		int startMemer = nextCharacter;
-		int temp = nextCharacter;
-		while (!(fullParty[temp]) || witchCharictar == temp) {
-			temp = temp + 1;
-			if (temp > 2) {
-				temp = 0;
-			}
-			if (startMemer == temp) {	
-				return false;
-			}
-		}
-		return true;
-	}
+	
+	
 	public void damage (double baseDamage) {
 		switchTimer = 0;
 		if (invulTimer == 0) {
@@ -791,6 +667,7 @@ if (activeBox) {
 	public static Inventory getInventory () {
 		return Jeffrey.inventory;
 	}
+	
 	public boolean checkIfBrittle() {
 		if (this.witchCharictar == 0) {
 			 return status.statusAppliedOnJeffrey[4];
@@ -803,7 +680,6 @@ if (activeBox) {
 		}
 		return false;
 	}
-		
 	public boolean checkIfSlow() {
 		if (this.witchCharictar == 0) {
 			 return status.statusAppliedOnJeffrey[3];
@@ -852,6 +728,16 @@ if (activeBox) {
 		}
 		return false;
 	}
+	
+	public double getHealth (int CharictarToCheck) {
+		if (CharictarToCheck == 0) {
+			return jeffreyHealth;
+			} 
+			if (CharictarToCheck == 1) {
+			return samHealth;
+			}
+			return ryanHealth;
+		}
 	public double getHealth () {
 		if (witchCharictar == 0) {
 		return Jeffrey.jeffreyHealth;
@@ -861,10 +747,34 @@ if (activeBox) {
 		}
 		return Jeffrey.ryanHealth;
 	}
+	
 	//stops the charictar from falling for a bit
 	public void stopFall(boolean fall) {
 		fallBruh = !fall;
 	}
+	/**
+	 * determines wheater or not jeffrey controls the scrolling of the game
+	 */
+	public static void setScroll(boolean toScrollOrNotToScroll) {
+		scrolling = toScrollOrNotToScroll;
+	}
+	
+	public static void refreshFullParty() {
+		boolean [] working = new boolean [] {false,false,false};
+		ArrayList<GameObject> jeffreys = ObjectHandler.getObjectsByName("Jeffrey");
+		for (int i = 0; i < jeffreys.size(); i++) {
+			Jeffrey jeff = (Jeffrey) jeffreys.get(i);
+			for (int j = 0; j < jeff.party.length;j++) {
+				if (jeff.party[j]) {
+					working[j] = true;
+				}
+			}
+		}
+		fullParty = working;
+	}
+	
+	
+	
 	/**
 	 * runs the correct code to have the player switch to controling any charictar 
 	 * @param witchCharacter the charictar to switch too
@@ -929,6 +839,133 @@ if (activeBox) {
 			}
 		}
 	}
+	public static Jeffrey getActiveJeffrey () {
+		ArrayList <GameObject> jeffreys = ObjectHandler.getObjectsByName("Jeffrey");
+		for (int i = 0; i < jeffreys.size(); i++) {
+			Jeffrey j = (Jeffrey)jeffreys.get(i);
+			if (j.isActive()) {
+				return j;
+			}
+		}
+		return null;
+	}
+	/**
+	 * creates a new jeffrey with party 2 and sets this jeffrey to only have party 1
+	 * note having no charictars in either party WILL cause an infinte loop
+	 * @param party1 the group you want for the first party expressed as a boolean array (example: {true,false,true} would be a party of Jeffrey and Ryan)
+	 * @param party2 the group you want for the first party expressed as a boolean array (example: {false,true,false} would be a party of only sam)
+	 * @return the new Jeffrey
+	 */
+	public Jeffrey splitParty (boolean [] party1, boolean [] party2) {
+		this.party = party1;
+		Jeffrey j = new Jeffrey ();
+		j.party = party2;
+		j.active = false;
+		while (true) {
+			if (!party1[witchCharictar]) {
+				if (party2[witchCharictar]) {
+					j.active = true;
+					this.active = false;
+					break;
+				} else {
+					witchCharictar = witchCharictar + 1;
+				}
+			} else {
+				break;
+			}
+		}
+		refreshFullParty();
+		return j;
+	}
+	/**
+	 * sets the party that is shared across all Jeffreys
+	 * @param party the entire party that is currently being used expressed as a boolean array (example: {true,true,true} represents a party consisting of jeffrey, sam and ryan)
+	 */
+	public static void setFullParty (boolean [] party) {
+		fullParty = party;
+	}
+	/**
+	 * destroys all jeffreys that have a portion of the party and gives all of the party members to this jeffrey
+	 * @param party every party member that should be in this new party
+	 */
+	public void joinPartys (boolean [] party) {
+		ArrayList <GameObject> working = ObjectHandler.getObjectsByName("Jeffrey");
+		for (int i = 0; i < working.size(); i++) {
+			Jeffrey j = (Jeffrey) working.get(i);
+			if (!j.equals(this)) {
+				boolean destroy = false;
+				for (int b = 0; b < party.length; b++) {
+					if (j.party[b] && party[b]) {
+						this.party[b] = true;
+						destroy = true;
+						if (j.active) {
+							active = true;
+						}
+					}
+				}
+				if (destroy) {
+					j.forget();
+				}
+			}
+		}
+		refreshFullParty();
+	}
+	public boolean isActive () {
+		return active;
+	}
+	private void runSwitchCode () {
+		int startMemer = nextCharacter;
+		while (!(fullParty[nextCharacter]) || witchCharictar == nextCharacter) {
+			nextCharacter = nextCharacter + 1;
+			
+			if (nextCharacter > 2) {
+				nextCharacter = 0;
+			}
+			if (startMemer == nextCharacter) {
+				break;
+			}
+		}
+	}
+	private void switchToAPartyMember () {
+		int startMemer = nextCharacter;
+		while (!(party[nextCharacter]) || witchCharictar == nextCharacter) {
+			nextCharacter = nextCharacter + 1;	
+			if (nextCharacter > 2) {
+				nextCharacter = 0;
+			}
+			if (startMemer == nextCharacter) {
+				break;
+			}
+		}
+		this.runCharictarSwitchCode(nextCharacter);
+		while (!(party[nextCharacter]) || witchCharictar == nextCharacter) {
+			nextCharacter = nextCharacter + 1;	
+			if (nextCharacter > 2) {
+				nextCharacter = 0;
+			}
+			if (startMemer == nextCharacter) {
+				break;
+			}
+		}
+	}
+	/**
+	 * @return true if it is posible to switch to another charictar false otherwise
+	 * 
+	 */
+	public boolean checkSwitch () {
+		int startMemer = nextCharacter;
+		int temp = nextCharacter;
+		while (!(fullParty[temp]) || witchCharictar == temp) {
+			temp = temp + 1;
+			if (temp > 2) {
+				temp = 0;
+			}
+			if (startMemer == temp) {	
+				return false;
+			}
+		}
+		return true;
+	}
 	public static Jeffrey getJeffreyWithCharacter (int witchCharacter) {
 		for (int i = 0; i < ObjectHandler.getObjectsByName("Jeffrey").size(); i++) {
 			Jeffrey j = (Jeffrey)ObjectHandler.getObjectsByName("Jeffrey").get(i);
@@ -945,7 +982,6 @@ if (activeBox) {
 	public void removeCharacter (int witchCharacter) {
 		try {
 			party[witchCharacter] = false;
-			fullParty[witchCharacter] = false;
 			if (this.witchCharictar == witchCharacter) {
 				int lol = witchCharacter;
 				int startMemer = lol;
@@ -960,25 +996,24 @@ if (activeBox) {
 				}
 				this.runCharictarSwitchCode(lol);
 			 }
+			refreshFullParty();
 		} catch (IndexOutOfBoundsException e) {
 			
 		}
-	}
+	
+	}	
 	/**
-	 * determines wheater or not jeffrey controls the scrolling of the game
+	 * adds a character to the party 
+	 * @param witchCharacter the character to add (0 for Jeffrey 1 for Ryan 2 for Sam anything else will do nothing)
 	 */
-	public static void setScroll(boolean toScrollOrNotToScroll) {
-		scrolling = toScrollOrNotToScroll;
+	public void addCharacter (int witchCharacter) {
+		party [witchCharacter] = true;
+		refreshFullParty();
 	}
-	public double getHealth (int CharictarToCheck) {
-		if (CharictarToCheck == 0) {
-			return jeffreyHealth;
-			} 
-			if (CharictarToCheck == 1) {
-			return samHealth;
-			}
-			return ryanHealth;
-		}	
+	public void setParty (boolean [] party) {
+		this.party = party;
+		refreshFullParty();
+	}
 	@Override
 	public void draw () {
 		super.draw();

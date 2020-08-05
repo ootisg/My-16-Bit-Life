@@ -111,39 +111,47 @@ public class Cutsceen extends GameObject {
 					startVelocity = event.getDouble("endAcceleration");
 				}
 				//Do the thing
-				moveSlowly (objToMove, desX, desY, startVelocity, middleVelocity, endVelocity, startAcceleration, endAcceleration,startChain,endChain);
+				availableData.add(new CutsceneData(new MoveSlowEvent (objToMove,desX,desY,startVelocity,middleVelocity,endVelocity,startAcceleration,endAcceleration)));
+				comands.add("moveSlow");
 				break;
 			case "sound":
 				//get filepath
 				String path = event.getString("path");
 				
 				//do the thing
-				playSound (path,startChain,endChain);
+				comands.add("sound");
+				availableData.add(new CutsceneData (new Playsound ()));
+				comands.add(path);
 				break;
 			case "music":
 				//get filepath
 				String file = event.getString("path");
 				//do the thing
-				playMusic (file,startChain,endChain);
+				comands.add("music");
+				comands.add(file);
 				break;
 			case "text":
 				//get filepath
 				String text = event.getString("text");
 				//do the thing
-				makeTextBox (text,startChain,endChain);
+				comands.add("text");
+				availableData.add(new CutsceneData(new MakeText()));
+				comands.add(text);
 				break;
 			case "playScene":
 				//get filepath
 				String coolPath = event.getString("path");
 				GameObject [] passedObjects = (GameObject []) event.getJSONArray ("passedObjects").getContents().toArray();
 				//do the thing
-				playSceen (coolPath,passedObjects,startChain,endChain);
+				comands.add("playScene");
+				availableData.add(new CutsceneData (new Cutsceen (coolPath,passedObjects)));
 				break;
 			case "changeMap":
 				//get filepath
 				String neatPath = event.getString("path");
 				//do the thing
-				changeMap (neatPath,startChain,endChain);
+				comands.add("changeMap");
+				comands.add(neatPath);
 				break;
 			case "animation":
 				//get filepath and craft sprite
@@ -153,7 +161,10 @@ public class Cutsceen extends GameObject {
 				// get gameObject
 				GameObject workingObject = searchByName (event.getString("name")).obj;
 				//do the thing
-				playAnimation (workingSprite,workingObject,startChain,endChain);
+				comands.add("animation");
+				availableData.add(new CutsceneData (workingObject.getSprite()));
+				availableData.add(new CutsceneData (workingSprite));
+				availableData.add(new CutsceneData (searchByGameObject (workingObject)));
 				break;
 			case "sprite":
 				//get filepath and craft sprite
@@ -163,8 +174,11 @@ public class Cutsceen extends GameObject {
 				// get gameObject
 				GameObject wObject = searchByName (event.getString("name")).obj;
 				//do the thing
-				changeSprite (wSprite,wObject,startChain,endChain);
+				comands.add("sprite");
+				availableData.add(new CutsceneData (wSprite));
+				availableData.add(new CutsceneData (searchByGameObject (wObject)));
 				break;
+			
 			case "giveItem":
 				CutsceneObject wItem = searchByName (event.getString("item"));
 				int amount;
@@ -172,9 +186,10 @@ public class Cutsceen extends GameObject {
 					amount = event.getInt("amount");
 				} else {
 					amount = 1;
-				}
-					
-				giveItem(wItem,amount,startChain,endChain);
+				}	
+				comands.add("giveItem");
+				comands.add(Integer.toString(amount));
+				availableData.add(new CutsceneData(wItem));
 				break;
 			case "removeItem":
 				CutsceneObject workingItem = searchByName (event.getString("item"));
@@ -184,7 +199,10 @@ public class Cutsceen extends GameObject {
 				} else {
 					wowDUDE = 1;
 				}
-				removeItem(workingItem, wowDUDE, startChain,endChain);
+				comands.add("removeItem");
+				comands.add(Integer.toString(wowDUDE));
+				availableData.add(new CutsceneData(workingItem));
+				break;
 			case "removeMoney":
 				int wowBRO;
 				if (event.get("amount") != null) {
@@ -192,7 +210,9 @@ public class Cutsceen extends GameObject {
 				} else {
 					wowBRO = 1;
 				}
-				removeMoney(wowBRO, startChain,endChain);
+				comands.add("removeMoney");
+				comands.add(Integer.toString(wowBRO));
+				break;
 			case "giveMoney":
 				int amountOfWEXP;
 				if (event.get("amount") != null) {
@@ -200,7 +220,8 @@ public class Cutsceen extends GameObject {
 				} else {
 					amountOfWEXP= 1;
 				}
-				giveMoney(amountOfWEXP, startChain,endChain);
+				comands.add("giveMoney");
+				comands.add(Integer.toString(amountOfWEXP));
 				break;
 			case "removeWEXP":
 				int wo;
@@ -209,7 +230,9 @@ public class Cutsceen extends GameObject {
 				} else {
 					wo = 1;
 				}
-				removeWEXP(wo, startChain,endChain);
+				comands.add("removeWEXP");
+				comands.add(Integer.toString(wo));
+				break;
 			case "giveWEXP":
 				int amountOfWEXP2;
 				if (event.get("amount") != null) {
@@ -217,7 +240,8 @@ public class Cutsceen extends GameObject {
 				} else {
 					amountOfWEXP2= 1;
 				}
-				giveWEXP(amountOfWEXP2, startChain,endChain);
+				comands.add("giveWEXP");
+				comands.add(Integer.toString(amountOfWEXP2));
 				break;
 			case "break":
 				//get filepath and craft sprite
@@ -245,12 +269,20 @@ public class Cutsceen extends GameObject {
 					String working = workingThePrequil.getString("path");
 					workingBEEEE.add(new Sprite ("resources/sprites/" + working + ".png"));
 				}
-				
-				
 				// get gameObject
 				BreakableObject BEEEObject = (BreakableObject) searchByName (event.getString("name")).obj;
 				//do the thing
-				breakObject (workingBEEEE,BEEEObject,amountOfShards,minSpeed,maxSpeed,minDirection,maxDirection,startChain,endChain);
+				comands.add("break");
+				comands.add(Integer.toString(amountOfShards));
+				comands.add(Double.toString(minSpeed));
+				comands.add(Double.toString(maxSpeed));
+				comands.add(Double.toString(minDirection));
+				comands.add(Double.toString(maxDirection));
+				availableData.add(new CutsceneData (searchByGameObject (BEEEObject)));
+				for (int m  = 0; m < workingBEEEE.size(); m++) {
+					availableData.add(new CutsceneData (workingBEEEE.get(m)));
+				}
+				availableData.add(null);
 				break;
 			case "choice":
 				Object [] choices =  event.getJSONArray ("choices").getContents().toArray();
@@ -265,222 +297,96 @@ public class Cutsceen extends GameObject {
 					} catch (NullPointerException e) {
 					objectsPerSceen[bee] = null;
 					}
-					this.makeChoice(choices, sceens, objectsPerSceen, startChain, endChain);
 				}
+				comands.add("choice");
+				comands.add(Integer.toString(choices.length));
+				comands.add(Integer.toString(sceens.length));
+				for (int d = 0; d < choices.length; d++) {
+					comands.add((String)choices[d]);
+				}
+				for (int n = 0; n < sceens.length; n++) {
+					if (objectsPerSceen != null) {
+						availableData.add(new CutsceneData(new Cutsceen((String)sceens[n],(GameObject []) objectsPerSceen[n].toArray())));
+					} else {
+						availableData.add(new CutsceneData (new Cutsceen((String)sceens[n],null)));	
+					}
+				}
+			break;
 			case "hasItem":
 				CutsceneObject itemToCheck = searchByName (event.getString("item"));
 				String yesSceen = (String) event.getString("yesScene");
+				int amountRequired;
+				if (event.getString("amount") != null) {
+					amountRequired = event.getInt("amount");
+				} else {
+					amountRequired = 1;
+				}
 				ArrayList objectsForScene = new ArrayList ();
 					try {
 						objectsForScene = event.getJSONArray("yes").getContents();
 					} catch (NullPointerException e) {
 						objectsForScene = null;
 					}
-					this.checkItem(yesSceen, objectsForScene, itemToCheck, startChain, endChain);
+					comands.add("checkItem");
+					if (objectsForScene == null) {
+					comands.add("0");
+					}
+					comands.add(yesSceen);
+					comands.add(Integer.toString(amountRequired));
+					availableData.add(new CutsceneData(itemToCheck));
+					if (objectsForScene != null) {
+						for (int v = 0; v < objectsForScene.size(); v++) {
+							availableData.add(new CutsceneData(new CutsceneObject ((GameObject) objectsForScene.get(i))));
+						}
+					}
+				break;	
+			case "Join":
+				CutsceneObject jeffrey = searchByName (event.getString("Jeffrey"));
+				JSONArray party = event.getJSONArray("party");
+				comands.add("Join");
+				for (int x = 0; x > 3; x++) {
+					comands.add((String)party.get(x));	
+				}
+				availableData.add(new CutsceneData (jeffrey));
+				break;
+			case "Split":
+				CutsceneObject theJeffster = searchByName (event.getString("Jeffrey"));
+				JSONArray party1 = event.getJSONArray("party1");
+				JSONArray party2 = event.getJSONArray("party2");
+				comands.add("Split");
+				for (int y = 0; y > 3; y++) {
+					comands.add((String)party1.get(y));	
+				}
+				for (int z = 0; z > 3; z++) {
+					comands.add((String)party2.get(z));	
+				}
+				availableData.add(new CutsceneData (theJeffster));
+				break;
+			case "changeParty":
+				CutsceneObject jeff = searchByName (event.getString("Jeffrey"));
+				JSONArray partae = event.getJSONArray("party");
+				comands.add("changeParty");
+				for (int g = 0; g > 3; g++) {
+					comands.add((String)partae.get(g));	
+				}
+				availableData.add(new CutsceneData (jeff));
 				break;	
 			case "custom":
 				//yeet yeet
-				customCode(CutsceneEvent.makeCutsceneEvent(event),startChain,endChain);
+				comands.add("custom");
+				availableData.add(new CutsceneData (CutsceneEvent.makeCutsceneEvent(event)));
 				break;
 			}
+			//may cause problems for make choice but it will probably be alright
+			comands.add(Boolean.toString(startChain));
+			comands.add(Boolean.toString(endChain));
 			comands.add("dededededededededeedededeeeeeeeeeeeeeeed ah zombie indeed");
 			availableData.add(new CutsceneData());
 		}
 	}
-	/**
-	 * moves an object to a destanation without just teleporting them there
-	 * @param objectToMove the object to move
-	 * @param desX the x coordinate of the destanation
-	 * @param desY the y coordinate of the destaination
-	 * @param startVelocity the velocity the object starts at
-	 * @param middleVelocity the "terminal" velocity of the object
-	 * @param endVelocity the velocity the object ends at
-	 * @param startAcceleration the acceleration to use to speed up the object at the start of this event
-	 * @param endAcceleration the acceleration to use to slow down the object at the end of this event
-	 */
-	public void moveSlowly(GameObject objectToMove, int desX, int desY, double startVelocity, double middleVelocity, double endVelocity, double startAcceleration, double endAcceleration, boolean startChain, boolean endChain) {
-		availableData.add(new CutsceneData(new MoveSlowEvent (objectToMove,desX,desY,startVelocity,middleVelocity,endVelocity,startAcceleration,endAcceleration)));
-		comands.add("moveSlow");
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-	/*=*/}
-	/**
-	 * runs diffrent cutscenes based on wheather or not the player has a specific item
-	 */
-	public void checkItem (String yesScene, ArrayList pasedObjects, CutsceneObject itemToCheck, boolean startChain, boolean endChain) {
-		comands.add("checkItem");
-		if (pasedObjects == null) {
-		comands.add("0");
-		}
-		comands.add(yesScene);
-		availableData.add(new CutsceneData(itemToCheck));
-		if (pasedObjects != null) {
-			for (int i = 0; i < pasedObjects.size(); i++) {
-				availableData.add(new CutsceneData(new CutsceneObject ((GameObject) pasedObjects.get(i))));
-			}
-		}
-		}
-	/**
-	 * plays a sound effect
-	 * @param soundPath the filepath to the sound effect
-	 */
-	public void playSound (String soundPath, boolean startChain, boolean endChain) {
-		comands.add("sound");
-		availableData.add(new CutsceneData (new Playsound ()));
-		comands.add(soundPath);
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-	}
-	public void giveItem (CutsceneObject Item, int amount, boolean startChain, boolean endChain) {
-		comands.add("giveItem");
-		comands.add(Integer.toString(amount));
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-		availableData.add(new CutsceneData(Item));
-	}
-	public void giveMoney ( int amount, boolean startChain, boolean endChain) {
-		comands.add("giveMoney");
-		comands.add(Integer.toString(amount));
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-	}
-	public void removeMoney ( int amount, boolean startChain, boolean endChain) {
-		comands.add("removeMoney");
-		comands.add(Integer.toString(amount));
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-	}
-	public void giveWEXP ( int amount, boolean startChain, boolean endChain) {
-		comands.add("giveWEXP");
-		comands.add(Integer.toString(amount));
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-	}
-	public void removeWEXP ( int amount, boolean startChain, boolean endChain) {
-		comands.add("removeWEXP");
-		comands.add(Integer.toString(amount));
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-	}
-	public void removeItem (CutsceneObject Item, int amount, boolean startChain, boolean endChain) {
-		comands.add("removeItem");
-		comands.add(Integer.toString(amount));
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-		availableData.add(new CutsceneData(Item));
-	}
-	public void makeChoice (Object[] choices, Object[] sceens, ArrayList <GameObject> [] pasedObjects, boolean startChain, boolean endChain) {
-		comands.add("choice");
-		comands.add(Integer.toString(choices.length));
-		comands.add(Integer.toString(sceens.length));
-		for (int i = 0; i < choices.length; i++) {
-			comands.add((String)choices[i]);
-		}
-		for (int i = 0; i < sceens.length; i++) {
-			if (passedObjects != null) {
-				availableData.add(new CutsceneData(new Cutsceen((String)sceens[i],(GameObject []) pasedObjects[i].toArray())));
-			} else {
-				availableData.add(new CutsceneData (new Cutsceen((String)sceens[i],null)));	
-			}
-		}
-	}
-	/**
-	 * breaks an object into shards (only works if you object extends breakable object)
-	 * @param posibleShards the sprites that the shards can be
-	 * @param objectToBreak the object to break
-	 * @param amountOfShards the amount of shards the object breaks into
-	 * @param minSpeed the mininum speed of the shards
-	 * @param maxSpeed the maximum speed of the shards
-	 * @param minDirection the minimum direction of the object (in radians)
-	 * @param maxDirection the maximum direction of the object (in radians)
-	 */
-	public void breakObject (ArrayList <Sprite> posibleShards,BreakableObject objectToBreak, int amountOfShards,double minSpeed, double maxSpeed, double minDirection, double maxDirection,boolean startChain,boolean endChain) {
-		comands.add("break");
-		comands.add(Integer.toString(amountOfShards));
-		comands.add(Double.toString(minSpeed));
-		comands.add(Double.toString(maxSpeed));
-		comands.add(Double.toString(minDirection));
-		comands.add(Double.toString(maxDirection));
-		availableData.add(new CutsceneData (searchByGameObject (objectToBreak)));
-		for (int i  = 0; i < posibleShards.size(); i++) {
-			availableData.add(new CutsceneData (posibleShards.get(i)));
-		}
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-		availableData.add(null);
-	}
-	/**
-	 * changes the map
-	 * @param mapPath the path to the new Map
-	 */
-	public void changeMap (String mapPath, boolean startChain, boolean endChain) {
-		comands.add("changeMap");
-		comands.add(mapPath);
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-	}
-	/**
-	 * plays music
-	 * @param soundPath the filepath of the song
-	 */
-	public void playMusic (String soundPath, boolean startChain, boolean endChain) {
-		comands.add("music");
-		comands.add(soundPath);
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-	}
-	/**
-	 * writes text to the screen by using a textbox
-	 * @param text the message to write to the scren
-	 */
-	public void makeTextBox (String text, boolean startChain, boolean endChain) {
-		comands.add("text");
-		availableData.add(new CutsceneData(new MakeText()));
-		comands.add(text);
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-	}
-	/**
-	 * plays a diffrent cutsceen
-	 * @param cutsceen
-	 */
-	public void playSceen (String cutsceen, GameObject [] passedObjects, boolean startChain, boolean endChain) {
-		comands.add("playScene");
-		availableData.add(new CutsceneData (new Cutsceen (cutsceen,passedObjects)));
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-	}
-	/**
-	 * plays through an animation once before switching back to the old sprite
-	 * @param animaiton the animation to play
-	 * @param onWhat the gameObject that plays that animation
-	 */
-	public void playAnimation (Sprite animaiton, GameObject onWhat, boolean startChain, boolean endChain) {
-		comands.add("animation");
-		availableData.add(new CutsceneData (onWhat.getSprite()));
-		availableData.add(new CutsceneData (animaiton));
-		availableData.add(new CutsceneData (searchByGameObject (onWhat)));
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-	}
-	/**
-	 * changes the sprite of an object to a new sprite
-	 * @param newSprite the new sprite of the object
-	 * @param onWhat the object to change the sprite of
-	 */
-	public void changeSprite (Sprite newSprite, GameObject onWhat, boolean startChain, boolean endChain) {
-		comands.add("sprite");
-		availableData.add(new CutsceneData (newSprite));
-		availableData.add(new CutsceneData (searchByGameObject (onWhat)));
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-	}
-	public void customCode (CutsceneEvent sceen, boolean startChain, boolean endChain) {
-		comands.add("custom");
-		availableData.add(new CutsceneData (sceen));
-		comands.add(Boolean.toString(startChain));
-		comands.add(Boolean.toString(endChain));
-	}
+
+	
+
 	/**
 	 * returns true if the cutsceen is still playing
 	 * and plays the cutsceen
@@ -499,6 +405,15 @@ public class Cutsceen extends GameObject {
 					break;
 				case "sound":
 					keepGoing = this.runSoundCode(commandNumber,dataNumber);
+					break;
+				case "Join":
+					keepGoing = this.runJoinCode(commandNumber,dataNumber);
+					break;
+				case "Split":
+					keepGoing = this.runSplitCode(commandNumber,dataNumber);
+					break;	
+				case "changeParty":
+					keepGoing = this.runChangePartyCode(commandNumber,dataNumber);
 					break;
 				case "music":
 					keepGoing = this.runMusicCode(commandNumber);
@@ -630,9 +545,29 @@ public class Cutsceen extends GameObject {
 			}
 		}
 	}
+private boolean runJoinCode (int commandNumber, int dataNumber) {
+	Jeffrey j = (Jeffrey)availableData.get(dataNumber).getObj().obj;
+	boolean [] party = new boolean [] {Boolean.parseBoolean(comands.get(commandNumber + 1)),Boolean.parseBoolean(comands.get(commandNumber+ 2)),Boolean.parseBoolean(comands.get(commandNumber + 3))};
+	j.joinPartys(party);
+	return false;
+}
+private boolean runSplitCode (int commandNumber, int dataNumber) {
+	Jeffrey j = (Jeffrey)availableData.get(dataNumber).getObj().obj;
+	boolean [] party1 = new boolean [] {Boolean.parseBoolean(comands.get(commandNumber + 1)),Boolean.parseBoolean(comands.get(commandNumber+ 2)),Boolean.parseBoolean(comands.get(commandNumber + 3))};
+	boolean [] party2 = new boolean [] {Boolean.parseBoolean(comands.get(commandNumber + 4)),Boolean.parseBoolean(comands.get(commandNumber+ 5)),Boolean.parseBoolean(comands.get(commandNumber + 6))};
+	j.splitParty(party1, party2);
+	return false;
+}
+private boolean runChangePartyCode (int commandNumber, int dataNumber) {
+	Jeffrey j = (Jeffrey)availableData.get(dataNumber).getObj().obj;
+	boolean [] party = new boolean [] {Boolean.parseBoolean(comands.get(commandNumber + 1)),Boolean.parseBoolean(comands.get(commandNumber+ 2)),Boolean.parseBoolean(comands.get(commandNumber + 3))};
+	j.setParty(party);
+	return false;
+}
+
 private boolean runCheckItemCode (int commandNumber,int dataNumber) {
 	int objects = Integer.parseInt(comands.get(commandNumber + 1));
-		if (Jeffrey.getInventory().checkItem((Item) availableData.get(dataNumber).getObj().obj)) {
+		if (Jeffrey.getInventory().checkItemAmount((Item) availableData.get(dataNumber).getObj().obj) >= Integer.parseInt(comands.get(commandNumber + 3))) {
 				GameObject [] working = new GameObject [objects];
 				for (int i = 0; i < objects; i++) {
 					working [i] = availableData.get(dataNumber + 1 + i).getObj().obj;
@@ -775,14 +710,29 @@ private boolean runCheckItemCode (int commandNumber,int dataNumber) {
 				obj.obj.declare (x,y);
 				}
 			}
-		} else if (genMethod.equals ("hijack")) {
-			obj = new CutsceneObject (ObjectHandler.getObjectsByName (objData.getString ("type")).get (0));
-		} else if (genMethod.equals("pass")) {
+		} 
+		if (genMethod.equals ("hijack")) {
+			if (!objData.getString ("type").equals ("Jeffrey")){
+				obj = new CutsceneObject (ObjectHandler.getObjectsByName (objData.getString ("type")).get (0));
+			} else {
+				obj = new CutsceneObject (Jeffrey.getActiveJeffrey());
+			}
+		} 
+		if (genMethod.equals("pass")) {
 			for (int i = 0; i <passedObjects.length; i++) {
 				if (passedObjects[i].getClass().getSimpleName().equals(objData.getString("type"))){
 					obj = new CutsceneObject(passedObjects[i]);
 				}
 			}
+		} 
+		if (genMethod.equals("getJ")) {
+			obj = new CutsceneObject (Jeffrey.getJeffreyWithCharacter(0));
+		} 
+		if (genMethod.equals("getS")) {
+			obj = new CutsceneObject (Jeffrey.getJeffreyWithCharacter(1));
+		} 
+		if (genMethod.equals("getR")){
+			obj = new CutsceneObject (Jeffrey.getJeffreyWithCharacter(2));
 		}
 		if (obj == null) {
 			return null;
@@ -792,11 +742,6 @@ private boolean runCheckItemCode (int commandNumber,int dataNumber) {
 		obj.id = objData.getString ("name");
 		
 		//Set persistence
-		if (genMethod.equals ("hijack")) {
-			obj.persistent = true;
-		} else {
-			obj.persistent = false;
-		}
 		if (objData.get ("persistent") != null) {
 			if (objData.getString ("persistent").equals ("true")) {
 				obj.persistent = true;
@@ -805,8 +750,12 @@ private boolean runCheckItemCode (int commandNumber,int dataNumber) {
 			}
 		} else {
 			obj.persistent = false;
+		}	
+		if (genMethod.equals ("hijack")) {
+			obj.persistent = true;
+		} else {
+			obj.persistent = false;
 		}
-		
 		//Return the final object
 		return obj;
 	}
@@ -846,26 +795,8 @@ private boolean runCheckItemCode (int commandNumber,int dataNumber) {
 	private static class CutsceneData  {
 		
 			Object data;
-			public CutsceneData (CutsceneObject obj) {
+			public CutsceneData (Object obj) {
 				data = obj;
-			}
-			public CutsceneData (Sprite sprite) {
-				data = sprite;
-			}
-			public CutsceneData (CutsceneEvent event) {
-				data = event;
-			}
-			public CutsceneData (MoveSlowEvent event) {
-				data = event;
-			}
-			public CutsceneData (Playsound player) {
-				data = player;
-			}
-			public CutsceneData (MakeText text) {
-				data = text;
-			}
-			public CutsceneData (Cutsceen scene) {
-				data = scene;
 			}
 			public CutsceneData () {
 				data = true;
