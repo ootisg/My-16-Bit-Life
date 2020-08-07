@@ -62,6 +62,7 @@ import gui.Tbox;
 import gui.Textbox;
 import items.BluePaint;
 import items.FairUseKey;
+import items.Jetpack;
 import items.LemonPacket;
 import items.RedBlackPaintBall;
 import items.Waffle;
@@ -178,13 +179,14 @@ public class GameCode {
 	static FlowerEnemy flower;
 	static Minecart cart;
 	static Cactus cactus;
+	static Jetpack pack;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/characterTest3.rmf");
+		Room.loadRoom ("resources/maps/divingBoard.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
@@ -199,6 +201,7 @@ public class GameCode {
 		guy = new PointGuy();
 		work = new Worker ();
 		door = new Door ();
+		pack = new Jetpack();
 		fall = new FallingChandleer ();
 		test = new BreakableObject ();
 		lay = new DarkOverlay();
@@ -333,6 +336,7 @@ public class GameCode {
 		//flower.declare(100, 250);
 		//cart.declare(400, 100);
 		//cactus.declare(100,100);
+		pack.declare(100, 0);
 	}
 	
 	public static void beforeGameLogic () {

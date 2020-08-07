@@ -10,10 +10,13 @@ objects -used to specify things regarding some events
 				"y" - the y position of the new object
 				Optional paramiters
 				"declare" - "no" makes it not declare the new object anything else makes it do that (declares be defualt as well)
-			"hijack" - takes control of the first object of that type in the object handler 
+			"hijack" - takes control of the first object of that type in the object handler (for Jeffrey it will just take the active one)
 			"pass" - implys that you plan to pass this object into the cutscene in code
+			"getJ" - only works for Jeffrey but gets the Jeffrey that has Jeffrey in his party
+			"getS" - only works for Jeffrey but gets the Jeffrey that has Sam in his party
+			"getR" - only works for Jeffrey but gets the Jeffrey that has Ryan in his party
 	optional paramiters
-		"persistent" - referst to wheather or not this object should stick around after the concustion of the cutscene (true for yes anything else for no) defaults too no	
+		"persistent" - referst to wheather or not this object should stick around after the concustion of the cutscene (true for yes anything else for no) defaults to no	
 				(currently unimplemented)
 
 actions - (use the type paramiter paired with any of these to activate them in the order you want the events of you cutsceen to activate)
@@ -83,7 +86,35 @@ actions - (use the type paramiter paired with any of these to activate them in t
 		"amount" - the amount of WEXP to give to the player
 	"removeWEXP" - removes an item from the player
 		"amount" - the amount of WEXP to take from the player
-		
+	"Join" - makes a Jeffrey consist of a certain party of characters and removes all Jeffreys that previosly held a portion of that party
+		"party" - the party to end up with represented with a boolean array ie
+			"party" : [
+				"true",
+				"false",
+				"true",
+			]
+			would represent a party of Jeffrey and Ryan
+		"Jeffrey" - the Jeffrey to take the new party
+	"Split" - splits one Jeffrey into two Jeffreys witch each consist of a certain party of characters
+			"party1" - the party to be given to the original Jeffrey represented with a boolean array ie 	
+				"party1" : [
+					"true",
+					"true",
+					"false",
+				]
+				would represent a party of Jeffrey and Ryan
+			"party2" - the party to be given to the new Jeffrey represented with a boolean array in the same way as party1
+			"Jeffrey" - the Jeffrey to be split
+	"changeParty" - makes a Jeffrey consist of a certain party of characters
+			"party" - the party to end up with represented with a boolean array ie
+			"party" : [
+				"false",
+				"false",
+				"true",
+			]
+			would represent a party of Ryan
+		"Jeffrey" - the Jeffrey to take the new party
+
 	"choice" - a comand that MUST be run at the end of a cutscene that gives the player a choice and plays a different cutscene based on their decision (it essencally continues the cutscene but internally it is actually playing a new cutscene that is specific too thier choice)
 		IMPORTANT NOTE linking another cutscene to one with a choice will only allow the choice to be played the first time ie in the original cutscene also it is imposible to link cutscenes to the cutscenes that are played as a result of a choice
 		choices" - an array of options for the player to choose from ie 
@@ -108,6 +139,7 @@ actions - (use the type paramiter paired with any of these to activate them in t
 	"hasItem" - plays a differenet cutscene if the player has a particular item
 		"item" - refers to the item you plan to check against the players inventory
 		"yesScene" - a filepath to the cutscene that plays if the player has that item
+		"amount" - refers to the amount of the item requried to pass the check defults to 1
 		passed objects are simalar to choice however instead of using the choice name simply use "yes" (because there are no choices) you simply use yes to pass objects into the yesScene and no for the noScene
 			ex
 				"yes":[

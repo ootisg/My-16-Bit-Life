@@ -19,7 +19,7 @@ public class Coin extends Item {
 	}
 	@Override 
 	public String getItemType() {
-		return "Ammo";
+		return "Key";
 	}
 	@Override
 	public void onPickup () {

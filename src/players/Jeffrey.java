@@ -152,6 +152,10 @@ if (activeBox) {
 				if (this.getVariantAttribute("Active").equals("yes")) {
 					active = true;
 				}
+			} else {
+				if ( ObjectHandler.getObjectsByName("Jeffrey").size() == 1) {
+					active = true;
+				}
 			}
 			for (int i = 0; i < party.length; i++) {
 				if (party[i]) {

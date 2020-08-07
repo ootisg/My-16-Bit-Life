@@ -249,4 +249,8 @@ public class Item extends Projectile {
 	public void onPickup() {
 		Jeffrey.inventory.addItem(this);
 	}
+	//override to specify a behavior
+	public void onRemove () {
+		
+	}
 }

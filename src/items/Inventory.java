@@ -162,6 +162,7 @@ public class Inventory {
 					}
 				}
 			}
+			itemToAdd.onPickup();
 		}
 	public void addKill (Enemy enemyToAdd) {
 		defeatedEnemys.add(enemyToAdd);
@@ -197,6 +198,7 @@ public class Inventory {
 				Item item = Itr.next(); 
 				if (item.getClass().equals(itemtoRemove.getClass())){
 					Itr.remove();
+					item.onRemove();
 					return true;
 				}
 			}
@@ -207,6 +209,7 @@ public class Inventory {
 					Item item = Itr.next();
 					if (item.getClass().equals(itemtoRemove.getClass())){
 						Itr.remove();
+						item.onRemove();
 						return true;
 					}
 				}
@@ -217,6 +220,7 @@ public class Inventory {
 						Item item = Itr.next();
 						if (item.getClass().equals(itemtoRemove.getClass())){
 							Itr.remove();
+							item.onRemove();
 							return true;
 						}
 					}
