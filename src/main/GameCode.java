@@ -64,6 +64,7 @@ import items.BluePaint;
 import items.FairUseKey;
 import items.Jetpack;
 import items.LemonPacket;
+import items.PogoStick;
 import items.RedBlackPaintBall;
 import items.Waffle;
 import json.JSONException;
@@ -179,7 +180,7 @@ public class GameCode {
 	static FlowerEnemy flower;
 	static Minecart cart;
 	static Cactus cactus;
-	static Jetpack pack;
+	static PogoStick pack;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
@@ -201,7 +202,7 @@ public class GameCode {
 		guy = new PointGuy();
 		work = new Worker ();
 		door = new Door ();
-		pack = new Jetpack();
+		pack = new PogoStick();
 		fall = new FallingChandleer ();
 		test = new BreakableObject ();
 		lay = new DarkOverlay();
