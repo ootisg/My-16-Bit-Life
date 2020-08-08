@@ -1,0 +1,3 @@
+$src resources/sprites/ryan_pogoing.png
+
+grid 16 32;
