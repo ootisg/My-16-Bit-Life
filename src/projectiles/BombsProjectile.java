@@ -21,6 +21,7 @@ public class BombsProjectile extends Projectile{
 	double vy = 0;
 	boolean inzialaized = false;
 	boolean thrown = false;
+	boolean done = false;
 	Explosion explosion = new Explosion(10, 60, true, true);
 	public static Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 	
@@ -56,10 +57,15 @@ public class BombsProjectile extends Projectile{
 					inzialaized = true;
 				}
 			}
-			if (!goingIntoWall) {
+			if (!goingIntoWall && !done) {
 				this.setY(this.getY() - (vy / 3));
 				this.setX(this.getX() + (vx / 3));
 				vy--;
+			} else {
+				if (!done) {
+					this.setY(this.getY() + (vy / 3));
+					done = true;
+				}
 			}
 		}
 		//Explosion timer. When switching the sprite, their animations stop. I'm 90% sure config files are good, so idk whats going on.
