@@ -50,7 +50,8 @@ public class AnimationHandler {
 	 */
 	private boolean flipVertical;
 	
-	
+	private int playToo = 420;
+	private double previosFrameTime = 0;
 	
 	/**
 	 * deal with the reversal
@@ -95,6 +96,7 @@ public class AnimationHandler {
 		startFrame = 0;
 		this.frameTime = frameTime;
 		repeat = true;
+		playToo = -1;
 		try {
 			width = image.getFrame(0).getWidth();
 			height = image.getFrame(0).getHeight();
@@ -132,6 +134,13 @@ public class AnimationHandler {
 					if (reverse) {
 						frame = (image.getFrameCount() - 1) - frame;
 					}
+					if (this.getHeight() == 32) {
+						
+					}
+					if (frame == playToo) {
+						this.setFrameTime(0);
+						startFrame = frame - 1;
+					}
 					image.draw ((int)x, (int)y, flipHorizontal, flipVertical, frame,width,height);
 				}
 			}
@@ -146,6 +155,7 @@ public class AnimationHandler {
 	public void setImage (Sprite image) {
 		this.image = image;
 		reverse = false;
+		playToo = -1;
 		if ((width == 0 && height == 0) || !keepScale) {
 		width = image.getFrame(0).getWidth();
 		height = image.getFrame(0).getHeight();
@@ -189,6 +199,30 @@ public class AnimationHandler {
 		startTime = RenderLoop.frameStartTime ();
 		startFrame = 0;
 	}
+	public void playToo (int where) {
+		if (where < image.getFrameCount() ) {
+			playToo = where;
+		} else {
+			playToo = image.getFrameCount() -1;
+		}
+		this.setFrameTime(previosFrameTime);
+	}
+	public void playFrom (int where, int too) {
+		this.setAnimationFrame(where);
+		if (too < image.getFrameCount() ) {
+			playToo = too;
+		} else {
+			playToo = image.getFrameCount() -1;
+		}
+		this.setFrameTime(previosFrameTime);
+		this.startFrame = where;
+		this.startTime = RenderLoop.frameStartTime();
+	}
+	public void playInfintely () {
+		playToo = -1;
+		startFrame = 0;
+		this.setFrameTime(previosFrameTime);
+	}
 	/**
 	 * makes the animation handler keep the sprite to scale
 	 * ie will NOT allow changes to width and height
@@ -217,6 +251,9 @@ public class AnimationHandler {
 	 * @param frameTime The time to use, in milliseconds
 	 */
 	public void setFrameTime (double frameTime) {
+		if (frameTime != 0) {
+			previosFrameTime = frameTime;
+		} 
 		this.frameTime = frameTime;
 	}
 	

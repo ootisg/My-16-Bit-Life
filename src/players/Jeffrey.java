@@ -99,6 +99,10 @@ public class Jeffrey extends GameObject {
 	public static final Sprite SAM_CROUCHING = new Sprite ("resources/sprites/config/crouching_Sam.txt");
 	public static final Sprite RYAN_CROUCHING = new Sprite ("resources/sprites/config/crouching_Ryan.txt");
 	
+	
+	
+	//note if you ever plan on using the s key and sprites with this class you are gonna have to have your class have a lower game logic priority (witch is actually higher becasue its stupid)
+	
 	public Jeffrey () {
 		//This class is not yet commented
 		setSprite (standSprite);
@@ -112,6 +116,10 @@ public class Jeffrey extends GameObject {
 	}
 	public void changeFrameTime (boolean toChangeOrNotToChange) {
 		messWithFrameTime = toChangeOrNotToChange;
+	}
+	public void allowSpriteEdits (boolean allowOrNot) {
+		changeSprite = allowOrNot;
+		messWithFrameTime = allowOrNot;
 	}
 	public boolean isCrouched () {
 		return crouching;
@@ -445,9 +453,12 @@ if (activeBox) {
 				vy = -10.15625;
 				if (changeSprite) {
 				setSprite (walkSprite);
-				getAnimationHandler ().setFrameTime (0);
-				getAnimationHandler ().setAnimationFrame (3);
 				}
+				if (messWithFrameTime ) {
+					
+				getAnimationHandler ().setFrameTime (0);
+				}
+				getAnimationHandler ().setAnimationFrame (3);
 			}
 			}
 		

@@ -162,7 +162,6 @@ public class Inventory {
 					}
 				}
 			}
-			itemToAdd.onPickup();
 		}
 	public void addKill (Enemy enemyToAdd) {
 		defeatedEnemys.add(enemyToAdd);
