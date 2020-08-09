@@ -45,13 +45,13 @@ public class UsablePogo extends GameObject {
 					Jeffrey.getActiveJeffrey().allowSpriteEdits(true);
 					switch (Jeffrey.getActiveJeffrey().witchCharictar) {
 					case 0:
-						Jeffrey.getActiveJeffrey().setSprite (Jeffrey.JEFFREY_WALKING);
+						Jeffrey.getActiveJeffrey().setSprite (Jeffrey.JEFFREY_WALKING_POGO);
 						break;
 					case 1:
-						Jeffrey.getActiveJeffrey().setSprite (Jeffrey.SAM_WALKING);
+						Jeffrey.getActiveJeffrey().setSprite (Jeffrey.SAM_WALKING_POGO);
 						break;
 					case 2:
-						Jeffrey.getActiveJeffrey().setSprite (Jeffrey.RYAN_WALKING);
+						Jeffrey.getActiveJeffrey().setSprite (Jeffrey.RYAN_WALKING_POGO);
 						break;
 					}
 				}
