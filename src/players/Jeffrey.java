@@ -104,7 +104,7 @@ public class Jeffrey extends GameObject {
 		setSprite (standSprite);
 		getAnimationHandler ().setFrameTime (50);
 		this.setHitboxAttributes(4, 4, 7, 27);
-		this.adjustHitboxBorders();
+		//this.adjustHitboxBorders();
 	}
 	//makes the players sprite only be changed by outside sources not by this class
 	public void changeSprite (boolean toChangeOrNotToChange) {
@@ -234,7 +234,7 @@ if (activeBox) {
 		this.setX (this.getX () + vx);
 		if (active) {
 			wpn.frameEvent();
-			if (keyDown ('S') && !onLadder) {
+			if (keyDown ('S') && !onLadder && changeSprite) {
 				crouching = true;
 				this.changeSprite(false);
 				if (!(this.getSprite().equals(JEFFREY_CROUCHING) || this.getSprite().equals(SAM_CROUCHING) || this.getSprite().equals(RYAN_CROUCHING))) {
