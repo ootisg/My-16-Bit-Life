@@ -83,23 +83,28 @@ public class Jeffrey extends GameObject {
 	
 	private boolean inzialized = false;
 	
-	public static final Sprite RYAN_IDLE = new Sprite ("resources/sprites/config/ryan_idle.txt");
-	public static final Sprite RYAN_WALKING = new Sprite ("resources/sprites/config/ryan_walking.txt");
+
+	//Jeffrey Sprites
+	public static final Sprite JEFFREY_WALKING = new Sprite ("resources/sprites/config/jeffrey_walking.txt");
+	public static final Sprite JEFFREY_IDLE = new Sprite("resources/sprites/config/jeffrey_idle.txt");
+	public static final Sprite JEFFREY_CROUCHING = new Sprite ("resources/sprites/config/crouching_Jeffrey.txt");
+	public static final Sprite JEFFREY_WALKING_POGO = new Sprite ("resources/sprites/config/jeffrey_walking_pogo.txt");
+	//Sam Sprites
+	public static final Sprite SAM_IDLE =new Sprite ("resources/sprites/config/sam_idle.txt");
+	public static final Sprite SAM_WALKING = new Sprite ("resources/sprites/config/sam_walking.txt");
+	public static final Sprite SAM_CROUCHING = new Sprite ("resources/sprites/config/crouching_Sam.txt");
+	public static final Sprite SAM_WALKING_POGO = new Sprite ("resources/sprites/config/sam_walking_pogo.txt");
 	public static final Sprite SAM_SWORD = new Sprite ("resources/sprites/config/sam_idle_with_sword.txt");
 	public static final Sprite SAM_WALKING_SWORD = new Sprite ("resources/sprites/config/sam_walking_with_sword.txt");
-	public static final Sprite JEFFREY_WALKING = new Sprite ("resources/sprites/config/jeffrey_walking.txt");
-	public static final Sprite SAM_IDLE =new Sprite ("resources/sprites/config/sam_idle.txt");
-	public static final Sprite JEFFREY_IDLE = new Sprite("resources/sprites/config/jeffrey_idle.txt");
-	public static final Sprite SAM_WALKING = new Sprite ("resources/sprites/config/sam_walking.txt");
-	public static final Sprite RYAN_WHIPPING = new Sprite ("resources/sprites/config/microphoneWhip.txt");
-	public static final Sprite WHIP_LENGTH = new Sprite ("resources/sprites/config/microphoneWhipVariableFrame.txt");
+	//Ryan Sprites
+	public static final Sprite RYAN_IDLE = new Sprite ("resources/sprites/config/ryan_idle.txt");
+	public static final Sprite RYAN_WALKING = new Sprite ("resources/sprites/config/ryan_walking.txt");
+	public static final Sprite RYAN_CROUCHING = new Sprite ("resources/sprites/config/crouching_Ryan.txt");
+	public static final Sprite RYAN_WALKING_POGO = new Sprite ("resources/sprites/config/ryan_walking_pogo.txt");	
 	public static final Sprite RYAN_MICROPHONE_IDLE = new Sprite ("resources/sprites/config/ryan_idle_microphone.txt");
 	public static final Sprite RYAN_MICROPHONE_WALKING = new Sprite("resources/sprites/config/ryan_walking_microphone.txt");
-	public static final Sprite JEFFREY_CROUCHING = new Sprite ("resources/sprites/config/crouching_Jeffrey.txt");
-	public static final Sprite SAM_CROUCHING = new Sprite ("resources/sprites/config/crouching_Sam.txt");
-	public static final Sprite RYAN_CROUCHING = new Sprite ("resources/sprites/config/crouching_Ryan.txt");
-	
-	
+	public static final Sprite RYAN_WHIPPING = new Sprite ("resources/sprites/config/microphoneWhip.txt");
+	public static final Sprite WHIP_LENGTH = new Sprite ("resources/sprites/config/microphoneWhipVariableFrame.txt");
 	
 	//note if you ever plan on using the s key and sprites with this class you are gonna have to have your class have a lower game logic priority (witch is actually higher becasue its stupid)
 	
