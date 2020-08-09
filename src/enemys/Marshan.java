@@ -6,7 +6,6 @@ import resources.Sprite;
 public class Marshan extends Enemy {
 	int timer = 0;
 	public Marshan() {
-		
 		this.setHealth(60);
 		defence = 0;
 		this.setSprite(new Sprite ("resources/sprites/config/Marshan.txt"));
@@ -23,8 +22,7 @@ public class Marshan extends Enemy {
 		return "THE ONLY RETURNING ENEMY (YOU SHOULD GET AUTOMOBILES AND THE EISENHOWER HIGHWAY SYTEM THE GAME, ITS FREE)";
 	}
 	@Override 
-	public void frameEvent () {
-		
+	public void enemyFrame () {
 		if (this.getAnimationHandler().getFrame() == 12) {
 			if (timer < 1) {
 				this.getAnimationHandler().setFrameTime(0);

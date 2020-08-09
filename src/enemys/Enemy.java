@@ -90,7 +90,6 @@ public abstract class Enemy extends BreakableObject {
 			this.goY(this.getY() - 5);
 		}
 		if ((this.health <= 0) && diesNormally ) {
-			
 			this.deathEvent();
 		}
 		if (isColliding (Jeffrey.getActiveJeffrey())) {

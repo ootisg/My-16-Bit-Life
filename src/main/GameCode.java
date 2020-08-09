@@ -235,6 +235,7 @@ public class GameCode {
 		waffle = new Waffle ();
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall();
+		marsh = new Marshan();
 		testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
 		box = new Box();
 		plant = new Plant ();
@@ -319,7 +320,7 @@ public class GameCode {
 		testPoint.declare(185, 380);
 		System.out.println(testPoint.generatePath(point));*/
 		//function.declare(120, 300);
-		//marsh.declare(200,320);
+		marsh.declare(200,320);
 		//ufo.declare(200,120);
 		//work.declare(100,200);
 		//candle.declare(200,200);
