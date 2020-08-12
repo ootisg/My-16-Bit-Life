@@ -247,9 +247,9 @@ if (activeBox) {
 		this.setX (this.getX () + vx);
 		if (active) {
 			wpn.frameEvent();
-			if (keyDown ('S') && !onLadder && changeSprite) {
+			if (keyDown ('S') && !onLadder) {
 				crouching = true;
-				this.changeSprite(false);
+				if (this.changeSprite) {
 				if (!(this.getSprite().equals(JEFFREY_CROUCHING) || this.getSprite().equals(SAM_CROUCHING) || this.getSprite().equals(RYAN_CROUCHING))) {
 					switch (witchCharictar){
 					case 0:
@@ -262,6 +262,8 @@ if (activeBox) {
 						this.setSprite(RYAN_CROUCHING);
 						break;
 					}
+				}
+					this.changeSprite(false);
 					this.getAnimationHandler().setRepeat(false);
 					
 				}
@@ -270,6 +272,7 @@ if (activeBox) {
 					this.getWeapon().setY(this.getWeapon().getY() + 16);
 				}
 			} else {
+				if (this.changeSprite) {
 				if ((this.getSprite().equals(JEFFREY_CROUCHING) || this.getSprite().equals(SAM_CROUCHING) || this.getSprite().equals(RYAN_CROUCHING))) {
 					switch (witchCharictar){
 					case 0:
@@ -282,12 +285,13 @@ if (activeBox) {
 						this.setSprite(RYAN_WALKING);
 						break;
 					}
+				}
+				}
 				this.changeSprite = true;
 				this.getWeapon().setY(this.getWeapon().getY() - 16);
 				crouching = false;
 				this.getAnimationHandler().setRepeat(true);
 				this.setHitboxAttributes(4, 4, 7, 27);
-				}
 			}
 			if (activeBox) {
 			weaponBox.setX(this.getX() - Room.getViewX());
@@ -460,10 +464,11 @@ if (activeBox) {
 				setSprite (walkSprite);
 				}
 				if (messWithFrameTime ) {
-					
-				getAnimationHandler ().setFrameTime (0);
+					getAnimationHandler ().setFrameTime (0);
 				}
-				getAnimationHandler ().setAnimationFrame (3);
+				if (this.getSprite().equals(walkSprite)) {
+					getAnimationHandler ().setAnimationFrame (3);
+				}
 			}
 			}
 		

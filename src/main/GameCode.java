@@ -61,6 +61,7 @@ import gui.ListTbox;
 import gui.Tbox;
 import gui.Textbox;
 import items.BluePaint;
+import items.Carpet;
 import items.FairUseKey;
 import items.Jetpack;
 import items.LemonPacket;
@@ -180,7 +181,7 @@ public class GameCode {
 	static FlowerEnemy flower;
 	static Minecart cart;
 	static Cactus cactus;
-	static PogoStick pack;
+	static Carpet pack;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
@@ -202,7 +203,7 @@ public class GameCode {
 		guy = new PointGuy();
 		work = new Worker ();
 		door = new Door ();
-		pack = new PogoStick();
+		pack = new Carpet();
 		fall = new FallingChandleer ();
 		test = new BreakableObject ();
 		lay = new DarkOverlay();
