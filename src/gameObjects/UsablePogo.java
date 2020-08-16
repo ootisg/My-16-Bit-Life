@@ -59,4 +59,7 @@ public class UsablePogo extends GameObject {
 			}
 		}
 	}
+	public boolean isPogoing () {
+		return pogoing;
+	}
 }

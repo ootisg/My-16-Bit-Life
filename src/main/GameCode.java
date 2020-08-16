@@ -181,14 +181,14 @@ public class GameCode {
 	static FlowerEnemy flower;
 	static Minecart cart;
 	static Cactus cactus;
-	static Carpet pack;
+	static PogoStick pack;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/divingBoard.rmf");
+		Room.loadRoom ("resources/maps/platformSpikes.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
@@ -203,7 +203,7 @@ public class GameCode {
 		guy = new PointGuy();
 		work = new Worker ();
 		door = new Door ();
-		pack = new Carpet();
+		pack = new PogoStick();
 		fall = new FallingChandleer ();
 		test = new BreakableObject ();
 		lay = new DarkOverlay();
@@ -236,7 +236,6 @@ public class GameCode {
 		waffle = new Waffle ();
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall();
-		marsh = new Marshan();
 		testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
 		box = new Box();
 		plant = new Plant ();
@@ -321,7 +320,6 @@ public class GameCode {
 		testPoint.declare(185, 380);
 		System.out.println(testPoint.generatePath(point));*/
 		//function.declare(120, 300);
-		marsh.declare(200,320);
 		//ufo.declare(200,120);
 		//work.declare(100,200);
 		//candle.declare(200,200);

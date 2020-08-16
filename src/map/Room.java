@@ -323,7 +323,7 @@ public class Room {
 						foundCollision = true;
 					}
 			} else {
-				if (obj.isColliding(mapObjects.get(toPackedLong(wx,wy))) && !obj.equals(mapObjects.get(toPackedLong(wx,wy)))) {
+				if (mapObjects.get(toPackedLong(wx,wy)).isColliding(obj) && !obj.equals(mapObjects.get(toPackedLong(wx,wy)))) {
 					mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)));
 					return true;
 				}
@@ -382,7 +382,7 @@ public class Room {
 					working.add(new MapTile (dataList.get(index),wx*TILE_WIDTH,wy*TILE_HEIGHT));
 				}
 				} else{
-					if (obj.isColliding(mapObjects.get(toPackedLong(wx,wy)))) {
+					if (mapObjects.get(toPackedLong(wx,wy)).isColliding(obj)) {
 						mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)));
 						working.add(new MapTile (dataList.get(index),(int)mapObjects.get(toPackedLong(wx,wy)).getX(),(int)mapObjects.get(toPackedLong(wx,wy)).getY()));
 					}

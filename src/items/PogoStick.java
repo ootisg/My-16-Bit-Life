@@ -32,4 +32,12 @@ public class PogoStick extends Item {
 	public void onRemove () {
 		ObjectHandler.getObjectsByName("UsablePogo").get(0).forget();
 	}
+	public static boolean isPogoing () {
+		try {
+		UsablePogo working = (UsablePogo)ObjectHandler.getObjectsByName("UsablePogo").get(0);
+		return working.isPogoing();
+		} catch (NullPointerException e) {
+			return false;
+		}
+	}
 }

@@ -13,6 +13,7 @@ import switches.Activateable;
 
 public class MoveingPlatform extends MapObject implements Activateable {
 	Stack <Point> pointsToMoveTo = new Stack <Point> ();
+	ArrayList<GameObject> objectsToCarry = new ArrayList<GameObject> ();
 	private Stack <Point> path = new Stack <Point> ();
 	private double slope =0;
 	private boolean firstTime = true;
@@ -29,12 +30,16 @@ public class MoveingPlatform extends MapObject implements Activateable {
 		super.frameEvent();
 		if (!inzialized) {
 			if (firstTime) {
-				try {
-					this.setSprite(new Sprite ("resources/sprites/" +this.getVariantAttribute("spritePath")));
-					this.setHitboxAttributes(0, 0, this.getSprite().getFrame(0).getWidth(), this.getSprite().getFrame(0).getHeight());
-				} catch (NullPointerException  e) {
-					this.setSprite(new Sprite ("resources/sprites/default_platform.png"));
-				}
+					if (this.getVariantAttribute("spritePath") != null) {
+						if (!this.getVariantAttribute("spritePath").equals("nv")) {
+							this.setSprite(new Sprite ("resources/sprites/" +this.getVariantAttribute("spritePath")));
+							this.setHitboxAttributes(0, 0, this.getSprite().getFrame(0).getWidth(), this.getSprite().getFrame(0).getHeight());
+						} else {
+							this.setSprite(new Sprite ("resources/sprites/default_platform.png"));	
+						}
+					} else {
+						this.setSprite(new Sprite ("resources/sprites/default_platform.png"));
+					}
 				firstTime = false;
 				originalX = (int) this.getX();
 				originalY = (int) this.getY();
@@ -123,6 +128,7 @@ public class MoveingPlatform extends MapObject implements Activateable {
 		this.isCollidingChildren("GameObject");
 		ArrayList <GameObject> collidingObjects = this.getCollisionInfo().getCollidingObjects();
 		this.setY(this.getY() + 4);
+		collidingObjects.addAll(objectsToCarry);
 		if (!Double.isInfinite(slope)) {
 		//System.out.println(slopeMagnatue);
 			
@@ -135,7 +141,7 @@ public class MoveingPlatform extends MapObject implements Activateable {
 				this.goY(this.getY()+(slope/slopeMagnatue) * speed);
 				for (int i = 0; i < collidingObjects.size(); i++) {
 					collidingObjects.get(i).goX(collidingObjects.get(i).getX()- ((1.0/slopeMagnatue) * speed));	
-					collidingObjects.get(i).goY(this.getY() );
+					collidingObjects.get(i).goY(this.getY());
 				}
 			}  else {
 				for (int i = 0; i < collidingObjects.size(); i++) {
@@ -249,5 +255,11 @@ public class MoveingPlatform extends MapObject implements Activateable {
 	@Override
 	public void pair() {
 		
+	}
+	public void addCarryObject (GameObject obj) {
+		objectsToCarry.add(obj);
+	}
+	public void removeCarryObject (GameObject obj) {
+		objectsToCarry.remove(obj);
 	}
 }
