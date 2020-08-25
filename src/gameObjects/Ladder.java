@@ -38,6 +38,7 @@ public class Ladder extends GameObject {
 		Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() - 1);
 		if (Jeffrey.getActiveJeffrey().onLadder && (keyPressed (32))){
 			Jeffrey.getActiveJeffrey().onLadder = false;
+			Jeffrey.getActiveJeffrey().isJumping = true;
 		}
 	}
 }

@@ -188,7 +188,7 @@ public class GameCode {
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/platformSpikes.rmf");
+		Room.loadRoom ("resources/maps/spiderTest.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
@@ -236,7 +236,7 @@ public class GameCode {
 		waffle = new Waffle ();
 		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall();
-		testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
+		//testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
 		box = new Box();
 		plant = new Plant ();
 		glider =new Glider();

@@ -18,6 +18,7 @@ import main.RenderLoop;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import gui.Tbox;
 import gui.Textbox;
@@ -75,7 +76,7 @@ public class Jeffrey extends GameObject {
 	public int nextCharacter = 0;
 	private boolean [] party = new boolean [] {true,true,true};
 	private static boolean [] fullParty = new boolean [] {false,false,false};
-	boolean active = false;
+	public boolean active = false;
 	private Tbox textbox;
 	
 	private boolean activeBox = false;
@@ -189,64 +190,7 @@ if (activeBox) {
 			inzialized = true;
 			
 		}
-		if (vy == 0) {
-			if (messWithFrameTime) {
-			getAnimationHandler ().setFrameTime (50);
-			}
-		}
-		if (!onLadder) {
-			if (!standingOnPlatform) {
-		if (keyDown(32)) {
-		vy += Room.getGravity ();
-		} else {
-			vy += (Room.getGravity () + 0.5);
-		}
-			}
-		}
-		if (vy > 15.0) {
-			vy = 15.0;
-		}
-		if (fallBruh) {
-		setY (getY () + (int) Math.ceil (vy));
-	}
-		if (Room.isColliding(this)) {
-			vy = 0;
-			double fc = .2; //Friction coefficient
-			if (vx > 0) {
-				vx -= fc;
-				if (vx < 0) {
-					vx = 0;
-				}
-			} else if (vx < 0) {
-				vx += fc;
-				if (vx > 0) {
-					vx = 0;
-				}
-			}
-			if (fallBruh) {
-			MapTile[] collidingTiles = Room.getCollidingTiles (this);
-			this.setY (this.getY() + vy);
-			for (int i = 0; i < collidingTiles.length; i ++) {
-			    if (getY () + 32 >= collidingTiles [i].y && getY () + 32 <= collidingTiles [i].y + 16) {
-			        this.setY (collidingTiles [i].y - 32);
-			        this.vy = 0;
-			        isJumping = false;
-			        break;
-			    }
-			    if (getY () >= collidingTiles [i].y && getY () <= collidingTiles [i].y + 16) {
-			        this.setY (collidingTiles [i].y + 16 - this.getHitboxYOffset ());
-			        break;
-			    
-			}
-			}
-		}
-		}
-		vx = vx + ax;
-		vy = vy + ay;
-		ax = 0;
-		this.setX (this.getX () + vx);
 		if (active) {
-			wpn.frameEvent();
 			if (keyDown ('S') && !onLadder) {
 				crouching = true;
 				if (this.changeSprite) {
@@ -287,11 +231,14 @@ if (activeBox) {
 					}
 				}
 				}
-				this.changeSprite = true;
-				this.getWeapon().setY(this.getWeapon().getY() - 16);
-				crouching = false;
+				if (crouching) {
+				this.changeSprite(true);
 				this.getAnimationHandler().setRepeat(true);
 				this.setHitboxAttributes(4, 4, 7, 27);
+				this.getWeapon().setY(this.getWeapon().getY() - 16);
+				}
+				crouching = false;
+				
 			}
 			if (activeBox) {
 			weaponBox.setX(this.getX() - Room.getViewX());
@@ -457,7 +404,8 @@ if (activeBox) {
 			//Handles weapon usage
 			//Gravity and collision with floor
 			if (!binded) {
-			if (keyDown(32) && !isJumping && vy == 0 && !onLadder) {
+			if (keyDown(32) && !isJumping && vy == 0 ) {
+				
 				isJumping = true;
 				vy = -10.15625;
 				if (changeSprite) {
@@ -667,6 +615,64 @@ if (activeBox) {
 			}
 		}
 	}
+		if (vy == 0) {
+			if (messWithFrameTime) {
+			getAnimationHandler ().setFrameTime (50);
+			}
+		}
+		if (!onLadder) {
+			if (!standingOnPlatform) {
+		if (keyDown(32)) {
+		vy += Room.getGravity ();
+		} else {
+			vy += (Room.getGravity () + 0.5);
+		}
+			}
+		}
+		if (vy > 15.0) {
+			vy = 15.0;
+		}
+		if (fallBruh) {
+		setY (getY () + (int) Math.ceil (vy));
+	}
+		if (Room.isColliding(this)) {
+			vy = 0;
+			double fc = .2; //Friction coefficient
+			if (vx > 0) {
+				vx -= fc;
+				if (vx < 0) {
+					vx = 0;
+				}
+			} else if (vx < 0) {
+				vx += fc;
+				if (vx > 0) {
+					vx = 0;
+				}
+			}
+			if (fallBruh) {
+			MapTile[] collidingTiles = Room.getCollidingTiles (this);
+			this.setY (this.getY() + vy);
+			for (int i = 0; i < collidingTiles.length; i ++) {
+			    if (getY () + 32 >= collidingTiles [i].y && getY () + 32 <= collidingTiles [i].y + 16) {
+			        this.setY (collidingTiles [i].y - 32);
+			        this.vy = 0;
+			        isJumping = false;
+			        break;
+			    }
+			    if (getY () >= collidingTiles [i].y && getY () <= collidingTiles [i].y + 16) {
+			        this.setY (collidingTiles [i].y + 16 - this.getHitboxYOffset ());
+			        break;
+			    
+			}
+			}
+		}
+		}
+		vx = vx + ax;
+		vy = vy + ay;
+		ax = 0;
+		this.setX (this.getX () + vx);
+		wpn.frameEvent();
+		
 }
 	
 	
@@ -866,10 +872,13 @@ if (activeBox) {
 	}
 	public static Jeffrey getActiveJeffrey () {
 		ArrayList <GameObject> jeffreys = ObjectHandler.getObjectsByName("Jeffrey");
-		for (int i = 0; i < jeffreys.size(); i++) {
-			Jeffrey j = (Jeffrey)jeffreys.get(i);
-			if (j.isActive()) {
-				return j;
+		if (jeffreys != null) {
+			for (int i = 0; i < jeffreys.size(); i++) {
+				Jeffrey j = (Jeffrey)jeffreys.get(i);
+				if (j.isActive()) {
+					
+					return j;
+				}
 			}
 		}
 		return null;
@@ -939,6 +948,9 @@ if (activeBox) {
 		return active;
 	}
 	private void runSwitchCode () {
+		if (nextCharacter > 2) {
+			nextCharacter = 0;
+		}
 		int startMemer = nextCharacter;
 		while (!(fullParty[nextCharacter]) || witchCharictar == nextCharacter) {
 			nextCharacter = nextCharacter + 1;
@@ -978,18 +990,27 @@ if (activeBox) {
 	 * 
 	 */
 	public boolean checkSwitch () {
-		int startMemer = nextCharacter;
-		int temp = nextCharacter;
-		while (!(fullParty[temp]) || witchCharictar == temp) {
-			temp = temp + 1;
-			if (temp > 2) {
-				temp = 0;
+		switch (witchCharictar) {
+		case 0:
+			if ((fullParty[1] && samHealth > 0) || (fullParty[2] && ryanHealth > 0)) {
+				return true;
+			} else {
+				return false;
 			}
-			if (startMemer == temp) {	
+		case 1: 
+			if ((fullParty[0] && jeffreyHealth > 0) || (fullParty[2] && ryanHealth > 0)) {
+				return true;
+			} else {
+				return false;
+			}
+		case 2: 
+			if ((fullParty[1] && samHealth > 0) || (fullParty[0] && jeffreyHealth > 0)) {
+				return true;
+			} else {
 				return false;
 			}
 		}
-		return true;
+		return false;
 	}
 	public static Jeffrey getJeffreyWithCharacter (int witchCharacter) {
 		for (int i = 0; i < ObjectHandler.getObjectsByName("Jeffrey").size(); i++) {

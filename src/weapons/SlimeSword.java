@@ -232,7 +232,7 @@ public class SlimeSword extends Item {
 			if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
 				Jeffrey.getActiveJeffrey().desyncSpriteX(-34);
 				faceingLeft = true;
-			}
+			} 
 		}
 		if (Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite)) {
 		if (faceingLeft && !Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {

@@ -18,6 +18,7 @@ public class Spider extends PresetEnemy {
 		this.health = 45;
 		this.getAnimationHandler().setFrameTime(12);
 		this.setMomentum(6);
+		this.setBasePower(40);
 	}
 	@Override 
 	public void enemyFrame () {

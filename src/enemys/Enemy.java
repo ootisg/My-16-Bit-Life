@@ -165,6 +165,9 @@ public abstract class Enemy extends BreakableObject {
 			this.drops.add(drops[i]);
 		}
 	}
+	public void setBasePower (int power) {
+		baseDamage = power;
+	}
 	public void enemyFrame () {
 		
 	}

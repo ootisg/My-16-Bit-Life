@@ -21,6 +21,7 @@ import gameObjects.TemporaryWall;
 import main.GameAPI;
 import main.GameObject;
 import main.ObjectHandler;
+import players.Jeffrey;
 import resources.Sprite;
 import resources.SpriteParser;
 
@@ -660,7 +661,12 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			objectToUse.declare(x*16, y*16);
 			
 		}
-
+		//might need to be removed soon
+		if (ObjectHandler.getObjectsByName("Jeffrey") == null) {
+			Jeffrey j = new Jeffrey ();
+			j.declare(0, 0);
+			j.active = true;
+		}
 		//convert the map to a big number of map chungi
 		int gridWidth = (int)Math.ceil((((double)mapWidth)/chungusWidth));
 		int gridHidth = (int)Math.ceil((((double)mapHeight)/chungusHeight)); // short for width2
