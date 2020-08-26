@@ -241,7 +241,6 @@ public class GameCode {
 		plant = new Plant ();
 		glider =new Glider();
 		lPlant = new LaunchPlant ();
-		cactus = new Cactus ();
 		//shooter = new MafiaShooter();
 		//boi = new Celing_boi();
 		//waffle = new Waffle (4);
@@ -256,7 +255,6 @@ public class GameCode {
 		//plant = new Plant ();
 		paint = new BluePaint ();
 		fan = new Fan();
-		flower = new FlowerEnemy ();
 		while (x <40) {
 		Jeffrey.inventory.addAmmo(paintball);
 		Jeffrey.inventory.addAmmo(paint);

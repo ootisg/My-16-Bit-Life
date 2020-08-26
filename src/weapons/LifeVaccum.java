@@ -1,5 +1,7 @@
 package weapons;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -8,8 +10,10 @@ import items.Item;
 import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
+import main.RenderLoop;
 import map.Room;
 import players.Jeffrey;
+import projectiles.LifeVaccumProjectile;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
 
@@ -20,12 +24,16 @@ public class LifeVaccum extends Item {
 	int [] upgradeInfo;
 	Sprite vaccumSprite;
 	Wind wind = new Wind ();
+	int quicknessTimer = 0;
 	boolean inzialized = false;
+	int projectileCharge;
+	Graphics g = RenderLoop.window.getBufferGraphics();
 	public final Sprite OUTTA_AMMO = new Sprite ("resources/sprites/Outta_Ammo.png");
 	public LifeVaccum () {
 		vaccumSprite = new Sprite( "resources/sprites/config/lifeVaccum.txt");
-		upgradeInfo = new int [] {0,0,0,0};
+		upgradeInfo = new int [] {0,0,1,0};
 		timer = 0;
+		projectileCharge = 0;
 		wind.declare ();
 		wind.hide();
 		RNG = new Random (); 
@@ -65,6 +73,27 @@ public class LifeVaccum extends Item {
 			wind.declare();
 		}
 		timer = timer + 1;
+		if (mouseButtonDown (0)) {
+			quicknessTimer = quicknessTimer + 1;
+		} else {
+			if (!mouseButtonDown (0)) {
+				if ((quicknessTimer > 0 && quicknessTimer < 9) &&  ((projectileCharge > 45 && this.getTierInfo()[2] >= 1) || (projectileCharge > 30 && this.getTierInfo()[2] >= 3)) ) {
+					if (this.getTierInfo()[2] >= 1 && this.getTierInfo()[2] < 3) {
+						projectileCharge = projectileCharge - 45;
+					} else {
+						projectileCharge = projectileCharge - 30;
+					}
+					LifeVaccumProjectile projectile = new LifeVaccumProjectile ();
+					if (this.getAnimationHandler().flipHorizontal()) {
+						projectile.setDirection(3.14);
+					} else {
+						projectile.setDirection(0);
+					}
+					projectile.declare(this.getX(), this.getY());
+				} 
+			}
+			quicknessTimer = 0;
+		}
 		// this may need to be a diffrent number
 		if (mouseButtonDown (0) && !Jeffrey.getActiveJeffrey().isCrouched()) {
 			if (Jeffrey.getInventory().checkLifeVaccumBattary() > 0) {
@@ -79,7 +108,17 @@ public class LifeVaccum extends Item {
 					if (timer % 2 == 0) {
 						timer = 0;
 					Enemy.enemyList.get(i).damage (damageDone);
-				
+					if (this.getTierInfo()[2] == 1) {
+						if (projectileCharge < 180) {
+							projectileCharge = projectileCharge + 1;
+						}
+					} else {
+						if (this.getTierInfo()[2] >= 1) {
+							if (projectileCharge < 275) {
+								projectileCharge = projectileCharge + 1;
+							}
+						}
+					}
 					Jeffrey.samHealth = Jeffrey.samHealth + ((int)damageDone/4 + .2);
 					if (Jeffrey.samHealth >Jeffrey.maxSamHealth) {
 						Jeffrey.samHealth = Jeffrey.maxSamHealth;
@@ -120,7 +159,21 @@ public class LifeVaccum extends Item {
 			wind.getAnimationHandler().setFlipHorizontal(false);
 		}
 	}
-	
+	@Override
+	public void draw () {
+		super.draw();
+		if (this.getTierInfo()[2] == 1) {
+			g.setColor(new Color (0x800080));
+			g.drawRect(0, 24, 180, 16);
+			g.fillRect(0, 24, projectileCharge, 16);
+		} else {
+			if (this.getTierInfo()[2] >= 2) {
+				g.setColor(new Color (0x800080));
+				g.drawRect(0, 24, 275, 16);
+				g.fillRect(0, 24, projectileCharge, 16);
+			}
+		}
+	}
 }
 class Wind extends GameObject {
 	public final Sprite WIND =  new Sprite ("resources/sprites/config/tornado.txt");
