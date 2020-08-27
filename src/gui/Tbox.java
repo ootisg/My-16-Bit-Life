@@ -23,6 +23,8 @@ public class Tbox extends GameObject {
 	boolean keepOpen = false;
 	public Tbox () {
 		timer = 0;
+		textBorder = new Sprite ("resources/sprites/config/text_border.txt");
+		font = new Sprite ("resources/sprites/config/font.txt");
 	}
 	public Tbox (double x, double y, int width, int height, String text, boolean drawBox) {
 		//Initialize parameters
@@ -113,7 +115,8 @@ public class Tbox extends GameObject {
 						}
 				}
 				}
-			AfterRenderDrawer.drawAfterRender((x + (xi % width) * 8), y + (yi / calcwidth) * 8 + 8, font, (int)text.charAt(startPos + i)); 
+				
+				AfterRenderDrawer.drawAfterRender((x + (xi % width) * 8), y + (yi / calcwidth) * 8 + 8,font, (int)text.charAt(startPos + i)); 
 			if ((int)text.charAt(startPos + i) == 46) {
 				xi = -3;
 				calcwidth = calcwidth + 3;
@@ -189,6 +192,9 @@ public class Tbox extends GameObject {
 	}
 	public void keepOpen (boolean shouldItStayOpen) {
 		keepOpen = shouldItStayOpen;
+	}
+	public void renderBox (boolean toRenderOrNotToRender) {
+		renderBox = toRenderOrNotToRender;
 	}
 	public void close () {
 		//Adds extensability; this can be overriden to prevent the window from closing when A is pressed

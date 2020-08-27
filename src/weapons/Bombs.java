@@ -73,14 +73,6 @@ public class Bombs extends AimableWeapon {
 	}
 	@Override
 	public void frameEvent () {
-		if (firstRun) {
-			if (!itsOver) {
-			AfterRenderDrawer.drawAfterRender(350, 0, bombIconSprite, 0, true);
-			firstRun = false;
-			} else {
-				itsOver = false;
-			}
-		}
 		if (cooldown > 0) {
 			cooldown--;
 		}
@@ -109,7 +101,7 @@ public class Bombs extends AimableWeapon {
 			} else {
 				landPoint = bomb.computeLandPoint(landInfo[0],landInfo[1],landInfo[2], -1*12*(1 + power/60.0), 18*(1 + power/60.0), false);
 			}
-			AfterRenderDrawer.drawAfterRender((int)landPoint[0] - Room.getViewX(), (int)landPoint[1] - Room.getViewY(), INDICATOR_SPRITE);
+			AfterRenderDrawer.drawAfterRender((int)landPoint[0] - Room.getViewX() -7, (int)landPoint[1] - Room.getViewY(), INDICATOR_SPRITE);
 			if (bomb.timer > 120) {
 				inHand = false;
 				power = 0;

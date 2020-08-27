@@ -32,9 +32,13 @@ public class redBlackPaintBallGun extends AimableWeapon {
 	public redBlackPaintBallGun(Sprite sprite) {
 		super(sprite);
 		fists = false;
-		ammoAmount = new Tbox (0,0,24,1, "0", false);
-		ammoAmount.declare(340,10);
+		ammoAmount = new Tbox ();
+		ammoAmount.setX(340);
+		ammoAmount.setY(10);
+		ammoAmount.setWidth(24);
+		ammoAmount.setHeight(1);
 		ammoAmount.keepOpen(true);
+		ammoAmount.renderBox(false);
 		textTimer = 0;
 		paintballiconSprite = new Sprite ("resources/sprites/config/paintballIcon.txt");
 		fisticonSprite = new Sprite ("resources/sprites/config/fistIcon.txt");
@@ -77,20 +81,12 @@ public class redBlackPaintBallGun extends AimableWeapon {
 	}
 	@Override
 	public void frameEvent () {
-		if (firstRun) {
-			AfterRenderDrawer.drawAfterRender(350, 0, paintballiconSprite, 0, true);
-			firstRun = false;
-		}
 		if (upgradeInfo [3] >= 1 && mouseButtonPressed (2)) {
 			if (!fists) {
 			fists = true;
-			AfterRenderDrawer.removeElement(paintballiconSprite, 350, 0);
-			AfterRenderDrawer.drawAfterRender(350, 0, fisticonSprite, 0, true);
 			box = new Tbox (this.getX() - Room.getViewX() ,this.getY(), 20, 2, "SHOOT THOSE FISTS BRO", false);
 			} else {
 			fists = false;
-			AfterRenderDrawer.removeElement(fisticonSprite, 350, 0);
-			AfterRenderDrawer.drawAfterRender(350, 0, paintballiconSprite, 0, true);
 			box = new Tbox (this.getX() - Room.getViewX(),this.getY(), 20, 2, "STOP DEM FISTS", false);
 			}
 			
@@ -98,14 +94,6 @@ public class redBlackPaintBallGun extends AimableWeapon {
 			box.configureTimerCloseing(30);
 		}
 		Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
-		if (!itsOver) {
-		ammoAmount.setContent(Integer.toString(Jeffrey.getInventory().checkItemAmount(paint)));
-		} else {
-		AfterRenderDrawer.removeElement(paintballiconSprite, 350, 0);
-		AfterRenderDrawer.removeElement(fisticonSprite, 350, 0);
-		ammoAmount.setContent("");
-		itsOver = false;
-		}
 		if (this.cooldown > 0) {
 			this.cooldown --;
 		}
@@ -134,5 +122,17 @@ public class redBlackPaintBallGun extends AimableWeapon {
 			textTimer = textTimer - 1;
 		}
 	}
-	
+	@Override 
+	public void draw () {
+		super.draw();
+		if (this.getTierInfo()[3] == 1) {
+			ammoAmount.setContent(Integer.toString(Jeffrey.getInventory().checkItemAmount(paint)));
+			ammoAmount.draw();
+			if (fists) {
+				fisticonSprite.draw(350, 0);
+			} else {
+				paintballiconSprite.draw(350, 0);
+			}
+		}
+	}
 }
