@@ -411,7 +411,7 @@ if (activeBox) {
 				if (changeSprite) {
 				setSprite (walkSprite);
 				}
-				if (messWithFrameTime ) {
+				if (messWithFrameTime && this.getSprite().equals(walkSprite)) {
 					getAnimationHandler ().setFrameTime (0);
 				}
 				if (this.getSprite().equals(walkSprite)) {

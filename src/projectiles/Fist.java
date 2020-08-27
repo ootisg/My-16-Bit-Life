@@ -49,21 +49,17 @@ public class Fist extends Projectile {
 			firstRun = false;
 		}
 		if (guyToFuckUp != null) {
-			if (defult) {
 			DirectionBullet bullet = new DirectionBullet(this.getX(), this.getY());
 			this.setDirection(bullet.findDirection(guyToFuckUp));
-			defult = false;
-			} else {
-				if (timer == 10) {
-					defult = true;
-				}
-				timer = timer + 1;
-			}
 		} else {
-			guyToFuckUp = this.findGuyToFuckUp(false);
+			double distance = 42000000;
+			for (int i = 0;  i <Enemy.enemyList.size(); i++) {
+				if ((Math.abs(Enemy.enemyList.get(i).getX() - this.getX()) + Math.abs(Enemy.enemyList.get(i).getY() - this.getY())) < distance ) {
+					guyToFuckUp = Enemy.enemyList.get(i);
+					distance = (Math.abs(Enemy.enemyList.get(i).getX() - this.getX()) + Math.abs(Enemy.enemyList.get(i).getY() - this.getY()));
+				}
+			}
 		}
-		double xTo = this.getX () + Math.cos (direction) * speed;
-		double yTo = this.getY () + Math.sin (direction) * speed;
 		for (int i = 0; i < Enemy.enemyList.size(); i ++) {
 			if (this.isColliding(Enemy.enemyList.get(i))){
 				Enemy.enemyList.get(i).damage (RNG.nextInt(10) + 30);
@@ -83,7 +79,7 @@ public class Fist extends Projectile {
 	 * @param checkFuckEmUp changes FUCKEMUP to true if the enemy is really really close
 	 * @return the closeest enemy in the direction that the fist is going
 	 */
-	public Enemy findGuyToFuckUp (boolean checkFuckEmUp) {
+	/*public Enemy findGuyToFuckUp (boolean checkFuckEmUp) {
 		if (!Enemy.enemyList.isEmpty()) {
 			double distanceToNearestEnemy = 420069;
 			double distanceToNearestEnemyFromCursor = 420069;
@@ -138,5 +134,5 @@ public class Fist extends Projectile {
 			}
 		}
 		return null;
-	}
+	}*/
 }
