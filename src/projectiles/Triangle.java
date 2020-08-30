@@ -1,5 +1,6 @@
 package projectiles;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import enemys.Enemy;
@@ -22,12 +23,14 @@ public class Triangle extends Projectile{
 	double oldSpeed;
 	Random RNG;
 	NinjaTriangle copyTriangle;
+	ArrayList <Enemy> blacklist ;
 	public Triangle(double throwDirection, double speed, int bounces, NinjaTriangle spawnerThing) {
 		triangle = new Sprite ("resources/sprites/config/ninja_triangle.txt");
 		this.setDirection(throwDirection);
 		this.setSprite(triangle);
 		this.setSpeed(speed);
 		stopped = false;
+		blacklist = new ArrayList<Enemy>();
 		stuckInRoom = false;
 		this.adjustHitboxBorders();
 		consectuive = true;
@@ -86,10 +89,9 @@ public class Triangle extends Projectile{
 			// deals with damage
 			if (!stopped) {
 			for (int i = 0; i < Enemy.enemyList.size(); i ++) {
-				if (this.isColliding(Enemy.enemyList.get(i))){
-					if (pickupTimer % 2 == 0) {
-					Enemy.enemyList.get(i).damage (RNG.nextInt(5));
-					}
+				if (this.isColliding(Enemy.enemyList.get(i)) && !this.blacklist.contains(Enemy.enemyList.get(i))){
+					Enemy.enemyList.get(i).damage (30 + RNG.nextInt(20));
+					blacklist.add(Enemy.enemyList.get(i));
 				}
 			}
 			}
