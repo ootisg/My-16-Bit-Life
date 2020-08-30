@@ -16,6 +16,7 @@ public class Triangle extends Projectile{
 	boolean stopped;
 	double oldDirection;
 	int timer;
+	boolean homeing = false;
 	int pickupTimer;
 	int recallTimer = 0;
 	boolean stuckInRoom;
@@ -79,6 +80,13 @@ public class Triangle extends Projectile{
 	}
 	@Override
 	public void projectileFrame () {
+		if (this.homeing) {
+			DirectionBullet bullet;
+			bullet = new DirectionBullet (this.getX(), this.getY());
+			double directionToGo = bullet.findDirection(Jeffrey.getActiveJeffrey());
+			bullet.forget();
+			this.setDirection(directionToGo);
+		}
 		try {
 		ObjectHandler.getObjectsByName(this.getClass().getSimpleName()).get(1).forget();
 		} catch (IndexOutOfBoundsException e) {
@@ -103,8 +111,8 @@ public class Triangle extends Projectile{
 				bullet = new DirectionBullet (this.getX(), this.getY());
 				Triangle returningTriangle;
 				double directionToGo = bullet.findDirection(Jeffrey.getActiveJeffrey());
-				bullet.forget();
 				returningTriangle = new Triangle (directionToGo, 10, 0, copyTriangle);
+				returningTriangle.home();
 				returningTriangle.declare(this.getX(),this.getY());	
 				this.forget();
 			}
@@ -135,6 +143,9 @@ public class Triangle extends Projectile{
 				returningTriangle = new Triangle (directionToGo, speed, amountOfBounces + 1, copyTriangle);
 					}
 					}
+				if (this.homeing) {
+					returningTriangle.home();
+				}
 				returningTriangle.declare(this.getX(),this.getY());	
 				this.forget();
 			}
@@ -144,16 +155,25 @@ public class Triangle extends Projectile{
 			if (!consectuive) {
 			if (copyTriangle.getTierInfo()[2] == 1 && amountOfBounces < 2 ) {
 			nextTriangle = new Triangle (oldDirection + 1.57, speed - 1, amountOfBounces + 1, copyTriangle);
+			if (this.homeing) {
+				nextTriangle.home();
+			}
 			nextTriangle.declare(this.getX(),this.getY());	
 			this.forget();
 			}
 			if (copyTriangle.getTierInfo()[2] == 2 && amountOfBounces < 5 ) {
 				nextTriangle = new Triangle (oldDirection + 1.57, speed - .5, amountOfBounces + 1, copyTriangle);
+				if (this.homeing) {
+					nextTriangle.home();
+				}
 				nextTriangle.declare(this.getX(),this.getY());	
 				this.forget();
 				}
 			if (copyTriangle.getTierInfo()[2] == 3 && amountOfBounces < 5 ) {
 				nextTriangle = new Triangle (oldDirection + 1.57, speed, amountOfBounces + 1, copyTriangle);
+				if (this.homeing) {
+					nextTriangle.home();
+				}
 				nextTriangle.declare(this.getX(),this.getY());	
 				this.forget();
 				}
@@ -296,11 +316,17 @@ public class Triangle extends Projectile{
 			e.printStackTrace();
 			Triangle nextTriangle;
 			nextTriangle = new Triangle (oldDirection + 3.14, speed, amountOfBounces + 1, copyTriangle);
+			if (this.homeing) {
+				nextTriangle.home();
+			}
 			nextTriangle.declare(this.getX() - 10,this.getY());
 			this.forget();
 		}
 		if (pickupTimer > 3) {
 		consectuive = false;
 		}
+	}
+	public void home () {
+		homeing = true;
 	}
 }
