@@ -181,7 +181,7 @@ public class GameCode {
 	static FlowerEnemy flower;
 	static Minecart cart;
 	static Cactus cactus;
-	static PogoStick pack;
+	static items.Fan pack;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
@@ -203,7 +203,7 @@ public class GameCode {
 		guy = new PointGuy();
 		work = new Worker ();
 		door = new Door ();
-		pack = new PogoStick();
+		pack = new items.Fan();
 		fall = new FallingChandleer ();
 		test = new BreakableObject ();
 		lay = new DarkOverlay();
