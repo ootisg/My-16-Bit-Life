@@ -58,6 +58,14 @@ public class AimableWeapon extends Item {
 	}
 	public void changeSprite (Sprite newSprite) {
         src = newSprite;
+    	BufferedImage startImg = src.getFrame (0);
+		AffineTransform transform = new AffineTransform ();
+		transform.rotate (rotation, 5, 12);
+		AffineTransformOp operation = new AffineTransformOp (transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		img = new BufferedImage (this.src.getFrame (0).getWidth (), this.src.getFrame (0).getHeight (), this.src.getFrame (0).getType ());
+		operation.filter (startImg, img);
+		this.setSprite (new Sprite (img));
+		renderedRotation = rotation;
     }
 	public Sprite getUnrotatedSprite () {
 		return this.getSprite();

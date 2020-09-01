@@ -21,8 +21,6 @@ public class MagicMarker extends AimableWeapon {
 	Sprite purpleMarker = new Sprite ("resources/sprites/config/marker_weapon_purple.txt");
 	Sprite Marker = new Sprite ("resources/sprites/config/marker_weapon.txt");
 	int color;
-	
-	
 	private Sprite paintballiconSprite;
 	private int textTimer;
 	private int cooldown;	
@@ -85,8 +83,7 @@ public class MagicMarker extends AimableWeapon {
 			if (color > 6) {
 				color = 1;
 			}
-		}
-		switch(color) { //Sets the sprite depending on the color. Color order is R-Y-B-O-G-P
+			switch(color) { //Sets the sprite depending on the color. Color order is R-Y-B-O-G-P
 			case 1:
 				changeSprite (redMarker);
 				break;
@@ -105,10 +102,9 @@ public class MagicMarker extends AimableWeapon {
 			case 6:
 				changeSprite (purpleMarker);
 				break;
-			default:
-				changeSprite (redMarker);
-				break;
 		}
+		}
+		
 		Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 		ammoAmount.setContent("");
 		itsOver = false;
