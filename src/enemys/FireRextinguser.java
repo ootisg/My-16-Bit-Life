@@ -18,7 +18,7 @@ public class FireRextinguser extends PresetEnemy {
 		attackingSprite = new Sprite ("resources/sprites/config/Fire_Rextinguisher_Attacking.txt");
 		this.setSprite (idleSprite);
 		this.setAttackFromBothSides(true);
-		this.setHitboxAttributes(2, 0, 19, 24);
+		this.setHitboxAttributes(0, 0, 18, 24);
 		this.moveRight = false;
 		this.getAnimationHandler().setFrameTime(250);
 		this.setFalls(true);
@@ -34,7 +34,7 @@ public class FireRextinguser extends PresetEnemy {
 	}
 	@Override
 	public void enemyFrame () {
-		this.patrol(2, 0, 60, 0, 60, attackingSprite, idleSprite, 0, 2, 0, 0, 19, 24);
+		this.patrol(0, 0, 60, 0, 60, attackingSprite, idleSprite, 0, 2, 0, 0, 19, 24);
 		if (attacked && this.isNearPlayerX(0, 60, 0, 60)) {
 			if (this.moveRight) {
 				this.goX(this.getX() - 1);

@@ -14,6 +14,7 @@ public class Fire extends Projectile {
 		this.getAnimationHandler().setFlipHorizontal(flipped);
 		this.setSprite(fire);
 		RNG = new Random();
+		this.setHitboxAttributes(0, 0, 46, 20);
 		this.getAnimationHandler().setFrameTime(100);
 		this.getAnimationHandler().setRepeat(false);
 	}

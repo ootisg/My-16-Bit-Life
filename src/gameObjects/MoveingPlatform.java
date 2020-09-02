@@ -22,7 +22,7 @@ public class MoveingPlatform extends MapObject implements Activateable {
 	Point nextPoint = new Point();
 	int originalX;
 	int originalY;
-	private boolean active;
+	private boolean active = true;
 	public MoveingPlatform () {
 		this.setHitboxAttributes(0, 0, 20, 16);
 	}
@@ -220,7 +220,7 @@ public class MoveingPlatform extends MapObject implements Activateable {
 		}
 		} else {
 			if (slope > 0) {
-				this.setY(this.getY()+ speed);
+				this.goY(this.getY()+ speed);
 				for (int i = 0; i < collidingObjects.size(); i++) {
 					collidingObjects.get(i).setY(this.getY() );
 				}

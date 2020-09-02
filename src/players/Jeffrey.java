@@ -146,6 +146,7 @@ if (activeBox) {
 	@Override
 	public void frameEvent () {
 		if (!inzialized) {
+			
 			wpn = new Item ();
 			if (this.getVariantAttribute("Jeffrey") != null) {
 				if (this.getVariantAttribute("Jeffrey").equals("no")) {
