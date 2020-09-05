@@ -21,7 +21,6 @@ public class BombsProjectile extends Projectile{
 	double vy = 0;
 	boolean inzialaized = false;
 	boolean thrown = false;
-	boolean done = false;
 	Explosion explosion = new Explosion(10, 60, true, true);
 	public static Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 	
@@ -57,14 +56,21 @@ public class BombsProjectile extends Projectile{
 					inzialaized = true;
 				}
 			}
-			if (!goingIntoWall && !done) {
-				this.setY(this.getY() - (vy / 3));
-				this.setX(this.getX() + (vx / 3));
+			if (this.checkXandY(this.getX() + (vx / 3), this.getY() - (vy / 3)) ) {
+				this.goY(this.getY() - (vy / 3));
+				this.goX(this.getX() + (vx / 3));
 				vy--;
 			} else {
-				if (!done) {
-					this.setY(this.getY() + (vy / 3));
-					done = true;
+				if (this.checkX(this.getX() + (vx / 3))) {
+					if (vy > 0) {
+						vy = vy * -1;
+						vx = vx * -1;
+						fakeDirection = !fakeDirection;
+					}
+				}
+				if (this.checkY(this.getY() - (vy / 3))) {
+					vx = vx * -1;
+					fakeDirection = !fakeDirection;
 				}
 			}
 		}
@@ -92,6 +98,12 @@ public class BombsProjectile extends Projectile{
 		double fakeVy;
 		double workingX = positionX;
 		double workingY = positionY;
+		Sprite lightBall = new Sprite ("resources/sprites/lightBall.png");
+		Sprite lightBallRed = new Sprite ("resources/sprites/lightBall_red.png");
+		Sprite lightBallOrange = new Sprite ("resources/sprites/lightBall_orange.png");
+		Sprite lightBallBlue = new Sprite ("resources/sprites/lightBall_blue.png");
+		Sprite lightBallGreen = new Sprite ("resources/sprites/lightBall_green.png");
+		Sprite activeLightBall = lightBall;
 		if (workingFakeDireciton) {
 			fakeVy = -workingVy * direction;
 		} else {
@@ -110,13 +122,58 @@ public class BombsProjectile extends Projectile{
 				}
 			}
 
-			if (
-				this.checkXandY(workingX,workingY)) {
+			if (this.checkXandY(workingX,workingY)) {
 				
 				workingY = workingY - (fakeVy / 3);
 				workingX = workingX + (fakeVx / 3);
-				AfterRenderDrawer.drawAfterRender((int)workingX - Room.getViewX(), (int)workingY - Room.getViewY(), new Sprite ("resources/sprites/lightBall.png"));
+				AfterRenderDrawer.drawAfterRender((int)workingX - Room.getViewX(), (int)workingY - Room.getViewY(), activeLightBall);
 				fakeVy--;
+			} else {
+				double oldX = this.getX();
+				double oldY = this.getY();
+				this.setY(workingY + (fakeVy / 3));
+				if (this.checkX(workingX)) {
+					if (fakeVy > 0) {
+						fakeVy = fakeVy * -1;
+						workingY = workingY - (fakeVy / 3);
+						fakeVx = fakeVx * -1;
+						workingFakeDireciton = !workingFakeDireciton;
+						if (activeLightBall.equals(lightBallGreen)) {
+							activeLightBall = lightBallBlue;
+							}
+						if (activeLightBall.equals(lightBallRed)) {
+							activeLightBall = lightBallGreen;
+							}
+						if (activeLightBall.equals(lightBallOrange)) {
+							activeLightBall = lightBallRed;
+							}
+						if (activeLightBall.equals(lightBall)) {
+							activeLightBall = lightBallOrange;
+							}
+						}
+					AfterRenderDrawer.drawAfterRender((int)workingX - Room.getViewX(), (int)workingY - Room.getViewY(), activeLightBall);
+				}
+				this.setY(oldY);
+				this.setX(workingX - (fakeVx / 3));
+				if (this.checkY(workingY)) {
+					fakeVx = fakeVx * -1;
+					workingX = workingX + (fakeVx / 3);
+					workingFakeDireciton = !workingFakeDireciton;
+					if (activeLightBall.equals(lightBallGreen)) {
+						activeLightBall = lightBallBlue;
+						}
+					if (activeLightBall.equals(lightBallRed)) {
+						activeLightBall = lightBallGreen;
+						}
+					if (activeLightBall.equals(lightBallOrange)) {
+						activeLightBall = lightBallRed;
+						}
+					if (activeLightBall.equals(lightBall)) {
+						activeLightBall = lightBallOrange;
+						}
+					AfterRenderDrawer.drawAfterRender((int)workingX - Room.getViewX(), (int)workingY - Room.getViewY(), activeLightBall);
+				}
+				this.setX(oldX);
 			}
 			fakeTimer = fakeTimer + 1;
 		}
