@@ -1,2 +1,0 @@
-$src resources/sprites/mafia_shooter_walking.png
-grid 16 32;

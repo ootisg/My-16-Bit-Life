@@ -1,3 +1,0 @@
-$src resources/sprites/redblack_ball.png
-
-rectangle 0 0 3 3

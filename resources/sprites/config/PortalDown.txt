@@ -1,3 +1,0 @@
-$src resources/sprites/Portal Down.png
-
-grid 32 16

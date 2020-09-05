@@ -1,3 +1,0 @@
-$src resources/sprites/16bl_Menu.png
-
-grid 512 512

@@ -1,4 +1,0 @@
-$src resources/sprites/Fire_Rextinguisher.png
-
-rectangle 38 0 114 24:
-	grid 19 24;

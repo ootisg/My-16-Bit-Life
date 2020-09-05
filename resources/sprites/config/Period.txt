@@ -1,2 +1,0 @@
-$src resources/sprites/Punctuation.png
-	rectangle 903 22 5 4

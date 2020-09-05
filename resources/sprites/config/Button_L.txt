@@ -1,3 +1,0 @@
-$src resources/sprites/Button_L.png
-
-grid 8 8

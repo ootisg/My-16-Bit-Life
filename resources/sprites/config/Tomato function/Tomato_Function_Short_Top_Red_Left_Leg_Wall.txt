@@ -1,4 +1,0 @@
-$src resources/sprites/Tomato Function Leg (1).png
-
-rectangle 1056 0 48 89:
-	grid 48 89;

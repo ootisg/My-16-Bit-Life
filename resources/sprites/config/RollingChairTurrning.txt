@@ -1,3 +1,0 @@
-$src resources/sprites/Rolling_Chair_Cavalry.png
-	rectangle 344 0 172 24:
-		grid 43 24;

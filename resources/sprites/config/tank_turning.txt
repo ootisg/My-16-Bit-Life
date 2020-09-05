@@ -1,4 +1,0 @@
-$src resources/sprites/Tank_enemy.png
-
-rectangle 32 0 80 32:
-	grid 16 32;

@@ -1,4 +1,0 @@
-$src resources/sprites/Jeffrey_Plant.png
-
- rectangle 144 0 64 48:
-	grid 16 48;

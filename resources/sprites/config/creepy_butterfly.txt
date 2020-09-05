@@ -1,3 +1,0 @@
-$src resources/sprites/creepy_butterfly.png
-
-grid 16 16

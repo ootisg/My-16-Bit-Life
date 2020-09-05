@@ -1,4 +1,0 @@
-$src resources/sprites/Sheep.png
-
-rectangle 225 0 50 16:
-	grid 25 16;

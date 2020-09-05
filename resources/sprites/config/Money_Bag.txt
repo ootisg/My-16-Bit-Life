@@ -1,3 +1,0 @@
-$src resources/sprites/Money_Bag.png
-
-grid 16 15

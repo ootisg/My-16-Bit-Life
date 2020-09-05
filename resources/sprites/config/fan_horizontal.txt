@@ -1,2 +1,0 @@
-$src resources/sprites/Fan_Horizontal.png
-grid 16 64;

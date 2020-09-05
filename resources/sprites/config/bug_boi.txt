@@ -1,3 +1,0 @@
-$src resources/sprites/Buggy_Boi_1.png
-
-grid 15 15

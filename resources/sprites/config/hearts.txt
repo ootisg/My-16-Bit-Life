@@ -1,3 +1,0 @@
-$src resources/sprites/heartsheet.png
-
-grid 16 16

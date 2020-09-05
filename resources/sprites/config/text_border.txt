@@ -1,3 +1,0 @@
-$src resources/sprites/windowsprites2.png
-
-grid 8 8

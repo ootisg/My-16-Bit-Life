@@ -1,3 +1,0 @@
-$src resources/sprites/Bomb.png
-rectangle 0 0 45 19:
-	grid 15 19;

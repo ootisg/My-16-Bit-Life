@@ -1,3 +1,0 @@
-$src resources/sprites/Sam_Plant.png
-
- rectangle 0 0 16 48

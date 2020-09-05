@@ -1,3 +1,0 @@
-$src resources/sprites/Impatient_Car_5.png
-
-grid 73 28

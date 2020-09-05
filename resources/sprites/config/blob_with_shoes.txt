@@ -1,3 +1,0 @@
-$src resources/sprites/blob_with_shoes.png
-
-grid 16 16

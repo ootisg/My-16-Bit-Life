@@ -1,3 +1,0 @@
-$src resources/sprites/Clostridium_bowtielinea_24x16.png
-
-grid 24 16

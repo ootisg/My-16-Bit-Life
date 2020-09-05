@@ -1,3 +1,0 @@
-$src resources/sprites/Punctuation.png
- rectangle 135 0 270 28:
-	grid 27 28;

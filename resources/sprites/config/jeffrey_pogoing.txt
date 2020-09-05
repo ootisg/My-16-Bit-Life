@@ -1,3 +1,0 @@
-$src resources/sprites/jeffrey_pogoing.png
-
-grid 16 32;

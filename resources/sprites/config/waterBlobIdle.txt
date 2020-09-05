@@ -1,3 +1,0 @@
-$src resources/sprites/Water Blob.png
-
-rectangle 0 0 80 80

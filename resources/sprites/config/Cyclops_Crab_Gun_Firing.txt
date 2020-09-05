@@ -1,6 +1,0 @@
-$src resources/sprites/Cyclops_Crab_Gun.png
-
-rectangle 0 0 6 16
-rectangle 7 0 6 16
-rectangle 13 0 6 16
-rectangle 19 0 6 16

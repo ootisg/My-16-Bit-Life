@@ -1,4 +1,0 @@
-$src resources/sprites/Ryan_Plant.png
-
- rectangle 208 0 192 48:
-	grid 16 48;

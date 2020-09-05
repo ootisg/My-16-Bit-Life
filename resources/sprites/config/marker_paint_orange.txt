@@ -1,3 +1,0 @@
-$src resources/sprites/magic_marker_paint.png
-rectangle 48 0 16 8:
-	grid 8 8;

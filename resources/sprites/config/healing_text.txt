@@ -1,3 +1,0 @@
-$src resources/sprites/healing text.png
-
-grid 8 8

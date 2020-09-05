@@ -1,3 +1,0 @@
-$src resources/sprites/Crouching_Sam.png
-
-grid 16 32

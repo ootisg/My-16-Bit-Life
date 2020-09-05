@@ -1,3 +1,0 @@
-$src resources/sprites/Ryan.png
-
-rectangle 0 0 16 32

@@ -1,3 +1,0 @@
-$src resources/sprites/dashpad.png
-
-grid 48 8

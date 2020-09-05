@@ -1,4 +1,0 @@
-$src resources/sprites/Flower_Enemy.png
-
-rectangle 160 0 1120 96:
-	grid 160 96;

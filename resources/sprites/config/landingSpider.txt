@@ -1,5 +1,0 @@
-$src resources/sprites/Bouncing_Spider.png
-
-
-rectangle 0 0 64 16:
-	grid 16 16;

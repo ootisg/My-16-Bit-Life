@@ -1,3 +1,0 @@
-$src resources/sprites/Portal Right.png
-
-grid 16 32

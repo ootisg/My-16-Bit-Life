@@ -1,3 +1,0 @@
-$src resources/sprites/Zombee PW.png
-
-grid 16 10

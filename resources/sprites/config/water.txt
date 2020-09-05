@@ -1,3 +1,0 @@
-$src resources/sprites/Fire_Hydrant_Water.png
-
-grid 16 8

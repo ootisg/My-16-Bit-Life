@@ -1,4 +1,0 @@
-$src resources/sprites/Ceiling_Enemy_Code.png
-
- rectangle 0 0 48 16:
-	grid 16 16;

@@ -1,3 +1,0 @@
-$src resources/sprites/Light.png
-
-grid 208 240

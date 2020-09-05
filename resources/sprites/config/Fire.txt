@@ -1,2 +1,0 @@
-$src resources/sprites/Fire.png
-	grid 46 24

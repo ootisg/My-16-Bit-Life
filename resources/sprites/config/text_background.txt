@@ -1,3 +1,0 @@
-$src resources/sprites/windowsprites2.png
-
-rectangle 8 0 8 8

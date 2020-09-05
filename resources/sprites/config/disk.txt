@@ -1,4 +1,0 @@
-$src resources/sprites/Marshian_Projectile_1.png
-
-
-grid 32 9

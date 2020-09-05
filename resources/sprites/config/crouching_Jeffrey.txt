@@ -1,3 +1,0 @@
-$src resources/sprites/Crouching_Jeffrey.png
-
-grid 16 32

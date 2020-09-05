@@ -1,4 +1,0 @@
-$src resources/sprites/Splitting_Slimelet_Head.png
-
-rectangle 88 0 132 48:
-	grid 44 48;

@@ -1,2 +1,0 @@
-$src resources/sprites/Flower_Enemy.png
-	rectangle 0 0 160 96

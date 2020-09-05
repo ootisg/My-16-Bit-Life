@@ -1,3 +1,0 @@
-$src resources/sprites/Portal Up.png
-
-grid 32 16

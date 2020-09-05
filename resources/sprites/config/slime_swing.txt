@@ -1,3 +1,0 @@
-$src resources/sprites/Sword_Swing.png
-
-grid 50 32

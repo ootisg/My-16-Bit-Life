@@ -1,3 +1,0 @@
-$src resources/sprites/slime.png
-
-rectangle 4 4 4 4

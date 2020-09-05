@@ -1,3 +1,0 @@
-$src resources/sprites/sam_with_sword.png
-
-rectangle 0 0 16 32;

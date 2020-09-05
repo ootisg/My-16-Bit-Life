@@ -1,3 +1,0 @@
-$src resources/sprites/jeffrey_crouch.png
-
-rectangle 0 0 16 32

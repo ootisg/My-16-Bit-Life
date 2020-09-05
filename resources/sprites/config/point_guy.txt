@@ -1,3 +1,0 @@
-$src resources/sprites/point_at_you_guy.png
-
-grid 17 22

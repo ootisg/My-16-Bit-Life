@@ -1,4 +1,0 @@
-$src resources/sprites/Sam_Plant.png
-
- rectangle 144 0 64 48:
-	grid 16 48;

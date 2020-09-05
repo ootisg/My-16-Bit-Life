@@ -1,2 +1,0 @@
-$src resources/sprites/magic_marker.png
-grid 16 24;

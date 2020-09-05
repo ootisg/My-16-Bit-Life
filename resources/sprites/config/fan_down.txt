@@ -1,2 +1,0 @@
-$src resources/sprites/Fan_Down.png
-grid 64 16;

@@ -1,4 +1,0 @@
-$src resources/sprites/Microphone_Whip.png
-
-rectangle 384 0 384 32:
-	grid 48 32;
