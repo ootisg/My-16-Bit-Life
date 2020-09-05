@@ -1,0 +1,160 @@
+current cutscene functionality list
+
+objects -used to specify things regarding some events
+	requried paramtiters
+		"name" - can be anything but more specificly is used to specify what object you are refering to locally withing the config file
+		"type" - refers to the name of the object in terms of my-16-bit-life (ie CreepyButterfly, Zombee, CelingBoi, Jeffrey, ect.)
+		"genMethod" - refers to how the object is gotten
+			"create" - creates a brand new object to use
+				"x" - the x position of the new object
+				"y" - the y position of the new object
+				Optional paramiters
+				"declare" - "no" makes it not declare the new object anything else makes it do that (declares be defualt as well)
+			"hijack" - takes control of the first object of that type in the object handler (for Jeffrey it will just take the active one)
+			"pass" - implys that you plan to pass this object into the cutscene in code
+			"getJ" - only works for Jeffrey but gets the Jeffrey that has Jeffrey in his party
+			"getS" - only works for Jeffrey but gets the Jeffrey that has Sam in his party
+			"getR" - only works for Jeffrey but gets the Jeffrey that has Ryan in his party
+	optional paramiters
+		"persistent" - referst to wheather or not this object should stick around after the concustion of the cutscene (true for yes anything else for no) defaults to no	
+				(currently unimplemented)
+
+actions - (use the type paramiter paired with any of these to activate them in the order you want the events of you cutsceen to activate)
+	"moveSlow" - moves an object from point a to point b in a manor that doesent involve them telporting
+		requried parameters
+			object - refers to the object that is doing the moving (referenced by pairing the "name" paramiter with the object name)
+			"destinationX" - refers to the x coordinate of the destanation
+						or
+			"offsetX" - sets the x coordinate destanaion to the current postion of the object + the value of offsetX
+			IMPORTANT NOTE: offsetX is calculated based on the position of the object when the cutsceen object is constructed not durring the event where this takes place so make sure to construct in the correct place if nessary
+
+			"destinationY" - refers to the y coordinate of the destanation
+						or
+			"offsetY" - sets the y coordinate destanaion to the current postion of the object + the value of offsetY
+			IMPORTANT NOTE: offsetX is calculated based on the position of the object when the cutsceen object is constructed not durring the event where this takes place so make sure to construct in the correct place if nessary
+
+			"middleVelocity" - refers to the max speed the object will reach
+		optional parameters
+			"startVelocity" - refers to the speed the object starts at (defults to 0)
+			"endtVelocity" - refers to the speed the object will end at (defults to 0)
+			"startAcceleration" - refers to the speed at witch the object will go from the start velocity to the middle velocity (defults to infinity resulting in reaching max speed instantly)
+			"endAcceleration" - refers to the speed at witch the object will go from the middle velocity to the end velocity (defults to negative infinity resulting in an instant stop)
+	
+	"sound" - plays a sound effect in its entirity before countinuineing the cutsceen
+		"path" - refers to the filepath of the sound effect
+	
+	"music" - changes the currently playing music to the requested song
+		"path" - refers to the filepath of the new song
+
+	"text" - displays a textbox with the desired text
+		"text" - refers to the text to display
+
+	"playScene" - plays a diffrent cutsceen 
+		"path" - the path to the config file of the new cutscene
+		optional paramiter "passedObjects"
+			an array of game objects you plan to pass into the new cutscene
+			ex
+				"passedObjects":[
+				"object 1"
+				"object 2"
+				]
+	"animation" - plays an animation in its entirity before continuing the cutsceen
+		"path" - the path to the config for the sprite that causes the animation
+		object - the object that plays that animation (referenced by pairing the "name" paraimiter with the object name)
+	
+	"sprite" - changes somethings sprite to another sprite
+		"path" - the path to the new sprite
+		object - the object that gets the new sprite (referenced by pairing the "name" paraimiter with the object name)
+	
+	"custom" - runs custom code that would be writen in a class that implements the CutsceneEvent interface in the runEvent () method
+		"customEventType" - refers to the name of the class with the custom code
+		all other paramiters would be decided in the custom code as it would have access to the part of cutscene config file that relates to it
+	"changeMap" - changes the map to the specified map 
+		IMPORTANT NOTE: using change map causes all of the currently loaded objects to be purged as such the cutsceen will most likely be terminated by this command if it was being run from an object and if not it will crash if you try to use one of the methods that requries an object (probably)
+		"path" - refers to the path to the new map
+	"giveItem" - gives an item to the player
+		"item" - the name of the item (from the object list)
+		"amount" - the amount of that item to give to the player
+	"removeItem" - removes an item from the player
+		"item" - the name of the item (from the object list)
+		"amount" - the amount of that item to take from the player
+	"giveMoney" - gives money to the player
+		"amount" - the amount of money to give to the player
+	"removeMoney" - removes money from the player
+		"amount" - the amount of money to take from the player
+	"giveWEXP" - gives an item to the player
+		"amount" - the amount of WEXP to give to the player
+	"removeWEXP" - removes an item from the player
+		"amount" - the amount of WEXP to take from the player
+	"Join" - makes a Jeffrey consist of a certain party of characters and removes all Jeffreys that previosly held a portion of that party
+		"party" - the party to end up with represented with a boolean array ie
+			"party" : [
+				"true",
+				"false",
+				"true",
+			]
+			would represent a party of Jeffrey and Ryan
+		"Jeffrey" - the Jeffrey to take the new party
+	"Split" - splits one Jeffrey into two Jeffreys witch each consist of a certain party of characters
+			"party1" - the party to be given to the original Jeffrey represented with a boolean array ie 	
+				"party1" : [
+					"true",
+					"true",
+					"false",
+				]
+				would represent a party of Jeffrey and Ryan
+			"party2" - the party to be given to the new Jeffrey represented with a boolean array in the same way as party1
+			"Jeffrey" - the Jeffrey to be split
+	"changeParty" - makes a Jeffrey consist of a certain party of characters
+			"party" - the party to end up with represented with a boolean array ie
+			"party" : [
+				"false",
+				"false",
+				"true",
+			]
+			would represent a party of Ryan
+		"Jeffrey" - the Jeffrey to take the new party
+
+	"choice" - a comand that MUST be run at the end of a cutscene that gives the player a choice and plays a different cutscene based on their decision (it essencally continues the cutscene but internally it is actually playing a new cutscene that is specific too thier choice)
+		IMPORTANT NOTE linking another cutscene to one with a choice will only allow the choice to be played the first time ie in the original cutscene also it is imposible to link cutscenes to the cutscenes that are played as a result of a choice
+		choices" - an array of options for the player to choose from ie 
+			"choices" : [
+			"option 1",
+			"option 2",
+			"option 3",
+			]
+		"sceens" - an array of strings that point to cutscene files ordered the same as the choice it goes with (include the entire filepath)
+	this next paramiter is a bit complicated so I will prefice by saying it is unessasry if you do not plan to pass objects into the new cutscene
+		the name of this paramiter is the same as the name of the option that is associated with this cutscene and you would want to specifiy somthing for each option you plan to pass objects into
+		for example in this case one of them would be called "option 1" then you want to associate that with an array of object names that you wanna pass in
+		ex 
+			"option 1" : [
+			"object 1",
+			],
+			"option 2" : [
+			"object 2",
+			"object 3",
+			],
+			and so on
+	"hasItem" - plays a differenet cutscene if the player has a particular item
+		"item" - refers to the item you plan to check against the players inventory
+		"yesScene" - a filepath to the cutscene that plays if the player has that item
+		"amount" - refers to the amount of the item requried to pass the check defults to 1
+		passed objects are simalar to choice however instead of using the choice name simply use "yes" (because there are no choices) you simply use yes to pass objects into the yesScene and no for the noScene
+			ex
+				"yes":[
+				"object 1"
+				]
+
+optional features -
+
+"linkedScene" - refers to a scene that would play if you tried to play this cutscene again this would be useful for an NPC that you could talk to multiple times or something like that but will not work in all cases depending on the setup of the cutscene in code
+	"linkedObjects" - referst to the objects you want to pass into the linkedScene formated in an array
+
+chaining - a useful features that allows you to chain multiple actions together causesing them to all happen at the same time (esentially creating one action that does both things)
+	paramiter "chainInfo" -(can be used on any action)
+		"start" - signifes the start of a chain
+		any specifed value other than start (recomended paramiter is "end) - signifies the end of a chain 
+
+	any action inbetween the start and end of a chain will become part of that chain
+	

@@ -1,0 +1,2 @@
+$src resources/sprites/mafia_shooter_shooting.png
+grid 21 32;

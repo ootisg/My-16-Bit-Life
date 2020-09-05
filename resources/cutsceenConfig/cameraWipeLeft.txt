@@ -1,0 +1,20 @@
+{
+	"usedObjects": [
+		{
+			"name": "camera",
+			"type": "CameraObject",
+			"genMethod": "pass",
+		}		
+	],
+	"events": [
+		{
+			"type": "moveSlow",
+			"name": "camera",
+			"offsetX": "-100",
+			"offsetY": "0",
+			"middleVelocity": "200",
+			"startAcceleration": "400",
+		}
+		
+	]	
+}

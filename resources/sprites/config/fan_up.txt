@@ -1,0 +1,2 @@
+$src resources/sprites/Fan_Up.png
+grid 64 16;

@@ -1,0 +1,26 @@
+{
+	"usedObjects": [
+		{
+			"name": "test",
+			"type": "BreakableObject",
+			"genMethod": "create",
+			"x": "300",
+			"y": "100",
+		}		
+	],
+	"events": [
+		{
+		"type": "break",
+		"name":"test",
+		"minDirection": 0,
+		"maxDirection": 6.28,
+		"paths": [
+			{
+			"path":"shard"
+			}
+			],
+		"shardNum":"10",
+		}
+		
+	]	
+}

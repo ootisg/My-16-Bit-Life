@@ -1,0 +1,4 @@
+$src resources/sprites/Mixing Paint.png
+
+rectangle 64 0 352 32:
+	grid 32 32;

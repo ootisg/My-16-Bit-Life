@@ -1,0 +1,3 @@
+$src resources/sprites/Life_Vacuum_Tornado.png
+
+grid 50 32

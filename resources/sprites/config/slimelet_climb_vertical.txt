@@ -1,0 +1,4 @@
+$src resources/sprites/slimelet_climb.png
+
+rectangle 0 32 144 32:
+	grid 16 16;

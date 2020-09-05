@@ -1,0 +1,19 @@
+{
+	"usedObjects": [
+		{
+		everything in currly brace represents one object the usedObjects array contains all of those
+			"name": "objectName",
+			"type": "objectType", (refers to what kind of object it is ie CreepyButterfly or Zombee)
+			"genMethod": "create",
+		}
+
+			... (for the sake of the example there is only one object)		
+	],
+	"events": [
+		{
+			"type": "action",
+			"otherStuff": "varies", (each action requires diffrent information)
+		}
+			... (list the actions in order to make them happen in that order)
+	]	
+}

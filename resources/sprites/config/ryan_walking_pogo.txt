@@ -1,0 +1,4 @@
+$src resources/sprites/ryan_walking_pogo.png
+
+rectangle 0 32 192 32:
+	grid 16 32;

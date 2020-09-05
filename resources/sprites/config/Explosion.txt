@@ -1,0 +1,2 @@
+$src resources/sprites/BigExplosion.png
+	grid 32 32

@@ -1,0 +1,2 @@
+$src resources/sprites/pot_shards.png
+	rectangle 0 0 6 7

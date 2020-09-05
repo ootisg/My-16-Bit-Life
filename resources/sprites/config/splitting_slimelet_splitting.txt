@@ -1,0 +1,4 @@
+$src resources/sprites/Splitting_Slimelet.png
+
+rectangle 900 0 400 64:
+	grid 100 64;

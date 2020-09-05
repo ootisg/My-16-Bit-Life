@@ -1,0 +1,4 @@
+$src resources/sprites/Bouncing_Spider.png
+
+
+rectangle 176 0 16 16

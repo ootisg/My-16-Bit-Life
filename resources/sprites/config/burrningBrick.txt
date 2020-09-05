@@ -1,0 +1,2 @@
+$src resources/sprites/burrning brick (dumb version).png
+	grid 16 16

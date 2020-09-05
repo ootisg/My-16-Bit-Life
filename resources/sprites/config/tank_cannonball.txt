@@ -1,0 +1,3 @@
+$src resources/sprites/Tank_enemy.png
+
+rectangle 144 24 8 8

@@ -1,0 +1,3 @@
+$src resources/sprites/zombee_pw.png
+
+grid 16 10
