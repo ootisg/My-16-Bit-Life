@@ -142,7 +142,6 @@ public void enemyFrame () {
 		}
 		this.setX(this.getX() + direction);
 		if (this.isColliding(Jeffrey.getActiveJeffrey())) {
-			System.out.println(Math.abs(direction));
 			if (direction != 0) {
 				Jeffrey.getActiveJeffrey().damage(RNG.nextInt(Math.abs(direction)) * 5);
 			} else {

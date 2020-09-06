@@ -20,7 +20,7 @@ import enemys.DuoflyPlus;
 import enemys.Enemy;
 import enemys.FallingChandleer;
 import enemys.FireHydrant;
-import enemys.FireRextinguser;
+import enemys.FireRextinguisher;
 import enemys.FlowerEnemy;
 import enemys.ImpatientCar;
 import enemys.LazerHoverEnemy;
@@ -181,7 +181,7 @@ public class GameCode {
 	static FlowerEnemy flower;
 	static Minecart cart;
 	static Cactus cactus;
-	static FireRextinguser fire;
+	static FireRextinguisher fire;
 	static items.Fan pack;
 	static String jsonTest = ""
 			+ "{"
@@ -189,11 +189,11 @@ public class GameCode {
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/celingTest.rmf");
+		Room.loadRoom ("resources/maps/TallMapTest.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
-		fire = new FireRextinguser ();
+		//fire = new FireRextinguisher ();
 		extinguser = new FireExtingueser (new Sprite ("resources/sprites/config/Fire_Rextinguisher_Idle.txt"));
 		testLaddder = new Ladder ();
 		lameJeffrey = new NonPlayableJeffrey();
@@ -337,8 +337,8 @@ public class GameCode {
 		//flower.declare(100, 250);
 		//cart.declare(400, 100);
 		//cactus.declare(100,100);
-	//	pack.declare(100, 0);
-	//	fire.declare(100,400);
+		//pack.declare(100, 0);
+		//fire.declare(100,400);
 	}
 	
 	public static void beforeGameLogic () {

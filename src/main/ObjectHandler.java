@@ -179,6 +179,7 @@ public class ObjectHandler {
 	
 	//Helper method for collision checking with children
 	private static ArrayList<GameObject> getCollidingChildren (String parentType, GameObject object) {
+	
 		ArrayList<ArrayList<GameObject>> lists = getChildrenByName (parentType);
 		ArrayList<GameObject> result = new ArrayList<GameObject> ();
 		if (lists == null) {
@@ -320,7 +321,6 @@ public class ObjectHandler {
 	}
 	public static GameObject getInstance (String name) {
 		Class<?> c = getClassFromString(name);
-		
 		try {
 			return (GameObject)c.getConstructor().newInstance();
 		} catch (Exception e) {

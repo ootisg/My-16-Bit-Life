@@ -51,6 +51,9 @@ public class Fist extends Projectile {
 		if (guyToFuckUp != null) {
 			DirectionBullet bullet = new DirectionBullet(this.getX(), this.getY());
 			this.setDirection(bullet.findDirection(guyToFuckUp));
+			if (!guyToFuckUp.declared()) {
+				guyToFuckUp = null;
+			}
 		} else {
 			double distance = 42000000;
 			for (int i = 0;  i <Enemy.enemyList.size(); i++) {

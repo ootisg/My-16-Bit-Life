@@ -149,7 +149,11 @@ public class HashIndexedTree<T,Q> {
 	public ArrayList<Q> getAllChildren (T parentKey) {
 		ArrayList<Q> result = new ArrayList<Q> ();
 		Node<Q> head = elements.get (parentKey);
-		return head.getAllChildren ();
+		if (head != null) {
+			return head.getAllChildren ();
+		} else {
+			return null;
+		}
 	}
 	
 	/**

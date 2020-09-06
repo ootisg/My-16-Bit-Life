@@ -84,7 +84,8 @@ public class Jeffrey extends GameObject {
 	
 	private boolean inzialized = false;
 	
-
+	private int xinzial;
+	private int yinzial;
 	//Jeffrey Sprites
 	public static final Sprite JEFFREY_WALKING = new Sprite ("resources/sprites/config/jeffrey_walking.txt");
 	public static final Sprite JEFFREY_IDLE = new Sprite("resources/sprites/config/jeffrey_idle.txt");
@@ -166,10 +167,12 @@ if (activeBox) {
 			if (this.getVariantAttribute("Active") != null) {
 				if (this.getVariantAttribute("Active").equals("yes")) {
 					active = true;
+					Room.setView((int)this.getX(), (int)this.getY());
 				}
 			} else {
 				if ( ObjectHandler.getObjectsByName("Jeffrey").size() == 1) {
 					active = true;
+					Room.setView((int)this.getX(), (int)this.getY());
 				}
 			}
 			for (int i = 0; i < party.length; i++) {
@@ -189,7 +192,8 @@ if (activeBox) {
 					this.setSprite(RYAN_IDLE);
 			}
 			inzialized = true;
-			
+			this.xinzial = (int) this.getX();
+			this.yinzial = (int) this.getY();
 		}
 		if (active) {
 			if (keyDown ('S') && !onLadder) {
@@ -495,10 +499,12 @@ if (activeBox) {
 				vx = 0;
 			}
 			if (scrolling) {
+				
 				double x = this.getX ();
 				double y = this.getY ();
 				int viewX = Room.getViewX ();
 				int viewY = Room.getViewY ();
+				//System.out.println(viewY);
 				if (y - viewY >= 320 && y - 320 < Room.getHeight () * 16 - 480) {
 					viewY = (int) y - 320;
 					Room.setView (Room.getViewX (), viewY);
@@ -511,7 +517,8 @@ if (activeBox) {
 					viewX = (int) x - 427;
 					Room.setView (viewX, Room.getViewY ());
 				}
-				if (x - viewX <= 213 && x - 213 > 0) {
+				
+				if (x - viewX <= 213 + xinzial && x - (213 + xinzial) > 0) {
 					viewX = (int) x - 213;
 					Room.setView (viewX, Room.getViewY ());
 				}

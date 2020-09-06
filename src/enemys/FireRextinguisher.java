@@ -4,13 +4,13 @@ import main.AnimationHandler;
 import projectiles.Fire;
 import resources.Sprite;
 
-public class FireRextinguser extends PresetEnemy {
+public class FireRextinguisher extends PresetEnemy {
 	public Sprite idleSprite;
 	public Sprite attackingSprite;
 	Fire fire;
 	boolean attacked;
 	int attackTimer;
-	public  FireRextinguser() {
+	public  FireRextinguisher() {
 		this.health = 80;
 		attackTimer = 0;
 		this.defence = 25;
