@@ -167,12 +167,40 @@ if (activeBox) {
 			if (this.getVariantAttribute("Active") != null) {
 				if (this.getVariantAttribute("Active").equals("yes")) {
 					active = true;
-					Room.setView((int)this.getX(), (int)this.getY());
+					int veiwX = (int)(this.getX() -this.getX()%213);
+					int veiwY = (int)(this.getY() -this.getY()%160);
+					if (veiwY + 480 > Room.getHeight()*16) {
+						veiwY = Room.getHeight() - 480;
+						if (veiwY < 0) {
+							veiwY = 0;
+						}
+					}
+					if (veiwX + + 640 > Room.getWidth()) {
+						veiwX = Room.getWidth() - 640;
+						if (veiwX < 0) {
+							veiwX = 0;
+						}
+					}
+					Room.setView(veiwX, veiwY);
 				}
 			} else {
 				if ( ObjectHandler.getObjectsByName("Jeffrey").size() == 1) {
 					active = true;
-					Room.setView((int)this.getX(), (int)this.getY());
+					int veiwX = (int)(this.getX() -this.getX()%213);
+					int veiwY = (int)(this.getY() -this.getY()%160);
+					if (veiwY + 480 > Room.getHeight()*16) {
+						veiwY = (Room.getHeight()*16) - 480;
+						if (veiwY < 0) {
+							veiwY = 0;
+						}
+					}
+					if (veiwX + + 640 > Room.getWidth()) {
+						veiwX = (Room.getWidth()*16) - 640;
+						if (veiwX < 0) {
+							veiwX = 0;
+						}
+					}
+					Room.setView(veiwX, veiwY);
 				}
 			}
 			for (int i = 0; i < party.length; i++) {
@@ -504,7 +532,6 @@ if (activeBox) {
 				double y = this.getY ();
 				int viewX = Room.getViewX ();
 				int viewY = Room.getViewY ();
-				//System.out.println(viewY);
 				if (y - viewY >= 320 && y - 320 < Room.getHeight () * 16 - 480) {
 					viewY = (int) y - 320;
 					Room.setView (Room.getViewX (), viewY);

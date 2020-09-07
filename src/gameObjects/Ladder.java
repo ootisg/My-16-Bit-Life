@@ -10,6 +10,7 @@ import map.TileData;
 import players.Jeffrey;
 
 public class Ladder extends GameObject {
+	int timer = 0;
 	public Ladder () {
 	}
 	public void frameEvent () {
@@ -24,15 +25,25 @@ public class Ladder extends GameObject {
 		}
 		if (Jeffrey.getActiveJeffrey().onLadder && keyDown ('W') && Room.isColliding(Jeffrey.getActiveJeffrey(), "Ladder.0")) {
 			Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() -3);
+			if (!Room.isColliding(Jeffrey.getActiveJeffrey(), "Ladder.0")) {
+				Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() +3);
+			}
 		}
 		Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() + 3);
 		if (Jeffrey.getActiveJeffrey().onLadder && keyDown ('S') && Room.isColliding(Jeffrey.getActiveJeffrey(), "Ladder.0")) {
 			Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() + 3);
+			if (!Room.isColliding(Jeffrey.getActiveJeffrey(), "Ladder.0")) {
+				Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() -3);
+			}
 		}
 		Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() - 3);
 		Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() + 1);
 		if (Room.isColliding(Jeffrey.getActiveJeffrey(), "Ladder.0") && !Jeffrey.getActiveJeffrey().onLadder && Jeffrey.getActiveJeffrey().vy>0) {
 			Jeffrey.getActiveJeffrey().vy = 0;
+			Jeffrey.getActiveJeffrey().isJumping = false;
+		} 
+		//attempt to fix the 1 frame ladder glich
+		if (Jeffrey.getActiveJeffrey().onLadder && !Room.isColliding(Jeffrey.getActiveJeffrey(), "Ladder.0")) {
 			Jeffrey.getActiveJeffrey().isJumping = false;
 		} 
 		Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() - 1);
