@@ -45,7 +45,6 @@ public class Room {
 	
 	private static int scrollX;
 	private static int scrollY;
-	
 	private static byte [] inData;
 	private static int readPos;
 	
