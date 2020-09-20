@@ -92,10 +92,13 @@ public abstract class Enemy extends BreakableObject {
 		if ((this.health <= 0) && diesNormally ) {
 			this.deathEvent();
 		}
+		try {
 		if (isColliding (Jeffrey.getActiveJeffrey())) {
 			attackEvent ();
 		}
-
+		} catch (NullPointerException e) {
+			
+		}
 		boolean onFloor;
 		onFloor = false;
 		boolean colidingSide;

@@ -14,7 +14,7 @@ public class Ladder extends GameObject {
 	public Ladder () {
 	}
 	public void frameEvent () {
-		
+		try {
 		if (Room.isColliding(Jeffrey.getActiveJeffrey(), "Ladder.0")&& keyPressed('W')) {
 			Jeffrey.getActiveJeffrey().onLadder = true;
 			Jeffrey.getActiveJeffrey().vy = 0;
@@ -50,6 +50,9 @@ public class Ladder extends GameObject {
 		if (Jeffrey.getActiveJeffrey().onLadder && (keyPressed (32))){
 			Jeffrey.getActiveJeffrey().onLadder = false;
 			Jeffrey.getActiveJeffrey().isJumping = true;
+		}
+		} catch (NullPointerException e) {
+			
 		}
 	}
 }

@@ -62,21 +62,26 @@ public class Stats extends GameObject {
 			sprites.hearts.setFrame (3 - finalHeart);
 			sprites.hearts.draw ((numHearts - 1) * 16, 0);
 		}*/
-		if (Jeffrey.getActiveJeffrey().witchCharictar == 0) {
-		charictarName.setContent("JEFFREY");
+		try {
+			if (Jeffrey.getActiveJeffrey().witchCharictar == 0) {
+			charictarName.setContent("JEFFREY");
+			}
+			if (Jeffrey.getActiveJeffrey().witchCharictar == 1) {
+			charictarName.setContent("SAM");
+			}
+			if (Jeffrey.getActiveJeffrey().witchCharictar == 2) {
+			charictarName.setContent("RYAN");
+			}
+			weaponName.setContent(Jeffrey.getActiveJeffrey().getWeapon().checkName());
+			weaponSprite = Jeffrey.getActiveJeffrey().getWeapon().getUnrotatedSprite();
+			ammoAmount.setContent(Integer.toString(Jeffrey.getInventory().checkAmmoAmountOfWeapon(Jeffrey.getActiveJeffrey().getWeapon())));
+		} catch (NullPointerException e ) {
+			
 		}
-		if (Jeffrey.getActiveJeffrey().witchCharictar == 1) {
-		charictarName.setContent("SAM");
-		}
-		if (Jeffrey.getActiveJeffrey().witchCharictar == 2) {
-		charictarName.setContent("RYAN");
-		}
-		weaponName.setContent(Jeffrey.getActiveJeffrey().getWeapon().checkName());
-		weaponSprite = Jeffrey.getActiveJeffrey().getWeapon().getUnrotatedSprite();
-		ammoAmount.setContent(Integer.toString(Jeffrey.getInventory().checkAmmoAmountOfWeapon(Jeffrey.getActiveJeffrey().getWeapon())));
 	}
 	@Override 
 	public void draw () {
+		try {
 		Graphics buffer = RenderLoop.window.getBufferGraphics ();
 		buffer.setColor (new Color(0xFF0000));
 		HEALTH_BORDER_SPRITE.draw(160,0);
@@ -165,5 +170,8 @@ public class Stats extends GameObject {
 		CHARICTAR_SPRITE.draw(0, 0, 0, (int) (Math.ceil(45*Jeffrey.getActiveJeffrey().switchTimer/30.0)), 24);
 		}
 		weaponSprite.draw(144, 0);
+		} catch (NullPointerException e) {
+			
+		}
 	}
 }

@@ -113,7 +113,7 @@ public class GameCode {
 	//static TopDown td;
 	Textbox textbox;
 	static Celing_boi boi;
-	public static Gui gui;
+
 	Tbox tbox;
 	static VectorCamera cam;
 	ListTbox ltbox;
@@ -123,7 +123,7 @@ public class GameCode {
 	static PointGuy guy;
 	static ClostridiumBowtielinea testTie;
 	static Status testStatus;
-	static Ladder testLaddder;
+	
 	static redBlackPaintBallGun gun;
 	static RedBlackPaintBall paintball;
 	static Ladder testLadder;
@@ -189,13 +189,13 @@ public class GameCode {
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/tallMapTest.rmf");
+		Room.loadRoom ("resources/maps/topDownTest.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
 		//fire = new FireRextinguisher ();
 		extinguser = new FireExtingueser (new Sprite ("resources/sprites/config/Fire_Rextinguisher_Idle.txt"));
-		testLaddder = new Ladder ();
+		
 		lameJeffrey = new NonPlayableJeffrey();
 		lameSam = new NonPlayableSam();
 		lameRyan = new NonPlayableRyan();
@@ -250,7 +250,6 @@ public class GameCode {
 		//hydrant = new FireHydrant ();
 		//slow = new MoveSlowEvent (hydrant, 100, 100, 0, 30, 0, 3, -3);
 		//newFly = new CreepyButterfly();
-		testLadder = new Ladder ();
 		paintball = new RedBlackPaintBall();
 		//candle = new Candle ();
 		//box = new Box();
@@ -279,13 +278,13 @@ public class GameCode {
 		//bleh = new AnimeTester ()
 		//function = new TomatoFunction (100,300);
 		//bleh.declare (0, 0);
-		gui = new Gui ();
+	
 		//ufo = new UFO();
 		//split = new SplitSlimelet ();
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
-		testLaddder.declare(150, 373);
+	
 		//stop.declare(150, 200);
 	//	ball.declare(200,0);
 		//bug1.declare(400, 180);

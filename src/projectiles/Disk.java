@@ -17,8 +17,12 @@ public class Disk extends Projectile {
 	public void frameEvent () {
 		this.setX (this.getX () + Math.cos (direction) * speed); 
 		this.setY (this.getY () + Math.sin (direction) * speed);
+		try {
 		if (this.isColliding(Jeffrey.getActiveJeffrey())) {
 			Jeffrey.getActiveJeffrey().damage(20);
+		}
+		} catch (NullPointerException e) {
+			
 		}
 		if (this.outsideTheMap) {
 			this.forget();

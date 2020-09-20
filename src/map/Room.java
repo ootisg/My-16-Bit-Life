@@ -17,7 +17,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Stack;
 
+import gameObjects.Ladder;
 import gameObjects.TemporaryWall;
+import gui.Gui;
 import main.GameAPI;
 import main.GameObject;
 import main.ObjectHandler;
@@ -521,6 +523,7 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 		//Object list (x, y, id, variant)
 		
 		//initalizes fields relating to the map
+		isLoaded = false;
 		dataList = new ArrayList<TileData>();
 		nameList = new HashMap<String,TileData>();
 		tileIcons = new ArrayList<BufferedImage> ();
@@ -625,7 +628,6 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 		int tileByteCount = getByteCount(amountOfTiles);
 		for (int wl = 0; wl < numLayers; wl++) {
 			if (backgrounds.get(wl)== null) {
-				
 				for (int wy = 0; wy < mapHeight; wy++) {
 					for (int wx = 0; wx < mapWidth; wx++) {
 						tileData [wl][wy][wx] = getInteger(tileByteCount);
@@ -660,11 +662,18 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			objectToUse.declare(x*16, y*16);
 			
 		}
-		//might need to be removed soon
-		if (ObjectHandler.getObjectsByName("Jeffrey") == null) {
+		// used to spawn a Jeffrey by default but conflicts with topdown maps that don't need one
+		/*if (ObjectHandler.getObjectsByName("Jeffrey") == null) {
 			Jeffrey j = new Jeffrey ();
 			j.declare(0, 0);
 			j.active = true;
+		}*/
+		if (ObjectHandler.getObjectsByName("Jeffrey") != null) {
+			Gui gui;
+			Ladder testLaddder;
+			gui = new Gui ();
+			testLaddder = new Ladder ();
+			testLaddder.declare(150, 373);
 		}
 		//convert the map to a big number of map chungi
 		int gridWidth = (int)Math.ceil((((double)mapWidth)/chungusWidth));
