@@ -4,6 +4,7 @@ import cutsceens.Cutsceen;
 import main.GameObject;
 import main.ObjectHandler;
 import players.Jeffrey;
+import players.JeffreyTopDown;
 import resources.Sprite;
 
 public class NPC extends GameObject {
@@ -44,12 +45,24 @@ public class NPC extends GameObject {
 			this.setHitboxAttributes(0, 0, this.getSprite().getWidth(), this.getSprite().getHeight());
 			inzalized = true;
 		}
+		try {
 		if (keyDown (10) && !playing && Jeffrey.getActiveJeffrey().isColliding(this)) {
 			Jeffrey.getInventory().addFreind(this);
 			ObjectHandler.pause(true);
 			playing = true;
 		}
-		
+		} catch (NullPointerException e) {
+			
+		}
+		try {
+			if (keyDown (10) && !playing && JeffreyTopDown.getActiveJeffrey().isColliding(this)) {
+				Jeffrey.getInventory().addFreind(this);
+				ObjectHandler.pause(true);
+				playing = true;
+			}
+			} catch (NullPointerException e) {
+				
+			}
 	}
 	@Override 
 	public void pausedEvent () {
