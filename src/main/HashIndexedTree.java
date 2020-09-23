@@ -127,6 +127,10 @@ public class HashIndexedTree<T,Q> {
 		Node head = elements.get (parent);
 		if (elements.get(key) == null) {
 			elements.put (key, head.add (element));
+		} else {
+			if (elements.get(key).data == null) {
+				elements.put (key, head.add (element));
+			}
 		}
 	}
 
@@ -165,10 +169,16 @@ public class HashIndexedTree<T,Q> {
 		Node<Q> element = elements.get (key);
 		if (element != null) {
 			return element.data;
-		}
+		} 
 		return null;
 	}
-	
+	/**
+	 * returns true if the requested node exists wheather or not there is any data stored in that node
+	 */
+	public boolean nodeExists (T key) {
+		Node<Q> element = elements.get (key);
+		return element != null;
+	}
 	/**
 	 * Represents a query to use when searching for objects in the ObjectHandler
 	 * @author nathan

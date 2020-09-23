@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 import enemys.Enemy;
+import items.Bomb;
 import items.Item;
 import main.GameCode;
 import main.GameObject;
@@ -27,6 +28,7 @@ public class LifeVaccum extends Item {
 	int quicknessTimer = 0;
 	boolean inzialized = false;
 	int projectileCharge;
+	static int battary = 1000;
 	Graphics g = RenderLoop.window.getBufferGraphics();
 	public final Sprite OUTTA_AMMO = new Sprite ("resources/sprites/Outta_Ammo.png");
 	public LifeVaccum () {
@@ -53,6 +55,10 @@ public class LifeVaccum extends Item {
 	@Override 
 	public String getItemType() {
 		return "WeaponSam";
+	}
+	@Override 
+	public int getAmmoAmount () {
+		return battary;
 	}
 	@Override
 	public String [] getUpgrades () {
@@ -96,9 +102,9 @@ public class LifeVaccum extends Item {
 		}
 		// this may need to be a diffrent number
 		if (mouseButtonDown (0) && !Jeffrey.getActiveJeffrey().isCrouched()) {
-			if (Jeffrey.getInventory().checkLifeVaccumBattary() > 0) {
+			if (battary > 0) {
 			if (loseBattary) {
-				Jeffrey.getInventory().subtractLifeVaccumBattary(1);
+				battary = battary - 1;
 			}
 			loseBattary = !loseBattary;
 			for (int i = 0; i < Enemy.enemyList.size(); i ++) {
@@ -158,6 +164,9 @@ public class LifeVaccum extends Item {
 			wind.setY(this.getY() - 16);
 			wind.getAnimationHandler().setFlipHorizontal(false);
 		}
+	}
+	public static void addBattary (int amount) {
+		battary = battary + amount;
 	}
 	@Override
 	public void draw () {

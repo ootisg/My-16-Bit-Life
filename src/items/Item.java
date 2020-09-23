@@ -8,6 +8,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationTargetException;
 
+import gui.Gui;
 import gui.ListTbox;
 import gui.Tbox;
 import gui.Textbox;
@@ -62,6 +63,12 @@ public class Item extends Projectile {
 	public String checkName () {
 		return "";	
 	}
+	public Item getAmmoType () {
+		return null;
+	}
+	public int getAmmoAmount() {
+		return 0;
+	}
 	/**
 	 * run whenver weapons are switch overriden in wepon classes (if nessasary)
 	 */
@@ -100,7 +107,7 @@ public class Item extends Projectile {
 			} else {
 				twobox2furios = new Tbox (100, 80, 24, 8, "HE DOESEN'T WANT THAT HE WANTS LEMON PACKETS HE WILL ONLY EAT IT IF HE CAN HAVE LEMON PACKETS WITH IT BUT YOU DONT HAVE ANY SO YOUR OUTTA LUCK", true);
 				twobox2furios.setScrollRate(0);
-				GameCode.gui.menu.frozen = false;
+				Gui.getGui().menu.frozen = false;
 				activeBox = false;
 			}
 			twobox2furios.declare();
@@ -114,7 +121,7 @@ public class Item extends Projectile {
 				box.close();
 			}
 			if (box.getSelected() == 1) {
-				GameCode.gui.menu.frozen = false;
+				Gui.getGui().menu.frozen = false;
 				activeBox = false;
 				box.close();
 			}

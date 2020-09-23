@@ -663,11 +663,11 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			
 		}
 		// used to spawn a Jeffrey by default but conflicts with topdown maps that don't need one
-		/*if (ObjectHandler.getObjectsByName("Jeffrey") == null) {
+		if (ObjectHandler.getObjectsByName("Jeffrey") == null) {
 			Jeffrey j = new Jeffrey ();
 			j.declare(0, 0);
 			j.active = true;
-		}*/
+		}
 		if (ObjectHandler.getObjectsByName("Jeffrey") != null) {
 			Gui gui;
 			Ladder testLaddder;

@@ -1,5 +1,6 @@
 package items;
 
+import gui.Gui;
 import main.GameCode;
 import main.ObjectHandler;
 import players.Jeffrey;
@@ -35,7 +36,7 @@ public class ChoclateWaffle extends Item{
 		Fastness fast;
 		fast = new Fastness (witchCharictar);
 		fast.declare();
-		GameCode.gui.menu.frozen = false;
+		Gui.getGui().menu.frozen = false;
 		this.forget();
 	}	
 	@Override

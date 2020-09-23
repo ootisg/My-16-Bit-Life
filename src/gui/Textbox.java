@@ -89,7 +89,7 @@ public void drawBox (){
 	if ((finalCheck && isFinished && (keyPressed(65) || keyPressed (97) || isDone)) || keyPressed (88)){
 		isDone = true;
 		if (unfrezeMenu) {
-			GameCode.gui.menu.frozen = false;
+			Gui.getGui().menu.frozen = false;
 		}
 		if (unPause) {
 		ObjectHandler.pause(false);

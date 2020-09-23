@@ -25,9 +25,7 @@ public class Inventory {
 	int money;
 	int WEXP;
 	Sprite lol;
-	int lifeBattary;
 	public Inventory (){
-		lifeBattary = 1000;
 		money = 0;
 		WEXP = 0;
 		lol = new Sprite ("resources/sprites/blank.png");
@@ -384,15 +382,11 @@ public class Inventory {
 			return 256;
 		}
 		public int checkAmmoAmountOfWeapon (Item weaponToCheck) {
-			if (weaponToCheck.getClass().getSimpleName().equals("redBlackPaintBallGun")) {
-				RedBlackPaintBall ball;
-				ball = new RedBlackPaintBall ();
-				return (this.checkItemAmount(ball));
+			if (weaponToCheck.getAmmoType() != null) {
+				return (this.checkItemAmount(weaponToCheck.getAmmoType()));
+			} else {
+				return weaponToCheck.getAmmoAmount();
 			}
-			if (weaponToCheck.getClass().getSimpleName().equals("LifeVaccum")) {
-				return (lifeBattary);
-			}
-			return (0);
 		}
 		public Item findConsumableAtIndex (int index) {
 			return consuables.get(index);
@@ -551,21 +545,6 @@ public int amountOfWeaponsOfAllCharictars () {
 	}
 	public void addWEXP (int amount) {
 		WEXP = WEXP + amount;
-	}
-	public void addLifeVaccumBattary (int amount) {
-		lifeBattary = lifeBattary + amount;
-		if (lifeBattary > 100) {
-			lifeBattary = 100;
-		}
-	}
-	public void subtractLifeVaccumBattary (int amount) {
-		lifeBattary = lifeBattary - amount;
-		if (lifeBattary < 0) {
-			lifeBattary = 0;
-		}
-	}
-	public int checkLifeVaccumBattary () {
-		return lifeBattary;
 	}
 	// subractWEXP returns false if the amount you want to subtract is more than the amount you have
 	public boolean subractWEXP (int amount) {

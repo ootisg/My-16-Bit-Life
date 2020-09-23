@@ -61,11 +61,13 @@ import gui.ListTbox;
 import gui.Tbox;
 import gui.Textbox;
 import items.BluePaint;
+import items.Bomb;
 import items.Carpet;
 import items.FairUseKey;
 import items.Jetpack;
 import items.LemonPacket;
 import items.PogoStick;
+import items.PopcornBag;
 import items.RedBlackPaintBall;
 import items.Waffle;
 import json.JSONException;
@@ -183,13 +185,15 @@ public class GameCode {
 	static Cactus cactus;
 	static FireRextinguisher fire;
 	static items.Fan pack;
+	static PopcornBag bag;
+	static Bomb bom;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/topDownTest.rmf");
+		Room.loadRoom ("resources/maps/spiderTest.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
@@ -256,7 +260,11 @@ public class GameCode {
 		//plant = new Plant ();
 		paint = new BluePaint ();
 		fan = new Fan();
+		bag = new PopcornBag();
+		bom = new Bomb();
 		while (x <40) {
+		Jeffrey.inventory.addAmmo(bom);
+		Jeffrey.inventory.addAmmo(bag);
 		Jeffrey.inventory.addAmmo(paintball);
 		Jeffrey.inventory.addAmmo(paint);
 		x = x + 1;

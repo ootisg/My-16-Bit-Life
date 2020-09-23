@@ -2,6 +2,7 @@ package weapons;
 
 import gui.Tbox;
 import items.BluePaint;
+import items.Item;
 import items.RedBlackPaintBall;
 import main.GameCode;
 import main.ObjectHandler;
@@ -80,6 +81,10 @@ public class redBlackPaintBallGun extends AimableWeapon {
 	
 	}
 	@Override
+	public Item getAmmoType () {
+		return new RedBlackPaintBall();
+	}
+	@Override
 	public void frameEvent () {
 		if (upgradeInfo [3] >= 1 && mouseButtonPressed (2)) {
 			if (!fists) {
@@ -93,11 +98,10 @@ public class redBlackPaintBallGun extends AimableWeapon {
 			box.setScrollRate(0);
 			box.configureTimerCloseing(30);
 		}
-		Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 		if (this.cooldown > 0) {
 			this.cooldown --;
 		}
-		if (mouseButtonClicked (0) && cooldown == 0 && !jeffrey.isCrouched() && !mouseButtonReleased (0)) {
+		if (mouseButtonClicked (0) && cooldown == 0 && !Jeffrey.getActiveJeffrey().isCrouched() && !mouseButtonReleased (0)) {
 			if ((Jeffrey.getInventory().checkAmmo(testball) && !fists) || Jeffrey.getInventory().checkAmmo(testball)&& (Jeffrey.getInventory().checkAmmo(paint) && fists)) {
 			if (!this.fists) {
 			this.shoot (new Paintball ());

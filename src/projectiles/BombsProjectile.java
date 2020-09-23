@@ -3,6 +3,10 @@ package projectiles;
 import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
+
+import java.util.Random;
+
+import items.PopcornKernel;
 import main.GameLoop;
 import players.Jeffrey;
 import resources.AfterRenderDrawer;
@@ -15,17 +19,21 @@ public class BombsProjectile extends Projectile{
 	public static final Sprite newBomb = new Sprite ("resources/sprites/config/bomb_active_blue.txt");
 	public static final Sprite medBomb = new Sprite ("resources/sprites/config/bomb_active_red.txt");
 	public static final Sprite kaboomBomb = new Sprite ("resources/sprites/config/bomb_active_superred.txt");
+	boolean popcorn = false;
 	public int timer = 0;
 	double vx = 0;
 	boolean fakeDirection = false;
 	double vy = 0;
 	boolean inzialaized = false;
 	boolean thrown = false;
-	Explosion explosion = new Explosion(10, 60, true, true);
 	public static Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
-	
-	public BombsProjectile (){
-		this.setSprite(newBomb);
+	public BombsProjectile (boolean popCorn){
+		popcorn = popCorn;
+		if (!popcorn){
+			this.setSprite(newBomb);
+		} else {
+			this.setSprite(new Sprite("resources/sprites/config/Popcorn_bag.txt"));
+		}
 		this.getAnimationHandler().setFrameTime(100);
 		this.setHitboxAttributes(0, 0, 14, 18);
 		this.setSpeed(0);
@@ -35,7 +43,7 @@ public class BombsProjectile extends Projectile{
 	}
 	@Override
 	public void projectileFrame (){
-		//Velocity stuff. Currently only works one way, and the bomb stops in ceilings and walls.
+		//Velocity stuff. 
 		if (thrown) {
 			if (fakeDirection) {
 				vx = vx - 0.3;
@@ -76,19 +84,27 @@ public class BombsProjectile extends Projectile{
 		}
 		//Explosion timer. When switching the sprite, their animations stop. I'm 90% sure config files are good, so idk whats going on.
 		timer++;
-		if (timer > 40 && timer <= 80) {
-			if (!this.getSprite().equals(medBomb)) {
-				this.setSprite(medBomb);
+		if (!popcorn) {
+			if (timer > 40 && timer <= 80) {
+				if (!this.getSprite().equals(medBomb)) {
+					this.setSprite(medBomb);
+				}
 			}
-		}
-		if (timer > 80 && timer <= 120) {
-			if (!this.getSprite().equals(kaboomBomb)) {
-				this.setSprite(kaboomBomb);
+			if (timer > 80 && timer <= 120) {
+				if (!this.getSprite().equals(kaboomBomb)) {
+					this.setSprite(kaboomBomb);
+				}
+				this.getAnimationHandler().setFrameTime(100);
 			}
-			this.getAnimationHandler().setFrameTime(100);
 		}
 		if (timer > 120) {
-			explosion.declare(this.getX() - 8,this.getY() - 8);
+			if (popcorn) {
+				ExpolsionPopcorn explosionPopcorn = new ExpolsionPopcorn(10, 60, true, true);
+				 explosionPopcorn.declare(this.getX() - 8,this.getY() - 8);
+			} else {
+				Explosion explosion = new Explosion(10, 60, true, true);
+				explosion.declare(this.getX() - 8,this.getY() - 8);
+			}
 			this.forget();
 		}
 	}

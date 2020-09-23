@@ -283,6 +283,7 @@ public abstract class GameObject extends GameAPI {
 	 * Inserts this object into the static instance of ObjectHandler, effectively scheduling it for calls to frameEvent and draw, in addition to allowing collision detection with it.
 	 */
 	public void declare () {
+		
 		ObjectHandler.insert (this);
 		declared = true;
 	}

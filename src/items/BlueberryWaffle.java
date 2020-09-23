@@ -1,6 +1,7 @@
 package items;
 
 
+import gui.Gui;
 import main.GameCode;
 import main.ObjectHandler;
 import players.Jeffrey;
@@ -36,7 +37,7 @@ public void useItem(int witchCharictar) {
 	Regeneration regeneration;
 	regeneration = new Regeneration (witchCharictar);
 	regeneration.declare();
-	GameCode.gui.menu.frozen = false;
+	Gui.getGui().menu.frozen = false;
 	this.forget();
 }	
 @Override

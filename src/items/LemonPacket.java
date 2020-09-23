@@ -4,6 +4,7 @@ import main.GameCode;
 import main.ObjectHandler;
 import map.Room;
 import players.Jeffrey;
+import gui.Gui;
 import gui.Tbox;
 import resources.Sprite;
 import statusEffect.Fastness;
@@ -27,7 +28,7 @@ public class LemonPacket extends Item {
 	Fastness fastness;
 	fastness = new Fastness(witchCharictar);
 	fastness.declare();
-	GameCode.gui.menu.frozen = false;
+	Gui.getGui().menu.frozen = false;
 	if (witchCharictar == 0) {
 		Jeffrey.status.statusAppliedOnJeffrey[2] = true;
 	}

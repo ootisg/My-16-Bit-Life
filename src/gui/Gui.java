@@ -36,4 +36,7 @@ public class Gui extends GameObject {
 	public void forget () {
 		
 	}
+	public static Gui getGui() {
+		return (Gui)ObjectHandler.getObjectsByName("Gui").get(0);
+	}
 }

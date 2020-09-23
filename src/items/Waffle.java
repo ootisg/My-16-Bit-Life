@@ -1,5 +1,6 @@
 package items;
 
+import gui.Gui;
 import gui.Tbox;
 import main.GameCode;
 import main.ObjectHandler;
@@ -33,7 +34,7 @@ public class Waffle extends Item{
 				Jeffrey.ryanHealth = Jeffrey.maxRyanHealth;
 			}
 		}
-		GameCode.gui.menu.frozen = false;
+		Gui.getGui().menu.frozen = false;
 		this.forget();
 	}	
 	@Override
