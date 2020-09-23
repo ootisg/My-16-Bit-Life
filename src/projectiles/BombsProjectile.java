@@ -44,6 +44,7 @@ public class BombsProjectile extends Projectile{
 	@Override
 	public void projectileFrame (){
 		//Velocity stuff. 
+
 		if (thrown) {
 			if (fakeDirection) {
 				vx = vx - 0.3;
@@ -81,6 +82,22 @@ public class BombsProjectile extends Projectile{
 					fakeDirection = !fakeDirection;
 				}
 			}
+		}
+		if (popcorn) {
+			int luck = 120 - timer;
+			if (luck <= 0) {
+				luck = 1;
+			}
+			for (int i = 0; i <10; i++) {
+			Random rand = new Random ();
+			if (rand.nextInt(luck) == 0) {
+				double direction = rand.nextInt(3) + rand.nextDouble() + 3;
+				PopcornKernel kernel = new PopcornKernel ();
+				kernel.setDirection(direction);
+				kernel.setSpeed(10);
+				kernel.declare(this.getX() - 8,this.getY() - 8);
+			}
+		}
 		}
 		//Explosion timer. When switching the sprite, their animations stop. I'm 90% sure config files are good, so idk whats going on.
 		timer++;

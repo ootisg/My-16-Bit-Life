@@ -104,22 +104,7 @@ public class Bombs extends AimableWeapon {
 				box.configureTimerCloseing(30);
 		}
 		if (inHand) {
-			if (popcorn) {
-				int luck = 120 - bomb.timer;
-				if (luck <= 0) {
-					luck = 1;
-				}
-				for (int i = 0; i <10; i++) {
-				Random rand = new Random ();
-				if (rand.nextInt(luck) == 0) {
-					double direction = rand.nextInt(3) + rand.nextDouble() + 3;
-					PopcornKernel kernel = new PopcornKernel ();
-					kernel.setDirection(direction);
-					kernel.setSpeed(10);
-					kernel.declare(this.getX() - 8,this.getY() - 8);
-				}
-			}
-			}
+			
 			bomb.projectileFrame();
 			if (mouseButtonDown(2)) {
 				power++;
