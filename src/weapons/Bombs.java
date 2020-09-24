@@ -24,7 +24,7 @@ public class Bombs extends AimableWeapon {
 
 	int timer;
 	int cooldown;
-	int [] upgradeInfo;
+	static int [] upgradeInfo;
 	boolean inHand = false;
 	BombsProjectile bomb = null;
 	boolean popcorn = false;
@@ -38,7 +38,7 @@ public class Bombs extends AimableWeapon {
 	public static final Sprite INDICATOR_SPRITE = new Sprite ("resources/sprites/x.png");
 	public  Bombs (Sprite sprite) {
 		super(sprite);
-		upgradeInfo = new int [] {0,0,0,1};
+		upgradeInfo = new int [] {0,0,3,1};
 		this.setSprite(newBomb);
 		ammoAmount = new Tbox ();
 		ammoAmount.setX(340);
@@ -74,6 +74,9 @@ public class Bombs extends AimableWeapon {
 	}
 	@Override
 	public int [] getTierInfo () {
+		return upgradeInfo;
+	}
+	public static int [] getTierInfoStaticly() {
 		return upgradeInfo;
 	}
 	@Override 

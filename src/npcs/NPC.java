@@ -66,6 +66,7 @@ public class NPC extends GameObject {
 	}
 	@Override 
 	public void pausedEvent () {
+		System.out.println("debug");
 		if (playing) {
 			if (!attachedCutscene.play()) {
 				ObjectHandler.pause(false);

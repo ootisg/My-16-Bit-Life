@@ -395,7 +395,6 @@ if (activeBox) {
 				if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone")) {
 					standSprite = RYAN_MICROPHONE_IDLE;
 					if (!crouching) {
-					this.getWeapon().frameEvent();
 					walkSprite = RYAN_MICROPHONE_WALKING;
 					if (isWalking && !this.getSprite().equals(walkSprite) && changeSprite) {
 						this.setSprite(walkSprite);
@@ -413,7 +412,6 @@ if (activeBox) {
 				if (this.getWeapon().getClass().getSimpleName().equals("SlimeSword")) {
 				standSprite = SAM_SWORD;
 				
-				this.getWeapon().frameEvent();
 				walkSprite = SAM_WALKING_SWORD;
 				if (isWalking && !this.getSprite().equals(walkSprite) && changeSprite) {
 					this.setSprite(walkSprite);
@@ -900,6 +898,10 @@ if (activeBox) {
 				
 			}
 		}
+	}
+	@Override
+	public void pausedEvent () {
+		this.getWeapon().pausedEvent();
 	}
 	public static Jeffrey getActiveJeffrey () {
 		ArrayList <GameObject> jeffreys = ObjectHandler.getObjectsByName("Jeffrey");

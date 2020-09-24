@@ -11,6 +11,7 @@ import main.GameLoop;
 import players.Jeffrey;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
+import weapons.Bombs;
 
 
 public class BombsProjectile extends Projectile{
@@ -119,8 +120,25 @@ public class BombsProjectile extends Projectile{
 				ExpolsionPopcorn explosionPopcorn = new ExpolsionPopcorn(10, 60, true, true);
 				 explosionPopcorn.declare(this.getX() - 8,this.getY() - 8);
 			} else {
-				Explosion explosion = new Explosion(10, 60, true, true);
-				explosion.declare(this.getX() - 8,this.getY() - 8);
+				switch (Bombs.getTierInfoStaticly()[2]) {
+				case 0:
+					Explosion explosion = new Explosion(10, 60, true, true);
+					explosion.declare(this.getX() - 8,this.getY() - 8);
+					break;
+				case 1:
+					ExpolsionShrapnul shrap = new ExpolsionShrapnul(10, 60, true, true,0);
+					shrap.declare(this.getX() - 8,this.getY() - 8);
+					break;
+				case 2:
+					ExpolsionShrapnul shraps = new ExpolsionShrapnul(10, 60, true, true,1);
+					shraps.declare(this.getX() - 8,this.getY() - 8);
+					break;
+				case 3:
+					ExpolsionShrapnul shrapss = new ExpolsionShrapnul(10, 60, true, true,2);
+					shrapss.declare(this.getX() - 8,this.getY() - 8);
+					break;
+				}
+				
 			}
 			this.forget();
 		}
