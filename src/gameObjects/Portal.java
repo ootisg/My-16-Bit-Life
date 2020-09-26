@@ -27,7 +27,6 @@ public class Portal extends GameObject {
 	private int endX;
 	private int endY;
 	
-	private Jeffrey j = (Jeffrey)ObjectHandler.getObjectsByName("Jeffrey").get(0);
 	
 	double oldVy;
 
@@ -38,6 +37,7 @@ public class Portal extends GameObject {
 	}
 	@Override 
 	public void frameEvent () {
+		Jeffrey j = Jeffrey.getActiveJeffrey();
 		if (takenCareOfIt) {
 		double x = j.getX ();
 		double y = j.getY ();
@@ -172,6 +172,7 @@ public class Portal extends GameObject {
 		} 
 	}
 	public void doPortalAction(Portal entrence) {
+		Jeffrey j = Jeffrey.getActiveJeffrey();
 		j.setX(this.getX());
 		j.setY(this.getY());
 		endX = (int) this.getX();

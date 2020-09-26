@@ -53,7 +53,7 @@ public class PopcornKernel extends Item{
 			}
 		}
 		if (witchCharictar == 2) {
-			Jeffrey.ryanHealth = Jeffrey.maxRyanHealth + .1;
+			Jeffrey.ryanHealth = Jeffrey.ryanHealth + .1;
 			if (Jeffrey.ryanHealth >= Jeffrey.maxRyanHealth ) {
 				Jeffrey.ryanHealth = Jeffrey.maxRyanHealth;
 			}

@@ -193,7 +193,7 @@ public class GameCode {
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/spiderTest.rmf");
+		Room.loadRoom ("resources/maps/marshlands.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();

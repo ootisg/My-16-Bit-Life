@@ -48,6 +48,7 @@ public class BattleTrigger extends Trigger {
 			} else {
 				uppyThing = 0;
 				int x = 0;
+				try {
 				while (uppyThing < ObjectHandler.getObjectsByName("PairingObject").size()) {
 					try {
 						
@@ -69,6 +70,9 @@ public class BattleTrigger extends Trigger {
 						break;
 					}
 			}
+				} catch (NullPointerException e) {
+					
+				}
 			for (int i = 0; i <= enemysToSpawn.size() - 1; i++ ) {
 				if (Enemy.enemyList.contains(enemysToSpawn.get(i))) {
 					Enemy.enemyList.remove(enemysToSpawn.get(i));
