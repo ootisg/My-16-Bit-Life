@@ -47,6 +47,7 @@ public class Bombs extends AimableWeapon {
 		ammoAmount.setHeight(1);
 		ammoAmount.keepOpen(true);
 		ammoAmount.renderBox(false);
+		ammoAmount.setPlace();
 		timer = 0;
 	}
 	
@@ -89,8 +90,10 @@ public class Bombs extends AimableWeapon {
 			cooldown--;
 		}
 		if (mouseButtonPressed(0) && !Jeffrey.getActiveJeffrey().isCrouched() && cooldown == 0) {
+			if ((popcorn && Jeffrey.getInventory().checkItem(new PopcornBag())) || (!popcorn && Jeffrey.getInventory().checkItem(new Bomb())) ) {
 			bomb = new BombsProjectile(popcorn);
 			inHand = true;
+			}
 		}
 		if (upgradeInfo [3] >= 1 && mouseButtonPressed(2) && !inHand) {
 			if (!popcorn) {

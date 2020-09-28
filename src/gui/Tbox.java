@@ -2,6 +2,7 @@ package gui;
 
 
 import main.GameObject;
+import map.Room;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
 
@@ -20,6 +21,7 @@ public class Tbox extends GameObject {
 	Sprite font;
 	boolean renderBox;
 	int timer;
+	boolean setPlace = false;
 	boolean keepOpen = false;
 	public Tbox () {
 		timer = 0;
@@ -53,16 +55,30 @@ public class Tbox extends GameObject {
 		//Draw the top bar, the background, and the bottom bar
 		if (renderBox) {
 		for (int i = 0; i < this.width; i ++) {
-			AfterRenderDrawer.drawAfterRender (x + i * 8 + 1, y, textBorder, 0);
-			AfterRenderDrawer.drawAfterRender(x + i * 8 + 1, y + (this.height + 1) * 8, textBorder, 3);
+			if (setPlace) {
+				AfterRenderDrawer.drawAfterRender (x + i * 8 + 1, y, textBorder, 0);
+				AfterRenderDrawer.drawAfterRender(x + i * 8 + 1, y + (this.height + 1) * 8, textBorder, 3);
+			} else {
+				AfterRenderDrawer.drawAfterRender (x + i * 8 + 1 - Room.getViewX(), y - Room.getViewY(), textBorder, 0);
+				AfterRenderDrawer.drawAfterRender(x + i * 8 + 1 - Room.getViewX(), y + (this.height + 1) * 8 - Room.getViewY(), textBorder, 3);
+			}
 			for (int j = 0; j < this.height; j ++) {
-				AfterRenderDrawer.drawAfterRender(x + i * 8 + 1, y +j*8 + 8, textBorder, 1);
+				if (setPlace) {
+					AfterRenderDrawer.drawAfterRender(x + i * 8 + 1, y +j*8 + 8, textBorder, 1);
+				} else {
+					AfterRenderDrawer.drawAfterRender(x + i * 8 + 1 - Room.getViewX(), y +j*8 + 8 - Room.getViewY(), textBorder, 1);
+				}
 			}
 		}
 		//Draw the side bars
 		for (int i = 0; i < this.height + 1; i ++) {
-			AfterRenderDrawer.drawAfterRender(x, y + i * 8, textBorder, 2);
-			AfterRenderDrawer.drawAfterRender(x + this.width * 8 + 1, y + i * 8,textBorder, 2);
+			if (setPlace) {
+				AfterRenderDrawer.drawAfterRender(x, y + i * 8, textBorder, 2);
+				AfterRenderDrawer.drawAfterRender(x + this.width * 8 + 1, y + i * 8,textBorder, 2);
+			} else {
+				AfterRenderDrawer.drawAfterRender(x - Room.getViewX(), y + i * 8 - Room.getViewY(), textBorder, 2);
+				AfterRenderDrawer.drawAfterRender(x + this.width * 8 + 1 - Room.getViewX(), y + i * 8 - Room.getViewY(),textBorder, 2);
+			}
 		}
 		}
 		//Draw the text in the box
@@ -97,7 +113,7 @@ public class Tbox extends GameObject {
 						}
 				}
 				} catch (StringIndexOutOfBoundsException e) {
-					if ((int)text.charAt(startPos + i - 1) != 32 ) {
+					if ((int)text.charAt(startPos + i) != 32 ) {
 						int icopy = i;
 						int yicopy = yi;
 						while (icopy != text.length() - 1 && (int)text.charAt(startPos + icopy) != 32 ) {
@@ -115,8 +131,11 @@ public class Tbox extends GameObject {
 						}
 				}
 				}
-				
-				AfterRenderDrawer.drawAfterRender((x + (xi % width) * 8), y + (yi / calcwidth) * 8 + 8,font, (int)text.charAt(startPos + i)); 
+				if (setPlace) {
+					AfterRenderDrawer.drawAfterRender((x + (xi % width) * 8), y + (yi / calcwidth) * 8 + 8,font, (int)text.charAt(startPos + i)); 
+				} else {
+					AfterRenderDrawer.drawAfterRender((x + (xi % width) * 8) - Room.getViewX(), y + (yi / calcwidth) * 8 + 8 - Room.getViewY(),font, (int)text.charAt(startPos + i)); 
+				}
 			if ((int)text.charAt(startPos + i) == 46) {
 				xi = -3;
 				calcwidth = calcwidth + 3;
@@ -204,6 +223,10 @@ public class Tbox extends GameObject {
 	}
 	public void configureTimerCloseing (int timeToClose) {
 		timerCloseing = timeToClose;
+	}
+	// turn on to make Tbox remain in the same place regardless of scrolling keep off to not have that happen
+	public void setPlace () {
+		setPlace = true;
 	}
 	public void scroll () {
 		//Adds extensability; this can be overriden to prevent the window from scrolling when A is pressed

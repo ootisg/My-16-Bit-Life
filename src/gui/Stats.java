@@ -41,6 +41,9 @@ public class Stats extends GameObject {
 		charictarName.keepOpen(true);
 		weaponName.keepOpen(true);
 		ammoAmount.keepOpen(true);
+		ammoAmount.setPlace();
+		charictarName.setPlace();
+		weaponName.setPlace();
 	}
 	@Override
 	public void frameEvent () {

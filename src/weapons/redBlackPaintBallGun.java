@@ -40,6 +40,7 @@ public class redBlackPaintBallGun extends AimableWeapon {
 		ammoAmount.setHeight(1);
 		ammoAmount.keepOpen(true);
 		ammoAmount.renderBox(false);
+		ammoAmount.setPlace();
 		textTimer = 0;
 		paintballiconSprite = new Sprite ("resources/sprites/config/paintballIcon.txt");
 		fisticonSprite = new Sprite ("resources/sprites/config/fistIcon.txt");

@@ -26,15 +26,10 @@ public class MagicMarker extends AimableWeapon {
 	private int cooldown;	
 	boolean itsOver = false;
 	boolean firstRun = true;
-	Tbox box;
 	private int [] upgradeInfo;
-	Tbox ammoAmount;
 	boolean inzilaztion = false;
 	public MagicMarker(Sprite sprite) {
 		super(sprite);
-		ammoAmount = new Tbox (0,0,24,1, "0", false);
-		ammoAmount.declare(252,10);
-		ammoAmount.keepOpen(true);
 		textTimer = 0;
 		paintballiconSprite = new Sprite ("resources/sprites/config/paintballIcon.txt");
 		this.cooldown = 0;
@@ -106,7 +101,6 @@ public class MagicMarker extends AimableWeapon {
 		}
 		
 		Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
-		ammoAmount.setContent("");
 		itsOver = false;
 		if (this.cooldown > 0) {
 			this.cooldown --;
