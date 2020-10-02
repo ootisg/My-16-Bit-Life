@@ -20,6 +20,7 @@ public class Celing_boi extends Enemy {
 	Sprite leftIdle;
 	Sprite rightIdle;
 	boolean direction;
+	boolean inzialized = false;
 	public Celing_boi () {
 		direction = true;
 		timer = 0;
@@ -27,7 +28,7 @@ public class Celing_boi extends Enemy {
 		this.health = 30;
 		this.defence = 0;
 		shooting = true;
-		MiddleToLeft = new Sprite ("resources/sprites/config/Ceiling_Boi_moving_right_from_left.txt");
+		MiddleToLeft = new Sprite ("resources/sprites/config/Ceiling_Boi_moving_left_from_middle.txt");
 		RightToMiddle = new Sprite("resources/sprites/config/Ceiling_Boi_moving_left_from_right.txt");
 		leftToMiddle = new Sprite("resources/sprites/config/Ceiling_Boi_moving_right_from_left.txt");
 		MiddleToRight = new Sprite("resources/sprites/config/Ceiling_Boi_moving_right_from_middle.txt");
@@ -38,31 +39,7 @@ public class Celing_boi extends Enemy {
 		leftIdle = new Sprite ("resources/sprites/config/Ceiling_Boi_left_Idle.txt");
 		rightIdle = new Sprite ("resources/sprites/config/Ceiling_Boi_right_Idle.txt");
 		this.getAnimationHandler().setFrameTime(100);
-		try {
-		if (this.getVariantAttribute("startPos").equals ("left")){
-				place = 0;
-		 		} 
-		if (this.getVariantAttribute("startPos").equals ("middle")){
-				 place = 1;
-				 } 
-		if (this.getVariantAttribute("startPos").equals ("right")){
-				 place = 2;
-				 direction = false;
-				} 
-		}catch (NullPointerException e) { 
-            
-				place = 0;
-			}
-		place = 0;
-		if (place == 0) {
-			this.setSprite(shootLeft);
-			}
-		if (place == 1) {
-			this.setSprite(shootMiddle);
-		}
-		if (place == 2) {
-			this.setSprite(shootRight);
-		}
+		this.getAnimationHandler().setRepeat(false);
 	}
 	@Override
 	public String checkEntry () {
@@ -74,6 +51,32 @@ public class Celing_boi extends Enemy {
 	}
 	@Override
 	public void enemyFrame () {
+		if (!inzialized) {
+			try {
+				if (this.getVariantAttribute("startPos").equals ("left")){
+						place = 0;
+				 		} 
+				if (this.getVariantAttribute("startPos").equals ("middle")){
+						 place = 1;
+						 } 
+				if (this.getVariantAttribute("startPos").equals ("right")){
+						 place = 2;
+						 direction = false;
+						} 
+				}catch (NullPointerException e) { 
+						place = 0;
+					}
+				if (place == 0) {
+					this.setSprite(shootLeft);
+					}
+				if (place == 1) {
+					this.setSprite(shootMiddle);
+				}
+				if (place == 2) {
+					this.setSprite(shootRight);
+				}
+				inzialized = true;
+		}
 		if (timer == 9) {
 			if (place == 0) {
 				this.setSprite(leftIdle);
@@ -85,6 +88,7 @@ public class Celing_boi extends Enemy {
 					this.setSprite(rightIdle);
 				}
 				this.getAnimationHandler().setFrameTime(0);
+				this.getAnimationHandler().setAnimationFrame(0);
 		}
 		timer = timer + 1;
 		if (timer == 30) {
@@ -111,6 +115,7 @@ public class Celing_boi extends Enemy {
 						if (place == 1) {
 							this.setSprite(MiddleToRight);
 							this.getAnimationHandler().setFrameTime(100);
+							this.getAnimationHandler().setAnimationFrame(0);
 							shooting = true;
 							place = 2;
 							}
@@ -118,6 +123,7 @@ public class Celing_boi extends Enemy {
 							shooting = true;
 							this.setSprite(leftToMiddle);
 							this.getAnimationHandler().setFrameTime(100);
+							this.getAnimationHandler().setAnimationFrame(0);
 							place = 1;
 							}
 				} else {
@@ -128,12 +134,14 @@ public class Celing_boi extends Enemy {
 						shooting = true;
 						this.setSprite(MiddleToLeft);
 						this.getAnimationHandler().setFrameTime(100);
+						this.getAnimationHandler().setAnimationFrame(0);
 						place = 0;
 						}
 						if (place == 2) {
 						shooting = true;
 						this.setSprite(RightToMiddle);
 						this.getAnimationHandler().setFrameTime(100);
+						this.getAnimationHandler().setAnimationFrame(0);
 						place = 1;
 						}
 				}

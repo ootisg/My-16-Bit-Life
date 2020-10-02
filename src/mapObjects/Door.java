@@ -1,4 +1,4 @@
-package gameObjects;
+package mapObjects;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;

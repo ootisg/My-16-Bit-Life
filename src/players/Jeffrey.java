@@ -165,40 +165,12 @@ if (activeBox) {
 			if (this.getVariantAttribute("Active") != null) {
 				if (this.getVariantAttribute("Active").equals("yes")) {
 					active = true;
-					int veiwX = (int)(this.getX() -this.getX()%213);
-					int veiwY = (int)(this.getY() -this.getY()%160);
-					if (veiwY + 480 > Room.getHeight()*16) {
-						veiwY = Room.getHeight()*16 - 480;
-						if (veiwY < 0) {
-							veiwY = 0;
-						}
-					}
-					if (veiwX + + 640 > Room.getWidth()*16) {
-						veiwX = Room.getWidth()*16 - 640;
-						if (veiwX < 0) {
-							veiwX = 0;
-						}
-					}
-					Room.setView(veiwX, veiwY);
+					this.inzializeCamera();
 				}
 			} else {
 				if ( ObjectHandler.getObjectsByName("Jeffrey").size() == 1) {
 					active = true;
-					int veiwX = (int)(this.getX() -this.getX()%213);
-					int veiwY = (int)(this.getY() -this.getY()%160);
-					if (veiwY + 480 > Room.getHeight()*16) {
-						veiwY = (Room.getHeight()*16) - 480;
-						if (veiwY < 0) {
-							veiwY = 0;
-						}
-					}
-					if (veiwX + + 640 > Room.getWidth()*16) {
-						veiwX = (Room.getWidth()*16) - 640;
-						if (veiwX < 0) {
-							veiwX = 0;
-						}
-					}
-					Room.setView(veiwX, veiwY);
+					this.inzializeCamera();
 				}
 			}
 			for (int i = 0; i < party.length; i++) {
@@ -700,7 +672,9 @@ if (activeBox) {
 		vy = vy + ay;
 		ax = 0;
 		this.setX (this.getX () + vx);
-		wpn.frameEvent();
+		if (this.isActive()) {
+			wpn.frameEvent();
+		}
 		
 }
 	
@@ -886,6 +860,7 @@ if (activeBox) {
 		} else {
 			if (Jeffrey.getJeffreyWithCharacter(witchCharacter) != null) {
 				Jeffrey.getJeffreyWithCharacter(witchCharacter).active = true;
+				Jeffrey.getJeffreyWithCharacter(witchCharacter).inzializeCamera();
 				this.active = false;
 				if (this.witchCharictar == 0) {
 					this.setSprite(JEFFREY_IDLE);
@@ -932,6 +907,7 @@ if (activeBox) {
 			if (!party1[witchCharictar]) {
 				if (party2[witchCharictar]) {
 					j.active = true;
+					j.inzializeCamera();
 					this.active = false;
 					break;
 				} else {
@@ -1081,6 +1057,28 @@ if (activeBox) {
 		}
 	
 	}	
+	/**
+	 * sets the camera up to the right inzial condition when you switch out your Jeffrey
+	 */
+	public void inzializeCamera() {
+		if (scrolling) {
+			int veiwX = (int)(this.getX() -this.getX()%213);
+			int veiwY = (int)(this.getY() -this.getY()%160);
+			if (veiwY + 480 > Room.getHeight()*16) {
+				veiwY = (Room.getHeight()*16) - 480;
+				if (veiwY < 0) {
+					veiwY = 0;
+				}
+			}
+			if (veiwX + + 640 > Room.getWidth()*16) {
+				veiwX = (Room.getWidth()*16) - 640;
+				if (veiwX < 0) {
+					veiwX = 0;
+				}
+			}
+			Room.setView(veiwX, veiwY);
+		}
+	}
 	/**
 	 * adds a character to the party 
 	 * @param witchCharacter the character to add (0 for Jeffrey 1 for Ryan 2 for Sam anything else will do nothing)

@@ -2,10 +2,10 @@ package switches;
 
 import java.util.ArrayList;
 
-import gameObjects.MapObject;
 import gameObjects.PairingObject;
 import main.GameObject;
 import main.ObjectHandler;
+import mapObjects.MapObject;
 import players.Jeffrey;
 import resources.Sprite;
 

@@ -1,4 +1,4 @@
-package gameObjects;
+package mapObjects;
 
 import main.GameObject;
 import map.Room;

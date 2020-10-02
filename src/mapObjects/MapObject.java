@@ -1,4 +1,4 @@
-package gameObjects;
+package mapObjects;
 
 import java.util.ArrayList;
 import java.util.Arrays;

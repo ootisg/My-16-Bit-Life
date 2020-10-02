@@ -37,13 +37,10 @@ import enemys.TomatoFunction;
 import enemys.UFO;
 import enemys.WaterBlob;
 import gameObjects.AnimeTester;
-import gameObjects.Box;
 import gameObjects.BreakableObject;
 import gameObjects.CarSpawner;
 import gameObjects.DarkOverlay;
 import gameObjects.DashPad;
-import gameObjects.Door;
-import gameObjects.Fan;
 import gameObjects.Glider;
 import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
@@ -51,7 +48,6 @@ import gameObjects.LaunchPlant;
 import gameObjects.Leg;
 import gameObjects.LightSource;
 import gameObjects.Minecart;
-import gameObjects.MoveingPlatform;
 import gameObjects.Plant;
 import gameObjects.Point;
 import gameObjects.TemporaryWall;
@@ -73,6 +69,10 @@ import items.Waffle;
 import json.JSONException;
 import json.JSONObject;
 import map.Room;
+import mapObjects.Box;
+import mapObjects.Door;
+import mapObjects.Fan;
+import mapObjects.MoveingPlatform;
 import npcs.NonPlayableJeffrey;
 import npcs.NonPlayableRyan;
 import npcs.NonPlayableSam;
@@ -192,7 +192,7 @@ public class GameCode {
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/tallMap.rmf");
+		Room.loadRoom ("resources/maps/boiTest.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();

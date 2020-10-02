@@ -13,5 +13,6 @@ public class Setup {
 		ObjectHandler.addSearchPackage("npcs");
 		ObjectHandler.addSearchPackage("switches");
 		ObjectHandler.addSearchPackage("players");
+		ObjectHandler.addSearchPackage("mapObjects");
 	}
 }

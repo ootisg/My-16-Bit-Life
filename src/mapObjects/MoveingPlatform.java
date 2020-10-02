@@ -1,9 +1,10 @@
-package gameObjects;
+package mapObjects;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
 
+import gameObjects.Point;
 import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
@@ -22,9 +23,17 @@ public class MoveingPlatform extends MapObject implements Activateable {
 	Point nextPoint = new Point();
 	int originalX;
 	int originalY;
+	int hitboxXoffset;
+	int hitboxYoffset;
+	int hitboxWidth;
+	int hitboxHeight;
 	private boolean active = true;
 	public MoveingPlatform () {
 		this.setHitboxAttributes(0, 0, 20, 16);
+		this.hitboxXoffset = 0;
+		this.hitboxYoffset = 0;
+		this.hitboxWidth = 20;
+		this.hitboxHeight = 16;
 	}
 	public void frameEvent () {
 		super.frameEvent();
@@ -34,6 +43,10 @@ public class MoveingPlatform extends MapObject implements Activateable {
 						if (!this.getVariantAttribute("spritePath").equals("nv")) {
 							this.setSprite(new Sprite ("resources/sprites/" +this.getVariantAttribute("spritePath")));
 							this.setHitboxAttributes(0, 0, this.getSprite().getFrame(0).getWidth(), this.getSprite().getFrame(0).getHeight());
+							this.hitboxXoffset = 0;
+							this.hitboxYoffset = 0;
+							this.hitboxWidth =  this.getSprite().getFrame(0).getWidth();
+							this.hitboxHeight = this.getSprite().getFrame(0).getHeight();
 						} else {
 							this.setSprite(new Sprite ("resources/sprites/default_platform.png"));	
 						}
@@ -106,14 +119,14 @@ public class MoveingPlatform extends MapObject implements Activateable {
 			slope = currentPosition.getSlope(nextPoint);
 			reCheck = false;
 	}
+		this.setHitboxAttributes(this.hitboxXoffset, this.hitboxYoffset, 1, 1);
 		if (!(path.isEmpty() && this.isColliding(nextPoint)) ) {
 		if (this.isColliding(nextPoint)) {
 			Point currentPosition = new Point (this.getX(),this.getY());
 			nextPoint = path.pop();
 			slope = currentPosition.getSlope(nextPoint);
 		}
-		
-		
+		this.setHitboxAttributes(this.hitboxXoffset, this.hitboxYoffset, this.hitboxWidth,this.hitboxHeight);
 		//System.out.println(slope);
 		int slopeMagnatue; 
 		if (slope > 0) {
@@ -135,15 +148,17 @@ public class MoveingPlatform extends MapObject implements Activateable {
 		
 			if (slopeMagnatue != 0) {
 			if (nextPoint.getX() < this.getX()){
-			if (!this.goXandY(this.getX()- ((1.0/slopeMagnatue) * speed),this.getY()+(slope/slopeMagnatue) * speed)) {
+			if (!this.checkXandY(this.getX()- ((1.0/slopeMagnatue) * speed),this.getY()+(slope/slopeMagnatue) * speed)) {
 				reCheck = true;
-				this.goX(this.getX()- ((1.0/slopeMagnatue) * speed));
-				this.goY(this.getY()+(slope/slopeMagnatue) * speed);
+				this.setX(this.getX()- ((1.0/slopeMagnatue) * speed));
+				this.setY(this.getY()+(slope/slopeMagnatue) * speed);
 				for (int i = 0; i < collidingObjects.size(); i++) {
 					collidingObjects.get(i).goX(collidingObjects.get(i).getX()- ((1.0/slopeMagnatue) * speed));	
 					collidingObjects.get(i).goY(this.getY());
 				}
 			}  else {
+				this.setX(this.getX()- ((1.0/slopeMagnatue) * speed));
+				this.setY(this.getY()+(slope/slopeMagnatue) * speed);
 				for (int i = 0; i < collidingObjects.size(); i++) {
 					collidingObjects.get(i).goX(collidingObjects.get(i).getX()- ((1.0/slopeMagnatue) * speed));
 					collidingObjects.get(i).goY(this.getY() );
@@ -155,15 +170,17 @@ public class MoveingPlatform extends MapObject implements Activateable {
 				}
 			}
 			} else {
-			if (!this.goXandY(this.getX()+ ((1.0/slopeMagnatue) * speed), this.getY()+(slope/slopeMagnatue) * speed)) {
+			if (!this.checkXandY(this.getX()+ ((1.0/slopeMagnatue) * speed), this.getY()+(slope/slopeMagnatue) * speed)) {
 				reCheck = true;
-				this.goX(this.getX()+ ((1.0/slopeMagnatue) * speed));
-				this.goY(this.getY()+(slope/slopeMagnatue) * speed);
+				this.setX(this.getX()+ ((1.0/slopeMagnatue) * speed));
+				this.setY(this.getY()+(slope/slopeMagnatue) * speed);
 				for (int i = 0; i < collidingObjects.size(); i++) {
 					collidingObjects.get(i).goX(collidingObjects.get(i).getX()+ ((1.0/slopeMagnatue) * speed));	
 					collidingObjects.get(i).goY(this.getY() );
 				}
 			}  else {
+				this.setX(this.getX()+ ((1.0/slopeMagnatue) * speed));
+				this.setY(this.getY()+(slope/slopeMagnatue) * speed);
 				for (int i = 0; i < collidingObjects.size(); i++) {
 					collidingObjects.get(i).goX(collidingObjects.get(i).getX()+ ((1.0/slopeMagnatue) * speed));
 					collidingObjects.get(i).goY(this.getY() );
@@ -177,15 +194,17 @@ public class MoveingPlatform extends MapObject implements Activateable {
 			}
 			} else {
 			if (nextPoint.getX() < this.getX()){
-			if (!this.goXandY(this.getX()- (1 * speed), this.getY()+slope * speed)) {
+			if (!this.checkXandY(this.getX()- (1 * speed), this.getY()+slope * speed)) {
 				reCheck = true;
-				this.goX(this.getX()- 1 * speed);
-				this.goY(this.getY()+slope * speed);
+				this.setX(this.getX()- 1 * speed);
+				this.setY(this.getY()+slope * speed);
 				for (int i = 0; i < collidingObjects.size(); i++) {
 					collidingObjects.get(i).goX(collidingObjects.get(i).getX()- 1 * speed);
 					collidingObjects.get(i).goY(this.getY() );
 				}
 			}  else {
+				this.setX(this.getX()- 1 * speed);
+				this.setY(this.getY()+slope * speed);
 				for (int i = 0; i < collidingObjects.size(); i++) {
 					collidingObjects.get(i).goX(collidingObjects.get(i).getX()- (1 * speed));
 					collidingObjects.get(i).goY(this.getY() );
@@ -197,15 +216,17 @@ public class MoveingPlatform extends MapObject implements Activateable {
 				}
 			}
 			} else {
-			if (!this.goXandY(this.getX()+ (1 * speed), this.getY()+slope * speed)) {
+			if (!this.checkXandY(this.getX()+ (1 * speed), this.getY()+slope * speed)) {
 				reCheck = true;
-				this.goX(this.getX()+ 1 * speed);
-				this.goY(this.getY()+slope * speed);
+				this.setX(this.getX()+ 1 * speed);
+				this.setY(this.getY()+slope * speed);
 				for (int i = 0; i < collidingObjects.size(); i++) {
 					collidingObjects.get(i).goX(collidingObjects.get(i).getX()+ 1 * speed);
 					collidingObjects.get(i).goY(this.getY() );
 				}
 			} else {
+				this.setX(this.getX()+ 1 * speed);
+				this.setY(this.getY()+slope * speed);
 				for (int i = 0; i < collidingObjects.size(); i++) {
 					collidingObjects.get(i).goX(collidingObjects.get(i).getX()+ (1 * speed));
 					collidingObjects.get(i).goY(this.getY() );
@@ -220,12 +241,12 @@ public class MoveingPlatform extends MapObject implements Activateable {
 		}
 		} else {
 			if (slope > 0) {
-				this.goY(this.getY()+ speed);
+				this.setY(this.getY()+ speed);
 				for (int i = 0; i < collidingObjects.size(); i++) {
-					collidingObjects.get(i).setY(this.getY() );
+					collidingObjects.get(i).goY(this.getY() );
 				}
 			} else {
-				this.goY(this.getY()- speed);
+				this.setY(this.getY()- speed);
 				for (int i = 0; i < collidingObjects.size(); i++) {
 					collidingObjects.get(i).goY(this.getY() );
 				}

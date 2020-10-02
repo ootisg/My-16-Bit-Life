@@ -1,9 +1,8 @@
-package gameObjects;
+package mapObjects;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-
 
 import main.GameObject;
 import main.ObjectHandler;
