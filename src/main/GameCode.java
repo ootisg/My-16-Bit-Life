@@ -192,13 +192,12 @@ public class GameCode {
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/boiTest.rmf");
+		Room.loadRoom ("resources/maps/vineTest.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
 		//fire = new FireRextinguisher ();
 		extinguser = new FireExtingueser (new Sprite ("resources/sprites/config/Fire_Rextinguisher_Idle.txt"));
-		
 		lameJeffrey = new NonPlayableJeffrey();
 		lameSam = new NonPlayableSam();
 		lameRyan = new NonPlayableRyan();
@@ -268,6 +267,7 @@ public class GameCode {
 		Jeffrey.inventory.addAmmo(paint);
 		x = x + 1;
 		}
+		RenderLoop.window.setResolution(640, 480);
 		//LightSource.writeLightSourceImage (36, 255, 200, 0, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is yellow-ish
 		//LightSource.writeLightSourceImage (36, 0, 200, 255, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is blue-ish
 		//testTie.declare (32, 32);

@@ -283,15 +283,15 @@ public abstract class GameObject extends GameAPI {
 	 * Inserts this object into the static instance of ObjectHandler, effectively scheduling it for calls to frameEvent and draw, in addition to allowing collision detection with it.
 	 */
 	public void declare () {
-		
 		ObjectHandler.insert (this);
 		declared = true;
+		this.onDeclare();
 	}
 	
 	public void declare (double x, double y) {
-		declare ();
 		setX (x);
 		setY (y);
+		declare ();
 	}
 	/**
 	 * Whether or not this GameObject is currently declared.
@@ -304,6 +304,7 @@ public abstract class GameObject extends GameAPI {
 	 * Removes this object from the static instance of ObjectHandler.
 	 */
 	public void forget () {
+		this.onForget();
 		ObjectHandler.remove (this);
 		declared = false;
 	}
@@ -815,7 +816,18 @@ public abstract class GameObject extends GameAPI {
 		spriteY =  (spriteY + (val - y));
 		y = val;
 	}
-	
+	/*
+	 * override to write code that is run on declaration of this object
+	 */
+	public void onDeclare() {
+		
+	}
+	/**
+	 * override to write code that is run on deletion of this object
+	 */
+	public void onForget () {
+		
+	}
 	/**
 	 * Sets the sprite of this GameObject to the given sprite.
 	 * @param sprite The sprite to use

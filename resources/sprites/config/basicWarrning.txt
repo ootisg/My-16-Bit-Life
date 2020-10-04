@@ -1,0 +1,3 @@
+$src resources/sprites/Warning.png
+
+grid 16 16

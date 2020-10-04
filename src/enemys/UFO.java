@@ -31,7 +31,8 @@ public class UFO extends Enemy {
 		this.setHitboxAttributes(0, 0, 32, 25);
 		this.setHealth(120);
 		this.defence = 20;
-		laser = new LoopableSprite (new Sprite ("resources/sprites/config/ufo_laser_a.txt"),0,48,0,0);
+		laser = new LoopableSprite (new Sprite ("resources/sprites/config/ufo_laser_a.txt"),0,16,0,0);
+		laser.addSprite(new Sprite ("resources/sprites/config/ufo_laser_b.txt"));
 		laser.addEndSprite(new Sprite ("resources/sprites/config/ufo_laser_c.txt"));
 		
 	}
@@ -86,8 +87,8 @@ public class UFO extends Enemy {
 	public void draw () {
 		super.draw();
 		if (laserOn) {
-			laser.setDestanation((int)this.getX() - Room.getViewX() + 16, (int)(yTo + 18 + this.getY()));
-			laser.draw((int)this.getX() - Room.getViewX() + 16, (int)this.getY() - Room.getViewY() + 25);
+			laser.setDestanation((int)this.getX() - Room.getViewX() +8, (int)(yTo + 18 + this.getY()));
+			laser.draw((int)this.getX() - Room.getViewX() + 8, (int)this.getY() - Room.getViewY() + 14);
 		}
 	}
 }

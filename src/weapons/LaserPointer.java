@@ -27,17 +27,8 @@ public class LaserPointer extends AimableWeapon {
 	
 	public LaserPointer () {
 		super(new Sprite ("resources/sprites/laserPointer.png"));
-		lol = RenderLoop.window.getBufferGraphics();
 		tierInfo = new int [] {0,0,0,1};
 		this.setHitboxAttributes(0, 0, 4, 4);
-		//Checks for "Green Light" upgrade
-		if (tierInfo [3] >= 1) {
-			lol.setColor(new Color (0x13F013));
-			power = 1;
-		} else {
-			lol.setColor(new Color (0xF01313));
-			power = 0;
-		}
 	}
 	@Override
 	public String checkName () {
@@ -184,6 +175,15 @@ public class LaserPointer extends AimableWeapon {
 		}
 	}
 	public void draw () {
+		lol = RenderLoop.window.getBufferGraphics();
+		//Checks for "Green Light" upgrade
+		if (tierInfo [3] >= 1) {
+			lol.setColor(new Color (0x13F013));
+			power = 1;
+		} else {
+			lol.setColor(new Color (0xF01313));
+			power = 0;
+		}
 		if (mouseButtonDown(0) && !Jeffrey.getActiveJeffrey().isCrouched()) {
 		lol.drawLine((int)x,(int) y, (int)newX, (int)newY);
 		}

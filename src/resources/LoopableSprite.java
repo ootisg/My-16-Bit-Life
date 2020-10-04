@@ -12,10 +12,12 @@ public class LoopableSprite extends Sprite {
 	int moveY;
 	ArrayList <AnimationHandler> handlers = new ArrayList <AnimationHandler> ();
 	AnimationHandler endSprite = null;
+	AnimationHandler remainderHandler;
 	public LoopableSprite(Sprite sprite, int moveX,int moveY, int desX, int desY) {
 		super(sprite);
 		AnimationHandler handler = new AnimationHandler (sprite, frameTime);
 		handlers.add(handler);
+		remainderHandler = new AnimationHandler(sprite,frameTime);
 		this.moveX = moveX;
 		this.moveY = moveY;
 		this.desX = desX;
@@ -60,8 +62,30 @@ public class LoopableSprite extends Sprite {
 				index = 0;
 			}
 		}
+		int remanderWidth = 0;
+		int remainderHeight = 0;
+			if (moveY != 0) {
+				remainderHeight = desY % moveY;
+			}
+			if (moveX != 0) {
+				remanderWidth = desX % moveX; 
+			}
+			if (remainderHeight != 0) {
+				remainderHandler.setHeight(remainderHeight);
+			}
+			if (remanderWidth != 0) {
+				remainderHandler.setWidth(remanderWidth);
+			}
+			if (remainderHeight != 0 || remanderWidth != 0) {
+				remainderHandler.draw(tempX, tempY);
+			}
+				
 		if (endSprite != null) {
-		endSprite.draw(desX, desY);
+			if (!directionY) {
+				endSprite.draw(desX, desY);
+			} else {
+				endSprite.draw(desX, desY - endSprite.getHeight());
+			}
 		}
 	}
 	public void setDestanation (int x, int y) {
