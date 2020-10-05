@@ -524,23 +524,7 @@ if (activeBox) {
 					this.getAnimationHandler().show ();
 				}
 			}
-			if (this.getAnimationHandler().flipHorizontal ()) {
-				this.getWeapon().setX (this.getX () - 5);
-				if (!this.isCrouched()) {
-				this.getWeapon().setY (this.getY () + 16);
-				} else {
-					this.getWeapon().setY (this.getY () + 30);	
-				}
-				this.getWeapon().getAnimationHandler().setFlipHorizontal (true);
-			} else {
-				this.getWeapon().setX (this.getX () + 11);
-				if (!this.isCrouched()) {
-					this.getWeapon().setY (this.getY () + 16);
-					} else {
-						this.getWeapon().setY (this.getY () + 30);	
-					}
-				this.getWeapon().getAnimationHandler().setFlipHorizontal (false);
-			}
+			
 			try {
 			//Handles weapon aiming
 			double wpnX = this.getWeapon().getX () - Room.getViewX ();
@@ -666,6 +650,7 @@ if (activeBox) {
 			    
 			}
 			}
+			this.getWeapon().setY (this.getY () + 16);
 		}
 		}
 		vx = vx + ax;
@@ -1098,5 +1083,48 @@ if (activeBox) {
 		wpn.draw();
 		}
 	}
-	
+	@Override
+	public void setX (double val) {
+		super.setX(val);
+		if (this.getAnimationHandler().flipHorizontal ()) {
+			this.getWeapon().setX (val - 5);
+			this.getWeapon().getAnimationHandler().setFlipHorizontal (true);
+		} else {
+			this.getWeapon().setX (val + 11);
+			this.getWeapon().getAnimationHandler().setFlipHorizontal (false);
+		}
+	}
+	@Override
+	public void setY(double val) {
+		super.setY(val);
+		if (!isCrouched()) {
+			this.getWeapon().setY(val + 16);
+		} else {
+			this.getWeapon().setY(val + 20);
+		}
+	}
+	@Override 
+	public boolean goY (double val) {
+		if (super.checkY(val)) {
+			if (!isCrouched()) {
+				this.getWeapon().setY(val + 16);
+			} else {
+				this.getWeapon().setY(val + 20);
+			}
+		}
+		return super.goY(val);
+	}
+	@Override
+	public boolean goX (double val) {
+		if (super.checkX(val)) {
+			if (this.getAnimationHandler().flipHorizontal ()) {
+				this.getWeapon().setX (val - 5);
+				this.getWeapon().getAnimationHandler().setFlipHorizontal (true);
+			} else {
+				this.getWeapon().setX (val + 11);
+				this.getWeapon().getAnimationHandler().setFlipHorizontal (false);
+			}
+		}
+		return super.goX(val);
+	}
 }
