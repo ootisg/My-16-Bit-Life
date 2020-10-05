@@ -183,7 +183,7 @@ public class GameCode {
 	static Minecart cart;
 	static Cactus cactus;
 	static FireRextinguisher fire;
-	static items.Fan pack;
+	static items.FanItem pack;
 	static PopcornBag bag;
 	static Bomb bom;
 	static String jsonTest = ""
@@ -192,7 +192,7 @@ public class GameCode {
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/vineTest.rmf");
+		Room.loadRoom ("resources/maps/ActivationTest.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
@@ -207,7 +207,7 @@ public class GameCode {
 		guy = new PointGuy();
 		work = new Worker ();
 		door = new Door ();
-		pack = new items.Fan();
+		pack = new items.FanItem();
 		fall = new FallingChandleer ();
 		test = new BreakableObject ();
 		lay = new DarkOverlay();

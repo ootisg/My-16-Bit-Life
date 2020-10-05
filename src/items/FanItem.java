@@ -7,9 +7,9 @@ import main.ObjectHandler;
 import players.Jeffrey;
 import resources.Sprite;
 
-public class Fan extends Item {
+public class FanItem extends Item {
 
-	public Fan () {
+	public FanItem () {
 		this.setSprite(new Sprite ("resources/sprites/the-heist/Coin.png")); 
 		this.setHitboxAttributes(0, 0, 16, 16);
 	}

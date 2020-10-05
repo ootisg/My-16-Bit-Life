@@ -169,6 +169,7 @@ public class Trigger extends GameObject {
 	}
 	/**
 	 * gets the object that was paired to this one via the map editor
+	 * (note only works if paired via variant does not work if paired via collisions)
 	 * @return yeah that ya moron
 	 */
 	public PairingObject getPairedObject () {

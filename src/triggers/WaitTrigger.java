@@ -3,7 +3,9 @@ package triggers;
 import main.ObjectHandler;
 
 public class WaitTrigger extends Trigger {
-	int timer;
+	long timer;
+	boolean inzilaztion;
+	long startTime;
 	public WaitTrigger() {
 		 this.setHitboxAttributes(0, 0, 16, 16);
 		timer = 0;
@@ -16,10 +18,13 @@ public class WaitTrigger extends Trigger {
 	}
 	@Override
 	public void pausedEvent() {
-		if(timer == (Integer.parseInt(this.getVariantAttribute("time")) * 30)) {
-			ObjectHandler.pause(false);
+		if (!inzilaztion) {
+			inzilaztion = true;
+			startTime = System.currentTimeMillis();
+		}
+		if(timer >= (Integer.parseInt(this.getVariantAttribute("time")) * 1000)) {
 			this.eventFinished = true;
 		}
-		timer = timer + 1;
+		timer = System.currentTimeMillis() - startTime;
 	}
 }

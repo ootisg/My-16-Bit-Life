@@ -74,6 +74,7 @@ public class Fan extends MapObject implements Activateable {
 				if (!(this.getVariantAttribute("active").equals("nv") || this.getVariantAttribute("active").equals("false"))) {
 					active = true;
 				} else {
+					this.getAnimationHandler().setFrameTime(0);
 					active = false;
 				}
 			}
