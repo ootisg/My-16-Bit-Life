@@ -214,7 +214,6 @@ if (activeBox) {
 				}
 				if (this.getAnimationHandler().getFrame() == 2) {
 					this.setHitboxAttributes(0, 15, 16, 17);
-					this.getWeapon().setY(this.getWeapon().getY() + 16);
 				}
 			} else {
 				if (this.changeSprite) {
@@ -236,7 +235,6 @@ if (activeBox) {
 				this.changeSprite(true);
 				this.getAnimationHandler().setRepeat(true);
 				this.setHitboxAttributes(4, 4, 7, 27);
-				this.getWeapon().setY(this.getWeapon().getY() - 16);
 				}
 				crouching = false;
 				
@@ -650,7 +648,6 @@ if (activeBox) {
 			    
 			}
 			}
-			this.getWeapon().setY (this.getY () + 16);
 		}
 		}
 		vx = vx + ax;
