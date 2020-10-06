@@ -46,8 +46,6 @@ public class SlimeSword extends Item {
 		samWalkingSword = new Sprite ("resources/sprites/config/sam_walking_with_sword.txt");
 		damageCoolDown = 20;
 		coolDown = false;
-		graphics.setColor(new Color (0x19ED45));
-		graphics.setStroke(new BasicStroke (2));
 	samSwingSprite = new Sprite ("resources/sprites/config/slime_swing.txt");
 	}
 	@Override
@@ -277,6 +275,9 @@ public class SlimeSword extends Item {
 	public void draw () {
 		super.draw();
 		if (extended) {
+		graphics =(Graphics2D) RenderLoop.window.getBufferGraphics();
+		graphics.setColor(new Color (0x19ED45));
+		graphics.setStroke(new BasicStroke (2));
 		graphics.drawLine((int)this.getX() - Room.getViewX(), (int)this.getY() - Room.getViewY(), (int)currX - Room.getViewX(), (int)currY - Room.getViewY());
 		}
 	}

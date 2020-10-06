@@ -188,7 +188,7 @@ public class Item extends Projectile {
 				this.setDirection(bullet.findDirection(Jeffrey.getActiveJeffrey()));
 				this.setSpeed(5);
 			}
-		if (this.isColliding(Jeffrey.getActiveJeffrey())) {
+		if (this.isColliding(Jeffrey.getActiveJeffrey()) && !this.getClass().getSimpleName().equals("Item")) {
 			if (tbox.declared()) {
 				String [] words = tbox.getContent().split(" ");
 				int length = 0;
@@ -196,6 +196,7 @@ public class Item extends Projectile {
 				for (int i = 0; i <words.length; i++) {
 					 length = length + words[i].length() + 1;
 					 if (words[i].equals(this.checkName())) {
+						 
 						 tbox.setContent(tbox.getContent().substring(0, length) + "X " + Integer.toString (Integer.parseInt(words[i + 2]) + 1) + tbox.getContent().substring(length + words[i + 1].length() + words[i+2].length() + 1) );
 						 broke = true;
 						 break;

@@ -10,7 +10,7 @@ public class PopcornBag extends Item{
 	}
 	@Override
 	public String checkName () {
-		return "Popcorn Bag";
+		return "POPCORN BAG";
 	}
 	@Override
 	public String checkEnetry() {

@@ -47,6 +47,10 @@ public class Room {
 	
 	private static int scrollX;
 	private static int scrollY;
+	
+	private static int updateX = -1;
+	private static int updateY = -1;
+	
 	private static byte [] inData;
 	private static int readPos;
 	
@@ -479,6 +483,14 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 	 * renders the map and associated chungi
 	 */
 	public static void render () {
+		if (updateX != -1) {
+			scrollX = updateX;
+			updateX = -1;
+		}
+		if (updateY != -1) {
+			scrollY = updateY;
+			updateY = -1;
+		}
 		Rectangle viewport = new Rectangle (scrollX - 20,scrollY - 20,GameAPI.getWindow().getResolution()[0] + 40,GameAPI.getWindow().getResolution()[1] + 40);
 		if (isLoaded()) {
 			//runs code on tileEntitiys
@@ -777,9 +789,9 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 	 * @param x the x coordinate to set the veiw two 2
 	 * @param y the y coordinate to set the veiw too
 	 */
-	public static void setView (int x, int y) {
-		scrollX = x;
-		scrollY = y;
+	public static void setView (int x, int y) {	
+		updateX = x;
+		updateY = y;
 	}
 	
 	/**
