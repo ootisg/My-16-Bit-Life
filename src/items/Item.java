@@ -75,6 +75,9 @@ public class Item extends Projectile {
 	public void onSwitch () {
 		
 	}
+	public void onFlip() {
+		
+	}
 	//override to set entry
 	public String checkEnetry() {
 		return "";

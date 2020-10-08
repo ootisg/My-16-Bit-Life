@@ -23,7 +23,6 @@ public class SlimeSword extends Item {
 	boolean coolDown;
 	ArrayList <Enemy> hitEnemys = new ArrayList ();
 	int damageCoolDown;
-	boolean faceingLeft;
 	double x;
 	double y;
 	double currX;
@@ -39,7 +38,9 @@ public class SlimeSword extends Item {
 	Graphics2D graphics =(Graphics2D) RenderLoop.window.getBufferGraphics();
 	public SlimeSword () {
 		extended = false;
+		this.setRenderPriority(-1);
 		this.setHitboxAttributes(11, 0, 3, 3);
+		this.adjustHitboxBorders();
 		this.setSprite(new Sprite ("resources/sprites/blank.png"));
 		RNG = new Random ();
 		upgradeInfo = new int [] {0,0,0,0};
@@ -222,36 +223,7 @@ public class SlimeSword extends Item {
 		if (broke && !mouseButtonDown (2)) {
 			broke = false;
 		}
-		if (this.mouseButtonDown(0) && !Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite)  && !Jeffrey.getActiveJeffrey().isCrouched() ) {
-			Jeffrey.getActiveJeffrey().setSprite(samSwingSprite);
-			Jeffrey.getActiveJeffrey().getAnimationHandler().setFrameTime(50);
-			Jeffrey.getActiveJeffrey().getAnimationHandler().setRepeat(false);
-			Jeffrey.getActiveJeffrey().changeSprite(false);
-			if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
-				Jeffrey.getActiveJeffrey().desyncSpriteX(-34);
-				faceingLeft = true;
-			} 
-		}
-		if (Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite)) {
-		if (faceingLeft && !Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
-			Jeffrey.getActiveJeffrey().desyncSpriteX(0);
-			faceingLeft = false;
-		}
-		if (!faceingLeft && Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
-			Jeffrey.getActiveJeffrey().desyncSpriteX(-34);
-			faceingLeft = true;
-		}
-		}
-		if (Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite) && Jeffrey.getActiveJeffrey().getAnimationHandler().getFrame() ==  9) {
-			Jeffrey.getActiveJeffrey().changeSprite(true);
-			Jeffrey.getActiveJeffrey().setSprite(samWalkingSword);
-			Jeffrey.getActiveJeffrey().getAnimationHandler().setRepeat(true);
-			hitEnemys.removeAll(hitEnemys);
-			if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
-				Jeffrey.getActiveJeffrey().desyncSpriteX(0);
-				faceingLeft = false;
-			}
-		}
+		
 		
 		if (Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite)) {
 			if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
@@ -259,7 +231,6 @@ public class SlimeSword extends Item {
 			} else {
 				this.createExpandingHitBoxBasedOnADiffrentObject(new int [] { 0, 0, 0, 45,0,0,0,0,0, 36,0,0}, new int [] {0,0,0,3,24,30,40,36,33,4,0,0}, new int [] {0,0,0,11,2,2,2,14,21,22,0,0} , new int [] {0,0,0,11,10,7,11,26,16,7,0,0} , Jeffrey.getActiveJeffrey());
 			}
-		}
 		for (int i = 0; i < Enemy.enemyList.size(); i ++) {
 			if (this.isColliding(Enemy.enemyList.get(i)) && !hitEnemys.contains(Enemy.enemyList.get(i)) ){
 				hitEnemys.add(Enemy.enemyList.get(i));
@@ -270,10 +241,44 @@ public class SlimeSword extends Item {
 				Enemy.enemyList.get(i).damage (RNG.nextInt(50) + 20);
 			}
 		}
+		}
+		if (this.mouseButtonDown(0) && !Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite)  && !Jeffrey.getActiveJeffrey().isCrouched()) {
+			Jeffrey.getActiveJeffrey().setSprite(samSwingSprite);
+			Jeffrey.getActiveJeffrey().getAnimationHandler().setFrameTime(50);
+			Jeffrey.getActiveJeffrey().changeSprite(false);
+			Jeffrey.getActiveJeffrey().crouchElegable(false);
+			if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
+				Jeffrey.getActiveJeffrey().desyncSpriteX(-34);
+			} 
+		}
+		
+	}
+	@Override 
+	public void onFlip() {
+		if (Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite)) {
+			if  (!Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
+				Jeffrey.getActiveJeffrey().desyncSpriteX(-34);
+			} else {
+				Jeffrey.getActiveJeffrey().desyncSpriteX(0);
+			}
+		}
 	}
 	@Override 
 	public void draw () {
-		super.draw();
+			if (Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite) && Jeffrey.getActiveJeffrey().getAnimationHandler().getFrame() ==  9) {
+				if ( !mouseButtonDown(0)) {
+					Jeffrey.getActiveJeffrey().changeSprite(true);
+					Jeffrey.getActiveJeffrey().crouchElegable(true);
+					if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
+						Jeffrey.getActiveJeffrey().setSprite(Jeffrey.SAM_SWORD);
+						Jeffrey.getActiveJeffrey().desyncSpriteX(0);
+					}
+				}
+				hitEnemys.removeAll(hitEnemys);
+			}
+			if (!Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite)) {
+				Jeffrey.getActiveJeffrey().desyncSpriteX(0);
+			}
 		if (extended) {
 		graphics =(Graphics2D) RenderLoop.window.getBufferGraphics();
 		graphics.setColor(new Color (0x19ED45));

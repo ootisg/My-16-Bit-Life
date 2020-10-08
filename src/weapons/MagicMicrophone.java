@@ -63,6 +63,7 @@ public class MagicMicrophone extends Item {
 			Jeffrey.getActiveJeffrey().setSprite(Jeffrey.RYAN_WHIPPING);
 			Jeffrey.getActiveJeffrey().getAnimationHandler().setFrameTime(10);
 			Jeffrey.getActiveJeffrey().changeSprite(false);
+			Jeffrey.getActiveJeffrey().crouchElegable(false);
 			if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal() ) {
 				whippingLeft = true;
 				Jeffrey.getActiveJeffrey().desyncSpriteX(-34);
@@ -87,6 +88,7 @@ public class MagicMicrophone extends Item {
 				Jeffrey.getActiveJeffrey().getAnimationHandler().setRepeat(true);
 				Jeffrey.getActiveJeffrey().changeFrameTime(true);
 				Jeffrey.getActiveJeffrey().changeSprite(true);
+				Jeffrey.getActiveJeffrey().crouchElegable(true);
 				Jeffrey.getActiveJeffrey().setSprite(Jeffrey.RYAN_MICROPHONE_WALKING);
 				if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
 					Jeffrey.getActiveJeffrey().desyncSpriteX(0);
@@ -95,6 +97,16 @@ public class MagicMicrophone extends Item {
 			}
 		}
 		
+	}
+	@Override
+	public void onFlip() {
+		if (Jeffrey.getActiveJeffrey().getSprite().equals(Jeffrey.RYAN_WHIPPING) || Jeffrey.getActiveJeffrey().getSprite().equals(Jeffrey.WHIP_LENGTH)) {
+			if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
+				Jeffrey.getActiveJeffrey().desyncSpriteX(0);
+			} else {
+				Jeffrey.getActiveJeffrey().desyncSpriteX(-34);
+			}
+		}
 	}
 	@Override 
 	public void pausedEvent () {

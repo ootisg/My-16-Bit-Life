@@ -46,6 +46,7 @@ public class Jeffrey extends GameObject {
 	public boolean onLadder;
 	public boolean standingOnPlatform = false;
 	private boolean crouching = false;
+	private boolean crouchElegable = true;
 	
 	public boolean bindLeft = false;
 	public boolean bindRight = false;
@@ -192,7 +193,8 @@ if (activeBox) {
 			inzialized = true;
 		}
 		if (active) {
-			if (keyDown ('S') && !onLadder) {
+		
+			if (keyDown ('S') && !onLadder && crouchElegable && this.getX() - this.getSpriteX() == 0) {
 				crouching = true;
 				if (this.changeSprite) {
 				if (!(this.getSprite().equals(JEFFREY_CROUCHING) || this.getSprite().equals(SAM_CROUCHING) || this.getSprite().equals(RYAN_CROUCHING))) {
@@ -213,7 +215,7 @@ if (activeBox) {
 					
 				}
 				if (this.getAnimationHandler().getFrame() == 2) {
-					this.setHitboxAttributes(0, 15, 16, 17);
+					this.setHitboxAttributes(4, 15, 12, 17);
 				}
 			} else {
 				if (this.changeSprite) {
@@ -432,11 +434,8 @@ if (activeBox) {
 					}
 				}
 			
-				if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone") && !this.getAnimationHandler().flipHorizontal()) {
-				if (this.getSprite().equals(RYAN_WHIPPING) || this.getSprite().equals(WHIP_LENGTH)) {
-					this.desyncSpriteX(-34);
-					
-				}
+				if (!this.getAnimationHandler().flipHorizontal()) {
+					this.getWeapon().onFlip();
 				}
 				this.getAnimationHandler().setFlipHorizontal (true);
 				if (vy == 0 && !isWalking) {
@@ -457,11 +456,9 @@ if (activeBox) {
 					}
 					}
 				}
-				if (this.getWeapon().getClass().getSimpleName().equals("MagicMicrophone") && this.getAnimationHandler().flipHorizontal()) {
-					if (this.getSprite().equals(RYAN_WHIPPING) || this.getSprite().equals(WHIP_LENGTH)) {
-						this.desyncSpriteX(0);
-					}	
-					}
+				if (this.getAnimationHandler().flipHorizontal()) {
+					this.getWeapon().onFlip();
+				}
 				this.getAnimationHandler().setFlipHorizontal (false);
 				if (vy == 0 && !isWalking) {
 					isWalking = true;
@@ -1123,5 +1120,8 @@ if (activeBox) {
 			}
 		}
 		return super.goX(val);
+	}
+	public void crouchElegable (boolean elegable) {
+		crouchElegable = elegable;
 	}
 }
