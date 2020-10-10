@@ -127,9 +127,11 @@ public class HashIndexedTree<T,Q> {
 		Node head = elements.get (parent);
 		if (elements.get(key) == null) {
 			elements.put (key, head.add (element));
+			
 		} else {
 			if (elements.get(key).data == null) {
-				elements.put (key, head.add (element));
+				
+				elements.get(key).data = element;
 			}
 		}
 	}
@@ -151,8 +153,9 @@ public class HashIndexedTree<T,Q> {
 	 * @return A list containing all the children stored under the parent key
 	 */
 	public ArrayList<Q> getAllChildren (T parentKey) {
-		ArrayList<Q> result = new ArrayList<Q> ();
 		Node<Q> head = elements.get (parentKey);
+		if (parentKey.equals("RessesiveTrigger")) {
+		}
 		if (head != null) {
 			return head.getAllChildren ();
 		} else {

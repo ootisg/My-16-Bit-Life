@@ -2,6 +2,7 @@
 package triggers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import gameObjects.PairingObject;
@@ -19,17 +20,19 @@ public class Trigger extends GameObject {
 	boolean persistant;
 	int eventWeAreOn;
 	int eventSet;
-	public ArrayList <ArrayList<Trigger>> RessesiveTriggerList = new ArrayList <ArrayList<Trigger>>();
+	public ArrayList <ArrayList<RessesiveTrigger>> RessesiveTriggerList = new ArrayList <ArrayList<RessesiveTrigger>>();
 	public Trigger () {
 		setHitbox = true;
 		eventSet = 0;
 		Triggered = false;
 		persistant = false;
 		eventFinished = false;
-		RessesiveTriggerList.add(new ArrayList<Trigger>());
+		RessesiveTriggerList.add(new ArrayList<RessesiveTrigger>());
 		this.adjustHitboxBorders();
 		eventWeAreOn = 0;
 		timer = 0;
+		this.setHitboxAttributes(0, 0, 16, 16);
+		this.setGameLogicPriority(-1);
 	}
 	public boolean Triggered () {
 		return (Triggered);
@@ -40,11 +43,11 @@ public class Trigger extends GameObject {
 	
 	public void frameEvent () {
 		//sets the hitbox to work with the bottom bound
-		if (Jeffrey.getActiveJeffrey().isColliding(this) && !Triggered && timer > 5 ) {
+		if (this.checkTriggerCondition() && !Triggered && timer > 5 ) {
 			this.Triggered = true;
 		}
 		if (setHitbox) {
-			if ( this.getClass().getSimpleName().equals("Trigger")) {
+			if ( this.getClass().getSuperclass().getSimpleName().equals("Trigger")) {
 				if (this.getVariantAttribute("persistant") != null && !this.getVariantAttribute("persistant").equals("no")) {
 					persistant = true;
 				}
@@ -64,17 +67,13 @@ public class Trigger extends GameObject {
 		}
 		timer = timer +1;
 		
-		if (timer == 5 && this.getClass().getSimpleName().equals("Trigger")) {
-		
-			this.isCollidingChildren("Trigger");
-			ArrayList<Trigger> working = new ArrayList <Trigger> ();
-			for (int i = 0; i != ObjectHandler.checkCollisionChildren("Trigger", this).getCollidingObjects().size(); i++) {
-			
-				if (!this.getCollisionInfo().getCollidingObjects().get(i).getClass().getSimpleName().equals("Trigger")) {
-					working.add((Trigger) ObjectHandler.checkCollisionChildren("Trigger", this).getCollidingObjects().get(i));
-				}
+		if (timer == 5 && this.getClass().getSuperclass().getSimpleName().equals("Trigger")) {
+			//System.out.println(ObjectHandler.getChildrenByName("RessesiveTrigger"));
+			ArrayList<RessesiveTrigger> working = new ArrayList <RessesiveTrigger> ();
+			for (int i = 0; i != ObjectHandler.checkCollisionChildren("RessesiveTrigger", this).getCollidingObjects().size(); i++) {
+					working.add((RessesiveTrigger) ObjectHandler.checkCollisionChildren("RessesiveTrigger", this).getCollidingObjects().get(i));
 			}
-			ArrayList<Trigger> sortedTriggerList = new ArrayList<Trigger>();
+			ArrayList<RessesiveTrigger> sortedTriggerList = new ArrayList<RessesiveTrigger>();
 			while (sortedTriggerList.size() != working.size()) {
 				int iCopy = 0;
 				while (true) {
@@ -95,7 +94,7 @@ public class Trigger extends GameObject {
 			for (int i = 0; i <sortedTriggerList.size(); i++) {
 				if (sortedTriggerList.get(i).getClass().getSimpleName().equals("BreakTrigger")) {
 					currentMeme = currentMeme + 1;
-					RessesiveTriggerList.add(new ArrayList<Trigger> ());
+					RessesiveTriggerList.add(new ArrayList<RessesiveTrigger> ());
 				} else {
 					RessesiveTriggerList.get(currentMeme).add(sortedTriggerList.get(i));
 				}
@@ -104,13 +103,12 @@ public class Trigger extends GameObject {
 	
 	//code that is only run by the dominate trigger to activate the events of all the ressesive triggers
 	if (Triggered){
-		
 		//if all triggers have been triggered forget the dominate trigger
 		if (eventWeAreOn >= RessesiveTriggerList.get(eventSet).size()) {
 			if (!persistant) {
 				this.forget();
 			} else {
-				if (!this.isColliding(Jeffrey.getActiveJeffrey())) {
+				if (!this.checkTriggerCondition()) {
 					Triggered = false;
 					eventWeAreOn = 0;
 					eventSet = eventSet + 1;
@@ -142,7 +140,7 @@ public class Trigger extends GameObject {
 				if (!persistant) {
 					this.forget();
 				} else {
-					if (!this.isColliding(Jeffrey.getActiveJeffrey())) {
+					if (!this.checkTriggerCondition()) {
 						eventWeAreOn = 0;
 						Triggered = false;
 						eventSet = eventSet + 1;
@@ -181,5 +179,12 @@ public class Trigger extends GameObject {
 				}
 			}
 			return null;
+	}
+	/**
+	 * override to set a condition that triggers this event (Note for dominate triggers only)
+	 * @return wheather or not the event is triggered 
+	 */
+	public boolean checkTriggerCondition() {
+		return false;
 	}
 }

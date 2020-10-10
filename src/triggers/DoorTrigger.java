@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import gameObjects.TemporaryWall;
 import main.ObjectHandler;
 
-public class DoorTrigger extends Trigger {
+public class DoorTrigger extends RessesiveTrigger {
 	TemporaryWall wallTomanage;
 	public DoorTrigger () {
 		 this.setHitboxAttributes(0, 0, 16, 16);

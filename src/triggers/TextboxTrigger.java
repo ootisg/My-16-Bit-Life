@@ -3,7 +3,7 @@ package triggers;
 import gui.Textbox;
 import main.ObjectHandler;
 
-public class TextboxTrigger extends Trigger {
+public class TextboxTrigger extends RessesiveTrigger {
 	Textbox TriggeredTextbox;
 	public TextboxTrigger () {
 		TriggeredTextbox = new Textbox ("LOLMEMZ");

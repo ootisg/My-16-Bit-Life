@@ -2,7 +2,7 @@ package triggers;
 
 import main.ObjectHandler;
 
-public class WaitTrigger extends Trigger {
+public class WaitTrigger extends RessesiveTrigger {
 	long timer;
 	boolean inzilaztion;
 	long startTime;

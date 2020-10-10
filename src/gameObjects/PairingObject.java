@@ -10,7 +10,7 @@ public class PairingObject extends GameObject {
 	ArrayList <GameObject> pairedObject;
 	public PairingObject () {
 		this.setHitboxAttributes (0,0,16,16);
-		this.setGameLogicPriority(-1);
+		this.setGameLogicPriority(-2);
 	
 	}
 	@Override 
@@ -18,11 +18,6 @@ public class PairingObject extends GameObject {
 		if (pairedObject == null) {
 			if (ObjectHandler.checkCollisionChildren("GameObject", this).collisionOccured()) {
 				pairedObject = ObjectHandler.checkCollisionChildren("GameObject", this).getCollidingObjects();
-				for (int i = 0; i < pairedObject.size(); i++) {
-					if (pairedObject.get(i).getClass().getSimpleName().equals("Trigger")) {
-						pairedObject.remove(i);
-					}
-				}
 			}
 		}
 	}
@@ -43,6 +38,9 @@ public class PairingObject extends GameObject {
 	public ArrayList <GameObject> getPairedPairedObjects (){
 		ArrayList <GameObject> working = new ArrayList<GameObject> ();
 		ArrayList <PairingObject> pairedObjects = this.getPairedParingObjects();
+		if (this.pairedObject.getClass().getSimpleName().equals("ForgetTrigger")) {
+			System.out.println(pairedObjects.get(0).pairedObject);
+		}
 		for (int i =0; i < pairedObjects.size(); i++) {
 			working.addAll(pairedObjects.get(i).getPairedObjects());
 			}

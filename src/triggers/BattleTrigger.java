@@ -8,7 +8,7 @@ import gameObjects.PairingObject;
 import main.GameObject;
 import main.ObjectHandler;
 
-public class BattleTrigger extends Trigger {
+public class BattleTrigger extends RessesiveTrigger {
 	ArrayList <Enemy> enemysToSpawn = new ArrayList <Enemy>();
 	double [] xCoordinates;
 	double [] yCoordinates;

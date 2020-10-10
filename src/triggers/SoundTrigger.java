@@ -5,7 +5,7 @@ package triggers;
 import main.GameCode;
 
 
-public class SoundTrigger extends Trigger {
+public class SoundTrigger extends RessesiveTrigger {
 
 	public SoundTrigger () {
 		 this.setHitboxAttributes(0, 0, 16, 16);

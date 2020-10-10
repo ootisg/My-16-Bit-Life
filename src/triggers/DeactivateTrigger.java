@@ -6,7 +6,7 @@ import gameObjects.PairingObject;
 import main.GameObject;
 import switches.Activateable;
 
-public class DeactivateTrigger extends Trigger {
+public class DeactivateTrigger extends RessesiveTrigger {
 	ArrayList <GameObject> objectsToActivate = new ArrayList <GameObject> ();
 	boolean inzialized = false;
 	public DeactivateTrigger () {

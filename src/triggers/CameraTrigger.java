@@ -6,7 +6,7 @@ import gameObjects.CameraObject;
 import main.GameObject;
 import main.ObjectHandler;
 
-public class CameraTrigger extends Trigger {
+public class CameraTrigger extends RessesiveTrigger {
 	CameraObject attachedCamera;
 	public CameraTrigger () {
 		this.setHitboxAttributes(0,0, 16, 16);

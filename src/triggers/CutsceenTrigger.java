@@ -5,7 +5,7 @@ import cutsceens.Cutsceen;
 import main.GameObject;
 import main.ObjectHandler;
 
-public class CutsceenTrigger extends Trigger {
+public class CutsceenTrigger extends RessesiveTrigger {
 	Cutsceen associatedCutsceen;
 	public CutsceenTrigger () {
 		 this.setHitboxAttributes(0, 0, 16, 16);

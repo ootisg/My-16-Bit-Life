@@ -5,7 +5,7 @@ import gameObjects.PairingObject;
 import main.GameObject;
 import main.ObjectHandler;
 
-public class DeclareTrigger extends Trigger {
+public class DeclareTrigger extends RessesiveTrigger {
 	ArrayList <GameObject> objectsToSpawn = new ArrayList <GameObject>();
 	double [] xCoordinates;
 	double [] yCoordinates;

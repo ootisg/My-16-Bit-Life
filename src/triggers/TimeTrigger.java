@@ -1,6 +1,6 @@
 package triggers;
 
-public class TimeTrigger extends Trigger {
+public class TimeTrigger extends RessesiveTrigger {
 	long timer;
 	long startTime;
 	boolean inzilaztion;

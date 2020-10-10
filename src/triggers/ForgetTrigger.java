@@ -5,7 +5,7 @@ import gameObjects.PairingObject;
 import main.GameObject;
 import main.ObjectHandler;
 
-public class ForgetTrigger extends Trigger {
+public class ForgetTrigger extends RessesiveTrigger {
 	ArrayList <GameObject> objectsToSpawn = new ArrayList <GameObject>();
 	int timer;
 	 public ForgetTrigger() {

@@ -3,7 +3,7 @@ package triggers;
 import gameObjects.TemporaryWall;
 import main.ObjectHandler;
 
-public class UndoorTrigger extends Trigger {
+public class UndoorTrigger extends RessesiveTrigger {
 	TemporaryWall wallTomanage;
 	public UndoorTrigger () {
 		 this.setHitboxAttributes(0, 0, 16, 16);
