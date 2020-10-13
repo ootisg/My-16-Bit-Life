@@ -86,7 +86,7 @@ public class Portal extends GameObject {
 		} else {
 			if (startY == endY) {
 				takenCareOfIt = false;
-				j.setScroll(true);
+				Jeffrey.setScroll(true);
 			}
 		}
 		if (startY != endY) {
@@ -180,7 +180,7 @@ public class Portal extends GameObject {
 		startX = Room.getViewX();
 		startY = Room.getViewY();
 		takenCareOfIt = true;
-		j.setScroll(false);
+		Jeffrey.setScroll(false);
 		switch (direction){
 		case 1:
 			j.setY(this.getY() - 15);

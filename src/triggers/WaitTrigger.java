@@ -24,6 +24,7 @@ public class WaitTrigger extends RessesiveTrigger {
 		}
 		if(timer >= (Integer.parseInt(this.getVariantAttribute("time")) * 1000)) {
 			this.eventFinished = true;
+			ObjectHandler.pause(false);
 		}
 		timer = System.currentTimeMillis() - startTime;
 	}

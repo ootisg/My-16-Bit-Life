@@ -8,6 +8,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -827,6 +828,20 @@ public abstract class GameObject extends GameAPI {
 	 */
 	public void onForget () {
 		
+	}
+	/**
+	 * override to write code that is run whenever Jeffrey moves
+	 */
+	public void onJeffreyPosChange() {
+		
+	}
+	public static void onJeffreyPosChangeReal() {
+		ArrayList<ArrayList<GameObject>> working = ObjectHandler.getChildrenByName("GameObject");
+		for (int i = 0; i <working.size();i++) {
+			for (int j = 0; j < working.get(i).size(); j++) {
+				working.get(i).get(j).onJeffreyPosChange();
+			}
+		}
 	}
 	/**
 	 * Sets the sprite of this GameObject to the given sprite.

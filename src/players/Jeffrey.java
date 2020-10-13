@@ -488,7 +488,6 @@ if (activeBox) {
 				vx = 0;
 			}
 			if (scrolling) {
-				
 				double x = this.getX ();
 				double y = this.getY ();
 				int viewX = Room.getViewX ();
@@ -1080,46 +1079,41 @@ if (activeBox) {
 	@Override
 	public void setX (double val) {
 		super.setX(val);
+		this.onPosChange();
+		
+	}
+	public void onPosChange() {
 		if (this.getAnimationHandler().flipHorizontal ()) {
-			this.getWeapon().setX (val - 5);
+			this.getWeapon().setX (this.getX() - 5);
 			this.getWeapon().getAnimationHandler().setFlipHorizontal (true);
 		} else {
-			this.getWeapon().setX (val + 11);
+			this.getWeapon().setX (this.getX() + 11);
 			this.getWeapon().getAnimationHandler().setFlipHorizontal (false);
 		}
+		if (!isCrouched()) {
+			this.getWeapon().setY(this.getY() + 16);
+		} else {
+			this.getWeapon().setY(this.getY() + 20);
+		}
+		GameObject.onJeffreyPosChangeReal();
 	}
 	@Override
 	public void setY(double val) {
 		super.setY(val);
-		if (!isCrouched()) {
-			this.getWeapon().setY(val + 16);
-		} else {
-			this.getWeapon().setY(val + 20);
-		}
+		this.onPosChange();
+		
 	}
 	@Override 
 	public boolean goY (double val) {
-		if (super.checkY(val)) {
-			if (!isCrouched()) {
-				this.getWeapon().setY(val + 16);
-			} else {
-				this.getWeapon().setY(val + 20);
-			}
-		}
-		return super.goY(val);
+		boolean working = super.goY(val);
+		this.onPosChange();
+		return working;
 	}
 	@Override
 	public boolean goX (double val) {
-		if (super.checkX(val)) {
-			if (this.getAnimationHandler().flipHorizontal ()) {
-				this.getWeapon().setX (val - 5);
-				this.getWeapon().getAnimationHandler().setFlipHorizontal (true);
-			} else {
-				this.getWeapon().setX (val + 11);
-				this.getWeapon().getAnimationHandler().setFlipHorizontal (false);
-			}
-		}
-		return super.goX(val);
+		boolean working = super.goX(val);
+		this.onPosChange();
+		return working;
 	}
 	public void crouchElegable (boolean elegable) {
 		crouchElegable = elegable;

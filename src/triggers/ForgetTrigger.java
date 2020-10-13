@@ -6,7 +6,7 @@ import main.GameObject;
 import main.ObjectHandler;
 
 public class ForgetTrigger extends RessesiveTrigger {
-	ArrayList <GameObject> objectsToSpawn = new ArrayList <GameObject>();
+	ArrayList <GameObject> objectsToDelete = new ArrayList <GameObject>();
 	int timer;
 	 public ForgetTrigger() {
 		 this.setHitboxAttributes(0, 0, 16, 16);
@@ -15,33 +15,16 @@ public class ForgetTrigger extends RessesiveTrigger {
 	@Override
 	public void frameEvent () {
 		if (timer == 0) {
-				int uppyThing = 0;
-				int x = 0;
-				try {
-				while (uppyThing < ObjectHandler.getObjectsByName("PairingObject").size()) {
-					try {
-					if(ObjectHandler.getObjectsByName("PairingObject").get(uppyThing).getVariantAttribute("Partner").equals(this.getVariantAttribute("Partner"))){
-						ArrayList <GameObject> workingList = ((PairingObject) ObjectHandler.getObjectsByName("PairingObject").get(uppyThing)).getPairedObjects();
-						for (int i = 0; i < workingList.size(); i++) {
-							objectsToSpawn.add(workingList.get(i));
-							x = x + 1;
-					}
-				}
-					uppyThing = uppyThing + 1;
-					} catch (NullPointerException e) {
-						timer = -1;
-						break;
-					}
+			if (this.isColliding("PairingObject")) { 
+				PairingObject working = (PairingObject) this.getCollisionInfo().getCollidingObjects().get(0);
+				objectsToDelete = working.getPairedPairedObjects();
 			}
-				} catch (NullPointerException e) {
-					
-				}
 		timer = timer + 1;
 	}
 }
 	public void triggerEvent () {
-		for (int i = 0; i != objectsToSpawn.size(); i++) {
-			objectsToSpawn.get(i).forget();
+		for (int i = 0; i != objectsToDelete.size(); i++) {
+			objectsToDelete.get(i).forget();
 		}
 		this.eventFinished = true;
 	}

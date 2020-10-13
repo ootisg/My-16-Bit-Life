@@ -19,29 +19,17 @@ public class DeclareTrigger extends RessesiveTrigger {
 	@Override
 	public void frameEvent () {
 		if (timer == 0) {
-				int uppyThing = 0;
 				int x = 0;
-				try {
-				while (uppyThing < ObjectHandler.getObjectsByName("PairingObject").size()) {
-					try {
-					if(ObjectHandler.getObjectsByName("PairingObject").get(uppyThing).getVariantAttribute("Partner").equals(this.getVariantAttribute("Partner"))){
-						ArrayList <GameObject> workingList = ((PairingObject) ObjectHandler.getObjectsByName("PairingObject").get(uppyThing)).getPairedObjects();
+				if (this.isColliding("PairingObject")) { 
+					PairingObject working = (PairingObject) this.getCollisionInfo().getCollidingObjects().get(0);
+					ArrayList<GameObject> workingList = working.getPairedPairedObjects();
 						for (int i = 0; i < workingList.size(); i++) {
 							xCoordinates [x] = workingList.get(i).getX();
 							yCoordinates [x] = workingList.get(i).getY();
 							objectsToSpawn.add(workingList.get(i));
 							workingList.get(i).forget();
 							x = x + 1;
-					}
-				}
-					uppyThing = uppyThing + 1;
-					} catch (NullPointerException e) {
-						timer = -1;
-						break;
-					}
-			}
-				} catch (NullPointerException e) {
-					
+						}
 				}
 		timer = timer + 1;
 	}
