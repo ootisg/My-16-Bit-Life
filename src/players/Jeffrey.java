@@ -47,6 +47,7 @@ public class Jeffrey extends GameObject {
 	public boolean standingOnPlatform = false;
 	private boolean crouching = false;
 	private boolean crouchElegable = true;
+	private boolean constantSpeed = false;
 	
 	public boolean bindLeft = false;
 	public boolean bindRight = false;
@@ -646,6 +647,18 @@ if (activeBox) {
 			}
 		}
 		}
+		if (constantSpeed) {
+			ax = 0;
+			if (keyDown ('D') && !keyDown ('A')) {
+				vx = 2;
+			} 
+			if (keyDown ('A') && !keyDown ('D')) {
+				vx = -2;
+			}
+			if (!keyDown ('A') && !keyDown ('D')) {
+				vx = 0;
+			}
+		}
 		vx = vx + ax;
 		vy = vy + ay;
 		ax = 0;
@@ -679,7 +692,18 @@ if (activeBox) {
 	public static Inventory getInventory () {
 		return Jeffrey.inventory;
 	}
-	
+	/** 
+	 * make true to make Jeffrey move at a constant speed
+	 */
+	public void constantSpeed () {
+		constantSpeed = true;
+	}
+	/**
+	 * makes Jeffrey move at his normal speed
+	 */
+	public void normalSpeed () {
+		constantSpeed = false;
+	}
 	public boolean checkIfBrittle() {
 		if (this.witchCharictar == 0) {
 			 return status.statusAppliedOnJeffrey[4];

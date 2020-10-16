@@ -488,6 +488,13 @@ public abstract class GameObject extends GameAPI {
 		  this.setHitboxAttributes(0, 0,working.getWidth() ,working.getHeight());
 		  this.getSprite().setFrame(this.getAnimationHandler().getFrame(), working);
 	}
+	/** 
+	 * a method that only runs once per frame per type of game object 
+	 * the intended use is to only refrence static things so you can write a method that runs code for the entire class instead of the specific instance
+	 */
+	public void staticLogic () {
+
+	}
 	/**
 	 * Runs a collision check between this GameObject and another GameObject. Does not generate a CollisionInfo object.
 	 * @param obj The object to check for collision with

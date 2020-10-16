@@ -229,7 +229,12 @@ public class ObjectHandler {
 		GameObject[] allObjsArray = allObjsList.toArray (new GameObject[0]);
 		GameLogicComparator comp = new GameLogicComparator ();
 		Arrays.parallelSort (allObjsArray, comp);
+		ArrayList<String> runFor = new ArrayList <String>();
 		for (int i = 0; i < allObjsArray.length; i ++) {
+			if (!runFor.contains(allObjsArray[i].getClass().getSimpleName())){
+				runFor.add(allObjsArray[i].getClass().getSimpleName());
+				allObjsArray[i].staticLogic();
+			}
 			if (!allObjsArray[i].isBlackListed()) {
 				if (!isPaused) {
 				allObjsArray [i].frameEvent ();
@@ -238,6 +243,7 @@ public class ObjectHandler {
 				}
 			}
 		}
+		
 	}
 	/**
 	 * runs the paused event methods of gameobjects instead of the frame events

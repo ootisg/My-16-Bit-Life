@@ -11,7 +11,6 @@ import resources.Sprite;
 
 public class SpikeDown extends MapObject{
 	boolean inzilized = false;
-	MoveingPlatform platform;
 	public SpikeDown() {
 		this.setSprite(new Sprite ("resources/sprites/SpikeDown.png"));
 		this.setHitboxAttributes(0, 0, 16, 16);
@@ -23,6 +22,7 @@ public class SpikeDown extends MapObject{
 		if (!inzilized) {
 			for (int i = 0; i < ObjectHandler.getObjectsByName("MoveingPlatform").size(); i++) {
 				if (this.isCollidingBEEG(ObjectHandler.getObjectsByName("MoveingPlatform").get(i))) {
+					MoveingPlatform platform;
 					platform = (MoveingPlatform) ObjectHandler.getObjectsByName("MoveingPlatform").get(i);
 					while(true) {
 						if (this.isColliding(platform)) {
