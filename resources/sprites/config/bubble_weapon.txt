@@ -1,0 +1,2 @@
+$src resources/sprites/bubble_weapon.png
+grid 27 14;

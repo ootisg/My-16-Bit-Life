@@ -1,0 +1,2 @@
+$src resources/sprites/bubble_projectile.png
+grid 16 16;
