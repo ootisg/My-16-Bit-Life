@@ -1,5 +1,6 @@
 package projectiles;
 
+import enemys.Enemy;
 import gameObjects.Extinguisable;
 import map.Room;
 import resources.Sprite;

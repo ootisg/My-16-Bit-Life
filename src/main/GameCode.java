@@ -50,6 +50,7 @@ import gameObjects.LightSource;
 import gameObjects.Minecart;
 import gameObjects.Plant;
 import gameObjects.Point;
+import gameObjects.SmallProjectileLauncher;
 import gameObjects.TemporaryWall;
 import graphics3D.VectorCamera;
 import gui.Gui;
@@ -93,6 +94,7 @@ import triggers.CutsceenTrigger;
 import triggers.Trigger;
 import weapons.AimableWeapon;
 import weapons.Bombs;
+import weapons.BubbleGun;
 import weapons.FireExtingueser;
 import weapons.LaserPointer;
 import weapons.LifeVaccum;
@@ -115,7 +117,7 @@ public class GameCode {
 	//static TopDown td;
 	Textbox textbox;
 	static Celing_boi boi;
-
+	static SmallProjectileLauncher testLauncher;
 	static VectorCamera cam;
 	ListTbox ltbox;
 	static CannonTankEnemy showTank;
@@ -184,19 +186,23 @@ public class GameCode {
 	static Cactus cactus;
 	static FireRextinguisher fire;
 	static items.FanItem pack;
+	
 	static PopcornBag bag;
 	static Bomb bom;
+	static BubbleGun bubbleGun;
+	
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/celingVineTest.rmf");
+		Room.loadRoom ("resources/maps/bubbleGunLadder.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
 		//fire = new FireRextinguisher ();
+		testLauncher = new SmallProjectileLauncher();
 		extinguser = new FireExtingueser (new Sprite ("resources/sprites/config/Fire_Rextinguisher_Idle.txt"));
 		lameJeffrey = new NonPlayableJeffrey();
 		lameSam = new NonPlayableSam();
@@ -227,6 +233,8 @@ public class GameCode {
 		sword = new SlimeSword();
 		microphone = new MagicMicrophone ();
 		marker = new MagicMarker (new Sprite ("resources/sprites/config/marker_weapon_red.txt"));
+		bubbleGun = new BubbleGun(new Sprite ("resources/sprites/config/bubble_weapon.txt"));
+		
 		bomb = new Bombs (new Sprite ("resources/sprites/config/bomb_active_blue.txt"));
 		triangle = new NinjaTriangle (new Sprite ("resources/sprites/config/stationary_ninja_triangle.txt"));
 		Jeffrey.getInventory().addWeapon (microphone, 2);
@@ -235,6 +243,7 @@ public class GameCode {
 		Jeffrey.getInventory().addWeapon(sword, 1);
 		Jeffrey.getInventory().addWeapon(marker, 2);
 		Jeffrey.getInventory().addWeapon(bomb, 2);
+		Jeffrey.getInventory().addWeapon(bubbleGun, 2);
 		int x = 0;
 		//boi = new Celing_boi();
 		waffle = new Waffle ();
@@ -267,7 +276,7 @@ public class GameCode {
 		Jeffrey.inventory.addAmmo(paint);
 		x = x + 1;
 		}
-		RenderLoop.window.setResolution(640, 480);
+		RenderLoop.window.setResolution(960, 540);
 		//LightSource.writeLightSourceImage (36, 255, 200, 0, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is yellow-ish
 		//LightSource.writeLightSourceImage (36, 0, 200, 255, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is blue-ish
 		//testTie.declare (32, 32);
@@ -345,6 +354,7 @@ public class GameCode {
 		//cactus.declare(100,100);
 		//pack.declare(100, 0);
 		//fire.declare(100,400);
+		testLauncher.declare(500, 300);
 	}
 	
 	public static void beforeGameLogic () {
