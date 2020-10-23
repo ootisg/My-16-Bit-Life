@@ -151,19 +151,11 @@ public class MoveingPlatform extends MapObject implements Activateable {
 			if (nextPoint.getX() < this.getX()){
 			if (!this.checkXandY(this.getX()- ((1.0/slopeMagnatue) * speed),this.getY()+(slope/slopeMagnatue) * speed)) {
 				reCheck = true;
-				this.setX(this.getX()- ((1.0/slopeMagnatue) * speed));
-				this.setY(this.getY()+(slope/slopeMagnatue) * speed);
-				for (int i = 0; i < collidingObjects.size(); i++) {
-					collidingObjects.get(i).goX(collidingObjects.get(i).getX()- ((1.0/slopeMagnatue) * speed));	
-					collidingObjects.get(i).goY(collidingObjects.get(i).getY() +(slope/slopeMagnatue) * speed);
-				}
+				this.setX(-1*((1.0/slopeMagnatue) * speed),collidingObjects);
+				this.setY((slope/slopeMagnatue) * speed,collidingObjects);
 			}  else {
-				this.setX(this.getX()- ((1.0/slopeMagnatue) * speed));
-				this.setY(this.getY()+(slope/slopeMagnatue) * speed);
-				for (int i = 0; i < collidingObjects.size(); i++) {
-					collidingObjects.get(i).goX(collidingObjects.get(i).getX()- ((1.0/slopeMagnatue) * speed));
-					collidingObjects.get(i).goY(collidingObjects.get(i).getY() + (slope/slopeMagnatue) * speed);
-				}
+				this.setX(-1*((1.0/slopeMagnatue) * speed),collidingObjects);
+				this.setY((slope/slopeMagnatue) * speed, collidingObjects);
 				if (reCheck) {
 					Point currentPosition = new Point (this.getX(),this.getY());
 					slope = currentPosition.getSlope(nextPoint);
@@ -173,19 +165,11 @@ public class MoveingPlatform extends MapObject implements Activateable {
 			} else {
 			if (!this.checkXandY(this.getX()+ ((1.0/slopeMagnatue) * speed), this.getY()+(slope/slopeMagnatue) * speed)) {
 				reCheck = true;
-				this.setX(this.getX()+ ((1.0/slopeMagnatue) * speed));
-				this.setY(this.getY()+(slope/slopeMagnatue) * speed);
-				for (int i = 0; i < collidingObjects.size(); i++) {
-					collidingObjects.get(i).goX(collidingObjects.get(i).getX()+ ((1.0/slopeMagnatue) * speed));	
-					collidingObjects.get(i).goY(collidingObjects.get(i).getY() +(slope/slopeMagnatue) * speed);
-				}
+				this.setX((1.0/slopeMagnatue) * speed,collidingObjects);
+				this.setY((slope/slopeMagnatue) * speed,collidingObjects);
 			}  else {
-				this.setX(this.getX()+ ((1.0/slopeMagnatue) * speed));
-				this.setY(this.getY()+(slope/slopeMagnatue) * speed);
-				for (int i = 0; i < collidingObjects.size(); i++) {
-					collidingObjects.get(i).goX(collidingObjects.get(i).getX()+ ((1.0/slopeMagnatue) * speed));
-					collidingObjects.get(i).goY(collidingObjects.get(i).getY() + (slope/slopeMagnatue) * speed);
-				}
+				this.setX((1.0/slopeMagnatue) * speed,collidingObjects);
+				this.setY((slope/slopeMagnatue) * speed,collidingObjects);
 				if (reCheck) {
 					Point currentPosition = new Point (this.getX(),this.getY());
 					slope = currentPosition.getSlope(nextPoint);
@@ -197,19 +181,11 @@ public class MoveingPlatform extends MapObject implements Activateable {
 			if (nextPoint.getX() < this.getX()){
 			if (!this.checkXandY(this.getX()- (1 * speed), this.getY()+slope * speed)) {
 				reCheck = true;
-				this.setX(this.getX()- 1 * speed);
-				this.setY(this.getY()+slope * speed);
-				for (int i = 0; i < collidingObjects.size(); i++) {
-					collidingObjects.get(i).goX(collidingObjects.get(i).getX()- 1 * speed);
-					collidingObjects.get(i).goY(collidingObjects.get(i).getY() + slope * speed);
-				}
+				this.setX(-1 * speed,collidingObjects);
+				this.setY(slope * speed,collidingObjects);
 			}  else {
-				this.setX(this.getX()- 1 * speed);
-				this.setY(this.getY()+slope * speed);
-				for (int i = 0; i < collidingObjects.size(); i++) {
-					collidingObjects.get(i).goX(collidingObjects.get(i).getX()- (1 * speed));
-					collidingObjects.get(i).goY(collidingObjects.get(i).getY() + slope * speed);
-				}
+				this.setX(-1 * speed,collidingObjects);
+				this.setY(slope * speed,collidingObjects);
 				if (reCheck) {
 					Point currentPosition = new Point (this.getX(),this.getY());
 					slope = currentPosition.getSlope(nextPoint);
@@ -219,19 +195,11 @@ public class MoveingPlatform extends MapObject implements Activateable {
 			} else {
 			if (!this.checkXandY(this.getX()+ (1 * speed), this.getY()+slope * speed)) {
 				reCheck = true;
-				this.setX(this.getX()+ 1 * speed);
-				this.setY(this.getY()+slope * speed);
-				for (int i = 0; i < collidingObjects.size(); i++) {
-					collidingObjects.get(i).goX(collidingObjects.get(i).getX()+ 1 * speed);
-					collidingObjects.get(i).goY(collidingObjects.get(i).getY() + slope * speed);
-				}
+				this.setX(1 * speed,collidingObjects);
+				this.setY(slope * speed,collidingObjects);
 			} else {
-				this.setX(this.getX()+ 1 * speed);
-				this.setY(this.getY()+slope * speed);
-				for (int i = 0; i < collidingObjects.size(); i++) {
-					collidingObjects.get(i).goX(collidingObjects.get(i).getX() + (1 * speed));
-					collidingObjects.get(i).goY(collidingObjects.get(i).getY() + slope * speed);
-				}
+				this.setX(1 * speed,collidingObjects);
+				this.setY(slope * speed,collidingObjects);
 				if (reCheck) {
 					Point currentPosition = new Point (this.getX(),this.getY());
 					slope = currentPosition.getSlope(nextPoint);
@@ -242,15 +210,9 @@ public class MoveingPlatform extends MapObject implements Activateable {
 		}
 		} else {
 			if (slope > 0) {
-				this.setY(this.getY()+ speed);
-				for (int i = 0; i < collidingObjects.size(); i++) {
-					collidingObjects.get(i).goY(collidingObjects.get(i).getY() + speed);
-				}
+				this.setY(speed,collidingObjects);
 			} else {
-				this.setY(this.getY()- speed);
-				for (int i = 0; i < collidingObjects.size(); i++) {
-					collidingObjects.get(i).goY(collidingObjects.get(i).getY() - speed);
-				}
+				this.setY(speed,collidingObjects);
 			}
 			if (reCheck) {
 				Point currentPosition = new Point (this.getX(),this.getY());
@@ -260,6 +222,18 @@ public class MoveingPlatform extends MapObject implements Activateable {
 		}
 		} else {
 			inzialized = false;
+		}
+	}
+	public void setX(double displacement,ArrayList <GameObject> objectsToCarry) {
+		super.setX(this.getX() + displacement);
+		for (int i = 0; i < objectsToCarry.size(); i++) {
+			objectsToCarry.get(i).goX(objectsToCarry.get(i).getX() + displacement);
+		}
+	}
+	public void setY(double displacement,ArrayList <GameObject> objectsToCarry) {
+		super.setY(this.getY() + displacement);
+		for (int i = 0; i < objectsToCarry.size(); i++) {
+			objectsToCarry.get(i).goY(objectsToCarry.get(i).getY() + displacement);
 		}
 	}
 	@Override
