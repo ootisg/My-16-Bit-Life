@@ -603,7 +603,7 @@ if (activeBox) {
 		if (!onLadder) {
 			if (!standingOnPlatform) {
 		if (keyDown(32)) {
-		vy += Room.getGravity ();
+			vy += Room.getGravity ();
 		} else {
 			vy += (Room.getGravity () + 0.5);
 		}
