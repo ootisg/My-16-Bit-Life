@@ -38,6 +38,7 @@ import enemys.UFO;
 import enemys.WaterBlob;
 import gameObjects.AnimeTester;
 import gameObjects.BreakableObject;
+import gameObjects.BubblePlatform;
 import gameObjects.CarSpawner;
 import gameObjects.DarkOverlay;
 import gameObjects.DashPad;
@@ -190,6 +191,7 @@ public class GameCode {
 	static PopcornBag bag;
 	static Bomb bom;
 	static BubbleGun bubbleGun;
+	static BubblePlatform bubble;
 	
 	static String jsonTest = ""
 			+ "{"
@@ -220,6 +222,7 @@ public class GameCode {
 		packet = new LemonPacket();
 		pad = new DashPad ();
 		cart = new Minecart ();
+		bubble = new BubblePlatform();
 		Jeffrey.getInventory().addWeapon(extinguser, 0);
 		Jeffrey.getInventory().addFreind(lameJeffrey);
 		Jeffrey.getInventory().addFreind(lameSam);
@@ -354,7 +357,7 @@ public class GameCode {
 		//cactus.declare(100,100);
 		//pack.declare(100, 0);
 		//fire.declare(100,400);
-		testLauncher.declare(500, 300);
+		bubble.declare(200, 500);
 	}
 	
 	public static void beforeGameLogic () {

@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
+import mapObjects.MapObject;
 import players.Jeffrey;
 import resources.Sprite;
 import switches.Activateable;
@@ -33,11 +34,15 @@ public class BubblePlatform extends MapObject {
 		this.isCollidingChildren("GameObject");
 		this.setY(this.getY() + 5);
 		ArrayList <GameObject> collidingObjects = this.getCollisionInfo().getCollidingObjects();
+		collidingObjects.addAll(objectsToCarry);
 		if (moveX >= Math.PI * 2) {
 			moveX = 0;
 		}
 		moveX = moveX + (Math.PI / 90);
 		this.setX(this.getX() +  Math.sin(moveX));
+		if (Jeffrey.getActiveJeffrey().getSprite() == Jeffrey.getActiveJeffrey().standSprite && this.isColliding(Jeffrey.getActiveJeffrey())) {
+			System.out.println("I think it's working");
+		}
 		/*if () {
 			Jeffrey.getActiveJeffrey().setX(Jeffrey.getActiveJeffrey().getX() + Math.sin(moveX));
 			Jeffrey.getActiveJeffrey().setY(this.getY() - 30);
