@@ -63,7 +63,7 @@ public class CelingVine extends GameObject {
 	public void staticLogic () {
 		if (grabbed && (!Jeffrey.getActiveJeffrey().isColliding("CelingVine") || !keyDown(32))) {
 			grabbed = false;
-			Jeffrey.getActiveJeffrey().vy = 0;
+			Jeffrey.getActiveJeffrey().setVy(0);
 			Jeffrey.getActiveJeffrey().normalSpeed();
 			ArrayList <GameObject> platforms = ObjectHandler.getObjectsByName("MoveingPlatform");
 			for (int i = 0; i <platforms.size(); i++) {

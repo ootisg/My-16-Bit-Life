@@ -42,7 +42,7 @@ public class SpikeDown extends MapObject{
 	public void onCollision(GameObject o) {	
 		if (o.getClass().getSimpleName().equals("Jeffrey")) {
 				Jeffrey j = (Jeffrey) o;
-				if (j.vy < -3) {
+				if (j.getVy() < -3) {
 					j.damage(12);
 				}
 		}

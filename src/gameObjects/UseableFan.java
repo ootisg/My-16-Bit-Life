@@ -15,7 +15,7 @@ public class UseableFan extends GameObject {
 		
 	}
 	public void frameEvent () {
-		if (Jeffrey.getActiveJeffrey().vy != 0) {
+		if (Jeffrey.getActiveJeffrey().getVy() != 0) {
 			if (!keyDown (32)) {
 				ready = true;
 			}

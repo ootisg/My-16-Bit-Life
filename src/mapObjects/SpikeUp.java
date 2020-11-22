@@ -24,7 +24,7 @@ public class SpikeUp extends MapObject{
 	@Override 
 	public void frameEvent () {
 		super.frameEvent();
-		JeffVy = Jeffrey.getActiveJeffrey().vy;
+		JeffVy = Jeffrey.getActiveJeffrey().getVy();
 		if (!inzilized) {
 			for (int i = 0; i < ObjectHandler.getObjectsByName("MoveingPlatform").size(); i++) {
 				if (this.isCollidingBEEG(ObjectHandler.getObjectsByName("MoveingPlatform").get(i))) {

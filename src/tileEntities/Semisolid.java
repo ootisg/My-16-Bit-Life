@@ -18,7 +18,7 @@ public class Semisolid extends TileEntitiy{
 	}
 	@Override 
 	public void frameEvent () {
-		if (Jeffrey.getActiveJeffrey().vy < 0 || ((Jeffrey.getActiveJeffrey().getX() + 7 < this.getX()*16 && Jeffrey.getActiveJeffrey().vx > 0 && Jeffrey.getActiveJeffrey().isColliding(new Rectangle ((this.getX() * 16) - 6,this.getY()*16,8,16))) || (Jeffrey.getActiveJeffrey().vx < 0 && Jeffrey.getActiveJeffrey().isColliding(new Rectangle ((this.getX()* 16) + 14,this.getY()* 16,8,16))))){
+		if (Jeffrey.getActiveJeffrey().getVy() < 0 || ((Jeffrey.getActiveJeffrey().getX() + 7 < this.getX()*16 && Jeffrey.getActiveJeffrey().vx > 0 && Jeffrey.getActiveJeffrey().isColliding(new Rectangle ((this.getX() * 16) - 6,this.getY()*16,8,16))) || (Jeffrey.getActiveJeffrey().vx < 0 && Jeffrey.getActiveJeffrey().isColliding(new Rectangle ((this.getX()* 16) + 14,this.getY()* 16,8,16))))){
 			
 			collide = false;
 		} 
@@ -40,7 +40,7 @@ public class Semisolid extends TileEntitiy{
 		
 		if (o.getClass().getSimpleName().equals("Jeffrey")) {
 		Jeffrey j = (Jeffrey) o;
-		if (j.vy < 0 || ((j.getX() + 7 < this.getX()*16 && (j.vx > 0 && j.isColliding(new Rectangle ((this.getX() * 16) - 1,this.getY()*16,3,16)) && !Room.getTileName(Room.collisionLayer, this.getX()-1, this.getY()).equals("semisolid.0"))) || ((j.vx < 0 && j.isColliding(new Rectangle ((this.getX()* 16) + 14,this.getY()* 16,4,16)) && !Room.getTileName(Room.collisionLayer, this.getX()+1, this.getY()).equals("semisolid.0") && j.getX() < (this.getX()*16) + 16)))){
+		if (j.getVy() < 0 || ((j.getX() + 7 < this.getX()*16 && (j.vx > 0 && j.isColliding(new Rectangle ((this.getX() * 16) - 1,this.getY()*16,3,16)) && !Room.getTileName(Room.collisionLayer, this.getX()-1, this.getY()).equals("semisolid.0"))) || ((j.vx < 0 && j.isColliding(new Rectangle ((this.getX()* 16) + 14,this.getY()* 16,4,16)) && !Room.getTileName(Room.collisionLayer, this.getX()+1, this.getY()).equals("semisolid.0") && j.getX() < (this.getX()*16) + 16)))){
 				collide = false;
 			} 
 				return collide;

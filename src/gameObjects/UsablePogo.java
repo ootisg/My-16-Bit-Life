@@ -14,7 +14,7 @@ public class UsablePogo extends GameObject {
 		this.setGameLogicPriority(-1);
 	}
 	public void frameEvent () {
-		if (Jeffrey.getActiveJeffrey().vy != 0 && keyDown ('S')) {
+		if (Jeffrey.getActiveJeffrey().getVy() != 0 && keyDown ('S')) {
 			if ( !Jeffrey.getActiveJeffrey().getSprite().equals(samBounce) && !Jeffrey.getActiveJeffrey().getSprite().equals(jeffreyBounce) && !Jeffrey.getActiveJeffrey().getSprite().equals(ryanBounce)) {
 				switch (Jeffrey.getActiveJeffrey().witchCharictar) {
 				case 0:
@@ -31,14 +31,14 @@ public class UsablePogo extends GameObject {
 				Jeffrey.getActiveJeffrey().allowSpriteEdits(false);
 			}
 			pogoing = true;
-			previosVy = Jeffrey.getActiveJeffrey().vy;
+			previosVy = Jeffrey.getActiveJeffrey().getVy();
 			if (Jeffrey.getActiveJeffrey().getAnimationHandler().getFrame() == 6) {
 				Jeffrey.getActiveJeffrey().getAnimationHandler().setAnimationFrame(5);
 			}
 		} else {
 			if (keyDown ('S') && pogoing) {
 				Jeffrey.getActiveJeffrey().getAnimationHandler().playFrom(5,6);
-				Jeffrey.getActiveJeffrey().vy = -previosVy - 8;
+				Jeffrey.getActiveJeffrey().setVy(-previosVy - 8);
 			} else {
 				if (pogoing) {
 					Jeffrey.getActiveJeffrey().getAnimationHandler().playInfintely();

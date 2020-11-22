@@ -18,7 +18,7 @@ public class UseableJetpack extends GameObject {
 		
 	}
 	public void frameEvent () {
-		if (Jeffrey.getActiveJeffrey().vy != 0) {
+		if (Jeffrey.getActiveJeffrey().getVy() != 0) {
 			check = true;
 		} else {
 			overheated = false;
@@ -29,8 +29,8 @@ public class UseableJetpack extends GameObject {
 			ready = true;
 		} 
 		if (ready && keyDown (32) && fuel > 0 && !overheated) {
-			if (Jeffrey.getActiveJeffrey().vy > -5) {
-				Jeffrey.getActiveJeffrey().vy = Jeffrey.getActiveJeffrey().vy - 1.1;
+			if (Jeffrey.getActiveJeffrey().getVy() > -5) {
+				Jeffrey.getActiveJeffrey().setVy(Jeffrey.getActiveJeffrey().getVy() - 1.1);
 			}
 			fuel = fuel - 1;
 		} else {

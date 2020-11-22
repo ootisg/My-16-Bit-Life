@@ -36,6 +36,7 @@ public class Slimelet extends Enemy {
 	private boolean conversePrevious;
 	@Override
 	public void declare () {
+		this.declare(0, 0);
 		System.out.println ("Oh no you don't");
 	}
 	@Override

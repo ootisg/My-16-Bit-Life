@@ -110,8 +110,8 @@ public class Fan extends MapObject implements Activateable {
 											reallyWorkin.goY(reallyWorkin.getY() - (power/(distance/400)));
 										}
 										Jeffrey lazyWorkin = (Jeffrey) reallyWorkin;
-										if (lazyWorkin.vy > 5) {
-										lazyWorkin.vy = 5;
+										if (lazyWorkin.getVy() > 5) {
+										lazyWorkin.setVy(5); 
 										}
 									} else {
 										reallyWorkin.goY(reallyWorkin.getY() - power/(distance/400));

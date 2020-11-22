@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import cutsceens.Cutsceen;
 import cutsceens.MoveSlowEvent;
+import enemys.BatRat;
 import enemys.BuggyBoi;
 import enemys.Cactus;
 import enemys.Candle;
@@ -22,6 +23,7 @@ import enemys.FallingChandleer;
 import enemys.FireHydrant;
 import enemys.FireRextinguisher;
 import enemys.FlowerEnemy;
+import enemys.GreenBlob;
 import enemys.ImpatientCar;
 import enemys.LazerHoverEnemy;
 import enemys.MafiaShooter;
@@ -186,7 +188,7 @@ public class GameCode {
 	static Cactus cactus;
 	static FireRextinguisher fire;
 	static items.FanItem pack;
-	
+	static BatRat rat;
 	static PopcornBag bag;
 	static Bomb bom;
 	static BubbleGun bubbleGun;
@@ -197,7 +199,7 @@ public class GameCode {
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/bubbleGunLadder.rmf");
+		Room.loadRoom ("resources/maps/bounceTest.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
@@ -354,7 +356,7 @@ public class GameCode {
 		//cactus.declare(100,100);
 		//pack.declare(100, 0);
 		//fire.declare(100,400);
-		testLauncher.declare(500, 300);
+		
 	}
 	
 	public static void beforeGameLogic () {
