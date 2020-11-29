@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import enemys.Enemy;
 import map.Room;
 import resources.Sprite;
+import triggers.Checkpoint;
 
 /**
  * Represents an in-game object that can be interacted with in some way
@@ -849,6 +850,15 @@ public abstract class GameObject extends GameAPI {
 				working.get(i).get(j).onJeffreyPosChange();
 			}
 		}
+	}
+	/**
+	 * override to write code that is writen whenever a checkpoint is loaded
+	 */
+	public void checkpointCode (Checkpoint point) {
+		
+	}
+	public boolean isVisable () {
+		return visible;
 	}
 	/**
 	 * Sets the sprite of this GameObject to the given sprite.

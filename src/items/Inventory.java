@@ -30,6 +30,23 @@ public class Inventory {
 		WEXP = 0;
 		lol = new Sprite ("resources/sprites/blank.png");
 	}
+	public Inventory (ArrayList<Item> consumables, ArrayList<Item> key, ArrayList<Item> ammo, ArrayList<Item> jeffreyWeapons, ArrayList<Item> samWeapons, ArrayList<Item> ryanWeapons, ArrayList<NPC> metCharicters, ArrayList<Enemy> defeatedEnemys, int money, int wexp) {
+		this.consuables = (ArrayList<Item>) consumables.clone();
+		this.key = (ArrayList<Item>) key.clone();
+		this.ammo = (ArrayList<Item>) ammo.clone();
+		this.jeffreyWeapons = (ArrayList<Item>) jeffreyWeapons.clone();
+		this.samWeapons = (ArrayList<Item>) samWeapons.clone();
+		this.ryanWeapons = (ArrayList<Item>) ryanWeapons.clone();
+		this.metCharcitars = (ArrayList<NPC>) metCharicters.clone();
+		this.defeatedEnemys = (ArrayList<Enemy>) defeatedEnemys.clone();
+		this.money = money;
+		this.WEXP = wexp;
+		lol = new Sprite ("resources/sprites/blank.png");
+	}
+	@Override 
+	public Inventory clone () {
+		return new Inventory (this.consuables, this.key, this.ammo, this.jeffreyWeapons, this.samWeapons, this.ryanWeapons, this.metCharcitars, this.defeatedEnemys, this.money, this.WEXP);
+	}
 	//checkItemAmount returns the amount of that Item in the players inventory
 	public int checkItemAmount (Item ItemToCheck) {
 		int coolNumber = 0;

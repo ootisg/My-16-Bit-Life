@@ -27,6 +27,7 @@ import map.Room;
 import projectiles.Paintball;
 import resources.Sprite;
 import statusEffect.Status;
+import triggers.Checkpoint;
 
 public class Jeffrey extends GameObject {
 	public static double jeffreyHealth = 100;
@@ -87,7 +88,6 @@ public class Jeffrey extends GameObject {
 	private boolean activeBox = false;
 	private int boxTimer = 0;
 	
-	private boolean inzialized = false;
 	public boolean falldurringCollisionCheck = true;
 	
 	//Jeffrey Sprites
@@ -120,6 +120,7 @@ public class Jeffrey extends GameObject {
 		setSprite (standSprite);
 		getAnimationHandler ().setFrameTime (50);
 		this.setHitboxAttributes(4, 4, 7, 27);
+		this.setGameLogicPriority(-2);
 		//this.adjustHitboxBorders();
 	}
 	//makes the players sprite only be changed by outside sources not by this class
@@ -150,54 +151,54 @@ if (activeBox) {
 	return inventory.findWeaponAtIndex(index, witchCharictar);	
 	}
 	@Override
-	public void frameEvent () {
-		if (!inzialized) {
-			
-			wpn = new Item ();
-			if (this.getVariantAttribute("Jeffrey") != null) {
-				if (this.getVariantAttribute("Jeffrey").equals("no")) {
-					party[0] = false;
-				}
+	public void onDeclare () {
+		wpn = new Item ();
+		if (this.getVariantAttribute("Jeffrey") != null) {
+			if (this.getVariantAttribute("Jeffrey").equals("no")) {
+				party[0] = false;
 			}
-			if (this.getVariantAttribute("Sam") != null) {
-				if (this.getVariantAttribute("Sam").equals("no")) {
-					party[1] = false;
-				}
-			}
-			if (this.getVariantAttribute("Ryan") != null) {
-				if (this.getVariantAttribute("Ryan").equals("no")) {
-					party[2] = false;
-				}
-			}
-			if (this.getVariantAttribute("Active") != null) {
-				if (this.getVariantAttribute("Active").equals("yes")) {
-					active = true;
-					this.inzializeCamera();
-				}
-			} else {
-				if ( ObjectHandler.getObjectsByName("Jeffrey").size() == 1) {
-					active = true;
-					this.inzializeCamera();
-				}
-			}
-			for (int i = 0; i < party.length; i++) {
-				if (party[i]) {
-					fullParty[i] = true;
-				}
-			}
-			
-			if (!party[witchCharictar]) {
-				this.switchToAPartyMember();
-			}
-			if (this.witchCharictar == 0) {
-				this.setSprite(JEFFREY_IDLE);
-			} else if (this.witchCharictar == 1) {
-					this.setSprite(SAM_IDLE);
-				} else {
-					this.setSprite(RYAN_IDLE);
-			}
-			inzialized = true;
 		}
+		if (this.getVariantAttribute("Sam") != null) {
+			if (this.getVariantAttribute("Sam").equals("no")) {
+				party[1] = false;
+			}
+		}
+		if (this.getVariantAttribute("Ryan") != null) {
+			if (this.getVariantAttribute("Ryan").equals("no")) {
+				party[2] = false;
+			}
+		}
+		if (this.getVariantAttribute("Active") != null) {
+			if (this.getVariantAttribute("Active").equals("yes")) {
+				active = true;
+				this.inzializeCamera();
+			}
+		} else {
+			if ( ObjectHandler.getObjectsByName("Jeffrey").size() == 1) {
+				active = true;
+				this.inzializeCamera();
+			}
+		}
+		for (int i = 0; i < party.length; i++) {
+			if (party[i]) {
+				fullParty[i] = true;
+			}
+		}
+		
+		if (!party[witchCharictar]) {
+			this.switchToAPartyMember();
+		}
+		if (this.witchCharictar == 0) {
+			this.setSprite(JEFFREY_IDLE);
+		} else if (this.witchCharictar == 1) {
+				this.setSprite(SAM_IDLE);
+			} else {
+				this.setSprite(RYAN_IDLE);
+		}
+	}
+	@Override
+	public void frameEvent () {
+		
 		if (active) {
 		
 			if (keyDown ('S') && !onLadder && crouchElegable && this.getX() - this.getSpriteX() == 0) {
@@ -774,9 +775,16 @@ if (activeBox) {
 			invulTimer = 15;
 		}
 	}
-	
+	@Override
+	public void checkpointCode (Checkpoint checkpoint) {
+		this.setX(checkpoint.getX());
+		this.setY(checkpoint.getY());
+	}
 	public static Inventory getInventory () {
 		return Jeffrey.inventory;
+	}
+	public static void setInventory (Inventory newInventory) {
+		Jeffrey.inventory = newInventory;
 	}
 	/** 
 	 * make true to make Jeffrey move at a constant speed

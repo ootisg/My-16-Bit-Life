@@ -43,6 +43,7 @@ import gameObjects.BreakableObject;
 import gameObjects.CarSpawner;
 import gameObjects.DarkOverlay;
 import gameObjects.DashPad;
+import gameObjects.FallingSpike;
 import gameObjects.Glider;
 import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
@@ -192,14 +193,14 @@ public class GameCode {
 	static PopcornBag bag;
 	static Bomb bom;
 	static BubbleGun bubbleGun;
-	
+	static FallingSpike spike;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/bounceTest.rmf");
+		Room.loadRoom ("resources/maps/rollingObjectTest.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
@@ -278,6 +279,7 @@ public class GameCode {
 		Jeffrey.inventory.addAmmo(paint);
 		x = x + 1;
 		}
+		spike = new FallingSpike ();
 		RenderLoop.window.setResolution(960, 540);
 		//LightSource.writeLightSourceImage (36, 255, 200, 0, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is yellow-ish
 		//LightSource.writeLightSourceImage (36, 0, 200, 255, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is blue-ish
@@ -356,7 +358,7 @@ public class GameCode {
 		//cactus.declare(100,100);
 		//pack.declare(100, 0);
 		//fire.declare(100,400);
-		
+
 	}
 	
 	public static void beforeGameLogic () {
