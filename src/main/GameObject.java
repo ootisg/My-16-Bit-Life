@@ -326,7 +326,7 @@ public abstract class GameObject extends GameAPI {
 		if (hiboxBorders) {
 			if (this.hitbox() != null) {
 				Graphics g = RenderLoop.window.getBufferGraphics();
-				g.setColor(new Color(0xFFFFFF));
+				g.setColor(new Color(0x000000));
 				g.drawRect((int)(this.getX() + this.getHitboxXOffset() - Room.getViewX()),(int) (this.getY() + this.getHitboxYOffset() - Room.getViewY()), this.hitbox().width, this.hitbox().height);
 				}
 			}

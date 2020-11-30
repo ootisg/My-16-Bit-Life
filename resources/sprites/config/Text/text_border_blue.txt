@@ -1,0 +1,3 @@
+$src resources/sprites/windowspritesBlue.png
+
+grid 8 8

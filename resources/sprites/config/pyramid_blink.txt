@@ -1,4 +1,4 @@
 $src resources/sprites/pyramid eye.png
 
-rectangle 0 0 208 18:
+rectangle 0 0 192 18:
 	grid 16 18;

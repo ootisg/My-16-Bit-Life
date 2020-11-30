@@ -24,7 +24,6 @@ public class Cutsceen extends GameObject {
 	ArrayList <CutsceneObject> objectsInScene = new ArrayList <CutsceneObject>();
 	ArrayList <CutsceneData> availableData = new ArrayList <CutsceneData> ();
 	ListTbox box = null;
-	private boolean played = false;
 	GameObject [] passedObjects;
 	boolean chaining = false;
 	String reconsturctionPath;
@@ -137,6 +136,21 @@ public class Cutsceen extends GameObject {
 				comands.add("text");
 				availableData.add(new CutsceneData(new MakeText()));
 				comands.add(text);
+				if (event.getString("color") != null) {
+					comands.add(event.getString("color"));
+				} else {
+					comands.add("Black");
+				}
+				if (event.getString("fontName") != null) {
+					comands.add(event.getString("fontName"));
+				} else {
+					comands.add("normal");
+				}
+				if (event.getString("name") != null) {
+					comands.add(event.getString("name"));
+				} else {
+					comands.add("null");
+				}
 				break;
 			case "playScene":
 				//get filepath
@@ -645,7 +659,7 @@ private boolean runCheckItemCode (int commandNumber,int dataNumber) {
 		return false;
 	}
 	public boolean runTextCode(int commandNumber,int dataNumber) {
-		return !availableData.get(dataNumber).getTextAction().makeText(comands.get(commandNumber + 1));
+		return !availableData.get(dataNumber).getTextAction().makeText(comands.get(commandNumber + 1),comands.get(commandNumber + 2), comands.get(commandNumber + 3),comands.get(commandNumber + 4));
 	}
 	public boolean runCutsceenCode(int commandNumber,int dataNumber) {
 		return availableData.get(dataNumber).getScene().play(); 

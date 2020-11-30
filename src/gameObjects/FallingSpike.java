@@ -11,7 +11,8 @@ public class FallingSpike extends GameObject  {
 	boolean falling = false;
 	public FallingSpike () {
 		this.setSprite(new Sprite ("resources/sprites/SpikeDown.png"));
-		this.setHitboxAttributes(0, 0, 16, 16);
+		this.setHitboxAttributes(0, 0, 15, 16);
+		this.adjustHitboxBorders();
 	}
 	@Override
 	public void frameEvent () {
@@ -31,8 +32,6 @@ public class FallingSpike extends GameObject  {
 					workingPosition = workingPosition + 1;
 				}
 				this.setY(origioalPosiotn);
-				
-		
 				event =  new MoveSlowEvent (this, (int)this.getX(), workingPosition , 170, 240, 0, 10, 100000000);
 			}
 			if (event.runEvent()) {

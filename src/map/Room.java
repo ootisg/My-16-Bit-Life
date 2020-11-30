@@ -60,7 +60,7 @@ public class Room {
 	private static int mapHeight;
 	private static int numLayers;
 	
-	public static int collisionLayer = 0;
+	public static int collisionLayer = 1;
 	
 	private static int chungusWidth = 20;
 	private static int chungusHeight = 15;
@@ -601,7 +601,7 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 				int mapHeight = getInteger (4);
 				Room.mapHeight = mapHeight;
 				Room.mapWidth = mapWidth;
-				int numLayers = getInteger (4);
+				int numLayers = getInteger (4) ;
 				Room.numLayers = numLayers;
 				int numObjects = getInteger (4);
 				tileData = new int[numLayers][mapHeight][mapWidth];
@@ -975,7 +975,6 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			int mappedLayerIndex = 0;
 			for (int i = 0; i < numLayers; i++) {
 				if (isSpecialLayer(i)) {
-				
 					boolean extraImage =false;
 					if (i!= 0) {
 						if (!isSpecialLayer (i-1)) {
