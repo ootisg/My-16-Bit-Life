@@ -27,6 +27,7 @@ import map.Room;
 import projectiles.Paintball;
 import resources.Sprite;
 import statusEffect.Status;
+import triggers.Checkpoint;
 
 public class Jeffrey extends GameObject {
 	public static double jeffreyHealth = 100;
@@ -48,6 +49,7 @@ public class Jeffrey extends GameObject {
 	private boolean crouching = false;
 	private boolean crouchElegable = true;
 	private boolean constantSpeed = false;
+	private boolean forceSpacebar = false;
 	
 	public boolean bindLeft = false;
 	public boolean bindRight = false;
@@ -66,6 +68,8 @@ public class Jeffrey extends GameObject {
 	
 	public  double vx = 0;
 	public double vy = 0;
+	public double trueVy=0;
+	private ArrayList <Double> increments = new ArrayList<Double>();
 	private double ax = 0;
 	private double ay = 0;
 	
@@ -84,7 +88,7 @@ public class Jeffrey extends GameObject {
 	private boolean activeBox = false;
 	private int boxTimer = 0;
 	
-	private boolean inzialized = false;
+	public boolean falldurringCollisionCheck = true;
 	
 	//Jeffrey Sprites
 	public static final Sprite JEFFREY_WALKING = new Sprite ("resources/sprites/config/jeffrey_walking.txt");
@@ -108,6 +112,7 @@ public class Jeffrey extends GameObject {
 	public static final Sprite RYAN_WHIPPING = new Sprite ("resources/sprites/config/microphoneWhip.txt");
 	public static final Sprite WHIP_LENGTH = new Sprite ("resources/sprites/config/microphoneWhipVariableFrame.txt");
 	
+	public static final double TERMINAL_VELOCITY = 15;
 	//note if you ever plan on using the s key and sprites with this class you are gonna have to have your class have a lower game logic priority (witch is actually higher becasue its stupid)
 	
 	public Jeffrey () {
@@ -115,6 +120,7 @@ public class Jeffrey extends GameObject {
 		setSprite (standSprite);
 		getAnimationHandler ().setFrameTime (50);
 		this.setHitboxAttributes(4, 4, 7, 27);
+		this.setGameLogicPriority(-2);
 		//this.adjustHitboxBorders();
 	}
 	//makes the players sprite only be changed by outside sources not by this class
@@ -145,54 +151,54 @@ if (activeBox) {
 	return inventory.findWeaponAtIndex(index, witchCharictar);	
 	}
 	@Override
-	public void frameEvent () {
-		if (!inzialized) {
-			
-			wpn = new Item ();
-			if (this.getVariantAttribute("Jeffrey") != null) {
-				if (this.getVariantAttribute("Jeffrey").equals("no")) {
-					party[0] = false;
-				}
+	public void onDeclare () {
+		wpn = new Item ();
+		if (this.getVariantAttribute("Jeffrey") != null) {
+			if (this.getVariantAttribute("Jeffrey").equals("no")) {
+				party[0] = false;
 			}
-			if (this.getVariantAttribute("Sam") != null) {
-				if (this.getVariantAttribute("Sam").equals("no")) {
-					party[1] = false;
-				}
-			}
-			if (this.getVariantAttribute("Ryan") != null) {
-				if (this.getVariantAttribute("Ryan").equals("no")) {
-					party[2] = false;
-				}
-			}
-			if (this.getVariantAttribute("Active") != null) {
-				if (this.getVariantAttribute("Active").equals("yes")) {
-					active = true;
-					this.inzializeCamera();
-				}
-			} else {
-				if ( ObjectHandler.getObjectsByName("Jeffrey").size() == 1) {
-					active = true;
-					this.inzializeCamera();
-				}
-			}
-			for (int i = 0; i < party.length; i++) {
-				if (party[i]) {
-					fullParty[i] = true;
-				}
-			}
-			
-			if (!party[witchCharictar]) {
-				this.switchToAPartyMember();
-			}
-			if (this.witchCharictar == 0) {
-				this.setSprite(JEFFREY_IDLE);
-			} else if (this.witchCharictar == 1) {
-					this.setSprite(SAM_IDLE);
-				} else {
-					this.setSprite(RYAN_IDLE);
-			}
-			inzialized = true;
 		}
+		if (this.getVariantAttribute("Sam") != null) {
+			if (this.getVariantAttribute("Sam").equals("no")) {
+				party[1] = false;
+			}
+		}
+		if (this.getVariantAttribute("Ryan") != null) {
+			if (this.getVariantAttribute("Ryan").equals("no")) {
+				party[2] = false;
+			}
+		}
+		if (this.getVariantAttribute("Active") != null) {
+			if (this.getVariantAttribute("Active").equals("yes")) {
+				active = true;
+				this.inzializeCamera();
+			}
+		} else {
+			if ( ObjectHandler.getObjectsByName("Jeffrey").size() == 1) {
+				active = true;
+				this.inzializeCamera();
+			}
+		}
+		for (int i = 0; i < party.length; i++) {
+			if (party[i]) {
+				fullParty[i] = true;
+			}
+		}
+		
+		if (!party[witchCharictar]) {
+			this.switchToAPartyMember();
+		}
+		if (this.witchCharictar == 0) {
+			this.setSprite(JEFFREY_IDLE);
+		} else if (this.witchCharictar == 1) {
+				this.setSprite(SAM_IDLE);
+			} else {
+				this.setSprite(RYAN_IDLE);
+		}
+	}
+	@Override
+	public void frameEvent () {
+		
 		if (active) {
 		
 			if (keyDown ('S') && !onLadder && crouchElegable && this.getX() - this.getSpriteX() == 0) {
@@ -404,9 +410,10 @@ if (activeBox) {
 			//Handles weapon usage
 			//Gravity and collision with floor
 			if (!binded) {
-			if (keyDown(32) && !isJumping && vy == 0 ) {
+			if (keyDown(32) && !isJumping && vy == 0 && !forceSpacebar) {
 				
 				isJumping = true;
+				trueVy = -10.15625;
 				vy = -10.15625;
 				if (changeSprite) {
 				setSprite (walkSprite);
@@ -596,27 +603,33 @@ if (activeBox) {
 		}
 	}
 		if (vy == 0) {
+			falldurringCollisionCheck = false;
 			if (messWithFrameTime) {
 			getAnimationHandler ().setFrameTime (50);
 			}
 		}
 		if (!onLadder) {
 			if (!standingOnPlatform) {
-		if (keyDown(32)) {
+		if (keyDown(32) || forceSpacebar) {
 			vy += Room.getGravity ();
+			trueVy += Room.getGravity();
 		} else {
 			vy += (Room.getGravity () + 0.5);
+			trueVy += (Room.getGravity () + 0.5);
 		}
 			}
 		}
-		if (vy > 15.0) {
-			vy = 15.0;
+		if (vy > TERMINAL_VELOCITY) {
+			vy = TERMINAL_VELOCITY;
 		}
 		if (fallBruh) {
-		setY (getY () + (int) Math.ceil (vy));
+		setY (getY () + vy);
 	}
 		if (Room.isColliding(this)) {
 			vy = 0;
+			trueVy = 0;
+			forceSpacebar = false;
+			increments.clear();
 			double fc = .2; //Friction coefficient
 			if (vx > 0) {
 				vx -= fc;
@@ -632,10 +645,11 @@ if (activeBox) {
 			if (fallBruh) {
 			MapTile[] collidingTiles = Room.getCollidingTiles (this);
 			this.setY (this.getY() + vy);
-			for (int i = 0; i < collidingTiles.length; i ++) {
+			for (int i = 0; i < collidingTiles.length; i++) {
 			    if (getY () + 32 >= collidingTiles [i].y && getY () + 32 <= collidingTiles [i].y + 16) {
 			        this.setY (collidingTiles [i].y - 32);
 			        this.vy = 0;
+			        this.trueVy = 0;
 			        isJumping = false;
 			        break;
 			    }
@@ -647,6 +661,7 @@ if (activeBox) {
 			}
 		}
 		}
+		falldurringCollisionCheck = true;
 		if (constantSpeed) {
 			ax = 0;
 			if (keyDown ('D') && !keyDown ('A')) {
@@ -661,15 +676,87 @@ if (activeBox) {
 		}
 		vx = vx + ax;
 		vy = vy + ay;
+		trueVy = trueVy + ay;
 		ax = 0;
+		if (vy >= 0) {
+			increments.add(vy);
+		}
 		this.setX (this.getX () + vx);
 		if (this.isActive()) {
 			wpn.frameEvent();
 		}
 		
 }
-	
-	
+	/**
+	 * forces Jeffrey to act as if the spacebar is being held down until he lands on stable ground
+	 */
+	public void forceSpacebar () {
+		forceSpacebar = true;
+	}
+	public void setVy (double newVy) {
+		vy = newVy;
+		trueVy = newVy;
+	}
+	public double getVy() {
+		return vy;
+	}
+	/**
+	 * returns a list of all the increments to Jeffreys speed durring a fall (note it is reset at the end of a fall so you have to get it at the right time if you want it)
+	 * (I can already tell Imma get pissed at myself someday for designing it like that, but its really the only practical way to do it)
+	 * @return it says it above
+	 */
+	public ArrayList<Double> getFallIncrementation(){
+		return increments;
+	}
+	//for use ONLY in tile entitys durring thier does collide or onCollision the variable will not have an acurate value at any other time
+	public boolean isFallingDurringCollision() {
+		return 	falldurringCollisionCheck;
+	}
+	//returns the downward speed not effected by terminal velocity
+	public double getTrueSpeedY() {
+		return trueVy;
+	}
+	/**
+	 * returns the speed you would need to give Jeffrey to make him reach the same height he started from (for use after a fall)
+	 * @param a list of the incrementation to Jeffreys speed during the fall
+	 * @return the speed to give Jeffrey if you want him to be able to reach his original height
+	 */
+	public static double downToUpSpeed (ArrayList<Double> incremenation) {
+		double simulatedSpeed = 0;
+		double simulatedDistance = 0;
+		for (int i = 0; i < incremenation.size(); i++) {
+			simulatedSpeed = simulatedSpeed += Room.getGravity();
+			if (simulatedSpeed > 15) {
+				simulatedSpeed = 15;
+			}
+			simulatedDistance = simulatedDistance + simulatedSpeed;
+		}
+		simulatedSpeed = 0;
+		while (true) {
+			simulatedSpeed = simulatedSpeed - (Room.getGravity());
+			if (simulatedDistance <= 0) {
+				break;
+			}
+			simulatedDistance = simulatedDistance + simulatedSpeed;
+		}
+		return simulatedSpeed;
+	}
+	/**
+	 * use to find out how far jeffrey fell
+	 * @return
+	 */
+	public static double getFallDistance (ArrayList<Double> incremenation) {
+			double simulatedSpeed = 0;
+			double simulatedDistance = 0;
+			for (int i = 0; i < incremenation.size(); i++) {
+				simulatedSpeed = simulatedSpeed += Room.getGravity();
+				if (simulatedSpeed > 15) {
+					simulatedSpeed = 15;
+				}
+				simulatedDistance = simulatedDistance + simulatedSpeed;
+			}
+			return simulatedDistance;
+	}
 	public void damage (double baseDamage) {
 		switchTimer = 0;
 		if (invulTimer == 0) {
@@ -688,9 +775,16 @@ if (activeBox) {
 			invulTimer = 15;
 		}
 	}
-	
+	@Override
+	public void checkpointCode (Checkpoint checkpoint) {
+		this.setX(checkpoint.getX());
+		this.setY(checkpoint.getY());
+	}
 	public static Inventory getInventory () {
 		return Jeffrey.inventory;
+	}
+	public static void setInventory (Inventory newInventory) {
+		Jeffrey.inventory = newInventory;
 	}
 	/** 
 	 * make true to make Jeffrey move at a constant speed

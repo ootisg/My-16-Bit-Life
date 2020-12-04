@@ -1,0 +1,25 @@
+{
+"events": [
+		{
+			"type": "text",
+			"text": "SAM: YO WE ARE LOOKING FOR A PEICE OF OUR MISSING WEBCAM HAVE YOU SEEN IT",
+		}
+{
+			"type": "text",
+			"text": "PYRAMID EYE: YEAH I HAVE ACTUALLY THE GUYS I LENT THE BASEMENT OUT TOO ARE USING IT",
+		}
+{
+			"type": "text",
+			"text": "SAM: YOU RENTED OUT THE BASEMENT OF THE ANCHENT PYRAMID YOU ARE GUARDING",
+		}
+{
+			"type": "text",
+			"text": "PYRAMID EYE: WELL TO TELL YOU THE TRUTH I HAVEN'T BEEN DOWN THERE IN AGES",
+		}
+{
+			"type": "text",
+			"text": "JEFFREY: JEEZ DID YOU STAY UP ALL MILLENIUA COMING UP WITH THAT ONE",
+		}
+
+	]
+}

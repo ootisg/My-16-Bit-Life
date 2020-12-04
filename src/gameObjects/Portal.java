@@ -167,8 +167,8 @@ public class Portal extends GameObject {
 				wait = false;
 			}
 		}
-		if (j.vy != 0 || oldVy == 0 || set) {
-			oldVy = j.vy;
+		if (j.getVy() != 0 || oldVy == 0 || set) {
+			oldVy = j.getVy();
 		} 
 	}
 	public void doPortalAction(Portal entrence) {
@@ -186,17 +186,17 @@ public class Portal extends GameObject {
 			j.setY(this.getY() - 15);
 			switch (entrence.getDirection()) {
 				case 1: 
-					j.vy = -oldVy;
+					j.setVy(-oldVy);
 					break;
 				case 2:
-					j.vy = oldVy - 2;
+					j.setVy(oldVy - 2);
 					break;
 				case 3:
-					j.vy = j.vx;
+					j.setVy(j.vx);
 					j.vx = 0;
 					break;
 				case 4:
-					j.vy = -j.vx;
+					j.setVy(-j.vx);
 					j.vx = 0;
 					break;
 				}
@@ -204,17 +204,17 @@ public class Portal extends GameObject {
 		case 2:
 			switch (entrence.getDirection()) {
 				case 1: 
-					j.vy = oldVy + 2;
+					j.setVy(oldVy + 2);
 					break;
 				case 2:
-					j.vy = -oldVy;
+					j.setVy(-oldVy);
 					break;
 				case 3:
-					j.vy = -j.vx;
+					j.setVy(-j.vx);
 					j.vx = 0;
 					break;
 				case 4:
-					j.vy = j.vx;
+					j.setVy(j.vx);
 					j.vx = 0;
 					break;
 				}
@@ -224,11 +224,11 @@ public class Portal extends GameObject {
 			switch (entrence.getDirection()) {
 			case 1: 
 				j.vx = oldVy;
-				j.vy = 0;
+				j.setVy(0);
 				break;
 			case 2:
 				j.vx = -oldVy;
-				j.vy = 0;
+				j.setVy(0);
 				break;
 			case 3:
 				j.vx = -j.vx;
@@ -240,11 +240,11 @@ public class Portal extends GameObject {
 			
 			case 1: 
 				j.vx = -oldVy;
-				j.vy = 0;
+				j.setVy(0);
 				break;
 			case 2:
 				j.vx = oldVy;
-				j.vy = 0;
+				j.setVy(0);
 				break;
 			case 4:
 				j.vx = -j.vx;

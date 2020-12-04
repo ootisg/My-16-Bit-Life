@@ -25,7 +25,7 @@ public class LaunchPlant extends EnterableObject  {
 			if (this.getAnimationHandler().getFrame() == 7) {
 				this.exit();
 				this.wasInside = true;
-				Jeffrey.getActiveJeffrey().vy = -20;
+				Jeffrey.getActiveJeffrey().setVy(-20);
 			}
 		}
 	}

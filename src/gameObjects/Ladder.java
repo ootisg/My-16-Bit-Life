@@ -17,7 +17,7 @@ public class Ladder extends GameObject {
 		try {
 		if (Room.isColliding(Jeffrey.getActiveJeffrey(), "Ladder.0")&& keyPressed('W')) {
 			Jeffrey.getActiveJeffrey().onLadder = true;
-			Jeffrey.getActiveJeffrey().vy = 0;
+			Jeffrey.getActiveJeffrey().setVy(0);
 			Jeffrey.getActiveJeffrey().vx = 0;
 			MapTile[] ladder = Room.getCollidingTiles(Jeffrey.getActiveJeffrey(), "Ladder.0");
 			Jeffrey.getActiveJeffrey().setX(ladder[0].x);
@@ -38,8 +38,8 @@ public class Ladder extends GameObject {
 		}
 		Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() - 3);
 		Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() + 1);
-		if (Room.isColliding(Jeffrey.getActiveJeffrey(), "Ladder.0") && !Jeffrey.getActiveJeffrey().onLadder && Jeffrey.getActiveJeffrey().vy>0) {
-			Jeffrey.getActiveJeffrey().vy = 0;
+		if (Room.isColliding(Jeffrey.getActiveJeffrey(), "Ladder.0") && !Jeffrey.getActiveJeffrey().onLadder && Jeffrey.getActiveJeffrey().getVy()>0) {
+			Jeffrey.getActiveJeffrey().setVy(0);
 			Jeffrey.getActiveJeffrey().isJumping = false;
 		} 
 		//attempt to fix the 1 frame ladder glich

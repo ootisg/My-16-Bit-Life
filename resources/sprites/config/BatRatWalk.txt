@@ -1,0 +1,2 @@
+$src resources/sprites/bat rat.png
+grid 15 12;

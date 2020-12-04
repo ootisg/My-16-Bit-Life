@@ -2,6 +2,7 @@ package mapObjects;
 
 import java.util.Arrays;
 
+import gameObjects.CheckpointSystem;
 import items.PogoStick;
 import main.GameObject;
 import main.ObjectHandler;
@@ -13,10 +14,21 @@ import resources.Sprite;
 public class SpikeRight extends MapObject{
 	boolean inzilized = false;
 	MoveingPlatform platform;
+	boolean checkpoint;
 	public SpikeRight() {
 		this.setSprite(new Sprite ("resources/sprites/SpikeRight.png"));
 		this.setHitboxAttributes(0, 0, 16, 16);
 		this.suffocateObjects(false);
+	}
+	@Override
+	public void onDeclare () {
+		if (this.getVariantAttribute("checkpoint") != null) {
+			if (this.getVariantAttribute("checkpoint").equals("true")) {
+				checkpoint = true;
+			} else {
+				checkpoint = false;
+			}
+		}
 	}
 	@Override 
 	public void frameEvent () {
@@ -45,6 +57,7 @@ public class SpikeRight extends MapObject{
 				Jeffrey j = (Jeffrey) o;
 				if (j.vx < -3 && (j.getY() + 20 > this.getY())) {
 					j.damage(12);
+					CheckpointSystem.loadNewestCheckpoint();
 			}
 		}
 	}

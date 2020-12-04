@@ -19,7 +19,7 @@ public class UseableCarpet extends GameObject {
 		
 	}
 	public void frameEvent () {
-		if (Jeffrey.getActiveJeffrey().vy != 0) {
+		if (Jeffrey.getActiveJeffrey().getVy() != 0) {
 			check = true;
 		} else {
 			overheated = false;
@@ -36,7 +36,7 @@ public class UseableCarpet extends GameObject {
 		} else {
 			if (!velocitySet) {
 				velocitySet = true;
-				Jeffrey.getActiveJeffrey().vy = 0;
+				Jeffrey.getActiveJeffrey().setVy(0);
 			}
 			Jeffrey.getActiveJeffrey().stopFall(false);
 			if (fuel < 100) {

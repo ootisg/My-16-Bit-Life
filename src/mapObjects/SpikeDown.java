@@ -2,6 +2,7 @@ package mapObjects;
 
 import java.util.Arrays;
 
+import gameObjects.CheckpointSystem;
 import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
@@ -11,10 +12,21 @@ import resources.Sprite;
 
 public class SpikeDown extends MapObject{
 	boolean inzilized = false;
+	boolean checkpoint = false;
 	public SpikeDown() {
 		this.setSprite(new Sprite ("resources/sprites/SpikeDown.png"));
 		this.setHitboxAttributes(0, 0, 16, 16);
 		this.suffocateObjects(false);
+	}
+	@Override
+	public void onDeclare () {
+		if (this.getVariantAttribute("checkpoint") != null) {
+			if (this.getVariantAttribute("checkpoint").equals("true")) {
+				checkpoint = true;
+			} else {
+				checkpoint = false;
+			}
+		}
 	}
 	@Override 
 	public void frameEvent () {
@@ -42,8 +54,11 @@ public class SpikeDown extends MapObject{
 	public void onCollision(GameObject o) {	
 		if (o.getClass().getSimpleName().equals("Jeffrey")) {
 				Jeffrey j = (Jeffrey) o;
-				if (j.vy < -3) {
+				if (j.getVy() < -3) {
 					j.damage(12);
+					if (checkpoint) {
+						CheckpointSystem.loadNewestCheckpoint();
+					}
 				}
 		}
 	}

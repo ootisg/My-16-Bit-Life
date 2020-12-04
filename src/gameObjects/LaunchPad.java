@@ -20,7 +20,7 @@ public class LaunchPad extends GameObject {
 	public  void frameEvent () {
 		if (this.isColliding(jeffrey) && keyPressed('W')) {
 			jeffrey.onLadder = true;
-			jeffrey.vy = 0;
+			jeffrey.setVy(0);
 			jeffrey.vx = 0;
 			jeffrey.setX(this.getX());
 		}

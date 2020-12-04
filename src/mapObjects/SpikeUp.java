@@ -3,6 +3,7 @@ package mapObjects;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import gameObjects.CheckpointSystem;
 import items.PogoStick;
 import main.GameObject;
 import main.ObjectHandler;
@@ -16,28 +17,41 @@ public class SpikeUp extends MapObject{
 	boolean inzilized = false;
 	MoveingPlatform platform;
 	boolean added = false;
+	boolean checkpoint;
 	public SpikeUp() {
 		this.setSprite(new Sprite ("resources/sprites/SpikeUp.png"));
 		this.setHitboxAttributes(0, 0, 16, 16);
 		this.suffocateObjects(false);
 	}
+	@Override
+	public void onDeclare () {
+		if (this.getVariantAttribute("checkpoint") != null) {
+			if (this.getVariantAttribute("checkpoint").equals("true")) {
+				checkpoint = true;
+			} else {
+				checkpoint = false;
+			}
+		}
+	}
 	@Override 
 	public void frameEvent () {
 		super.frameEvent();
-		JeffVy = Jeffrey.getActiveJeffrey().vy;
+		JeffVy = Jeffrey.getActiveJeffrey().getVy();
 		if (!inzilized) {
-			for (int i = 0; i < ObjectHandler.getObjectsByName("MoveingPlatform").size(); i++) {
-				if (this.isCollidingBEEG(ObjectHandler.getObjectsByName("MoveingPlatform").get(i))) {
-					platform = (MoveingPlatform) ObjectHandler.getObjectsByName("MoveingPlatform").get(i);
-					while(true) {
-						if (this.isColliding(platform)) {
-							this.setY(this.getY() - 1);
-						} else {
-							break;
+			if (ObjectHandler.getObjectsByName("MoveingPlatform") != null) {
+				for (int i = 0; i < ObjectHandler.getObjectsByName("MoveingPlatform").size(); i++) {
+					if (this.isCollidingBEEG(ObjectHandler.getObjectsByName("MoveingPlatform").get(i))) {
+						platform = (MoveingPlatform) ObjectHandler.getObjectsByName("MoveingPlatform").get(i);
+						while(true) {
+							if (this.isColliding(platform)) {
+								this.setY(this.getY() - 1);
+							} else {
+								break;
+							}
 						}
+						platform.addCarryObject(this);
+						break;
 					}
-					platform.addCarryObject(this);
-					break;
 				}
 			}
 			inzilized = true;
@@ -61,11 +75,11 @@ public class SpikeUp extends MapObject{
 	@Override
 	public void onCollision(GameObject o) {	
 		if (o.getClass().getSimpleName().equals("Jeffrey")) {
-			PogoStick working = new PogoStick ();
-			if (!working.isPogoing()) {
+			if (!PogoStick.isPogoing()) {
 				Jeffrey j = (Jeffrey) o;
 				if (JeffVy > 3) {
 					j.damage(12);
+					CheckpointSystem.loadNewestCheckpoint();
 				}
 			}
 		}	

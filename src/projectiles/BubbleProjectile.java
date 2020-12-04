@@ -30,7 +30,7 @@ public class BubbleProjectile extends Projectile {
 		this.setSpeed (d);
 		this.setHitboxAttributes (2, 2, 12, 12);
 		jeffVx = Jeffrey.getActiveJeffrey().vx;
-		jeffVy = Jeffrey.getActiveJeffrey().vy;
+		jeffVy = Jeffrey.getActiveJeffrey().getVy();
 	}
 	@Override
 	public void projectileFrame () {
@@ -78,7 +78,7 @@ public class BubbleProjectile extends Projectile {
 		
 		//Pops when touching Jeffrey
 		if (!isPopped && this.isColliding(Jeffrey.getActiveJeffrey())) {
-			Jeffrey.getActiveJeffrey().vy = -10;
+			Jeffrey.getActiveJeffrey().setVy(-10);
 			pop();
 		}
 	}

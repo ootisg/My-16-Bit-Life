@@ -216,7 +216,7 @@ public class SlimeSword extends Item {
 		if ((this.keyPressed(32)&& extended) && !Jeffrey.getActiveJeffrey().isCrouched()) {
 			extended = false;
 			Jeffrey.getActiveJeffrey().stopFall(false);
-			Jeffrey.getActiveJeffrey().vy = 0;
+			Jeffrey.getActiveJeffrey().setVy(0);
 			broke = true;
 			Jeffrey.getActiveJeffrey().binded = false;
 		}

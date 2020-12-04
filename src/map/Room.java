@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Stack;
 
+import gameObjects.CheckpointSystem;
 import gameObjects.Ladder;
 import gameObjects.TemporaryWall;
 import gui.Gui;
@@ -26,6 +27,7 @@ import main.ObjectHandler;
 import players.Jeffrey;
 import resources.Sprite;
 import resources.SpriteParser;
+import triggers.Checkpoint;
 
 public class Room {
 	
@@ -66,6 +68,8 @@ public class Room {
 	private static double gravity = .65625;
 	
 	private static boolean isLoaded = false;
+	
+	private static String roomName = "unloaded";
 	
 	public static final int TILE_WIDTH = 16;
 	public static final int TILE_HEIGHT = 16;
@@ -536,6 +540,7 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 		
 		//initalizes fields relating to the map
 		isLoaded = false;
+		roomName = path;
 		dataList = new ArrayList<TileData>();
 		nameList = new HashMap<String,TileData>();
 		tileIcons = new ArrayList<BufferedImage> ();
@@ -686,6 +691,14 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			gui = new Gui ();
 			testLaddder = new Ladder ();
 			testLaddder.declare(150, 373);
+			Checkpoint startpoint = new Checkpoint ();
+			Jeffrey working = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
+			if (CheckpointSystem.getNewestCheckpoint() == null) {
+				startpoint.setX(working.getX());
+				startpoint.setY(working.getY());
+				startpoint.save();
+				CheckpointSystem.setNewestCheckpoint(startpoint);
+			}
 		}
 		//convert the map to a big number of map chungi
 		int gridWidth = (int)Math.ceil((((double)mapWidth)/chungusWidth));
@@ -783,6 +796,9 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			i ++;
 		}
 		return i;
+	}
+	public static String getRoomName () {
+		return roomName;
 	}
 	/**
 	 * set the points visable on the screen to whatever
