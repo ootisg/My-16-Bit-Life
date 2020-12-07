@@ -1,0 +1,38 @@
+{
+	"usedObjects": [
+		{
+			"name": "Jeffrey",
+			"type": "Jeffrey",
+			"genMethod": "getJ",
+		}
+		{
+			"name": "Sam",
+			"type": "Jeffrey",
+			"genMethod": "getS",
+		}
+	],
+	"events": [
+		{
+			"chainInfo": "start"
+			"type": "moveSlow"
+			"startAcceleration": "1"
+			"object": "Jeffrey"
+			"destinationX": "3504"
+			"destinationY": "1248"
+		}
+		{
+			"chainInfo": "end"
+			"type": "moveSlow"
+			"startAcceleration": "1"
+			"object": "Sam"
+			"destinationX": "3328"
+			"destinationY": "1248"
+		}
+		{
+			"type": "text",
+			"color": "Green",
+			"name": "SAM",
+			"text": "THE ROOMS FILLING UP WE GOTTA STOP IT QUICKLY",
+		}		
+	]	
+}

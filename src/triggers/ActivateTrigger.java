@@ -7,7 +7,7 @@ import main.GameObject;
 import switches.Activateable;
 
 public class ActivateTrigger extends RessesiveTrigger {
-	ArrayList <GameObject> objectsToActivate = new ArrayList <GameObject> ();
+	ArrayList <Object> objectsToActivate = new ArrayList <Object> ();
 	boolean inzialized = false;
 	public ActivateTrigger () {
 		this.setHitboxAttributes(0, 0, 16, 16);
@@ -27,7 +27,7 @@ public class ActivateTrigger extends RessesiveTrigger {
 	@Override
 	public void triggerEvent () {
 		for (int i = 0; i < objectsToActivate.size(); i++) {
-			GameObject working = objectsToActivate.get(i);
+			Object working = objectsToActivate.get(i);
 			try {
 					Activateable working2 = (Activateable) working;
 					working2.activate();

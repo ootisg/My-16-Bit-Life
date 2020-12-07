@@ -27,6 +27,7 @@ public class Status extends GameObject {
 	// 5 = fast
 	// 6 = powerful
 	// 7 = regenaration
+	// 8 = slippery
 	// when makieng new status be sure to add a thing that makes this true when its aplied and false when it is not
 	public boolean checkStatus (int index, int charictar) {
 	if (charictar == 0) {
@@ -39,6 +40,22 @@ public class Status extends GameObject {
 	return statusAppliedOnRyan[index];	
 	}
 	return false;
+	}
+	/**
+	 * use to a apply a status duh
+	 * @param index the numerical index corrisponding to the correct staus as explained earlier in this file
+	 * @param charictar the index for the charictar that receves the status as allways Jeffrey is 0 Sam is 1 and Ryan is 2
+	 */
+	public void applyStatus (int index, int charictar) {
+		if (charictar == 0) {
+			statusAppliedOnJeffrey [index] = true;
+		}
+		if (charictar == 1) {
+			 statusAppliedOnSam [index] = true;
+		}
+		if (charictar == 2) {
+			statusAppliedOnRyan[index] = true;	
+		}
 	}
 	// use to cure status
 	// in the class for your status make it so if this ever becomes false the status gets forgoten

@@ -40,6 +40,7 @@ import enemys.UFO;
 import enemys.WaterBlob;
 import gameObjects.AnimeTester;
 import gameObjects.BreakableObject;
+import gameObjects.BubblePlatform;
 import gameObjects.CarSpawner;
 import gameObjects.DarkOverlay;
 import gameObjects.DashPad;
@@ -194,13 +195,14 @@ public class GameCode {
 	static Bomb bom;
 	static BubbleGun bubbleGun;
 	static FallingSpike spike;
+	static BubblePlatform bubble;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/Pyramid.rmf");
+		Room.loadRoom ("resources/maps/soapTest.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
@@ -257,6 +259,7 @@ public class GameCode {
 		plant = new Plant ();
 		glider =new Glider();
 		lPlant = new LaunchPlant ();
+		bubble = new BubblePlatform ();
 		//shooter = new MafiaShooter();
 		//boi = new Celing_boi();
 		//waffle = new Waffle (4);
@@ -358,6 +361,7 @@ public class GameCode {
 		//cactus.declare(100,100);
 		//pack.declare(100, 0);
 		//fire.declare(100,400);
+		//bubble.declare(100, 300);
 
 	}
 	

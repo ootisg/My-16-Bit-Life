@@ -151,6 +151,11 @@ public class Cutsceen extends GameObject {
 				} else {
 					comands.add("null");
 				}
+				if (event.getString("time") != null) {
+					comands.add(event.getString("time"));
+				} else {
+					comands.add("-1");
+				}
 				break;
 			case "playScene":
 				//get filepath
@@ -569,7 +574,7 @@ private boolean runSplitCode (int commandNumber, int dataNumber) {
 	Jeffrey j = (Jeffrey)availableData.get(dataNumber).getObj().obj;
 	boolean [] party1 = new boolean [] {Boolean.parseBoolean(comands.get(commandNumber + 1)),Boolean.parseBoolean(comands.get(commandNumber+ 2)),Boolean.parseBoolean(comands.get(commandNumber + 3))};
 	boolean [] party2 = new boolean [] {Boolean.parseBoolean(comands.get(commandNumber + 4)),Boolean.parseBoolean(comands.get(commandNumber+ 5)),Boolean.parseBoolean(comands.get(commandNumber + 6))};
-	j.splitParty(party1, party2);
+	j.splitParty(party1, party2).declare(j.getX(), j.getY());
 	return false;
 }
 private boolean runChangePartyCode (int commandNumber, int dataNumber) {
@@ -659,7 +664,7 @@ private boolean runCheckItemCode (int commandNumber,int dataNumber) {
 		return false;
 	}
 	public boolean runTextCode(int commandNumber,int dataNumber) {
-		return !availableData.get(dataNumber).getTextAction().makeText(comands.get(commandNumber + 1),comands.get(commandNumber + 2), comands.get(commandNumber + 3),comands.get(commandNumber + 4));
+		return !availableData.get(dataNumber).getTextAction().makeText(comands.get(commandNumber + 1),comands.get(commandNumber + 2), comands.get(commandNumber + 3),comands.get(commandNumber + 4),Integer.parseInt(comands.get(commandNumber + 5)));
 	}
 	public boolean runCutsceenCode(int commandNumber,int dataNumber) {
 		return availableData.get(dataNumber).getScene().play(); 

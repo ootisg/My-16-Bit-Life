@@ -17,7 +17,10 @@ public class ForgetTrigger extends RessesiveTrigger {
 		if (timer == 0) {
 			if (this.isColliding("PairingObject")) { 
 				PairingObject working = (PairingObject) this.getCollisionInfo().getCollidingObjects().get(0);
-				objectsToDelete = working.getPairedPairedObjects();
+				ArrayList <Object> pairedList = working.getPairedPairedObjects();
+				for (int i = 0; i < pairedList.size(); i++) {
+					objectsToDelete.add((GameObject)pairedList.get(i));
+				}
 			}
 		timer = timer + 1;
 	}

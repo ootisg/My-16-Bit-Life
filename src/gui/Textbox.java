@@ -37,6 +37,7 @@ public class Textbox extends GameObject {
 	String name;
 	int width1;
 	int height1;
+	int time = -1;
 	String [] extentions = {"7Z","JAVA","MP3","AI","AVI","BAS","C","C++","CD","CDF","CLASS","CMD","CSV","CSPROJ","D","D64","DAF","DAT","DB","DCI","DEV","DFL","DHP","DLC","DMO","DMP","DOC","DOG","E","EXE","EXP","EXS","F01","F4V","FA","FLV","GBR","GGB","GIF","GO","GPX","H!","H","H++","HACK","HDMP","HTA","HTML","HUM","ICO","IGC","ISO","IT","JAR","JNLP","JPEG","JS","JSON","LISP","LUA","LZ","M","MDI","MDG","MDS","MEX","MID","MOB","MOD","MOV","MP2","MP4","MPEG","MPG","MSI","NC","NEO","NPR","NUMBERS","O","OBJ","OBS","OXT","OWL","OST","P","PAL","PACK","PAK","PAM","PAS","PDF","PDN","PHP","PIE","PIT","PMA","PPTX","PSD","PTF","PS1","PUP","PY","QT","RAD","RAM","RAR","RB","RBXM","RBXL","RC","RES","RTF","RUN","SAV","SB3","SEQ","SIG","SM","SPIN","ST","STD","SWF","SWIFT","TAK","TORRENT","TAR","TSF","TTF","UI","UT!","V","V64","VB","VFD","VMG","VOB","WAV","WMA","XAR","XCF","XEX","XLS","XP","XYZ","ZIP","ZS"};
 	boolean renderBox;
 	// put filepath of fontsheet to use as the font
@@ -120,11 +121,14 @@ public class Textbox extends GameObject {
 		textBoxSides= new Sprite ("resources/sprites/Text/windowsprites" + color + ".png", new SpriteParser(parserQuantitiys4));
 		textBoxBackground = new Sprite ("resources/sprites/Text/windowsprites" + color + ".png", new SpriteParser(parserQuantitiys5));
 	}
+	public void setTime (int time) {
+		this.time = time;
+	}
 	// text = the message thats displayed width is the width of the box height is the height of the box 
 	//x_orign is the x start point of the box y_orign is the y start point of the box
 	
 public void drawBox (){
-	if ((finalCheck && isFinished && (keyPressed(65) || keyPressed (97) || isDone)) || keyPressed (88)){
+	if ((finalCheck && isFinished && (keyPressed(65) || keyPressed (97) || isDone)) || keyPressed (88) || time == 0){
 		isDone = true;
 		if (unfrezeMenu) {
 			Gui.getGui().menu.frozen = false;
@@ -137,6 +141,7 @@ public void drawBox (){
 		}
 	}
 	else {
+	time = time -1;
 	String text;
 	int width;
 	int height;

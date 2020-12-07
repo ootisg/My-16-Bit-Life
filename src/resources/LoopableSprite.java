@@ -12,6 +12,7 @@ public class LoopableSprite extends Sprite {
 	int moveY;
 	ArrayList <AnimationHandler> handlers = new ArrayList <AnimationHandler> ();
 	AnimationHandler endSprite = null;
+	AnimationHandler startSprite = null;
 	AnimationHandler remainderHandler;
 	public LoopableSprite(Sprite sprite, int moveX,int moveY, int desX, int desY) {
 		super(sprite);
@@ -23,15 +24,26 @@ public class LoopableSprite extends Sprite {
 		this.desX = desX;
 		this.desY = desY;
 	}
+	//setting the destination to -1 will make the sprite not requre anything of that particualr axis (useful for when you want to loop along one axis but not both)	
 	@Override 
 	public void draw(int x, int y) {
+		this.draw(x, y, false, false, 0, this.getFrame(0).getWidth(), this.getFrame(0).getHeight());
+	}
+	@Override 
+	public void draw(int x, int y, boolean flipHorizontal, boolean flipVertical, int startFrame) {
+		this.draw(x, y, flipHorizontal, flipVertical, startFrame, this.getFrame(0).getWidth(), this.getFrame(0).getHeight());
+	}
+	@Override 
+	public void draw(int x, int y, boolean flipHorizontal, boolean flipVertical, int startFrame, int width, int height) {
 		int index = 0;
 		int tempX = x;
 		int tempY = y;
 		boolean directionX = x > desX;
 		boolean directionY = y > desY;
-		while ((tempX > desX && directionX) || (tempX < desX && !directionX) || (tempY > desY && directionY) || (tempY < desY && !directionY)){
-			
+		if (startSprite != null) {
+			startSprite.draw(tempX, tempY);
+		}
+		while ((((tempX > desX && directionX) || (tempX < desX && !directionX)) && desX != -1) || (((tempY > desY && directionY) || (tempY < desY && !directionY)) && desY != -1)){
 			if (directionX) {
 				tempX = tempX - moveX;
 				if (tempX < desX) {
@@ -107,8 +119,22 @@ public class LoopableSprite extends Sprite {
 		if (endSprite != null) {
 			endSprite.setFrameTime(frameTime);
 		}
+		if (startSprite != null) {
+			startSprite.setFrameTime(frameTime);
+		}
 	}
+	/**
+	 * adds a sprite to be played at the end of the sprite
+	 * @param endSprite the sprite you want to play after the looping
+	 */
 	public void addEndSprite(Sprite endSprite) {
 		this.endSprite = new AnimationHandler (endSprite, frameTime);
+	}
+	/**
+	 * adds a sprite to be played at the beginning of the sprite
+	 * @param startSprite the sprite you want to play before the looping
+	 */
+	public void addStartSprite(Sprite startSprite) {
+		this.startSprite = new AnimationHandler (startSprite, frameTime);
 	}
 }

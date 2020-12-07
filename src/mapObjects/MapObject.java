@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import enemys.Enemy;
+import gameObjects.CheckpointSystem;
 import main.GameObject;
 import map.MapTile;
 import map.Room;
@@ -23,9 +24,8 @@ public class MapObject  extends GameObject {
 		MapTile[] working = Room.getAllCollidingTiles(this);
 		for (int i = 0; i < working.length; i++) {
 			if (!affectedTiles.contains(working[i])) {
-				
 				affectedTiles.add(working[i]);
-				Room.getMapObjects().put(Room.toPackedLong(working[i].x/16,working[i].y/16), this);
+				Room.getMapObjects().put(Room.toPackedLong((int)working[i].x/16,(int)working[i].y/16), this);
 				}
 		}
 		for (int j = 0; j <affectedTiles.size(); j++) {
@@ -36,7 +36,7 @@ public class MapObject  extends GameObject {
 					}
 				}
 			if (!safe) {
-				Room.getMapObjects().remove(Room.toPackedLong(affectedTiles.get(j).x/16,affectedTiles.get(j).y/16));
+				Room.getMapObjects().remove(Room.toPackedLong((int)affectedTiles.get(j).x/16,(int)affectedTiles.get(j).y/16));
 				affectedTiles.remove(j);
 			}
 		}
@@ -56,7 +56,8 @@ public class MapObject  extends GameObject {
 										currentEnmey.suffocate();
 										currentEnmey.blackList();
 									} else {
-										//TODO put some code here for jeffrey once I figure out what Im gonna do with him
+										Jeffrey.getActiveJeffrey().damage(10);
+										CheckpointSystem.loadNewestCheckpoint();
 									}
 								}
 							} else {
@@ -66,7 +67,8 @@ public class MapObject  extends GameObject {
 										currentEnmey.suffocate();
 										currentEnmey.blackList();
 									} else {
-										//TODO put some code here for jeffrey once I figure out what Im gonna do with him
+										Jeffrey.getActiveJeffrey().damage(10);
+										CheckpointSystem.loadNewestCheckpoint();
 									}
 									}
 							}
@@ -77,7 +79,8 @@ public class MapObject  extends GameObject {
 									Enemy currentEnmey = (Enemy) currentObject;
 									currentEnmey.deathEvent();
 								} else {
-									//TODO put some code here for jeffrey once I figure out what Im gonna do with him
+									Jeffrey.getActiveJeffrey().damage(10);
+									CheckpointSystem.loadNewestCheckpoint();
 								}
 								}
 						}
@@ -87,7 +90,7 @@ public class MapObject  extends GameObject {
 		}
 		public void reverseCollision () {
 			for (int j = 0; j<affectedTiles.size(); j++) {
-				Room.getMapObjects().remove(Room.toPackedLong(affectedTiles.get(j).x/16,affectedTiles.get(j).y/16));
+				Room.getMapObjects().remove(Room.toPackedLong((int)affectedTiles.get(j).x/16,(int)affectedTiles.get(j).y/16));
 				affectedTiles.remove(j);
 			}
 		}

@@ -1,0 +1,21 @@
+{
+	"usedObjects": [
+		{
+			"name": "Jeffrey",
+			"type": "Jeffrey",
+			"genMethod": "getJ",
+		}		
+	],
+	"events": [
+		{
+			"type": "Split",
+			"Jeffrey": "Jeffrey",
+			"party1": ["true","false","true"],
+			"party2": ["false","true","false"],
+		}
+		{
+			"type": "playScene"
+			"path": "resources/cutsceenConfig/PyramidFall.txt"
+		}
+	]	
+}

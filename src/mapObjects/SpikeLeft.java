@@ -1,6 +1,8 @@
 package mapObjects;
 
 
+import java.util.ArrayList;
+
 import gameObjects.CheckpointSystem;
 import items.PogoStick;
 import main.GameObject;
@@ -13,7 +15,7 @@ import resources.Sprite;
 public class SpikeLeft extends MapObject{
 	boolean inzilized = false;
 	boolean checkpoint = false;
-	MoveingPlatform platform;
+	CarryObject platform;
 	public SpikeLeft() {
 		this.setSprite(new Sprite ("resources/sprites/SpikeLeft.png"));
 		this.setHitboxAttributes(0, 0, 16, 16);
@@ -33,11 +35,25 @@ public class SpikeLeft extends MapObject{
 	public void frameEvent () {
 		super.frameEvent();
 		if (!inzilized) {
-			for (int i = 0; i < ObjectHandler.getObjectsByName("MoveingPlatform").size(); i++) {
-				if (this.isCollidingBEEG(ObjectHandler.getObjectsByName("MoveingPlatform").get(i))) {
-					platform = (MoveingPlatform) ObjectHandler.getObjectsByName("MoveingPlatform").get(i);
+			ArrayList <MapObject> working = new ArrayList <MapObject> ();
+			ArrayList<ArrayList<GameObject>> fullList = ObjectHandler.getChildrenByName("MapObject");
+			if (fullList != null) {
+				for (int i = 0; i < fullList.size(); i++) {
+					for (int j = 0; j <fullList.get(i).size(); j++) {
+						try {
+							CarryObject lame = (CarryObject) fullList.get(i).get(j);
+							working.add((MapObject)fullList.get(i).get(j));
+						} catch (ClassCastException e) {
+							
+						}
+					}
+				}
+			}
+			for (int i = 0; i < working.size(); i++) {
+				if (this.isCollidingBEEG(working.get(i))) {
+					platform = (CarryObject) working.get(i);
 					while(true) {
-						if (this.isColliding(platform)) {
+						if (this.isColliding(working.get(i))) {
 							this.setX(this.getX() - 1);
 						} else {
 							break;
@@ -64,9 +80,15 @@ public class SpikeLeft extends MapObject{
 	}
 	@Override 
 	public boolean doesColide (GameObject o) {
-		if (o.getClass().getSimpleName().equals("MoveingPlatform")) {
-			return !inzilized;
+		boolean correct = false;
+		for (int i = 0; i < o.getClass().getInterfaces().length; i++) {
+			if (o.getClass().getSimpleName().equals("CarryObject")) {
+				correct = true;
+			}
 		}
+		if (correct) {
+			return !inzilized;
+		} 
 		this.onCollision(o);
 		if (o.getClass().getSimpleName().equals("Jeffrey")) {
 			if (PogoStick.isPogoing()) {

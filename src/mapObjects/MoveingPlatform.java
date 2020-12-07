@@ -12,9 +12,8 @@ import players.Jeffrey;
 import resources.Sprite;
 import switches.Activateable;
 
-public class MoveingPlatform extends MapObject implements Activateable {
+public class MoveingPlatform extends CarryObject implements Activateable {
 	Stack <Point> pointsToMoveTo = new Stack <Point> ();
-	ArrayList<GameObject> objectsToCarry = new ArrayList<GameObject> ();
 	private Stack <Point> path = new Stack <Point> ();
 	private double slope =0;
 	private boolean firstTime = true;
@@ -224,18 +223,7 @@ public class MoveingPlatform extends MapObject implements Activateable {
 			inzialized = false;
 		}
 	}
-	public void setX(double displacement,ArrayList <GameObject> objectsToCarry) {
-		super.setX(this.getX() + displacement);
-		for (int i = 0; i < objectsToCarry.size(); i++) {
-			objectsToCarry.get(i).goX(objectsToCarry.get(i).getX() + displacement);
-		}
-	}
-	public void setY(double displacement,ArrayList <GameObject> objectsToCarry) {
-		super.setY(this.getY() + displacement);
-		for (int i = 0; i < objectsToCarry.size(); i++) {
-			objectsToCarry.get(i).goY(objectsToCarry.get(i).getY() + displacement);
-		}
-	}
+
 	@Override
 	public void activate() {
 		active = true;
@@ -252,13 +240,5 @@ public class MoveingPlatform extends MapObject implements Activateable {
 	public void pair() {
 		
 	}
-	public void addCarryObject (GameObject obj) {
-		objectsToCarry.add(obj);
-	}
-	public void removeCarryObject (GameObject obj) {
-		objectsToCarry.remove(obj);
-	}
-	public ArrayList <GameObject> getCarryObjects (){
-		return objectsToCarry;
-	}
+	
 }

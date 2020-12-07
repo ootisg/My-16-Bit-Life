@@ -1,5 +1,6 @@
 package mapObjects;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import gameObjects.CheckpointSystem;
@@ -13,7 +14,7 @@ import resources.Sprite;
 
 public class SpikeRight extends MapObject{
 	boolean inzilized = false;
-	MoveingPlatform platform;
+	CarryObject platform;
 	boolean checkpoint;
 	public SpikeRight() {
 		this.setSprite(new Sprite ("resources/sprites/SpikeRight.png"));
@@ -34,11 +35,25 @@ public class SpikeRight extends MapObject{
 	public void frameEvent () {
 		super.frameEvent();
 		if (!inzilized) {
-			for (int i = 0; i < ObjectHandler.getObjectsByName("MoveingPlatform").size(); i++) {
-				if (this.isCollidingBEEG(ObjectHandler.getObjectsByName("MoveingPlatform").get(i))) {
-					platform = (MoveingPlatform) ObjectHandler.getObjectsByName("MoveingPlatform").get(i);
+			ArrayList <MapObject> working = new ArrayList <MapObject> ();
+			ArrayList<ArrayList<GameObject>> fullList = ObjectHandler.getChildrenByName("MapObject");
+			if (fullList != null) {
+				for (int i = 0; i < fullList.size(); i++) {
+					for (int j = 0; j <fullList.get(i).size(); j++) {
+						try {
+							CarryObject lame = (CarryObject) fullList.get(i).get(j);
+							working.add((MapObject)fullList.get(i).get(j));
+						} catch (ClassCastException e) {
+							
+						}
+					}
+				}
+			}
+			for (int i = 0; i < working.size(); i++) {
+				if (this.isCollidingBEEG(working.get(i))) {
+					platform = (CarryObject) working.get(i);
 					while(true) {
-						if (this.isColliding(platform)) {
+						if (this.isColliding (working.get(i))) {
 							this.setX(this.getX() + 1);
 						} else {
 							break;
@@ -63,7 +78,13 @@ public class SpikeRight extends MapObject{
 	}
 	@Override 
 	public boolean doesColide (GameObject o) {
-		if (o.getClass().getSimpleName().equals("MoveingPlatform")) {
+		boolean correct = false;
+		for (int i = 0; i < o.getClass().getInterfaces().length; i++) {
+			if (o.getClass().getSimpleName().equals("CarryObject")) {
+				correct = true;
+			}
+		}
+		if (correct) {
 			return !inzilized;
 		}
 		this.onCollision(o);

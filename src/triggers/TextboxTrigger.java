@@ -13,7 +13,7 @@ public class TextboxTrigger extends RessesiveTrigger {
 		if (!TriggeredTextbox.declared()) {
 			TriggeredTextbox.changeText(this.getVariantAttribute("message"));
 			if (this.getVariantAttribute("font") != null) {
-			TriggeredTextbox.changeFont ("resources/sprites/config/" + this.getVariantAttribute("font") + ".txt");
+			TriggeredTextbox.setFont(this.getVariantAttribute("font"));
 			}
 		TriggeredTextbox.declare(0,380);
 		TriggeredTextbox.chagePause();

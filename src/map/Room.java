@@ -60,7 +60,7 @@ public class Room {
 	private static int mapHeight;
 	private static int numLayers;
 	
-	public static int collisionLayer = 1;
+	public static int collisionLayer = 0;
 	
 	private static int chungusWidth = 20;
 	private static int chungusHeight = 15;
@@ -325,7 +325,7 @@ public class Room {
 				if (mapObjects.get(toPackedLong(wx,wy)) == null) {
 					if (index == SPECIAL_TILE_ID) {
 						long pos = toPackedLong (wx,wy);
-						positionToEntitiys.get(pos).onCollision(obj);
+						positionToEntitiys.get(pos).onCollisionIntermidete(obj);
 						if (!foundCollision) {
 						foundCollision = positionToEntitiys.get(pos).doesColide(obj);
 						}
@@ -333,6 +333,7 @@ public class Room {
 						foundCollision = true;
 					}
 			} else {
+				
 				if (mapObjects.get(toPackedLong(wx,wy)).isColliding(obj) && !obj.equals(mapObjects.get(toPackedLong(wx,wy)))) {
 					mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)));
 					return true;
@@ -361,7 +362,7 @@ public class Room {
 							foundCollision = positionToEntitiys.get(pos).doesColide(obj);
 							}
 						if (foundCollision) {
-							positionToEntitiys.get(pos).onCollision(obj);
+							positionToEntitiys.get(pos).onCollisionIntermidete(obj);
 						}
 					}
 				} else if (dataList.get(index).getName().equals(tileId)) {
@@ -394,7 +395,7 @@ public class Room {
 				} else{
 					if (mapObjects.get(toPackedLong(wx,wy)).isColliding(obj)) {
 						mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)));
-						working.add(new MapTile (dataList.get(index),(int)mapObjects.get(toPackedLong(wx,wy)).getX(),(int)mapObjects.get(toPackedLong(wx,wy)).getY()));
+						working.add(new MapTile (dataList.get(index),mapObjects.get(toPackedLong(wx,wy)).getX(),mapObjects.get(toPackedLong(wx,wy)).getY()));
 					}
 				}
 			}

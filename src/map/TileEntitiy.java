@@ -2,6 +2,7 @@ package map;
 
 import java.awt.image.BufferedImage;
 
+import gameObjects.PairingObject;
 import main.GameObject;
 
 public class TileEntitiy {
@@ -49,6 +50,13 @@ public class TileEntitiy {
 	}
 	public void setLayer (int newLayer) {
 		layer = newLayer;
+	}
+	public void onCollisionIntermidete(GameObject o) {
+		if (o.getClass().getSimpleName().equals("PairingObject")) {
+			PairingObject working = (PairingObject) o;
+			working.addPairedObject(this);
+		}
+		this.onCollision(o);
 	}
 	/**
 	 * run code for the specfied tileEnitiy
