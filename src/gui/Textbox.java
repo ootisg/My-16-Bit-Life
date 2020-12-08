@@ -1,5 +1,7 @@
 package gui;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Random;
 
 import main.AnimationHandler;
 import main.GameAPI;
@@ -8,6 +10,7 @@ import main.GameObject;
 import main.ObjectHandler;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
+import resources.SpriteParser;
 
 
 
@@ -31,22 +34,36 @@ public class Textbox extends GameObject {
 	private boolean unfrezeMenu = false;
 	int isScrolled = 0;
 	String text1;
+	String name;
 	int width1;
 	int height1;
+	int time = -1;
+	String [] extentions = {"7Z","JAVA","MP3","AI","AVI","BAS","C","C++","CD","CDF","CLASS","CMD","CSV","CSPROJ","D","D64","DAF","DAT","DB","DCI","DEV","DFL","DHP","DLC","DMO","DMP","DOC","DOG","E","EXE","EXP","EXS","F01","F4V","FA","FLV","GBR","GGB","GIF","GO","GPX","H!","H","H++","HACK","HDMP","HTA","HTML","HUM","ICO","IGC","ISO","IT","JAR","JNLP","JPEG","JS","JSON","LISP","LUA","LZ","M","MDI","MDG","MDS","MEX","MID","MOB","MOD","MOV","MP2","MP4","MPEG","MPG","MSI","NC","NEO","NPR","NUMBERS","O","OBJ","OBS","OXT","OWL","OST","P","PAL","PACK","PAK","PAM","PAS","PDF","PDN","PHP","PIE","PIT","PMA","PPTX","PSD","PTF","PS1","PUP","PY","QT","RAD","RAM","RAR","RB","RBXM","RBXL","RC","RES","RTF","RUN","SAV","SB3","SEQ","SIG","SM","SPIN","ST","STD","SWF","SWIFT","TAK","TORRENT","TAR","TSF","TTF","UI","UT!","V","V64","VB","VFD","VMG","VOB","WAV","WMA","XAR","XCF","XEX","XLS","XP","XYZ","ZIP","ZS"};
 	boolean renderBox;
 	// put filepath of fontsheet to use as the font
 	public Textbox (String textToDisplay){
-	renderBox = true ;
-	fontSheet = new Sprite ("resources/sprites/config/font.txt");
-	textBoxTop = new Sprite ("resources/sprites/config/text_border_top.txt"); 
-	textBoxBottum = new Sprite ("resources/sprites/config/text_border_bottom.txt");
-	textBoxSides = new  Sprite ("resources/sprites/config/text_border_sides.txt");
-	textBoxBackground = new Sprite ("resources/sprites/config/text_background.txt");
+	renderBox = true;
+	ArrayList <String> parserQuantitys = new ArrayList<String> ();
+	parserQuantitys.add("grid 8 8");
+	ArrayList <String> parserQuantitiys2 = new ArrayList<String>();
+	parserQuantitiys2.add("rectangle 0 0 8 8");
+	ArrayList <String> parserQuantitiys3 = new ArrayList<String>();
+	parserQuantitiys3.add("rectangle 24 0 8 1");
+	ArrayList <String> parserQuantitiys4 = new ArrayList<String>();
+	parserQuantitiys4.add("rectangle 16 0 1 8");
+	ArrayList <String> parserQuantitiys5 = new ArrayList<String>();
+	parserQuantitiys5.add("rectangle 8 0 8 8");
+	textBoxTop = new Sprite ("resources/sprites/Text/windowspritesBlack.png", new SpriteParser(parserQuantitiys2));
+	fontSheet = new Sprite ("resources/sprites/Text/normal.png", new SpriteParser(parserQuantitys));
+	textBoxBottum = new Sprite ("resources/sprites/Text/windowspritesBlack.png", new SpriteParser(parserQuantitiys3));
+	textBoxBottum = new Sprite ("resources/sprites/Text/windowspritesBlack.png", new SpriteParser(parserQuantitiys4));
+	textBoxBackground = new Sprite ("resources/sprites/Text/windowspritesBlack.png", new SpriteParser(parserQuantitiys5));
 	isFinished = false;
 	spaceManipulation = 0;
 	text1 = textToDisplay;
 	width1 = 200;
 	height1 = 100;
+	name = "null";
 	}
 	//makes the textbox not get automaticly forgoten
 	public void remember (boolean whateverMan) {
@@ -72,21 +89,46 @@ public class Textbox extends GameObject {
 	public void changeHeight(int newHeigh) {
 		height1 = newHeigh;
 	}
-	// font = a config file with the font you want 
-	public void changeFont (String font) {
-		fontSheet = new Sprite (font);
-	}
 	public void changeBoxVisability () {
 		renderBox = !renderBox;
 	}
 	public void changeText(String newText) {
 		text1 = newText;
 	}
+	public void setFont (String fontName) {
+		ArrayList <String> parserQuantitys = new ArrayList<String> ();
+		parserQuantitys.add("grid 8 8");
+		fontSheet = new Sprite ("resources/sprites/Text/" + fontName + ".png", new SpriteParser(parserQuantitys));
+	}
+	public void giveName (String boxName) {
+		if (!boxName.equals("null")) {
+			name = boxName;
+			Random rand = new Random();
+			name = name + "." +extentions[rand.nextInt(extentions.length)];
+		}
+	}
+	public void setBox (String color) {
+		ArrayList <String> parserQuantitiys2 = new ArrayList<String>();
+		parserQuantitiys2.add("rectangle 0 0 8 8");
+		ArrayList <String> parserQuantitiys3 = new ArrayList<String>();
+		parserQuantitiys3.add("rectangle 24 0 8 1");
+		ArrayList <String> parserQuantitiys4 = new ArrayList<String>();
+		parserQuantitiys4.add("rectangle 16 0 1 8");
+		ArrayList <String> parserQuantitiys5 = new ArrayList<String>();
+		parserQuantitiys5.add("rectangle 8 0 8 8");
+		textBoxTop = new Sprite ("resources/sprites/Text/windowsprites" + color + ".png", new SpriteParser(parserQuantitiys2));
+		textBoxBottum = new Sprite ("resources/sprites/Text/windowsprites" + color + ".png", new SpriteParser(parserQuantitiys3));
+		textBoxSides= new Sprite ("resources/sprites/Text/windowsprites" + color + ".png", new SpriteParser(parserQuantitiys4));
+		textBoxBackground = new Sprite ("resources/sprites/Text/windowsprites" + color + ".png", new SpriteParser(parserQuantitiys5));
+	}
+	public void setTime (int time) {
+		this.time = time;
+	}
 	// text = the message thats displayed width is the width of the box height is the height of the box 
 	//x_orign is the x start point of the box y_orign is the y start point of the box
 	
 public void drawBox (){
-	if ((finalCheck && isFinished && (keyPressed(65) || keyPressed (97) || isDone)) || keyPressed (88)){
+	if ((finalCheck && isFinished && (keyPressed(65) || keyPressed (97) || isDone)) || keyPressed (88) || time == 0){
 		isDone = true;
 		if (unfrezeMenu) {
 			Gui.getGui().menu.frozen = false;
@@ -99,6 +141,7 @@ public void drawBox (){
 		}
 	}
 	else {
+	time = time -1;
 	String text;
 	int width;
 	int height;
@@ -123,6 +166,15 @@ public void drawBox (){
 	int x_beginning = x_origin;
 	int x_basis = x_origin;
 	int y_start = y_origin;
+	if (!name.equals("null")) {
+		int nameX = x_origin;
+		int nameY = y_origin - 8;
+		for (int i = 0; i < name.length(); i++) {
+			AfterRenderDrawer.drawAfterRender(nameX,nameY, textBoxBackground);
+			AfterRenderDrawer.drawAfterRender(nameX,nameY, fontSheet, name.charAt(i));
+			nameX = nameX + 8;
+		}
+	}
 	while (width > 1){
 	if (renderBox) {
 	AfterRenderDrawer.drawAfterRender(x_start, y_start, textBoxTop);
@@ -225,6 +277,23 @@ public void drawBox (){
 				if (charitarCode == 32) {
 					x_beginning = x_beginning + 8;
 					space = space - 1;
+					int nextWordSpace = 0;
+					for (int i = charictarNumber; i < message.length(); i++) {
+						nextWordSpace = nextWordSpace + 1;
+						try {
+						if (KeyEvent.getExtendedKeyCodeForChar(message.charAt(i)) == 32) {
+							break;
+						}
+						} catch (StringIndexOutOfBoundsException e) {
+							break;
+						}
+					}
+					int lineSpace =  (width1 - (x_beginning - x_origin))/8;
+					if (nextWordSpace > lineSpace) {
+						y_origin = y_origin + 8;
+						x_beginning = x_origin;
+						width_basis = width_beginning;
+					}
 				}
 		// uses the askii value to draw the charictar in the box
 				else{

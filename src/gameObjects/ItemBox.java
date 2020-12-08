@@ -29,7 +29,7 @@ public class ItemBox extends GameObject {
 							PairingObject obj = (PairingObject) this.getCollisionInfo().getCollidingObjects().get(0);
 							GameObject [] working = new GameObject [obj.getPairedPairedObjects().size()];
 							for (int i =0 ; i<working.length; i++) {
-								working[i] = obj.getPairedPairedObjects().get(i);
+								working[i] = (GameObject) obj.getPairedPairedObjects().get(i);
 							}
 							cutscene = new Cutsceen (this.getVariantAttribute("cutsceen"), working);
 						} else {

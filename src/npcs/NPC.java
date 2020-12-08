@@ -35,8 +35,8 @@ public class NPC extends GameObject {
 			} else {
 				attachedCutscene = new Cutsceen ("resources/cutsceenConfig/misconfiguredSceen.txt");
 			}
-			if (this.getVariantAttribute("sprite") != null && !this.getVariantAttribute("sprite").equals("nv")) {
-				this.setSprite(new Sprite (this.getVariantAttribute("sprite")));
+			if (this.getVariantAttribute("Sprite") != null && !this.getVariantAttribute("Sprite").equals("nv")) {
+				this.setSprite(new Sprite (this.getVariantAttribute("Sprite")));
 				this.getAnimationHandler().setFrameTime(100);
 			} else {
 				this.setSprite(new Sprite ("resources/sprites/config/point_guy.txt"));
@@ -66,7 +66,6 @@ public class NPC extends GameObject {
 	}
 	@Override 
 	public void pausedEvent () {
-		System.out.println("debug");
 		if (playing) {
 			if (!attachedCutscene.play()) {
 				ObjectHandler.pause(false);

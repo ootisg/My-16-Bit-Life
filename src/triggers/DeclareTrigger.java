@@ -22,7 +22,11 @@ public class DeclareTrigger extends RessesiveTrigger {
 				int x = 0;
 				if (this.isColliding("PairingObject")) { 
 					PairingObject working = (PairingObject) this.getCollisionInfo().getCollidingObjects().get(0);
-					ArrayList<GameObject> workingList = working.getPairedPairedObjects();
+					ArrayList<GameObject> workingList = new ArrayList <GameObject> ();
+					ArrayList <Object> pairedList = working.getPairedPairedObjects();
+					for (int i = 0; i < pairedList.size(); i++) {
+						workingList.add((GameObject)pairedList.get(i));
+					}
 						for (int i = 0; i < workingList.size(); i++) {
 							xCoordinates [x] = workingList.get(i).getX();
 							yCoordinates [x] = workingList.get(i).getY();

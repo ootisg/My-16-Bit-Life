@@ -101,6 +101,13 @@ public class SlimeSword extends Item {
 				}
 			}
 		} else {
+			if (Room.getTileProperties(Room.collisionLayer, (int)desX, (int)desY).getName().contains("Code")) {
+				extended = false;
+				Jeffrey.getActiveJeffrey().stopFall(false);
+				Jeffrey.getActiveJeffrey().setVy(0);
+				broke = true;
+				Jeffrey.getActiveJeffrey().binded = false;
+			} else {
 			if (extended) {
 				if (mouseButtonDown(2)) {
 					Point currentPoint = new Point (this.getX(),this.getY());
@@ -156,6 +163,7 @@ public class SlimeSword extends Item {
 					}
 				}
 			}
+			}
 		}
 		if (this.mouseButtonPressed(2)&& !extended && !broke) {
 			extended = true;
@@ -181,6 +189,7 @@ public class SlimeSword extends Item {
 				try {
 				if (!change) {
 				if (!this.goXandY(this.getX() - toUse, this.getY() + slope)) {
+					
 					break;
 				}
 				} else {

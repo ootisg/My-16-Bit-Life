@@ -35,7 +35,7 @@ public abstract class GameObject extends GameAPI {
 	/**
 	 * y-coordinate of this GameObject
 	 */
-	private double y;
+	protected double y;
 	/**
 	 * Previous x-coordinate of this GameObject
 	 */
@@ -43,7 +43,7 @@ public abstract class GameObject extends GameAPI {
 	/**
 	 * Previous y-coordinate of this GameObject
 	 */
-	private double yprevious;
+	protected double yprevious;
 	/**
 	 * The width of this GameObject's hitbox
 	 */
@@ -91,7 +91,7 @@ public abstract class GameObject extends GameAPI {
 	 * coordinates where the sprites are drawn
 	 */
 	protected double spriteX;
-	private double spriteY;
+	protected double spriteY;
 	/**
 	 * for use with despawnAllCoolLike
 	 */
@@ -326,7 +326,7 @@ public abstract class GameObject extends GameAPI {
 		if (hiboxBorders) {
 			if (this.hitbox() != null) {
 				Graphics g = RenderLoop.window.getBufferGraphics();
-				g.setColor(new Color(0xFFFFFF));
+				g.setColor(new Color(0x000000));
 				g.drawRect((int)(this.getX() + this.getHitboxXOffset() - Room.getViewX()),(int) (this.getY() + this.getHitboxYOffset() - Room.getViewY()), this.hitbox().width, this.hitbox().height);
 				}
 			}
@@ -638,7 +638,7 @@ public abstract class GameObject extends GameAPI {
 		if (hitboxWidth == 0 || hitboxHeight == 0 || !hasHitbox) {
 			return null;
 		}
-		return new Rectangle ((int)x + (int)hitboxXOffset, (int)y + (int)hitboxYOffset, (int)hitboxWidth, (int)hitboxHeight);
+		return new Rectangle ((int) Math.ceil(x + hitboxXOffset), (int)Math.ceil(y + (int)hitboxYOffset), (int)Math.ceil(hitboxWidth), (int)Math.ceil(hitboxHeight));
 	}
 	
 	/**

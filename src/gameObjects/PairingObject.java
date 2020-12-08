@@ -5,27 +5,32 @@ import java.util.LinkedList;
 
 import main.GameObject;
 import main.ObjectHandler;
+import map.Room;
 
 public class PairingObject extends GameObject {
-	ArrayList <GameObject> pairedObject;
+	ArrayList <Object> pairedObject;
 	public PairingObject () {
 		this.setHitboxAttributes (0,0,16,16);
 		this.setGameLogicPriority(-2);
-	
 	}
 	@Override 
 	public void frameEvent () {
 		if (pairedObject == null) {
 			if (ObjectHandler.checkCollisionChildren("GameObject", this).collisionOccured()) {
-				pairedObject = ObjectHandler.checkCollisionChildren("GameObject", this).getCollidingObjects();
+				pairedObject = new ArrayList <Object> ();
+				pairedObject.addAll(ObjectHandler.checkCollisionChildren("GameObject", this).getCollidingObjects());
+				Room.isColliding(this);
 			}
 		}
 	}
-	public ArrayList <GameObject> getPairedObjects (){
+	public void addPairedObject (Object o) {
+		pairedObject.add(o);
+	}
+	public ArrayList <Object> getPairedObjects (){
 		return pairedObject;
 	}
 	public ArrayList <PairingObject> getPairedParingObjects() {
-		ArrayList <GameObject> working= ObjectHandler.getObjectsByName("PairingObject");
+		ArrayList <GameObject> working = ObjectHandler.getObjectsByName("PairingObject");
 		ArrayList <PairingObject> pairedObjects = new ArrayList <PairingObject>();
 		for (int i = 0; i < working.size(); i++) {
 			PairingObject workingPairing = (PairingObject) working.get(i);
@@ -35,8 +40,8 @@ public class PairingObject extends GameObject {
 			}
 		return pairedObjects;
 		}
-	public ArrayList <GameObject> getPairedPairedObjects (){
-		ArrayList <GameObject> working = new ArrayList<GameObject> ();
+	public ArrayList <Object> getPairedPairedObjects (){
+		ArrayList <Object> working = new ArrayList<Object> ();
 		ArrayList <PairingObject> pairedObjects = this.getPairedParingObjects();
 		if (this.pairedObject.getClass().getSimpleName().equals("ForgetTrigger")) {
 			System.out.println(pairedObjects.get(0).pairedObject);

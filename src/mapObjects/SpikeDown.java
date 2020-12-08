@@ -1,5 +1,6 @@
 package mapObjects;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import gameObjects.CheckpointSystem;
@@ -32,12 +33,26 @@ public class SpikeDown extends MapObject{
 	public void frameEvent () {
 		super.frameEvent();
 		if (!inzilized) {
-			for (int i = 0; i < ObjectHandler.getObjectsByName("MoveingPlatform").size(); i++) {
-				if (this.isCollidingBEEG(ObjectHandler.getObjectsByName("MoveingPlatform").get(i))) {
-					MoveingPlatform platform;
-					platform = (MoveingPlatform) ObjectHandler.getObjectsByName("MoveingPlatform").get(i);
+			ArrayList <MapObject> working = new ArrayList <MapObject> ();
+			ArrayList<ArrayList<GameObject>> fullList = ObjectHandler.getChildrenByName("MapObject");
+			if (fullList != null) {
+				for (int i = 0; i < fullList.size(); i++) {
+					for (int j = 0; j <fullList.get(i).size(); j++) {
+						try {
+							CarryObject lame = (CarryObject) fullList.get(i).get(j);
+							working.add((MapObject)fullList.get(i).get(j));
+						} catch (ClassCastException e) {
+							
+						}
+					}
+				}
+			}
+			for (int i = 0; i <working.size(); i++) {
+				if (this.isCollidingBEEG(working.get(i))) {
+					CarryObject platform;
+					platform = (CarryObject)working.get(i);
 					while(true) {
-						if (this.isColliding(platform)) {
+						if (this.isColliding(working.get(i))) {
 							this.setY(this.getY() + 1);
 						} else {
 							break;
@@ -68,7 +83,13 @@ public class SpikeDown extends MapObject{
 			this.onCollision(o);
 			return false;
 		} else {
-			if (o.getClass().getSimpleName().equals("MoveingPlatform")) {
+			boolean correct = false;
+			for (int i = 0; i < o.getClass().getInterfaces().length; i++) {
+				if (o.getClass().getSimpleName().equals("CarryObject")) {
+					correct = true;
+				}
+			}
+			if (correct) {
 				return !inzilized;
 			} else {
 				return false;

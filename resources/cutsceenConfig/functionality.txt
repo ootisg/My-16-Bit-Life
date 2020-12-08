@@ -48,7 +48,10 @@ actions - (use the type paramiter paired with any of these to activate them in t
 
 	"text" - displays a textbox with the desired text
 		"text" - refers to the text to display
-
+		"color" - the color of the textbox
+		"name" - the name of the charictar speaking
+		"fontName" - the name of the font
+		"time" - time (in frames) until the textbox closes on its own 
 	"playScene" - plays a diffrent cutsceen 
 		"path" - the path to the config file of the new cutscene
 		optional paramiter "passedObjects"

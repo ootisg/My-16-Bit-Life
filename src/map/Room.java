@@ -325,7 +325,7 @@ public class Room {
 				if (mapObjects.get(toPackedLong(wx,wy)) == null) {
 					if (index == SPECIAL_TILE_ID) {
 						long pos = toPackedLong (wx,wy);
-						positionToEntitiys.get(pos).onCollision(obj);
+						positionToEntitiys.get(pos).onCollisionIntermidete(obj);
 						if (!foundCollision) {
 						foundCollision = positionToEntitiys.get(pos).doesColide(obj);
 						}
@@ -333,6 +333,7 @@ public class Room {
 						foundCollision = true;
 					}
 			} else {
+				
 				if (mapObjects.get(toPackedLong(wx,wy)).isColliding(obj) && !obj.equals(mapObjects.get(toPackedLong(wx,wy)))) {
 					mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)));
 					return true;
@@ -361,7 +362,7 @@ public class Room {
 							foundCollision = positionToEntitiys.get(pos).doesColide(obj);
 							}
 						if (foundCollision) {
-							positionToEntitiys.get(pos).onCollision(obj);
+							positionToEntitiys.get(pos).onCollisionIntermidete(obj);
 						}
 					}
 				} else if (dataList.get(index).getName().equals(tileId)) {
@@ -394,7 +395,7 @@ public class Room {
 				} else{
 					if (mapObjects.get(toPackedLong(wx,wy)).isColliding(obj)) {
 						mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)));
-						working.add(new MapTile (dataList.get(index),(int)mapObjects.get(toPackedLong(wx,wy)).getX(),(int)mapObjects.get(toPackedLong(wx,wy)).getY()));
+						working.add(new MapTile (dataList.get(index),mapObjects.get(toPackedLong(wx,wy)).getX(),mapObjects.get(toPackedLong(wx,wy)).getY()));
 					}
 				}
 			}
@@ -601,7 +602,7 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 				int mapHeight = getInteger (4);
 				Room.mapHeight = mapHeight;
 				Room.mapWidth = mapWidth;
-				int numLayers = getInteger (4);
+				int numLayers = getInteger (4) ;
 				Room.numLayers = numLayers;
 				int numObjects = getInteger (4);
 				tileData = new int[numLayers][mapHeight][mapWidth];
@@ -975,7 +976,6 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			int mappedLayerIndex = 0;
 			for (int i = 0; i < numLayers; i++) {
 				if (isSpecialLayer(i)) {
-				
 					boolean extraImage =false;
 					if (i!= 0) {
 						if (!isSpecialLayer (i-1)) {

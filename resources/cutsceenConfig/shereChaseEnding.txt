@@ -1,0 +1,42 @@
+{
+	"usedObjects": [
+		{
+		"name": "door",	
+		"type": "MoveablePlatform",
+		"genMethod": "pass",
+		}
+	],
+	"events": [
+		{
+			"type": "moveSlow",
+			"name": "door",
+			"offsetX": "30",
+			"offsetY": "0",
+			"middleVelocity": "30",
+			"startAcceleration": "20",
+			"endAcceleration": "10",
+		}
+		{
+		"type": "text", 
+			"text": "WHEW WE MADE IT",
+			"color": "Purple",
+			"name": "Ryan",
+			"time": "200",
+		}
+		{
+		"type": "text", 
+			"text": "WHAT DO YOU THINK IS GONNA HAPPEN TO THAT SPHERE NOW?",
+			"color": "Blue",
+			"name": "Jeffrey",
+			"time": "200",
+		}
+		{
+		"type": "text", 
+			"text": "I GUESS IT WILL JUST GO BETWEEN THOSE TWO ROOMS FOR ALL OF ETERNITY",
+			"color": "Green",
+			"name": "SAM",
+			"time": "200",
+		}
+		
+	]	
+}

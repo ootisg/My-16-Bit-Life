@@ -1,0 +1,32 @@
+{
+	"usedObjects": [
+		{
+			"name": "door1",
+			"type": "MoveablePlatform",
+			"genMethod": "pass",
+		}
+		{
+			"name": "door2",
+			"type": "MoveablePlatform",
+			"genMethod": "pass",
+		}
+	],
+	"events": [
+		{
+			"chainInfo": "start"
+			"type": "moveSlow"
+			"startAcceleration": "1"
+			"object": "door1"
+			"offsetX": "80"
+			"offsetY": "0"
+		}
+		{
+			"chainInfo": "end"
+			"type": "moveSlow"
+			"startAcceleration": "1"
+			"object": "door2"
+			"offsetX": "80"
+			"offsetY": "0"
+		}		
+	]	
+}

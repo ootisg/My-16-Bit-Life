@@ -15,7 +15,7 @@ import resources.Sprite;
 public class SpikeUp extends MapObject{
 	double JeffVy = 0;
 	boolean inzilized = false;
-	MoveingPlatform platform;
+	CarryObject platform;
 	boolean added = false;
 	boolean checkpoint;
 	public SpikeUp() {
@@ -38,12 +38,25 @@ public class SpikeUp extends MapObject{
 		super.frameEvent();
 		JeffVy = Jeffrey.getActiveJeffrey().getVy();
 		if (!inzilized) {
-			if (ObjectHandler.getObjectsByName("MoveingPlatform") != null) {
-				for (int i = 0; i < ObjectHandler.getObjectsByName("MoveingPlatform").size(); i++) {
-					if (this.isCollidingBEEG(ObjectHandler.getObjectsByName("MoveingPlatform").get(i))) {
-						platform = (MoveingPlatform) ObjectHandler.getObjectsByName("MoveingPlatform").get(i);
+			ArrayList <MapObject> working = new ArrayList <MapObject> ();
+			ArrayList<ArrayList<GameObject>> fullList = ObjectHandler.getChildrenByName("MapObject");
+			if (fullList != null) {
+				for (int i = 0; i < fullList.size(); i++) {
+					for (int j = 0; j <fullList.get(i).size(); j++) {
+						try {
+							CarryObject lame = (CarryObject) fullList.get(i).get(j);
+							working.add((MapObject)fullList.get(i).get(j));
+						} catch (ClassCastException e) {
+							
+						}
+					}
+				}
+			}
+				for (int i = 0; i < working.size(); i++) {
+					if (this.isCollidingBEEG(working.get(i))) {
+						platform = (CarryObject) working.get(i);
 						while(true) {
-							if (this.isColliding(platform)) {
+							if (this.isColliding(working.get(i))) {
 								this.setY(this.getY() - 1);
 							} else {
 								break;
@@ -53,13 +66,12 @@ public class SpikeUp extends MapObject{
 						break;
 					}
 				}
-			}
 			inzilized = true;
 		}
 		if (platform != null ) {
 			Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() + 3);
 			if (Jeffrey.getActiveJeffrey().isColliding(this)){
-				if (!platform.objectsToCarry.contains(Jeffrey.getActiveJeffrey())) {
+				if (!platform.getCarryObjects().contains(Jeffrey.getActiveJeffrey())) {
 					platform.addCarryObject(Jeffrey.getActiveJeffrey());
 					added = true;
 				}
@@ -95,10 +107,16 @@ public class SpikeUp extends MapObject{
 					return true;
 				}
 		} else {
-			if (o.getClass().getSimpleName().equals("MoveingPlatform")) {
+			boolean correct = false;
+			for (int i = 0; i < o.getClass().getInterfaces().length; i++) {
+				if (o.getClass().getSimpleName().equals("CarryObject")) {
+					correct = true;
+				}
+			}
+			if (correct) {
 				return !inzilized;
 			} else {
-			return false;
+				return false;
 			}
 		}
 	}

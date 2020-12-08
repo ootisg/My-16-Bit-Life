@@ -1,10 +1,13 @@
 package gui;
 
 
+import java.util.ArrayList;
+
 import main.GameObject;
 import map.Room;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
+import resources.SpriteParser;
 
 public class Tbox extends GameObject {
 	//Lightweight textbox object
@@ -25,8 +28,10 @@ public class Tbox extends GameObject {
 	boolean keepOpen = false;
 	public Tbox () {
 		timer = 0;
-		textBorder = new Sprite ("resources/sprites/config/text_border.txt");
-		font = new Sprite ("resources/sprites/config/font.txt");
+		ArrayList <String> parserQuantitys = new ArrayList<String> ();
+		parserQuantitys.add("grid 8 8");
+		textBorder = new Sprite ("resources/sprites/Text/windowspritesBlack.png", new SpriteParser(parserQuantitys));
+		font = new Sprite ("resources/sprites/Text/normal.png", new SpriteParser(parserQuantitys));
 	}
 	public Tbox (double x, double y, int width, int height, String text, boolean drawBox) {
 		//Initialize parameters
@@ -35,8 +40,10 @@ public class Tbox extends GameObject {
 		this.height = height;
 		this.text = text;
 		this.scrollTime = 2;
-		textBorder = new Sprite ("resources/sprites/config/text_border.txt");
-		font = new Sprite ("resources/sprites/config/font.txt");
+		ArrayList <String> parserQuantitys = new ArrayList<String> ();
+		parserQuantitys.add("grid 8 8");
+		textBorder = new Sprite ("resources/sprites/Text/windowspritesBlack.png", new SpriteParser(parserQuantitys));
+		font = new Sprite ("resources/sprites/Text/normal.png", new SpriteParser(parserQuantitys));
 		this.frameCount = 0;
 		this.startPos = 0;
 		this.letterPos = 0;
@@ -208,6 +215,16 @@ public class Tbox extends GameObject {
 	}
 	public int getScrollRate () {
 		return this.scrollTime;
+	}
+	public void setFont (String fontName) {
+		ArrayList <String> parserQuantitys = new ArrayList<String> ();
+		parserQuantitys.add("grid 8 8");
+		font = new Sprite ("resources/sprites/Text/" +fontName +".png", new SpriteParser(parserQuantitys));
+	}
+	public void setBox (String color) {
+		ArrayList <String> parserQuantitys = new ArrayList<String> ();
+		parserQuantitys.add("grid 8 8");
+		textBorder = new Sprite ("resources/sprites/Text/windowsprites" + color +".png", new SpriteParser(parserQuantitys));
 	}
 	public void keepOpen (boolean shouldItStayOpen) {
 		keepOpen = shouldItStayOpen;

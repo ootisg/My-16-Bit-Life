@@ -1,0 +1,26 @@
+{
+"usedObjects": [],
+"events": [
+		{
+			"type": "text",
+			"color": "Green",
+			"name": "SAM",
+			"time": "200",
+			"text": "AHHHHHHH RUN GUYS",
+		}
+{
+			"type": "text",
+			"color": "Purple",
+			"name": "RYAN",
+			"time": "200",
+			"text": "AHHHHHHH",
+		}
+{
+			"type": "text",
+			"color": "Blue",
+			"name": "JEFFREY",
+			"time": "200",
+			"text": "AHHHHHHH!       SEE I TOLD YOU THE SPHERE WOULD BE SCARIER",
+		}
+	]
+}

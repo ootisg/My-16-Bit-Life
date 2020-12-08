@@ -1,9 +1,12 @@
 package gui;
 
+import java.util.ArrayList;
+
 import items.Item;
 import items.LemonPacket;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
+import resources.SpriteParser;
 
 public class ListTbox extends Tbox {
 	
@@ -16,8 +19,27 @@ public class ListTbox extends Tbox {
 	public ListTbox (double x, double y, String[] options) {
 		//Initialize parameters
 		this.declare (x, y);
-		textBorder = new Sprite ("resources/sprites/config/text_border.txt");
-		font = new Sprite ("resources/sprites/config/font.txt");
+		ArrayList <String> parserQuantitys = new ArrayList<String> ();
+		parserQuantitys.add("grid 8 8");
+		textBorder = new Sprite ("resources/sprites/Text/windowspritesBlack.png", new SpriteParser(parserQuantitys));
+		font = new Sprite ("resources/sprites/Text/normal.png", new SpriteParser(parserQuantitys));
+		int longestWidth = 0;
+		for (int i = 0; i < options.length; i ++) {
+			if (options [i].length () > longestWidth) {
+				longestWidth = options [i].length ();
+			}
+		}
+		this.width = longestWidth + 1;
+		this.height = options.length;
+		this.options = options;
+	}
+	public ListTbox (double x, double y, String[] options, String color, String fontName) {
+		//Initialize parameters
+		this.declare (x, y);
+		ArrayList <String> parserQuantitys = new ArrayList<String> ();
+		parserQuantitys.add("grid 8 8");
+		textBorder = new Sprite ("resources/sprites/Text/windowsprites"+ color +".png", new SpriteParser(parserQuantitys));
+		font = new Sprite ("resources/sprites/Text/" + fontName +".png", new SpriteParser(parserQuantitys));
 		int longestWidth = 0;
 		for (int i = 0; i < options.length; i ++) {
 			if (options [i].length () > longestWidth) {

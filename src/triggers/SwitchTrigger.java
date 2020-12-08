@@ -22,7 +22,10 @@ public class SwitchTrigger extends Trigger implements Activateable {
 			for (int i = 0; i < paringObjects.size(); i++) {
 				if (paringObjects.get(i).isColliding(this)) {
 					PairingObject obj = (PairingObject) paringObjects.get(i);
-					switchesToActivate = obj.getPairedPairedObjects();
+					ArrayList <Object> pairedList = obj.getPairedPairedObjects();
+					for (int j = 0; j < pairedList.size(); j++) {
+						switchesToActivate.add((GameObject)pairedList.get(i));
+					}
 					break;
 				}
 			}

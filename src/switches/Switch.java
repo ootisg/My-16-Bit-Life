@@ -16,7 +16,7 @@ public class Switch extends MapObject {
 	
 	private boolean solid = false;
 	
-	ArrayList <GameObject> activateableObjects = new ArrayList <GameObject> ();
+	ArrayList <Object> activateableObjects = new ArrayList <Object> ();
 	
 	public Switch () {
 	}

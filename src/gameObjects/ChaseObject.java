@@ -75,6 +75,9 @@ public class ChaseObject extends GameObject {
 				Jeffrey.getActiveJeffrey().damage(10);
 				CheckpointSystem.loadNewestCheckpoint();
 			}
+			if (this.isCollidingChildren("Enemy")) {
+				
+			}
 		}
 	}
 	@Override

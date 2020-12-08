@@ -198,9 +198,7 @@ if (activeBox) {
 	}
 	@Override
 	public void frameEvent () {
-		
 		if (active) {
-		
 			if (keyDown ('S') && !onLadder && crouchElegable && this.getX() - this.getSpriteX() == 0) {
 				crouching = true;
 				if (this.changeSprite) {
@@ -623,14 +621,18 @@ if (activeBox) {
 			vy = TERMINAL_VELOCITY;
 		}
 		if (fallBruh) {
+		
 		setY (getY () + vy);
 	}
-		if (Room.isColliding(this)) {
+			if (Room.isColliding(this)) {
 			vy = 0;
 			trueVy = 0;
 			forceSpacebar = false;
 			increments.clear();
 			double fc = .2; //Friction coefficient
+			if (this.checkIfSlippery()) {
+				fc = 0;
+			}
 			if (vx > 0) {
 				vx -= fc;
 				if (vx < 0) {
@@ -644,10 +646,10 @@ if (activeBox) {
 			}
 			if (fallBruh) {
 			MapTile[] collidingTiles = Room.getCollidingTiles (this);
-			this.setY (this.getY() + vy);
 			for (int i = 0; i < collidingTiles.length; i++) {
 			    if (getY () + 32 >= collidingTiles [i].y && getY () + 32 <= collidingTiles [i].y + 16) {
-			        this.setY (collidingTiles [i].y - 32);
+			        this.setY (collidingTiles [i].y - 32);			  
+			       // System.out.println(this.hitbox().height + this.getY() + Room.getGravity() + this.getHitboxYOffset() + 0.5  + "," + collidingTiles[i].y );
 			        this.vy = 0;
 			        this.trueVy = 0;
 			        isJumping = false;
@@ -672,6 +674,14 @@ if (activeBox) {
 			}
 			if (!keyDown ('A') && !keyDown ('D')) {
 				vx = 0;
+			}
+		}
+		if (this.checkIfSlippery()) {
+			if (ax < 0 && vx > 0) {
+				vx = -vx;
+			}
+			if (ax > 0 && vx < 0) {
+				vx = -vx;
 			}
 		}
 		vx = vx + ax;
@@ -809,6 +819,19 @@ if (activeBox) {
 			 return status.statusAppliedOnRyan[4];
 		}
 		return false;
+	}
+	public boolean checkIfSlippery () {
+		if (this.witchCharictar == 0) {
+			 return status.statusAppliedOnJeffrey[8];
+		}
+		if (this.witchCharictar == 1) {
+			 return status.statusAppliedOnSam[8];
+		}
+		if (this.witchCharictar == 2) {
+			 return status.statusAppliedOnRyan[8];
+		}
+		return false;
+		
 	}
 	public boolean checkIfSlow() {
 		if (this.witchCharictar == 0) {

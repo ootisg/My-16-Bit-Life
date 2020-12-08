@@ -1,0 +1,2 @@
+$src resources/sprites/Bubble_Water.png
+	grid 16 16
