@@ -194,19 +194,15 @@ public class GameCode {
 	static PopcornBag bag;
 	static Bomb bom;
 	static BubbleGun bubbleGun;
-<<<<<<< HEAD
 	static BubblePlatform bubble;
-	
-=======
 	static FallingSpike spike;
->>>>>>> 40afe194a043ed3fd07516fa0d870f7870600bed
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/rollingObjectTest.rmf");
+		Room.loadRoom ("resources/maps/bubblemap.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
@@ -365,11 +361,7 @@ public class GameCode {
 		//cactus.declare(100,100);
 		//pack.declare(100, 0);
 		//fire.declare(100,400);
-<<<<<<< HEAD
 		bubble.declare(200, 500);
-=======
-
->>>>>>> 40afe194a043ed3fd07516fa0d870f7870600bed
 	}
 	
 	public static void beforeGameLogic () {
