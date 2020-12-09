@@ -194,8 +194,8 @@ public class GameCode {
 	static PopcornBag bag;
 	static Bomb bom;
 	static BubbleGun bubbleGun;
-	static FallingSpike spike;
 	static BubblePlatform bubble;
+	static FallingSpike spike;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
@@ -225,6 +225,7 @@ public class GameCode {
 		packet = new LemonPacket();
 		pad = new DashPad ();
 		cart = new Minecart ();
+		bubble = new BubblePlatform();
 		Jeffrey.getInventory().addWeapon(extinguser, 0);
 		Jeffrey.getInventory().addFreind(lameJeffrey);
 		Jeffrey.getInventory().addFreind(lameSam);
@@ -362,7 +363,6 @@ public class GameCode {
 		//pack.declare(100, 0);
 		//fire.declare(100,400);
 		bubble.declare(200, 390);
-
 	}
 	
 	public static void beforeGameLogic () {

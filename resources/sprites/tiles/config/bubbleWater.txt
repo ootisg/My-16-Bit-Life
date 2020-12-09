@@ -1,0 +1,3 @@
+$src resources/sprites/tiles/bubbleWater.png
+
+grid 16 16

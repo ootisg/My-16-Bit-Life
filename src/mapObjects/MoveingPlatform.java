@@ -41,7 +41,7 @@ public class MoveingPlatform extends CarryObject implements Activateable {
 			if (firstTime) {
 					if (this.getVariantAttribute("spritePath") != null) {
 						if (!this.getVariantAttribute("spritePath").equals("nv")) {
-							this.setSprite(new Sprite ("resources/sprites/" +this.getVariantAttribute("spritePath")));
+							this.setSprite(new Sprite ("resources/sprites/" + this.getVariantAttribute("spritePath")));
 							this.setHitboxAttributes(0, 0, this.getSprite().getFrame(0).getWidth(), this.getSprite().getFrame(0).getHeight());
 							this.hitboxXoffset = 0;
 							this.hitboxYoffset = 0;

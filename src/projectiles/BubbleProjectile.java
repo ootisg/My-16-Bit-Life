@@ -70,9 +70,13 @@ public class BubbleProjectile extends Projectile {
 		/*if ((this.goingIntoWall || (this.isCollidingChildren("Projectile") && !this.isColliding())) && !isPopped) {
 			pop();
 		}*/
+		
+		//Pops when touching a wall
 		if (this.goingIntoWall && !isPopped) {
 		pop();
 		}
+		
+		//Pops when touching Jeffrey
 		if (!isPopped && this.isColliding(Jeffrey.getActiveJeffrey())) {
 			Jeffrey.getActiveJeffrey().setVy(-10);
 			pop();
@@ -83,6 +87,6 @@ public class BubbleProjectile extends Projectile {
 		isPopped = true;
 		this.setSpeed(0);
 		this.getAnimationHandler().setAnimationFrame(2);
-		this.getAnimationHandler().setFrameTime(35);
+		this.getAnimationHandler().setFrameTime(60);
 	}
 }
