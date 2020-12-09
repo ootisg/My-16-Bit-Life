@@ -20,7 +20,10 @@ public class TemporaryWall extends GameObject implements Activateable {
 	@Override
 	public void frameEvent () {
 		if (this.activated) {
-			Room.getMapObjects().put(Room.toPackedLong((int)this.getX()/16, (int)this.getY()/16),this);
+			if (Room.getMapObjects().get(Room.toPackedLong((int)this.getX()/16, (int)this.getY()/16)) == null) {
+				Room.getMapObjects().put(Room.toPackedLong((int)this.getX()/16, (int)this.getY()/16),new ArrayList <GameObject> ());
+			}
+			Room.getMapObjects().get(Room.toPackedLong((int)this.getX()/16, (int)this.getY()/16)).add(this);
 			try {
 			this.setSprite(new Sprite ("resources/sprites/" + this.getVariantAttribute("sprite") + ".png"));
 			this.setHitboxAttributes(0, 0, this.getSprite().getFrame(0).getWidth(), this.getSprite().getFrame(0).getHeight());

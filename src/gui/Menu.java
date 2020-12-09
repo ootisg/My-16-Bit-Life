@@ -98,7 +98,7 @@ public class Menu extends GameObject{
 	notChanged = true;
 	iterateTab = true;
 	pageNumber = 0;
-	
+	this.setRenderPriority(420);
 	menuSprite = new Sprite ("resources/sprites/config/menu.txt");
 	this.setSprite(menuSprite);
 	}

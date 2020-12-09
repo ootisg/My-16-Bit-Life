@@ -60,6 +60,7 @@ public class Jeffrey extends GameObject {
 	private boolean fallBruh = true;
 	public static Status status = new Status ();
 	
+	
 	public Sprite standSprite = new Sprite("resources/sprites/config/jeffrey_idle.txt");
 	public Sprite walkSprite = new Sprite("resources/sprites/config/jeffrey_walking.txt");
 	
@@ -121,7 +122,9 @@ public class Jeffrey extends GameObject {
 		getAnimationHandler ().setFrameTime (50);
 		this.setHitboxAttributes(4, 4, 7, 27);
 		this.setGameLogicPriority(-2);
-		//this.adjustHitboxBorders();
+		this.setHitboxRounding(true);
+		this.adjustHitboxBorders();
+		this.setPusablity(true);
 	}
 	//makes the players sprite only be changed by outside sources not by this class
 	public void changeSprite (boolean toChangeOrNotToChange) {
@@ -217,10 +220,10 @@ if (activeBox) {
 				}
 					this.changeSprite(false);
 					this.getAnimationHandler().setRepeat(false);
-					
+					this.setHitboxRounding(false);
 				}
 				if (this.getAnimationHandler().getFrame() == 2) {
-					this.setHitboxAttributes(4, 15, 12, 17);
+					this.setHitboxAttributes(4, 15, 8, 18);
 				}
 			} else {
 				if (this.changeSprite) {
@@ -240,6 +243,7 @@ if (activeBox) {
 				}
 				if (crouching) {
 				this.changeSprite(true);
+				this.setHitboxRounding(true);
 				this.getAnimationHandler().setRepeat(true);
 				this.setHitboxAttributes(4, 4, 7, 27);
 				}
@@ -488,11 +492,6 @@ if (activeBox) {
 			}
 			}
 			}
-			if (Room.isColliding(this)) {
-				//not sure if this is gonna work but whatever m8
-				this.setX(this.getXPrevious());
-				vx = 0;
-			}
 			if (scrolling) {
 				double x = this.getX ();
 				double y = this.getY ();
@@ -621,7 +620,6 @@ if (activeBox) {
 			vy = TERMINAL_VELOCITY;
 		}
 		if (fallBruh) {
-		
 		setY (getY () + vy);
 	}
 			if (Room.isColliding(this)) {
@@ -648,8 +646,7 @@ if (activeBox) {
 			MapTile[] collidingTiles = Room.getCollidingTiles (this);
 			for (int i = 0; i < collidingTiles.length; i++) {
 			    if (getY () + 32 >= collidingTiles [i].y && getY () + 32 <= collidingTiles [i].y + 16) {
-			        this.setY (collidingTiles [i].y - 32);			  
-			       // System.out.println(this.hitbox().height + this.getY() + Room.getGravity() + this.getHitboxYOffset() + 0.5  + "," + collidingTiles[i].y );
+			        this.setY (collidingTiles [i].y - 32);
 			        this.vy = 0;
 			        this.trueVy = 0;
 			        isJumping = false;
@@ -658,11 +655,10 @@ if (activeBox) {
 			    if (getY () >= collidingTiles [i].y && getY () <= collidingTiles [i].y + 16) {
 			        this.setY (collidingTiles [i].y + 16 - this.getHitboxYOffset ());
 			        break;
-			    
-			}
+			    }
 			}
 		}
-		}
+	}
 		falldurringCollisionCheck = true;
 		if (constantSpeed) {
 			ax = 0;
@@ -691,7 +687,7 @@ if (activeBox) {
 		if (vy >= 0) {
 			increments.add(vy);
 		}
-		this.setX (this.getX () + vx);
+		this.goX (this.getX () + vx);
 		if (this.isActive()) {
 			wpn.frameEvent();
 		}
