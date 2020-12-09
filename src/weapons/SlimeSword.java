@@ -101,68 +101,22 @@ public class SlimeSword extends Item {
 				}
 			}
 		} else {
-			if (Room.getTileProperties(Room.collisionLayer, (int)desX, (int)desY).getName().contains("Code")) {
-				extended = false;
-				Jeffrey.getActiveJeffrey().stopFall(false);
-				Jeffrey.getActiveJeffrey().setVy(0);
-				broke = true;
-				Jeffrey.getActiveJeffrey().binded = false;
-			} else {
-			if (extended) {
-				if (mouseButtonDown(2)) {
-					Point currentPoint = new Point (this.getX(),this.getY());
-					Point mousePoint = new Point (desX,desY);
-					slope =currentPoint.getSlope(mousePoint);
-					Jeffrey.getActiveJeffrey().stopFall(true); 
-					if (fifthteenthX > Room.TILE_WIDTH) {
-						fifthteenthX = Room.TILE_WIDTH;
-						}
-					if (fifthteenthY> Room.TILE_HEIGHT) {
-						fifthteenthY = Room.TILE_HEIGHT;
-						}
-						if (Jeffrey.getActiveJeffrey().getY ()  > desY) {
-							Jeffrey.getActiveJeffrey().goY(Jeffrey.getActiveJeffrey().getY() - fifthteenthY);
-						} else {
-							Jeffrey.getActiveJeffrey().goY(Jeffrey.getActiveJeffrey().getY() + fifthteenthY);
-						}
-						Jeffrey.getActiveJeffrey().binded = true;
-						if (Jeffrey.getActiveJeffrey().getX() > desX) {
-						
-							Jeffrey.getActiveJeffrey().goX(Jeffrey.getActiveJeffrey().getX() - fifthteenthX);
-						} else {
-							Jeffrey.getActiveJeffrey().goX(Jeffrey.getActiveJeffrey().getX() + fifthteenthX);
-						}
-				} else {
+			try {
+			if (Room.getTileProperties(Room.collisionLayer, (int)desX, (int)desY).getName() != null) {
+				if (Room.getTileProperties(Room.collisionLayer, (int)desX, (int)desY).getName().contains("code")) {
+					extended = false;
+					Jeffrey.getActiveJeffrey().stopFall(false);
+					Jeffrey.getActiveJeffrey().setVy(0);
+					broke = true;
 					Jeffrey.getActiveJeffrey().binded = false;
-					Jeffrey.getActiveJeffrey().stopFall(true); 
-					double slack =  Jeffrey.getActiveJeffrey().getY() - desY;
-					if (slack < 0) {
-						slack = slack * -1;
-					}
-					if (slack > 1) {
-						double toUse = slack/15;
-						if (toUse > 8) {
-							toUse = 8;
-						}
-					if (!(Jeffrey.getActiveJeffrey().getX() < desX + 10 && Jeffrey.getActiveJeffrey().getX() > desX -10)) {
-					if (Jeffrey.getActiveJeffrey().getX() > desX) {
-						Jeffrey.getActiveJeffrey().vx = Jeffrey.getActiveJeffrey().vx  -(toUse/10);
-					} else {
-						Jeffrey.getActiveJeffrey().vx = Jeffrey.getActiveJeffrey().vx + (toUse/10);
-					}
-					}
-					if (Jeffrey.getActiveJeffrey().vx > 15.9 && Jeffrey.getActiveJeffrey().vx > 0) {
-						Jeffrey.getActiveJeffrey().vx = 15.9;
-					}
-					if (Jeffrey.getActiveJeffrey().vx < -15.9 && Jeffrey.getActiveJeffrey().vx  < 0) {
-						Jeffrey.getActiveJeffrey().vx = -15.9;
-					}
-					} else {
-						Jeffrey.getActiveJeffrey().vx = 0;
-						Jeffrey.getActiveJeffrey().goX(desX);
-					}
+				} else {
+					this.junkCode();
 				}
+			} else {
+				this.junkCode();
 			}
+			} catch (ArrayIndexOutOfBoundsException e) {
+				this.junkCode();
 			}
 		}
 		if (this.mouseButtonPressed(2)&& !extended && !broke) {
@@ -269,6 +223,63 @@ public class SlimeSword extends Item {
 				Jeffrey.getActiveJeffrey().desyncSpriteX(-34);
 			} else {
 				Jeffrey.getActiveJeffrey().desyncSpriteX(0);
+			}
+		}
+	}
+	private void junkCode () {
+		if (extended) {
+			if (mouseButtonDown(2)) {
+				Point currentPoint = new Point (this.getX(),this.getY());
+				Point mousePoint = new Point (desX,desY);
+				slope =currentPoint.getSlope(mousePoint);
+				Jeffrey.getActiveJeffrey().stopFall(true); 
+				if (fifthteenthX > Room.TILE_WIDTH) {
+					fifthteenthX = Room.TILE_WIDTH;
+					}
+				if (fifthteenthY> Room.TILE_HEIGHT) {
+					fifthteenthY = Room.TILE_HEIGHT;
+					}
+					if (Jeffrey.getActiveJeffrey().getY ()  > desY) {
+						Jeffrey.getActiveJeffrey().goY(Jeffrey.getActiveJeffrey().getY() - fifthteenthY);
+					} else {
+						Jeffrey.getActiveJeffrey().goY(Jeffrey.getActiveJeffrey().getY() + fifthteenthY);
+					}
+					Jeffrey.getActiveJeffrey().binded = true;
+					if (Jeffrey.getActiveJeffrey().getX() > desX) {
+					
+						Jeffrey.getActiveJeffrey().goX(Jeffrey.getActiveJeffrey().getX() - fifthteenthX);
+					} else {
+						Jeffrey.getActiveJeffrey().goX(Jeffrey.getActiveJeffrey().getX() + fifthteenthX);
+					}
+			} else {
+				Jeffrey.getActiveJeffrey().binded = false;
+				Jeffrey.getActiveJeffrey().stopFall(true); 
+				double slack =  Jeffrey.getActiveJeffrey().getY() - desY;
+				if (slack < 0) {
+					slack = slack * -1;
+				}
+				if (slack > 1) {
+					double toUse = slack/15;
+					if (toUse > 8) {
+						toUse = 8;
+					}
+				if (!(Jeffrey.getActiveJeffrey().getX() < desX + 10 && Jeffrey.getActiveJeffrey().getX() > desX -10)) {
+				if (Jeffrey.getActiveJeffrey().getX() > desX) {
+					Jeffrey.getActiveJeffrey().vx = Jeffrey.getActiveJeffrey().vx  -(toUse/10);
+				} else {
+					Jeffrey.getActiveJeffrey().vx = Jeffrey.getActiveJeffrey().vx + (toUse/10);
+				}
+				}
+				if (Jeffrey.getActiveJeffrey().vx > 15.9 && Jeffrey.getActiveJeffrey().vx > 0) {
+					Jeffrey.getActiveJeffrey().vx = 15.9;
+				}
+				if (Jeffrey.getActiveJeffrey().vx < -15.9 && Jeffrey.getActiveJeffrey().vx  < 0) {
+					Jeffrey.getActiveJeffrey().vx = -15.9;
+				}
+				} else {
+					Jeffrey.getActiveJeffrey().vx = 0;
+					Jeffrey.getActiveJeffrey().goX(desX);
+				}
 			}
 		}
 	}

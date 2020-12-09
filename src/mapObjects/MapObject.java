@@ -17,6 +17,7 @@ public class MapObject  extends GameObject {
 	ArrayList <MapTile> affectedTiles = new ArrayList <MapTile> ();
 	boolean suffocateObjects = true;
 	public MapObject () {
+		this.setGameLogicPriority(420);
 		
 	}
 	@Override
@@ -25,7 +26,11 @@ public class MapObject  extends GameObject {
 		for (int i = 0; i < working.length; i++) {
 			if (!affectedTiles.contains(working[i])) {
 				affectedTiles.add(working[i]);
-				Room.getMapObjects().put(Room.toPackedLong((int)working[i].x/16,(int)working[i].y/16), this);
+				if (Room.getMapObjects().get(Room.toPackedLong((int)working[i].x/16,(int)working[i].y/16)) == null) {
+					Room.getMapObjects().put((Room.toPackedLong((int)working[i].x/16,(int)working[i].y/16)),new ArrayList <GameObject> ());
+				}
+				
+				Room.getMapObjects().get(Room.toPackedLong((int)working[i].x/16,(int)working[i].y/16)).add(this);
 				}
 		}
 		for (int j = 0; j <affectedTiles.size(); j++) {
@@ -36,61 +41,77 @@ public class MapObject  extends GameObject {
 					}
 				}
 			if (!safe) {
-				Room.getMapObjects().remove(Room.toPackedLong((int)affectedTiles.get(j).x/16,(int)affectedTiles.get(j).y/16));
+				if (Room.getMapObjects().get(Room.toPackedLong((int)affectedTiles.get(j).x/16,(int)affectedTiles.get(j).y/16)) == null) {
+					Room.getMapObjects().put((Room.toPackedLong((int)affectedTiles.get(j).x/16,(int)affectedTiles.get(j).y/16)),new ArrayList <GameObject> ());
+				}
+				Room.getMapObjects().get(Room.toPackedLong((int)affectedTiles.get(j).x/16,(int)affectedTiles.get(j).y/16)).remove(this);
 				affectedTiles.remove(j);
 			}
 		}
-		if (suffocateObjects) {
-			this.isCollidingChildren("GameObject");
-			ArrayList <GameObject> collidingObjects = this.getCollisionInfo().getCollidingObjects();
-			Iterator <GameObject> iter = collidingObjects.iterator();
-			while(iter.hasNext()) {
-				GameObject currentObject = iter.next();
-				if(currentObject.getClass().getPackage().getName().equals("enemys") ||currentObject.getClass().getPackage().getName().equals("players") ) {
-					if (currentObject.getY() < this.getY() + this.hitbox().height - 5) {
-						int workingNum = this.hitbox().x - currentObject.hitbox().x;
-							if (workingNum < 0) {
-								if (!currentObject.goX(currentObject.getX() + this.hitbox().getWidth() + workingNum + 1)) {
-									if (currentObject.getClass().getPackage().getName().equals("enemys")) {
-										Enemy currentEnmey = (Enemy) currentObject;
-										currentEnmey.suffocate();
-										currentEnmey.blackList();
-									} else {
-										Jeffrey.getActiveJeffrey().damage(10);
-										CheckpointSystem.loadNewestCheckpoint();
-									}
-								}
-							} else {
-								if (!currentObject.goX(currentObject.getX() - (currentObject.hitbox().width - workingNum) - 1)) {
-									if (currentObject.getClass().getPackage().getName().equals("enemys")) {
-										Enemy currentEnmey = (Enemy) currentObject;
-										currentEnmey.suffocate();
-										currentEnmey.blackList();
-									} else {
-										Jeffrey.getActiveJeffrey().damage(10);
-										CheckpointSystem.loadNewestCheckpoint();
-									}
-									}
+		/*if (suffocateObjects) {
+			this.suffocationCode();
+		} */
+	}
+	// unused old suffocation method that caused problems
+	private void suffocationCode () {
+		this.isCollidingChildren("GameObject");
+		ArrayList <GameObject> collidingObjects = this.getCollisionInfo().getCollidingObjects();
+		Iterator <GameObject> iter = collidingObjects.iterator();
+		while(iter.hasNext()) {
+			GameObject currentObject = iter.next();
+			if(currentObject.getClass().getPackage().getName().equals("enemys") ||currentObject.getClass().getPackage().getName().equals("players") ) {
+				int xPossiblity1 = 0;
+				int xPossiblity2 = 0;
+				int yPossibility1 = 0;
+				int yPossibility2 = 0;
+				xPossiblity1 = (this.hitbox().x + this.hitbox().width) - currentObject.hitbox().x;
+				xPossiblity2 = this.hitbox().x -(currentObject.hitbox().x + currentObject.hitbox().width);
+				yPossibility1 = this.hitbox().y -(currentObject.hitbox().y + currentObject.hitbox().height);
+				yPossibility2 = (this.hitbox().y + this.hitbox().height) - currentObject.hitbox().y;
+				int [] workingList = {xPossiblity1,xPossiblity2,yPossibility1,yPossibility2};
+				int [] distanceList = new int [4];
+				for (int i = 0; i < distanceList.length; i++) {
+					int biggestIndex = 0;
+					int biggestValue = 0;
+					for (int j = 0; j < workingList.length; j++) {
+						if (Math.abs(workingList[j]) > biggestValue) {
+							biggestValue = Math.abs(workingList[j]);
+							biggestIndex = j;
+						}
+					}
+					distanceList[i] = workingList[biggestIndex];
+					workingList[biggestIndex] = 0;
+				}
+				boolean broken = false;
+				for (int i = 3; i < distanceList.length; i--) {
+					if (distanceList[i] == xPossiblity1 || distanceList [i] == xPossiblity2) {
+							if (currentObject.goX(currentObject.getX() + distanceList[i])) {
+								broken = true;
+								break;
 							}
 						} else {
-							int workingNum = this.hitbox().y - currentObject.hitbox().y;
-							if (!currentObject.goY(currentObject.getY() + this.hitbox().getWidth() - workingNum + 1)) {
-								if (currentObject.getClass().getPackage().getName().equals("enemys")) {
-									Enemy currentEnmey = (Enemy) currentObject;
-									currentEnmey.deathEvent();
-								} else {
-									Jeffrey.getActiveJeffrey().damage(10);
-									CheckpointSystem.loadNewestCheckpoint();
-								}
-								}
+							if (currentObject.goY(currentObject.getY() + distanceList[i])) {
+								broken = true;
+								break;
+							}
 						}
+					}
+				if (!broken) {
+					if (currentObject.getClass().getPackage().getName().equals("enemys")) {
+						Enemy currentEnmey = (Enemy) currentObject;
+						currentEnmey.suffocate();
+						currentEnmey.blackList();
+					} else {
+						Jeffrey.getActiveJeffrey().damage(10);
+						CheckpointSystem.loadNewestCheckpoint();
+					}
 					}
 				}
 			}
 		}
 		public void reverseCollision () {
 			for (int j = 0; j<affectedTiles.size(); j++) {
-				Room.getMapObjects().remove(Room.toPackedLong((int)affectedTiles.get(j).x/16,(int)affectedTiles.get(j).y/16));
+				Room.getMapObjects().get(Room.toPackedLong((int)affectedTiles.get(j).x/16,(int)affectedTiles.get(j).y/16)).remove(this);
 				affectedTiles.remove(j);
 			}
 		}
@@ -106,6 +127,88 @@ public class MapObject  extends GameObject {
 				return false;
 			}
 		}
+		@Override
+		public void setX(double val) {
+			this.isCollidingChildren("GameObject");
+			ArrayList <GameObject> oldCollisions =  this.getCollisionInfo().getCollidingObjects();
+			super.setX(val);
+			if (this.isCollidingChildren("GameObject")) {
+				ArrayList<GameObject> working = this.getCollisionInfo().getCollidingObjects();
+				working.removeAll(oldCollisions);
+				for (int i = 0; i < working.size(); i++) {
+						if (working.get(i).isPushable()) {
+							if (val - this.xprevious> 0) {
+								working.get(i).setX(this.hitbox().x + this.hitbox().width - working.get(i).getHitboxXOffset());
+							} else {
+								working.get(i).setX(this.hitbox().x - (working.get(i).hitbox().width + working.get(i).getHitboxXOffset()));
+							}	
+						}
+					}
+				}
+			}
+		@Override
+		public void setY(double val) {
+			this.isCollidingChildren("GameObject");
+			ArrayList <GameObject> oldCollisions =  this.getCollisionInfo().getCollidingObjects();
+			super.setY(val);
+			if (this.isCollidingChildren("GameObject")) {
+				ArrayList<GameObject> working = this.getCollisionInfo().getCollidingObjects();
+				working.removeAll(oldCollisions);
+				for (int i = 0; i < working.size(); i++) {
+						if (working.get(i).isPushable()) {
+							if (val - this.yprevious> 0) {
+								working.get(i).setY(this.hitbox().y + this.hitbox().height - working.get(i).getHitboxYOffset());
+							} else {
+								working.get(i).setY(this.hitbox().y - (working.get(i).hitbox().height + working.get(i).getHitboxYOffset()));
+							}	
+						}
+					}
+				}
+			}
+		@Override
+		public boolean goX(double val) {
+			this.isCollidingChildren("GameObject");
+			ArrayList <GameObject> oldCollisions =  this.getCollisionInfo().getCollidingObjects();
+			boolean answer = super.goX(val);
+			if (answer) {
+				if (this.isCollidingChildren("GameObject")) {
+					ArrayList<GameObject> working = this.getCollisionInfo().getCollidingObjects();
+					working.removeAll(oldCollisions);
+					for (int i = 0; i < working.size(); i++) {
+							if (working.get(i).isPushable()) {
+								if (val - this.xprevious> 0) {
+									working.get(i).goX(this.hitbox().x + this.hitbox().width - working.get(i).getHitboxXOffset());
+								} else {
+									working.get(i).goX(this.hitbox().x - (working.get(i).hitbox().width + working.get(i).getHitboxXOffset()));
+								}	
+							}
+						}
+					}
+			}
+			return answer;
+		}
+		@Override
+		public boolean goY(double val) {
+			this.isCollidingChildren("GameObject");
+			ArrayList <GameObject> oldCollisions =  this.getCollisionInfo().getCollidingObjects();
+			boolean answer = super.goY(val);
+			if (answer) {
+				if (this.isCollidingChildren("GameObject")) {
+					ArrayList<GameObject> working = this.getCollisionInfo().getCollidingObjects();
+					working.removeAll(oldCollisions);
+					for (int i = 0; i < working.size(); i++) {
+							if (working.get(i).isPushable()) {
+								if (val - this.yprevious> 0) {
+									working.get(i).goY(this.hitbox().y + this.hitbox().height - working.get(i).getHitboxYOffset());
+								} else {
+									working.get(i).goY(this.hitbox().y - (working.get(i).hitbox().height + working.get(i).getHitboxYOffset()));
+								}	
+							}
+						}
+					}
+		}
+			return answer;
+		}
 		public boolean isCollidingBEEG (GameObject withWhat) {
 			if (this.doesColide(withWhat)) {
 				withWhat.setHitboxAttributes((int)withWhat.getHitboxXOffset() - 2, (int)withWhat.getHitboxYOffset() -2 , withWhat.hitbox().width + 4, withWhat.hitbox().height + 4);
@@ -117,6 +220,13 @@ public class MapObject  extends GameObject {
 				return workint;
 			} else {
 				return false;
+			}
+		}
+		@Override
+		public void forget () {
+			super.forget();
+			for (int i = 0; i < affectedTiles.size(); i++) {
+				Room.getMapObjects().remove(Room.toPackedLong((int)affectedTiles.get(i).x/16,(int)affectedTiles.get(i).y/16));
 			}
 		}
 		public void onCollision (GameObject o) {

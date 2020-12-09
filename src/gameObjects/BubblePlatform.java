@@ -20,6 +20,7 @@ public class BubblePlatform extends CarryObject {
 	int momentumY = 1;
 	double moveX;
 	double moveY;
+
 	int timer;
 	double inzialSpeed;
 	public BubblePlatform () {
@@ -31,13 +32,20 @@ public class BubblePlatform extends CarryObject {
 		this.setHitboxAttributes(0, 0, 16, 16);
 		this.getAnimationHandler().setFrameTime(0);
 		this.setGameLogicPriority(-3);
+		this.suffocateObjects(false);
 	}
 	public void frameEvent() {
 		super.frameEvent();
-		this.setY(this.getY() - 3);
+		this.setHitboxAttributes(0, -3, 16, 16);
 		this.isCollidingChildren("GameObject");
-		this.setY(this.getY() + 3);
+		this.setHitboxAttributes(0, 0, 16, 16);
 		ArrayList <GameObject> collidingObjects = this.getCollisionInfo().getCollidingObjects();
+		for (int i = 0; i < collidingObjects.size(); i++) {
+			if (!collidingObjects.get(i).isPushable()) {
+				collidingObjects.remove(i);
+				i = i - 1;
+			}
+		}
 		if (inzialSpeed == 0) {
 			if (moveX >= Math.PI * 2) {
 				moveX = 0;

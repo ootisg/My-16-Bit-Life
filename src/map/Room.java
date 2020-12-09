@@ -24,6 +24,7 @@ import gui.Gui;
 import main.GameAPI;
 import main.GameObject;
 import main.ObjectHandler;
+import mapObjects.MapObject;
 import players.Jeffrey;
 import resources.Sprite;
 import resources.SpriteParser;
@@ -35,7 +36,7 @@ public class Room {
 	private static HashMap <String,TileData> nameList; //indexed by tile name
 	private static ArrayList <BufferedImage> tileIcons; //yeah? (sorted by numeric ID)
 
-	private static HashMap <Long, GameObject> mapObjects = new HashMap <Long, GameObject>(); //objects that should be considered collisions with the map
+	private static HashMap <Long, ArrayList<GameObject>> mapObjects = new HashMap <Long, ArrayList<GameObject>>(); //objects that should be considered collisions with the map
 	
 	private static ArrayList<GameObject> mapObjectsUsed = new ArrayList<GameObject> ();
 	
@@ -333,10 +334,11 @@ public class Room {
 						foundCollision = true;
 					}
 			} else {
-				
-				if (mapObjects.get(toPackedLong(wx,wy)).isColliding(obj) && !obj.equals(mapObjects.get(toPackedLong(wx,wy)))) {
-					mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)));
-					return true;
+				for (int b = 0; b < mapObjects.get(toPackedLong(wx,wy)).size(); b++ ) {
+					if (mapObjects.get(toPackedLong(wx,wy)).get(b).isColliding(obj) && !obj.equals(mapObjects.get(toPackedLong(wx,wy)).get(b))) {
+						mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)).get(b));
+						return true;
+					}
 				}
 			}
 		}
@@ -393,9 +395,11 @@ public class Room {
 					working.add(new MapTile (dataList.get(index),wx*TILE_WIDTH,wy*TILE_HEIGHT));
 				}
 				} else{
-					if (mapObjects.get(toPackedLong(wx,wy)).isColliding(obj)) {
-						mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)));
-						working.add(new MapTile (dataList.get(index),mapObjects.get(toPackedLong(wx,wy)).getX(),mapObjects.get(toPackedLong(wx,wy)).getY()));
+					for (int b = 0; b < mapObjects.get(toPackedLong(wx,wy)).size(); b++ ) {
+						if (mapObjects.get(toPackedLong(wx,wy)).get(b).isColliding(obj) && !obj.equals(mapObjects.get(toPackedLong(wx,wy)).get(b))) {
+							mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)).get(b));
+							working.add(new MapTile (dataList.get(index),mapObjects.get(toPackedLong(wx,wy)).get(b).getX(),mapObjects.get(toPackedLong(wx,wy)).get(b).getY()));
+						}
 					}
 				}
 			}
@@ -911,14 +915,13 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 	public static boolean isLoaded () {
 		return isLoaded;
 	}
-	public static HashMap <Long, GameObject> getMapObjects() {
+	public static HashMap <Long, ArrayList<GameObject>> getMapObjects() {
 		return mapObjects;
 	}
 
-	public static void setMapObjects(HashMap <Long, GameObject> mapObjects) {
+	public static void setMapObjects(HashMap <Long, ArrayList<GameObject>> mapObjects) {
 		Room.mapObjects = mapObjects;
 	}
-	
 	/**
 	 * Returns the MapObjects collided with in the most recent room collision call
 	 * @return YEET

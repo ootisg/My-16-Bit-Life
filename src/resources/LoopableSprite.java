@@ -3,6 +3,7 @@ package resources;
 import java.util.ArrayList;
 
 import main.AnimationHandler;
+import map.Room;
 
 public class LoopableSprite extends Sprite {
 	int desX;
@@ -38,35 +39,37 @@ public class LoopableSprite extends Sprite {
 		int index = 0;
 		int tempX = x;
 		int tempY = y;
-		boolean directionX = x > desX;
-		boolean directionY = y > desY;
+		int desXReal = desX - Room.getViewX();
+		int desYReal = desY - Room.getViewY();
+		boolean directionX = tempX > desXReal;
+		boolean directionY = tempY > desYReal;
 		if (startSprite != null) {
 			startSprite.draw(tempX, tempY);
 		}
-		while ((((tempX > desX && directionX) || (tempX < desX && !directionX)) && desX != -1) || (((tempY > desY && directionY) || (tempY < desY && !directionY)) && desY != -1)){
+		while ((((tempX > desXReal && directionX) || (tempX < desXReal && !directionX)) && desX != -1) || (((tempY > desYReal && directionY) || (tempY < desYReal && !directionY)) && desY != -1)){
 			if (directionX) {
 				tempX = tempX - moveX;
-				if (tempX < desX) {
-					tempX = desX;
+				if (tempX < desXReal) {
+					tempX = desXReal;
 				}
 			} else {
 				tempX = tempX + moveX;
-				if (tempX > desX) {
-					tempX = desX;
+				if (tempX > desXReal) {
+					tempX = desXReal;
 				}
 			}
 			if (directionY) {
 				tempY = tempY - moveY;
-				if (tempY < desY) {
-					tempY = desY;
+				if (tempY < desYReal) {
+					tempY = desYReal;
 				}
 			} else {
 				tempY = tempY + moveY;
-				if (tempY > desY) {
-					tempY = desY;
+				if (tempY > desYReal) {
+					tempY = desYReal;
 				}
 			}
-			if (!(tempX == desX && tempY == desY)) {
+			if (!(tempX == desXReal && tempY == desYReal)) {
 				handlers.get(index).draw(tempX, tempY);
 			} 
 			index = index + 1;
@@ -77,10 +80,10 @@ public class LoopableSprite extends Sprite {
 		int remanderWidth = 0;
 		int remainderHeight = 0;
 			if (moveY != 0) {
-				remainderHeight = desY % moveY;
+				remainderHeight = desYReal % moveY;
 			}
 			if (moveX != 0) {
-				remanderWidth = desX % moveX; 
+				remanderWidth = desXReal % moveX; 
 			}
 			if (remainderHeight != 0) {
 				remainderHandler.setHeight(remainderHeight);
@@ -94,9 +97,9 @@ public class LoopableSprite extends Sprite {
 				
 		if (endSprite != null) {
 			if (!directionY) {
-				endSprite.draw(desX, desY);
+				endSprite.draw(desXReal, desYReal);
 			} else {
-				endSprite.draw(desX, desY - endSprite.getHeight());
+				endSprite.draw(desXReal, desYReal - endSprite.getHeight());
 			}
 		}
 	}

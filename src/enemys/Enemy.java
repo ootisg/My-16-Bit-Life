@@ -61,6 +61,7 @@ public abstract class Enemy extends BreakableObject {
 		falls = false;
 		currentSpeed = 0;
 		diesNormally = true;
+		this.setPusablity(true);
 	}
 	@Override
 	public void frameEvent () {

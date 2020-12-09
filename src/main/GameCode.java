@@ -202,7 +202,7 @@ public class GameCode {
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/soapTest.rmf");
+		Room.loadRoom ("resources/maps/soapScrollTest.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
@@ -259,7 +259,7 @@ public class GameCode {
 		plant = new Plant ();
 		glider =new Glider();
 		lPlant = new LaunchPlant ();
-		bubble = new BubblePlatform ();
+		bubble = new BubblePlatform (-5);
 		//shooter = new MafiaShooter();
 		//boi = new Celing_boi();
 		//waffle = new Waffle (4);
@@ -361,7 +361,7 @@ public class GameCode {
 		//cactus.declare(100,100);
 		//pack.declare(100, 0);
 		//fire.declare(100,400);
-		//bubble.declare(100, 300);
+		bubble.declare(200, 390);
 
 	}
 	

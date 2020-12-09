@@ -116,6 +116,19 @@ public abstract class GameObject extends GameAPI {
 	private double gameLogicPriority = 0;
 	
 	/**
+	 * wheather or not the coordinates for the hitbox round down or up
+	 */
+	private boolean hitboxRounding = false;
+	
+	/**
+	 * refers to wheater or not the gameObject will be pushed around by map objects 
+	 */
+	private boolean pushable = false;
+	/**
+	 * refers to a list of objects that are not allowed to collide with this object
+	 */
+	private ArrayList<String> excludeList = new ArrayList<String> ();
+	/**
 	 * Container and utility class for GameObject variants
 	 * @author nathan
 	 *
@@ -158,7 +171,6 @@ public abstract class GameObject extends GameAPI {
 			public void setValue (String value) {
 				this.value = value;
 			}
-			
 			@Override
 			public String toString () {
 				return name + ":" + value;
@@ -502,7 +514,9 @@ public abstract class GameObject extends GameAPI {
 	 * @return True if the objects collide; false otherwise
 	 */
 	public boolean isColliding (GameObject obj) {
-	
+		if (this.getExcludeList().contains(obj.getClass().getSimpleName()) || obj.getExcludeList().contains(this.getClass().getSimpleName())) {
+			return false;
+		}
 		Rectangle thisHitbox = hitbox ();
 		Rectangle objHitbox = obj.hitbox ();
 		
@@ -638,7 +652,18 @@ public abstract class GameObject extends GameAPI {
 		if (hitboxWidth == 0 || hitboxHeight == 0 || !hasHitbox) {
 			return null;
 		}
-		return new Rectangle ((int) Math.ceil(x + hitboxXOffset), (int)Math.ceil(y + (int)hitboxYOffset), (int)Math.ceil(hitboxWidth), (int)Math.ceil(hitboxHeight));
+		if (hitboxRounding) {
+			return new Rectangle ((int) Math.ceil(x + hitboxXOffset), (int)Math.ceil(y + (int)hitboxYOffset), (int)Math.ceil(hitboxWidth), (int)Math.ceil(hitboxHeight));
+		} else {
+			return new Rectangle ((int) Math.floor(x + hitboxXOffset), (int)Math.floor(y + (int)hitboxYOffset), (int)Math.floor(hitboxWidth), (int)Math.floor(hitboxHeight));
+		}
+	}
+	/**
+	 * sets whear or not the coordinates of the hitbox round up or down
+	 * @param upOrDown false for down true for up
+	 */
+	public void setHitboxRounding (boolean upOrDown) {
+		hitboxRounding = upOrDown;
 	}
 	
 	/**
@@ -680,7 +705,15 @@ public abstract class GameObject extends GameAPI {
 	public boolean isPersistent () {
 		return persistent;
 	}
-	
+	public void setPusablity (boolean pushOrNah) {
+		pushable = pushOrNah;
+	}
+	/**
+	 * @return true if you can push this object false otherwise
+	 */
+	public boolean isPushable() {
+		return pushable;
+	}
 	public void desyncSpriteX(int offset) {
 		spriteX = x + offset;
 	}
@@ -1018,5 +1051,13 @@ public abstract class GameObject extends GameAPI {
 	public void show () {
 		this.visible = true;
 		this.getAnimationHandler().show();
+	}
+
+	public ArrayList<String> getExcludeList() {
+		return excludeList;
+	}
+
+	public void setExcludeList(ArrayList<String> excludeList) {
+		this.excludeList = excludeList;
 	}
 }
