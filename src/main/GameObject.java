@@ -282,6 +282,12 @@ public abstract class GameObject extends GameAPI {
 		return blackListed;
 	}
 	/**
+	 * Called when the first instance of this GameObject is created (AFTER the constructor is called)
+	 */
+	public void init () {
+		
+	}
+	/**
 	 * Inserts this object into the static instance of ObjectHandler, effectively scheduling it for calls to frameEvent and draw, in addition to allowing collision detection with it.
 	 */
 	public void declare () {

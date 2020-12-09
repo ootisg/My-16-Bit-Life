@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import cutsceens.Cutsceen;
 import cutsceens.MoveSlowEvent;
 import enemys.BatRat;
+import enemys.Bee;
 import enemys.BuggyBoi;
 import enemys.Cactus;
 import enemys.Candle;
@@ -196,6 +197,7 @@ public class GameCode {
 	static BubbleGun bubbleGun;
 	static BubblePlatform bubble;
 	static FallingSpike spike;
+	static Bee bee;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
@@ -226,6 +228,7 @@ public class GameCode {
 		pad = new DashPad ();
 		cart = new Minecart ();
 		bubble = new BubblePlatform();
+		bee = new Bee ();
 		Jeffrey.getInventory().addWeapon(extinguser, 0);
 		Jeffrey.getInventory().addFreind(lameJeffrey);
 		Jeffrey.getInventory().addFreind(lameSam);
@@ -363,6 +366,7 @@ public class GameCode {
 		//pack.declare(100, 0);
 		//fire.declare(100,400);
 		//bubble.declare(100, 300);
+		bee.declare (100, 580);
 	}
 	
 	public static void beforeGameLogic () {

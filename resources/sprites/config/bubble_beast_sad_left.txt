@@ -1,0 +1,3 @@
+$src resources/sprites/bubble_beast.png
+rectangle 48 0 80 18:
+	grid 16 18;

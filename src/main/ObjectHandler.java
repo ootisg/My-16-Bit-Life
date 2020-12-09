@@ -19,6 +19,10 @@ import enemys.Enemy;
  */
 public class ObjectHandler {
 	/**
+	 * Number of currently declared objects
+	 */
+	private static int objectCount = 0;
+	/**
 	 * Set to true when objects can be removed without an error; false otherwise
 	 */
 	private static boolean mutable = true;
@@ -83,9 +87,11 @@ public class ObjectHandler {
 	 * @param name The type of the object, as a string
 	 */
 	public static void insert (GameObject obj, String name) {
+		objectCount++;
 		if (mutable) {
 			ArrayList<GameObject> objList = getObjectsByName (name);
 			if (objList == null) {
+				obj.init ();
 				addClass (obj);
 				objList = getObjectsByName (name);
 			}
@@ -112,6 +118,7 @@ public class ObjectHandler {
 	 * @return true if the object was successfully removed; false otherwise
 	 */
 	private static boolean remove (GameObject obj, String name) {
+		objectCount--;
 		ArrayList<GameObject> objList = getObjectsByName (name);
 		if (objList == null) {
 			return false;
@@ -341,5 +348,13 @@ public class ObjectHandler {
 	 */
 	public static void addSearchPackage (String newPackage) {
 		packages.add(newPackage);
+	}
+	
+	/**
+	 * Gets the number of objects currently declared
+	 * @return the number of currently declared objects
+	 */
+	public static int getObjectCount () {
+		return objectCount;
 	}
 }

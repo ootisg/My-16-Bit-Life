@@ -1,0 +1,2 @@
+$src resources/sprites/clear_bubble_pop.png
+rectangle 0 0 16 16;
