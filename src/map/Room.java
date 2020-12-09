@@ -340,6 +340,9 @@ public class Room {
 						return true;
 					}
 				}
+				if (dataList.get(index).isSolid()) {
+					foundCollision = true;
+				}
 			}
 		}
 	}

@@ -45,6 +45,9 @@ public class MapObject  extends GameObject {
 					Room.getMapObjects().put((Room.toPackedLong((int)affectedTiles.get(j).x/16,(int)affectedTiles.get(j).y/16)),new ArrayList <GameObject> ());
 				}
 				Room.getMapObjects().get(Room.toPackedLong((int)affectedTiles.get(j).x/16,(int)affectedTiles.get(j).y/16)).remove(this);
+				if (Room.getMapObjects().get(Room.toPackedLong((int)affectedTiles.get(j).x/16,(int)affectedTiles.get(j).y/16)).isEmpty()) {
+					Room.getMapObjects().put(Room.toPackedLong((int)affectedTiles.get(j).x/16,(int)affectedTiles.get(j).y/16), null );
+				}
 				affectedTiles.remove(j);
 			}
 		}

@@ -202,7 +202,7 @@ public class GameCode {
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/soapScrollTest.rmf");
+		Room.loadRoom ("resources/maps/bubbleMap1.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
@@ -362,7 +362,6 @@ public class GameCode {
 		//cactus.declare(100,100);
 		//pack.declare(100, 0);
 		//fire.declare(100,400);
-		bubble.declare(200, 390);
 	}
 	
 	public static void beforeGameLogic () {
