@@ -212,9 +212,15 @@ public class Sprite {
 	public void draw (int usedX, int usedY) {
 		draw (usedX, usedY, 0);
 	}
-	public void draw (int usedX, int usedY, AffineTransform transform) {
-		AffineTransformOp working = new AffineTransformOp (transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-		
+	public void drawRotated (int x, int y, int frame, double anchorX, double anchorY, double rotation) {
+			AffineTransform transform = new AffineTransform ();
+			transform.translate (x, y);
+			transform.rotate (rotation, anchorX, anchorY);
+			draw (x, y, frame, transform);
+	}
+	public void draw (double usedX, double usedY, int frame, AffineTransform transform) {
+			Graphics2D windowGraphics = (Graphics2D)RenderLoop.window.getBufferGraphics ();
+			windowGraphics.drawImage (getFrame (frame), transform, null);
 	}
 	/**
 	 * Draws the given frame of this sprite at the given x and y coordinates.

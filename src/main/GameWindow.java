@@ -55,7 +55,7 @@ public class GameWindow extends JFrame {
 		getContentPane ().setSize (width, height);
 		setVisible (true);
 		//Initializes the buffer for drawing
-		buffer = new BufferedImage (width, height, BufferedImage.TYPE_3BYTE_BGR);
+		buffer = new BufferedImage (width, height, BufferedImage.TYPE_4BYTE_ABGR);
 		//Sets up the input detection
 		inputManager = new InputManager (this, this.getContentPane ());
 	}
@@ -80,6 +80,14 @@ public class GameWindow extends JFrame {
 	}
 	
 	/**
+	 * Gets the BufferedImage used to draw to this GameWindow
+	 * @return the BufferedImage used to draw to this GameWindow
+	 */
+	public BufferedImage getBuffer () {
+		return buffer;
+	}
+	
+	/**
 	 * Gets the dimensions of the buffer, e.g. the resolution of the output.
 	 * @return The dimensions of this GameWindow's buffer as an int array, in the format [width, height]
 	 */
@@ -93,7 +101,7 @@ public class GameWindow extends JFrame {
 	 * @param height The height to use, in pixels
 	 */
 	public void setResolution (int width, int height) {
-		buffer = new BufferedImage (width, height, BufferedImage.TYPE_3BYTE_BGR);
+		buffer = new BufferedImage (width, height, BufferedImage.TYPE_4BYTE_ABGR);
 	}
 	
 	public InputManager getInputImage () {

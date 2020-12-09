@@ -65,8 +65,12 @@ public abstract class Enemy extends BreakableObject {
 	}
 	@Override
 	public void frameEvent () {
+		
+		//Call the enemy's frame event
 		enemyFrame ();
 		super.frameEvent();
+		
+		//'pick up' dropped items
 		timer = timer + 1;
 		if (timer == 2) {
 			if (this.isCollidingChildren("Item")) {
@@ -76,6 +80,8 @@ public abstract class Enemy extends BreakableObject {
 				}
 			}
 		}
+		
+		//Handle knockback
 		if (beingKnockedBack) {
 			this.falls = true;
 			if (knockbackTime == 0) {
@@ -84,22 +90,28 @@ public abstract class Enemy extends BreakableObject {
 			}
 			knockbackTime = knockbackTime - 1;
 			if (!direction) {
-			this.goX(this.getX() + 3);
+				this.goX(this.getX() + 3);
 			} else {
-			this.goX(this.getX() - 3);
+				this.goX(this.getX() - 3);
 			}
 			this.goY(this.getY() - 5);
 		}
+		
+		//Check for death
 		if ((this.health <= 0) && diesNormally ) {
 			this.deathEvent();
 		}
+		
+		//Deal contact damage
 		try {
-		if (isColliding (Jeffrey.getActiveJeffrey())) {
-			attackEvent ();
-		}
+			if (isColliding (Jeffrey.getActiveJeffrey())) {
+				attackEvent ();
+			}
 		} catch (NullPointerException e) {
-			
+			//wtf?
 		}
+		
+		//Check for collision with floors/(walls?)
 		boolean onFloor;
 		onFloor = false;
 		boolean colidingSide;
@@ -112,50 +124,53 @@ public abstract class Enemy extends BreakableObject {
 					colidingSide = true;
 				}
 				this.setX(getX() + 1);
-				}
+			}
 			if (!(Room.isColliding(this))){
 				this.setX(getX() + 1);
 				if (Room.isColliding(this)){
 					colidingSide = true;
 				}
 				this.setX(getX() - 1);
-				}
+			}
 			if ((!(Room.isColliding(this)) || !colidingSide) && !this.checkIfStuckInCeling(1) ){
 				this.setY(getY() + currentSpeed + 1);
 				if (Room.isColliding(this)){
 					onFloor = true;
 				}
 				this.setY(getY() - (currentSpeed + 1) );
-				}
+			}
 		}
 
+		//Accelerate the object as it falls, and adjust its position
 		if (!onFloor && falls) {
 			if (this.setmomentum == 420) {
-		momentum = momentum + 1;
-		if (momentum < 6){
-			this.setY(getY() + 1);
-			currentSpeed = 1;
+				momentum = momentum + 1;
+				if (momentum < 6) {
+					this.setY(getY() + 1);
+					currentSpeed = 1;
+				}
+				if (momentum > 6 && momentum < 12){
+					this.setY(getY() + 2);
+					currentSpeed = 2;
+				}
+				if (momentum > 6 && momentum < 18){
+					this.setY(getY() + 3);
+					currentSpeed = 3;
+				}
+				if (momentum > 18 && momentum < 24){
+					this.setY(getY() + 4);
+					currentSpeed = 4;
+				}
+				if (momentum > 24){
+					this.setY(getY() + 5);
+					currentSpeed = 5;
+				}	
+			} else {
+				this.setY(this.getY() + setmomentum );
+			}
 		}
-		if (momentum > 6 && momentum < 12){
-			this.setY(getY() + 2);
-			currentSpeed = 2;
-		}
-		if (momentum > 6 && momentum < 18){
-			this.setY(getY() + 3);
-			currentSpeed = 3;
-		}
-		if (momentum > 18 && momentum < 24){
-			this.setY(getY() + 4);
-			currentSpeed = 4;
-		}
-		if (momentum > 24){
-			this.setY(getY() + 5);
-			currentSpeed = 5;
-		}	
-	} else {
-		this.setY(this.getY() + setmomentum );
-	}
-	}
+		
+		//Cancel momentum if on the ground
 		if (onFloor && momentum >= 1){
 			momentum = 0;
 			if (this.currentSpeed != 1) {
@@ -164,17 +179,24 @@ public abstract class Enemy extends BreakableObject {
 			currentSpeed = 0;
 		}
 	}
+	
+	//Set the drops for this enemy; perhaps we should use JSON files for this? (ehh probably not)
 	public void setDrops (ItemDropRate [] drops) {
 		for (int i = 0; i < drops.length; i++) {
 			this.drops.add(drops[i]);
 		}
 	}
+	
+	//Sets the enemy's base damage
 	public void setBasePower (int power) {
 		baseDamage = power;
 	}
+	
+	//Override this for your convenience
 	public void enemyFrame () {
 		
 	}
+	
 	//override to set code that runs on drop
 	public void dropStuff() {
 		ArrayList<Item> working = new ArrayList <Item> ();
@@ -197,43 +219,53 @@ public abstract class Enemy extends BreakableObject {
 		}
 		this.Break(moreWorking, 0, 1, 7*3.1415926535/6, 11*Math.PI/6);
 	}
+	
+	//Suffocate the enemy
 	public void suffocate () {
 		this.damage(this.getHealth()/10);
 		if (this.health <= 0) {
 			this.deathEvent();
 		}
 	}
+	
 	/**
-	 * allows you to set the moment of the falling to a consont
+	 * allows you to set the moment of the falling to a constant
 	 * @parm momentumConstant the new momenutm
 	 * (i suspect it may cause a bug with enemys being stuck in the floor but it has not happened yet)
 	 */
 	public void setMomentum (int momentumConstant ) {
 		setmomentum = momentumConstant;
 	}
+	
 	//sets wheater the enemy falls or not
 	public void setFalls (boolean doesFall) {
 		falls = doesFall;
 	}
 	
+	//Knockbackkkkk
 	public void knockback (int amountOfTime, boolean attackSide) {
 		beingKnockedBack = true;
 		knockbackTime = amountOfTime;
 		direction = attackSide;
 	}
+	
 	//sets up a special death if your into that kinda thing
 	public void setDeath (boolean death) {
 		diesNormally = death;
 	}
+	
 	@Override 
-	public boolean goX(double val) {
+	public boolean goX (double val) {
 		if (this.appliedStatuses[3] && val - this.getX() != 0) {
-		if (val - this.getX()> 1 ) {
-			val = val -1;
-		} else {
-			if ( val - this.getX() < -1 ) {
-				val = val + 1;
+			if (val - this.getX() > 1) {
+				//Remove 1 from val if going in a positive direction
+				val = val -1;
 			} else {
+				if ( val - this.getX() < -1 ) {
+					//Add 1 to val if going in a negative direction
+					val = val + 1;
+				} else {
+					//Prevents goX from being called more than once a frame (?)
 					if (!moveable) {
 						val = this.getX();
 						moveable = true;
@@ -243,8 +275,10 @@ public abstract class Enemy extends BreakableObject {
 				}
 			}
 		}
+		
+		//Move the Enemy with the new val from the above logic (maybe use super.goX (val))
 		this.xprevious = x;
-		spriteX =  (spriteX + (val - x));
+		spriteX = (spriteX + (val - x));
 		x = val;
 		if (Room.isColliding(this)) {
 			x = xprevious;
@@ -254,11 +288,15 @@ public abstract class Enemy extends BreakableObject {
 			return true;
 		}
 	}
+	
+	//The pleb way to set x
 	public void setXTheOldFasionWay(double val) {
 		super.setX(val);
 	}
+	
 	@Override
 	public void setX (double val) {
+		//goX, but doesn't check for wall collision
 		if (this.appliedStatuses[3] && val - this.getX() != 0) {
 		if (val - this.getX() > 1) {
 			val = val -1;
@@ -280,25 +318,34 @@ public abstract class Enemy extends BreakableObject {
 		spriteX =  (spriteX + (val - x));
 		x = val;
 	}
+	
+	//Override to attack special ways or something like that
 	public void attackEvent () {
 		Jeffrey.getActiveJeffrey().damage (this.baseDamage);
 	}
+	
+	//Handle death
 	public void deathEvent () {
+		//Add to registered kills
 		if (!Jeffrey.getInventory().checkKill(this)) {
 			Jeffrey.getInventory().addKill(this);
 		}
+		//All the other stuff
 		enemyList.remove(this);
 		this.dropStuff();
 		this.forget ();
 	}
+	
 	//override to set entrys of stuff 
 	public String checkEntry () {
 		return "";
 	}
+	
 	//override to set names of stuff
 	public String checkName () {
 		return "";
 	}
+	
 	/**
 	 * returns true if the Jeffrey.getActiveJeffrey() is within a certain box that is centered at the enemy
 	 * @param rangebound1Right how far from the enmey is the left corner of the box that is to the right of the enmey
@@ -314,6 +361,7 @@ public abstract class Enemy extends BreakableObject {
 			return false;
 		}
 	}
+	
 	/**
 	 * returns true if the Jeffrey.getActiveJeffrey() is within a certain box that is centered at the enemy
 	 * @param rangebound1Top how far from the enmey is the bottom corner of the box that is above the enmey
@@ -329,6 +377,7 @@ public abstract class Enemy extends BreakableObject {
 			return false;
 		}
 	}
+	
 	/**
 	 * returns true if the Jeffrey.getActiveJeffrey() is within a certain box that is centered at the enemy
 	 * @param rangebound1Right how far from the enmey is the left corner of the box that is to the right of the enmey
@@ -344,6 +393,7 @@ public abstract class Enemy extends BreakableObject {
 			return false;
 		}
 	}
+	
 	/**
 	 * returns true if the Jeffrey.getActiveJeffrey() is within a certain box that is centered at the enemy
 	 * @param rangebound1Top how far from the enmey is the bottom corner of the box that is above the enmey
@@ -422,6 +472,11 @@ public abstract class Enemy extends BreakableObject {
 				}
 				return false;
 		}
+		
+	/**
+	 * Damage the player by the given amount, taking weakness and defense into account
+	 * @param amount the amount of damage to deal
+	 */
 	public void damage (int amount) {
 		if (Jeffrey.getActiveJeffrey().checkIfPowerful()) {
 			amount = (int) ((amount * 1.2) - defence);
@@ -439,13 +494,21 @@ public abstract class Enemy extends BreakableObject {
 		text.declare(this.getX(), this.getY());
 		this.health = health - amount;
 	}
+	
+	/**
+	 * Set the health of this enemy to the given amount
+	 * @param health the amount to set the health to
+	 */
 	public void setHealth (int health) {
 		this.health = health;
 	}
 	
+	/**
+	 * Returns the current health of this enemy
+	 * @return this enemy's current health
+	 */
 	public int getHealth () {
 		return this.health;
 	}
 	
-
 }
