@@ -6,8 +6,8 @@ import java.util.Random;
 import main.GameObject;
 import map.Room;
 import map.TileEntitiy;
+import mapObjects.BubblePlatform;
 import resources.Sprite;
-import gameObjects.BubblePlatform;
 
 /**
  * You fall through it, and it slowly spawns bubbles.

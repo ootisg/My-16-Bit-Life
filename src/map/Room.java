@@ -555,6 +555,7 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 		backgrounds = new ArrayList<Background>();
 		tileEntitiys = new ArrayList<TileEntitiy>();
 		positionToEntitiys = new HashMap<Long,TileEntitiy>();
+		
 		//purges the gameObjects
 		ArrayList<ArrayList<GameObject>> objList = ObjectHandler.getChildrenByName("GameObject");
 		for (int i = 0; i < objList.size (); i ++) { 
@@ -630,7 +631,6 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 		for (int i= 0; i < tilesetNameArray.length; i++) {
 			importTileset(tilesetNameArray[i]);
 		}
-		
 		//import all backgrounds
 		
 		for(int i = backgroundList.length - 1; i >=0; i--) {
@@ -669,6 +669,12 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 						} 
 					}
 				}
+			}
+		}
+		//sets up the collsion layer right
+		for (int i = 0; i < numLayers; i++) {
+			if (backgrounds.get(i) == null){
+				collisionLayer = i;
 			}
 		}
 		//importing objects

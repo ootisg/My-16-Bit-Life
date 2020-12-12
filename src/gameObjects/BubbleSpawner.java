@@ -1,6 +1,7 @@
 package gameObjects;
 
 import main.GameObject;
+import mapObjects.BubblePlatform;
 
 public class BubbleSpawner extends GameObject {
 	double speed;

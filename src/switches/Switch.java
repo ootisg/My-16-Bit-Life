@@ -17,6 +17,7 @@ public class Switch extends MapObject {
 	private boolean solid = false;
 	
 	ArrayList <Object> activateableObjects = new ArrayList <Object> ();
+	ArrayList <Switch> neededSwitches = new ArrayList <Switch> ();
 	
 	public Switch () {
 	}
@@ -31,6 +32,16 @@ public class Switch extends MapObject {
 			if (this.getCollisionInfo().collisionOccured()) {
 				PairingObject working = (PairingObject) this.getCollisionInfo().getCollidingObjects().get(0);
 				activateableObjects = working.getPairedPairedObjects();
+				for (int i = 0; i < activateableObjects.size(); i++) {
+					try {
+						Switch currentSwitch = (Switch) activateableObjects.get(i);
+						neededSwitches.add(currentSwitch);
+						activateableObjects.remove(i);
+						i = i -1;
+					} catch (ClassCastException e) {
+						
+					}
+				}
 			}
 			for (int i = 0; i < activateableObjects.size(); i++) {
 				if (activateableObjects.get(i) instanceof Activateable) {
@@ -48,13 +59,28 @@ public class Switch extends MapObject {
 		}
 	}
 	public void onFlip() {
+		System.out.println(activateableObjects);
 		isActivated = !isActivated;
-		for (int i = 0; i < activateableObjects.size(); i++) {
-			Activateable working = (Activateable) activateableObjects.get(i);
-			if (working.isActivated()) {
-				working.deactivate();
-			} else {
-				working.activate();
+		boolean good = true;
+		for (int i = 0; i < neededSwitches.size(); i++) {
+			Switch curSwitch = neededSwitches.get(i);
+			if (!curSwitch.isActivated()) {
+				good = false;
+				break;
+			}
+		}
+		if (good) {
+			for (int i = 0; i < activateableObjects.size(); i++) {
+				try {
+				Activateable working = (Activateable) activateableObjects.get(i);
+				if (working.isActivated()) {
+					working.deactivate();
+				} else {
+					working.activate();
+				}
+				} catch (ClassCastException e) {
+					
+				}
 			}
 		}
 	}

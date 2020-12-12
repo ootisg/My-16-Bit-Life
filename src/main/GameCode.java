@@ -41,7 +41,6 @@ import enemys.UFO;
 import enemys.WaterBlob;
 import gameObjects.AnimeTester;
 import gameObjects.BreakableObject;
-import gameObjects.BubblePlatform;
 import gameObjects.CarSpawner;
 import gameObjects.DarkOverlay;
 import gameObjects.DashPad;
@@ -76,6 +75,7 @@ import json.JSONException;
 import json.JSONObject;
 import map.Room;
 import mapObjects.Box;
+import mapObjects.BubblePlatform;
 import mapObjects.Door;
 import mapObjects.Fan;
 import mapObjects.MoveingPlatform;
@@ -204,7 +204,7 @@ public class GameCode {
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/bubbleMap1.rmf");
+		Room.loadRoom ("resources/maps/attackSwitchTest.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
@@ -366,7 +366,7 @@ public class GameCode {
 		//pack.declare(100, 0);
 		//fire.declare(100,400);
 		//bubble.declare(100, 300);
-		bee.declare (100, 580);
+		//bee.declare (100, 580);
 	}
 	public static void beforeGameLogic () {
 	}

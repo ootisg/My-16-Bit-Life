@@ -50,7 +50,7 @@ public class Door extends MapObject implements Activateable {
 			if (this.getVariantAttribute("endSceen") != null && !this.getVariantAttribute("endSceen").equals("nv")) {
 				endSceen = new Cutsceen ("resources/cutsceenConfig/" + this.getVariantAttribute("endSceen"),new GameObject [] {this});
 			} else {
-				endSceen = null;
+				endSceen = new Cutsceen ("resources/cutsceenConfig/DoorUp.txt",new GameObject [] {this});
 			}
 			try {
 				if (this.getVariantAttribute("startPause").equals("yes")) {

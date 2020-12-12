@@ -20,6 +20,7 @@ public class PairingObject extends GameObject {
 				pairedObject = new ArrayList <Object> ();
 				pairedObject.addAll(ObjectHandler.checkCollisionChildren("GameObject", this).getCollidingObjects());
 				Room.isColliding(this);
+				System.out.println(pairedObject);
 			}
 		}
 	}

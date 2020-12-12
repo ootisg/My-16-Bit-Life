@@ -2,6 +2,7 @@ package mapObjects;
 
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import main.GameObject;
 import map.Room;
@@ -12,6 +13,7 @@ public class SoapPlatform extends CarryObject {
 	double vy;
 	boolean doneFor = false;
 	int waterDisplace = 0;
+	int bobCount = 1;
 	public SoapPlatform () {
 		this.setSprite(new Sprite ("resources/sprites/Soap_Tile_1.png"));
 		this.setHitboxAttributes(0,0, 64, 32);
@@ -51,16 +53,30 @@ public class SoapPlatform extends CarryObject {
 			} else {
 				vy = 0;
 				if(collidingObjects.size() >= 1) {
-					if (waterDisplace < 5 * collidingObjects.size()) {
-						waterDisplace = waterDisplace + 2;
+					if (bobCount % 2 == 1) {
+						if (waterDisplace < 5 * collidingObjects.size()/bobCount) {
+							Random rand = new Random ();
+							waterDisplace = waterDisplace + rand.nextInt(3);
+						} else {
+							waterDisplace = 5 * collidingObjects.size()/bobCount;
+							
+							bobCount = bobCount + 1;
+						}
 					} else {
-						waterDisplace = 5* collidingObjects.size();
+						if (waterDisplace > -5 * collidingObjects.size()/bobCount) {
+							Random rand = new Random ();
+							waterDisplace = waterDisplace - rand.nextInt(3);
+						} else {
+							waterDisplace = -5 * collidingObjects.size()/bobCount;
+							bobCount = bobCount + 1;
+						}
 					}
 				} else {
 					waterDisplace = waterDisplace - 2;
 					if (waterDisplace < 0) {
 						waterDisplace = 0;
 					}
+					bobCount = 1;
 				}
 				this.setY(this.getCollisionInfo().getCollidingObjects().get(0).getY() + waterDisplace - 10);
 			}

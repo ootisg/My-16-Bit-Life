@@ -1,4 +1,4 @@
-package gameObjects;
+package mapObjects;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,8 +8,6 @@ import java.util.LinkedList;
 import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
-import mapObjects.CarryObject;
-import mapObjects.MapObject;
 import players.Jeffrey;
 import resources.Sprite;
 import switches.Activateable;
