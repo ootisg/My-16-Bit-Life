@@ -327,8 +327,6 @@ if (activeBox) {
 			//Decides what character to switch into.
 			if (switchTimer == 30) {
 				this.runCharictarSwitchCode(nextCharacter);
-				this.runSwitchCode();
-				
 				if (witchCharictar == 0) {
 					if ((samHealth <= 0) && (ryanHealth <= 0)) {
 						textbox = new Tbox (this.getX(), 340, 25, 8, "LUL NO ... SAM AND RYAN HAVE NO HP" , false);
@@ -570,30 +568,30 @@ if (activeBox) {
 			if (Jeffrey.jeffreyHealth <= 0 && witchCharictar == 0) {
 				newWeapon = true;
 				if (Jeffrey.samHealth > 0) {
-				witchCharictar = 1;
+				this.runCharictarSwitchCode(1);
 				} else {
 				if (Jeffrey.ryanHealth > 0) {
-				witchCharictar = 2;
+					this.runCharictarSwitchCode(2);
 				}
 				}
 			}
 			if (Jeffrey.samHealth <= 0 && witchCharictar == 1) {
 				newWeapon = true;
 				if (Jeffrey.ryanHealth > 0) {
-				witchCharictar = 2;
+					this.runCharictarSwitchCode(2);
 				} else {
 				if (Jeffrey.jeffreyHealth > 0) {
-				witchCharictar = 0;
+					this.runCharictarSwitchCode(0);
 				}
 				}
 			}
 			if (Jeffrey.ryanHealth <= 0 && witchCharictar == 2) {
 				newWeapon = true;
 				if (Jeffrey.jeffreyHealth > 0) {
-				witchCharictar = 0;
+					this.runCharictarSwitchCode(0);
 				} else {
 				if (Jeffrey.samHealth > 0) {
-				witchCharictar = 1;
+					this.runCharictarSwitchCode(1);
 				}
 				}
 			}
@@ -1075,6 +1073,7 @@ if (activeBox) {
 		if (nextCharacter > 2) {
 			nextCharacter = 0;
 		}
+		wpn.onSwitch();
 		int startMemer = nextCharacter;
 		while (!(fullParty[nextCharacter]) || witchCharictar == nextCharacter) {
 			nextCharacter = nextCharacter + 1;

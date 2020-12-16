@@ -366,7 +366,7 @@ public class GameCode {
 		//pack.declare(100, 0);
 		//fire.declare(100,400);
 		//bubble.declare(100, 300);
-		//bee.declare (100, 580);
+		bee.declare (100, 180);
 	}
 	public static void beforeGameLogic () {
 	}

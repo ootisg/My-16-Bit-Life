@@ -6,7 +6,6 @@ import java.util.Iterator;
 import enemys.CreepyButterfly;
 import enemys.Enemy;
 import main.GameCode;
-import npcs.Door;
 import npcs.NPC;
 import resources.Sprite;
 import weapons.LifeVaccum;
@@ -445,7 +444,7 @@ public class Inventory {
 			try {
 			return metCharcitars.get(index);
 			} catch (IndexOutOfBoundsException e) {
-				return new Door();
+				return new NPC();
 				}
 		}
 			public Enemy findEnemyAtIndex (int index) {

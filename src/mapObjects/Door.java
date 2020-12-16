@@ -35,6 +35,7 @@ public class Door extends MapObject implements Activateable {
 	// it instead represents the cutscene that plays when the door closes
 	@Override
 	public void frameEvent () {
+		super.frameEvent();
 		if (!inizialized) {
 			inizialized = true;
 			if (this.getVariantAttribute("keyName") != null && !this.getVariantAttribute("keyName").equals("nv")) {
@@ -45,7 +46,7 @@ public class Door extends MapObject implements Activateable {
 			if (this.getVariantAttribute("startSceen") != null && !this.getVariantAttribute("startSceen").equals("nv")) {
 				startSceen = new Cutsceen ("resources/cutsceenConfig/" + this.getVariantAttribute("startSceen"),new GameObject [] {this} );
 			}else {
-				startSceen = null;
+				startSceen =  new Cutsceen ("resources/cutsceenConfig/DoorDown.txt",new GameObject [] {this});
 			}
 			if (this.getVariantAttribute("endSceen") != null && !this.getVariantAttribute("endSceen").equals("nv")) {
 				endSceen = new Cutsceen ("resources/cutsceenConfig/" + this.getVariantAttribute("endSceen"),new GameObject [] {this});
@@ -161,7 +162,7 @@ public class Door extends MapObject implements Activateable {
 					if (this.getVariantAttribute("startSceen") != null && !this.getVariantAttribute("startSceen").equals("nv")) {
 						startSceen = new Cutsceen ("resources/cutsceenConfig/" + this.getVariantAttribute("startSceen"),new GameObject [] {this});
 					}else {
-						startSceen = null;
+						startSceen = new Cutsceen ("resources/cutsceenConfig/DoorDown.txt",new GameObject [] {this});
 					}
 					this.reverseCollision();
 				}
@@ -178,7 +179,7 @@ public class Door extends MapObject implements Activateable {
 					if (this.getVariantAttribute("endSceen") != null && !this.getVariantAttribute("endSceen").equals("nv")) {
 						endSceen = new Cutsceen ("resources/cutsceenConfig/" + this.getVariantAttribute("endSceen"),new GameObject [] {this});
 					} else {
-						endSceen = null;
+						endSceen  = new Cutsceen ("resources/cutsceenConfig/DoorUp.txt",new GameObject [] {this});
 					}
 					this.reverseCollision();
 				} 

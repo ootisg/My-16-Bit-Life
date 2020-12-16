@@ -74,6 +74,10 @@ public class LifeVaccum extends Item {
 	public Sprite getUnrotatedSprite () {
 		return vaccumSprite;
 	}
+	@Override
+	public void onSwitch() {
+		wind.hide();
+	}
 	public void frameEvent () {
 		if (!wind.declared()) {
 			wind.declare();
