@@ -204,7 +204,7 @@ public class GameCode {
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/slimeletTest.rmf");
+		Room.loadRoom ("resources/maps/slimelet_test.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
@@ -286,8 +286,8 @@ public class GameCode {
 		Jeffrey.inventory.addAmmo(paint);
 		x = x + 1;
 		}
-		spike = new FallingSpike ();
-		RenderLoop.window.setResolution(960, 540);
+	//	spike = new FallingSpike ();
+		//RenderLoop.window.setResolution(960, 540);
 		//LightSource.writeLightSourceImage (36, 255, 200, 0, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is yellow-ish
 		//LightSource.writeLightSourceImage (36, 0, 200, 255, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is blue-ish
 		//testTie.declare (32, 32);
@@ -366,7 +366,7 @@ public class GameCode {
 		//pack.declare(100, 0);
 		//fire.declare(100,400);
 		//bubble.declare(100, 300);
-		bee.declare (100, 180);
+		//bee.declare (100, 180);
 	}
 	public static void beforeGameLogic () {
 	}

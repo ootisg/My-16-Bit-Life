@@ -10,12 +10,17 @@ import resources.Sprite;
 public class SmallProjectileLauncher extends GameObject {
 	
 	public static final Sprite sprite = new Sprite ("resources/sprites/circleLauncher.png");
-	Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
+	Jeffrey jeffrey;
 	int timer = 0;
 	
 	public SmallProjectileLauncher () {
 		this.setSprite(sprite);
 		this.setHitboxAttributes(0, 0, 16, 16);
+	}
+	
+	@Override
+	public void onDeclare () {
+		jeffrey = Jeffrey.getActiveJeffrey();
 	}
 	
 	public  void frameEvent () {

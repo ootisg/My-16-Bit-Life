@@ -30,6 +30,7 @@ import statusEffect.Status;
 import triggers.Checkpoint;
 
 public class Jeffrey extends GameObject {
+	long lastFrame;
 	public static double jeffreyHealth = 100;
 	public static double samHealth = 100;
 	public static double ryanHealth = 100;

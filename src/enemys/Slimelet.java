@@ -43,6 +43,7 @@ public class Slimelet extends Enemy {
 	public void declare (double x, double y) {
 		BetterSlimelet bs = new BetterSlimelet ();
 		bs.declare (x, y);
+		forget ();
 	}
 	public Slimelet () {
 		//this.setSprite (slimeletClimbHorizontal);
