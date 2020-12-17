@@ -644,6 +644,7 @@ public abstract class GameObject extends GameAPI {
 	 * @return The value of the attribute; null if not found
 	 */
 	public String getVariantAttribute (String attributeName) {
+		System.out.println ("VARIANT: " + variant);
 		if (variant != null) {
 			return variant.getAttribute (attributeName);
 		}

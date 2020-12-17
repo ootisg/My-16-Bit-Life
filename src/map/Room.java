@@ -688,9 +688,12 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			String variantInfo = getString (';');
 			variantInfo = variantInfo.replace("#","&");
 			variantInfo = variantInfo.replace(",","&");
+			System.out.println (variantInfo);
 			GameObject objectToUse = ObjectHandler.getInstance(objectList[object]);
 			objectToUse.setVariantAttributes(variantInfo);
+			System.out.println (objectToUse.getVariantAttribute ("direction"));
 			objectToUse.declare(x*16, y*16);
+			System.out.println (objectToUse.getVariantAttribute ("direction"));
 			
 		}
 		// used to spawn a Jeffrey by default but conflicts with topdown maps that don't need one

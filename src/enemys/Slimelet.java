@@ -1,482 +1,198 @@
 package enemys;
 
+import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.Point;
+import java.util.HashMap;
 
-import javax.imageio.ImageIO;
-
-import gameObjects.Slime;
-import main.GameLoop;
-import map.Room;
+import extensions.AnchoredSprite;
+import main.GameAPI;
 import resources.Sprite;
+import vector.Vector2D;
 
 public class Slimelet extends Enemy {
-	
-	public Sprite slimeletHorizontal = new Sprite ("resources/sprites/config/slimelet_horizontal.txt");
-	public Sprite slimeletVertical = new Sprite ("resources/sprites/config/slimelet_vertical.txt");
-	public Sprite slimeletClimbHorizontal = new Sprite ("resources/sprites/config/slimelet_climb_horizontal.txt");
-	public Sprite slimeletClimbVertical = new Sprite ("resources/sprites/config/slimelet_climb_vertical.txt");
-	public Sprite slimeletAround = new Sprite ("resources/sprites/config/slimelet_around.txt");
-	public Sprite slimeletOver = new Sprite ("resources/sprites/config/slimelet_over.txt");
-	
-	private int slimeletFrame;
-	
-	private byte direction;
-	private byte animation;
-	private int animationTimer;
-	private int animationFrames;
-	private int climbTimer;
-	private int climbFrames;
-	private int slimeX;
-	private int slimeY;
-	private boolean altFrame;
-	private boolean converse;
-	private boolean conversePrevious;
-	@Override
-	public void declare () {
-		this.declare(0, 0);
-		System.out.println ("Oh no you don't");
-	}
-	@Override
-	public void declare (double x, double y) {
-		BetterSlimelet bs = new BetterSlimelet ();
-		bs.declare (x, y);
-		forget ();
-	}
-	public Slimelet () {
-		//this.setSprite (slimeletClimbHorizontal);
-		this.getAnimationHandler ().setFrameTime (111.11);
-		this.setHitboxAttributes (0, 0, 15, 15);
-		this.animationFrames = 6;
-		this.climbFrames = 1;
-		this.direction = 0;
-		this.animation = 0;
-		this.converse = false;
-		this.defence = 0;
-		this.health = 47;
-		this.conversePrevious = false;
 
-	}
-	@Override 
-	public String checkName () {
-		return "SLIMELET";
-	}
-	@Override
-	public String checkEntry () {
-		return "THIS WEAK MOSTER LEAVS BEHIND A TRAIL OF SLIME IT ALSO CAN WALK ON WALLS AND CEILINGS";
-	}
-	@Override
-	public void enemyFrame () {
+	public static final String CONFIG_PATH = "resources/sprites/config/Slimelet/";
+	public static final String MASK_PATH = "resources/sprites/sprte_masks/";
+	public static final String SPRITE_PATH = "resources/sprites/";
 	
-		//Random numbers correspond to sprite coordinates
-		int slimeOffset;
-		if (this.animation != 2) {
-			slimeOffset = (climbTimer + 1) / climbFrames;
-		} else {
-			slimeOffset = -65535;
-		}
-		if (!this.conversePrevious) {
-			switch (this.direction) {
-				case 0:
-					this.setHitboxRect (6, 7, 15, 15);
-					this.slimeX = 3 + slimeOffset;
-					this.slimeY = 15;
-					break;
-				case 1:
-					this.setHitboxRect (0, 7, 9, 15);
-					this.slimeX = 12 - slimeOffset;
-					this.slimeY = 15;
-					break;
-				case 2:
-					this.setHitboxRect (7, 0, 15, 9);
-					this.slimeX = 15;
-					this.slimeY = 12 - slimeOffset;
-					break;
-				case 3:
-					this.setHitboxRect (7, 6, 15, 15);
-					this.slimeX = 15;
-					this.slimeY = 3 + slimeOffset;
-					break;
-			}
-		} else {
-			switch (this.direction) {
-				case 0:
-					this.setHitboxRect (6, 0, 15, 8);
-					this.slimeX = 3 + slimeOffset;
-					this.slimeY = 0;
-					break;
-				case 1:
-					this.setHitboxRect (0, 0, 9, 8);
-					this.slimeX = 12 - slimeOffset;
-					this.slimeY = 0;
-					break;
-				case 2:
-					this.setHitboxRect (0, 0, 8, 9);
-					this.slimeX = 0;
-					this.slimeY = 12 - slimeOffset;
-					break;
-				case 3:
-					this.setHitboxRect (0, 6, 8, 15);
-					this.slimeX = 0;
-					this.slimeY = 3 + slimeOffset;
-					break;
-				}
-		}
-		if (this.animation == 0) {
-			switch (this.direction) {
-				case 0:
-					this.setX (this.getX () + 1);
-					if (Room.isColliding(this)) {
-						this.setX (getXPrevious ());
-						this.animation = 1;
-					}
-					break;
-				case 1:
-					this.setX (this.getX () - 1);
-					if (Room.isColliding(this)) {
-						this.setX (getXPrevious ());
-						this.animation = 1;
-					}
-					break;
-				case 2:
-					this.setY (this.getY () - 1);
-					if (Room.isColliding(this)) {
-						this.setY (getYPrevious ());
-						this.animation = 1;
-						this.converse = true;
-					}
-					break;
-				case 3:
-					this.setY (this.getY () + 1);
-					if (Room.isColliding(this)) {
-						this.setY (getYPrevious ());
-						this.animation = 1;
-						this.converse = false;
-					}
-					break;
-			}
-			if (!this.conversePrevious) {
-				switch (this.direction) {
-					case 0:
-						if (!this.roomIsCollidingOffset (this.hitbox ().width, this.hitbox ().height) && !Room.isColliding(this)) {
-							this.animation = 2;
-							this.setX (this.getX () + 8);
-							this.setY (this.getY () + 5);
-						}
-						break;
-					case 1:
-						if (!this.roomIsCollidingOffset (-this.hitbox ().width, this.hitbox ().height) && !Room.isColliding(this)) {
-							this.animation = 2;
-							this.setX (this.getX () - 8);
-							this.setY (this.getY () + 5);
-						}
-						break;
-					case 2:
-						if (!this.roomIsCollidingOffset (this.hitbox ().width, -this.hitbox ().height) && !Room.isColliding(this)) {
-							this.animation = 2;
-							this.setX (this.getX () + 5);
-							this.setY (this.getY () - 8);
-						}
-						break;
-					case 3:
-						if (!this.roomIsCollidingOffset (this.hitbox ().width, this.hitbox ().height) && !Room.isColliding(this)) {
-							this.animation = 2;
-							this.setX (this.getX () + 5);
-							this.setY (this.getY () + 8);
-						}
-						break;
-				}
-			} else {
-				switch (this.direction) {
-					case 0:
-						if (!this.roomIsCollidingOffset (this.hitbox ().width, -this.hitbox ().height) && !Room.isColliding(this)) {
-							this.animation = 2;
-							this.setX (this.getX () + 8);
-							this.setY (this.getY () - 5);
-						}
-						break;
-					case 1:
-						if (!this.roomIsCollidingOffset (-this.hitbox ().width, -this.hitbox ().height) && !Room.isColliding(this)) {
-							this.animation = 2;
-							this.setX (this.getX () - 8);
-							this.setY (this.getY () - 5);
-						}
-						break;
-					case 2:
-						if (!this.roomIsCollidingOffset (-this.hitbox ().width, -this.hitbox ().height) && !Room.isColliding(this)) {
-							this.animation = 2;
-							this.setX (this.getX () - 5);
-							this.setY (this.getY () - 8);
-						}
-						break;
-					case 3:
-						if (!this.roomIsCollidingOffset (-this.hitbox ().width, this.hitbox ().height) && !Room.isColliding(this)) {
-							this.animation = 2;
-							this.setX (this.getX () - 5);
-							this.setY (this.getY () + 8);
-						}
-						break;
-					}
-			}
-		}
-		if (this.animation == 2) {
-			if (!this.conversePrevious) {
-				switch (this.direction) {
-					case 0:
-						this.setY (this.getY () + 1);
-						break;
-					case 1:
-						this.setY (this.getY () + 1);
-						break;
-					case 2:
-						this.setX (this.getX () + 1);
-						break;
-					case 3:
-						this.setX (this.getX () + 1);
-						break;
-				}
-			} else {
-				switch (this.direction) {
-					case 0:
-						this.setY (this.getY () - 1);
-						break;
-					case 1:
-						this.setY (this.getY () - 1);
-						break;
-					case 2:
-						this.setX (this.getX () - 1);
-						break;
-					case 3:
-						this.setX (this.getX () - 1);
-						break;
-				}
-			}
-		}
-		new Slime ().declare (this.getX () + this.slimeX, this.getY () + this.slimeY);
+	public static HashMap<String, SlimeletSpriteBoosterPack> lootBundles;
+	
+	//DO NOT FUCK WITH THESE
+	public static final int DIRECTION_UP = 0x0;
+	public static final int DIRECTION_RIGHT = 0x1;
+	public static final int DIRECTION_DOWN = 0x2;
+	public static final int DIRECTION_LEFT = 0x3;
+	
+	//Offset vectors for the directions, in tiles
+	public static final Vector2D[] OFFSET_VECTORS = new Vector2D[] {
+			new Vector2D (0, -1),
+			new Vector2D (1, 0),
+			new Vector2D (0, 1),
+			new Vector2D (-1, 0)
+	};
+	
+	private String slimeletType;
+	private boolean isClockwise;
+	private int floorDirection;
+	
+	public enum SlimeletState {
+		CRAWL,
+		INNER_CORNER,
+		OUTER_CORNER
 	}
+	
+	public Slimelet () {
+
+		
+	}
+
+	@Override
+	public void init () {
+		
+		//Init the loot bundles
+		lootBundles = new HashMap<String, SlimeletSpriteBoosterPack> ();
+		
+		//Add the booster packs
+		lootBundles.put ("nv", new SlimeletSpriteBoosterPack ("nv"));
+		
+	}
+	
+	@Override
+	public void onDeclare () {
+		
+		//Do initial direction and stuff
+		String directionRaw = this.getVariantAttribute ("direction");
+		String flippedRaw = this.getVariantAttribute ("flip");
+		System.out.println (flippedRaw);
+		//Assign default values
+		if (directionRaw == null) {
+			directionRaw = "right";
+		}
+		if (flippedRaw == null) {
+			flippedRaw = "false";
+		}
+		isClockwise = true;
+		if (flippedRaw.equals ("true")) {
+			isClockwise = false;
+		}
+		//I don't like switch statements but oh well
+		switch (directionRaw) {
+			case "left":
+				floorDirection = DIRECTION_UP;
+				break;
+			case "right":
+				floorDirection = DIRECTION_DOWN;
+				break;
+			case "up":
+				floorDirection = DIRECTION_RIGHT;
+				break;
+			case "down":
+				floorDirection = DIRECTION_LEFT;
+				break;
+		}
+		if (!isClockwise) {
+			floorDirection = (floorDirection + 2) % 4;
+		}
+		
+		//Set the sprite accordingly
+		setSprite (getSlimeletSprite ("nv", SlimeletState.CRAWL, floorDirection, isClockwise));
+		getAnimationHandler ().setFrameTime (250);
+		
+	}
+	
 	@Override
 	public void draw () {
-		//System.out.print ("DRAW: ");
-		if (animationTimer % animationFrames == animationFrames - 1) {
-			altFrame = !altFrame;
-			animationTimer = 0;
-		}
-		getAnimationHandler ().setFlipVertical (false);
-		getAnimationHandler ().setFlipHorizontal (false);
-		if (direction == 1) {
-			getAnimationHandler ().setFlipHorizontal (true);
-		}
-		if (direction == 3) {
-			getAnimationHandler ().setFlipVertical (true);
-		}
-		if ((direction == 0 || direction == 1) && conversePrevious) {
-			getAnimationHandler ().setFlipVertical (true);
-		}
-		if ((direction == 2 || direction == 3) && conversePrevious) {
-			getAnimationHandler ().setFlipHorizontal (true);
-		}
-		if (this.animation == 2) {
-			if (climbTimer >= climbFrames * 9) {
-				climbTimer = 0;
-				this.animation = 0;
-				//System.out.println(this.converse);
-				if (this.conversePrevious) {
-					switch (this.direction) {
-						case 0:
-							this.direction = 2;
-							this.converse = true;
-							this.setX (this.getX () + 7);
-							this.setY (this.getY () + 4);
-							break;
-						case 1:
-							this.direction = 2;
-							this.converse = false;
-							this.setX (this.getX () - 7);
-							this.setY (this.getY () + 7);
-							break;
-						case 2:
-							this.direction = 1;
-							this.converse = false;
-							this.setY (this.getY () - 7);
-							break;
-						case 3:
-							this.direction = 1;
-							this.converse = true;
-							this.setY (this.getY () + 7);
-							break;
-					}
-				} else {
-					switch (this.direction) {
-						case 0:
-							this.direction = 3;
-							this.converse = true;
-							this.setX (this.getX () + 7);
-							this.setY (this.getY () - 4);
-							break;
-						case 1:
-							this.direction = 3;
-							this.converse = false;
-							this.setX (this.getX () - 7);
-							this.setY (this.getY () - 4);
-							break;
-						case 2:
-							this.direction = 0;
-							this.converse = false;
-							this.setY (this.getY () - 7);
-							break;
-						case 3:
-							this.direction = 0;
-							this.converse = true;
-							this.setY (this.getY () + 7);
-							break;
-					}
-				}
-				this.conversePrevious = this.converse;
-				getAnimationHandler ().setFlipVertical (false);
-				getAnimationHandler ().setFlipHorizontal (false);
-				if (direction == 1) {
-					getAnimationHandler ().setFlipHorizontal (true);
-				}
-				if (direction == 3) {
-					getAnimationHandler ().setFlipVertical (true);
-				}
-				if ((direction == 0 || direction == 1) && converse) {
-					getAnimationHandler ().setFlipVertical (true);
-				}
-				if ((direction == 2 || direction == 3) && converse) {
-					getAnimationHandler ().setFlipHorizontal (true);
-				}
-				groundAnimationStep ();
-			} else {
-				int frameToDraw = (climbTimer / climbFrames);
-				if (this.direction == 0 || this.direction == 1) {
-					slimeletFrame = frameToDraw;
-					slimeletOver.draw ((int)this.getX () - Room.getViewX (), (int)this.getY () - Room.getViewY (), getAnimationHandler ().flipHorizontal (), getAnimationHandler ().flipVertical (), slimeletFrame);
-				} else {
-					slimeletFrame = frameToDraw;
-					slimeletAround.draw ((int)this.getX () - Room.getViewX (), (int)this.getY () - Room.getViewY (), getAnimationHandler ().flipHorizontal (), getAnimationHandler ().flipVertical (), slimeletFrame);
-				}
-				climbTimer ++;
-			}
-		} else if (this.animation == 1) {
-			//System.out.println("1");
-			if (climbTimer >= climbFrames * 9) {
-				climbTimer = 0;
-				this.animation = 0;
-				//System.out.println(this.converse);
-				if (this.conversePrevious) {
-					switch (this.direction) {
-						case 0:
-							this.direction = 3;
-							this.converse = false;
-							this.setY (this.getY () - 5);
-							break;
-						case 1:
-							this.direction = 3;
-							this.converse = true;
-							this.setY (this.getY () - 5);
-							break;
-						case 2:
-							this.direction = 0;
-							this.converse = true;
-							this.setX (this.getX () - 5);
-							break;
-						case 3:
-							this.direction = 0;
-							this.converse = false;
-							this.setX (this.getX () - 5);
-							break;
-					}
-				} else {
-					switch (this.direction) {
-						case 0:
-							this.direction = 2;
-							this.converse = false;
-							this.setY (this.getY () + 5);
-							break;
-						case 1:
-							this.direction = 2;
-							this.converse = true;
-							this.setY (this.getY () + 5);
-							break;
-						case 2:
-							this.direction = 1;
-							this.converse = true;
-							this.setX (this.getX () + 5);
-							break;
-						case 3:
-							this.direction = 1;
-							this.converse = false;
-							this.setX (this.getX () + 5);
-							break;
-					}
-				}
-				this.conversePrevious = this.converse;
-				getAnimationHandler ().setFlipVertical (false);
-				getAnimationHandler ().setFlipHorizontal (false);
-				if (direction == 1) {
-					getAnimationHandler ().setFlipHorizontal (true);
-				}
-				if (direction == 3) {
-					getAnimationHandler ().setFlipVertical (true);
-				}
-				if ((direction == 0 || direction == 1) && converse) {
-					getAnimationHandler ().setFlipVertical (true);
-				}
-				if ((direction == 2 || direction == 3) && converse) {
-					getAnimationHandler ().setFlipHorizontal (true);
-				}
-				groundAnimationStep ();
-			} else {
-				int frameToDraw = 0;
-				if (altFrame) {
-					frameToDraw = 9;
-				}
-				frameToDraw += (climbTimer / climbFrames);
-				if (this.direction == 0 || this.direction == 1) {
-					slimeletFrame = frameToDraw;
-					slimeletClimbHorizontal.draw ((int)this.getX () - Room.getViewX (), (int)this.getY () - Room.getViewY (), getAnimationHandler ().flipHorizontal (), getAnimationHandler ().flipVertical (), slimeletFrame);
-				} else {
-					slimeletFrame = frameToDraw;
-					slimeletClimbVertical.draw ((int)this.getX () - Room.getViewX (), (int)this.getY () - Room.getViewY (), getAnimationHandler ().flipHorizontal (), getAnimationHandler ().flipVertical (), slimeletFrame);
-				}
-				climbTimer ++;
-			}
-		} else if (animation == 0) {
-			groundAnimationStep ();
-		}
-		animationTimer ++;
-		//MainLoop.getWindow ().getBuffer ().drawRect ((int)(this.getX () + this.getHitboxXOffset ()), (int)(this.getY () + this.getHitboxYOffset ()), this.getHitbox ().width, this.getHitbox ().height);
+		//System.out.println (getVariantAttribute ("direction"));
+		super.draw ();
+		Point pt = (((AnchoredSprite)getSprite ()).getRelativeToAnchor ((int)getX (), (int)getY (), getAnimationHandler ().getFrame (), "tail"));
+		Graphics g = GameAPI.window.getBufferGraphics ();
+		g.setColor(new Color (0xFF00FF));
+		g.fillRect(pt.x, pt.y, 1, 1);
 	}
-	public void groundAnimationStep () {
-		if (altFrame) {
-			slimeletFrame = 1;
+	
+	public AnchoredSprite getSlimeletSprite (String type, SlimeletState state, int floorDirection, boolean isClockwise) {
+		
+		//Calculate the index
+		int isCWInt = 0x0;
+		if (isClockwise) {
+			isCWInt = 0x4;
+		}
+		int index = isCWInt | floorDirection;
+		
+		//Get the correct booster pack
+		SlimeletSpriteBoosterPack usedBundle = lootBundles.get (type);
+		
+		//Return the correct sprite from the correct array
+		switch (state) {
+			case CRAWL:
+				return usedBundle.slimeletCrawl [index];
+			case INNER_CORNER:
+				return usedBundle.slimeletInnerCorner [index];
+			case OUTER_CORNER:
+				return usedBundle.slimeletOuterCorner [index];
+			default:
+				return null;
+		}
+	}
+	
+	public int rotate90Deg (int direction, boolean clockwise) {
+		if (!clockwise) {
+			return Math.floorMod (direction - 1, 4);
 		} else {
-			slimeletFrame = 0;
-		}
-		if (direction == 0 || direction == 1) {
-			slimeletHorizontal.draw ((int)getX () - Room.getViewX (), (int)getY () - Room.getViewY (), getAnimationHandler ().flipHorizontal (), getAnimationHandler ().flipVertical (), slimeletFrame);
-		}
-		if (direction == 2 || direction == 3) {
-			slimeletVertical.draw ((int)getX () - Room.getViewX (), (int)getY () - Room.getViewY (), getAnimationHandler ().flipHorizontal (), getAnimationHandler ().flipVertical (), slimeletFrame);
+			return (direction + 1) % 4;
 		}
 	}
-	public void setHitboxRect (int x1, int y1, int x2, int y2) {
-		setHitboxAttributes (x1, y1, x2 - x1, y2 - y1);
+	
+	public int getFacingDirection (int floorDir, boolean clockwise) {
+		return rotate90Deg (floorDir, !clockwise);
 	}
-	public boolean roomIsCollidingOffset (double offsetX, double offsetY) {
-		this.setX (this.getX () + offsetX);
-		this.setY (this.getY () + offsetY);
-		if (Room.isColliding(this)) {
-			setX (getXPrevious ());
-			setY (getYPrevious ());
-			return true;
-		} else {
-			setX (getXPrevious ());
-			setY (getYPrevious ());
-			return false;
+	
+	public Vector2D getDirectionVector (int direction) {
+		return OFFSET_VECTORS [direction];
+	}
+	
+	private class SlimeletSpriteBoosterPack {
+		
+		public AnchoredSprite[] slimeletCrawl;
+		public AnchoredSprite[] slimeletInnerCorner;
+		public AnchoredSprite[] slimeletOuterCorner;
+		
+		public SlimeletSpriteBoosterPack (String type) {
+			
+			//Brofist my guy
+			HashMap <Color,String> working = new HashMap <Color,String> ();
+			working.put(new Color (0xFF0000), "front");
+			working.put(new Color (0x0000FF), "anchor");
+			working.put(new Color (0xFF00FF), "tail");
+			AnchoredSprite aroundBLCCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_around_" + type + ".png", CONFIG_PATH + "around_BL_ccw.txt"),new Sprite (MASK_PATH + "slimelet_around_mask.png", CONFIG_PATH + "around_BL_ccw.txt"),working);
+			AnchoredSprite aroundBLCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_over_" + type + ".png",CONFIG_PATH + "around_BL_cw.txt"),new Sprite (MASK_PATH + "slimelet_over_mask.png", CONFIG_PATH + "around_BL_cw.txt"),working);
+			AnchoredSprite aroundBRCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_around_" + type + ".png",CONFIG_PATH + "around_BR_cw.txt"),new Sprite (MASK_PATH + "slimelet_around_mask.png", CONFIG_PATH + "around_BR_cw.txt"),working);
+			AnchoredSprite aroundBRCCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_over_" + type + ".png",CONFIG_PATH + "around_BR_ccw.txt"),new Sprite (MASK_PATH + "slimelet_over_mask.png", CONFIG_PATH + "around_BR_ccw.txt"),working);
+			AnchoredSprite aroundTLCCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_over_" + type + ".png",CONFIG_PATH + "around_TL_ccw.txt"),new Sprite (MASK_PATH + "slimelet_over_mask.png", CONFIG_PATH + "around_TL_ccw.txt"),working);
+			AnchoredSprite aroundTLCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_around_" + type + ".png",CONFIG_PATH + "around_TL_cw.txt"),new Sprite (MASK_PATH + "slimelet_around_mask.png", CONFIG_PATH + "around_TL_cw.txt"),working);
+			AnchoredSprite aroundTRCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_over_" + type + ".png",CONFIG_PATH + "around_TR_cw.txt"),new Sprite (MASK_PATH + "slimelet_over_mask.png", CONFIG_PATH + "around_TR_cw.txt"),working);
+			AnchoredSprite aroundTRCCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_around_" + type + ".png",CONFIG_PATH + "around_TR_ccw.txt"),new Sprite (MASK_PATH + "slimelet_around_mask.png", CONFIG_PATH + "around_TR_ccw.txt"),working);
+			AnchoredSprite climbBLCCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_climb_horizontal_" + type + ".png",CONFIG_PATH + "climb_BL_ccw.txt"),new Sprite (MASK_PATH + "slimelet_climb_up_mask.png", CONFIG_PATH + "climb_BL_ccw.txt"),working);
+			AnchoredSprite climbBLCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_climb_vertical_" + type + ".png",CONFIG_PATH + "climb_BL_cw.txt"),new Sprite (MASK_PATH + "slimelet_climb_vertical_mask.png", CONFIG_PATH + "climb_BL_cw.txt"),working);
+			AnchoredSprite climbBRCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_climb_horizontal_" + type + ".png",CONFIG_PATH + "climb_BR_cw.txt"),new Sprite (MASK_PATH + "slimelet_climb_up_mask.png", CONFIG_PATH + "climb_BR_cw.txt"),working);
+			AnchoredSprite climbBRCCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_climb_vertical_" + type + ".png",CONFIG_PATH + "climb_BR_ccw.txt"),new Sprite (MASK_PATH + "slimelet_climb_vertical_mask.png", CONFIG_PATH + "climb_BR_ccw.txt"),working);
+			AnchoredSprite climbTLCCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_climb_vertical_" + type + ".png",CONFIG_PATH + "climb_TL_ccw.txt"),new Sprite (MASK_PATH + "slimelet_climb_vertical_mask.png", CONFIG_PATH + "climb_TL_ccw.txt"),working);
+			AnchoredSprite climbTLCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_climb_horizontal_" + type + ".png",CONFIG_PATH + "climb_TL_cw.txt"),new Sprite (MASK_PATH + "slimelet_climb_up_mask.png", CONFIG_PATH + "climb_TL_cw.txt"),working);
+			AnchoredSprite climbTRCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_climb_vertical_" + type + ".png",CONFIG_PATH + "climb_TR_cw.txt"),new Sprite (MASK_PATH + "slimelet_climb_vertical_mask.png", CONFIG_PATH + "climb_TR_cw.txt"),working);
+			AnchoredSprite climbTRCCW =  new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_climb_horizontal_" + type + ".png",CONFIG_PATH + "climb_TR_ccw.txt"),new Sprite (MASK_PATH + "slimelet_climb_up_mask.png", CONFIG_PATH + "climb_TR_ccw.txt"),working);
+			AnchoredSprite crawlLeftCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_horizontal_" + type + ".png",CONFIG_PATH + "left_cw.txt"),new Sprite (MASK_PATH + "slimelet_horizontal_mask.png", CONFIG_PATH + "left_cw.txt"), working);
+			AnchoredSprite crawlLeftCCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_horizontal_" + type + ".png",CONFIG_PATH + "left_ccw.txt"),new Sprite (MASK_PATH + "slimelet_horizontal_mask.png", CONFIG_PATH + "left_ccw.txt"), working);
+			AnchoredSprite crawlRightCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_horizontal_" + type + ".png",CONFIG_PATH + "right_cw.txt"),new Sprite (MASK_PATH + "slimelet_horizontal_mask.png", CONFIG_PATH + "right_cw.txt"), working);
+			AnchoredSprite crawlRightCCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_horizontal_" + type + ".png",CONFIG_PATH + "right_ccw.txt"),new Sprite (MASK_PATH + "slimelet_horizontal_mask.png", CONFIG_PATH + "right_ccw.txt"), working);
+			AnchoredSprite crawlBottomCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_vertical_" + type + ".png",CONFIG_PATH + "down_cw.txt"),new Sprite (MASK_PATH + "slimelet_vertical_mask.png", CONFIG_PATH + "down_cw.txt"), working);
+			AnchoredSprite crawlBottomCCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_vertical_" + type + ".png",CONFIG_PATH + "down_ccw.txt"),new Sprite (MASK_PATH + "slimelet_vertical_mask.png", CONFIG_PATH + "down_ccw.txt"), working);
+			AnchoredSprite crawlTopCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_vertical_" + type + ".png",CONFIG_PATH + "up_cw.txt"),new Sprite (MASK_PATH + "slimelet_vertical_mask.png", CONFIG_PATH + "up_cw.txt"), working);
+			AnchoredSprite crawlTopCCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_vertical_" + type + ".png",CONFIG_PATH + "up_ccw.txt"),new Sprite (MASK_PATH + "slimelet_vertical_mask.png", CONFIG_PATH + "up_ccw.txt"), working);
+			slimeletCrawl = new AnchoredSprite[] {crawlLeftCCW, crawlTopCCW, crawlRightCCW, crawlBottomCCW, crawlLeftCW, crawlTopCW, crawlRightCW, crawlBottomCW};
+			slimeletInnerCorner = new AnchoredSprite[] {climbBLCCW, climbTLCCW, climbTRCCW, climbBRCCW, climbTLCW, climbTRCW, climbBRCW, climbBLCW};
+			slimeletOuterCorner = new AnchoredSprite[] {aroundTLCCW, aroundTRCCW, aroundBRCCW, aroundBLCCW, aroundBLCW, aroundTLCW, aroundTRCW, aroundBRCW};
 		}
+		
 	}
 }
