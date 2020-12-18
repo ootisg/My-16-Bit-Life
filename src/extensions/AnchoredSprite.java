@@ -19,6 +19,7 @@ public class AnchoredSprite extends Sprite {
 
 	Point startOffset;
 	ArrayList <HashMap<String,Point>> offsets;
+	ArrayList <HashMap<String,Point>> rawPixels;
 	
 	public AnchoredSprite (Sprite soruce, Sprite meta, HashMap<Color, String> config) {
 		
@@ -50,6 +51,7 @@ public class AnchoredSprite extends Sprite {
 		
 		// gets the correct set of offsets for each of the points
 		offsets = new ArrayList<HashMap<String, Point>> ();
+		rawPixels = new ArrayList<HashMap<String, Point>> ();
 		Pixel anchorFirstPx = oofsets.get(0).getFirst();
 		Point anchorFirst = new Point (anchorFirstPx.getX (), anchorFirstPx.getY ());
 		if (!foundAnchor) {
@@ -68,16 +70,21 @@ public class AnchoredSprite extends Sprite {
 			}
 			offset = new Point ((int)anchorFirst.getX()-(int)anchor.getX(), (int)anchorFirst.getY() - (int)anchor.getY());
 			offsets.add(new HashMap<String,Point>());
+			rawPixels.add (new HashMap<String,Point>());
 			if (!foundAnchor) {
 				offsets.get (i).put ("anchor", null);
+				rawPixels.get (i).put ("anchor", null);
 			} else {
 				offsets.get(i).put("anchor", offset);
+				rawPixels.get (i).put ("anchor", anchor);
 			}
 			while(iter.hasNext()) {
 				Pixel px = iter.next ();
+				Point pxPtRaw = new Point (px.getX (), px.getY ());
 				Point pxPt = new Point (px.getX () - (int)anchor.getX (), px.getY () - (int)anchor.getY ());
 				String key = config.get (new Color (px.getRgb ()));
 				offsets.get (i).put (key, pxPt);
+				rawPixels.get (i).put (key, pxPtRaw);
 			}
 		}
 	}

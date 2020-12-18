@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -335,17 +336,28 @@ public abstract class GameObject extends GameAPI {
 		hiboxBorders = !hiboxBorders;
 	}
 	/**
+	 * Gets the coordinates to draw this GameObject at (returns NULL if this object should not be drawn)
+	 */
+	public Point getDrawCoords () {
+		if (visible) {
+			return new Point ((int)(spriteX - Room.getViewX ()), (int)(spriteY - Room.getViewY ()));
+		} else {
+			return null;
+		}
+	}
+	/**
 	 * Draws this GameObject at its x and y coordinates relative to the room view.
 	 */
 	public void draw () {
-		//TODO
-		if (visible) {
-		animationHandler.draw (spriteX - Room.getViewX (), spriteY - Room.getViewY ());
-		if (hiboxBorders) {
-			if (this.hitbox() != null) {
-				Graphics g = RenderLoop.window.getBufferGraphics();
-				g.setColor(new Color(0x000000));
-				g.drawRect((int)(this.getX() + this.getHitboxXOffset() - Room.getViewX()),(int) (this.getY() + this.getHitboxYOffset() - Room.getViewY()), this.hitbox().width, this.hitbox().height);
+		//TODO wait what's todo about this?
+		Point drawCoords = getDrawCoords ();
+		if (drawCoords != null) {
+			animationHandler.draw (drawCoords.x, drawCoords.y);
+			if (hiboxBorders) {
+				if (this.hitbox() != null) {
+					Graphics g = RenderLoop.window.getBufferGraphics();
+					g.setColor(new Color(0x000000));
+					g.drawRect((int)(this.getX() + this.getHitboxXOffset() - Room.getViewX()),(int) (this.getY() + this.getHitboxYOffset() - Room.getViewY()), this.hitbox().width, this.hitbox().height);
 				}
 			}
 		}

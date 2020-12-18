@@ -105,10 +105,10 @@ public class Slimelet extends Enemy {
 	public void draw () {
 		//System.out.println (getVariantAttribute ("direction"));
 		super.draw ();
-		Point pt = (((AnchoredSprite)getSprite ()).getRelativeToAnchor ((int)getX (), (int)getY (), getAnimationHandler ().getFrame (), "tail"));
+		Point frontPt = (((AnchoredSprite)getSprite ()).getRelativeToAnchor ((int)getX (), (int)getY (), getAnimationHandler ().getFrame (), "front"));
 		Graphics g = GameAPI.window.getBufferGraphics ();
 		g.setColor(new Color (0xFF00FF));
-		g.fillRect(pt.x, pt.y, 1, 1);
+		g.fillRect(frontPt.x, frontPt.y, 1, 1);
 	}
 	
 	public AnchoredSprite getSlimeletSprite (String type, SlimeletState state, int floorDirection, boolean isClockwise) {
