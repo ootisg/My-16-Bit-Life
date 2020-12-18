@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.util.HashMap;
 
 import extensions.AnchoredSprite;
+import gameObjects.TileCollider;
 import main.GameAPI;
 import resources.Sprite;
 import vector.Vector2D;
@@ -35,6 +36,9 @@ public class Slimelet extends Enemy {
 	private String slimeletType;
 	private boolean isClockwise;
 	private int floorDirection;
+	private SlimeletState animState = SlimeletState.CRAWL;
+	
+	private double speed = .25;
 	
 	public enum SlimeletState {
 		CRAWL,
@@ -64,7 +68,6 @@ public class Slimelet extends Enemy {
 		//Do initial direction and stuff
 		String directionRaw = this.getVariantAttribute ("direction");
 		String flippedRaw = this.getVariantAttribute ("flip");
-		System.out.println (flippedRaw);
 		//Assign default values
 		if (directionRaw == null) {
 			directionRaw = "right";
@@ -91,24 +94,86 @@ public class Slimelet extends Enemy {
 				floorDirection = DIRECTION_LEFT;
 				break;
 		}
-		if (!isClockwise) {
+		/*if (!isClockwise) {
 			floorDirection = (floorDirection + 2) % 4;
-		}
+		}*/
 		
 		//Set the sprite accordingly
 		setSprite (getSlimeletSprite ("nv", SlimeletState.CRAWL, floorDirection, isClockwise));
-		getAnimationHandler ().setFrameTime (250);
+		getAnimationHandler ().setFrameTime (0);
+		
+	}
+	
+	@Override
+	public void frameEvent () {
+		if (animState.equals (SlimeletState.CRAWL)) {
+			
+			//Get our handy under tile
+			int facingDir = getFacingDirection (floorDirection, isClockwise);
+			Vector2D dirVector = getDirectionVector (facingDir);
+			Vector2D normalVector = getDirectionVector (floorDirection);
+			Vector2D underTile = getTile ().getSum (normalVector);
+			
+			//Move and shit like that idunno man
+			Vector2D moveVector = dirVector.getScaled (speed);
+			setX (getX () + moveVector.x);
+			setY (getY () + moveVector.y);
+			
+			//Check for turning corners, etc.
+			Vector2D tile = getTile ();
+			Vector2D aroundTile = tile.getSum (getDirectionVector (floorDirection));
+			TileCollider e = new TileCollider ();
+			if (e.isCollidingWithTile (tile)) {
+				setX (getXPrevious ());
+				setY (getYPrevious ());
+				AnchoredSprite ss = getCurrentSlimeletSprite ();
+				Point pt = ss.getRelativeToAnchor ((int)getX (), (int)getY (), getAnimationHandler ().getFrame (), "front");
+				this.setX(pt.getX() + normalVector.x);
+				this.setY(pt.getY() + normalVector.y);
+				animState = SlimeletState.INNER_CORNER;
+				updateSprite ();
+			} else if (!e.isCollidingWithTile (aroundTile) && e.isCollidingWithTile (underTile)) {
+				setX (getXPrevious ());
+				setY (getYPrevious ());
+				AnchoredSprite ss = getCurrentSlimeletSprite ();
+				Point pt = ss.getRelativeToAnchor ((int)getX (), (int)getY (), getAnimationHandler ().getFrame (), "front");
+				this.setX(pt.getX() + normalVector.x);
+				this.setY(pt.getY() + normalVector.y);
+				animState = SlimeletState.OUTER_CORNER;
+				updateSprite ();
+			}
+		} else {
+			if (this.getAnimationHandler().isAnimationDone()) {
+				AnchoredSprite sss = getCurrentSlimeletSprite ();
+				Point pts = sss.getRelativeToAnchor ((int)getX (), (int)getY (), getAnimationHandler ().getFrame (), "front");
+				//this is dumb v
+				if (this.animState.equals(SlimeletState.OUTER_CORNER)) {
+					floorDirection = this.rotate90Deg(floorDirection, isClockwise);
+				} else {
+					floorDirection = this.rotate90Deg(floorDirection, !isClockwise);	
+				}
+				//its that one ^
+				animState = SlimeletState.CRAWL;
+				getAnimationHandler().setAnimationFrame(0);
+				Point pt = getCurrentSlimeletSprite ().getOffsetFromAnchor (getAnimationHandler ().getFrame (), "front");
+				this.setX(pts.getX() - pt.getX ());
+				this.setY(pts.getY() - pt.getY ());	
+				updateSprite();
+			}
+		}
+		
 		
 	}
 	
 	@Override
 	public void draw () {
-		//System.out.println (getVariantAttribute ("direction"));
+		
 		super.draw ();
-		Point frontPt = (((AnchoredSprite)getSprite ()).getRelativeToAnchor ((int)getX (), (int)getY (), getAnimationHandler ().getFrame (), "front"));
+		Vector2D tile = getTile ();
 		Graphics g = GameAPI.window.getBufferGraphics ();
-		g.setColor(new Color (0xFF00FF));
-		g.fillRect(frontPt.x, frontPt.y, 1, 1);
+		g.setColor(new Color(0x0000FF));
+		g.drawRect((int)tile.x * 16, (int)tile.y * 16, 16, 16);
+		
 	}
 	
 	public AnchoredSprite getSlimeletSprite (String type, SlimeletState state, int floorDirection, boolean isClockwise) {
@@ -136,6 +201,30 @@ public class Slimelet extends Enemy {
 		}
 	}
 	
+	public AnchoredSprite getCurrentSlimeletSprite () {
+		return getSlimeletSprite ("nv", animState, floorDirection, isClockwise);
+	}
+	
+	public void updateSprite () {
+		switch (animState) {
+			case CRAWL:
+				setSprite (getCurrentSlimeletSprite ());
+				getAnimationHandler ().setFrameTime (250);
+				getAnimationHandler ().setRepeat (true);
+				break;
+			case INNER_CORNER:
+				setSprite (getCurrentSlimeletSprite ());
+				getAnimationHandler ().setFrameTime (100);
+				getAnimationHandler ().setRepeat (false);
+				break;
+			case OUTER_CORNER:
+				setSprite (getCurrentSlimeletSprite ());
+				getAnimationHandler ().setFrameTime (100);
+				getAnimationHandler ().setRepeat (false);
+				break;
+		}
+	}
+	
 	public int rotate90Deg (int direction, boolean clockwise) {
 		if (!clockwise) {
 			return Math.floorMod (direction - 1, 4);
@@ -147,9 +236,17 @@ public class Slimelet extends Enemy {
 	public int getFacingDirection (int floorDir, boolean clockwise) {
 		return rotate90Deg (floorDir, !clockwise);
 	}
-	
+	public int getFloorDirection (int faceDir, boolean clockwise) {
+		return rotate90Deg (faceDir, clockwise);
+	}
 	public Vector2D getDirectionVector (int direction) {
 		return OFFSET_VECTORS [direction];
+	}
+	
+	public Vector2D getTile () {
+		AnchoredSprite ss = getCurrentSlimeletSprite ();
+		Point pt = ss.getRelativeToAnchor ((int)getX (), (int)getY (), getAnimationHandler ().getFrame (), "front");
+		return new Vector2D (pt.x / 16, pt.y / 16);
 	}
 	
 	private class SlimeletSpriteBoosterPack {
@@ -185,13 +282,13 @@ public class Slimelet extends Enemy {
 			AnchoredSprite crawlLeftCCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_horizontal_" + type + ".png",CONFIG_PATH + "left_ccw.txt"),new Sprite (MASK_PATH + "slimelet_horizontal_mask.png", CONFIG_PATH + "left_ccw.txt"), working);
 			AnchoredSprite crawlRightCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_horizontal_" + type + ".png",CONFIG_PATH + "right_cw.txt"),new Sprite (MASK_PATH + "slimelet_horizontal_mask.png", CONFIG_PATH + "right_cw.txt"), working);
 			AnchoredSprite crawlRightCCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_horizontal_" + type + ".png",CONFIG_PATH + "right_ccw.txt"),new Sprite (MASK_PATH + "slimelet_horizontal_mask.png", CONFIG_PATH + "right_ccw.txt"), working);
-			AnchoredSprite crawlBottomCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_vertical_" + type + ".png",CONFIG_PATH + "down_cw.txt"),new Sprite (MASK_PATH + "slimelet_vertical_mask.png", CONFIG_PATH + "down_cw.txt"), working);
-			AnchoredSprite crawlBottomCCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_vertical_" + type + ".png",CONFIG_PATH + "down_ccw.txt"),new Sprite (MASK_PATH + "slimelet_vertical_mask.png", CONFIG_PATH + "down_ccw.txt"), working);
-			AnchoredSprite crawlTopCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_vertical_" + type + ".png",CONFIG_PATH + "up_cw.txt"),new Sprite (MASK_PATH + "slimelet_vertical_mask.png", CONFIG_PATH + "up_cw.txt"), working);
-			AnchoredSprite crawlTopCCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_vertical_" + type + ".png",CONFIG_PATH + "up_ccw.txt"),new Sprite (MASK_PATH + "slimelet_vertical_mask.png", CONFIG_PATH + "up_ccw.txt"), working);
-			slimeletCrawl = new AnchoredSprite[] {crawlLeftCCW, crawlTopCCW, crawlRightCCW, crawlBottomCCW, crawlLeftCW, crawlTopCW, crawlRightCW, crawlBottomCW};
-			slimeletInnerCorner = new AnchoredSprite[] {climbBLCCW, climbTLCCW, climbTRCCW, climbBRCCW, climbTLCW, climbTRCW, climbBRCW, climbBLCW};
-			slimeletOuterCorner = new AnchoredSprite[] {aroundTLCCW, aroundTRCCW, aroundBRCCW, aroundBLCCW, aroundBLCW, aroundTLCW, aroundTRCW, aroundBRCW};
+			AnchoredSprite crawlDownCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_vertical_" + type + ".png",CONFIG_PATH + "down_cw.txt"),new Sprite (MASK_PATH + "slimelet_vertical_mask.png", CONFIG_PATH + "down_cw.txt"), working);
+			AnchoredSprite crawlDownCCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_vertical_" + type + ".png",CONFIG_PATH + "down_ccw.txt"),new Sprite (MASK_PATH + "slimelet_vertical_mask.png", CONFIG_PATH + "down_ccw.txt"), working);
+			AnchoredSprite crawlUpCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_vertical_" + type + ".png",CONFIG_PATH + "up_cw.txt"),new Sprite (MASK_PATH + "slimelet_vertical_mask.png", CONFIG_PATH + "up_cw.txt"), working);
+			AnchoredSprite crawlUpCCW = new AnchoredSprite (new Sprite (SPRITE_PATH + "slimelet_vertical_" + type + ".png",CONFIG_PATH + "up_ccw.txt"),new Sprite (MASK_PATH + "slimelet_vertical_mask.png", CONFIG_PATH + "up_ccw.txt"), working);
+			slimeletCrawl = new AnchoredSprite[] {crawlRightCCW, crawlDownCCW, crawlLeftCCW, crawlUpCCW, crawlLeftCW, crawlUpCW, crawlRightCW, crawlDownCW};
+			slimeletInnerCorner = new AnchoredSprite[] {climbTRCCW, climbBRCCW, climbBLCCW, climbTLCCW, climbTLCW, climbTRCW, climbBRCW, climbBLCW};
+			slimeletOuterCorner = new AnchoredSprite[] {aroundBRCCW, aroundBLCCW, aroundTLCCW, aroundTRCCW, aroundBLCW, aroundTLCW, aroundTRCW, aroundBRCW};
 		}
 		
 	}

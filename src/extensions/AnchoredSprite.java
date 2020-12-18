@@ -124,4 +124,8 @@ public class AnchoredSprite extends Sprite {
 		return new Point (anchorX + pt.x, anchorY + pt.y);
 	}
 	
+	public Point getOffsetFromAnchor (int frame, String type) {
+		Point pt = offsets.get (frame).get (type);
+		return pt;
+	}
 }

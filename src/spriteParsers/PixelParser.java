@@ -1,6 +1,7 @@
 
 package spriteParsers;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.ArrayList;
@@ -16,8 +17,16 @@ public class PixelParser {
 	public static ArrayList<ParsedFrame> parse (Sprite sprite) {
 		ArrayList<ParsedFrame> frames = new ArrayList<ParsedFrame> ();
 		for (int i = 0; i < sprite.getFrameCount (); i ++) {
-			WritableRaster alpha = sprite.getFrame (i).getAlphaRaster ();
-			WritableRaster color = sprite.getFrame (i).getRaster ();
+			BufferedImage workingImg = sprite.getFrame (i);
+			BufferedImage newImg = workingImg;
+			//Fuck off BufferedImage.TYPE_BYTE_INDEXED images
+			if (workingImg.getType () != BufferedImage.TYPE_4BYTE_ABGR) {
+				newImg = new BufferedImage (workingImg.getWidth (), workingImg.getHeight (), BufferedImage.TYPE_4BYTE_ABGR);
+				Graphics g = newImg.getGraphics ();
+				g.drawImage (workingImg, 0, 0, null);
+			}
+			WritableRaster alpha = newImg.getAlphaRaster ();
+			WritableRaster color = newImg.getRaster ();
 			ArrayList<Pixel> pixels = new ArrayList<Pixel> ();
 			for (int wy = 0; wy < alpha.getHeight (); wy ++) {
 				for (int wx = 0; wx < alpha.getWidth (); wx ++) {

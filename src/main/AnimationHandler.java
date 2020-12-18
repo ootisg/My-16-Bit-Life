@@ -340,6 +340,7 @@ public class AnimationHandler {
 	public int getHeight () {
 		return height;
 	}
+	public boolean isAnimationDone() { return getFrame() == image.getFrameCount() - 1; }
 	/**
 	 * Gets the time each frame should be displayed.
 	 * @return The length of time, in milliseconds, to display each frame
