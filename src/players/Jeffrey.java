@@ -498,20 +498,21 @@ if (activeBox) {
 				int viewY = Room.getViewY ();
 				if (y - viewY >= 320 && y - 320 < Room.getHeight () * 16 - 480) {
 					viewY = (int) y - 320;
-					Room.setView (Room.getViewX (), viewY);
+					Room.setView (Room.getViewXAcurate (), viewY);
 				}
 				if (y - viewY <= 160 && y - 160 > 0) {
+					
 					viewY = (int) y - 160;
-					Room.setView (Room.getViewX (), viewY);
+					Room.setView (Room.getViewXAcurate (), viewY);
 				}
 				if (x - viewX >= 427 && x - 427 < Room.getWidth () * 16 - 640) {
 					viewX = (int) x - 427;
-					Room.setView (viewX, Room.getViewY ());
+					Room.setView (viewX, Room.getViewYAcurate ());
 				}
 				
 				if (x - viewX <= 213 && x - 213  > 0) {
 					viewX = (int) x - 213;
-					Room.setView (viewX, Room.getViewY ());
+					Room.setView (viewX, Room.getViewYAcurate ());
 				}
 			}
 			//Damage animation

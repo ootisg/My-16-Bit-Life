@@ -20,7 +20,7 @@ public class Gui extends GameObject {
 	public void frameEvent () {
 		if (keyDown('E')&& prepared  && Jeffrey.getActiveJeffrey() != null) {
 			menu = new Menu ();
-			menu.declare(0 + Room.getViewX(), 0);
+			menu.declare(0 + Room.getViewX(), 0 + Room.getViewY());
 			ObjectHandler.pause (true);
 		}
 		if (!keyDown ('E')) {

@@ -495,12 +495,45 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 	 * renders the map and associated chungi
 	 */
 	public static void render () {
+		
 		if (updateX != -1) {
-			scrollX = updateX;
+			if (updateX > scrollX) {
+				if (updateX + GameAPI.getWindow().getResolution()[0] < mapWidth * Room.TILE_WIDTH) {
+					scrollX = updateX;	
+				} else {
+					scrollX = (mapWidth * TILE_WIDTH) - GameAPI.getWindow().getResolution()[0];
+					if (scrollX < 0) {
+						scrollX = 0;
+					}
+				}
+			} else {
+				if (updateX > 0) {
+					scrollX = updateX;	
+				} else {
+					scrollX =0;
+				}
+			}
 			updateX = -1;
 		}
 		if (updateY != -1) {
-			scrollY = updateY;
+			if (updateY > scrollY) {
+				if (updateY + GameAPI.getWindow().getResolution()[1] < mapHeight * Room.TILE_HEIGHT) {
+					scrollY = updateY;	
+				} else {
+					scrollY = (mapHeight * TILE_HEIGHT) - GameAPI.getWindow().getResolution()[1];
+					if (scrollY < 0) {
+						scrollY = 0;
+					}
+				}
+			} else {
+				if (updateY > 0) {
+				
+					scrollY = updateY;	
+				} else {
+					scrollY =0;
+				}
+			}
+		
 			updateY = -1;
 		}
 		Rectangle viewport = new Rectangle (scrollX - 20,scrollY - 20,GameAPI.getWindow().getResolution()[0] + 40,GameAPI.getWindow().getResolution()[1] + 40);
@@ -672,11 +705,11 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			}
 		}
 		//sets up the collsion layer right
-		for (int i = 0; i < numLayers; i++) {
-			if (backgrounds.get(i) == null){
-				collisionLayer = i;
-			}
-		}
+		//for (int i = 0; i < numLayers; i++) {
+			//if (backgrounds.get(i) == null){
+			//	collisionLayer = i;
+		//	}
+	//	}
 		//importing objects
 		int widthByteCount = getByteCount(mapWidth);
 		int heightByteCount = getByteCount(mapHeight);
@@ -688,12 +721,9 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			String variantInfo = getString (';');
 			variantInfo = variantInfo.replace("#","&");
 			variantInfo = variantInfo.replace(",","&");
-			System.out.println (variantInfo);
 			GameObject objectToUse = ObjectHandler.getInstance(objectList[object]);
 			objectToUse.setVariantAttributes(variantInfo);
-			System.out.println (objectToUse.getVariantAttribute ("direction"));
 			objectToUse.declare(x*16, y*16);
-			System.out.println (objectToUse.getVariantAttribute ("direction"));
 			
 		}
 		// used to spawn a Jeffrey by default but conflicts with topdown maps that don't need one
@@ -841,6 +871,27 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 	 public static int getViewY () {
 		return scrollY;
 	}
+	 /**
+	 * returns what point of the map the leftmost edge of the screen is going to be updated to
+	 */
+		public static int getViewXAcurate () {
+			if (updateX  != -1) {
+				return updateX;
+			} else {
+				return scrollX;
+			}
+		}
+		/**
+		 * returns what point of the map the top edge of the screen is going to be updated to
+		 */
+		 public static int getViewYAcurate () {
+			 if (updateX  != -1) {
+					return updateY;
+				} else {
+					return scrollY;
+				}
+		}
+		  
 	/**
 	 * returns the width of the map
 	 * @return how THICC the map is

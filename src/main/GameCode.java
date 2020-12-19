@@ -204,7 +204,8 @@ public class GameCode {
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		Room.loadRoom ("resources/maps/slimeletTest2.rmf");
+		RenderLoop.window.setResolution(960, 540);
+		Room.loadRoom ("resources/maps/bubbleMap.rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();
@@ -287,7 +288,6 @@ public class GameCode {
 		x = x + 1;
 		}
 	//	spike = new FallingSpike ();
-		//RenderLoop.window.setResolution(960, 540);
 		//LightSource.writeLightSourceImage (36, 255, 200, 0, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is yellow-ish
 		//LightSource.writeLightSourceImage (36, 0, 200, 255, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is blue-ish
 		//testTie.declare (32, 32);
