@@ -656,7 +656,6 @@ public abstract class GameObject extends GameAPI {
 	 * @return The value of the attribute; null if not found
 	 */
 	public String getVariantAttribute (String attributeName) {
-		System.out.println ("VARIANT: " + variant);
 		if (variant != null) {
 			return variant.getAttribute (attributeName);
 		}
@@ -1035,6 +1034,19 @@ public abstract class GameObject extends GameAPI {
 	public void setHitboxAttributes (int xOffset, int yOffset, int width, int height) {
 		hitboxXOffset = xOffset;
 		hitboxYOffset = yOffset;
+		hitboxWidth = width;
+		hitboxHeight = height;
+	}
+	/**
+	 * places the hitbox at the requested x and y coordinates
+	 * @param x the x coordinate of the hitbox
+	 * @param y the y coordinate of the hitbox
+	 * @param width width of the hitbox
+	 * @param height height of the hibox
+	 */
+	public void setHitbox (int x, int y, int width, int height) {
+		hitboxXOffset = x - this.x;
+		hitboxYOffset = y - this.y;
 		hitboxWidth = width;
 		hitboxHeight = height;
 	}

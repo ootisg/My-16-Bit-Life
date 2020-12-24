@@ -3,15 +3,19 @@ package enemys;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.HashMap;
 
 import extensions.AnchoredSprite;
+import gameObjects.RainbowTrail;
+import gameObjects.StickyObject;
 import gameObjects.TileCollider;
 import main.GameAPI;
+import map.Room;
 import resources.Sprite;
 import vector.Vector2D;
 
-public class Slimelet extends Enemy {
+public class Slimelet extends Enemy implements StickyObject {
 
 	public static final String CONFIG_PATH = "resources/sprites/config/Slimelet/";
 	public static final String MASK_PATH = "resources/sprites/sprte_masks/";
@@ -38,6 +42,8 @@ public class Slimelet extends Enemy {
 	private int floorDirection;
 	private SlimeletState animState = SlimeletState.CRAWL;
 	
+	private int slimePixel = 0;
+	
 	private double speed = .25;
 	
 	public enum SlimeletState {
@@ -47,13 +53,12 @@ public class Slimelet extends Enemy {
 	}
 	
 	public Slimelet () {
-
-		
+		this.setHitboxAttributes(0, 0, 16, 16);
+		this.enablePixelCollisions();
 	}
 
 	@Override
 	public void init () {
-		
 		//Init the loot bundles
 		lootBundles = new HashMap<String, SlimeletSpriteBoosterPack> ();
 		
@@ -64,7 +69,7 @@ public class Slimelet extends Enemy {
 	
 	@Override
 	public void onDeclare () {
-		
+		this.adjustHitboxBorders();
 		//Do initial direction and stuff
 		String directionRaw = this.getVariantAttribute ("direction");
 		String flippedRaw = this.getVariantAttribute ("flip");
@@ -100,12 +105,13 @@ public class Slimelet extends Enemy {
 		
 		//Set the sprite accordingly
 		setSprite (getSlimeletSprite ("nv", SlimeletState.CRAWL, floorDirection, isClockwise));
-		getAnimationHandler ().setFrameTime (0);
+		getAnimationHandler ().setFrameTime (1000);
 		
 	}
 	
 	@Override
-	public void frameEvent () {
+	public void enemyFrame () {
+		
 		if (animState.equals (SlimeletState.CRAWL)) {
 			
 			//Get our handy under tile
@@ -114,33 +120,63 @@ public class Slimelet extends Enemy {
 			Vector2D normalVector = getDirectionVector (floorDirection);
 			Vector2D underTile = getTile ().getSum (normalVector);
 			
+			boolean failSafe = true; // sets the pos back to normal if it needs to be set that way
+			
 			//Move and shit like that idunno man
 			Vector2D moveVector = dirVector.getScaled (speed);
+			double XOg = this.getX();
+			double YOg = this.getY();
 			setX (getX () + moveVector.x);
 			setY (getY () + moveVector.y);
-			
+			double XOgx = this.getX();
+			double YOgx = this.getY(); //bounus version?
 			//Check for turning corners, etc.
 			Vector2D tile = getTile ();
 			Vector2D aroundTile = tile.getSum (getDirectionVector (floorDirection));
-			TileCollider e = new TileCollider ();
-			if (e.isCollidingWithTile (tile)) {
-				setX (getXPrevious ());
-				setY (getYPrevious ());
+			this.setX(tile.x * Room.TILE_WIDTH);
+			this.setY(tile.y * Room.TILE_HEIGHT);
+			this.setHitboxAttributes(1, 1, 14, 14);
+			if (Room.isColliding(this)) {
+				setX (XOg);
+				setY (YOg);
 				AnchoredSprite ss = getCurrentSlimeletSprite ();
 				Point pt = ss.getRelativeToAnchor ((int)getX (), (int)getY (), getAnimationHandler ().getFrame (), "front");
 				this.setX(pt.getX() + normalVector.x);
 				this.setY(pt.getY() + normalVector.y);
 				animState = SlimeletState.INNER_CORNER;
+				this.setHitbox((int)XOgx - 16, (int)YOgx -16, 48,48);
 				updateSprite ();
-			} else if (!e.isCollidingWithTile (aroundTile) && e.isCollidingWithTile (underTile)) {
-				setX (getXPrevious ());
-				setY (getYPrevious ());
-				AnchoredSprite ss = getCurrentSlimeletSprite ();
-				Point pt = ss.getRelativeToAnchor ((int)getX (), (int)getY (), getAnimationHandler ().getFrame (), "front");
-				this.setX(pt.getX() + normalVector.x);
-				this.setY(pt.getY() + normalVector.y);
-				animState = SlimeletState.OUTER_CORNER;
-				updateSprite ();
+				failSafe = false;
+			} else {
+				this.setX(aroundTile.x * Room.TILE_WIDTH);
+				this.setY(aroundTile.y * Room.TILE_HEIGHT);
+				boolean working = false;
+				if (!Room.isColliding(this)) {
+					working = true;
+				}
+				boolean finalCheck = false;
+				this.setX(underTile.x * Room.TILE_WIDTH);
+				this.setY(underTile.y * Room.TILE_HEIGHT);
+				if (!Room.isColliding(this) && working) {
+					finalCheck = true;
+				}
+				if (finalCheck) {
+					setX (XOg);
+					setY (YOg);
+					AnchoredSprite ss = getCurrentSlimeletSprite ();
+					Point pt = ss.getRelativeToAnchor ((int)getX (), (int)getY (), getAnimationHandler ().getFrame (), "front");
+					this.setX(pt.getX() + normalVector.x);
+					this.setY(pt.getY() + normalVector.y);
+					this.setHitbox((int)XOgx - 16, (int)YOgx - 16, 48, 48);
+					animState = SlimeletState.OUTER_CORNER;
+					updateSprite ();
+					failSafe = false;
+				}
+			}
+			if (failSafe) {
+				this.setHitboxAttributes(0, 0, 16, 16);
+				this.setX(XOgx);
+				this.setY(YOgx);
 			}
 		} else {
 			if (this.getAnimationHandler().isAnimationDone()) {
@@ -158,21 +194,24 @@ public class Slimelet extends Enemy {
 				Point pt = getCurrentSlimeletSprite ().getOffsetFromAnchor (getAnimationHandler ().getFrame (), "front");
 				this.setX(pts.getX() - pt.getX ());
 				this.setY(pts.getY() - pt.getY ());	
+				this.setHitboxAttributes(0, 0, 16, 16);
 				updateSprite();
-			}
+			} 
 		}
-		
-		
+		Point ptTrail = getCurrentSlimeletSprite ().getRelativeToAnchor ((int)this.getX(),(int)this.getY(),getAnimationHandler ().getFrame (), "tail");
+		RainbowTrail trail = new RainbowTrail (slimePixel, 10);
+		slimePixel = slimePixel + 1;
+		if (slimePixel == trail.getLoopLength()) {
+			slimePixel = 0;
+		}
+		trail.declare(ptTrail.getX(), ptTrail.getY());
 	}
 	
 	@Override
 	public void draw () {
 		
 		super.draw ();
-		Vector2D tile = getTile ();
-		Graphics g = GameAPI.window.getBufferGraphics ();
-		g.setColor(new Color(0x0000FF));
-		g.drawRect((int)tile.x * 16, (int)tile.y * 16, 16, 16);
+	
 		
 	}
 	

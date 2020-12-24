@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import gameObjects.CheckpointSystem;
+import gameObjects.StickyObject;
 import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
@@ -11,7 +12,7 @@ import map.TileEntitiy;
 import players.Jeffrey;
 import resources.Sprite;
 
-public class SpikeDown extends MapObject{
+public class SpikeDown extends MapObject implements StickyObject{
 	boolean inzilized = false;
 	boolean checkpoint = false;
 	public SpikeDown() {

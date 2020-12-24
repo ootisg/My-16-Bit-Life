@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import gameObjects.CheckpointSystem;
+import gameObjects.StickyObject;
 import items.PogoStick;
 import main.GameObject;
 import main.ObjectHandler;
@@ -12,7 +13,7 @@ import map.TileEntitiy;
 import players.Jeffrey;
 import resources.Sprite;
 
-public class SpikeUp extends MapObject{
+public class SpikeUp extends MapObject implements StickyObject{
 	double JeffVy = 0;
 	boolean inzilized = false;
 	CarryObject platform;
