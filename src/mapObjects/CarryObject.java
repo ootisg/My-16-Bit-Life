@@ -29,17 +29,21 @@ public class CarryObject extends MapObject {
 		for (int i =0; i < objList.size(); i++) {
 			try {
 				StickyObject working = (StickyObject) objList.get(i);
-				carryObjs.add(objList.get(i));
+				if (objList.get(i).isPushable()) {
+					carryObjs.add(objList.get(i));
+				}
 			} catch (ClassCastException e) {
 				
 			}
 		}
-		this.setHitbox(0, -3, this.hitbox().width - 1, this.hitbox().height - 1);
+		this.setHitboxAttributes(0, -3, this.hitbox().width - 1, this.hitbox().height - 1);
 		this.isCollidingChildren("GameObject");
 		objList = this.getCollisionInfo().getCollidingObjects();
 		for (int i =0; i < objList.size(); i++) {
 			if (!carryObjs.contains(objList.get(i))) {
-				carryObjs.add(objList.get(i));
+				if (objList.get(i).isPushable()) {
+					carryObjs.add(objList.get(i));
+				}
 			}
 		}
 		for (int i = 0; i < objectsToCarry.size(); i++) {
@@ -47,9 +51,10 @@ public class CarryObject extends MapObject {
 				carryObjs.add(objectsToCarry.get(i));
 			}
 		}
+		this.setHitboxAttributes(0, 0, this.hitbox().width + 1, this.hitbox().height + 1);
 		return carryObjs;
 	}
-	public void setX(double displacement) {
+	public void setXCarry(double displacement) {
 		super.setX(this.getX() + displacement);
 		ArrayList <GameObject> objTotal = this.getCarryObjs();
 		for (int i = 0; i < objTotal.size(); i++) {
@@ -60,7 +65,7 @@ public class CarryObject extends MapObject {
 			}
 		}
 	}
-	public void setY(double displacement) {
+	public void setYCarry(double displacement) {
 		super.setY(this.getY() + displacement);
 		ArrayList <GameObject> objTotal = this.getCarryObjs();
 		for (int i = 0; i < objTotal.size(); i++) {
@@ -71,7 +76,7 @@ public class CarryObject extends MapObject {
 			}
 		}
 	}
-	public boolean goX(double displacement) {
+	public boolean goXCarry(double displacement) {
 		boolean answer = super.goX(this.getX() + displacement);
 		ArrayList <GameObject> objTotal = this.getCarryObjs();
 		if (answer) {
@@ -85,7 +90,7 @@ public class CarryObject extends MapObject {
 		}
 		return answer;
 	}
-	public boolean goY(double displacement) {
+	public boolean goYCarry(double displacement) {
 		boolean answer = super.goY(this.getY() + displacement);
 		ArrayList <GameObject> objTotal = this.getCarryObjs();
 		if (answer) {
@@ -109,6 +114,7 @@ public class CarryObject extends MapObject {
 		}
 		for (int i = 0; i < objTotal.size(); i++) {
 			if (this.isColliding(objTotal.get(i))) {
+				
 				objTotal.get(i).setX(objTotal.get(i).getX() + displacement);
 			} else {
 				objTotal.get(i).goX(objTotal.get(i).getX() + displacement);

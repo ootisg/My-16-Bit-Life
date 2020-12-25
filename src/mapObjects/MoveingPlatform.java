@@ -137,11 +137,6 @@ public class MoveingPlatform extends CarryObject implements Activateable {
 		if (slopeMagnatue < 0) {
 			slopeMagnatue = slopeMagnatue * -1;
 		}
-		this.setY(this.getY() - 4);
-		this.isCollidingChildren("GameObject");
-		ArrayList <GameObject> collidingObjects = this.getCollisionInfo().getCollidingObjects();
-		this.setY(this.getY() + 4);
-		collidingObjects.addAll(objectsToCarry);
 		if (!Double.isInfinite(slope)) {
 		//System.out.println(slopeMagnatue);
 			
@@ -150,11 +145,11 @@ public class MoveingPlatform extends CarryObject implements Activateable {
 			if (nextPoint.getX() < this.getX()){
 			if (!this.checkXandY(this.getX()- ((1.0/slopeMagnatue) * speed),this.getY()+(slope/slopeMagnatue) * speed)) {
 				reCheck = true;
-				this.setX(-1*((1.0/slopeMagnatue) * speed),collidingObjects);
-				this.setY((slope/slopeMagnatue) * speed,collidingObjects);
+				this.setXCarry(-1*((1.0/slopeMagnatue) * speed));
+				this.setYCarry((slope/slopeMagnatue) * speed);
 			}  else {
-				this.setX(-1*((1.0/slopeMagnatue) * speed),collidingObjects);
-				this.setY((slope/slopeMagnatue) * speed, collidingObjects);
+				this.setXCarry(-1*((1.0/slopeMagnatue) * speed));
+				this.setYCarry((slope/slopeMagnatue) * speed);
 				if (reCheck) {
 					Point currentPosition = new Point (this.getX(),this.getY());
 					slope = currentPosition.getSlope(nextPoint);
@@ -164,11 +159,11 @@ public class MoveingPlatform extends CarryObject implements Activateable {
 			} else {
 			if (!this.checkXandY(this.getX()+ ((1.0/slopeMagnatue) * speed), this.getY()+(slope/slopeMagnatue) * speed)) {
 				reCheck = true;
-				this.setX((1.0/slopeMagnatue) * speed,collidingObjects);
-				this.setY((slope/slopeMagnatue) * speed,collidingObjects);
+				this.setXCarry((1.0/slopeMagnatue) * speed);
+				this.setYCarry((slope/slopeMagnatue) * speed);
 			}  else {
-				this.setX((1.0/slopeMagnatue) * speed,collidingObjects);
-				this.setY((slope/slopeMagnatue) * speed,collidingObjects);
+				this.setXCarry((1.0/slopeMagnatue) * speed);
+				this.setYCarry((slope/slopeMagnatue) * speed);
 				if (reCheck) {
 					Point currentPosition = new Point (this.getX(),this.getY());
 					slope = currentPosition.getSlope(nextPoint);
@@ -180,11 +175,11 @@ public class MoveingPlatform extends CarryObject implements Activateable {
 			if (nextPoint.getX() < this.getX()){
 			if (!this.checkXandY(this.getX()- (1 * speed), this.getY()+slope * speed)) {
 				reCheck = true;
-				this.setX(-1 * speed,collidingObjects);
-				this.setY(slope * speed,collidingObjects);
+				this.setXCarry(-1 * speed);
+				this.setYCarry(slope * speed);
 			}  else {
-				this.setX(-1 * speed,collidingObjects);
-				this.setY(slope * speed,collidingObjects);
+				this.setXCarry(-1 * speed);
+				this.setYCarry(slope * speed);
 				if (reCheck) {
 					Point currentPosition = new Point (this.getX(),this.getY());
 					slope = currentPosition.getSlope(nextPoint);
@@ -194,11 +189,11 @@ public class MoveingPlatform extends CarryObject implements Activateable {
 			} else {
 			if (!this.checkXandY(this.getX()+ (1 * speed), this.getY()+slope * speed)) {
 				reCheck = true;
-				this.setX(1 * speed,collidingObjects);
-				this.setY(slope * speed,collidingObjects);
+				this.setXCarry(1 * speed);
+				this.setYCarry(slope * speed);
 			} else {
-				this.setX(1 * speed,collidingObjects);
-				this.setY(slope * speed,collidingObjects);
+				this.setXCarry(1 * speed);
+				this.setYCarry(slope * speed);
 				if (reCheck) {
 					Point currentPosition = new Point (this.getX(),this.getY());
 					slope = currentPosition.getSlope(nextPoint);
@@ -209,9 +204,9 @@ public class MoveingPlatform extends CarryObject implements Activateable {
 		}
 		} else {
 			if (slope > 0) {
-				this.setY(speed,collidingObjects);
+				this.setYCarry(speed);
 			} else {
-				this.setY(speed,collidingObjects);
+				this.setYCarry(-speed);
 			}
 			if (reCheck) {
 				Point currentPosition = new Point (this.getX(),this.getY());
@@ -223,7 +218,6 @@ public class MoveingPlatform extends CarryObject implements Activateable {
 			inzialized = false;
 		}
 	}
-
 	@Override
 	public void activate() {
 		active = true;
@@ -239,6 +233,10 @@ public class MoveingPlatform extends CarryObject implements Activateable {
 	@Override
 	public void pair() {
 		
+	}
+	@Override
+	public void setX(double val) {
+		super.setX(val);
 	}
 	
 }
