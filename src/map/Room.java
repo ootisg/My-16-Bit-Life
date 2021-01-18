@@ -307,6 +307,14 @@ public class Room {
 			return null;
 		}
 	}
+	public static ArrayList<GameObject> getMapObjectsUsed() {
+		return mapObjectsUsed;
+	}
+
+	public static void setMapObjectsUsed(ArrayList<GameObject> mapObjectsUsed) {
+		Room.mapObjectsUsed = mapObjectsUsed;
+	}
+
 	/**
 	 * checks to see if the given object is colliding with a solid tile
 	 * @param obj the object to check
@@ -345,6 +353,7 @@ public class Room {
 					foundCollision = true;
 				}
 				} catch (NullPointerException e) {
+					return false;
 				}
 			}
 		}
@@ -401,11 +410,15 @@ public class Room {
 					working.add(new MapTile (dataList.get(index),wx*TILE_WIDTH,wy*TILE_HEIGHT));
 				}
 				} else{
+					try {
 					for (int b = 0; b < mapObjects.get(toPackedLong(wx,wy)).size(); b++ ) {
 						if (mapObjects.get(toPackedLong(wx,wy)).get(b).isColliding(obj) && !obj.equals(mapObjects.get(toPackedLong(wx,wy)).get(b))) {
 							mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)).get(b));
 							working.add(new MapTile (dataList.get(index),mapObjects.get(toPackedLong(wx,wy)).get(b).getX(),mapObjects.get(toPackedLong(wx,wy)).get(b).getY()));
 						}
+					}
+					} catch (NullPointerException e) {
+						
 					}
 				}
 			}
@@ -584,31 +597,33 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 		
 		//initalizes fields relating to the map
 		isLoaded = false;
-		roomName = path;
 		dataList = new ArrayList<TileData>();
 		nameList = new HashMap<String,TileData>();
 		tileIcons = new ArrayList<BufferedImage> ();
 		backgrounds = new ArrayList<Background>();
 		tileEntitiys = new ArrayList<TileEntitiy>();
 		positionToEntitiys = new HashMap<Long,TileEntitiy>();
-		
 		//purges the gameObjects
-		ArrayList<ArrayList<GameObject>> objList = ObjectHandler.getChildrenByName("GameObject");
-		for (int i = 0; i < objList.size (); i ++) { 
-			if (objList.get (i) != null) {
-				int listSize = objList.get (i).size ();
-				int deletThis = 0;
-				for (int j = 0; j < listSize; j ++) {
-					if (objList.get (i).get (0) != null) {
-						if (!objList.get (i).get (deletThis).isPersistent ()) {
-							objList.get (i).get (deletThis).forget ();
-						} else {
-							deletThis++;
+			ArrayList<ArrayList<GameObject>> objList = ObjectHandler.getChildrenByName("GameObject");
+			for (int i = 0; i < objList.size (); i ++) { 
+				if (objList.get (i) != null) {
+					int listSize = objList.get (i).size ();
+					int deletThis = 0;
+					for (int j = 0; j < listSize; j ++) {
+						if (objList.get (i).get (0) != null) {
+							if (!objList.get (i).get (deletThis).isPersistent ()) {
+								objList.get (i).get (deletThis).forget ();
+							} else {
+								if (roomName.equals(path)) {
+									deletThis++;
+								} else {
+									objList.get (i).get (deletThis).forget ();
+								}
+							}
 						}
 					}
 				}
 			}
-		}
 		//Loads the RMF file at the given filepath
 		File file = null;
 		FileInputStream stream = null;
@@ -727,8 +742,8 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			GameObject objectToUse = ObjectHandler.getInstance(objectList[object]);
 			objectToUse.setVariantAttributes(variantInfo);
 			objectToUse.declare(x*16, y*16);
-			
 		}
+		
 		// used to spawn a Jeffrey by default but conflicts with topdown maps that don't need one
 		if (ObjectHandler.getObjectsByName("Jeffrey") == null) {
 			Jeffrey j = new Jeffrey ();
@@ -772,6 +787,7 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			}
 		}
 		isLoaded = true;
+		roomName = path;
 		return false;
 	}
 	

@@ -29,8 +29,9 @@ public class MapObject  extends GameObject {
 				if (Room.getMapObjects().get(Room.toPackedLong((int)working[i].x/16,(int)working[i].y/16)) == null) {
 					Room.getMapObjects().put((Room.toPackedLong((int)working[i].x/16,(int)working[i].y/16)),new ArrayList <GameObject> ());
 				}
-				
-				Room.getMapObjects().get(Room.toPackedLong((int)working[i].x/16,(int)working[i].y/16)).add(this);
+				if (!Room.getMapObjects().get(Room.toPackedLong((int)working[i].x/16,(int)working[i].y/16)).contains(this)) {
+					Room.getMapObjects().get(Room.toPackedLong((int)working[i].x/16,(int)working[i].y/16)).add(this);
+					}
 				}
 		}
 		for (int j = 0; j <affectedTiles.size(); j++) {
@@ -228,10 +229,17 @@ public class MapObject  extends GameObject {
 		@Override
 		public void forget () {
 			super.forget();
-			for (int i = 0; i < affectedTiles.size(); i++) {
-				Room.getMapObjects().remove(Room.toPackedLong((int)affectedTiles.get(i).x/16,(int)affectedTiles.get(i).y/16));
+			
+			while (!affectedTiles.isEmpty()) {
+				if (Room.getMapObjects().get(Room.toPackedLong((int)affectedTiles.get(0).x/16,(int)affectedTiles.get(0).y/16)) != null) {
+					Room.getMapObjects().get(Room.toPackedLong((int)affectedTiles.get(0).x/16,(int)affectedTiles.get(0).y/16)).remove(this);
+					if (Room.getMapObjects().get(Room.toPackedLong((int)affectedTiles.get(0).x/16,(int)affectedTiles.get(0).y/16)).isEmpty()){
+						Room.getMapObjects().put(Room.toPackedLong((int)affectedTiles.get(0).x/16,(int)affectedTiles.get(0).y/16),null);
+						}
+					}
+				affectedTiles.remove(0);
+				}
 			}
-		}
 		public void onCollision (GameObject o) {
 			
 		}

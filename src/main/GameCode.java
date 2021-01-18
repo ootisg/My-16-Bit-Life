@@ -205,7 +205,7 @@ public class GameCode {
 			+ "}";
 	public static void initialize () {
 		RenderLoop.window.setResolution(960, 540);
-		Room.loadRoom ("resources/maps/bubbleLevelGoZoom.rmf");
+		Room.loadRoom ("resources/maps/bubbleLevelGoZoom (1).rmf");
 		//Initialize sprites
 		//GameObject initialization
 		player = new SoundPlayer ();

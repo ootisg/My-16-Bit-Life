@@ -1084,11 +1084,11 @@ public abstract class GameObject extends GameAPI {
 		this.getAnimationHandler().show();
 	}
 
-	public ArrayList<String> getExcludeList() {
-		return excludeList;
+	public ArrayList<String> getExcludeList() {		return excludeList;
 	}
 
 	public void setExcludeList(ArrayList<String> excludeList) {
 		this.excludeList = excludeList;
 	}
+
 }

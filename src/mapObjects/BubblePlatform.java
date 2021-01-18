@@ -31,6 +31,7 @@ public class BubblePlatform extends CarryObject {
 		this.getAnimationHandler().setFrameTime(0);
 		this.setGameLogicPriority(-3);
 		this.suffocateObjects(false);
+		this.setPersistence(true);
 	}
 	public void frameEvent() {
 		super.frameEvent();

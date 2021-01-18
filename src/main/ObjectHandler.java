@@ -244,9 +244,17 @@ public class ObjectHandler {
 			}
 			if (!allObjsArray[i].isBlackListed()) {
 				if (!isPaused) {
-				allObjsArray [i].frameEvent ();
+					//Jeffrey I know you are gonna eventually see this line and think "oh that doesen't seem needed at all why is that there" but it is there for a reason 
+					// if an object is declared at the start of a frame but then gets forgotten before they get their chance to run there frame event usally they would just do there frame event anyway
+					// but this line prevents that 
+					// moral of the story DON'T DELETE it it took me forever to figure this stupid bug out and I don't want you (me) to suffer the same fate
+					if (allObjsArray[i].declared()) {
+						allObjsArray [i].frameEvent ();
+					}
 				} else {
-				allObjsArray[i].pausedEvent();
+					if (allObjsArray[i].declared()) {
+						allObjsArray[i].pausedEvent();
+					}
 				}
 			}
 		}

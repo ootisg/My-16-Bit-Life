@@ -24,6 +24,7 @@ import gui.Tbox;
 import gui.Textbox;
 import map.MapTile;
 import map.Room;
+import mapObjects.MapObject;
 import projectiles.Paintball;
 import resources.Sprite;
 import statusEffect.Status;
@@ -79,7 +80,7 @@ public class Jeffrey extends GameObject {
 	public static Inventory inventory = new Inventory();
 	
 	public boolean canSwitch;
-	public int witchCharictar = 0;
+	public static int witchCharictar = 0;
 	public int switchTimer = 0;
 	public int nextCharacter = 0;
 	private boolean [] party = new boolean [] {true,true,true};
@@ -121,7 +122,7 @@ public class Jeffrey extends GameObject {
 		//This class is not yet commented
 		setSprite (standSprite);
 		getAnimationHandler ().setFrameTime (50);
-		this.setHitboxAttributes(4, 4, 7, 27);
+		this.setHitboxAttributes(4, 4, 7, 26);
 		this.setGameLogicPriority(-2);
 		this.setHitboxRounding(true);
 		this.adjustHitboxBorders();
