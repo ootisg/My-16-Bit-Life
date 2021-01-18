@@ -334,6 +334,7 @@ public class Room {
 						foundCollision = true;
 					}
 			} else {
+				try {
 				for (int b = 0; b < mapObjects.get(toPackedLong(wx,wy)).size(); b++ ) {
 					if (mapObjects.get(toPackedLong(wx,wy)).get(b).isColliding(obj) && !obj.equals(mapObjects.get(toPackedLong(wx,wy)).get(b))) {
 						mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)).get(b));
@@ -342,6 +343,8 @@ public class Room {
 				}
 				if (dataList.get(index).isSolid()) {
 					foundCollision = true;
+				}
+				} catch (NullPointerException e) {
 				}
 			}
 		}

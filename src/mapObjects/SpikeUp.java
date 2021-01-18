@@ -16,7 +16,6 @@ import resources.Sprite;
 public class SpikeUp extends MapObject implements StickyObject{
 	double JeffVy = 0;
 	boolean inzilized = false;
-	CarryObject platform;
 	boolean added = false;
 	boolean checkpoint;
 	public SpikeUp() {
@@ -38,52 +37,6 @@ public class SpikeUp extends MapObject implements StickyObject{
 	public void frameEvent () {
 		super.frameEvent();
 		JeffVy = Jeffrey.getActiveJeffrey().getVy();
-		if (!inzilized) {
-			ArrayList <MapObject> working = new ArrayList <MapObject> ();
-			ArrayList<ArrayList<GameObject>> fullList = ObjectHandler.getChildrenByName("MapObject");
-			if (fullList != null) {
-				for (int i = 0; i < fullList.size(); i++) {
-					for (int j = 0; j <fullList.get(i).size(); j++) {
-						try {
-							CarryObject lame = (CarryObject) fullList.get(i).get(j);
-							working.add((MapObject)fullList.get(i).get(j));
-						} catch (ClassCastException e) {
-							
-						}
-					}
-				}
-			}
-				for (int i = 0; i < working.size(); i++) {
-					if (this.isCollidingBEEG(working.get(i))) {
-						platform = (CarryObject) working.get(i);
-						while(true) {
-							if (this.isColliding(working.get(i))) {
-								this.setY(this.getY() - 1);
-							} else {
-								break;
-							}
-						}
-						platform.addCarryObject(this);
-						break;
-					}
-				}
-			inzilized = true;
-		}
-		if (platform != null ) {
-			Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() + 3);
-			if (Jeffrey.getActiveJeffrey().isColliding(this)){
-				if (!platform.getCarryObjects().contains(Jeffrey.getActiveJeffrey())) {
-					platform.addCarryObject(Jeffrey.getActiveJeffrey());
-					added = true;
-				}
-			 } else {
-				 if (added) {
-					 platform.removeCarryObject(Jeffrey.getActiveJeffrey());
-					 added = false;
-				 }
-			}
-			Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() - 3);
-		}
 	}
 	@Override
 	public void onCollision(GameObject o) {	
