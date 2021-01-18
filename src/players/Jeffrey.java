@@ -144,8 +144,8 @@ public class Jeffrey extends GameObject {
 public Item getWeapon () {
 	if (newWeapon) {
 		wpn =  inventory.findWeaponAtIndex(index, witchCharictar);
-if (activeBox) {
-		weaponBox.forget();	
+		if (activeBox) {
+			weaponBox.forget();	
 		}
 		weaponBox = new Tbox (this.getX(),this.getY()- 10,25,1,wpn.checkName(), false);
 		weaponBox.setScrollRate(0);
@@ -154,6 +154,9 @@ if (activeBox) {
 	}
 	return inventory.findWeaponAtIndex(index, witchCharictar);	
 	}
+public void setWeapon (Item weapon) {
+	wpn = weapon;
+}
 	@Override
 	public void onDeclare () {
 		wpn = new Item ();
@@ -224,7 +227,7 @@ if (activeBox) {
 					this.setHitboxRounding(false);
 				}
 				if (this.getAnimationHandler().getFrame() == 2) {
-					this.setHitboxAttributes(4, 15, 8, 18);
+					this.setHitboxAttributes(4, 16, 8, 15);
 				}
 			} else {
 				if (this.changeSprite) {
@@ -430,7 +433,7 @@ if (activeBox) {
 		
 			if (!onLadder) {
 			if (!binded) {
-			if (keyDown ('A') && !bindLeft) {
+			if (keyDown ('A') && !bindLeft && (!crouching || vy != 0)) {
 				if ((vx >= -3.0 && !this.checkIfSlow() && !this.checkIfFast()) || (vx >= -3.0 && this.checkIfSlow() && this.checkIfFast())|| (vx >= -4.0 && !this.checkIfSlow() && this.checkIfFast())|| (vx >= -2.0 && this.checkIfSlow() && !this.checkIfFast())) {
 					if (this.checkIfSlow() && !this.checkIfFast()) {
 						ax = -.3;
@@ -453,7 +456,7 @@ if (activeBox) {
 					setSprite (walkSprite);
 					}
 				}
-			} else if (keyDown ('D') && !bindRight) {
+			} else if (keyDown ('D') && !bindRight && (!crouching || vy != 0)) {
 				if ((vx <= 3.0 && !this.checkIfSlow() && !this.checkIfFast()) || (vx <= 3.0 && this.checkIfSlow() && this.checkIfFast())|| (vx <= 4.0 && !this.checkIfSlow() && this.checkIfFast())|| (vx <= 2.0 && this.checkIfSlow() && !this.checkIfFast())) {
 					if (this.checkIfSlow() && !this.checkIfFast()) {
 						ax = .3;
@@ -687,7 +690,9 @@ if (activeBox) {
 		if (vy >= 0) {
 			increments.add(vy);
 		}
-		this.goX (this.getX () + vx);
+		if (!this.goX (this.getX () + vx)) {
+			vx = 0;
+		}
 		if (this.isActive()) {
 			wpn.frameEvent();
 		}
