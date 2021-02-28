@@ -39,6 +39,8 @@ import enemys.SplittingSlimelet;
 import enemys.TomatoFunction;
 import enemys.UFO;
 import enemys.WaterBlob;
+import enemys.Zombee;
+import enemys.ZombeeTreeBoss;
 import gameObjects.AnimeTester;
 import gameObjects.BreakableObject;
 import gameObjects.CarSpawner;
@@ -94,6 +96,7 @@ import spriteParsers.JigsawFilter;
 import spriteParsers.ParsedFrame;
 import spriteParsers.PixelParser;
 import statusEffect.Status;
+import switches.Activateable;
 import theHeist.Worker;
 import triggers.CutsceenTrigger;
 import triggers.Trigger;
@@ -198,6 +201,7 @@ public class GameCode {
 	static BubblePlatform bubble;
 	static FallingSpike spike;
 	static Bee bee;
+	static ZombeeTreeBoss boss;
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
@@ -205,8 +209,7 @@ public class GameCode {
 			+ "}";
 	public static void initialize () {
 		RenderLoop.window.setResolution(960, 540);
-		Room.loadRoom ("resources/maps/bubbleLevelGoZoom (1).rmf");
-		//Initialize sprites
+		Room.loadRoom ("resources/maps/bigTest.rmf");
 		//GameObject initialization
 		player = new SoundPlayer ();
 		//fire = new FireRextinguisher ();
@@ -230,6 +233,7 @@ public class GameCode {
 		cart = new Minecart ();
 		bubble = new BubblePlatform();
 		bee = new Bee ();
+		boss = new ZombeeTreeBoss ();
 		Jeffrey.getInventory().addWeapon(extinguser, 0);
 		Jeffrey.getInventory().addFreind(lameJeffrey);
 		Jeffrey.getInventory().addFreind(lameSam);
@@ -244,7 +248,6 @@ public class GameCode {
 		microphone = new MagicMicrophone ();
 		marker = new MagicMarker (new Sprite ("resources/sprites/config/marker_weapon_red.txt"));
 		bubbleGun = new BubbleGun(new Sprite ("resources/sprites/config/bubble_weapon.txt"));
-		
 		bomb = new Bombs (new Sprite ("resources/sprites/config/bomb_active_blue.txt"));
 		triangle = new NinjaTriangle (new Sprite ("resources/sprites/config/stationary_ninja_triangle.txt"));
 		Jeffrey.getInventory().addWeapon (microphone, 2);
@@ -367,6 +370,7 @@ public class GameCode {
 		//fire.declare(100,400);
 		//bubble.declare(100, 300);
 		//bee.declare (100, 180);
+		boss.declare(850, 530);
 	}
 	public static void beforeGameLogic () {
 	}

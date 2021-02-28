@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import enemys.Enemy;
+import enemys.ZombeeTreeBoss.Eye;
+import enemys.ZombeeTreeBoss.Pusher;
 import map.Room;
 import resources.Sprite;
 import triggers.Checkpoint;
@@ -49,19 +51,19 @@ public abstract class GameObject extends GameAPI {
 	 * The width of this GameObject's hitbox
 	 */
 	public boolean visible = true;
-	private double hitboxWidth;
+	private double [] hitboxWidth = new double [1];
 	/**
 	 * The height of this GameObject's hitbox
 	 */
-	private double hitboxHeight;
+	private double [] hitboxHeight = new double [1];
 	/**
 	 * The horizontal offset of this GameObject's hitbox
 	 */
-	private double hitboxXOffset;
+	private double  [] hitboxXOffset = new double [1];
 	/**
 	 * The vertical offset of this GameObject's hitbox
 	 */
-	private double hitboxYOffset;
+	private double  [] hitboxYOffset = new double [1];
 	/**
 	 * Whether or not this object has a hitbox
 	 */
@@ -129,6 +131,10 @@ public abstract class GameObject extends GameAPI {
 	 * refers to a list of objects that are not allowed to collide with this object
 	 */
 	private ArrayList<String> excludeList = new ArrayList<String> ();
+	/**
+	 * true when the object just uses its sprite size for its hitbox
+	 */
+	private boolean spriteHitbox = false;
 	/**
 	 * Container and utility class for GameObject variants
 	 * @author nathan
@@ -357,7 +363,9 @@ public abstract class GameObject extends GameAPI {
 				if (this.hitbox() != null) {
 					Graphics g = RenderLoop.window.getBufferGraphics();
 					g.setColor(new Color(0x000000));
-					g.drawRect((int)(this.getX() + this.getHitboxXOffset() - Room.getViewX()),(int) (this.getY() + this.getHitboxYOffset() - Room.getViewY()), this.hitbox().width, this.hitbox().height);
+					for (int i = 0; i < hitboxXOffset.length; i++) {
+						g.drawRect((int)(this.getX() + this.getHitboxXOffset(i) - Room.getViewX()),(int) (this.getY() + this.getHitboxYOffset(i) - Room.getViewY()), (int)hitboxWidth[i], (int)hitboxHeight[i]);
+					}
 				}
 			}
 		}
@@ -419,17 +427,17 @@ public abstract class GameObject extends GameAPI {
 		}
 		return false;
 	}
-	private boolean runMultipulePixelCollsions (GameObject pixelObject, GameObject hitboxObject) {
+	private boolean runMultipulePixelCollsions (GameObject pixelObject, GameObject hitboxObject, Rectangle pixelHitbox, Rectangle hitboxHitbox) {
 		Raster mask1;
 		Raster mask3;
 		mask1 = pixelObject.getAnimationHandler().getImage().getFrame(pixelObject.getAnimationHandler().getFrame()).getAlphaRaster();
 		mask3 = hitboxObject.getAnimationHandler().getImage().getFrame(hitboxObject.getAnimationHandler().getFrame()).getAlphaRaster();
 		int [] sample = new int [1];
-		Rectangle working = pixelObject.hitbox().intersection(hitboxObject.hitbox());
-		int startPosX = (int) (pixelObject.hitbox().getX() - working.x);
-		int startPosY =(int) (pixelObject.hitbox().getY() - working.y);
-		int startPos_1 = (int)(hitboxObject.hitbox().getX() - working.x);
-		int startPosbee = (int)(hitboxObject.hitbox().getY() - working.y);
+		Rectangle working = pixelHitbox.intersection(hitboxHitbox);
+		int startPosX = (int) (pixelHitbox.getX() - working.x);
+		int startPosY =(int) (pixelHitbox.getY() - working.y);
+		int startPos_1 = (int)(hitboxHitbox.getX() - working.x);
+		int startPosbee = (int)(hitboxHitbox.getY() - working.y);
 		if (startPosX < 0) {
 			startPosX = startPosX*-1;
 		}
@@ -535,37 +543,47 @@ public abstract class GameObject extends GameAPI {
 		if (this.getExcludeList().contains(obj.getClass().getSimpleName()) || obj.getExcludeList().contains(this.getClass().getSimpleName())) {
 			return false;
 		}
-		Rectangle thisHitbox = hitbox ();
-		Rectangle objHitbox = obj.hitbox ();
+		Rectangle[] thisHitbox = hitboxes ();
+		Rectangle[] objHitbox = obj.hitboxes ();
 		
-		if (thisHitbox == null || objHitbox == null) {
+		if (thisHitbox.length == 0 || objHitbox.length == 0) {
 			return false;
 		}
-		if (thisHitbox.intersects (objHitbox)) {
-			boolean pixelCollisionsEnabled = obj.pixelCollisions;
-			if ((!pixelCollisionsEnabled && !pixelCollisions)) {
-				return true;
-			} else if (!pixelCollisionsEnabled && pixelCollisions) {
-				return this.runPixelCollsions(this, obj.hitbox());
-			} else if (pixelCollisionsEnabled && !pixelCollisions) {
-				return this.runPixelCollsions(obj, this.hitbox());
-			} else {
-				return this.runMultipulePixelCollsions(obj, this);
+		for (int i = 0; i < thisHitbox.length; i++) {
+			for (int j = 0; j < objHitbox.length; j++) {
+				if (thisHitbox[i].intersects (objHitbox[j])) {
+					boolean pixelCollisionsEnabled = obj.pixelCollisions;
+					if ((!pixelCollisionsEnabled && !pixelCollisions)) {
+						return true;
+					} else if (!pixelCollisionsEnabled && pixelCollisions) {
+						if (this.runPixelCollsions(this, objHitbox[j])) {
+							return true;
+						}
+					} else if (pixelCollisionsEnabled && !pixelCollisions) {
+						if (this.runPixelCollsions(obj, thisHitbox[i])) {
+							return true;
+						}
+					} else {
+						return this.runMultipulePixelCollsions(obj, this,objHitbox[j],thisHitbox[i]);
+					}
+				}
 			}
 		}
 		return false;
 	}
 	public boolean isColliding (Rectangle hitbox) {
-		Rectangle thisHitbox = hitbox ();
+		Rectangle[] thisHitbox = hitboxes ();
 		Rectangle objHitbox = hitbox;
-		if (thisHitbox == null || objHitbox == null) {
+		if (thisHitbox.length == 0 || objHitbox == null) {
 			return false;
 		}
-		if (thisHitbox.intersects (objHitbox)) {
-			if (this.pixelCollisions) {
-				return this.runPixelCollsions(this, hitbox);
+		for (int i = 0; i < thisHitbox.length; i++) {
+			if (thisHitbox[i].intersects (objHitbox)) {
+				if (this.pixelCollisions) {
+					return this.runPixelCollsions(this, hitbox);
+				}
+				return true;
 			}
-			return true;
 		}
 		return false;
 	}
@@ -631,13 +649,33 @@ public abstract class GameObject extends GameAPI {
 	}
 	
 	public double getHitboxXOffset () {
-		return hitboxXOffset;
+		return hitboxXOffset[0];
 	}
 	
 	public double getHitboxYOffset () {
-		return hitboxYOffset;
+		return hitboxYOffset[0];
 	}
-	
+	public double getHitboxXOffset(int hitboxNum) {
+		return hitboxXOffset[hitboxNum];
+	}
+	public double getHitboxYOffset(int hitboxNum) {
+		return hitboxYOffset[hitboxNum];
+	}
+	/**
+	 * returns all of the hitboxes that this object has that are collding with a specified second object
+	 * @param obj the second object
+	 * @return I said it in the first thing dude
+	 */
+	public ArrayList <HitboxInfo> getCollidingHitboxes (GameObject obj) {
+		Rectangle [] hitboxes = this.hitboxes();
+		ArrayList <HitboxInfo> collidingHitboxes = new ArrayList<HitboxInfo>();
+		for (int i = 0; i < hitboxes.length; i++) {
+			if (obj.isColliding(hitboxes[i])) {
+				collidingHitboxes.add(new HitboxInfo (hitboxXOffset[i],hitboxYOffset[i],hitboxes[i]));
+			}
+		}
+		return collidingHitboxes;
+	}
 	public void useHitbox (boolean toUse) {
 		hasHitbox = toUse;
 	}
@@ -664,17 +702,33 @@ public abstract class GameObject extends GameAPI {
 	
 	/**
 	 * Returns this GameObject's hitbox. Constructs a new Rectangle object each call.
+	 * note only gets the first hitbox for objects with multiple hitboxes
 	 * @return A Rectangle object representing this GameObject's hitbox
 	 */
 	public Rectangle hitbox () {
-		if (hitboxWidth == 0 || hitboxHeight == 0 || !hasHitbox) {
+		if (hitboxWidth[0] == 0 || hitboxHeight[0] == 0 || !hasHitbox) {
 			return null;
 		}
 		if (hitboxRounding) {
-			return new Rectangle ((int) Math.ceil(x + hitboxXOffset), (int)Math.ceil(y + (int)hitboxYOffset), (int)Math.ceil(hitboxWidth), (int)Math.ceil(hitboxHeight));
+			return new Rectangle ((int) Math.ceil(x + hitboxXOffset[0]), (int)Math.ceil(y + (int)hitboxYOffset[0]), (int)Math.ceil(hitboxWidth[0]), (int)Math.ceil(hitboxHeight[0]));
 		} else {
-			return new Rectangle ((int) Math.floor(x + hitboxXOffset), (int)Math.floor(y + (int)hitboxYOffset), (int)Math.floor(hitboxWidth), (int)Math.floor(hitboxHeight));
+			return new Rectangle ((int) Math.floor(x + hitboxXOffset[0]), (int)Math.floor(y + (int)hitboxYOffset[0]), (int)Math.floor(hitboxWidth[0]), (int)Math.floor(hitboxHeight[0]));
 		}
+	}
+	/**
+	 * Returns all of this GameObject's hitboxs. Constructs a new Rectangle object each call.
+	 * @return A Rectangle array representing this GameObject's hitboxs
+	 */
+	public Rectangle [] hitboxes () {
+		Rectangle [] hitboxes = new Rectangle [hitboxXOffset.length]; 
+		for (int i = 0; i < hitboxes.length; i++) {
+			if (hitboxRounding) {
+				hitboxes[i] = new Rectangle ((int) Math.ceil(x + hitboxXOffset[i]), (int)Math.ceil(y + (int)hitboxYOffset[i]), (int)Math.ceil(hitboxWidth[i]), (int)Math.ceil(hitboxHeight[i]));
+			} else {
+				hitboxes[i] = new Rectangle ((int) Math.floor(x + hitboxXOffset[i]), (int)Math.floor(y + (int)hitboxYOffset[i]), (int)Math.floor(hitboxWidth[i]), (int)Math.floor(hitboxHeight[i]));
+			}
+		}
+		return hitboxes;
 	}
 	/**
 	 * sets whear or not the coordinates of the hitbox round up or down
@@ -911,6 +965,17 @@ public abstract class GameObject extends GameAPI {
 	public boolean isVisable () {
 		return visible;
 	}
+	public void useSpriteHitbox (){
+		spriteHitbox = true;
+		try {
+			this.setHitboxAttributes(0, 0, this.getSprite().getWidth(), this.getSprite().getHeight());
+		} catch (NullPointerException e) {
+			
+		}
+	}
+	public void dontUseSpriteHitbox () {
+		spriteHitbox = false;
+	}
 	/**
 	 * Sets the sprite of this GameObject to the given sprite.
 	 * @param sprite The sprite to use
@@ -920,6 +985,9 @@ public abstract class GameObject extends GameAPI {
 			this.desyncSpriteX(0);
 		}
 		animationHandler.resetImage (sprite);
+		if (spriteHitbox) {
+			this.setHitboxAttributes(0, 0, this.getSprite().getWidth(), this.getSprite().getHeight());
+		}
 	}
 	//changes the hitbox to another one when the sprite gets bigger
 	//based off of length of xOffset array
@@ -1030,10 +1098,91 @@ public abstract class GameObject extends GameAPI {
 			variant.setAttributes (attributeData);
 		}
 	}
-	
+	public boolean closeTooX (GameObject obj, int diffrenceThreshold) {
+		if (obj.getX() + diffrenceThreshold > this.getX() && obj.getX() - diffrenceThreshold < this.getX()) {
+			return true;
+		}
+		return false;
+	}
+	public boolean closeTooY (GameObject obj, int diffrenceThreshold) {
+		if (obj.getY() + diffrenceThreshold > this.getY() && obj.getY() - diffrenceThreshold < this.getY()) {
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * sets only one hitbox
+	 */
 	public void setHitboxAttributes (int xOffset, int yOffset, int width, int height) {
+		hitboxXOffset = new double [1];
+		hitboxYOffset = new double [1];
+		hitboxWidth = new double [1];
+		hitboxHeight = new double [1];
+		
+		hitboxXOffset[0] = xOffset;
+		hitboxYOffset[0] = yOffset;
+		hitboxWidth[0] = width;
+		hitboxHeight[0] = height;
+	}
+	/**
+	 * sets only one hitbox (no offsets)
+	 */
+	public void setHitboxAttributes (double width, double height) {
+		hitboxXOffset = new double [1];
+		hitboxYOffset = new double [1];
+		hitboxWidth = new double [1];
+		hitboxHeight = new double [1];
+		
+		hitboxXOffset[0] = 0;
+		hitboxYOffset[0] = 0;
+		hitboxWidth[0] = width;
+		hitboxHeight[0] = height;
+	}
+	/**
+	 * places the hitboxes at the requested x and y coordinates
+	 */
+	public void setHitbox (double[] x, double[] y, double[] width, double[] height) {
+		hitboxXOffset = new double [x.length];
+		hitboxYOffset = new double [y.length];
+		hitboxWidth = new double [width.length];
+		hitboxHeight = new double [height.length];
+		
+		for (int i = 0; i < x.length; i++) {
+			hitboxXOffset[i] = x[i] - this.x;
+			hitboxYOffset[i] = y[i] - this.y;
+		}
+		hitboxWidth = width;
+		hitboxHeight = height;
+	}
+	/**
+	 * sets more than one hitbox
+	 */
+	public void setHitboxAttributes (double[] xOffset, double[] yOffset, double[] width, double[] height) {
+		hitboxXOffset = new double [xOffset.length];
+		hitboxYOffset = new double [yOffset.length];
+		hitboxWidth = new double [width.length];
+		hitboxHeight = new double [height.length];
+		
+		
 		hitboxXOffset = xOffset;
 		hitboxYOffset = yOffset;
+		hitboxWidth = width;
+		hitboxHeight = height;
+	}
+	/**
+	 * sets more than one hitbox (no offsets)
+	 */
+	public void setHitboxAttributes (double[] width, double[] height) {
+		hitboxXOffset = new double [width.length];
+		hitboxYOffset = new double [width.length];
+		hitboxWidth = new double [width.length];
+		hitboxHeight = new double [height.length];
+		
+		for (int i = 0; i < hitboxXOffset.length; i++) {
+			hitboxXOffset[i] = 0;
+			hitboxYOffset[i] = 0;
+		}
+
 		hitboxWidth = width;
 		hitboxHeight = height;
 	}
@@ -1045,12 +1194,18 @@ public abstract class GameObject extends GameAPI {
 	 * @param height height of the hibox
 	 */
 	public void setHitbox (int x, int y, int width, int height) {
-		hitboxXOffset = x - this.x;
-		hitboxYOffset = y - this.y;
-		hitboxWidth = width;
-		hitboxHeight = height;
+		hitboxXOffset = new double [1];
+		hitboxYOffset = new double [1];
+		hitboxWidth = new double [1];
+		hitboxHeight = new double [1];
+		
+		
+		
+		hitboxXOffset[0] = x - this.x;
+		hitboxYOffset[0] = y - this.y;
+		hitboxWidth[0] = width;
+		hitboxHeight[0] = height;
 	}
-	
 	/**
 	 * Sets the drawing order of this GameObject
 	 * @param renderPriority the priority to use
@@ -1090,5 +1245,33 @@ public abstract class GameObject extends GameAPI {
 	public void setExcludeList(ArrayList<String> excludeList) {
 		this.excludeList = excludeList;
 	}
-
+	public class HitboxInfo {
+		double xOffset;
+		double yOffset;
+		Rectangle hitbox;
+		public HitboxInfo (double xOffset, double yOffset, Rectangle hitbox) {
+			this.xOffset = xOffset;
+			this.yOffset = yOffset;
+			this.hitbox = hitbox;
+		}
+		public double getXOffset() {
+			return xOffset;
+		}
+		public void setXOffset(double xOffset) {
+			this.xOffset = xOffset;
+		}
+		public double getYOffset() {
+			return yOffset;
+		}
+		public void setYOffset(double yOffset) {
+			this.yOffset = yOffset;
+		}
+		public Rectangle getHitbox() {
+			return hitbox;
+		}
+		public void setHitbox(Rectangle hitbox) {
+			this.hitbox = hitbox;
+		}
+		
+	}
 }

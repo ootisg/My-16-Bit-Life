@@ -122,7 +122,7 @@ public class Jeffrey extends GameObject {
 		//This class is not yet commented
 		setSprite (standSprite);
 		getAnimationHandler ().setFrameTime (50);
-		this.setHitboxAttributes(4, 4, 7, 26);
+		this.setHitboxAttributes(4, 4, 7, 27);
 		this.setGameLogicPriority(-2);
 		this.setHitboxRounding(true);
 		this.adjustHitboxBorders();

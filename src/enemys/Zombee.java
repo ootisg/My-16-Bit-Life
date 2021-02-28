@@ -48,6 +48,7 @@ public class Zombee extends Enemy {
 		timer = 0;
 		this.baseDamage = 20;
 		this.setHitboxAttributes(0, 0, 16, 10);
+		this.setGameLogicPriority(10);
 	}
 	public Zombee (String W){
         if (W.equals("N")) {
@@ -82,18 +83,7 @@ public class Zombee extends Enemy {
 		return "THE BEE POPULATION WAS DECLINEING INCREADBLY QUICKLY SO A INCREADBLY EXPERINCED TEAM OF NERDS LEAD BY A MAN NAMED DR. HYVE PERFORMED AND EXPERMENT THAT MADE BEES RISE FROM THE GRAVE BUT THEY BECAME INCREADBLY AGGRSIVE AND KILLED THE RESURCHES";
 	}
 	@Override
-	public void frameEvent () {
-		if (timer%4 == 0) {
-			this.setHitboxAttributes(0, 0, 128, 128);
-			if (ObjectHandler.checkCollision("ZombeeTree", this).collisionOccured()) {
-				this.health = this.health + 1;
-				DamageText text;
-				text = new DamageText (1,this.getX(),this.getY(),true);
-				
-				text.declare(this.getX(), this.getY());
-			}
-			this.setHitboxAttributes(0, 0, 16, 10);
-		}
+	public void enemyFrame () {
 		if (((Jeffrey.getActiveJeffrey().getX() > this.getX()) && Jeffrey.getActiveJeffrey().getY() > this.getY()) && !pathDecided) {
 			xToMove = decider.nextInt(3) + 1;
 			yToMove = decider.nextInt(3) + 1;

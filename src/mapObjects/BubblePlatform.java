@@ -1,5 +1,6 @@
 package mapObjects;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -7,6 +8,7 @@ import java.util.LinkedList;
 
 import main.GameObject;
 import main.ObjectHandler;
+import map.MapTile;
 import map.Room;
 import players.Jeffrey;
 import resources.Sprite;
@@ -18,7 +20,6 @@ public class BubblePlatform extends CarryObject {
 	int momentumY = 1;
 	double moveX;
 	double moveY;
-
 	int timer;
 	double inzialSpeed;
 	public BubblePlatform () {
@@ -67,7 +68,27 @@ public class BubblePlatform extends CarryObject {
 					inzialSpeed = 0;
 					moveX = 0;
 				}
+			}	
+		}
+//		//semisolid stuff
+//	if (Jeffrey.getActiveJeffrey().getVy() < 0 || ((Jeffrey.getActiveJeffrey().getX() + 7 < this.getX() && Jeffrey.getActiveJeffrey().vx > 0 && Jeffrey.getActiveJeffrey().isColliding(new Rectangle ((int)this.getX() - 6,(int)this.getY(),8,16))) || (Jeffrey.getActiveJeffrey().vx < 0 && Jeffrey.getActiveJeffrey().isColliding(new Rectangle ((int)this.getX() + 14,(int)this.getY(),8,16))))){
+//			
+//			collide = false;
+//		} 
+	}
+	public boolean doesColide (GameObject o) {
+
+		if (o.getClass().getSimpleName().equals("Jeffrey")) {
+		Jeffrey j = (Jeffrey) o;
+		if (j.getVy() < 0 || (j.getYPrevious() + j.hitbox().height > this.getY())){
+				return false;
+			} 
+				return true;
+		} else {
+			if (o.getClass().getPackageName().equals("projectiles")) {
+				return false;
 			}
+			return true;
 		}
 	}
 }

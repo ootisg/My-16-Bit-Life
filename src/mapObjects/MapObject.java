@@ -20,6 +20,12 @@ public class MapObject  extends GameObject {
 		this.setGameLogicPriority(420);
 		
 	}
+	public MapObject (double width, double height) {
+		this.setHitboxAttributes(width, height);
+	}
+	public MapObject (double widths[], double[] heights) {
+		this.setHitboxAttributes(widths, heights);
+	}
 	@Override
 	public void frameEvent () {
 		MapTile[] working = Room.getAllCollidingTiles(this);

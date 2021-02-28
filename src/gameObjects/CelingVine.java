@@ -75,11 +75,11 @@ public class CelingVine extends GameObject {
 				}
 				for (int i = 0; i <working.size(); i++) {
 					CarryObject platform = (CarryObject) working.get(i);
-					if (platform.getCarryObjects().contains(Jeffrey.getActiveJeffrey())) {
+					if (platform.getCarryObjs().contains(Jeffrey.getActiveJeffrey())) {
 						platform.removeCarryObject(Jeffrey.getActiveJeffrey());
 					}
 				}
-				if (!attachedPlatform.getCarryObjects().contains(Jeffrey.getActiveJeffrey())) {
+				if (!attachedPlatform.getCarryObjs().contains(Jeffrey.getActiveJeffrey())) {
 					attachedPlatform.addCarryObject(Jeffrey.getActiveJeffrey());
 				}
 			}
@@ -110,7 +110,7 @@ public class CelingVine extends GameObject {
 			}
 			for (int i = 0; i <working.size(); i++) {
 				CarryObject platform = (CarryObject) working.get(i);
-				if (platform.getCarryObjects().contains(Jeffrey.getActiveJeffrey())) {
+				if (platform.getCarryObjs().contains(Jeffrey.getActiveJeffrey())) {
 					platform.removeCarryObject(Jeffrey.getActiveJeffrey());
 				}
 			}
