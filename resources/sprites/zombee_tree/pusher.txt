@@ -1,0 +1,3 @@
+$src resources/sprites/zombee_tree/pusher.png
+
+grid 256 128

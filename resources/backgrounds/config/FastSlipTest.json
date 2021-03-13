@@ -1,0 +1,16 @@
+{
+	"name":"FastSlipTest.png",
+	"default_width":8800,
+	"default_height":960,
+	"frames": [
+		{
+			"x":0,
+			"y":0
+		},
+		{
+			"x":10,
+			"y":0,
+			"width": 8700
+		}
+	]
+}

@@ -1,4 +1,4 @@
-package map;
+ package map;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -72,6 +72,9 @@ public class Room {
 	private static boolean isLoaded = false;
 	
 	private static String roomName = "unloaded";
+	
+	private static int startMs;
+	private static int bgSpeed;
 	
 	public static final int TILE_WIDTH = 16;
 	public static final int TILE_HEIGHT = 16;
@@ -705,7 +708,7 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			if (!backgroundList[i].equals("_NULL")) {
 				double scrollVertical = Double.parseDouble(backgroundList[i]);
 				double scrollHorizontal = Double.parseDouble(backgroundList[--i]);
-				newBackground = new Background (new Sprite ("resources/backgrounds/" +backgroundList[--i]));
+				newBackground = new Background ("resources/backgrounds/" +backgroundList[--i]);
 				newBackground.setScrollRateHorizontal(scrollHorizontal);
 				newBackground.setScrollRateVertiacal(scrollVertical);
 				backgrounds.add(newBackground);
@@ -1110,7 +1113,7 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 		 */
 		public boolean isSpecialLayer (int layerNum) {
 			if (backgrounds.get(layerNum) != null) {
-				if (backgrounds.get(layerNum).getScrollRateHorizontal() != 1 || backgrounds.get(layerNum).getScrollRateVertical() != 1 || backgrounds.get(layerNum).getImage().getFrameCount() > 1){
+				if (backgrounds.get(layerNum).getScrollRateHorizontal() != 1 || backgrounds.get(layerNum).getScrollRateVertical() != 1 || backgrounds.get(layerNum).getFrames ().size () > 1){
 					return true;
 				}
 			} else {
@@ -1240,7 +1243,7 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 								rasterWidth = Math.min(rasterWidth, backgrounds.get(currentLayer).getWidth()) - x*TILE_WIDTH;
 								rasterHeight = Math.min(rasterHeight, backgrounds.get(currentLayer).getHeight()) - y*TILE_HEIGHT;
 								if (rasterWidth > 0 && rasterHeight > 0){
-								BufferedImage working= backgrounds.get(currentLayer).getImage().getFrame(0).getSubimage(x*TILE_WIDTH, y*TILE_HEIGHT, rasterWidth, rasterHeight);
+								BufferedImage working= backgrounds.get(currentLayer).getFrames ().get(0).getSubimage(x*TILE_WIDTH, y*TILE_HEIGHT, rasterWidth, rasterHeight);
 								g.drawImage(working,0,0,null);
 								}
 							}

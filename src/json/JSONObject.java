@@ -157,7 +157,11 @@ public class JSONObject {
 	 * @return the associated int
 	 */
 	public int getInt (String key) {
-		return Integer.parseInt((String) values.get (key));
+		try {
+			return Integer.parseInt((String) values.get (key));
+		} catch (ClassCastException e) {
+			return (Integer) values.get (key);
+		}
 	}
 	
 	/**
@@ -166,7 +170,11 @@ public class JSONObject {
 	 * @return the associated double
 	 */
 	public double getDouble (String key) {
-		return Double.parseDouble(values.get (key).toString());
+		try {
+			return Double.parseDouble(values.get (key).toString());
+		} catch (ClassCastException e) {
+			return (Double) values.get (key);
+		}
 	}
 	
 	@Override

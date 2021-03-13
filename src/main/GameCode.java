@@ -209,7 +209,7 @@ public class GameCode {
 			+ "}";
 	public static void initialize () {
 		RenderLoop.window.setResolution(960, 540);
-		Room.loadRoom ("resources/maps/bigTest.rmf");
+		Room.loadRoom ("resources/maps/bubbleLevelGoZoom (1).rmf");
 		//GameObject initialization
 		player = new SoundPlayer ();
 		//fire = new FireRextinguisher ();
@@ -231,9 +231,9 @@ public class GameCode {
 		packet = new LemonPacket();
 		pad = new DashPad ();
 		cart = new Minecart ();
-		bubble = new BubblePlatform();
-		bee = new Bee ();
-		boss = new ZombeeTreeBoss ();
+		//bubble = new BubblePlatform();
+		//bee = new Bee ();
+		//boss = new ZombeeTreeBoss ();
 		Jeffrey.getInventory().addWeapon(extinguser, 0);
 		Jeffrey.getInventory().addFreind(lameJeffrey);
 		Jeffrey.getInventory().addFreind(lameSam);
@@ -370,7 +370,7 @@ public class GameCode {
 		//fire.declare(100,400);
 		//bubble.declare(100, 300);
 		//bee.declare (100, 180);
-		boss.declare(850, 530);
+		//boss.declare(850, 530);
 	}
 	public static void beforeGameLogic () {
 	}

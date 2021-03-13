@@ -18,7 +18,7 @@ public class ZombeeWorm extends Enemy {
 	public void enemyFrame () {
 		if (System.currentTimeMillis() > spawnTime + waitTime) {
 			if (!this.goY(this.getY() + 10)) {
-				this.forget();
+				this.deathEvent();
 			}
 		}
 		if (this.closeTooX(Jeffrey.getActiveJeffrey(),3)) {

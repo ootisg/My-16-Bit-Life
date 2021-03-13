@@ -464,7 +464,7 @@ public class ZombeeTreeBoss extends Enemy{
 	
 	public class Pusher extends MapObject {
 		
-		private final Sprite PUSHER_SPRITE = new Sprite ("resources/sprites/zombee_tree/pusher.png");
+		private final Sprite PUSHER_SPRITE = new Sprite ("resources/sprites/zombee_tree/pusher.txt");
 		
 		private final double [] X_OFFSETS = {0,80,96,112};
 		private final double [] Y_OFFSETS = {112,96,64,0};

@@ -116,6 +116,7 @@ public class Jeffrey extends GameObject {
 	public static final Sprite WHIP_LENGTH = new Sprite ("resources/sprites/config/microphoneWhipVariableFrame.txt");
 	
 	public static final double TERMINAL_VELOCITY = 15;
+	public static final double JUMP_VELOCITY = 12.15625;
 	//note if you ever plan on using the s key and sprites with this class you are gonna have to have your class have a lower game logic priority (witch is actually higher becasue its stupid)
 	
 	public Jeffrey () {
@@ -142,17 +143,17 @@ public class Jeffrey extends GameObject {
 	public boolean isCrouched () {
 		return crouching;
 	}
-public Item getWeapon () {
-	if (newWeapon) {
-		wpn =  inventory.findWeaponAtIndex(index, witchCharictar);
-		if (activeBox) {
-			weaponBox.forget();	
+	public Item getWeapon () {
+		if (newWeapon) {
+			wpn =  inventory.findWeaponAtIndex(index, witchCharictar);
+			if (activeBox) {
+				weaponBox.forget();	
+			}
+			weaponBox = new Tbox (this.getX(),this.getY()- 10,25,1,wpn.checkName(), false);
+			weaponBox.setScrollRate(0);
+			newWeapon = false;
+			activeBox = true;
 		}
-		weaponBox = new Tbox (this.getX(),this.getY()- 10,25,1,wpn.checkName(), false);
-		weaponBox.setScrollRate(0);
-		newWeapon = false;
-		activeBox = true;
-	}
 	return inventory.findWeaponAtIndex(index, witchCharictar);	
 	}
 public void setWeapon (Item weapon) {
@@ -418,8 +419,8 @@ public void setWeapon (Item weapon) {
 			if (keyDown(32) && !isJumping && vy == 0 && !forceSpacebar) {
 				
 				isJumping = true;
-				trueVy = -10.15625;
-				vy = -10.15625;
+				trueVy = -JUMP_VELOCITY;
+				vy = -JUMP_VELOCITY;
 				if (changeSprite) {
 				setSprite (walkSprite);
 				}
@@ -498,24 +499,33 @@ public void setWeapon (Item weapon) {
 			if (scrolling) {
 				double x = this.getX ();
 				double y = this.getY ();
+				
 				int viewX = Room.getViewX ();
 				int viewY = Room.getViewY ();
-				if (y - viewY >= 320 && y - 320 < Room.getHeight () * 16 - 480) {
-					viewY = (int) y - 320;
+				
+				double edgeRight = RenderLoop.window.getResolution()[0] * 0.4447916666;
+				double edgeLeft = RenderLoop.window.getResolution()[0] * 0.221875;
+				double edgeTop = RenderLoop.window.getResolution()[1] * 0.296296296;
+				double edgeBottom = RenderLoop.window.getResolution()[1] * 0.592592592;
+				
+				double drawBoundY = RenderLoop.window.getResolution()[1] * 0.888888888;
+				double drawBoundX = RenderLoop.window.getResolution()[0] * 0.666666666;
+				
+				if (y - viewY >= edgeBottom && y - edgeBottom < (Room.getHeight () * 16) - drawBoundY) {
+					viewY = (int) (y - edgeBottom);
 					Room.setView (Room.getViewXAcurate (), viewY);
 				}
-				if (y - viewY <= 160 && y - 160 > 0) {
-					
-					viewY = (int) y - 160;
+				if (y - viewY <= edgeTop && y - edgeTop > 0) {
+					viewY = (int) (y - edgeTop);
 					Room.setView (Room.getViewXAcurate (), viewY);
 				}
-				if (x - viewX >= 427 && x - 427 < Room.getWidth () * 16 - 640) {
-					viewX = (int) x - 427;
+				if (x - viewX >= edgeRight && x - edgeRight < (Room.getWidth () * 16) - drawBoundX) {
+					viewX = (int) (x - edgeRight);
 					Room.setView (viewX, Room.getViewYAcurate ());
 				}
 				
-				if (x - viewX <= 213 && x - 213  > 0) {
-					viewX = (int) x - 213;
+				if (x - viewX <= edgeLeft && x - edgeLeft  > 0) {
+					viewX = (int) (x - edgeLeft);
 					Room.setView (viewX, Room.getViewYAcurate ());
 				}
 			}
@@ -769,6 +779,11 @@ public void setWeapon (Item weapon) {
 			}
 			return simulatedDistance;
 	}
+	
+	private void scrollScreen () {
+		
+	}
+	
 	public void damage (double baseDamage) {
 		switchTimer = 0;
 		if (invulTimer == 0) {
@@ -1184,16 +1199,23 @@ public void setWeapon (Item weapon) {
 	 */
 	public void inzializeCamera() {
 		if (scrolling) {
-			int veiwX = (int)(this.getX() -this.getX()%213);
-			int veiwY = (int)(this.getY() -this.getY()%160);
-			if (veiwY + 480 > Room.getHeight()*16) {
-				veiwY = (Room.getHeight()*16) - 480;
+			
+			double edgeLeft = RenderLoop.window.getResolution()[0] * 0.221875;
+			double edgeTop = RenderLoop.window.getResolution()[1] * 0.296296296;
+			
+			double drawBoundY = RenderLoop.window.getResolution()[1] * 0.888888888;
+			double drawBoundX = RenderLoop.window.getResolution()[0] * 0.666666666;
+			
+			int veiwX = (int)(this.getX() -this.getX()%edgeLeft);
+			int veiwY = (int)(this.getY() -this.getY()%edgeTop);
+			if (veiwY + drawBoundY > Room.getHeight()*16) {
+				veiwY = (int)((Room.getHeight()*16) - drawBoundY);
 				if (veiwY < 0) {
 					veiwY = 0;
 				}
 			}
-			if (veiwX + + 640 > Room.getWidth()*16) {
-				veiwX = (Room.getWidth()*16) - 640;
+			if (veiwX + drawBoundX > Room.getWidth()*16) {
+				veiwX = (int)((Room.getWidth()*16) - drawBoundX);
 				if (veiwX < 0) {
 					veiwX = 0;
 				}

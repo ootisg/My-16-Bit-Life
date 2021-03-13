@@ -107,7 +107,9 @@ public class GameWindow extends JFrame {
 	public InputManager getInputImage () {
 		return inputManager.createImage ();
 	}
-	
+	public void zoom (double zoomVal) {
+		this.setResolution((int)(960 * zoomVal), (int)(540 * zoomVal));
+	}
 	public void resetInputBuffers () {
 		inputManager.resetKeyBuffers ();
 		inputManager.resetMouseBuffers ();

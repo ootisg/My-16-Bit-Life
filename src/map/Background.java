@@ -2,6 +2,15 @@ package map;
 
 import main.GameLoop;
 import main.RenderLoop;
+
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+import json.JSONArray;
+import json.JSONException;
+import json.JSONObject;
+import json.JSONUtil;
 import main.AnimationHandler;
 import resources.Sprite;
 
@@ -9,11 +18,72 @@ public class Background {
 	private AnimationHandler animationHandler;
 	private double scrollRateHorizontal;
 	private double scrollRateVertical;
-	public Background (Sprite image) {
-		this.animationHandler = new AnimationHandler (image);
+	
+	private long creationNs;
+	private long frameNs = 30000;
+	
+	private ArrayList<BufferedImage> frames;
+	
+	public Background (String filepath) {
+		setImg (filepath);
+		resetAnimation ();
 		this.scrollRateHorizontal = 1.0;
 		this.scrollRateVertical = 1.0;
 	}
+	
+	public void setImg (String filepath) {
+		
+		//Get the JSON path
+		String noExtPath = filepath.split ("\\.")[0];
+		String[] splitPath = noExtPath.split("/|\\\\");
+		System.out.println (splitPath.length);
+		splitPath [splitPath.length - 1] = "config/" + splitPath [splitPath.length - 1] + ".json";
+		String jsonPath = String.join("/", splitPath);
+		
+		try {
+			
+			//Get the sprite and JSON data
+			BufferedImage srcImg = Sprite.getImage(filepath);
+			JSONObject cfg = JSONUtil.loadJSONFile (jsonPath);
+			
+			//Set the default width and height accordingly
+			int default_width = -1;
+			int default_height = -1;
+			if (cfg.get ("default_width") != null && cfg.get("default_height") != null) {
+				default_width = cfg.getInt("default_width");
+				default_height = cfg.getInt("default_height");
+			}
+			
+			//Add the frames
+			this.frames = new ArrayList<BufferedImage> ();
+			if (cfg.get("frames") != null) {
+				JSONArray frames = cfg.getJSONArray("frames");
+				for (int i = 0; i < frames.getContents ().size (); i++) {
+					JSONObject curr = (JSONObject)frames.getContents ().get(i);
+					if (curr.get("endX") != null && curr.get("endY") != null) {
+						int sx = curr.getInt("x");
+						int sy = curr.getInt("y");
+						int width = curr.getInt("endX") - sx;
+						int height = curr.getInt("endY") - sy;
+						this.frames.add(srcImg.getSubimage(sx, sy, width, height));
+					} else {
+						int sx = curr.getInt("x");
+						int sy = curr.getInt("y");
+						int width = curr.get("width") == null ? default_width : curr.getInt("width");
+						int height = curr.get("height") == null ? default_height : curr.getInt("height");
+						this.frames.add(srcImg.getSubimage(sx, sy, width, height));
+					}
+				}
+			} else {
+				throw new JSONException ("Haha lol theres no frames here");
+			}
+		} catch (JSONException e) {
+			//The file probably does not exist TODO lolz
+			this.frames = new ArrayList<BufferedImage> ();
+			frames.add(Sprite.getImage(filepath));
+		}
+	}
+	
 	public void draw (double viewX, double viewY) {
 		int width = RenderLoop.window.getResolution () [0];
 		int height = RenderLoop.window.getResolution () [1];
@@ -35,8 +105,18 @@ public class Background {
 	public void setScrollRateVertiacal (double scrollRate) {
 		this.scrollRateVertical = scrollRate;
 	}
-	public Sprite getImage () {
-		return animationHandler.getImage ();
+	public int getCurrentFrame () {
+		return ((int)((System.nanoTime () - creationNs) / frameNs)) % frames.size ();
+	}
+	public void resetAnimation () {
+		creationNs = System.nanoTime ();
+	}
+	public BufferedImage getImage (int frame) {
+		return frames.get(frame);
+	}
+	public ArrayList<BufferedImage> getFrames () {
+		System.out.println(this.getCurrentFrame());
+		return frames;
 	}
 	public double getScrollRateHorizontal () {
 		return scrollRateHorizontal;
@@ -45,9 +125,9 @@ public class Background {
 		return scrollRateVertical;
 	}
 	public int getWidth () {
-		return getImage().getFrame(0).getWidth();
+		return getImage (getCurrentFrame ()).getWidth ();
 	}
 	public int getHeight () {
-		return getImage().getFrame(0).getHeight();
+		return getImage (getCurrentFrame ()).getHeight ();
 	}
 }
