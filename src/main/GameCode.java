@@ -43,6 +43,7 @@ import enemys.Zombee;
 import enemys.ZombeeTreeBoss;
 import gameObjects.AnimeTester;
 import gameObjects.BreakableObject;
+import gameObjects.CameraObject;
 import gameObjects.CarSpawner;
 import gameObjects.DarkOverlay;
 import gameObjects.DashPad;
@@ -113,7 +114,9 @@ import weapons.SlimeSword;
 import weapons.redBlackPaintBallGun;
 
 public class GameCode {
-	private GameWindow gameWindow;
+	
+	static long frameNum;
+	
 	//GameObjects
 	static TubeRaster raster;
 	static AimableWeapon wpn;
@@ -202,14 +205,22 @@ public class GameCode {
 	static FallingSpike spike;
 	static Bee bee;
 	static ZombeeTreeBoss boss;
+	
+	public static int targetZoomX;
+	public static int targetZoomY;
+	static int zoomSpeed;
+	
 	static String jsonTest = ""
 			+ "{"
 			+ "\"JSON\":\"TRUE\","
 			+ "\"OBJ\":{\"JSON\":{\"JSON2\":{\"JSON4\":\"CORRECT\"},\"ARR\":[1,2,{\"JSON5\":\"HELLO WORLD\"},3,4,[2,4,6,7],9]},\"JSON3\":\"TESTING\"}"
 			+ "}";
 	public static void initialize () {
-		RenderLoop.window.setResolution(960, 540);
-		Room.loadRoom ("resources/maps/bubbleLevelGoZoom (1).rmf");
+		//RenderLoop.window.setResolution(960, 540);
+		targetZoomX = RenderLoop.window.getResolution()[0];
+		targetZoomY = RenderLoop.window.getResolution()[1];
+		//zoomTo (540, 320 , 4);
+		Room.loadRoom ("resources/maps/zoomTriggerTest.rmf");
 		//GameObject initialization
 		player = new SoundPlayer ();
 		//fire = new FireRextinguisher ();
@@ -373,16 +384,67 @@ public class GameCode {
 		//boss.declare(850, 530);
 	}
 	public static void beforeGameLogic () {
+		
 	}
 	
 	public static void afterGameLogic () {
+		
 	}
 	
 	public static void beforeRender () {
+		zoom(targetZoomX, targetZoomY, zoomSpeed);
 		Room.render ();
 	}
 	
 	public static void afterRender () {
+		frameNum = frameNum + 1;
 		AfterRenderDrawer.drawAll();
 	}
+	public static long getFrameNum () {
+		return frameNum;
+	}
+	public static void zoomTo (int x, int y, int speed) {
+		targetZoomX = x;
+		targetZoomY = y;
+		zoomSpeed = speed;
+	}
+	
+	public static void zoom (int newResX, int newResY, int speed) {
+		if (newResX != RenderLoop.window.getResolution()[0] && newResY != RenderLoop.window.getResolution()[1]) {
+			int resDistX = (RenderLoop.window.getResolution()[0] - newResX);
+			int resDistY = (RenderLoop.window.getResolution()[1] - newResY);
+			
+			double resMoveX = 0;
+			double resMoveY = 0;
+			
+			if (resDistX < 0) {
+				resDistX = resDistX * -1;
+			}
+			if (resDistY < 0) {
+				resDistY = resDistY * -1;
+			}
+			
+			if (resDistX > resDistY) {
+				resMoveX = (resDistX/resDistY) * speed;
+				resMoveY = (resDistY/resDistY) * speed;
+			} else {
+				resMoveX = (resDistX/resDistX) * speed;
+				resMoveY = (resDistY/resDistX) * speed;
+			}
+			
+			if (RenderLoop.window.getResolution()[0] > newResX) {
+				resMoveX = resMoveX * -1;
+			}
+			if (RenderLoop.window.getResolution()[1] > newResY) {
+				resMoveY = resMoveY * -1;
+			}
+			RenderLoop.window.setResolution((int)Math.ceil(RenderLoop.window.getResolution()[0] + resMoveX), (int)Math.ceil(RenderLoop.window.getResolution()[1] + resMoveY));
+			
+			
+			if ((resMoveX < 0 && RenderLoop.window.getResolution()[0] < newResX) || (RenderLoop.window.getResolution()[0] > newResX && resMoveX > 0) || (resMoveY < 0 && RenderLoop.window.getResolution()[1] < newResY) || (RenderLoop.window.getResolution()[1] > newResY && resMoveY > 0)) {
+				RenderLoop.window.setResolution(newResX, newResY);
+			}
+		}
+	}
+	
 }

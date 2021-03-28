@@ -1,0 +1,5 @@
+VF 1
+name=Name attributes={nv=nv} filename={NPC.png}
+name=Entry attributes={nv=nv}
+name=Sprite attributes={nv=nv}
+name=attachedScene attributes={nv=nv}

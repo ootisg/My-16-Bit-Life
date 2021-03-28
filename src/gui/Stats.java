@@ -30,13 +30,16 @@ public class Stats extends GameObject {
 		charictarName = new Tbox (0,0,20,1,"JEFFREY", false);
 		charictarName.declare(75,-6);
 		charictarName.setScrollRate(0);
+		charictarName.setScaleing(false);
 		weaponName = new Tbox (460,0,24,1, "REDBLACK PAINTBALL GUN", false);
 		weaponName.declare(400, -6);
 		weaponSprite = new Sprite("resources/sprites/blank.png");
 		weaponName.setScrollRate(0);
+		weaponName.setScaleing(false);
 		ammoAmount = new Tbox (0,0,24,1, "0", false);
 		ammoAmount.declare(340,-6);
 		ammoAmount.setScrollRate(0);
+		ammoAmount.setScaleing(false);
 		this.setRenderPriority(420);
 		charictarName.keepOpen(true);
 		weaponName.keepOpen(true);
@@ -44,6 +47,13 @@ public class Stats extends GameObject {
 		ammoAmount.setPlace();
 		charictarName.setPlace();
 		weaponName.setPlace();
+		CHARICTAR_SPRITE.setScale(false);
+		EMPTY_BAR.setScale(false);
+		RYAN_BAR.setScale(false);
+		SAM_BAR.setScale(false);
+		JEFFREY_BAR.setScale(false);
+		HEALTH_SPRITE.setScale(false);
+		HEALTH_BORDER_SPRITE.setScale(false);
 	}
 	@Override
 	public void frameEvent () {
@@ -77,6 +87,7 @@ public class Stats extends GameObject {
 			}
 			weaponName.setContent(Jeffrey.getActiveJeffrey().getWeapon().checkName());
 			weaponSprite = Jeffrey.getActiveJeffrey().getWeapon().getUnrotatedSprite();
+			weaponSprite.setScale(false);
 			ammoAmount.setContent(Integer.toString(Jeffrey.getInventory().checkAmmoAmountOfWeapon(Jeffrey.getActiveJeffrey().getWeapon())));
 		} catch (NullPointerException e ) {
 			
@@ -85,8 +96,7 @@ public class Stats extends GameObject {
 	@Override 
 	public void draw () {
 		try {
-		Graphics buffer = RenderLoop.window.getBufferGraphics ();
-		buffer.setColor (new Color(0xFF0000));
+
 		HEALTH_BORDER_SPRITE.draw(160,0);
 		int currentBar;
 		if (Jeffrey.getActiveJeffrey().checkSwitch()) {
@@ -151,24 +161,21 @@ public class Stats extends GameObject {
 						EMPTY_BAR.draw(0, 0);
 					}
 			} */
-		if (Jeffrey.getActiveJeffrey().witchCharictar ==0 ) {
+		if (Jeffrey.witchCharictar ==0 ) {
 			if (Jeffrey.getActiveJeffrey().getHealth() > 0) {
 			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (Jeffrey.getActiveJeffrey().getHealth() / Jeffrey.maxJeffreyHealth)))), 24);
 			}
 		}
-		if (Jeffrey.getActiveJeffrey().witchCharictar ==1 ) {
+		if (Jeffrey.witchCharictar ==1 ) {
 			if (Jeffrey.getActiveJeffrey().getHealth() > 0) {				
 			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (Jeffrey.getActiveJeffrey().getHealth() / Jeffrey.maxSamHealth)))), 24);
 			}
 			}
-		if (Jeffrey.getActiveJeffrey().witchCharictar ==2 ) {
+		if (Jeffrey.witchCharictar ==2 ) {
 			if (Jeffrey.getActiveJeffrey().getHealth() > 0) {
 			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (Jeffrey.getActiveJeffrey().getHealth() / Jeffrey.maxRyanHealth)))), 24);
 			}
 			}
-		buffer.setColor (new Color(0x000000));
-		buffer.setColor(new Color (0xFFFF00));
-		buffer.setColor(new Color (0x000000));
 		if (Jeffrey.getActiveJeffrey().switchTimer != 0) {
 		CHARICTAR_SPRITE.draw(0, 0, 0, (int) (Math.ceil(45*Jeffrey.getActiveJeffrey().switchTimer/30.0)), 24);
 		}

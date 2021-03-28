@@ -21,6 +21,7 @@ public class BubblePlatform extends CarryObject {
 	double moveX;
 	double moveY;
 	int timer;
+	double yOriginal;
 	double inzialSpeed;
 	public BubblePlatform () {
 		this(0);
@@ -34,8 +35,15 @@ public class BubblePlatform extends CarryObject {
 		this.suffocateObjects(false);
 		this.setPersistence(true);
 	}
+	@Override
+	public void onDeclare () {
+		yOriginal = this.getY();
+	}
 	public void frameEvent() {
 		super.frameEvent();
+		if (Room.isColliding(this)) {
+			forget();
+		}
 		this.setHitboxAttributes(0, -3, 16, 16);
 		this.isCollidingChildren("GameObject");
 		this.setHitboxAttributes(0, 0, 16, 16);
@@ -70,6 +78,7 @@ public class BubblePlatform extends CarryObject {
 				}
 			}	
 		}
+		
 //		//semisolid stuff
 //	if (Jeffrey.getActiveJeffrey().getVy() < 0 || ((Jeffrey.getActiveJeffrey().getX() + 7 < this.getX() && Jeffrey.getActiveJeffrey().vx > 0 && Jeffrey.getActiveJeffrey().isColliding(new Rectangle ((int)this.getX() - 6,(int)this.getY(),8,16))) || (Jeffrey.getActiveJeffrey().vx < 0 && Jeffrey.getActiveJeffrey().isColliding(new Rectangle ((int)this.getX() + 14,(int)this.getY(),8,16))))){
 //			

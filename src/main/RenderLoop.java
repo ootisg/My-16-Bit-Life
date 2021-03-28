@@ -51,6 +51,12 @@ public class RenderLoop {
 			lastUpdate = System.nanoTime ();
 			long elapsedTime = lastUpdate - startTime;
 			int sleepTime = (int)((targetNanoseconds - elapsedTime) / 1000000) - 1;
+			//System.out.println("target " + targetNanoseconds);
+			//System.out.println("elapsed " + elapsedTime);
+			//System.out.println("last " + lastUpdate);
+			//System.out.println("sleep " + sleepTime);
+			//System.out.println("start " + startTime);
+			
 			if (sleepTime < 0) {
 				sleepTime = 0;
 			}
@@ -62,7 +68,7 @@ public class RenderLoop {
 			}
 			//Wait until the frame should be redrawn
 			while (System.nanoTime () - startTime < targetNanoseconds) {
-				
+			
 			}
 		}
 	}

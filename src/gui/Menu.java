@@ -74,6 +74,7 @@ public class Menu extends GameObject{
 	weaponIndex = 0;
 	itemPosition = -1;
 	itemIndex1 = 0;
+	this.setScaleing(false);
 	consumabels = true;
 	itemIndex2 = 1;
 	itemIndex3 = 2;

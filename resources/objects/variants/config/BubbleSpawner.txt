@@ -1,0 +1,3 @@
+VF 1
+name=speed attributes={nv=nv} filename={BubbleSpawner.png}
+name=spawnRate attributes={nv=nv}

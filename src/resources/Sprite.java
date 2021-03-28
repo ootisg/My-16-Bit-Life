@@ -42,6 +42,10 @@ public class Sprite {
 	 * Whether the sprite is animated or not
 	 */
 	private boolean isAnimated;
+	/**
+	 * does this get scalled by the changes of resolution
+	 */
+	private boolean doesScale = true;
 	
 	/**
 	 * 
@@ -219,7 +223,12 @@ public class Sprite {
 			draw (x, y, frame, transform);
 	}
 	public void draw (double usedX, double usedY, int frame, AffineTransform transform) {
-			Graphics2D windowGraphics = (Graphics2D)RenderLoop.window.getBufferGraphics ();
+		Graphics2D windowGraphics;
+			if (doesScale) {
+				windowGraphics = (Graphics2D)RenderLoop.window.getBufferGraphics ();
+			} else {
+				windowGraphics = (Graphics2D)RenderLoop.window.getNonscalableGraphics ();
+			}
 			windowGraphics.drawImage (getFrame (frame), transform, null);
 	}
 	/**
@@ -230,7 +239,11 @@ public class Sprite {
 	 */
 	public void draw (int usedX, int usedY, int frame) {
 		if (frame < images.length) {
-			RenderLoop.window.getBufferGraphics ().drawImage (images [frame], usedX, usedY, null);
+			if (doesScale) {
+				RenderLoop.window.getBufferGraphics ().drawImage (images [frame], usedX, usedY, null);
+			} else {
+				RenderLoop.window.getNonscalableGraphics ().drawImage (images [frame], usedX, usedY, null);
+			}
 		}
 	}
 	/**
@@ -243,7 +256,11 @@ public class Sprite {
 	 */
 	public void draw (int usedX, int usedY, int frame, int width,int height) {
 		if (frame < images.length) {
-			RenderLoop.window.getBufferGraphics ().drawImage (	images[frame].getSubimage(0, 0, width, height), usedX, usedY, null);
+			if (doesScale) {
+				RenderLoop.window.getBufferGraphics ().drawImage (	images[frame].getSubimage(0, 0, width, height), usedX, usedY, null);
+			} else {
+				RenderLoop.window.getNonscalableGraphics ().drawImage (	images[frame].getSubimage(0, 0, width, height), usedX, usedY, null);
+			}
 		}
 	}
 	/**
@@ -272,7 +289,11 @@ public class Sprite {
 			y2 = getFrame (frame).getHeight ();
 		}
 		if (frame < images.length) {
-			RenderLoop.window.getBufferGraphics ().drawImage (getFrame (frame), usedX, usedY, usedX + getFrame (frame).getWidth (), usedY + getFrame (frame).getHeight (), x1, y1, x2, y2, null);
+			if (doesScale) {
+				RenderLoop.window.getBufferGraphics ().drawImage (getFrame (frame), usedX, usedY, usedX + getFrame (frame).getWidth (), usedY + getFrame (frame).getHeight (), x1, y1, x2, y2, null);
+			} else {
+				RenderLoop.window.getNonscalableGraphics ().drawImage (getFrame (frame), usedX, usedY, usedX + getFrame (frame).getWidth (), usedY + getFrame (frame).getHeight (), x1, y1, x2, y2, null);
+			}
 		}
 	}
 	/**
@@ -303,7 +324,11 @@ public class Sprite {
 			y2 = getFrame (frame).getHeight ();
 		}
 		if (frame < images.length) {
-			RenderLoop.window.getBufferGraphics ().drawImage (getFrame (frame).getSubimage(0, 0, width, height), usedX, usedY, usedX + getFrame(frame).getWidth(), usedY + + getFrame(frame).getHeight(), x1, y1, x2, y2, null);
+			if (doesScale) {
+				RenderLoop.window.getBufferGraphics ().drawImage (getFrame (frame).getSubimage(0, 0, width, height), usedX, usedY, usedX + getFrame(frame).getWidth(), usedY + + getFrame(frame).getHeight(), x1, y1, x2, y2, null);
+			} else {
+				RenderLoop.window.getNonscalableGraphics ().drawImage (getFrame (frame).getSubimage(0, 0, width, height), usedX, usedY, usedX + getFrame(frame).getWidth(), usedY + + getFrame(frame).getHeight(), x1, y1, x2, y2, null);
+			}
 		}
 	}
 	/**
@@ -362,6 +387,14 @@ public class Sprite {
 		}
 	}
 	
+	public boolean doesScale() {
+		return doesScale;
+	}
+
+	public void setScale(boolean doesScale) {
+		this.doesScale = doesScale;
+	}
+
 	private static class CacheNode {
 		
 		/**

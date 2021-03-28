@@ -1,0 +1,3 @@
+VF 1
+name=message attributes={nv=nv} filename={TextboxTrigger.png}
+name=font attributes={nv=nv}

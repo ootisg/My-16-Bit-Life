@@ -69,6 +69,7 @@ public class AfterRenderDrawer {
 		try {
 		try {		
 		if (!objectsToDraw.get(i).isBlacklisted()) {
+		objectsToDraw.get(i).sprite.setScale(false);
 		objectsToDraw.get(i).sprite.draw(objectsToDraw.get(i).getX(), objectsToDraw.get(i).getY(),objectsToDraw.get(i).getFrame());
 		}
 		} catch (IndexOutOfBoundsException e) {

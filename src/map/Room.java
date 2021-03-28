@@ -595,6 +595,7 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 		}
 		}
 	}
+	
 	/**
 	 * loads the map file at the given filepath
 	 * @param path the filepath to the map file
@@ -1219,6 +1220,13 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 		 */
 		public void draw () {
 			int currentLayer = layerClassfications.size() -1;
+			for (int l = 0; l < backgrounds.size(); l++) {
+				if (backgrounds.get(l) != null) {
+					if (backgrounds.get(l).isNewFrame()) {
+						this.invalidate(l);
+					}
+				}
+			}
 				for (int l = renderedImages.size()-1; l >=0; l--) {
 					if (!this.isValid(l)) {
 						renderedImages.set(l,new BufferedImage (chungusWidth*TILE_HEIGHT,chungusWidth*TILE_HEIGHT,BufferedImage.TYPE_4BYTE_ABGR));
@@ -1237,13 +1245,13 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 							}
 							} else {
 								//TODO get this to work with animated backgrounds
-							
 								int rasterWidth = Math.min (x*TILE_WIDTH + chungusWidth*TILE_WIDTH,mapWidth*TILE_WIDTH);
 								int rasterHeight = Math.min (y*TILE_HEIGHT + chungusHeight*TILE_HEIGHT,mapHeight*TILE_HEIGHT);
 								rasterWidth = Math.min(rasterWidth, backgrounds.get(currentLayer).getWidth()) - x*TILE_WIDTH;
 								rasterHeight = Math.min(rasterHeight, backgrounds.get(currentLayer).getHeight()) - y*TILE_HEIGHT;
 								if (rasterWidth > 0 && rasterHeight > 0){
-								BufferedImage working= backgrounds.get(currentLayer).getFrames ().get(0).getSubimage(x*TILE_WIDTH, y*TILE_HEIGHT, rasterWidth, rasterHeight);
+								int backgroundFrame = backgrounds.get(currentLayer).getCurrentFrame();
+								BufferedImage working= backgrounds.get(currentLayer).getFrames ().get(backgroundFrame).getSubimage(x*TILE_WIDTH, y*TILE_HEIGHT, rasterWidth, rasterHeight);
 								g.drawImage(working,0,0,null);
 								}
 							}

@@ -12,6 +12,7 @@ import json.JSONException;
 import json.JSONObject;
 import json.JSONUtil;
 import main.AnimationHandler;
+import main.GameCode;
 import resources.Sprite;
 
 public class Background {
@@ -20,7 +21,11 @@ public class Background {
 	private double scrollRateVertical;
 	
 	private long creationNs;
-	private long frameNs = 30000;
+	private long frameNs = 300000000;
+	
+	int oldFrame = 0;
+	long oldFrameNum = 0;
+	boolean diffrentFrame = false;
 	
 	private ArrayList<BufferedImage> frames;
 	
@@ -108,6 +113,23 @@ public class Background {
 	public int getCurrentFrame () {
 		return ((int)((System.nanoTime () - creationNs) / frameNs)) % frames.size ();
 	}
+	public boolean isNewFrame () {
+		if (GameCode.getFrameNum() != oldFrameNum) {
+			
+			if (getCurrentFrame() != oldFrame) {
+				oldFrame = getCurrentFrame();
+				diffrentFrame = true;
+				oldFrameNum = GameCode.getFrameNum();
+				return true;
+			}
+			diffrentFrame = false;
+			oldFrameNum = GameCode.getFrameNum();
+			return false;
+		} else {
+			return diffrentFrame;
+		}
+		
+	}
 	public void resetAnimation () {
 		creationNs = System.nanoTime ();
 	}
@@ -115,7 +137,6 @@ public class Background {
 		return frames.get(frame);
 	}
 	public ArrayList<BufferedImage> getFrames () {
-		System.out.println(this.getCurrentFrame());
 		return frames;
 	}
 	public double getScrollRateHorizontal () {

@@ -1,0 +1,3 @@
+VF 1
+name=scale attributes={nv=nv} filename={ZoomTrigger.png}
+name=speed attributes={nv=nv}

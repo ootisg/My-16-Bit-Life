@@ -136,6 +136,10 @@ public abstract class GameObject extends GameAPI {
 	 */
 	private boolean spriteHitbox = false;
 	/**
+	 * does this get scalled by the changes of resolution
+	 */
+	private boolean doesScale = true;
+	/**
 	 * Container and utility class for GameObject variants
 	 * @author nathan
 	 *
@@ -984,11 +988,23 @@ public abstract class GameObject extends GameAPI {
 		if (this.getSpriteX() - this.getX() != 0) {
 			this.desyncSpriteX(0);
 		}
+		sprite.setScale(doesScale);
 		animationHandler.resetImage (sprite);
 		if (spriteHitbox) {
 			this.setHitboxAttributes(0, 0, this.getSprite().getWidth(), this.getSprite().getHeight());
 		}
 	}
+	public boolean doesScale() {
+		return doesScale;
+	}
+
+	public void setScaleing(boolean doesScale) {
+		this.doesScale = doesScale;
+		if (this.getSprite() != null) {
+			this.getSprite().setScale(doesScale);
+		}
+	}
+
 	//changes the hitbox to another one when the sprite gets bigger
 	//based off of length of xOffset array
 	public void createExpandingHitBox (int [] xoffsetArray, int [] widthArray, int [] yOffsetArray, int [] heightArray) {

@@ -42,6 +42,7 @@ public class Jeffrey extends GameObject {
 	private Item wpn; 
 	private boolean newWeapon = true;
 	private Tbox weaponBox;
+	private static int index = 0;
 	
 	private boolean isWalking;
 	public  boolean isJumping;
@@ -66,7 +67,6 @@ public class Jeffrey extends GameObject {
 	public Sprite standSprite = new Sprite("resources/sprites/config/jeffrey_idle.txt");
 	public Sprite walkSprite = new Sprite("resources/sprites/config/jeffrey_walking.txt");
 	
-	private int index = 0;
 	public boolean keepAdding = true;
 	
 	public  double vx = 0;
@@ -92,6 +92,8 @@ public class Jeffrey extends GameObject {
 	private int boxTimer = 0;
 	
 	public boolean falldurringCollisionCheck = true;
+	
+	private boolean izialized = false;
 	
 	//Jeffrey Sprites
 	public static final Sprite JEFFREY_WALKING = new Sprite ("resources/sprites/config/jeffrey_walking.txt");
@@ -159,9 +161,9 @@ public class Jeffrey extends GameObject {
 public void setWeapon (Item weapon) {
 	wpn = weapon;
 }
-	@Override
-	public void onDeclare () {
-		wpn = new Item ();
+	
+	public void inzialize () {
+		wpn = this.getWeapon();
 		if (this.getVariantAttribute("Jeffrey") != null) {
 			if (this.getVariantAttribute("Jeffrey").equals("no")) {
 				party[0] = false;
@@ -197,16 +199,20 @@ public void setWeapon (Item weapon) {
 		if (!party[witchCharictar]) {
 			this.switchToAPartyMember();
 		}
-		if (this.witchCharictar == 0) {
+		if (witchCharictar == 0) {
 			this.setSprite(JEFFREY_IDLE);
-		} else if (this.witchCharictar == 1) {
+		} else if (witchCharictar == 1) {
 				this.setSprite(SAM_IDLE);
 			} else {
 				this.setSprite(RYAN_IDLE);
 		}
+		izialized = true;
 	}
 	@Override
 	public void frameEvent () {
+		if (!izialized) {
+			this.inzialize();
+		}
 		if (active) {
 			if (keyDown ('S') && !onLadder && crouchElegable && this.getX() - this.getSpriteX() == 0) {
 				crouching = true;
@@ -503,15 +509,17 @@ public void setWeapon (Item weapon) {
 				int viewX = Room.getViewX ();
 				int viewY = Room.getViewY ();
 				
-				double edgeRight = RenderLoop.window.getResolution()[0] * 0.4447916666;
-				double edgeLeft = RenderLoop.window.getResolution()[0] * 0.221875;
-				double edgeTop = RenderLoop.window.getResolution()[1] * 0.296296296;
-				double edgeBottom = RenderLoop.window.getResolution()[1] * 0.592592592;
+				double edgeRight = RenderLoop.window.getResolution()[0] * 0.4447916666; // 427/960
+				double edgeLeft = RenderLoop.window.getResolution()[0] * 0.221875; // 213/960
+				double edgeTop = RenderLoop.window.getResolution()[1] * 0.296296296; // 160/540
+				double edgeBottom = RenderLoop.window.getResolution()[1] * 0.592592592; // 320/540
 				
-				double drawBoundY = RenderLoop.window.getResolution()[1] * 0.888888888;
-				double drawBoundX = RenderLoop.window.getResolution()[0] * 0.666666666;
 				
-				if (y - viewY >= edgeBottom && y - edgeBottom < (Room.getHeight () * 16) - drawBoundY) {
+				double drawBoundY = RenderLoop.window.getResolution()[1] * 0.888888888; //480/540
+				double drawBoundX = RenderLoop.window.getResolution()[0] * 0.666666666; //640/960
+				
+				
+				if (y - viewY >= edgeBottom || y - edgeBottom > (Room.getHeight () * 16) - drawBoundY) {
 					viewY = (int) (y - edgeBottom);
 					Room.setView (Room.getViewXAcurate (), viewY);
 				}
@@ -636,6 +644,10 @@ public void setWeapon (Item weapon) {
 		if (fallBruh) {
 		setY (getY () + vy);
 	}
+		if (this.isActive()) {
+			wpn.frameEvent();
+		}
+		
 			if (Room.isColliding(this)) {
 			vy = 0;
 			trueVy = 0;
@@ -704,10 +716,7 @@ public void setWeapon (Item weapon) {
 		if (!this.goX (this.getX () + vx)) {
 			vx = 0;
 		}
-		if (this.isActive()) {
-			wpn.frameEvent();
-		}
-		
+	
 }
 	/**
 	 * forces Jeffrey to act as if the spacebar is being held down until he lands on stable ground
@@ -780,9 +789,6 @@ public void setWeapon (Item weapon) {
 			return simulatedDistance;
 	}
 	
-	private void scrollScreen () {
-		
-	}
 	
 	public void damage (double baseDamage) {
 		switchTimer = 0;
@@ -806,6 +812,7 @@ public void setWeapon (Item weapon) {
 	public void checkpointCode (Checkpoint checkpoint) {
 		this.setX(checkpoint.getX());
 		this.setY(checkpoint.getY());
+		
 	}
 	public static Inventory getInventory () {
 		return Jeffrey.inventory;
@@ -826,62 +833,62 @@ public void setWeapon (Item weapon) {
 		constantSpeed = false;
 	}
 	public boolean checkIfBrittle() {
-		if (this.witchCharictar == 0) {
+		if (witchCharictar == 0) {
 			 return status.statusAppliedOnJeffrey[4];
 		}
-		if (this.witchCharictar == 1) {
+		if (witchCharictar == 1) {
 			 return status.statusAppliedOnSam[4];
 		}
-		if (this.witchCharictar == 2) {
+		if (witchCharictar == 2) {
 			 return status.statusAppliedOnRyan[4];
 		}
 		return false;
 	}
 	public boolean checkIfSlippery () {
-		if (this.witchCharictar == 0) {
+		if (witchCharictar == 0) {
 			 return status.statusAppliedOnJeffrey[8];
 		}
-		if (this.witchCharictar == 1) {
+		if (witchCharictar == 1) {
 			 return status.statusAppliedOnSam[8];
 		}
-		if (this.witchCharictar == 2) {
+		if (witchCharictar == 2) {
 			 return status.statusAppliedOnRyan[8];
 		}
 		return false;
 		
 	}
 	public boolean checkIfSlow() {
-		if (this.witchCharictar == 0) {
+		if (witchCharictar == 0) {
 			 return status.statusAppliedOnJeffrey[3];
 		}
-		if (this.witchCharictar == 1) {
+		if (witchCharictar == 1) {
 			 return status.statusAppliedOnSam[3];
 		}
-		if (this.witchCharictar == 2) {
+		if (witchCharictar == 2) {
 			 return status.statusAppliedOnRyan[3];
 		}
 		return false;
 	}
 	public boolean checkIfFast() {
-		if (this.witchCharictar == 0) {
+		if (witchCharictar == 0) {
 			 return status.statusAppliedOnJeffrey[5];
 		}
-		if (this.witchCharictar == 1) {
+		if (witchCharictar == 1) {
 			 return status.statusAppliedOnSam[5];
 		}
-		if (this.witchCharictar == 2) {
+		if (witchCharictar == 2) {
 			 return status.statusAppliedOnRyan[5];
 		}
 		return false;
 	}
 	public boolean checkIfPowerful() {
-		if (this.witchCharictar == 0) {
+		if (witchCharictar == 0) {
 			 return status.statusAppliedOnJeffrey[6];
 		}
-		if (this.witchCharictar == 1) {
+		if (witchCharictar == 1) {
 			 return status.statusAppliedOnSam[6];
 		}
-		if (this.witchCharictar == 2) {
+		if (witchCharictar == 2) {
 			 return status.statusAppliedOnRyan[6];
 		}
 		return false;
@@ -998,9 +1005,9 @@ public void setWeapon (Item weapon) {
 				Jeffrey.getJeffreyWithCharacter(witchCharacter).active = true;
 				Jeffrey.getJeffreyWithCharacter(witchCharacter).inzializeCamera();
 				this.active = false;
-				if (this.witchCharictar == 0) {
+				if (witchCharictar == 0) {
 					this.setSprite(JEFFREY_IDLE);
-				} else if (this.witchCharictar == 1) {
+				} else if (witchCharictar == 1) {
 						this.setSprite(SAM_IDLE);
 					} else {
 						this.setSprite(RYAN_IDLE);
@@ -1020,9 +1027,8 @@ public void setWeapon (Item weapon) {
 			for (int i = 0; i < jeffreys.size(); i++) {
 				Jeffrey j = (Jeffrey)jeffreys.get(i);
 				if (j.isActive()) {
-					
 					return j;
-				}
+				} 
 			}
 		}
 		return null;
@@ -1174,7 +1180,7 @@ public void setWeapon (Item weapon) {
 	public void removeCharacter (int witchCharacter) {
 		try {
 			party[witchCharacter] = false;
-			if (this.witchCharictar == witchCharacter) {
+			if (witchCharictar == witchCharacter) {
 				int lol = witchCharacter;
 				int startMemer = lol;
 				while (!(party[lol])) {

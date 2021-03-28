@@ -17,13 +17,14 @@ public class Checkpoint extends RessesiveTrigger {
 
 	public void load () {
 		Room.loadRoom(Room.getRoomName());
+		Jeffrey.setInventory(savedItems);
 		ArrayList <ArrayList <GameObject>> working = ObjectHandler.getChildrenByName("GameObject");
 		for (int i = 0; i <working.size(); i++) {
 			for (int j = 0; j < working.get(i).size(); j++) {
 				working.get(i).get(j).checkpointCode(this);
 			}
 		}
-		Jeffrey.setInventory(savedItems);
+		
 	}
 	@Override
 	public void triggerEvent () {

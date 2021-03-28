@@ -55,10 +55,7 @@ public class CameraObject extends GameObject implements Activateable {
 			}
 		}
 	}	
-	@Override
-	public void runStaticLogic () {
-		
-	}
+
 	public void panLogic () {
 		double x = this.getX();
 		double y = this.getY();

@@ -1,0 +1,2 @@
+VF 1
+name=flip attributes={left=0 right=1} filename={soapThrower.png} tileIndex=value

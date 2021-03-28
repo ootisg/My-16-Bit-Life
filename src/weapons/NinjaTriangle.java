@@ -12,11 +12,12 @@ import resources.Sprite;
 
 public class NinjaTriangle extends AimableWeapon{
 	public int [] upgradeInfo;
-	public static boolean inHand = true;
+	public boolean inHand;
 	public NinjaTriangle(Sprite sprite) {
 		super(sprite);
 		upgradeInfo = new int [4];
 		Arrays.fill(upgradeInfo, 2);
+		inHand = true;
 	}
 	@Override
 	public String checkName () {
@@ -46,11 +47,11 @@ public class NinjaTriangle extends AimableWeapon{
 	}
 	@Override 
 	public void frameEvent () {
-		if (!NinjaTriangle.inHand) {
+		if (!this.inHand) {
 			this.getAnimationHandler().hide();
 		}
-		if (NinjaTriangle.inHand && mouseButtonPressed (0) && !Jeffrey.getActiveJeffrey().isCrouched()) {
-			NinjaTriangle.inHand = false;
+		if (this.inHand && mouseButtonPressed (0) && !Jeffrey.getActiveJeffrey().isCrouched()) {
+			this.inHand = false;
 			Triangle projectileForme;
 			if (this.getAnimationHandler().flipHorizontal()) {
 			if (this.getRotation() >= 0) {
