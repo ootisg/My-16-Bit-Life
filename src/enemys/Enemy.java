@@ -478,19 +478,21 @@ public abstract class Enemy extends BreakableObject {
 	 * @param amount the amount of damage to deal
 	 */
 	public void damage (int amount) {
+		
 		if (Jeffrey.getActiveJeffrey().checkIfPowerful()) {
 			amount = (int) ((amount * 1.2) - defence);
 			if(amount <= 0){
 				amount = 1;
 			}
-			text = new DamageText (amount * 1.2, this.getX(), this.getY(), false );	
+			text = new DamageText (amount * 1.2, this.getX(), this.getY(), 0 );	
 		} else {
 			amount = amount - defence;
 			if(amount <= 0){
 				amount = 1;
 			}
-		text = new DamageText (amount, this.getX(), this.getY(), false);
+		text = new DamageText (amount, this.getX(), this.getY(), 0);
 		}
+		//System.out.println(amount);
 		text.declare(this.getX(), this.getY());
 		this.health = health - amount;
 	}

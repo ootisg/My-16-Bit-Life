@@ -220,7 +220,7 @@ public class GameCode {
 		targetZoomX = RenderLoop.window.getResolution()[0];
 		targetZoomY = RenderLoop.window.getResolution()[1];
 		//zoomTo (540, 320 , 4);
-		Room.loadRoom ("resources/maps/zoomTriggerTest.rmf");
+		Room.loadRoom ("resources/maps/spiderTest.rmf");
 		//GameObject initialization
 		player = new SoundPlayer ();
 		//fire = new FireRextinguisher ();

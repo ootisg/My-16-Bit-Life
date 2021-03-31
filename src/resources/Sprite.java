@@ -1,7 +1,9 @@
 package resources;
 
+import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -362,7 +364,17 @@ public class Sprite {
 	public String getParsePath () {
 		return parsePath;
 	}
-	
+
+	public static void scale (Sprite toScale, int width, int height) {
+		for (int i = 0; i < toScale.getFrameCount(); i++) {
+			Image img = toScale.getFrame(i).getScaledInstance(width, height, Image.SCALE_FAST);
+			BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+			Graphics2D bGr = bimage.createGraphics();
+		    bGr.drawImage(img, 0, 0, null);
+		    bGr.dispose();
+			toScale.setFrame(i,bimage);
+		}
+	}
 	/**
 	 * Gets the BufferedImage associated with the given filepath.
 	 * @param path the filepath to use
@@ -394,7 +406,17 @@ public class Sprite {
 	public void setScale(boolean doesScale) {
 		this.doesScale = doesScale;
 	}
-
+	
+	//lol got this from stack overflow
+	public void setOpacity (float opacity, int frame) {
+		BufferedImage newImg = new BufferedImage (this.getFrame(frame).getWidth(), this.getFrame(frame).getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g = (Graphics2D) newImg.getGraphics();
+		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,(float) opacity);
+		g.setComposite(ac);
+		g.drawImage(this.getFrame(frame), 0, 0, newImg.getWidth(), newImg.getHeight(), null);
+		this.setFrame(frame, newImg);
+	}
+	
 	private static class CacheNode {
 		
 		/**

@@ -314,6 +314,7 @@ public class AnimationHandler {
 		this.width = width;
 		this.height = height;
 	}
+	
 	/**
 	 * Gets the frame which would be drawn at the time this method is called. Not guarenteed to be the frame that will be drawn next.
 	 * @return The current frame for this AnimationHandler
