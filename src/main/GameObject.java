@@ -139,6 +139,11 @@ public abstract class GameObject extends GameAPI {
 	 * does this get scalled by the changes of resolution
 	 */
 	private boolean doesScale = true;
+	
+	private double drawRotation;
+	private double anchorX;
+	private double anchorY;
+	
 	/**
 	 * Container and utility class for GameObject variants
 	 * @author nathan
@@ -362,7 +367,11 @@ public abstract class GameObject extends GameAPI {
 		//TODO wait what's todo about this?
 		Point drawCoords = getDrawCoords ();
 		if (drawCoords != null) {
-			animationHandler.draw (drawCoords.x, drawCoords.y);
+			if (drawRotation == 0) {
+				animationHandler.draw (drawCoords.x, drawCoords.y);
+			} else {
+				animationHandler.draw(drawCoords.x, drawCoords.y, drawRotation, anchorX, anchorY);
+			}
 			if (hiboxBorders) {
 				if (this.hitbox() != null) {
 					Graphics g = RenderLoop.window.getBufferGraphics();
@@ -373,7 +382,7 @@ public abstract class GameObject extends GameAPI {
 				}
 			}
 		}
-	}
+	}	
 	
 	/**
 	 * turns on pixel collisions
@@ -473,64 +482,67 @@ public abstract class GameObject extends GameAPI {
 	/**
 	 * uses the rotate method in animation handler to rotate the sprite also adjusts the hitbox to match (kinda)
 	 * @param rotation the angle to rotate the sprte to (actually in degrees belive it or not)
+	 * 
+	 * 
+	 * obsoluted use the rotation in sprite to get more acurate rotations
 	 */
-	public void rotateSprite (double rotation) {
-		BufferedImage working = this.getAnimationHandler().rotate(rotation,this.getSprite().getFrame(this.getAnimationHandler().getFrame()));
-		//copy pasted from stack overflow
-		  WritableRaster raster = working.getAlphaRaster();
-		    int width = raster.getWidth();
-		    int height = raster.getHeight();
-		    int left = 0;
-		    int top = 0;
-		    int right = width - 1;
-		    int bottom = height - 1;
-		    int minRight = width - 1;
-		    int minBottom = height - 1;
-
-		    top:
-		    for (;top < bottom; top++){
-		        for (int x = 0; x < width; x++){
-		            if (raster.getSample(x, top, 0) != 0){
-		                minRight = x;
-		                minBottom = top;
-		                break top;
-		            }
-		        }
-		    }
-
-		    left:
-		    for (;left < minRight; left++){
-		        for (int y = height - 1; y > top; y--){
-		            if (raster.getSample(left, y, 0) != 0){
-		                minBottom = y;
-		                break left;
-		            }
-		        }
-		    }
-
-		    bottom:
-		    for (;bottom > minBottom; bottom--){
-		        for (int x = width - 1; x >= left; x--){
-		            if (raster.getSample(x, bottom, 0) != 0){
-		                minRight = x;
-		                break bottom;
-		            }
-		        }
-		    }
-
-		    right:
-		    for (;right > minRight; right--){
-		        for (int y = bottom; y >= top; y--){
-		            if (raster.getSample(right, y, 0) != 0){
-		                break right;
-		            }
-		        }
-		    }
-
-		  working = working.getSubimage(left, top, right - left + 1, bottom - top + 1);
-		  this.setHitboxAttributes(0, 0,working.getWidth() ,working.getHeight());
-		  this.getSprite().setFrame(this.getAnimationHandler().getFrame(), working);
-	}
+//	public void rotateSprite (double rotation) {
+//		BufferedImage working = this.getAnimationHandler().rotate(rotation,this.getSprite().getFrame(this.getAnimationHandler().getFrame()));
+//		//copy pasted from stack overflow
+//		  WritableRaster raster = working.getAlphaRaster();
+//		    int width = raster.getWidth();
+//		    int height = raster.getHeight();
+//		    int left = 0;
+//		    int top = 0;
+//		    int right = width - 1;
+//		    int bottom = height - 1;
+//		    int minRight = width - 1;
+//		    int minBottom = height - 1;
+//
+//		    top:
+//		    for (;top < bottom; top++){
+//		        for (int x = 0; x < width; x++){
+//		            if (raster.getSample(x, top, 0) != 0){
+//		                minRight = x;
+//		                minBottom = top;
+//		                break top;
+//		            }
+//		        }
+//		    }
+//
+//		    left:
+//		    for (;left < minRight; left++){
+//		        for (int y = height - 1; y > top; y--){
+//		            if (raster.getSample(left, y, 0) != 0){
+//		                minBottom = y;
+//		                break left;
+//		            }
+//		        }
+//		    }
+//
+//		    bottom:
+//		    for (;bottom > minBottom; bottom--){
+//		        for (int x = width - 1; x >= left; x--){
+//		            if (raster.getSample(x, bottom, 0) != 0){
+//		                minRight = x;
+//		                break bottom;
+//		            }
+//		        }
+//		    }
+//
+//		    right:
+//		    for (;right > minRight; right--){
+//		        for (int y = bottom; y >= top; y--){
+//		            if (raster.getSample(right, y, 0) != 0){
+//		                break right;
+//		            }
+//		        }
+//		    }
+//
+//		  working = working.getSubimage(left, top, right - left + 1, bottom - top + 1);
+//		  this.setHitboxAttributes(0, 0,working.getWidth() ,working.getHeight());
+//		  this.getSprite().setFrame(this.getAnimationHandler().getFrame(), working);
+//	}
 	/** 
 	 * a method that only runs once per frame per type of game object 
 	 * the intended use is to only refrence static things so you can write a method that runs code for the entire class instead of the specific instance
@@ -1260,6 +1272,15 @@ public abstract class GameObject extends GameAPI {
 
 	public void setExcludeList(ArrayList<String> excludeList) {
 		this.excludeList = excludeList;
+	}
+	public void setDrawRotation(double drawRotation) {
+		this.drawRotation = drawRotation;
+	}
+	public void setAnchorX(double anchorX) {
+		this.anchorX = anchorX;
+	}
+	public void setAnchorY(double anchorY) {
+		this.anchorY = anchorY;
 	}
 	public class HitboxInfo {
 		double xOffset;

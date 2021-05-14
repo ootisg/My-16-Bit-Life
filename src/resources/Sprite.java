@@ -47,7 +47,7 @@ public class Sprite {
 	/**
 	 * does this get scalled by the changes of resolution
 	 */
-	private boolean doesScale = true;
+	protected boolean doesScale = true;
 	
 	/**
 	 * 
@@ -222,6 +222,7 @@ public class Sprite {
 			AffineTransform transform = new AffineTransform ();
 			transform.translate (x, y);
 			transform.rotate (rotation, anchorX, anchorY);
+			
 			draw (x, y, frame, transform);
 	}
 	public void draw (double usedX, double usedY, int frame, AffineTransform transform) {
@@ -232,6 +233,90 @@ public class Sprite {
 				windowGraphics = (Graphics2D)RenderLoop.window.getNonscalableGraphics ();
 			}
 			windowGraphics.drawImage (getFrame (frame), transform, null);
+	}
+	/**
+	 * Draws the given frame of this sprite at the given x and y coordinates.
+	 * @param usedX The x coordinate to draw this sprite at
+	 * @param usedY The y coordinate to draw this sprite at
+	 * @param frame The frame of this sprite to draw
+	 */
+	public void draw (int usedX, int usedY, int frame, BufferedImage toDraw) {
+		if (frame < images.length) {
+			toDraw.getGraphics().drawImage (images [frame], usedX, usedY, null);
+		}
+	}
+	/**
+	 * Draws the given frame of this sprite at the given x and y coordinates. with the given dimentions
+	 * @param usedX The x coordinate to draw this sprite at
+	 * @param usedY The y coordinate to draw this sprite at
+	 * @param frame The frame of this sprite to draw
+	 * @param width the width to cut the sprite off at
+	 * @param height the height to cut the sprite off at
+	 */
+	public void draw (int usedX, int usedY, int frame, int width,int height, BufferedImage toDraw) {
+		if (frame < images.length) {
+			toDraw.getGraphics().drawImage (images[frame].getSubimage(0, 0, width, height), usedX, usedY, null);
+		}
+	}
+	/**
+	 * Draws the given frame of this sprite at the given x and y coordinates.
+	 * @param usedX The x coordinate to draw this sprite at
+	 * @param usedY The y coordinate to draw this sprite at
+	 * @param flipHorizontal whether to apply horizontal flip
+	 * @param flipVertical whether to apply vertical flip
+	 * @param frame The frame of this sprite to draw
+	 */
+	public void draw (int usedX, int usedY, boolean flipHorizontal, boolean flipVertical, int frame, BufferedImage toDraw) {
+		//Yeaaaaaaah this doesn't actually do anything special right now. TODO
+		int x1, x2, y1, y2;
+		if (flipHorizontal) {
+			x1 = getFrame (frame).getWidth ();
+			x2 = 0;
+		} else {
+			x1 = 0;
+			x2 = getFrame (frame).getWidth ();
+		}
+		if (flipVertical) {
+			y1 = getFrame (frame).getHeight ();
+			y2 = 0;
+		} else {
+			y1 = 0;
+			y2 = getFrame (frame).getHeight ();
+		}
+		if (frame < images.length) {
+			toDraw.getGraphics().drawImage (getFrame (frame), usedX, usedY, usedX + getFrame (frame).getWidth (), usedY + getFrame (frame).getHeight (), x1, y1, x2, y2, null);
+		}
+	}
+	/**
+	 * Draws the given frame of this sprite at the given x and y coordinates.
+	 * @param usedX The x coordinate to draw this sprite at
+	 * @param usedY The y coordinate to draw this sprite at
+	 * @param flipHorizontal whether to apply horizontal flip
+	 * @param flipVertical whether to apply vertical flip
+	 * @param frame The frame of this sprite to draw
+	 * @param width The widht to draw too
+	 * @param height the height to draw too
+	 */
+	public void draw (int usedX, int usedY, boolean flipHorizontal, boolean flipVertical, int frame, int width, int height, BufferedImage toDraw) {
+		
+		int x1, x2, y1, y2;
+		if (flipHorizontal) {
+			x1 = getFrame (frame).getWidth ();
+			x2 = 0;
+		} else {
+			x1 = 0;
+			x2 = getFrame (frame).getWidth ();
+		}
+		if (flipVertical) {
+			y1 = getFrame (frame).getHeight ();
+			y2 = 0;
+		} else {
+			y1 = 0;
+			y2 = getFrame (frame).getHeight ();
+		}
+		if (frame < images.length) {
+			toDraw.getGraphics().drawImage (getFrame (frame).getSubimage(0, 0, width, height), usedX, usedY, usedX + getFrame(frame).getWidth(), usedY + + getFrame(frame).getHeight(), x1, y1, x2, y2, null);
+		}
 	}
 	/**
 	 * Draws the given frame of this sprite at the given x and y coordinates.

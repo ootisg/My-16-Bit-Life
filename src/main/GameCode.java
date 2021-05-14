@@ -58,6 +58,7 @@ import gameObjects.Minecart;
 import gameObjects.Plant;
 import gameObjects.Point;
 import gameObjects.SmallProjectileLauncher;
+import gameObjects.SwingingVine;
 import gameObjects.TemporaryWall;
 import graphics3D.VectorCamera;
 import gui.Gui;
@@ -205,6 +206,8 @@ public class GameCode {
 	static FallingSpike spike;
 	static Bee bee;
 	static ZombeeTreeBoss boss;
+	static SwingingVine vine;
+	
 	
 	public static int targetZoomX;
 	public static int targetZoomY;
@@ -220,7 +223,7 @@ public class GameCode {
 		targetZoomX = RenderLoop.window.getResolution()[0];
 		targetZoomY = RenderLoop.window.getResolution()[1];
 		//zoomTo (540, 320 , 4);
-		Room.loadRoom ("resources/maps/spiderTest.rmf");
+		Room.loadRoom ("resources/maps/vineTest.rm");
 		//GameObject initialization
 		player = new SoundPlayer ();
 		//fire = new FireRextinguisher ();
@@ -242,6 +245,7 @@ public class GameCode {
 		packet = new LemonPacket();
 		pad = new DashPad ();
 		cart = new Minecart ();
+		vine = new SwingingVine();
 		//bubble = new BubblePlatform();
 		//bee = new Bee ();
 		//boss = new ZombeeTreeBoss ();
@@ -382,6 +386,7 @@ public class GameCode {
 		//bubble.declare(100, 300);
 		//bee.declare (100, 180);
 		//boss.declare(850, 530);
+		
 	}
 	public static void beforeGameLogic () {
 		

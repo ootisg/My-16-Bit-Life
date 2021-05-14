@@ -1245,7 +1245,7 @@ public void setWeapon (Item weapon) {
 	public void draw () {
 		super.draw();
 		if (active) {
-		wpn.draw();
+			wpn.draw();
 		}
 	}
 	@Override

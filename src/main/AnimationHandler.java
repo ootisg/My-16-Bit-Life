@@ -141,13 +141,101 @@ public class AnimationHandler {
 						this.setFrameTime(0);
 						startFrame = frame - 1;
 					}
+					
 					image.draw ((int)x, (int)y, flipHorizontal, flipVertical, frame,width,height);
 				}
 			}
 		}
 		}
 	}
-	
+	/**
+	 * Draws the sprite's current animation frame at the given x and y coordinates.
+	 * @param x The x coordinate to draw at
+	 * @param y The y coordinate to draw at
+	 */
+	public void draw (double x, double y, double rotation, double anchorX, double anchorY) {
+		if (visible) {
+			BufferedImage temp = new BufferedImage (this.getWidth(), this.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+		if (image != null) {
+			if (frameTime == 0) {
+				startTime = RenderLoop.frameStartTime ();
+				image.draw (0,0, flipHorizontal, flipVertical, startFrame,temp);
+			} else {
+				long elapsedTime = RenderLoop.frameStartTime () - startTime;
+				int elapsedFrames = ((int)(((double)elapsedTime) / ((double)frameTime)) + startFrame);
+				if (!repeat && elapsedFrames >= image.getFrameCount ()) {
+					image.draw (0,0, flipHorizontal, flipVertical, image.getFrameCount () - 1,width,height,temp);
+				} else {
+					int frame = elapsedFrames % image.getFrameCount ();
+					if (frame == 0 && alternate && image.getFrameCount() != 1 && elapsedFrames > 1) {
+						if (!hasReversed) {
+						reverse = !reverse;
+						hasReversed = true;
+						}
+					} else {
+						hasReversed = false;
+					}
+					if (reverse) {
+						frame = (image.getFrameCount() - 1) - frame;
+					}
+					if (this.getHeight() == 32) {
+						
+					}
+					if (frame == playToo) {
+						this.setFrameTime(0);
+						startFrame = frame - 1;
+					}
+					
+					image.draw (0,0, flipHorizontal, flipVertical, frame,width,height,temp);
+				}
+			}
+		}
+		Sprite temper = new Sprite (temp);
+		temper.drawRotated((int)x, (int)y, 0, anchorX, anchorY, rotation);
+	}
+}
+	/**
+	 * Draws the sprite's current animation frame at the given x and y coordinates.
+	 * @param x The x coordinate to draw at
+	 * @param y The y coordinate to draw at
+	 */
+	public void draw (double x, double y, BufferedImage toDraw) {
+		if (visible) {
+		if (image != null) {
+			if (frameTime == 0) {
+				startTime = RenderLoop.frameStartTime ();
+				image.draw ((int)x, (int)y, flipHorizontal, flipVertical, startFrame, toDraw);
+			} else {
+				long elapsedTime = RenderLoop.frameStartTime () - startTime;
+				int elapsedFrames = ((int)(((double)elapsedTime) / ((double)frameTime)) + startFrame);
+				if (!repeat && elapsedFrames >= image.getFrameCount ()) {
+					image.draw ((int)x, (int)y, flipHorizontal, flipVertical, image.getFrameCount () - 1,width,height, toDraw);
+				} else {
+					int frame = elapsedFrames % image.getFrameCount ();
+					if (frame == 0 && alternate && image.getFrameCount() != 1 && elapsedFrames > 1) {
+						if (!hasReversed) {
+						reverse = !reverse;
+						hasReversed = true;
+						}
+					} else {
+						hasReversed = false;
+					}
+					if (reverse) {
+						frame = (image.getFrameCount() - 1) - frame;
+					}
+					if (this.getHeight() == 32) {
+						
+					}
+					if (frame == playToo) {
+						this.setFrameTime(0);
+						startFrame = frame - 1;
+					}
+					image.draw ((int)x, (int)y, flipHorizontal, flipVertical, frame,width,height, toDraw);
+				}
+			}
+		}
+		}
+	}
 	/**
 	 * Sets the image used by this AnimationHandler to the given sprite.
 	 * @param image The image to use
@@ -168,28 +256,28 @@ public class AnimationHandler {
 	public double getRotation () {
 		return currentRotation;
 	}
-	//lots of code copy pasted from stack overflow here
-	public BufferedImage rotate (double rotation, BufferedImage startImg) {
-		double workingRotation = rotation - currentRotation;
-		currentRotation = currentRotation + workingRotation;
-		double rads = Math.toRadians(workingRotation);
-		double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
-		int w = startImg.getWidth();
-		int h = startImg.getHeight();
-		int newWidth = (int) Math.floor(w * cos + h * sin);
-        int newHeight = (int) Math.floor(h * cos + w * sin);
-		BufferedImage newImg = new BufferedImage (newWidth,newHeight,startImg.getType());
-		Graphics2D graphic = newImg.createGraphics();
-		AffineTransform at = new AffineTransform();
-		at.translate((newWidth - w) / 2, (newHeight - h) / 2);
-        int x = w / 2;
-        int y = h / 2;
-        at.rotate(rads, x, y);
-        graphic.setTransform(at);
-	    graphic.drawImage(startImg, 0, 0, null);
-		graphic.dispose();
-		return newImg;
-	}
+	//lots of code copy pasted from stack overflow here (obsouleted use the method in sprite instead)
+//	public BufferedImage rotate (double rotation, BufferedImage startImg) {
+//		double workingRotation = rotation - currentRotation;
+//		currentRotation = currentRotation + workingRotation;
+//		double rads = Math.toRadians(workingRotation);
+//		double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
+//		int w = startImg.getWidth();
+//		int h = startImg.getHeight();
+//		int newWidth = (int) Math.floor(w * cos + h * sin);
+//        int newHeight = (int) Math.floor(h * cos + w * sin);
+//		BufferedImage newImg = new BufferedImage (newWidth,newHeight,startImg.getType());
+//		Graphics2D graphic = newImg.createGraphics();
+//		AffineTransform at = new AffineTransform();
+//		at.translate((newWidth - w) / 2, (newHeight - h) / 2);
+//        int x = w / 2;
+//        int y = h / 2;
+//        at.rotate(rads, x, y);
+//        graphic.setTransform(at);
+//	    graphic.drawImage(startImg, 0, 0, null);
+//		graphic.dispose();
+//		return newImg;
+//	}
 	/**
 	 * Sets the image used by this AnimationHandler to the given sprite, and restarts the animation from the beginning.
 	 * @param image The image to use

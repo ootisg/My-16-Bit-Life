@@ -13,6 +13,6 @@ public class NonPlayableRyan extends LegacyNPC {
 	}
 	@Override
 	public String checkEntry () {
-		return "LIKES TO USE SONG POWER KNOWN TO FALL DOWN SOMETIMES";
+		return "LIKES TO USE SONG POWER. KNOWN TO FALL DOWN SOMETIMES";
 	}
 }

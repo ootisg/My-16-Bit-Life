@@ -7,13 +7,13 @@ import players.Jeffrey;
 import resources.LoopableSprite;
 import resources.Sprite;
 
-public class Vine extends GameObject {
+public class CodeVine extends GameObject {
 	Warning warn;
 	LoopableSprite vineSprite;
 	int desX = 0;
 	int desY = 0;
 	int tempY = 0;
-	public Vine() {
+	public CodeVine() {
 		vineSprite = new LoopableSprite(new Sprite ("resources/sprites/config/vineSegment.txt"),0,45,0,0);
 		vineSprite.addEndSprite(new Sprite ("resources/sprites/config/vineTop.txt"));
 		this.setHitboxAttributes(0, -15, 15, 13);

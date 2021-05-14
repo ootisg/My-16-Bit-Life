@@ -143,7 +143,7 @@ public class Tbox extends GameObject {
 				} else {
 					AfterRenderDrawer.drawAfterRender((x + (xi % width) * 8) - Room.getViewX(), y + (yi / calcwidth) * 8 + 8 - Room.getViewY(),font, (int)text.charAt(startPos + i)); 
 				}
-			if ((int)text.charAt(startPos + i) == 46) {
+			if ((int)text.charAt(startPos + i) == 10) {
 				xi = -3;
 				calcwidth = calcwidth + 3;
 				yi = calcwidth * ((yi/calcwidth) + 1);

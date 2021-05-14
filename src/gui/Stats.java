@@ -76,13 +76,13 @@ public class Stats extends GameObject {
 			sprites.hearts.draw ((numHearts - 1) * 16, 0);
 		}*/
 		try {
-			if (Jeffrey.getActiveJeffrey().witchCharictar == 0) {
+			if (Jeffrey.witchCharictar == 0) {
 			charictarName.setContent("JEFFREY");
 			}
-			if (Jeffrey.getActiveJeffrey().witchCharictar == 1) {
+			if (Jeffrey.witchCharictar == 1) {
 			charictarName.setContent("SAM");
 			}
-			if (Jeffrey.getActiveJeffrey().witchCharictar == 2) {
+			if (Jeffrey.witchCharictar == 2) {
 			charictarName.setContent("RYAN");
 			}
 			weaponName.setContent(Jeffrey.getActiveJeffrey().getWeapon().checkName());

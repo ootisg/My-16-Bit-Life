@@ -42,7 +42,7 @@ public class NPC extends GameObject {
 				this.setSprite(new Sprite ("resources/sprites/config/point_guy.txt"));
 				this.getAnimationHandler().setFrameTime(100);
 			}
-			this.setHitboxAttributes(0, 0, this.getSprite().getWidth(), this.getSprite().getHeight());
+			this.setHitboxAttributes(-2, 0, this.getSprite().getWidth() + 4, this.getSprite().getHeight());
 			inzalized = true;
 		}
 		try {

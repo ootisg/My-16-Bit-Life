@@ -2,6 +2,7 @@ package main;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.KeyEventDispatcher;
@@ -15,6 +16,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
@@ -38,6 +40,9 @@ public class GameWindow extends JFrame {
 	 * another image that is not scalled by resolution
 	 */
 	private BufferedImage nonScallableBuffer;
+	
+	
+	private ArrayList <BufferedImage> inGameBufferes = new ArrayList <BufferedImage>();
 	/**
 	 * The InputManager used to detect input for this window
 	 */
@@ -73,20 +78,22 @@ public class GameWindow extends JFrame {
 	public void refresh () {
 		
 		
-		
 		Graphics2D bufferGraphics = (Graphics2D) getNonscalableGraphics ();
 		
-		BufferedImage temp = new BufferedImage (getContentPane().getWidth(),getContentPane().getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+		
+		BufferedImage temp = new BufferedImage (getContentPane().getSize().width,getContentPane().getSize().height, BufferedImage.TYPE_4BYTE_ABGR);
 		
 		Graphics tempGraphics = temp.getGraphics();
 		refreshScalableBuffer(tempGraphics);
-		
-		// may cause lag I haven't run extensive enogh tests to tell yet
-		tempGraphics.drawImage (nonScallableBuffer, 0, 0, getContentPane ().getWidth (), getContentPane ().getHeight (), null);
+		refreshForignBuffer(tempGraphics);
+	
+		tempGraphics.drawImage (nonScallableBuffer, 0, 0, getContentPane().getSize().width,getContentPane().getSize().height, null);
 		bufferGraphics.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
 		bufferGraphics.fillRect (0, 0, nonScallableBuffer.getWidth (), nonScallableBuffer.getHeight ());
 		
 		this.refreshFinal(temp);
+		
+		
 	}
 	
 	/**
@@ -94,15 +101,22 @@ public class GameWindow extends JFrame {
 	 */
 	public void refreshScalableBuffer (Graphics tempGraphics) {
 		Graphics bufferGraphics = getBufferGraphics ();
-		tempGraphics.drawImage (buffer, 0, 0, getContentPane ().getWidth (), getContentPane ().getHeight (), null);	
+		tempGraphics.drawImage (buffer, 0, 0, getContentPane().getSize().width,getContentPane().getSize().height, null);	
 		
 		bufferGraphics.setColor (new Color (0xC0C0C0));
 		bufferGraphics.fillRect (0, 0, buffer.getWidth (), buffer.getHeight ());
 	}
 	
+	public void refreshForignBuffer (Graphics tempGraphics) {
+		for (int i = 0; i < inGameBufferes.size(); i++) {
+			tempGraphics.drawImage (inGameBufferes.get(i), 0, 0, getContentPane().getSize().width,getContentPane().getSize().height, null);	
+		}
+		inGameBufferes = new ArrayList <BufferedImage> ();
+	}
+	
 	public void refreshFinal(BufferedImage img) {
 		Graphics windowGraphics = getContentPane ().getGraphics ();	
-		windowGraphics.drawImage (img, 0, 0, getContentPane ().getWidth (), getContentPane ().getHeight (), null);
+		windowGraphics.drawImage (img, 0, 0, getContentPane().getSize().width,getContentPane().getSize().height, null);
 	}
 	
 	/**
@@ -120,6 +134,9 @@ public class GameWindow extends JFrame {
 		return nonScallableBuffer.getGraphics ();
 	}
 	
+	public void renderForignBuffer (BufferedImage toRender) {
+		inGameBufferes.add(toRender);
+	}
 	
 	/**
 	 * Gets the BufferedImage used to draw to this GameWindow
@@ -136,7 +153,6 @@ public class GameWindow extends JFrame {
 	public int[] getResolution () {
 		return new int[] {buffer.getWidth (), buffer.getHeight ()};
 	}
-	
 	/**
 	 * Sets the resolution of the buffer to the given width and height; erases its contents.
 	 * @param width The width to use, in pixels

@@ -155,7 +155,7 @@ public class LegacyNPC extends NPC{
 				amountOfItemMessages = i;
 				if (this.getVariantAttribute("itemNeeded") !=null) {
 					try {
-						  Object itemToUse = Class.forName(this.getVariantAttribute("itemNeeded")).newInstance();
+						  Object itemToUse = Class.forName(this.getVariantAttribute("itemNeeded"));
 						  int amountToCheck;
 						  if(this.getVariantAttribute("amountToCheck") != null) {
 							  amountToCheck = Integer.parseInt(this.getVariantAttribute("amountToCheck"));

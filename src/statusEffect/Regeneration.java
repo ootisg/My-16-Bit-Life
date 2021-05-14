@@ -32,7 +32,7 @@ public class Regeneration extends GameObject {
 						}
 					}
 					DamageText text;
-					text = new DamageText (1, Jeffrey.getActiveJeffrey().getX(), Jeffrey.getActiveJeffrey().getY(), true);
+					text = new DamageText (1, Jeffrey.getActiveJeffrey().getX(), Jeffrey.getActiveJeffrey().getY(), 1);
 					text.declare(0,0);
 					timer = timer + 1;
 		}
