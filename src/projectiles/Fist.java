@@ -1,5 +1,6 @@
 package projectiles;
 
+import java.awt.Point;
 import java.util.Random;
 
 import enemys.Enemy;
@@ -21,6 +22,7 @@ public class Fist extends Projectile {
 		RNG = new Random ();
 		this.getAnimationHandler().setFrameTime(10);
 		this.setHitboxAttributes (0, 0, 24, 14);
+		this.useLookingMode2();
 	}
 	@Override 
 	public void frameEvent () {
@@ -43,17 +45,20 @@ public class Fist extends Projectile {
 	@Override
 	public void projectileFrame () {
 		if (firstRun) {
-			if (this.getDirection() > 1.57 && this.getDirection() < 4.71) {
-				this.getAnimationHandler().setFlipHorizontal(true);
-			}
 			firstRun = false;
 		}
 		if (guyToFuckUp != null) {
+			
+			
 			DirectionBullet bullet = new DirectionBullet(this.getX(), this.getY());
 			this.setDirection(bullet.findDirection(guyToFuckUp));
+			
+			this.lookTowards(new Point ((int)guyToFuckUp.getX(),(int)guyToFuckUp.getY()));
+			
 			if (!guyToFuckUp.declared()) {
 				guyToFuckUp = null;
 			}
+			
 		} else {
 			double distance = 42000000;
 			for (int i = 0;  i <Enemy.enemyList.size(); i++) {

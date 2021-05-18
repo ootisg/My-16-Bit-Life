@@ -23,6 +23,7 @@ import enemys.Enemy;
 import enemys.FallingChandleer;
 import enemys.FireHydrant;
 import enemys.FireRextinguisher;
+import enemys.FishRing;
 import enemys.FlowerEnemy;
 import enemys.GreenBlob;
 import enemys.ImpatientCar;
@@ -48,6 +49,7 @@ import gameObjects.CarSpawner;
 import gameObjects.DarkOverlay;
 import gameObjects.DashPad;
 import gameObjects.FallingSpike;
+import gameObjects.FishHook;
 import gameObjects.Glider;
 import gameObjects.HitboxRightBottomBound;
 import gameObjects.Ladder;
@@ -208,6 +210,9 @@ public class GameCode {
 	static ZombeeTreeBoss boss;
 	static SwingingVine vine;
 	
+	static FishHook hook;
+	
+	static FishRing ring;
 	
 	public static int targetZoomX;
 	public static int targetZoomY;
@@ -246,6 +251,7 @@ public class GameCode {
 		pad = new DashPad ();
 		cart = new Minecart ();
 		vine = new SwingingVine();
+		hook = new FishHook ();
 		//bubble = new BubblePlatform();
 		//bee = new Bee ();
 		//boss = new ZombeeTreeBoss ();
@@ -298,6 +304,7 @@ public class GameCode {
 		fan = new Fan();
 		bag = new PopcornBag();
 		bom = new Bomb();
+		ring = new FishRing ();
 		while (x <40) {
 		Jeffrey.inventory.addAmmo(bom);
 		Jeffrey.inventory.addAmmo(bag);
@@ -386,6 +393,8 @@ public class GameCode {
 		//bubble.declare(100, 300);
 		//bee.declare (100, 180);
 		//boss.declare(850, 530);
+		
+		ring.declare(300,350);
 		
 	}
 	public static void beforeGameLogic () {

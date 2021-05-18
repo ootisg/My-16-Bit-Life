@@ -60,23 +60,14 @@ public class ColidableVector {
 			Point pt4 = new Point (hitbox.x + hitbox.width, hitbox.y + hitbox.height);
 			
 			boolean aboveOrBelow; // below = true above = false;
-			boolean leftOrRight; // left = true right = false;
-			
 			
 			Point linePoint1 = new Point (pt1.x, (int)(startPoint.y + ((pt1.x - startPoint.x) * slope)));
 			
 			aboveOrBelow = linePoint1.y > pt1.y;
-			leftOrRight = linePoint1.x > pt1.x;
 			
 			Point linePoint2 = new Point (pt2.x, (int)(startPoint.y + ((pt2.x - startPoint.x) * slope)));
 			
 			if ((aboveOrBelow && linePoint2.y < pt2.y) || (linePoint2.y > pt2.y && !aboveOrBelow)) {
-				return true;
-			}
-			
-			Point linePoint6 = new Point ( startPoint.x + (int)((pt2.y - startPoint.y) * 1/slope), pt2.y);
-			
-			if ((leftOrRight && linePoint6.x < pt2.x) || (linePoint6.x > pt2.x && !leftOrRight)) {
 				return true;
 			}
 			
@@ -86,24 +77,11 @@ public class ColidableVector {
 				return true;
 			}
 			
-			Point linePoint7 = new Point ( startPoint.x  + (int)((pt3.y - startPoint.y) * 1/slope), pt3.y);
-			
-			if ((leftOrRight && linePoint7.x < pt3.x) || (linePoint7.x > pt3.x && !leftOrRight)) {
-				return true;
-			}
-			
 			Point linePoint4 = new Point (pt4.x, (int)(startPoint.y + ((pt4.x - startPoint.x) * slope)));
 			
 			if ((aboveOrBelow && linePoint4.y < pt4.y) || (linePoint4.y > pt4.y && !aboveOrBelow)) {
 				return true;
 			}
-			
-			Point linePoint8 = new Point ( startPoint.x + (int)((pt4.y - startPoint.y) * 1/slope), pt4.y);
-			
-			if ((leftOrRight && linePoint8.x < pt4.x) || (linePoint8.x > pt4.x && !leftOrRight)) {
-				return true;
-			}
-			
 			
 		} 
 		return false;

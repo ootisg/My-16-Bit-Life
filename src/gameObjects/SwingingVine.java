@@ -11,7 +11,7 @@ import resources.LoopableSprite;
 import resources.Sprite;
 import java.awt.Point;
 
-public class SwingingVine extends GameObject {
+public class SwingingVine extends GrabbableObject {
 	
 	double roatationFactor = 1;
 	double speed = 0;
@@ -51,7 +51,7 @@ public class SwingingVine extends GameObject {
 	
 	@Override
 	public void frameEvent () {
-		Jeffrey j = Jeffrey.getActiveJeffrey();
+	
 		
 		roatationFactor = roatationFactor + speed;
 		
@@ -60,64 +60,63 @@ public class SwingingVine extends GameObject {
 		} else {
 			speed = speed + 0.01;
 		}
+		super.frameEvent();
+	}
+	
+	@Override
+	public void onGrab() {
+		Jeffrey j = Jeffrey.getActiveJeffrey();
 		
-		if (this.isColliding(j) && keyDown (' ')) {
-			grabbedOn = true;
-			j.stopFall(true);
-			j.bindLeft = true;
-			j.bindRight = true;
-			j.vx = 0;
+		contactHeight = Math.sqrt(Math.pow((j.getY() - this.getY()),2) + Math.pow((j.getX()  - this.getX()),2));
+	}
+	@Override
+	public void onRelease () {
+		Jeffrey j = Jeffrey.getActiveJeffrey();
+		
+		j.vx = Math.cos(roatationFactor + (3*Math.PI)/2) * -contactHeight/7;
+		j.vy = Math.sin(roatationFactor + (3*Math.PI)/2) * contactHeight/7;
+		j.setDrawRotation(0);
+	}
+	
+	@Override
+	public void whileGrabbed() {
+		Jeffrey j = Jeffrey.getActiveJeffrey();
+		
+		j.setX(this.getX() - contactHeight* Math.cos(roatationFactor + (3*Math.PI)/2));
+		j.setY(this.getY() - contactHeight* Math.sin(roatationFactor + (3*Math.PI)/2));
+		
+		j.setDrawRotation(roatationFactor);
+		
+		if (keyDown('W')) {
+			if (j.goY(j.getY() - 3)) {
+			
+			Point start3 = new Point ((int)(this.getX() - Math.cos(roatationFactor + (3*Math.PI/2)) + VINE_WIDTH/2),(int) (this.getY() - Math.sin(roatationFactor + (3*3.14)/2)));
+			Point end3 = new Point ((int)(this.getX() - height* Math.cos(roatationFactor + (3*Math.PI)/2) + VINE_WIDTH/2), (int)(this.getY() - height * Math.sin(roatationFactor + (3*3.14)/2)));
+			ColidableVector vSlope = new ColidableVector (start3,end3);
+			
+			double slope = vSlope.getSlope();
+			
+			j.goX(j.getX() - 3/slope);
 			contactHeight = Math.sqrt(Math.pow((j.getY() - this.getY()),2) + Math.pow((j.getX()  - this.getX()),2));
+			}
 		}
-		if (grabbedOn && !keyDown(' ')) {
-			grabbedOn = false;
-			j.bindLeft = false;
-			j.bindRight = false;
-			j.stopFall(false); 
-			j.setDrawRotation(0);
-			
-			//TODO factor speed into this somehow
-			j.vx = Math.cos(roatationFactor + (3*Math.PI)/2) * -contactHeight/7;
-			j.vy = Math.sin(roatationFactor + (3*Math.PI)/2) * contactHeight/7;
-		}
-		if (grabbedOn) {
-			j.setX(this.getX() - contactHeight* Math.cos(roatationFactor + (3*Math.PI)/2));
-			j.setY(this.getY() - contactHeight* Math.sin(roatationFactor + (3*Math.PI)/2));
-			
-			j.setDrawRotation(roatationFactor);
-			
-			if (keyDown('W')) {
-				if (j.goY(j.getY() - 3)) {
-				
+		if (keyDown('S')) {
+			if (j.goY(j.getY() + 3)) {
 				Point start3 = new Point ((int)(this.getX() - Math.cos(roatationFactor + (3*Math.PI/2)) + VINE_WIDTH/2),(int) (this.getY() - Math.sin(roatationFactor + (3*3.14)/2)));
 				Point end3 = new Point ((int)(this.getX() - height* Math.cos(roatationFactor + (3*Math.PI)/2) + VINE_WIDTH/2), (int)(this.getY() - height * Math.sin(roatationFactor + (3*3.14)/2)));
 				ColidableVector vSlope = new ColidableVector (start3,end3);
 				
 				double slope = vSlope.getSlope();
-				
-				j.goX(j.getX() - 3/slope);
+				j.goX(j.getX() + 3/slope);
 				contactHeight = Math.sqrt(Math.pow((j.getY() - this.getY()),2) + Math.pow((j.getX()  - this.getX()),2));
-				}
-			}
-			if (keyDown('S')) {
-				if (j.goY(j.getY() + 3)) {
-					Point start3 = new Point ((int)(this.getX() - Math.cos(roatationFactor + (3*Math.PI/2)) + VINE_WIDTH/2),(int) (this.getY() - Math.sin(roatationFactor + (3*3.14)/2)));
-					Point end3 = new Point ((int)(this.getX() - height* Math.cos(roatationFactor + (3*Math.PI)/2) + VINE_WIDTH/2), (int)(this.getY() - height * Math.sin(roatationFactor + (3*3.14)/2)));
-					ColidableVector vSlope = new ColidableVector (start3,end3);
-					
-					double slope = vSlope.getSlope();
-					j.goX(j.getX() + 3/slope);
-					contactHeight = Math.sqrt(Math.pow((j.getY() - this.getY()),2) + Math.pow((j.getX()  - this.getX()),2));
-					if (contactHeight > height) {
-						contactHeight = height;
-						j.setX(j.getX() - 3/slope);
-						j.setY(j.getY() - 3);
-					}
+				if (contactHeight > height) {
+					contactHeight = height;
+					j.setX(j.getX() - 3/slope);
+					j.setY(j.getY() - 3);
 				}
 			}
 		}
 	}
-	
 	
 	@Override
 	public void draw () {

@@ -144,6 +144,14 @@ public abstract class GameObject extends GameAPI {
 	private double anchorX;
 	private double anchorY;
 	
+	double prevAngle;
+	
+	Point iris;
+	
+	private Point focusPoint = null;
+	
+	private int lookingMode = 1;
+	
 	/**
 	 * Container and utility class for GameObject variants
 	 * @author nathan
@@ -366,12 +374,34 @@ public abstract class GameObject extends GameAPI {
 	public void draw () {
 		//TODO wait what's todo about this?
 		Point drawCoords = getDrawCoords ();
-		if (drawCoords != null) {
-			if (drawRotation == 0) {
-				animationHandler.draw (drawCoords.x, drawCoords.y);
-			} else {
-				animationHandler.draw(drawCoords.x, drawCoords.y, drawRotation, anchorX, anchorY);
+		if (focusPoint == null) {
+			if (drawCoords != null) {
+				if (drawRotation == 0) {
+					animationHandler.draw (drawCoords.x, drawCoords.y);
+				} else {
+					animationHandler.draw(drawCoords.x, drawCoords.y, drawRotation, anchorX, anchorY);
+				}
 			}
+		} else {
+			double angle;
+			
+			if (iris == null) {
+				iris = new Point (0, this.getSprite().getHeight()/2);
+			}
+			angle = Math.atan2(focusPoint.getY() - (iris.y + this.getY()), focusPoint.getX() - (iris.x + this.getX()));
+			
+			if ((angle != prevAngle && angle != -prevAngle)) {
+				
+				if (lookingMode == 1) {
+					this.getSprite().drawRotated((int)this.getX() - Room.getViewX(), (int)this.getY() - Room.getViewY(), this.getAnimationHandler().getFrame(), this.getSprite().getWidth()/2, this.getSprite().getHeight()/2, angle - Math.PI);
+				} else {
+					this.getSprite().drawRotated((int)this.getX() - Room.getViewX(), (int)this.getY() - Room.getViewY(), this.getAnimationHandler().getFrame(), this.getSprite().getWidth()/2, this.getSprite().getHeight()/2, angle);
+				}
+				
+				angle = prevAngle;
+				iris = new Point ((int) (this.getSprite().getWidth()/2 + (iris.x - this.getSprite().getWidth()/2)*Math.cos(angle) - (iris.y - this.getSprite().getHeight()/2) * Math.sin(angle)), (int) (this.getSprite().getHeight()/2 + (iris.x - this.getSprite().getWidth()/2)*Math.sin(angle) + (iris.y - this.getSprite().getHeight()/2)*Math.cos(angle))); 
+			}
+		}
 			if (hiboxBorders) {
 				if (this.hitbox() != null) {
 					Graphics g = RenderLoop.window.getBufferGraphics();
@@ -382,7 +412,9 @@ public abstract class GameObject extends GameAPI {
 				}
 			}
 		}
-	}	
+	public void lookTowards (Point point) {
+		focusPoint = point;
+	}
 	
 	/**
 	 * turns on pixel collisions
@@ -1281,6 +1313,10 @@ public abstract class GameObject extends GameAPI {
 	}
 	public void setAnchorY(double anchorY) {
 		this.anchorY = anchorY;
+	}
+	//if looking mode 1 doesen't work try looking mode 2
+	public void useLookingMode2() {
+		this.lookingMode = 2;
 	}
 	public class HitboxInfo {
 		double xOffset;

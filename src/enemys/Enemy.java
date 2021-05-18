@@ -70,7 +70,7 @@ public abstract class Enemy extends BreakableObject {
 		enemyFrame ();
 		super.frameEvent();
 		
-		//'pick up' dropped items
+		//'pick up' dropped items (this is incorrect)
 		timer = timer + 1;
 		if (timer == 2) {
 			if (this.isCollidingChildren("Item")) {

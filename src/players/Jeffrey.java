@@ -627,7 +627,7 @@ public void setWeapon (Item weapon) {
 			getAnimationHandler ().setFrameTime (50);
 			}
 		}
-		if (!onLadder) {
+		if (!onLadder && fallBruh) {
 			if (!standingOnPlatform) {
 		if (keyDown(32) || forceSpacebar) {
 			vy += Room.getGravity ();

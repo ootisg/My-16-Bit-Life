@@ -46,7 +46,7 @@ public class redBlackPaintBallGun extends AimableWeapon {
 		fisticonSprite = new Sprite ("resources/sprites/config/fistIcon.txt");
 		paint = new BluePaint ();
 		this.cooldown = 0;
-		upgradeInfo = new int [] {0,0,0,0};
+		upgradeInfo = new int [] {0,0,0,1};
 		testball = new RedBlackPaintBall ();
 		this.setSprite(gunSprite);
 	}
