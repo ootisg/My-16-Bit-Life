@@ -703,21 +703,24 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			importTileset(tilesetNameArray[i]);
 		}
 		//import all backgrounds
-		
-		for(int i = backgroundList.length - 1; i >=0; i--) {
+	
+		for(int i = 0; i < backgroundList.length; i++) {
 			Background newBackground;
 			if (!backgroundList[i].equals("_NULL")) {
+				newBackground = new Background ("resources/backgrounds/" +backgroundList[i]);
+				i = i + 1;
+				double scrollHorizontal = Double.parseDouble(backgroundList[i]);
+				i = i + 1;
 				double scrollVertical = Double.parseDouble(backgroundList[i]);
-				double scrollHorizontal = Double.parseDouble(backgroundList[--i]);
-				newBackground = new Background ("resources/backgrounds/" +backgroundList[--i]);
 				newBackground.setScrollRateHorizontal(scrollHorizontal);
 				newBackground.setScrollRateVertiacal(scrollVertical);
 				backgrounds.add(newBackground);
-				
 			} else {
 				backgrounds.add(null);
 			}
 		}
+		
+		
 		
 		//importing tiles
 		int amountOfTiles = tileIcons.size();
@@ -743,11 +746,11 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			}
 		}
 		//sets up the collsion layer right
-		//for (int i = 0; i < numLayers; i++) {
-			//if (backgrounds.get(i) == null){
-			//	collisionLayer = i;
-		//	}
-	//	}
+//		for (int i = 0; i < numLayers; i++) {
+//			if (backgrounds.get(i) == null){
+//				collisionLayer = i;
+//			}
+//		}
 		//importing objects
 		int widthByteCount = getByteCount(mapWidth);
 		int heightByteCount = getByteCount(mapHeight);
@@ -767,7 +770,7 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 		// used to spawn a Jeffrey by default but conflicts with topdown maps that don't need one
 		if (ObjectHandler.getObjectsByName("Jeffrey") == null) {
 			Jeffrey j = new Jeffrey ();
-			j.declare(0, 0);
+			j.declare(64, 0);
 			j.active = true;
 		}
 		if (ObjectHandler.getObjectsByName("Jeffrey") != null) {
@@ -1079,34 +1082,42 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 				layerClassfications.add(0);
 			} else {
 			int mappedLayerIndex = 0;
+			
+			//really confusing code I tried to comment it out, but my guess is Imma have to figure this one out again someday (but Ill at least be able to do it with an RGB gamer keyboard)
 			for (int i = 0; i < numLayers; i++) {
 				if (isSpecialLayer(i)) {
 					boolean extraImage =false;
-					if (i!= 0) {
+					if (i != 0) {
 						if (!isSpecialLayer (i-1)) {
 							mappedLayerIndex = mappedLayerIndex + 1;
 							extraImage = true;
 						}
 					}
+					// set the preious layer classification
 					layerClassfications.add(mappedLayerIndex);
-					if (i != numLayers) {
-						
-						valid.add(false);
-						renderedImages.add(null);
-					}
+					
+					// makes an image for this previous layer
+					valid.add(false);
+					renderedImages.add(null);
 					mappedLayerIndex = mappedLayerIndex +1;
-					if (extraImage) {
+					
+					//makes an image for this layer if nessasary
+					if (extraImage && i != numLayers - 1) {
 						valid.add(false);
 						renderedImages.add(null);
 					}
 				} else {
+					//use the same layer for the previous one and the one before that
 					layerClassfications.add(mappedLayerIndex);
-					
 				}
 			}
-			}
+			
+			//makes an image for the final layer
 			valid.add(false);
 			renderedImages.add(null);
+			
+			}
+			
 		}
 		/**
 		 * returns whearer or not this layer can be rendered with all the rest

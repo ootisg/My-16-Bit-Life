@@ -41,7 +41,6 @@ public class Background {
 		//Get the JSON path
 		String noExtPath = filepath.split ("\\.")[0];
 		String[] splitPath = noExtPath.split("/|\\\\");
-		System.out.println (splitPath.length);
 		splitPath [splitPath.length - 1] = "config/" + splitPath [splitPath.length - 1] + ".json";
 		String jsonPath = String.join("/", splitPath);
 		
