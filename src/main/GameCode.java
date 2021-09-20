@@ -228,7 +228,7 @@ public class GameCode {
 		targetZoomX = RenderLoop.window.getResolution()[0];
 		targetZoomY = RenderLoop.window.getResolution()[1];
 		//zoomTo (540, 320 , 4);
-		Room.loadRoom ("resources/maps/bubbletest2.rmf");
+		Room.loadRoom ("resources/maps/bubbletest4.rmf");
 		//GameObject initialization
 		player = new SoundPlayer ();
 		//fire = new FireRextinguisher ();
@@ -394,7 +394,7 @@ public class GameCode {
 		//bee.declare (100, 180);
 		//boss.declare(850, 530);
 		
-		ring.declare(300,350);
+		//ring.declare(300,350);
 		
 	}
 	public static void beforeGameLogic () {
