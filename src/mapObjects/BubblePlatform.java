@@ -29,7 +29,7 @@ public class BubblePlatform extends CarryObject {
 	public BubblePlatform (double intzialSpeed) {
 		inzialSpeed = intzialSpeed;
 		this.setSprite(bubble);
-		this.setHitboxAttributes(0, 0, 16, 16);
+		this.setHitboxAttributes(0, 0, 32, 32);
 		this.getAnimationHandler().setFrameTime(0);
 		this.setGameLogicPriority(-3);
 		this.suffocateObjects(false);
@@ -44,9 +44,9 @@ public class BubblePlatform extends CarryObject {
 		if (Room.isColliding(this)) {
 			forget();
 		}
-		this.setHitboxAttributes(0, -3, 16, 16);
+		this.setHitboxAttributes(0, -3, 32, 32);
 		this.isCollidingChildren("GameObject");
-		this.setHitboxAttributes(0, 0, 16, 16);
+		this.setHitboxAttributes(0, 0, 32, 32);
 		ArrayList <GameObject> collidingObjects = this.getCollisionInfo().getCollidingObjects();
 		for (int i = 0; i < collidingObjects.size(); i++) {
 			if (!collidingObjects.get(i).isPushable()) {
