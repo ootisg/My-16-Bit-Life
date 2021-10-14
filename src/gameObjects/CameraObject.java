@@ -6,7 +6,7 @@ import main.GameObject;
 import main.ObjectHandler;
 import main.RenderLoop;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import switches.Activateable;
 
 public class CameraObject extends GameObject implements Activateable {
@@ -143,12 +143,12 @@ public class CameraObject extends GameObject implements Activateable {
 			CameraObject working = (CameraObject) iter.next();
 			working.giveUpControlToOtherCameraObject();
 		}
-		Jeffrey.setScroll(false);
+		Player.getActivePlayer().setScroll(false);
 		inControl = true;
 	}
 	public void giveUpControl () {
-		Jeffrey.setScroll(true);
-		Jeffrey.getActiveJeffrey().inzializeCamera();
+		Player.getActivePlayer().setScroll(true);
+		Player.getActivePlayer().inzializeCamera();
 		inControl = false;
 	}
 	public void giveUpControlToOtherCameraObject () {

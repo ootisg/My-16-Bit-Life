@@ -1,7 +1,7 @@
 package enemys;
 
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 import weapons.AimableWeapon;
 import weapons.CrabGun;
@@ -11,7 +11,7 @@ public class CyclopesCrab extends Enemy {
 	public static final Sprite crabLeft = new Sprite ("resources/sprites/config/Cyclops_Crab_1_Left.txt");
 	public static final Sprite crabRight = new Sprite ("resources/sprites/config/Cyclops_Crab_1_Right.txt");
 	public static final Sprite crabTurning = new Sprite ("resources/sprites/config/Cyclops_Crab_1_Turning.txt");
-	public static final Sprite crabGun = new Sprite ("resources/sprites/crab_gun.png");
+
 	public static final Sprite crabGunFiring = new Sprite ("resources/sprites/config/Cyclops_Crab_Gun_Firing.txt");
 	public static final Sprite crabGunBullet = new Sprite ("resources/sprites/config/Cyclops_Crab_Gun_Bullet.txt");
 	private boolean firstRun = true;
@@ -45,13 +45,13 @@ public class CyclopesCrab extends Enemy {
 		} catch (NullPointerException e) {
 			
 		}
-		otherGun = new CrabGun (crabGun);
-		gun = new CrabGun (crabGun);
+		otherGun = new CrabGun ();
+		gun = new CrabGun ();
 		
 	}
 	@Override 
 	public String checkName () {
-		return "CYCLOPSE CRAB";
+		return "CYCLOPES CRAB";
 	}
 	@Override
 	public String checkEntry () {
@@ -84,9 +84,9 @@ public class CyclopesCrab extends Enemy {
 		height = 0;
 		boolean toClimbOrNotToClimb;
 		toClimbOrNotToClimb = false;
-		if (Jeffrey.getActiveJeffrey().getX() - this.getX() < 75 && Jeffrey.getActiveJeffrey().getY() - this.getY() < 370){
-			if (Jeffrey.getActiveJeffrey().getX() >= this.getX()){
-				if (Jeffrey.getActiveJeffrey().getX() - this.getX() > 4){
+		if (Player.getActivePlayer().getX() - this.getX() < 75 && Player.getActivePlayer().getY() - this.getY() < 370){
+			if (Player.getActivePlayer().getX() >= this.getX()){
+				if (Player.getActivePlayer().getX() - this.getX() > 4){
 					if (!stuck){
 					this.setX(getX() + 1.5);
 					}
@@ -100,7 +100,7 @@ public class CyclopesCrab extends Enemy {
 				}
 			}		
 		} else {
-				if (Jeffrey.getActiveJeffrey().getX() - this.getX() < 4){
+				if (Player.getActivePlayer().getX() - this.getX() < 4){
 				if (!stuck){
 				this.setX(getX() - 1.5);
 				}

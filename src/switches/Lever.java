@@ -1,7 +1,6 @@
 package switches;
 
-import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class Lever extends Switch {
@@ -14,7 +13,7 @@ public class Lever extends Switch {
 	@Override
 	public void frameEvent () {
 		super.frameEvent();
-		if (Jeffrey.getActiveJeffrey().isColliding(this) && keyPressed(10)) {
+		if (Player.getActivePlayer().isColliding(this) && keyPressed(10)) {
 			if (this.isActivated()) {
 				this.getAnimationHandler().setAnimationFrame(0);
 				this.onFlip();

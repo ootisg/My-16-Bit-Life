@@ -22,11 +22,16 @@ import gameObjects.Ladder;
 import gameObjects.TemporaryWall;
 import gui.Gui;
 import main.GameAPI;
+import main.GameCode;
 import main.GameObject;
 import main.GameObject.HitboxInfo;
 import main.ObjectHandler;
 import mapObjects.MapObject;
 import players.Jeffrey;
+import players.Party;
+import players.Player;
+import players.Ryan;
+import players.Sam;
 import resources.Sprite;
 import resources.SpriteParser;
 import triggers.Checkpoint;
@@ -349,6 +354,8 @@ public class Room {
 				} else {
 					try {
 					for (int b = 0; b < mapObjects.get(toPackedLong(wx,wy)).size(); b++ ) {
+						
+						
 						if (mapObjects.get(toPackedLong(wx,wy)).get(b).isColliding(obj) && !obj.equals(mapObjects.get(toPackedLong(wx,wy)).get(b))) {
 							mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)).get(b));
 							return true;
@@ -754,7 +761,7 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 		//importing objects
 		int widthByteCount = getByteCount(mapWidth);
 		int heightByteCount = getByteCount(mapHeight);
-		int objectByteCount = getByteCount(numObjects);
+		int objectByteCount = getByteCount(objectList.length);
 		for (int i = 0; i < numObjects; i++) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 			int x = getInteger (widthByteCount);
 			int y = getInteger(heightByteCount);
@@ -762,32 +769,44 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			String variantInfo = getString (';');
 			variantInfo = variantInfo.replace("#","&");
 			variantInfo = variantInfo.replace(",","&");
-			GameObject objectToUse = ObjectHandler.getInstance(objectList[object]);
-			objectToUse.setVariantAttributes(variantInfo);
-			objectToUse.declare(x*16, y*16);
+			if (!objectList [object].equals("Trigger") && !objectList [object].equals("Jeffrey")) {
+				GameObject objectToUse = ObjectHandler.getInstance(objectList[object]);
+				objectToUse.setVariantAttributes(variantInfo);
+				objectToUse.declare(x*16, y*16);
+			} else {
+				switch (objectList [object]) {
+				case "Trigger":
+					GameObject objectToUse = ObjectHandler.getInstance("CollisionTrigger");
+					objectToUse.setVariantAttributes(variantInfo);
+					objectToUse.declare(x*16, y*16);
+					break;
+				case "Jeffrey":
+					GameObject obj = ObjectHandler.getInstance("Party");
+					obj.setVariantAttributes(variantInfo);
+					obj.declare(x*16, y*16);
+					break;
+				}
+				
+			}
 		}
 		
 		// used to spawn a Jeffrey by default but conflicts with topdown maps that don't need one
-		if (ObjectHandler.getObjectsByName("Jeffrey") == null) {
-			Jeffrey j = new Jeffrey ();
+		if (ObjectHandler.getObjectsByName("Party") == null) {
+			Party j = new Party (new Jeffrey (),new Sam(),new Ryan());
 			j.declare(64, 0);
-			j.active = true;
 		}
-		if (ObjectHandler.getObjectsByName("Jeffrey") != null) {
-			Gui gui;
-			Ladder testLaddder;
-			gui = new Gui ();
-			testLaddder = new Ladder ();
-			testLaddder.declare(150, 373);
-			Checkpoint startpoint = new Checkpoint ();
-			Jeffrey working = (Jeffrey) ObjectHandler.getObjectsByName("Jeffrey").get(0);
-			if (CheckpointSystem.getNewestCheckpoint() == null) {
-				startpoint.setX(working.getX());
-				startpoint.setY(working.getY());
-				startpoint.save();
-				CheckpointSystem.setNewestCheckpoint(startpoint);
-			}
+		Checkpoint startpoint = new Checkpoint ();
+		Party working = (Party) ObjectHandler.getObjectsByName("Party").get(0);
+		if (CheckpointSystem.getNewestCheckpoint() == null) {
+			startpoint.setX(working.getX());
+			startpoint.setY(working.getY());
+			startpoint.save();
+			CheckpointSystem.setNewestCheckpoint(startpoint);
 		}
+		
+		GameCode.refreshPartyManager ();
+			
+			
 		//convert the map to a big number of map chungi
 		int gridWidth = (int)Math.ceil((((double)mapWidth)/chungusWidth));
 		int gridHidth = (int)Math.ceil((((double)mapHeight)/chungusHeight)); // short for width2
@@ -895,6 +914,9 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 	 * @param y the y coordinate to set the veiw too
 	 */
 	public static void setView (int x, int y) {	
+		if (x <getViewX()) {
+			System.out.println("debg");
+		}
 		updateX = x;
 		updateY = y;
 	}
@@ -1080,6 +1102,8 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 			}
 			if (numLayers== 1) {
 				layerClassfications.add(0);
+				valid.add(false);
+				renderedImages.add(null);
 			} else {
 			int mappedLayerIndex = 0;
 			
@@ -1261,9 +1285,9 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 								rasterWidth = Math.min(rasterWidth, backgrounds.get(currentLayer).getWidth()) - x*TILE_WIDTH;
 								rasterHeight = Math.min(rasterHeight, backgrounds.get(currentLayer).getHeight()) - y*TILE_HEIGHT;
 								if (rasterWidth > 0 && rasterHeight > 0){
-								int backgroundFrame = backgrounds.get(currentLayer).getCurrentFrame();
-								BufferedImage working= backgrounds.get(currentLayer).getFrames ().get(backgroundFrame).getSubimage(x*TILE_WIDTH, y*TILE_HEIGHT, rasterWidth, rasterHeight);
-								g.drawImage(working,0,0,null);
+									int backgroundFrame = backgrounds.get(currentLayer).getCurrentFrame();
+									BufferedImage working = backgrounds.get(currentLayer).getFrames ().get(backgroundFrame).getSubimage(x*TILE_WIDTH, y*TILE_HEIGHT, rasterWidth, rasterHeight);
+									g.drawImage(working,0,0,null);
 								}
 							}
 							valid.set(layerClassfications.get(l), true);
@@ -1275,9 +1299,9 @@ public static MapTile[] getAllCollidingTiles (GameObject obj) {
 					}
 				}
 				
-			for (int i = 0; i < renderedImages.size(); i++) {
-				Graphics g = GameAPI.getWindow().getBufferGraphics();
-				g.drawImage(renderedImages.get(i),x*TILE_WIDTH - scrollX, y*TILE_HEIGHT - scrollY,null);
+				for (int l = renderedImages.size()-1; l >=0; l--) {
+					Graphics g = GameAPI.getWindow().getBufferGraphics();
+					g.drawImage(renderedImages.get(l),x*TILE_WIDTH - scrollX, y*TILE_HEIGHT - scrollY,null);
 			}
 		}	
 	}

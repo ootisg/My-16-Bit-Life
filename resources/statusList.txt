@@ -1,0 +1,14 @@
+Poison1
+Poison2
+Posion3
+OneWayLeft
+OneWayRight
+Lemony
+Slowness
+Brittle
+Fast
+Powerful
+Regeneration1
+Regeneration2
+Regeneration3
+Slippery

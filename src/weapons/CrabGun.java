@@ -1,7 +1,7 @@
 package weapons;
 
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import projectiles.DirectionBullet;
 import projectiles.PokaDot;
 import resources.Sprite;
@@ -10,11 +10,9 @@ public class CrabGun extends AimableWeapon {
 	int timer = 0;
 	public static final Sprite crabGunBullet = new Sprite ("resources/sprites/config/Cyclops_Crab_Gun_Bullet.txt");
 	public static final Sprite crabGunFireing = new Sprite ("resources/sprites/config/Cyclops_Crab_Gun_Firing.txt");
-	Sprite idleSprite;
-	private static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
-	public CrabGun (Sprite spriteToUse) {
-		super(spriteToUse);
-		idleSprite = spriteToUse;
+	public static final Sprite GUN_SPRITE = new Sprite ("resources/sprites/crab_gun.png");
+	public CrabGun () {
+		super(GUN_SPRITE);
 		this.getAnimationHandler().setFrameTime(45);
 	}
 	@Override
@@ -25,7 +23,7 @@ public class CrabGun extends AimableWeapon {
 			
 			DirectionBullet bullet;
 			bullet = new DirectionBullet(this.getX(),this.getY());
-			double suggestedDirection = bullet.findDirection(player);
+			double suggestedDirection = bullet.findDirection(Player.getActivePlayer());
 			if (!this.getAnimationHandler().flipHorizontal()) {
 				if (suggestedDirection > 5 || (suggestedDirection % 6.28 + 6.28) < 7.28 ) {
 					this.setRotation(suggestedDirection);

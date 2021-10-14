@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import main.GameObject;
-import players.Jeffrey;
+import players.Player;
 
 public class Valve extends GameObject {
 	int waterLevel;
@@ -41,7 +41,7 @@ public class Valve extends GameObject {
 			}
 			inzialized = true;
 		}
-		if (this.isColliding(Jeffrey.getActiveJeffrey()) && keyPressed(KeyEvent.VK_ENTER)){
+		if (this.isColliding(Player.getActivePlayer()) && keyPressed(KeyEvent.VK_ENTER)){
 			waterToManage.setWaterLevel(waterLevel);
 		}
 	}	

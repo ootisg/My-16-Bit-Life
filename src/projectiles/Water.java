@@ -1,7 +1,7 @@
 package projectiles;
 
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class Water extends Projectile {
@@ -19,11 +19,11 @@ public class Water extends Projectile {
 	}
 	@Override 
 	public void projectileFrame () {
-		if (this.isColliding(Jeffrey.getActiveJeffrey())) {
+		if (this.isColliding(Player.getActivePlayer())) {
 			if (this.getDirection() == 3.14) {
-				Jeffrey.getActiveJeffrey().goX(Jeffrey.getActiveJeffrey().getX() - (this.speed * 1.2));
+				Player.getActivePlayer().goX(Player.getActivePlayer().getX() - (this.speed * 1.2));
 			} else {
-				Jeffrey.getActiveJeffrey().goX(Jeffrey.getActiveJeffrey().getX() + (this.speed * 1.2));
+				Player.getActivePlayer().goX(Player.getActivePlayer().getX() + (this.speed * 1.2));
 			}
 		}
 		if (this.goingIntoWall) {

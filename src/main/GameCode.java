@@ -67,15 +67,11 @@ import gui.Gui;
 import gui.ListTbox;
 import gui.Tbox;
 import gui.Textbox;
-import items.BluePaint;
-import items.Bomb;
 import items.Carpet;
 import items.FairUseKey;
 import items.Jetpack;
 import items.LemonPacket;
 import items.PogoStick;
-import items.PopcornBag;
-import items.RedBlackPaintBall;
 import items.Waffle;
 import json.JSONException;
 import json.JSONObject;
@@ -89,7 +85,8 @@ import npcs.NonPlayableJeffrey;
 import npcs.NonPlayableRyan;
 import npcs.NonPlayableSam;
 import npcs.PointGuy;
-import players.Jeffrey;
+import players.PartyManager;
+import players.Player;
 import players.TopDown;
 import players.TubeRaster;
 import resources.AfterRenderDrawer;
@@ -126,7 +123,7 @@ public class GameCode {
 	static CreepyButterfly newFly;
 	static DuoflyPlus testFly;
 	static DuoflyMinus testFly2;
-	public static Jeffrey J;
+	public static Player J;
 	public static SoundPlayer player;
 	//static TopDown td;
 	Textbox textbox;
@@ -142,7 +139,6 @@ public class GameCode {
 	static Status testStatus;
 	
 	static redBlackPaintBallGun gun;
-	static RedBlackPaintBall paintball;
 	static Ladder testLadder;
 	static Leg leg;
 	static SlimeSword sword;
@@ -163,7 +159,6 @@ public class GameCode {
 	static LemonPacket packet;
 	static Waffle waffle;
 	static NinjaTriangle triangle;
-	static BluePaint paint;
 	static FairUseKey key;
 	static LaserPointer pointer;
 	static FireHydrant hydrant;
@@ -201,8 +196,7 @@ public class GameCode {
 	static FireRextinguisher fire;
 	static items.FanItem pack;
 	static BatRat rat;
-	static PopcornBag bag;
-	static Bomb bom;
+
 	static BubbleGun bubbleGun;
 	static BubblePlatform bubble;
 	static FallingSpike spike;
@@ -214,6 +208,10 @@ public class GameCode {
 	
 	static FishRing ring;
 	
+	static Gui gui;
+	
+	static PartyManager partyManager;
+
 	public static int targetZoomX;
 	public static int targetZoomY;
 	static int zoomSpeed;
@@ -228,16 +226,17 @@ public class GameCode {
 		targetZoomX = RenderLoop.window.getResolution()[0];
 		targetZoomY = RenderLoop.window.getResolution()[1];
 		//zoomTo (540, 320 , 4);
-		Room.loadRoom ("resources/maps/underwater.rmf");
+		Room.loadRoom ("resources/maps/codeMapTest2-2.rmf");
 		//GameObject initialization
 		player = new SoundPlayer ();
 		//fire = new FireRextinguisher ();
 		testLauncher = new SmallProjectileLauncher();
-		extinguser = new FireExtingueser (new Sprite ("resources/sprites/config/Fire_Rextinguisher_Idle.txt"));
+		gui = new Gui ();
+		extinguser = new FireExtingueser ();
 		lameJeffrey = new NonPlayableJeffrey();
 		lameSam = new NonPlayableSam();
 		lameRyan = new NonPlayableRyan();
-		gun = new redBlackPaintBallGun(	new Sprite ("resources/sprites/redblack_gun.png"));
+		gun = new redBlackPaintBallGun();
 		pointer = new LaserPointer ();
 		key = new FairUseKey();
 		guy = new PointGuy();
@@ -255,34 +254,33 @@ public class GameCode {
 		//bubble = new BubblePlatform();
 		//bee = new Bee ();
 		//boss = new ZombeeTreeBoss ();
-		Jeffrey.getInventory().addWeapon(extinguser, 0);
-		Jeffrey.getInventory().addFreind(lameJeffrey);
-		Jeffrey.getInventory().addFreind(lameSam);
-		Jeffrey.getInventory().addFreind(lameRyan);
-		Jeffrey.getInventory().addFreind(guy);
+		Player.getInventory().addWeapon(extinguser);
+		Player.getInventory().addFreind(lameJeffrey);
+		Player.getInventory().addFreind(lameSam);
+		Player.getInventory().addFreind(lameRyan);
+		Player.getInventory().addFreind(guy);
 		//Jeffrey.getInventory().addKeyItem(key);
-		Jeffrey.getInventory().addConsumable(packet);
+		Player.getInventory().addConsumable(packet);
 		vaccum = new LifeVaccum ();
-		Jeffrey.getInventory().addWeapon(vaccum, 1);
-		Jeffrey.getInventory().addWeapon(pointer, 0);
+		Player.getInventory().addWeapon(vaccum);
+		Player.getInventory().addWeapon(pointer);
 		sword = new SlimeSword();
 		microphone = new MagicMicrophone ();
-		marker = new MagicMarker (new Sprite ("resources/sprites/config/marker_weapon_red.txt"));
-		bubbleGun = new BubbleGun(new Sprite ("resources/sprites/config/bubble_weapon.txt"));
-		bomb = new Bombs (new Sprite ("resources/sprites/config/bomb_active_blue.txt"));
-		triangle = new NinjaTriangle (new Sprite ("resources/sprites/config/stationary_ninja_triangle.txt"));
-		Jeffrey.getInventory().addWeapon (microphone, 2);
-		Jeffrey.getInventory().addWeapon(gun, 0);
-		Jeffrey.getInventory().addWeapon(triangle, 0);
-		Jeffrey.getInventory().addWeapon(sword, 1);
-		Jeffrey.getInventory().addWeapon(marker, 2);
-		Jeffrey.getInventory().addWeapon(bomb, 2);
-		Jeffrey.getInventory().addWeapon(bubbleGun, 2);
+		marker = new MagicMarker ();
+		bubbleGun = new BubbleGun();
+		bomb = new Bombs ();
+		triangle = new NinjaTriangle ();
+		Player.getInventory().addWeapon (microphone);
+		Player.getInventory().addWeapon(gun);
+		Player.getInventory().addWeapon(triangle);
+		Player.getInventory().addWeapon(sword);
+		Player.getInventory().addWeapon(marker);
+		Player.getInventory().addWeapon(bomb);
+		Player.getInventory().addWeapon(bubbleGun);
 		int x = 0;
 		//boi = new Celing_boi();
 		waffle = new Waffle ();
 		testLadder = new Ladder ();
-		paintball = new RedBlackPaintBall();
 		//testSceen = new Cutsceen ("resources/cutsceenConfig/breakTest.txt");
 		box = new Box();
 		plant = new Plant ();
@@ -295,23 +293,15 @@ public class GameCode {
 		//puncuation = new Puncuation ();
 		//hydrant = new FireHydrant ();
 		//slow = new MoveSlowEvent (hydrant, 100, 100, 0, 30, 0, 3, -3);
-		//newFly = new CreepyButterfly();
-		paintball = new RedBlackPaintBall();
+		//newFly = new CreepyButterfly()
 		//candle = new Candle ();
 		//box = new Box();
 		//plant = new Plant ();
-		paint = new BluePaint ();
 		fan = new Fan();
-		bag = new PopcornBag();
-		bom = new Bomb();
 		ring = new FishRing ();
-		while (x <40) {
-		Jeffrey.inventory.addAmmo(bom);
-		Jeffrey.inventory.addAmmo(bag);
-		Jeffrey.inventory.addAmmo(paintball);
-		Jeffrey.inventory.addAmmo(paint);
-		x = x + 1;
-		}
+		bomb.giveAmmo(40);
+		gun.giveAmmo(40);
+		gun.giveSecondaryAmmo(40);
 	//	spike = new FallingSpike ();
 		//LightSource.writeLightSourceImage (36, 255, 200, 0, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is yellow-ish
 		//LightSource.writeLightSourceImage (36, 0, 200, 255, 120, "resources/sprites/overlays/candleOverlay.png"); //This one is blue-ish
@@ -394,7 +384,7 @@ public class GameCode {
 		//bee.declare (100, 180);
 		//boss.declare(850, 530);
 		
-		ring.declare(300,350);
+		//ring.declare(300,350);
 		
 	}
 	public static void beforeGameLogic () {
@@ -421,6 +411,13 @@ public class GameCode {
 		targetZoomX = x;
 		targetZoomY = y;
 		zoomSpeed = speed;
+	}
+	
+	public static PartyManager getPartyManager() {
+		return partyManager;
+	}
+	public static void refreshPartyManager() {
+		GameCode.partyManager = new PartyManager ();
 	}
 	
 	public static void zoom (int newResX, int newResY, int speed) {

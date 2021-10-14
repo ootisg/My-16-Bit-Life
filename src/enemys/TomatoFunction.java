@@ -7,7 +7,7 @@ import javax.sound.sampled.Clip;
 import gameObjects.Leg;
 import main.GameCode;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.SoundPlayer;
 import resources.Sprite;
 
@@ -105,7 +105,7 @@ public class TomatoFunction extends Enemy {
 			leg4.flip();
 		}
 		// deals with movement 
-		if (this.getX() > Jeffrey.getActiveJeffrey().getX()) {
+		if (this.getX() > Player.getActivePlayer().getX()) {
 			if (jeffreyOnYourRight) {
 				jeffreyOnYourRight = false;
 				movementTimer = 0;
@@ -154,7 +154,7 @@ public class TomatoFunction extends Enemy {
 				leg8.setSpeed(12);
 			}
 		}
-			if (this.getX() < Jeffrey.getActiveJeffrey().getX()) {
+			if (this.getX() < Player.getActivePlayer().getX()) {
 				if (!jeffreyOnYourRight) {
 					jeffreyOnYourRight = true;
 					movementTimer = 0;

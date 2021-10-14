@@ -2,8 +2,7 @@ package tileEntities;
 
 import main.GameObject;
 import map.TileEntitiy;
-import players.Jeffrey;
-import statusEffect.Slippery;
+import players.Player;
 
 public class SliperyTile extends TileEntitiy {
 	public SliperyTile () {
@@ -11,11 +10,9 @@ public class SliperyTile extends TileEntitiy {
 	}
 	@Override
 	public void onCollision (GameObject o) {
-		if (o.getClass().getSimpleName().equals("Jeffrey")) {
-			if (!Jeffrey.getActiveJeffrey().checkIfSlippery()) {
-				Slippery slip = new Slippery (Jeffrey.getActiveJeffrey().witchCharictar);
-				slip.declare();
-				slip.setTime(10);
+		if (o.getClass().getSimpleName().equals("Player")) {
+			if (!Player.getActivePlayer().status.checkStatus("Slippery")) {
+				Player.getActivePlayer().status.applyStatus("Slippery",1);
 			}
 		}
 	}

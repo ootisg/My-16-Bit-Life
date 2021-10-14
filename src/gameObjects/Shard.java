@@ -24,6 +24,7 @@ public class Shard extends Projectile {
 	public Shard (Sprite sprite) {
 		this.setHitboxAttributes(0, 0, 8, 8);
 		img = new BufferedImage (sprite.getFrame (0).getWidth (), sprite.getFrame (0).getHeight (), sprite.getFrame (0).getType ());
+		this.setSprite(sprite);
 	}
 	@Override
 	public void projectileFrame () {

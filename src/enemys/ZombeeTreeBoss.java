@@ -12,7 +12,7 @@ import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
 import mapObjects.MapObject;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class ZombeeTreeBoss extends Enemy{
@@ -87,7 +87,7 @@ public class ZombeeTreeBoss extends Enemy{
 		double warnTime = 1.5;
 		
 		LongSpike spike = new LongSpike (warnTime,this);
-		spike.declare(Jeffrey.getActiveJeffrey().getX(), this.getY() + 272 + 128);
+		spike.declare(Player.getActivePlayer().getX(), this.getY() + 272 + 128);
 	}
 	
 	@Override
@@ -303,7 +303,7 @@ public class ZombeeTreeBoss extends Enemy{
 					vx = vx + FRICTION;
 				}
 			}
-			focusPoint = new Point ((int)Jeffrey.getActiveJeffrey().getX(),(int)Jeffrey.getActiveJeffrey().getY());
+			focusPoint = new Point ((int)Player.getActivePlayer().getX(),(int)Player.getActivePlayer().getY());
 			if (this.isColliding("BeeHive")) {
 				boss.hive.spawnBee(3);
 			}
@@ -435,7 +435,7 @@ public class ZombeeTreeBoss extends Enemy{
 				worm.declare(place + this.getX(), rand.nextInt(this.getLeaveHeight(place)) + this.getY());
 			}
 			ZombeeWorm worm = new ZombeeWorm ();
-			worm.declare(Jeffrey.getActiveJeffrey().getX(), rand.nextInt(this.getLeaveHeight((int)Jeffrey.getActiveJeffrey().getX())) + this.getY());
+			worm.declare(Player.getActivePlayer().getX(), rand.nextInt(this.getLeaveHeight((int)Player.getActivePlayer().getX())) + this.getY());
 			rustling = true;
 		}
 		private int getLeaveHeight (int place) {
@@ -482,7 +482,7 @@ public class ZombeeTreeBoss extends Enemy{
 		public void frameEvent () {
 			super.frameEvent();
 			this.setHitboxAttributes(PUSHER_SPRITE.getWidth(), PUSHER_SPRITE.getHeight());
-			if (this.isColliding(Jeffrey.getActiveJeffrey())) {
+			if (this.isColliding(Player.getActivePlayer())) {
 				timer.turnOn();
 			} else {
 				timer.turnOff();
@@ -495,8 +495,8 @@ public class ZombeeTreeBoss extends Enemy{
 		}
 		//TODO push duh
 		public void push () {
-			Jeffrey.getActiveJeffrey().vx = -25;
-			Jeffrey.getActiveJeffrey().setVy(-10);
+			Player.getActivePlayer().vx = -25;
+			Player.getActivePlayer().setVy(-10);
 		}
 		
 	}
@@ -548,8 +548,8 @@ public class ZombeeTreeBoss extends Enemy{
 					this.forget();
 				}
 			}
-			if (this.isColliding(Jeffrey.getActiveJeffrey())) {
-				Jeffrey.getActiveJeffrey().damage(30);
+			if (this.isColliding(Player.getActivePlayer())) {
+				Player.getActivePlayer().damage(30);
 			}
 			if (this.isColliding("BeeHive")) {
 				boss.hive.damage(1);

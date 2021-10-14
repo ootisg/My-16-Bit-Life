@@ -3,7 +3,7 @@ package gameObjects;
 import java.util.ArrayList;
 
 import main.GameObject;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 import resources.SpriteParser;
 
@@ -26,7 +26,7 @@ public class Trail extends GameObject implements StickyObject {
 	}
 	@Override
 	public void frameEvent () {
-		if (this.isColliding(Jeffrey.getActiveJeffrey())) {
+		if (this.isColliding(Player.getActivePlayer())) {
 			this.collisionEvent();
 		}
 		if ((System.currentTimeMillis() - startTime) > endTime ) {

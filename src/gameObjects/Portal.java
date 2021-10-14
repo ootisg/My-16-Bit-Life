@@ -7,7 +7,7 @@ import main.GameObject;
 import main.ObjectHandler;
 import main.RenderLoop;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class Portal extends GameObject {
@@ -37,7 +37,7 @@ public class Portal extends GameObject {
 	}
 	@Override 
 	public void frameEvent () {
-		Jeffrey j = Jeffrey.getActiveJeffrey();
+		Player j = Player.getActivePlayer();
 		if (takenCareOfIt) {
 		double x = j.getX ();
 		double y = j.getY ();
@@ -86,7 +86,7 @@ public class Portal extends GameObject {
 		} else {
 			if (startY == endY) {
 				takenCareOfIt = false;
-				Jeffrey.setScroll(true);
+				Player.getActivePlayer().setScroll(true);
 			}
 		}
 		if (startY != endY) {
@@ -172,7 +172,7 @@ public class Portal extends GameObject {
 		} 
 	}
 	public void doPortalAction(Portal entrence) {
-		Jeffrey j = Jeffrey.getActiveJeffrey();
+		Player j = Player.getActivePlayer();
 		j.setX(this.getX());
 		j.setY(this.getY());
 		endX = (int) this.getX();
@@ -180,7 +180,7 @@ public class Portal extends GameObject {
 		startX = Room.getViewX();
 		startY = Room.getViewY();
 		takenCareOfIt = true;
-		Jeffrey.setScroll(false);
+		Player.getActivePlayer().setScroll(false);
 		switch (direction){
 		case 1:
 			j.setY(this.getY() - 15);

@@ -1,7 +1,7 @@
 package items;
 
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class FairUseKey extends Item {

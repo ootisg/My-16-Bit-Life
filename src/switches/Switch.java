@@ -6,7 +6,7 @@ import gameObjects.PairingObject;
 import main.GameObject;
 import main.ObjectHandler;
 import mapObjects.MapObject;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class Switch extends MapObject {

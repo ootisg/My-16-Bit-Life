@@ -10,7 +10,7 @@ import gameObjects.CheckpointSystem;
 import main.GameObject;
 import map.MapTile;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 
 
 public class MapObject  extends GameObject {
@@ -112,7 +112,7 @@ public class MapObject  extends GameObject {
 						currentEnmey.suffocate();
 						currentEnmey.blackList();
 					} else {
-						Jeffrey.getActiveJeffrey().damage(10);
+						Player.getActivePlayer().damage(10);
 						CheckpointSystem.loadNewestCheckpoint();
 					}
 					}

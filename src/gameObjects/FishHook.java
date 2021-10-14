@@ -1,7 +1,7 @@
 package gameObjects;
 
 import main.GameObject;
-import players.Jeffrey;
+import players.Player;
 import resources.ColidableVector;
 import resources.LoopableSprite;
 import resources.Sprite;
@@ -23,7 +23,7 @@ public class FishHook extends GrabbableObject {
 	
 	@Override
 	public void whileGrabbed() {
-		Jeffrey j = Jeffrey.getActiveJeffrey();
+		Player j = Player.getActivePlayer();
 		
 		fastness = fastness + 0.5;
 		
@@ -41,7 +41,7 @@ public class FishHook extends GrabbableObject {
 	
 	@Override
 	public void onRelease () {
-		Jeffrey.getActiveJeffrey().vy = -fastness;
+		Player.getActivePlayer().vy = -fastness;
 		fastness = 0;
 	}
 

@@ -5,7 +5,7 @@ import gui.Tbox;
 import main.GameCode;
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class Waffle extends Item{
@@ -15,24 +15,11 @@ public class Waffle extends Item{
 		this.setHitboxAttributes(0, 0, 14, 20);
 	}
 	@Override
-	public void useItem(int witchCharictar) {
-		if (witchCharictar == 0) {
-			Jeffrey.jeffreyHealth = Jeffrey.jeffreyHealth + 60;
-			if (Jeffrey.jeffreyHealth >= Jeffrey.maxJeffreyHealth ) {
-				Jeffrey.jeffreyHealth = Jeffrey.maxJeffreyHealth;
-			}
-		}
-		if (witchCharictar == 1) {
-			Jeffrey.samHealth = Jeffrey.samHealth + 40;
-			if (Jeffrey.samHealth >= Jeffrey.maxSamHealth ) {
-				Jeffrey.samHealth = Jeffrey.maxSamHealth;
-			}
-		}
-		if (witchCharictar == 2) {
-			Jeffrey.ryanHealth = Jeffrey.maxRyanHealth + 40;
-			if (Jeffrey.ryanHealth >= Jeffrey.maxRyanHealth ) {
-				Jeffrey.ryanHealth = Jeffrey.maxRyanHealth;
-			}
+	public void useItem(Player toUse) {
+		if (toUse.getPlayerNum() == 0) {
+			toUse.heal(60);
+		} else {
+			toUse.heal(40);
 		}
 		Gui.getGui().menu.frozen = false;
 		this.forget();

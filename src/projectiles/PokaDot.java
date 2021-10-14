@@ -2,7 +2,7 @@ package projectiles;
 
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class PokaDot extends Projectile {
@@ -38,8 +38,8 @@ public class PokaDot extends Projectile {
 		if (this.outsideTheMap) {
 			this.forget();
 		}
-		if (isColliding(Jeffrey.getActiveJeffrey()) && !hitSomething){
-			Jeffrey.getActiveJeffrey().damage(7);
+		if (isColliding(Player.getActivePlayer()) && !hitSomething){
+			Player.getActivePlayer().damage(7);
 			hitSomething = true;
 			this.forget();
 			

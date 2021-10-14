@@ -1,12 +1,12 @@
 package triggers;
 
-import players.Jeffrey;
+import players.Player;
 
 public class CollisionTrigger extends Trigger {
 
 	@Override
 	public boolean checkTriggerCondition() {
-		return Jeffrey.getActiveJeffrey().isColliding(this);
+		return Player.getActivePlayer().isColliding(this);
 	}
 	
 }

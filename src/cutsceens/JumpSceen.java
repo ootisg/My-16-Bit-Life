@@ -3,7 +3,7 @@ package cutsceens;
 import gui.Textbox;
 import main.GameCode;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 
 public class JumpSceen {
 	static Textbox nathanBox;
@@ -35,10 +35,10 @@ public class JumpSceen {
 			}
 			timer = timer + 1;
 			if (timer >20 && timer <=40) {
-				Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() -1 );
+				Player.getActiveJeffrey().setY(Player.getActiveJeffrey().getY() -1 );
 			}
 			if (timer > 40) {
-				Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() +1 );
+				Player.getActiveJeffrey().setY(Player.getActiveJeffrey().getY() +1 );
 			}
 			if (timer == 61) {
 				lameJump = false;

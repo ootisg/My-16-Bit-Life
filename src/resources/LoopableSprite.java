@@ -96,7 +96,6 @@ public class LoopableSprite extends Sprite {
 				remainderHandler.setWidth(remanderWidth);
 			}
 			if (remainderHeight != 0 || remanderWidth != 0) {
-				System.out.println(tempX);
 				remainderHandler.draw(tempX, tempY);
 			}
 				

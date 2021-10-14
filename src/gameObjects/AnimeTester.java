@@ -11,7 +11,7 @@ import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
 import map.VectorCollisionInfo;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class AnimeTester extends GameObject {

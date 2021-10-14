@@ -35,7 +35,7 @@ public class Lamp extends TileEntitiy {
 	@Override
 	public void onCollision(GameObject o) {
 			
-		if (o.getClass().getSimpleName().equals("Jeffrey") || o.getClass().getPackageName().equals("projectiles")) {
+		if (o.getClass().getSimpleName().equals("Player") || o.getClass().getPackageName().equals("projectiles")) {
 			Sprite stupid = new Sprite ("resources/tilesets/yellow.png");
 			timer = 0;
 			if (!this.getTexture().equals (stupid.getFrame(0))) {

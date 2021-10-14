@@ -10,7 +10,7 @@ import main.GameObject;
 import main.ObjectHandler;
 import map.MapTile;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 import switches.Activateable;
 
@@ -80,15 +80,15 @@ public class BubblePlatform extends CarryObject {
 		}
 		
 //		//semisolid stuff
-//	if (Jeffrey.getActiveJeffrey().getVy() < 0 || ((Jeffrey.getActiveJeffrey().getX() + 7 < this.getX() && Jeffrey.getActiveJeffrey().vx > 0 && Jeffrey.getActiveJeffrey().isColliding(new Rectangle ((int)this.getX() - 6,(int)this.getY(),8,16))) || (Jeffrey.getActiveJeffrey().vx < 0 && Jeffrey.getActiveJeffrey().isColliding(new Rectangle ((int)this.getX() + 14,(int)this.getY(),8,16))))){
+//	if (Jeffrey.getActivePlayer().getVy() < 0 || ((Jeffrey.getActivePlayer().getX() + 7 < this.getX() && Jeffrey.getActivePlayer().vx > 0 && Jeffrey.getActivePlayer().isColliding(new Rectangle ((int)this.getX() - 6,(int)this.getY(),8,16))) || (Jeffrey.getActivePlayer().vx < 0 && Jeffrey.getActivePlayer().isColliding(new Rectangle ((int)this.getX() + 14,(int)this.getY(),8,16))))){
 //			
 //			collide = false;
 //		} 
 	}
 	public boolean doesColide (GameObject o) {
 
-		if (o.getClass().getSimpleName().equals("Jeffrey")) {
-		Jeffrey j = (Jeffrey) o;
+		if (o.getClass().getSimpleName().equals("Player")) {
+		Player j = (Player) o;
 		if (j.getVy() < 0 || (j.getYPrevious() + j.hitbox().height > this.getY())){
 				return false;
 			} 

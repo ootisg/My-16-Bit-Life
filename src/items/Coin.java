@@ -1,6 +1,6 @@
 package items;
 
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class Coin extends Item {
@@ -23,6 +23,6 @@ public class Coin extends Item {
 	}
 	@Override
 	public void onPickup () {
-		Jeffrey.getInventory().addMoney(1);
+		Player.getInventory().addMoney(1);
 	}
 }

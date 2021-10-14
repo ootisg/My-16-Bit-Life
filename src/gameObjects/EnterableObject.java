@@ -1,9 +1,8 @@
 package gameObjects;
 
-import main.GameObject;
-import main.ObjectHandler;
+
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 
 public class EnterableObject extends BreakableObject {
 	protected boolean inside = false;
@@ -13,7 +12,7 @@ public class EnterableObject extends BreakableObject {
 	}
 	@Override 
 	public void frameEvent () {
-		if (Jeffrey.getActiveJeffrey().isColliding(this) && !inside && !this.isBroken ) {
+		if (Player.getActivePlayer().isColliding(this) && !inside && !this.isBroken ) {
 			this.onEntry();
 			
 		}
@@ -38,11 +37,23 @@ public class EnterableObject extends BreakableObject {
 				viewX = (int) x - 213;
 				Room.setView (viewX, Room.getViewY ());
 			}
-			Jeffrey.getActiveJeffrey().setX(this.getX());
-			Jeffrey.getActiveJeffrey().setY(this.getY());
+			Player.getActivePlayer().setX(this.getX());
+			Player.getActivePlayer().setY(this.getY());
 			try {
 				if (this.isCollidingChildren("Enemy") || this.isCollidingChildren("Projectile")) {
-					this.onBreak();
+					boolean notShard = false;
+					for (int i = 0; i < this.getCollisionInfo().getCollidingObjects().size(); i++) {
+						
+						if (!(this.getCollisionInfo().getCollidingObjects().get(i) instanceof Shard)) {
+							notShard = true;
+							break;
+						}
+						
+					}
+					
+					if (notShard) {
+						this.onBreak();
+					}
 				}
 			} catch (NullPointerException e) {
 			
@@ -51,10 +62,8 @@ public class EnterableObject extends BreakableObject {
 		
 	}
 	public void onEntry () {
-		Jeffrey.getActiveJeffrey().getAnimationHandler().hide();
-		Jeffrey.getActiveJeffrey().getWeapon().blackList();
-		Jeffrey.getActiveJeffrey().getWeapon().hide();
-		Jeffrey.getActiveJeffrey().blackList();
+		Player.getActivePlayer().getAnimationHandler().hide();
+		Player.getActivePlayer().blackList();
 		inside = true;
 	}
 	public void onBreak () {
@@ -62,9 +71,7 @@ public class EnterableObject extends BreakableObject {
 	}
 	public void exit () {
 		inside = false;
-		Jeffrey.getActiveJeffrey().getWeapon().whiteList();
-		Jeffrey.getActiveJeffrey().getWeapon().show();
-		Jeffrey.getActiveJeffrey().getAnimationHandler().show();
-		Jeffrey.getActiveJeffrey().whiteList();
+		Player.getActivePlayer().getAnimationHandler().show();
+		Player.getActivePlayer().whiteList();
 		}
 	}

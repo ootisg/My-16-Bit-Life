@@ -1,7 +1,7 @@
 package gameObjects;
 
 import main.GameObject;
-import players.Jeffrey;
+import players.Player;
 
 public class GrabbableObject extends GameObject {
 	
@@ -21,7 +21,7 @@ public class GrabbableObject extends GameObject {
 	}
 	@Override
 	public void frameEvent () {
-		Jeffrey j = Jeffrey.getActiveJeffrey();  //TODO make this work with swappable Jeffreys
+		Player j = Player.getActivePlayer();  //TODO make this work with swappable Jeffreys
 		
 		if (this.isColliding(j) && keyDown (' ') && !grabbedOn) {
 			grabbedOn = true;

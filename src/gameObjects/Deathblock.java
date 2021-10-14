@@ -3,10 +3,10 @@ package gameObjects;
 import main.GameObject;
 import main.ObjectHandler;
 import main.GameLoop;
-import players.Jeffrey;
+import players.Player;
 
 public class Deathblock extends GameObject {
-	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
+	public static Player player = (Player) ObjectHandler.getObjectsByName ("Player").get (0);
 public Deathblock (){
 	this.setHitboxAttributes(0, 0, 16, 16);
 	}

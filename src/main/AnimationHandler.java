@@ -74,7 +74,7 @@ public class AnimationHandler {
 	 */
 	private boolean keepScale = false;
 	/**
-	 * what the fuck ever
+	 * what the fuck ever (nice comment?)
 	 */
 	private boolean rotationsEnabled = false;
 	/**
@@ -123,10 +123,17 @@ public class AnimationHandler {
 					image.draw ((int)x, (int)y, flipHorizontal, flipVertical, image.getFrameCount () - 1,width,height);
 				} else {
 					int frame = elapsedFrames % image.getFrameCount ();
+//					if (alternate) {
+//						System.out.println(frame);
+//						System.out.println(reverse);
+//					}
 					if (frame == 0 && alternate && image.getFrameCount() != 1 && elapsedFrames > 1) {
+						
 						if (!hasReversed) {
-						reverse = !reverse;
-						hasReversed = true;
+						
+							reverse = !reverse;
+							
+							hasReversed = true;
 						}
 					} else {
 						hasReversed = false;
@@ -412,7 +419,8 @@ public class AnimationHandler {
 			long elapsedTime = RenderLoop.frameStartTime () - startTime;
 			int frame = ((int)(((double)elapsedTime) / ((double)frameTime)) + startFrame) % image.getFrameCount ();
 			if (reverse) {
-				if ((image.getFrameCount() -1) - frame == 0){
+				if ((image.getFrameCount() -1) - frame == 0 && !alternate){
+
 					reverse = false;
 				}
 			return (image.getFrameCount() -1) - frame;

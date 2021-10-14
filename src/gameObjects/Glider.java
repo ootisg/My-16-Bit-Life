@@ -2,7 +2,7 @@ package gameObjects;
 
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class Glider extends EnterableObject {
@@ -103,8 +103,8 @@ public class Glider extends EnterableObject {
 	public void onEntry () {
 		originX = (int) this.getX();
 		originY = (int) this.getY();
-		Jeffrey.getActiveJeffrey().getAnimationHandler().hide();
-		Jeffrey.getActiveJeffrey().blackList();
+		Player.getActivePlayer().getAnimationHandler().hide();
+		Player.getActivePlayer().blackList();
 		this.inside = true;
 	}
 	@Override
@@ -114,7 +114,7 @@ public class Glider extends EnterableObject {
 	public void makeBroken () {
 		this.isBroken = true;
 		this.exit();
-		Jeffrey.getActiveJeffrey().setY(Jeffrey.getActiveJeffrey().getY() - 16);
+		Player.getActivePlayer().setY(Player.getActivePlayer().getY() - 16);
 		this.Break(new Shard [] {new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard1.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard2.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard3.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard4.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard5.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard6.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard7.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard8.txt")), new Shard (new Sprite ("resources/sprites/config/Plant/shards/shard9.txt"))},this.getX(),this.getY() + 18, 9, 2, 4, 0, 3.14);
 		Glider plant = new Glider();
 		plant.declare(originX, originY);

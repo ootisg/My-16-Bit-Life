@@ -2,7 +2,7 @@ package enemys;
 
 import java.util.Random;
 
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class ZombeeWorm extends Enemy {
@@ -21,7 +21,7 @@ public class ZombeeWorm extends Enemy {
 				this.deathEvent();
 			}
 		}
-		if (this.closeTooX(Jeffrey.getActiveJeffrey(),3)) {
+		if (this.closeTooX(Player.getActivePlayer(),3)) {
 			waitTime = 0;
 		}
 	}

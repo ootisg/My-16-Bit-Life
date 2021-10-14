@@ -3,7 +3,7 @@ package items;
 import gameObjects.UseableCarpet;
 import gameObjects.UseableJetpack;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class Carpet extends Item {

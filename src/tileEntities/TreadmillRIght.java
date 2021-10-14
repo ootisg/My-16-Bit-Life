@@ -3,7 +3,7 @@ package tileEntities;
 import main.GameObject;
 import map.Room;
 import map.TileEntitiy;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class TreadmillRIght extends TileEntitiy {

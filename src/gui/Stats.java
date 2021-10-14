@@ -7,9 +7,10 @@ import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
 import main.RenderLoop;
-import players.Jeffrey;
+import players.Player;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
+import triggers.Checkpoint;
 
 public class Stats extends GameObject {
 	//public int totalHearts = 10;
@@ -31,15 +32,22 @@ public class Stats extends GameObject {
 		charictarName.declare(75,-6);
 		charictarName.setScrollRate(0);
 		charictarName.setScaleing(false);
+		charictarName.setPersistence(true);
+		
+		
 		weaponName = new Tbox (460,0,24,1, "REDBLACK PAINTBALL GUN", false);
 		weaponName.declare(400, -6);
 		weaponSprite = new Sprite("resources/sprites/blank.png");
 		weaponName.setScrollRate(0);
 		weaponName.setScaleing(false);
+		weaponName.setPersistence(true);
+		
 		ammoAmount = new Tbox (0,0,24,1, "0", false);
 		ammoAmount.declare(340,-6);
 		ammoAmount.setScrollRate(0);
 		ammoAmount.setScaleing(false);
+		ammoAmount.setPersistence(true);
+		
 		this.setRenderPriority(420);
 		charictarName.keepOpen(true);
 		weaponName.keepOpen(true);
@@ -54,6 +62,7 @@ public class Stats extends GameObject {
 		JEFFREY_BAR.setScale(false);
 		HEALTH_SPRITE.setScale(false);
 		HEALTH_BORDER_SPRITE.setScale(false);
+		this.setPersistence(true);
 	}
 	@Override
 	public void frameEvent () {
@@ -74,60 +83,35 @@ public class Stats extends GameObject {
 		if (finalHeart >= 0) {
 			sprites.hearts.setFrame (3 - finalHeart);
 			sprites.hearts.draw ((numHearts - 1) * 16, 0);
-		}*/
+		} */
 		try {
-			if (Jeffrey.witchCharictar == 0) {
-			charictarName.setContent("JEFFREY");
-			}
-			if (Jeffrey.witchCharictar == 1) {
-			charictarName.setContent("SAM");
-			}
-			if (Jeffrey.witchCharictar == 2) {
-			charictarName.setContent("RYAN");
-			}
-			weaponName.setContent(Jeffrey.getActiveJeffrey().getWeapon().checkName());
-			weaponSprite = Jeffrey.getActiveJeffrey().getWeapon().getUnrotatedSprite();
+			charictarName.setContent(Player.getActivePlayer().getClass().getSimpleName().toUpperCase());
+			weaponName.setContent(Player.getActivePlayer().getWeapon().checkName());
+			weaponSprite = Player.getActivePlayer().getWeapon().getUnrotatedSprite();
 			weaponSprite.setScale(false);
-			ammoAmount.setContent(Integer.toString(Jeffrey.getInventory().checkAmmoAmountOfWeapon(Jeffrey.getActiveJeffrey().getWeapon())));
+			ammoAmount.setContent(Double.toString(Player.getActivePlayer().getWeapon().getAmmoCount()));
 		} catch (NullPointerException e ) {
-			
 		}
 	}
 	@Override 
 	public void draw () {
 		try {
-
 		HEALTH_BORDER_SPRITE.draw(160,0);
 		int currentBar;
-		if (Jeffrey.getActiveJeffrey().checkSwitch()) {
-			currentBar = Jeffrey.getActiveJeffrey().nextCharacter;
+		if (GameCode.getPartyManager().checkSwitch()) {
+			currentBar = GameCode.getPartyManager().getNextPlayer().getPlayerNum();
 		} else {
 			currentBar = 69;
 		}
 		switch (currentBar) {
 			case 0:
-				if (Jeffrey.jeffreyHealth > 0) {
-					JEFFREY_BAR.draw(0, 0);	
-				}
-				if (Jeffrey.jeffreyHealth <= 0) {
-					Jeffrey.getActiveJeffrey().nextCharacter++;
-				}
+				JEFFREY_BAR.draw(0, 0);	
 				break;
 			case 1:
-				if (Jeffrey.samHealth > 0) {
-					SAM_BAR.draw(0, 0);	
-				}
-				if (Jeffrey.samHealth <= 0) {
-					Jeffrey.getActiveJeffrey().nextCharacter++;
-				}
+				SAM_BAR.draw(0, 0);	
 				break;
 			case 2:
-				if (Jeffrey.ryanHealth > 0) {
-					RYAN_BAR.draw(0, 0);	
-				}
-				if (Jeffrey.ryanHealth <= 0) {
-					Jeffrey.getActiveJeffrey().nextCharacter++;
-				}
+				RYAN_BAR.draw(0, 0);
 				break;
 			default:
 				EMPTY_BAR.draw(0, 0);
@@ -161,23 +145,12 @@ public class Stats extends GameObject {
 						EMPTY_BAR.draw(0, 0);
 					}
 			} */
-		if (Jeffrey.witchCharictar ==0 ) {
-			if (Jeffrey.getActiveJeffrey().getHealth() > 0) {
-			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (Jeffrey.getActiveJeffrey().getHealth() / Jeffrey.maxJeffreyHealth)))), 24);
-			}
+		if (Player.getActivePlayer().getHealth() > 0) {
+			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (Player.getActivePlayer().getHealth() / Player.getActivePlayer().maxHealth)))), 24);
 		}
-		if (Jeffrey.witchCharictar ==1 ) {
-			if (Jeffrey.getActiveJeffrey().getHealth() > 0) {				
-			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (Jeffrey.getActiveJeffrey().getHealth() / Jeffrey.maxSamHealth)))), 24);
-			}
-			}
-		if (Jeffrey.witchCharictar ==2 ) {
-			if (Jeffrey.getActiveJeffrey().getHealth() > 0) {
-			HEALTH_SPRITE.draw(160,0,0,(int)(Math.ceil((170 * (Jeffrey.getActiveJeffrey().getHealth() / Jeffrey.maxRyanHealth)))), 24);
-			}
-			}
-		if (Jeffrey.getActiveJeffrey().switchTimer != 0) {
-		CHARICTAR_SPRITE.draw(0, 0, 0, (int) (Math.ceil(45*Jeffrey.getActiveJeffrey().switchTimer/30.0)), 24);
+		
+		if (GameCode.getPartyManager().getSwitchTimer() != 0) {
+			CHARICTAR_SPRITE.draw(0, 0, 0, (int) (Math.ceil(45*GameCode.getPartyManager().getSwitchTimer()/30.0)), 24);
 		}
 		weaponSprite.draw(144, 0);
 		} catch (NullPointerException e) {

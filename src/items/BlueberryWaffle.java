@@ -4,9 +4,8 @@ package items;
 import gui.Gui;
 import main.GameCode;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
-import statusEffect.Regeneration;
 
 public class BlueberryWaffle extends Item{
 	Sprite waffle = new Sprite ("resources/sprites/Blueberry_Waffle.png");
@@ -15,28 +14,15 @@ public BlueberryWaffle () {
 	this.setHitboxAttributes(0, 0, 14, 20);
 }
 @Override
-public void useItem(int witchCharictar) {
-	if (witchCharictar == 0) {
-		Jeffrey.jeffreyHealth = Jeffrey.jeffreyHealth + 60;
-		if (Jeffrey.jeffreyHealth >= Jeffrey.maxJeffreyHealth ) {
-			Jeffrey.jeffreyHealth = Jeffrey.maxJeffreyHealth;
-		}
+public void useItem(Player toHeal) {
+	if (toHeal.getClass().getName() == "Jeffrey") {
+		toHeal.health = toHeal.health + 60;
+	} else {
+		toHeal.health = toHeal.health + 40;
 	}
-	if (witchCharictar == 1) {
-		Jeffrey.samHealth = Jeffrey.samHealth + 40;
-		if (Jeffrey.samHealth >= Jeffrey.maxSamHealth ) {
-			Jeffrey.samHealth = Jeffrey.maxSamHealth;
-		}
-	}
-	if (witchCharictar == 2) {
-		Jeffrey.ryanHealth = Jeffrey.maxRyanHealth + 40;
-		if (Jeffrey.ryanHealth >= Jeffrey.maxRyanHealth ) {
-			Jeffrey.ryanHealth = Jeffrey.maxRyanHealth;
-		}
-	}
-	Regeneration regeneration;
-	regeneration = new Regeneration (witchCharictar);
-	regeneration.declare();
+	
+	toHeal.getStatus().applyStatus("Regeneration1", 600);
+
 	Gui.getGui().menu.frozen = false;
 	this.forget();
 }	

@@ -13,10 +13,10 @@ import main.GameCode;
 import main.ObjectHandler;
 import main.RenderLoop;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
-public class SlimeSword extends Item {
+public class SlimeSword extends Weapon {
 	Sprite samSwingSprite;
 	Random RNG;
 	public Sprite samWalkingSword;
@@ -71,239 +71,241 @@ public class SlimeSword extends Item {
 	public int [] getTierInfo () {
 		return upgradeInfo;
 	}
-	@Override
-	public void frameEvent() {
-		if (extended && (currX != desX || currY != desY)) {
-			if (desX > currX) {
-				currX = currX + 30;
-				if (currX > desX) {
-					currX = desX;
-					fifthteenthX = (desX - Jeffrey.getActiveJeffrey().getX())/15;
-				}
-			} else {
-				currX = currX - 30;
-				if (currX < desX) {
-					currX = desX;
-					fifthteenthX = ( Jeffrey.getActiveJeffrey().getX() - desX)/15;
-				}
-			}
-			if (desY > currY) {
-				currY = currY + (30*slope);
-				if (currY > desY) {
-					currY = desY;
-					fifthteenthY = (desY - Jeffrey.getActiveJeffrey().getY())/15;
-				}
-			} else {
-				currY = currY + (30*slope);
-				if (currY < desY) {
-					currY = desY;
-					fifthteenthY = (Jeffrey.getActiveJeffrey().getY() - desY)/15;
-				}
-			}
-		} else {
-			try {
-			if (Room.getTileProperties(Room.collisionLayer, (int)desX, (int)desY).getName() != null) {
-				if (Room.getTileProperties(Room.collisionLayer, (int)desX, (int)desY).getName().contains("code")) {
-					extended = false;
-					Jeffrey.getActiveJeffrey().stopFall(false);
-					Jeffrey.getActiveJeffrey().setVy(0);
-					broke = true;
-					Jeffrey.getActiveJeffrey().binded = false;
-				} else {
-					this.junkCode();
-				}
-			} else {
-				this.junkCode();
-			}
-			} catch (ArrayIndexOutOfBoundsException e) {
-				this.junkCode();
-			}
-		}
-		if (this.mouseButtonPressed(2)&& !extended && !broke) {
-			extended = true;
-			this.setHitboxAttributes(11, 0, 3, 3);
-			x = this.getX();
-			y = this.getY();
-			currX = x;
-			currY = y;
-			Point currentPoint = new Point (x,y);
-			Point mousePoint = new Point (getCursorX() + Room.getViewX(),getCursorY() + Room.getViewY());
-			slope =currentPoint.getSlope(mousePoint);
-			int toUse = 1;
-			if (slope > 5 || slope < -5) {
-				slope = slope/4;
-				toUse = 1/4;
-			}
-			boolean change = false;
-			if ((mousePoint.getX()> currentPoint.getX() && mousePoint.getY() < currentPoint.getY()) || (mousePoint.getX()> currentPoint.getX() && mousePoint.getY() > currentPoint.getY() )) {
-				change = true;
-			}
-			
-			while (true) {
-				try {
-				if (!change) {
-				if (!this.goXandY(this.getX() - toUse, this.getY() + slope)) {
-					
-					break;
-				}
-				} else {
-					if (!this.goXandY(this.getX() + toUse, this.getY() + slope)) {
-						break;
-					}
-				}
-				if (this.getY() < 0) {
-					this.setY(0);
-					break;
-				}
-				if (this.getX() < 0) {
-					this.setX(0);
-					break;
-				}
-				if (this.getX() > Room.getWidth() * 16) {
-					this.setX(Room.getWidth() * 16);
-					break;
-				}
-				if (this.getY() > Room.getHeight() * 16) {
-					this.setY(Room.getHeight() * 16);
-					break;
-				}
-				} catch (ArrayIndexOutOfBoundsException e) {
-					break;
-				}
-			}
-			desX = this.getX();
-			desY = this.getY();
-			
-			
-		} 
-		if ((this.keyPressed(32)&& extended) && !Jeffrey.getActiveJeffrey().isCrouched()) {
-			extended = false;
-			Jeffrey.getActiveJeffrey().stopFall(false);
-			Jeffrey.getActiveJeffrey().setVy(0);
-			broke = true;
-			Jeffrey.getActiveJeffrey().binded = false;
-		}
-		if (broke && !mouseButtonDown (2)) {
-			broke = false;
-		}
-		
-		
-		if (Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite)) {
-			if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
-			this.createExpandingHitBoxBasedOnADiffrentObject(new int [] { -34, -34, -34, -34,-22,-19,-24,-22,-24, -24,-34,-34}, new int [] {0,0,0,3,24,30,40,36,33,4,0,0}, new int [] {0,0,0,11,2,2,2,14,21,22,0,0} , new int [] {0,0,0,11,10,7,11,26,16,7,0,0} , Jeffrey.getActiveJeffrey());
-			} else {
-				this.createExpandingHitBoxBasedOnADiffrentObject(new int [] { 0, 0, 0, 45,0,0,0,0,0, 36,0,0}, new int [] {0,0,0,3,24,30,40,36,33,4,0,0}, new int [] {0,0,0,11,2,2,2,14,21,22,0,0} , new int [] {0,0,0,11,10,7,11,26,16,7,0,0} , Jeffrey.getActiveJeffrey());
-			}
-		for (int i = 0; i < Enemy.enemyList.size(); i ++) {
-			if (this.isColliding(Enemy.enemyList.get(i)) && !hitEnemys.contains(Enemy.enemyList.get(i)) ){
-				hitEnemys.add(Enemy.enemyList.get(i));
-				if (this.getTierInfo()[0] >= 1) {
-				Enemy.enemyList.get(i).knockback(10, this.getAnimationHandler().flipHorizontal());
-				}
-				Enemy.enemyList.get(i).appliedStatuses[3] = true;
-				Enemy.enemyList.get(i).damage (RNG.nextInt(50) + 20);
-			}
-		}
-		}
-		if (this.mouseButtonDown(0) && !Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite)  && !Jeffrey.getActiveJeffrey().isCrouched()) {
-			Jeffrey.getActiveJeffrey().setSprite(samSwingSprite);
-			Jeffrey.getActiveJeffrey().getAnimationHandler().setFrameTime(50);
-			Jeffrey.getActiveJeffrey().changeSprite(false);
-			Jeffrey.getActiveJeffrey().crouchElegable(false);
-			if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
-				Jeffrey.getActiveJeffrey().desyncSpriteX(-34);
-			} 
-		}
-		
-	}
-	@Override 
-	public void onFlip() {
-		if (Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite)) {
-			if  (!Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
-				Jeffrey.getActiveJeffrey().desyncSpriteX(-34);
-			} else {
-				Jeffrey.getActiveJeffrey().desyncSpriteX(0);
-			}
-		}
-	}
-	private void junkCode () {
-		if (extended) {
-			if (mouseButtonDown(2)) {
-				Point currentPoint = new Point (this.getX(),this.getY());
-				Point mousePoint = new Point (desX,desY);
-				slope =currentPoint.getSlope(mousePoint);
-				Jeffrey.getActiveJeffrey().stopFall(true); 
-				if (fifthteenthX > Room.TILE_WIDTH) {
-					fifthteenthX = Room.TILE_WIDTH;
-					}
-				if (fifthteenthY> Room.TILE_HEIGHT) {
-					fifthteenthY = Room.TILE_HEIGHT;
-					}
-					if (Jeffrey.getActiveJeffrey().getY ()  > desY) {
-						Jeffrey.getActiveJeffrey().goY(Jeffrey.getActiveJeffrey().getY() - fifthteenthY);
-					} else {
-						Jeffrey.getActiveJeffrey().goY(Jeffrey.getActiveJeffrey().getY() + fifthteenthY);
-					}
-					Jeffrey.getActiveJeffrey().binded = true;
-					if (Jeffrey.getActiveJeffrey().getX() > desX) {
-					
-						Jeffrey.getActiveJeffrey().goX(Jeffrey.getActiveJeffrey().getX() - fifthteenthX);
-					} else {
-						Jeffrey.getActiveJeffrey().goX(Jeffrey.getActiveJeffrey().getX() + fifthteenthX);
-					}
-			} else {
-				Jeffrey.getActiveJeffrey().binded = false;
-				Jeffrey.getActiveJeffrey().stopFall(true); 
-				double slack =  Jeffrey.getActiveJeffrey().getY() - desY;
-				if (slack < 0) {
-					slack = slack * -1;
-				}
-				if (slack > 1) {
-					double toUse = slack/15;
-					if (toUse > 8) {
-						toUse = 8;
-					}
-				if (!(Jeffrey.getActiveJeffrey().getX() < desX + 10 && Jeffrey.getActiveJeffrey().getX() > desX -10)) {
-				if (Jeffrey.getActiveJeffrey().getX() > desX) {
-					Jeffrey.getActiveJeffrey().vx = Jeffrey.getActiveJeffrey().vx  -(toUse/10);
-				} else {
-					Jeffrey.getActiveJeffrey().vx = Jeffrey.getActiveJeffrey().vx + (toUse/10);
-				}
-				}
-				if (Jeffrey.getActiveJeffrey().vx > 15.9 && Jeffrey.getActiveJeffrey().vx > 0) {
-					Jeffrey.getActiveJeffrey().vx = 15.9;
-				}
-				if (Jeffrey.getActiveJeffrey().vx < -15.9 && Jeffrey.getActiveJeffrey().vx  < 0) {
-					Jeffrey.getActiveJeffrey().vx = -15.9;
-				}
-				} else {
-					Jeffrey.getActiveJeffrey().vx = 0;
-					Jeffrey.getActiveJeffrey().goX(desX);
-				}
-			}
-		}
-	}
-	@Override 
-	public void draw () {
-			if (Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite) && Jeffrey.getActiveJeffrey().getAnimationHandler().getFrame() ==  9) {
-				if ( !mouseButtonDown(0)) {
-					Jeffrey.getActiveJeffrey().changeSprite(true);
-					Jeffrey.getActiveJeffrey().crouchElegable(true);
-					if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
-						Jeffrey.getActiveJeffrey().setSprite(Jeffrey.SAM_SWORD);
-						Jeffrey.getActiveJeffrey().desyncSpriteX(0);
-					}
-				}
-				hitEnemys.removeAll(hitEnemys);
-			}
-			if (!Jeffrey.getActiveJeffrey().getSprite().equals(samSwingSprite)) {
-				Jeffrey.getActiveJeffrey().desyncSpriteX(0);
-			}
-		if (extended) {
-		graphics =(Graphics2D) RenderLoop.window.getBufferGraphics();
-		graphics.setColor(new Color (0x19ED45));
-		graphics.setStroke(new BasicStroke (2));
-		graphics.drawLine((int)this.getX() - Room.getViewX(), (int)this.getY() - Room.getViewY(), (int)currX - Room.getViewX(), (int)currY - Room.getViewY());
-		}
-	}
 }
+//TODO rewrite this once the Jeffrey sprites get worked out more
+//	@Override
+//	public void frameEvent() {
+//		if (extended && (currX != desX || currY != desY)) {
+//			if (desX > currX) {
+//				currX = currX + 30;
+//				if (currX > desX) {
+//					currX = desX;
+//					fifthteenthX = (desX - Player.getActivePlayer().getX())/15;
+//				}
+//			} else {
+//				currX = currX - 30;
+//				if (currX < desX) {
+//					currX = desX;
+//					fifthteenthX = ( Player.getActivePlayer().getX() - desX)/15;
+//				}
+//			}
+//			if (desY > currY) {
+//				currY = currY + (30*slope);
+//				if (currY > desY) {
+//					currY = desY;
+//					fifthteenthY = (desY - Player.getActivePlayer().getY())/15;
+//				}
+//			} else {
+//				currY = currY + (30*slope);
+//				if (currY < desY) {
+//					currY = desY;
+//					fifthteenthY = (Player.getActivePlayer().getY() - desY)/15;
+//				}
+//			}
+//		} else {
+//			try {
+//			if (Room.getTileProperties(Room.collisionLayer, (int)desX, (int)desY).getName() != null) {
+//				if (Room.getTileProperties(Room.collisionLayer, (int)desX, (int)desY).getName().contains("code")) {
+//					extended = false;
+//					Player.getActivePlayer().stopFall(false);
+//					Player.getActivePlayer().setVy(0);
+//					broke = true;
+//					Player.getActivePlayer().binded = false;
+//				} else {
+//					this.junkCode();
+//				}
+//			} else {
+//				this.junkCode();
+//			}
+//			} catch (ArrayIndexOutOfBoundsException e) {
+//				this.junkCode();
+//			}
+//		}
+//		if (this.mouseButtonPressed(2)&& !extended && !broke) {
+//			extended = true;
+//			this.setHitboxAttributes(11, 0, 3, 3);
+//			x = this.getX();
+//			y = this.getY();
+//			currX = x;
+//			currY = y;
+//			Point currentPoint = new Point (x,y);
+//			Point mousePoint = new Point (getCursorX() + Room.getViewX(),getCursorY() + Room.getViewY());
+//			slope =currentPoint.getSlope(mousePoint);
+//			int toUse = 1;
+//			if (slope > 5 || slope < -5) {
+//				slope = slope/4;
+//				toUse = 1/4;
+//			}
+//			boolean change = false;
+//			if ((mousePoint.getX()> currentPoint.getX() && mousePoint.getY() < currentPoint.getY()) || (mousePoint.getX()> currentPoint.getX() && mousePoint.getY() > currentPoint.getY() )) {
+//				change = true;
+//			}
+//			
+//			while (true) {
+//				try {
+//				if (!change) {
+//				if (!this.goXandY(this.getX() - toUse, this.getY() + slope)) {
+//					
+//					break;
+//				}
+//				} else {
+//					if (!this.goXandY(this.getX() + toUse, this.getY() + slope)) {
+//						break;
+//					}
+//				}
+//				if (this.getY() < 0) {
+//					this.setY(0);
+//					break;
+//				}
+//				if (this.getX() < 0) {
+//					this.setX(0);
+//					break;
+//				}
+//				if (this.getX() > Room.getWidth() * 16) {
+//					this.setX(Room.getWidth() * 16);
+//					break;
+//				}
+//				if (this.getY() > Room.getHeight() * 16) {
+//					this.setY(Room.getHeight() * 16);
+//					break;
+//				}
+//				} catch (ArrayIndexOutOfBoundsException e) {
+//					break;
+//				}
+//			}
+//			desX = this.getX();
+//			desY = this.getY();
+//			
+//			
+//		} 
+//		if ((this.keyPressed(32)&& extended) && !Player.getActivePlayer().isCrouched()) {
+//			extended = false;
+//			Player.getActivePlayer().stopFall(false);
+//			Player.getActivePlayer().setVy(0);
+//			broke = true;
+//			Player.getActivePlayer().binded = false;
+//		}
+//		if (broke && !mouseButtonDown (2)) {
+//			broke = false;
+//		}
+//		
+//		
+//		if (Player.getActivePlayer().getSprite().equals(samSwingSprite)) {
+//			if (Player.getActivePlayer().getAnimationHandler().flipHorizontal()) {
+//			this.createExpandingHitBoxBasedOnADiffrentObject(new int [] { -34, -34, -34, -34,-22,-19,-24,-22,-24, -24,-34,-34}, new int [] {0,0,0,3,24,30,40,36,33,4,0,0}, new int [] {0,0,0,11,2,2,2,14,21,22,0,0} , new int [] {0,0,0,11,10,7,11,26,16,7,0,0} , Player.getActivePlayer());
+//			} else {
+//				this.createExpandingHitBoxBasedOnADiffrentObject(new int [] { 0, 0, 0, 45,0,0,0,0,0, 36,0,0}, new int [] {0,0,0,3,24,30,40,36,33,4,0,0}, new int [] {0,0,0,11,2,2,2,14,21,22,0,0} , new int [] {0,0,0,11,10,7,11,26,16,7,0,0} , Player.getActivePlayer());
+//			}
+//		for (int i = 0; i < Enemy.enemyList.size(); i ++) {
+//			if (this.isColliding(Enemy.enemyList.get(i)) && !hitEnemys.contains(Enemy.enemyList.get(i)) ){
+//				hitEnemys.add(Enemy.enemyList.get(i));
+//				if (this.getTierInfo()[0] >= 1) {
+//				Enemy.enemyList.get(i).knockback(10, this.getAnimationHandler().flipHorizontal());
+//				}
+//				Enemy.enemyList.get(i).appliedStatuses[3] = true;
+//				Enemy.enemyList.get(i).damage (RNG.nextInt(50) + 20);
+//			}
+//		}
+//		}
+//		if (this.mouseButtonDown(0) && !Player.getActivePlayer().getSprite().equals(samSwingSprite)  && !Player.getActivePlayer().isCrouched()) {
+//			Player.getActivePlayer().setSprite(samSwingSprite);
+//			Player.getActivePlayer().getAnimationHandler().setFrameTime(50);
+//			Player.getActivePlayer().changeSprite(false);
+//			Player.getActivePlayer().crouchElegable(false);
+//			if (Player.getActivePlayer().getAnimationHandler().flipHorizontal()) {
+//				Player.getActivePlayer().desyncSpriteX(-34);
+//			} 
+//		}
+//		
+//	}
+//	@Override 
+//	public void onFlip() {
+//		if (Player.getActivePlayer().getSprite().equals(samSwingSprite)) {
+//			if  (!Player.getActivePlayer().getAnimationHandler().flipHorizontal()) {
+//				Player.getActivePlayer().desyncSpriteX(-34);
+//			} else {
+//				Player.getActivePlayer().desyncSpriteX(0);
+//			}
+//		}
+//	}
+//	private void junkCode () {
+//		if (extended) {
+//			if (mouseButtonDown(2)) {
+//				Point currentPoint = new Point (this.getX(),this.getY());
+//				Point mousePoint = new Point (desX,desY);
+//				slope =currentPoint.getSlope(mousePoint);
+//				Player.getActivePlayer().stopFall(true); 
+//				if (fifthteenthX > Room.TILE_WIDTH) {
+//					fifthteenthX = Room.TILE_WIDTH;
+//					}
+//				if (fifthteenthY> Room.TILE_HEIGHT) {
+//					fifthteenthY = Room.TILE_HEIGHT;
+//					}
+//					if (Player.getActivePlayer().getY ()  > desY) {
+//						Player.getActivePlayer().goY(Player.getActivePlayer().getY() - fifthteenthY);
+//					} else {
+//						Player.getActivePlayer().goY(Player.getActivePlayer().getY() + fifthteenthY);
+//					}
+//					Player.getActivePlayer().binded = true;
+//					if (Player.getActivePlayer().getX() > desX) {
+//					
+//						Player.getActivePlayer().goX(Player.getActivePlayer().getX() - fifthteenthX);
+//					} else {
+//						Player.getActivePlayer().goX(Player.getActivePlayer().getX() + fifthteenthX);
+//					}
+//			} else {
+//				Player.getActivePlayer().binded = false;
+//				Player.getActivePlayer().stopFall(true); 
+//				double slack =  Player.getActivePlayer().getY() - desY;
+//				if (slack < 0) {
+//					slack = slack * -1;
+//				}
+//				if (slack > 1) {
+//					double toUse = slack/15;
+//					if (toUse > 8) {
+//						toUse = 8;
+//					}
+//				if (!(Player.getActivePlayer().getX() < desX + 10 && Player.getActivePlayer().getX() > desX -10)) {
+//				if (Player.getActivePlayer().getX() > desX) {
+//					Player.getActivePlayer().vx = Player.getActivePlayer().vx  -(toUse/10);
+//				} else {
+//					Player.getActivePlayer().vx = Player.getActivePlayer().vx + (toUse/10);
+//				}
+//				}
+//				if (Player.getActivePlayer().vx > 15.9 && Player.getActivePlayer().vx > 0) {
+//					Player.getActivePlayer().vx = 15.9;
+//				}
+//				if (Player.getActivePlayer().vx < -15.9 && Player.getActivePlayer().vx  < 0) {
+//					Player.getActivePlayer().vx = -15.9;
+//				}
+//				} else {
+//					Player.getActivePlayer().vx = 0;
+//					Player.getActivePlayer().goX(desX);
+//				}
+//			}
+//		}
+//	}
+//	@Override 
+//	public void draw () {
+//			if (Player.getActivePlayer().getSprite().equals(samSwingSprite) && Player.getActivePlayer().getAnimationHandler().getFrame() ==  9) {
+//				if ( !mouseButtonDown(0)) {
+//					Player.getActivePlayer().changeSprite(true);
+//					Player.getActivePlayer().crouchElegable(true);
+//					if (Player.getActivePlayer().getAnimationHandler().flipHorizontal()) {
+//						Player.getActivePlayer().setSprite(Player.SAM_SWORD);
+//						Player.getActivePlayer().desyncSpriteX(0);
+//					}
+//				}
+//				hitEnemys.removeAll(hitEnemys);
+//			}
+//			if (!Player.getActivePlayer().getSprite().equals(samSwingSprite)) {
+//				Player.getActivePlayer().desyncSpriteX(0);
+//			}
+//		if (extended) {
+//		graphics =(Graphics2D) RenderLoop.window.getBufferGraphics();
+//		graphics.setColor(new Color (0x19ED45));
+//		graphics.setStroke(new BasicStroke (2));
+//		graphics.drawLine((int)this.getX() - Room.getViewX(), (int)this.getY() - Room.getViewY(), (int)currX - Room.getViewX(), (int)currY - Room.getViewY());
+//		}
+//	}
+//}

@@ -2,7 +2,7 @@ package items;
 
 import gameObjects.UseableJetpack;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class Jetpack extends Item {

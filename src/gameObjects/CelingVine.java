@@ -7,7 +7,7 @@ import main.ObjectHandler;
 import mapObjects.CarryObject;
 import mapObjects.MapObject;
 import mapObjects.MoveingPlatform;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class CelingVine extends GameObject {
@@ -55,9 +55,18 @@ public class CelingVine extends GameObject {
 			}
 			inzilized = true;
 		}
-		if (this.isColliding(Jeffrey.getActiveJeffrey()) && keyDown (32)) {
-			Jeffrey.getActiveJeffrey().stopFall(true);	
-			Jeffrey.getActiveJeffrey().constantSpeed();
+		if (this.isColliding(Player.getActivePlayer()) && keyDown (32)) {
+			Player.getActivePlayer().stopFall(true);	
+			Player.getActivePlayer().binded = true;
+			if (keyDown ('D')) {
+				Player.getActivePlayer().setX(Player.getActivePlayer().getX() + 2);
+			}
+			
+			if (keyDown ('A')) {
+				Player.getActivePlayer().setX(Player.getActivePlayer().getX() - 2);
+			}
+			
+			
 			if (attachedPlatform != null) {
 				ArrayList <MapObject> working = new ArrayList <MapObject> ();
 				ArrayList<ArrayList<GameObject>> fullList = ObjectHandler.getChildrenByName("MapObject");
@@ -75,12 +84,12 @@ public class CelingVine extends GameObject {
 				}
 				for (int i = 0; i <working.size(); i++) {
 					CarryObject platform = (CarryObject) working.get(i);
-					if (platform.getCarryObjs().contains(Jeffrey.getActiveJeffrey())) {
-						platform.removeCarryObject(Jeffrey.getActiveJeffrey());
+					if (platform.getCarryObjs().contains(Player.getActivePlayer())) {
+						platform.removeCarryObject(Player.getActivePlayer());
 					}
 				}
-				if (!attachedPlatform.getCarryObjs().contains(Jeffrey.getActiveJeffrey())) {
-					attachedPlatform.addCarryObject(Jeffrey.getActiveJeffrey());
+				if (!attachedPlatform.getCarryObjs().contains(Player.getActivePlayer())) {
+					attachedPlatform.addCarryObject(Player.getActivePlayer());
 				}
 			}
 			if (!grabbed) {
@@ -90,10 +99,9 @@ public class CelingVine extends GameObject {
 	}
 	@Override
 	public void staticLogic () {
-		if (grabbed && (!Jeffrey.getActiveJeffrey().isColliding("CelingVine") || !keyDown(32))) {
+		if (grabbed && (!Player.getActivePlayer().isColliding("CelingVine") || !keyDown(32))) {
 			grabbed = false;
-			Jeffrey.getActiveJeffrey().setVy(0);
-			Jeffrey.getActiveJeffrey().normalSpeed();
+			Player.getActivePlayer().setVy(0);
 			ArrayList <MapObject> working = new ArrayList <MapObject> ();
 			ArrayList<ArrayList<GameObject>> fullList = ObjectHandler.getChildrenByName("MapObject");
 			if (fullList != null) {
@@ -110,11 +118,12 @@ public class CelingVine extends GameObject {
 			}
 			for (int i = 0; i <working.size(); i++) {
 				CarryObject platform = (CarryObject) working.get(i);
-				if (platform.getCarryObjs().contains(Jeffrey.getActiveJeffrey())) {
-					platform.removeCarryObject(Jeffrey.getActiveJeffrey());
+				if (platform.getCarryObjs().contains(Player.getActivePlayer())) {
+					platform.removeCarryObject(Player.getActivePlayer());
 				}
 			}
-			Jeffrey.getActiveJeffrey().stopFall(false);
+			Player.getActivePlayer().stopFall(false);
+			Player.getActivePlayer().binded = false;
 		}
 	}
 }

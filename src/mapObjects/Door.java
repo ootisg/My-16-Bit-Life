@@ -7,7 +7,7 @@ import cutsceens.Cutsceen;
 import items.Item;
 import main.GameObject;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 import switches.Activateable;
 
@@ -91,25 +91,15 @@ public class Door extends MapObject implements Activateable {
 				if (!endSceen.play()) {
 					endSceen = null;
 					endPlaying = false;
-					Class<?> c;
-					try {
-						c = Class.forName("items." + keyName);
-						Jeffrey.getInventory().removeItem((Item)c.getConstructor().newInstance());
-					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-							| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						//e.printStackTrace();
-					}
+					Player.getInventory().removeItem(keyName);
 					open = true;
 					this.reverseCollision();
 				}
 			}
 			if (!open) {
 			super.frameEvent();
-				if (this.isColliding(Jeffrey.getActiveJeffrey())) {
-					try {
-						Class <?> c = Class.forName("items." + keyName);
-						if (Jeffrey.getInventory().checkKey((Item)c.getConstructor().newInstance())){
+				if (this.isColliding(Player.getActivePlayer())) {
+						if (Player.getInventory().checkItem(keyName)){
 								if (endSceen != null) {
 									if (!endPause) {
 										endPlaying = true;
@@ -130,25 +120,8 @@ public class Door extends MapObject implements Activateable {
 									}
 								} 
 							}
-						} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-								| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
-							if (endSceen != null) {
-								if (!endPause) {
-									if (!endSceen.play()) {
-										endSceen = null;
-									}
-								} else {
-									sceen = true;
-									ObjectHandler.pause(true);
-									doStuff = true;
-								}
-						}  else {
-							open = true;
-							this.reverseCollision();
 						}
 					}
-				}
-			}
 		} else {
 			if (endPlaying) {
 				if (!endSceen.play()) {
@@ -164,7 +137,7 @@ public class Door extends MapObject implements Activateable {
 					}else {
 						startSceen = new Cutsceen ("resources/cutsceenConfig/DoorDown.txt",new GameObject [] {this});
 					}
-					this.reverseCollision();
+					//this.reverseCollision();
 				}
 			}
 			if (startPlaying) {
@@ -181,7 +154,7 @@ public class Door extends MapObject implements Activateable {
 					} else {
 						endSceen  = new Cutsceen ("resources/cutsceenConfig/DoorUp.txt",new GameObject [] {this});
 					}
-					this.reverseCollision();
+					//this.reverseCollision();
 				} 
 			}
 		}
@@ -198,7 +171,7 @@ public class Door extends MapObject implements Activateable {
 						Class<?> c;
 						try {
 							c = Class.forName("items." + keyName);
-							Jeffrey.getInventory().removeItem((Item)c.getConstructor().newInstance());
+							Player.getInventory().removeItem((Item)c.getConstructor().newInstance());
 						} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 								| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
 							// TODO Auto-generated catch block

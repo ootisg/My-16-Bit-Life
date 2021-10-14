@@ -2,7 +2,7 @@ package gameObjects;
 
 import main.GameObject;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.LoopableSprite;
 import resources.Sprite;
 

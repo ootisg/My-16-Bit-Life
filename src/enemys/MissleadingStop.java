@@ -2,7 +2,7 @@ package enemys;
 
 import main.GameCode;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 import switches.Activateable;
 
@@ -25,20 +25,14 @@ public class MissleadingStop extends Enemy implements Activateable {
 	public void frameEvent () {
 		if (activated) {
 			if (this.health <= 0) {
-				if (!Jeffrey.getInventory().checkKill(this)) {
-					Jeffrey.getInventory().addKill(this);
+				if (!Player.getInventory().checkKill(this)) {
+					Player.getInventory().addKill(this);
 				}
 				enemyList.remove(this);		
 				this.forget();
 			}
-			if (Jeffrey.getActiveJeffrey().getX() - this.getX() < 150 &&Jeffrey.getActiveJeffrey().getX() - this.getX() >= -150 && this.declared()) {
-				Jeffrey.status.statusAppliedOnJeffrey[3] = true;
-				Jeffrey.status.statusAppliedOnRyan[3]= true;
-				Jeffrey.status.statusAppliedOnSam[3] = true;
-			} else {
-				Jeffrey.status.statusAppliedOnJeffrey[3] = false;
-				Jeffrey.status.statusAppliedOnRyan[3]= false;
-				Jeffrey.status.statusAppliedOnSam[3] = false;
+			if (Player.getActivePlayer().getX() - this.getX() < 150 &&Player.getActivePlayer().getX() - this.getX() >= -150 && this.declared()) {
+				Player.getActivePlayer().getStatus().applyStatus("Slowness", 1);
 			}
 		}
 	}
@@ -48,7 +42,7 @@ public class MissleadingStop extends Enemy implements Activateable {
 	}
 	@Override
 	public String checkEntry () {
-		return "ITS AN OCTOGON WHITCH HAS 1 2 3 4 5 6 7 8 EPIC SIDES AND 1 2 3 4 5 6 7 8 AWESOME ANGLES";
+		return "ITS AN OCTOGON";
 	}
 	@Override
 	public void activate() {

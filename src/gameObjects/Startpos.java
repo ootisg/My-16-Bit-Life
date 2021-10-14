@@ -10,7 +10,7 @@ public class Startpos extends GameObject {
 	}
 	@Override
 	public void declare (double x, double y) {
-		/*GameObject mallamajeff = ObjectHandler.getObjectsByName ("Jeffrey").get (0);
+		/*GameObject mallamajeff = ObjectHandler.getObjectsByName ("Player").get (0);
 		mallamajeff.setX (x);
 		mallamajeff.setY (y);*/
 	}

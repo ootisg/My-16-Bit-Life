@@ -2,7 +2,7 @@ package gameObjects;
 
 import main.GameObject;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class LaunchPlant extends EnterableObject  {
@@ -25,7 +25,7 @@ public class LaunchPlant extends EnterableObject  {
 			if (this.getAnimationHandler().getFrame() == 7) {
 				this.exit();
 				this.wasInside = true;
-				Jeffrey.getActiveJeffrey().setVy(-20);
+				Player.getActivePlayer().setVy(-20);
 			}
 		}
 	}

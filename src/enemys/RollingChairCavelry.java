@@ -4,7 +4,7 @@ import java.util.Random;
 
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class RollingChairCavelry extends Enemy{
@@ -49,12 +49,12 @@ public void enemyFrame () {
 				}
 			inzialized = true;
 		}
-		if (realDirection && Jeffrey.getActiveJeffrey().getX() < this.getX()) {
+		if (realDirection && Player.getActivePlayer().getX() < this.getX()) {
 			this.setSprite(TURNING_SPRITE);
 			turrning = 1;
 			realDirection = false;
 		}
-		if (!realDirection && Jeffrey.getActiveJeffrey().getX() > this.getX()) {
+		if (!realDirection && Player.getActivePlayer().getX() > this.getX()) {
 			this.setSprite(TURNING_SPRITE);
 			turrning = 1;
 			this.getAnimationHandler().setFlipHorizontal(true);
@@ -141,11 +141,11 @@ public void enemyFrame () {
 			}
 		}
 		this.setX(this.getX() + direction);
-		if (this.isColliding(Jeffrey.getActiveJeffrey())) {
+		if (this.isColliding(Player.getActivePlayer())) {
 			if (direction != 0) {
-				Jeffrey.getActiveJeffrey().damage(RNG.nextInt(Math.abs(direction)) * 5);
+				Player.getActivePlayer().damage(RNG.nextInt(Math.abs(direction)) * 5);
 			} else {
-				Jeffrey.getActiveJeffrey().damage(RNG.nextInt(10));	
+				Player.getActivePlayer().damage(RNG.nextInt(10));	
 			}
 		}
 		

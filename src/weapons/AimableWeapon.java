@@ -14,7 +14,7 @@ import map.Room;
 import projectiles.Projectile;
 import resources.Sprite;
 
-public class AimableWeapon extends Item {
+public class AimableWeapon extends Weapon {
 	//This class is not yet commented
 	protected BufferedImage img;
 	protected Sprite src;
@@ -89,6 +89,7 @@ public class AimableWeapon extends Item {
 		if (getAnimationHandler ().flipHorizontal ()) {
 			endX = this.getX () + Math.cos (ang + Math.PI /180 * 15) * 14 + 4;
 			endY = this.getY () + Math.sin (ang + Math.PI / 180 * 15) * 14;
+			projectile.getAnimationHandler().setFlipHorizontal(true);
 		} else {
 			endX = this.getX () + Math.cos (ang - Math.PI / 180 * 15) * 14;
 			endY = this.getY () + Math.sin (ang - Math.PI / 180 * 15) * 14;

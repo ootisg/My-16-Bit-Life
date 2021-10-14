@@ -6,7 +6,7 @@ import java.util.Random;
 import enemys.Enemy;
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 import weapons.NinjaTriangle;
 
@@ -52,7 +52,7 @@ public class Triangle extends Projectile{
 		DirectionBullet bullet;
 		bullet = new DirectionBullet (this.getX(), this.getY());
 		Triangle returningTriangle = null;
-		double directionToGo = bullet.findDirection(Jeffrey.getActiveJeffrey());
+		double directionToGo = bullet.findDirection(Player.getActivePlayer());
 		bullet.forget();
 		if (copyTriangle.getTierInfo()[2] == 1) {
 			if (amountOfBounces == 2) {
@@ -83,7 +83,7 @@ public class Triangle extends Projectile{
 		if (this.homeing) {
 			DirectionBullet bullet;
 			bullet = new DirectionBullet (this.getX(), this.getY());
-			double directionToGo = bullet.findDirection(Jeffrey.getActiveJeffrey());
+			double directionToGo = bullet.findDirection(Player.getActivePlayer());
 			bullet.forget();
 			this.setDirection(directionToGo);
 		}
@@ -110,7 +110,7 @@ public class Triangle extends Projectile{
 				recallTimer = 0;
 				bullet = new DirectionBullet (this.getX(), this.getY());
 				Triangle returningTriangle;
-				double directionToGo = bullet.findDirection(Jeffrey.getActiveJeffrey());
+				double directionToGo = bullet.findDirection(Player.getActivePlayer());
 				returningTriangle = new Triangle (directionToGo, 10, 0, copyTriangle);
 				returningTriangle.home();
 				returningTriangle.declare(this.getX(),this.getY());	
@@ -120,7 +120,7 @@ public class Triangle extends Projectile{
 				DirectionBullet bullet;
 				bullet = new DirectionBullet (this.getX(), this.getY());
 				Triangle returningTriangle = null;
-				double directionToGo = bullet.findDirection(Jeffrey.getActiveJeffrey());
+				double directionToGo = bullet.findDirection(Player.getActivePlayer());
 				bullet.forget();
 				if (copyTriangle.getTierInfo()[2] == 1) {
 					if (amountOfBounces == 2) {
@@ -308,7 +308,7 @@ public class Triangle extends Projectile{
 					this.setX(this.getX() + 9);
 				}
 			}
-		if (this.isColliding(Jeffrey.getActiveJeffrey()) && (amountOfBounces != 0 || pickupTimer > 2)) {
+		if (this.isColliding(Player.getActivePlayer()) && (amountOfBounces != 0 || pickupTimer > 2)) {
 			copyTriangle.inHand = true;
 			this.replace();
 		}

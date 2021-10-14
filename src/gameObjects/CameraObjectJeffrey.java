@@ -1,6 +1,6 @@
 package gameObjects;
 
-import players.Jeffrey;
+import players.Player;
 
 public class CameraObjectJeffrey extends CameraObject {
 	
@@ -17,12 +17,12 @@ public class CameraObjectJeffrey extends CameraObject {
 	}
 	@Override
 	public void onJeffreyPosChange () {
-		this.setX(Jeffrey.getActiveJeffrey().getX());
-		this.setY(Jeffrey.getActiveJeffrey().getY());
+		this.setX(Player.getActivePlayer().getX());
+		this.setY(Player.getActivePlayer().getY());
 	}
 	@Override
 	public void giveUpControl() {
-		Jeffrey.setScroll(true);
+		Player.getActivePlayer().setScroll(true);
 		inControl = false;
 	}
 }

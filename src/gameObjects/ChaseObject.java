@@ -2,7 +2,7 @@ package gameObjects;
 
 import main.GameObject;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 import triggers.Checkpoint;
 
@@ -46,7 +46,7 @@ public class ChaseObject extends GameObject {
 				this.setX(delayedX);
 				this.setY(delayedY);
 				this.show();
-				if (Jeffrey.getActiveJeffrey().getX() < this.getX()){
+				if (Player.getActivePlayer().getX() < this.getX()){
 					direction = false;
 				} else {
 					direction = true;
@@ -71,8 +71,8 @@ public class ChaseObject extends GameObject {
 			} else {
 				vy = 1;
 			}
-			if (this.isColliding(Jeffrey.getActiveJeffrey())) {
-				Jeffrey.getActiveJeffrey().damage(10);
+			if (this.isColliding(Player.getActivePlayer())) {
+				Player.getActivePlayer().damage(10);
 				CheckpointSystem.loadNewestCheckpoint();
 			}
 			if (this.isCollidingChildren("Enemy")) {

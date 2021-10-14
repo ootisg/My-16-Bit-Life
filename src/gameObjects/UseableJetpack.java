@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import main.GameObject;
 import main.RenderLoop;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 
 public class UseableJetpack extends GameObject {
 	boolean check = false;
@@ -18,7 +18,7 @@ public class UseableJetpack extends GameObject {
 		
 	}
 	public void frameEvent () {
-		if (Jeffrey.getActiveJeffrey().getVy() != 0) {
+		if (Player.getActivePlayer().getVy() != 0) {
 			check = true;
 		} else {
 			overheated = false;
@@ -29,8 +29,8 @@ public class UseableJetpack extends GameObject {
 			ready = true;
 		} 
 		if (ready && keyDown (32) && fuel > 0 && !overheated) {
-			if (Jeffrey.getActiveJeffrey().getVy() > -5) {
-				Jeffrey.getActiveJeffrey().setVy(Jeffrey.getActiveJeffrey().getVy() - 1.1);
+			if (Player.getActivePlayer().getVy() > -5) {
+				Player.getActivePlayer().setVy(Player.getActivePlayer().getVy() - 1.1);
 			}
 			fuel = fuel - 1;
 		} else {

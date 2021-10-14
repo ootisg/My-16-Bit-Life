@@ -2,7 +2,7 @@ package tileEntities;
 
 import main.GameObject;
 import map.TileEntitiy;
-import players.Jeffrey;
+import players.Player;
 import switches.Activateable;
 
 public class BounceBlock extends TileEntitiy implements Activateable {
@@ -10,16 +10,16 @@ public class BounceBlock extends TileEntitiy implements Activateable {
 	@Override 
 	public void onCollision(GameObject o) {
 		if (activated) {
-			if (o.getClass().getSimpleName().equals("Jeffrey")) {
-				if (Jeffrey.getFallDistance(Jeffrey.getActiveJeffrey().getFallIncrementation()) > 112 ) {
-					Jeffrey.getActiveJeffrey().setVy(Jeffrey.downToUpSpeed(Jeffrey.getActiveJeffrey().getFallIncrementation()));
-					Jeffrey.getActiveJeffrey().getFallIncrementation().clear();
-					Jeffrey.getActiveJeffrey().forceSpacebar();
+			if (o.getClass().getSimpleName().equals("Player")) {
+				if (Player.getFallDistance(Player.getActivePlayer().getFallIncrementation()) > 112 ) {
+					Player.getActivePlayer().setVy(Player.downToUpSpeed(Player.getActivePlayer().getFallIncrementation()));
+					Player.getActivePlayer().getFallIncrementation().clear();
+					Player.getActivePlayer().forceSpacebar();
 				} else {
-					if (Jeffrey.getActiveJeffrey().getVy() > 0) {
-						Jeffrey.getActiveJeffrey().setVy(-14);
-						Jeffrey.getActiveJeffrey().getFallIncrementation().clear();
-						Jeffrey.getActiveJeffrey().forceSpacebar();
+					if (Player.getActivePlayer().getVy() > 0) {
+						Player.getActivePlayer().setVy(-14);
+						Player.getActivePlayer().getFallIncrementation().clear();
+						Player.getActivePlayer().forceSpacebar();
 					}
 				}
 			}
@@ -28,10 +28,10 @@ public class BounceBlock extends TileEntitiy implements Activateable {
 	@Override 
 	public boolean doesColide (GameObject o) {
 		if (activated) {
-			if (!o.getClass().getSimpleName().equals("Jeffrey")) {
+			if (!o.getClass().getSimpleName().equals("Player")) {
 				return true;
 			} else {
-				if (Jeffrey.getActiveJeffrey().isFallingDurringCollision()) {
+				if (Player.getActivePlayer().isFallingDurringCollision()) {
 					return false;
 				} else {
 					return true;

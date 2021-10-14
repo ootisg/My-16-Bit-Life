@@ -5,7 +5,7 @@ import java.util.Random;
 
 import enemys.Enemy;
 import gui.Gui;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class PopcornKernel extends Item{
@@ -39,25 +39,8 @@ public class PopcornKernel extends Item{
 		}
 	}
 	@Override
-	public void useItem(int witchCharictar) {
-		if (witchCharictar == 0) {
-			Jeffrey.jeffreyHealth = Jeffrey.jeffreyHealth + .1;
-			if (Jeffrey.jeffreyHealth >= Jeffrey.maxJeffreyHealth ) {
-				Jeffrey.jeffreyHealth = Jeffrey.maxJeffreyHealth;
-			}
-		}
-		if (witchCharictar == 1) {
-			Jeffrey.samHealth = Jeffrey.samHealth + .1;
-			if (Jeffrey.samHealth >= Jeffrey.maxSamHealth ) {
-				Jeffrey.samHealth = Jeffrey.maxSamHealth;
-			}
-		}
-		if (witchCharictar == 2) {
-			Jeffrey.ryanHealth = Jeffrey.ryanHealth + .1;
-			if (Jeffrey.ryanHealth >= Jeffrey.maxRyanHealth ) {
-				Jeffrey.ryanHealth = Jeffrey.maxRyanHealth;
-			}
-		}
+	public void useItem(Player toUse) {
+		toUse.heal(1);
 		Gui.getGui().menu.frozen = false;
 		this.forget();
 	}	

@@ -5,7 +5,7 @@ import java.util.Random;
 import enemys.Enemy;
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class BubbleProjectile extends Projectile {
@@ -25,12 +25,11 @@ public class BubbleProjectile extends Projectile {
 	Random RNG;
 	public BubbleProjectile (double d) {
 		RNG = new Random ();
-		this.declare(0, 0);
 		this.setSprite (bubble);
 		this.setSpeed (d);
 		this.setHitboxAttributes (2, 2, 12, 12);
-		jeffVx = Jeffrey.getActiveJeffrey().vx;
-		jeffVy = Jeffrey.getActiveJeffrey().getVy();
+		jeffVx = Player.getActivePlayer().vx;
+		jeffVy = Player.getActivePlayer().getVy();
 	}
 	@Override
 	public void projectileFrame () {
@@ -77,8 +76,8 @@ public class BubbleProjectile extends Projectile {
 		}
 		
 		//Pops when touching Jeffrey
-		if (!isPopped && this.isColliding(Jeffrey.getActiveJeffrey())) {
-			Jeffrey.getActiveJeffrey().setVy(-10);
+		if (!isPopped && this.isColliding(Player.getActivePlayer())) {
+			Player.getActivePlayer().setVy(-10);
 			pop();
 		}
 	}

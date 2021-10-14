@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 import switches.Activateable;
 /**
@@ -100,7 +100,7 @@ public class Fan extends MapObject implements Activateable {
 							if (reallyWorkin.hitbox() != null) {
 								if (reallyWorkin.getX() + reallyWorkin.getHitboxXOffset() + reallyWorkin.hitbox().getWidth() > this.getX() && reallyWorkin.getX() + reallyWorkin.getHitboxXOffset() < this.getX() + this.hitbox().width && reallyWorkin.getY() +reallyWorkin.hitbox().getHeight() + reallyWorkin.getHitboxYOffset()  < this.getY() && reallyWorkin.getY() + reallyWorkin.getHitboxYOffset()  > this.getY()-range) {
 									double distance = this.getY() - reallyWorkin.getY();
-									if (reallyWorkin.getClass().getSimpleName().equals("Jeffrey")) {
+									if (reallyWorkin.getClass().getSimpleName().equals("Player")) {
 										if (keyDown (32)) {
 										if (!reallyWorkin.goY(reallyWorkin.getY() - (power/(distance/400) + 1/(distance/400)))) {
 										
@@ -109,7 +109,7 @@ public class Fan extends MapObject implements Activateable {
 										} else {
 											reallyWorkin.goY(reallyWorkin.getY() - (power/(distance/400)));
 										}
-										Jeffrey lazyWorkin = (Jeffrey) reallyWorkin;
+										Player lazyWorkin = (Player) reallyWorkin;
 										if (lazyWorkin.getVy() > 5) {
 										lazyWorkin.setVy(5); 
 										}

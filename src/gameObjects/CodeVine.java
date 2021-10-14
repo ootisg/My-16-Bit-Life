@@ -3,7 +3,7 @@ package gameObjects;
 import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.LoopableSprite;
 import resources.Sprite;
 
@@ -29,8 +29,8 @@ public class CodeVine extends GameObject {
 			}
 			vineSprite.setDestanation((int)this.getX() - Room.getViewX(), tempY);
 			vineSprite.draw((int)this.getX() - Room.getViewX(), (int)this.getY() - Room.getViewY());
-				if (this.isColliding(Jeffrey.getActiveJeffrey())) {
-					Jeffrey.getActiveJeffrey().damage(10);
+				if (this.isColliding(Player.getActivePlayer())) {
+					Player.getActivePlayer().damage(10);
 				}
 		}
 	}

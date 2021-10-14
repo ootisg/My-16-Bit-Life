@@ -5,13 +5,11 @@ import java.util.Random;
 import main.GameCode;
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
-import statusEffect.Poison;
 import statusEffect.Status;
 
 public class Button extends Projectile {
-	Poison poison;
 	Random rand;
 	Sprite button;
 	public Button () {
@@ -19,7 +17,6 @@ public class Button extends Projectile {
 		setSprite (button);
 		setHitboxAttributes (0,0,8,8);
 		setAttributes (128, 128, 1.57, 3);
-		poison = new Poison(Jeffrey.getActiveJeffrey(), 1);
 		rand = new Random();
 	}
 	@Override
@@ -27,12 +24,12 @@ public class Button extends Projectile {
 		if (this.goingIntoWall){
 			this.forget();
 		}
-		if (isColliding(Jeffrey.getActiveJeffrey())){
+		if (isColliding(Player.getActivePlayer())){
 			int poisonChance = rand.nextInt(4) + 1;
-			if ((!Jeffrey.status.checkStatus(0, Jeffrey.getActiveJeffrey().witchCharictar) && poisonChance == 1)){
-				poison.declare(0, 0);
+			if ((!Player.getActivePlayer().status.checkStatus("Poison1") && poisonChance == 1)){
+				Player.getActivePlayer().getStatus().applyStatus("Poison1", 1560);
 			} 
-			Jeffrey.getActiveJeffrey().damage(7);
+			Player.getActivePlayer().damage(7);
 		}
 	}
 }

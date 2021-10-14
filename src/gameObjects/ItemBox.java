@@ -6,7 +6,7 @@ import cutsceens.Cutsceen;
 import items.Item;
 import main.GameObject;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class ItemBox extends GameObject {
@@ -44,7 +44,7 @@ public class ItemBox extends GameObject {
 					working.forget();
 				}
 			}
-			if (this.isColliding(Jeffrey.getActiveJeffrey()) && !open && keyDown (10)) {
+			if (this.isColliding(Player.getActivePlayer()) && !open && keyDown (10)) {
 				open = true;
 				if (cutscene == null) {
 					this.onOpen();

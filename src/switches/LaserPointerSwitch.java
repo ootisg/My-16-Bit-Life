@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import main.GameObject;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 import weapons.LaserPointer;
 
@@ -29,8 +29,8 @@ public class LaserPointerSwitch extends Switch {
 			inzialized = true;
 		}
 		if (!this.isActivated()) {
-			if (Jeffrey.getActiveJeffrey().getWeapon().getClass().getSimpleName().equals("LaserPointer")) {
-				LaserPointer thePointer = (LaserPointer)Jeffrey.getActiveJeffrey().getWeapon();
+			if (Player.getActivePlayer().getWeapon().getClass().getSimpleName().equals("LaserPointer")) {
+				LaserPointer thePointer = (LaserPointer)Player.getActivePlayer().getWeapon();
 				if (thePointer.isCollidingLaser(this)) {
 					this.activated = true;
 				} else {

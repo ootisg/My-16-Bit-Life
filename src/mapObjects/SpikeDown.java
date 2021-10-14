@@ -9,7 +9,7 @@ import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
 import map.TileEntitiy;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class SpikeDown extends MapObject implements StickyObject{
@@ -68,8 +68,8 @@ public class SpikeDown extends MapObject implements StickyObject{
 	}
 	@Override
 	public void onCollision(GameObject o) {	
-		if (o.getClass().getSimpleName().equals("Jeffrey")) {
-				Jeffrey j = (Jeffrey) o;
+		if (o instanceof Player) {
+				Player j = (Player) o;
 				if (j.getVy() < -3) {
 					j.damage(12);
 					if (checkpoint) {
@@ -80,7 +80,7 @@ public class SpikeDown extends MapObject implements StickyObject{
 	}
 	@Override 
 	public boolean doesColide (GameObject o) {
-		if (o.getClass().getSimpleName().equals("Jeffrey")) {
+		if (o instanceof Player) {
 			this.onCollision(o);
 			return false;
 		} else {

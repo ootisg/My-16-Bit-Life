@@ -588,6 +588,9 @@ public abstract class GameObject extends GameAPI {
 	 * @return True if the objects collide; false otherwise
 	 */
 	public boolean isColliding (GameObject obj) {
+		if (obj == null) {
+			return false;
+		}
 		if (this.getExcludeList().contains(obj.getClass().getSimpleName()) || obj.getExcludeList().contains(this.getClass().getSimpleName())) {
 			return false;
 		}

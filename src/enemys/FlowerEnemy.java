@@ -1,7 +1,7 @@
 package enemys;
 
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class FlowerEnemy extends Enemy{
@@ -20,9 +20,9 @@ public class FlowerEnemy extends Enemy{
 	}
 	@Override
 	public void enemyFrame () {
-		if (Jeffrey.getActiveJeffrey().isColliding(this.hitbox())) {
+		if (Player.getActivePlayer().isColliding(this.hitbox())) {
 			timer = timer + 1;
-				if (Jeffrey.getActiveJeffrey().getX() > this.getX() + 80) {
+				if (Player.getActivePlayer().getX() > this.getX() + 80) {
 					if (!this.getSprite().equals(FLOWER_RIGHT)) {
 						this.setSprite(FLOWER_RIGHT);
 					}

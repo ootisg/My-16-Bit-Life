@@ -10,11 +10,10 @@ import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
 import map.TileEntitiy;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class SpikeUp extends MapObject implements StickyObject{
-	double JeffVy = 0;
 	boolean inzilized = false;
 	boolean added = false;
 	boolean checkpoint;
@@ -36,14 +35,13 @@ public class SpikeUp extends MapObject implements StickyObject{
 	@Override 
 	public void frameEvent () {
 		super.frameEvent();
-		JeffVy = Jeffrey.getActiveJeffrey().getVy();
 	}
 	@Override
 	public void onCollision(GameObject o) {	
-		if (o.getClass().getSimpleName().equals("Jeffrey")) {
+		if (o instanceof Player) {
 			if (!PogoStick.isPogoing()) {
-				Jeffrey j = (Jeffrey) o;
-				if (JeffVy > 3) {
+				Player j = (Player) o;
+				if (j.getVy() > 3) {
 					j.damage(12);
 					CheckpointSystem.loadNewestCheckpoint();
 				}
@@ -52,7 +50,8 @@ public class SpikeUp extends MapObject implements StickyObject{
 	}
 	@Override 
 	public boolean doesColide (GameObject o) {
-		if (o.getClass().getSimpleName().equals("Jeffrey")) {
+		if (o instanceof Player) {
+			
 				if (!PogoStick.isPogoing()) {
 					this.onCollision(o);
 					return true;

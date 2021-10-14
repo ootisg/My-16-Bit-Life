@@ -4,7 +4,7 @@ import gameObjects.UseableCarpet;
 import gameObjects.UseableFan;
 import gameObjects.UseableJetpack;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class FanItem extends Item {

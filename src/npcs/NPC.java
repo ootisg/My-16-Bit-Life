@@ -3,7 +3,7 @@ package npcs;
 import cutsceens.Cutsceen;
 import main.GameObject;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import players.JeffreyTopDown;
 import resources.Sprite;
 
@@ -46,8 +46,8 @@ public class NPC extends GameObject {
 			inzalized = true;
 		}
 		try {
-		if (keyDown (10) && !playing && Jeffrey.getActiveJeffrey().isColliding(this)) {
-			Jeffrey.getInventory().addFreind(this);
+		if (keyDown (10) && !playing && Player.getActivePlayer().isColliding(this)) {
+			Player.getInventory().addFreind(this);
 			ObjectHandler.pause(true);
 			playing = true;
 		}
@@ -56,13 +56,26 @@ public class NPC extends GameObject {
 		}
 		try {
 			if (keyDown (10) && !playing && JeffreyTopDown.getActiveJeffrey().isColliding(this)) {
-				Jeffrey.getInventory().addFreind(this);
+				Player.getInventory().addFreind(this);
 				ObjectHandler.pause(true);
 				playing = true;
 			}
 			} catch (NullPointerException e) {
 				
 			}
+	}
+	@Override
+	public Object clone () {
+		NPC newPC = new NPC ();
+		newPC.setX(this.getX());
+		newPC.setY(this.getY());
+		newPC.setVariantAttribute("Name", this.getVariantAttribute("Name"));
+		newPC.setVariantAttribute("Entry", this.getVariantAttribute("Entry"));
+		newPC.setVariantAttribute("attachedScene", this.getVariantAttribute("attachedScene"));
+		newPC.setVariantAttribute("Sprite",this.getVariantAttribute("Sprite"));
+		//might need to do something to check if this is a subclass but I don't really feel like it
+		
+		return newPC;
 	}
 	@Override 
 	public void pausedEvent () {

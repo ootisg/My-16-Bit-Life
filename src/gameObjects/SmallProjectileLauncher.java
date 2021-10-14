@@ -3,14 +3,14 @@ package gameObjects;
 import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import projectiles.SmallProjectile;
 import resources.Sprite;
 
 public class SmallProjectileLauncher extends GameObject {
 	
 	public static final Sprite sprite = new Sprite ("resources/sprites/circleLauncher.png");
-	Jeffrey jeffrey;
+	Player jeffrey;
 	int timer = 0;
 	
 	public SmallProjectileLauncher () {
@@ -20,7 +20,7 @@ public class SmallProjectileLauncher extends GameObject {
 	
 	@Override
 	public void onDeclare () {
-		jeffrey = Jeffrey.getActiveJeffrey();
+		jeffrey = Player.getActivePlayer();
 	}
 	
 	public  void frameEvent () {

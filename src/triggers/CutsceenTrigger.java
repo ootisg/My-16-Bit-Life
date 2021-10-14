@@ -20,7 +20,7 @@ public class CutsceenTrigger extends RessesiveTrigger {
 			 	if (this.getVariantAttribute("Partner") != null) {
 			 		GameObject [] working = new GameObject [this.getPairedObject().getPairedObjects().toArray().length];
 			 		for (int i = 0; i < this.getPairedObject().getPairedObjects().toArray().length; i++) {
-			 			working[i] = (GameObject)this.getPairedObject().getPairedPairedObjects().toArray()[i];
+			 			working[i] = (GameObject)this.getPairedObject().getPairedObjects().toArray()[i];
 			 		}
 			 		associatedCutsceen = new Cutsceen ( "resources/cutsceenConfig/" + this.getVariantAttribute("cutsceen") + ".txt",working);
 			 	} else {

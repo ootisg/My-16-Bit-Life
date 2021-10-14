@@ -6,7 +6,7 @@ import main.GameObject;
 import main.ObjectHandler;
 import main.GameLoop;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 
 public class Loadzone extends GameObject {
 	String destination;

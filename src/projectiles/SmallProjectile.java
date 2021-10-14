@@ -2,7 +2,7 @@ package projectiles;
 
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class SmallProjectile extends Projectile {
@@ -49,8 +49,8 @@ public class SmallProjectile extends Projectile {
 		if (this.outsideTheMap) {
 			this.forget();
 		}
-		if (isColliding(Jeffrey.getActiveJeffrey()) && !hitSomething){
-			Jeffrey.getActiveJeffrey().damage(5);
+		if (isColliding(Player.getActivePlayer()) && !hitSomething){
+			Player.getActivePlayer().damage(5);
 			hitSomething = true;
 			this.forget();
 			

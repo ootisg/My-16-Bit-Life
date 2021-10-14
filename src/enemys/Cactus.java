@@ -4,7 +4,7 @@ import gameObjects.ItemDropRate;
 import items.Coin;
 import items.Waffle;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import projectiles.DirectionBullet;
 import projectiles.MiniCactus;
 import resources.Sprite;
@@ -26,7 +26,7 @@ public class Cactus extends Enemy {
 			partner = new MiniCactus();
 			partner.declare(this.getX(),this.getY());
 			DirectionBullet bullet = new DirectionBullet(this.getX(),this.getY());
-			partner.setDirection(bullet.findDirection(Jeffrey.getActiveJeffrey()));
+			partner.setDirection(bullet.findDirection(Player.getActivePlayer()));
 		} else {
 			if (!partner.declared()) {
 				coolDown = coolDown + 1;

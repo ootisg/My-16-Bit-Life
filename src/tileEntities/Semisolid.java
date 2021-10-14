@@ -6,7 +6,7 @@ package tileEntities;
 
 import main.GameObject;
 import map.TileEntitiy;
-import players.Jeffrey;
+import players.Player;
 
 public class Semisolid extends TileEntitiy{
 	public Semisolid() {
@@ -15,8 +15,8 @@ public class Semisolid extends TileEntitiy{
 	@Override 
 	public boolean doesColide (GameObject o) {
 		
-		if (o.getClass().getSimpleName().equals("Jeffrey")) {
-		Jeffrey j = (Jeffrey) o;
+		if (o instanceof Player) {
+		Player j = (Player) o;
 		if (j.getVy() < 0 || (j.getYPrevious() + j.hitbox().height > this.getY() * 16)){
 			return false;
 		} 

@@ -6,19 +6,18 @@ import java.util.Iterator;
 import java.util.Random;
 
 import enemys.Enemy;
-import items.Bomb;
 import items.Item;
 import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
 import main.RenderLoop;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import projectiles.LifeVaccumProjectile;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
 
-public class LifeVaccum extends Item {
+public class LifeVaccum extends Weapon {
 	Random RNG;
 	Boolean loseBattary;
 	int timer;
@@ -28,9 +27,7 @@ public class LifeVaccum extends Item {
 	int quicknessTimer = 0;
 	boolean inzialized = false;
 	int projectileCharge;
-	static int battary = 1000;
 	Graphics g = RenderLoop.window.getBufferGraphics();
-	public final Sprite OUTTA_AMMO = new Sprite ("resources/sprites/Outta_Ammo.png");
 	public LifeVaccum () {
 		vaccumSprite = new Sprite( "resources/sprites/config/lifeVaccum.txt");
 		upgradeInfo = new int [] {0,0,1,0};
@@ -56,10 +53,7 @@ public class LifeVaccum extends Item {
 	public String getItemType() {
 		return "WeaponSam";
 	}
-	@Override 
-	public int getAmmoAmount () {
-		return battary;
-	}
+	
 	@Override
 	public String [] getUpgrades () {
 		String [] returnArray;
@@ -83,81 +77,8 @@ public class LifeVaccum extends Item {
 			wind.declare();
 		}
 		timer = timer + 1;
-		if (mouseButtonDown (0)) {
-			quicknessTimer = quicknessTimer + 1;
-		} else {
-			if (!mouseButtonDown (0)) {
-				if ((quicknessTimer > 0 && quicknessTimer < 9) &&  ((projectileCharge > 45 && this.getTierInfo()[2] >= 1) || (projectileCharge > 30 && this.getTierInfo()[2] >= 3)) ) {
-					if (this.getTierInfo()[2] >= 1 && this.getTierInfo()[2] < 3) {
-						projectileCharge = projectileCharge - 45;
-					} else {
-						projectileCharge = projectileCharge - 30;
-					}
-					LifeVaccumProjectile projectile = new LifeVaccumProjectile ();
-					if (this.getAnimationHandler().flipHorizontal()) {
-						projectile.setDirection(3.14);
-					} else {
-						projectile.setDirection(0);
-					}
-					projectile.declare(this.getX(), this.getY());
-				} 
-			}
-			quicknessTimer = 0;
-		}
-		// this may need to be a diffrent number
-		if (mouseButtonDown (0) && !Jeffrey.getActiveJeffrey().isCrouched()) {
-			if (battary > 0) {
-			if (loseBattary) {
-				battary = battary - 1;
-			}
-			loseBattary = !loseBattary;
-			for (int i = 0; i < Enemy.enemyList.size(); i ++) {
-				if (wind.isColliding(Enemy.enemyList.get(i))){
-					// no clue if this works
-					int damageDone = RNG.nextInt(2) + 2;
-					if (timer % 2 == 0) {
-						timer = 0;
-					Enemy.enemyList.get(i).damage (damageDone);
-					if (this.getTierInfo()[2] == 1) {
-						if (projectileCharge < 180) {
-							projectileCharge = projectileCharge + 1;
-						}
-					} else {
-						if (this.getTierInfo()[2] >= 1) {
-							if (projectileCharge < 275) {
-								projectileCharge = projectileCharge + 1;
-							}
-						}
-					}
-					Jeffrey.samHealth = Jeffrey.samHealth + ((int)damageDone/4 + .2);
-					if (Jeffrey.samHealth >Jeffrey.maxSamHealth) {
-						Jeffrey.samHealth = Jeffrey.maxSamHealth;
-					}
-					}
-					}
-				}
-				wind.show();
-		} else {
-			AfterRenderDrawer.drawAfterRender((int)this.getX() - Room.getViewX(), (int)this.getY() - 10, OUTTA_AMMO);
-		}
-			Jeffrey.getActiveJeffrey().vx = Jeffrey.getActiveJeffrey().vx/1.25;
-	} else {
-		wind.hide();
-	}
-		if (mouseButtonDown (2) && !Jeffrey.getActiveJeffrey().isCrouched()) {
-			if (wind.isColliding("Box")) {
-				Iterator<GameObject> iter = wind.getCollisionInfo().getCollidingObjects().iterator();
-				while (iter.hasNext()) {
-					GameObject working = iter.next();
-					if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
-						working.goX(working.getX() -2);
-					} else {
-						working.goX(working.getX() +2);
-					}
-				}
-			}
-		}
-		if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
+	
+		if (Player.getActivePlayer().getAnimationHandler().flipHorizontal()) {
 			wind.setHitboxAttributes(0, 0, 49, 32);
 			wind.setX(this.getX() -48);
 			wind.setY(this.getY() - 16);
@@ -169,9 +90,78 @@ public class LifeVaccum extends Item {
 			wind.getAnimationHandler().setFlipHorizontal(false);
 		}
 	}
-	public static void addBattary (int amount) {
-		battary = battary + amount;
+	
+	@Override
+	public void onSecondaryHold () {
+		if (wind.isColliding("Box")) {
+			Iterator<GameObject> iter = wind.getCollisionInfo().getCollidingObjects().iterator();
+			while (iter.hasNext()) {
+				GameObject working = iter.next();
+				if (Player.getActivePlayer().getAnimationHandler().flipHorizontal()) {
+					working.goX(working.getX() -2);
+				} else {
+					working.goX(working.getX() +2);
+				}
+			}
+		}
 	}
+	
+	@Override
+	public void onRelease () {
+		wind.hide();
+		
+		if ((quicknessTimer > 0 && quicknessTimer < 9) &&  ((projectileCharge > 45 && this.getTierInfo()[2] >= 1) || (projectileCharge > 30 && this.getTierInfo()[2] >= 3)) ) {
+			if (this.getTierInfo()[2] >= 1 && this.getTierInfo()[2] < 3) {
+				projectileCharge = projectileCharge - 45;
+			} else {
+				projectileCharge = projectileCharge - 30;
+			}
+			LifeVaccumProjectile projectile = new LifeVaccumProjectile ();
+			if (this.getAnimationHandler().flipHorizontal()) {
+				projectile.setDirection(3.14);
+			} else {
+				projectile.setDirection(0);
+			}
+			projectile.declare(this.getX(), this.getY());
+		} 
+	quicknessTimer = 0;
+	}
+	
+	@Override
+	public void onHold () {
+		
+		quicknessTimer = quicknessTimer + 1;
+		
+		if (loseBattary) {
+			this.fireAmmo(1);
+		}
+		loseBattary = !loseBattary;
+		for (int i = 0; i < Enemy.enemyList.size(); i ++) {
+			if (wind.isColliding(Enemy.enemyList.get(i))){
+				// no clue if this works
+				int damageDone = RNG.nextInt(2) + 2;
+				if (timer % 2 == 0) {
+					timer = 0;
+				Enemy.enemyList.get(i).damage (damageDone);
+				if (this.getTierInfo()[2] == 1) {
+					if (projectileCharge < 180) {
+						projectileCharge = projectileCharge + 1;
+					}
+				} else {
+					if (this.getTierInfo()[2] >= 1) {
+						if (projectileCharge < 275) {
+							projectileCharge = projectileCharge + 1;
+						}
+					}
+				}
+				GameCode.getPartyManager().getPlayer(1).heal(damageDone/4 + 0.2);
+			}
+		}
+	}
+			wind.show();
+		Player.getActivePlayer().vx = Player.getActivePlayer().vx/1.25;
+	}
+	
 	@Override
 	public void draw () {
 		super.draw();

@@ -1,7 +1,7 @@
 package projectiles;
 
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class Disk extends Projectile {
@@ -18,8 +18,8 @@ public class Disk extends Projectile {
 		this.setX (this.getX () + Math.cos (direction) * speed); 
 		this.setY (this.getY () + Math.sin (direction) * speed);
 		try {
-		if (this.isColliding(Jeffrey.getActiveJeffrey())) {
-			Jeffrey.getActiveJeffrey().damage(20);
+		if (this.isColliding(Player.getActivePlayer())) {
+			Player.getActivePlayer().damage(20);
 		}
 		} catch (NullPointerException e) {
 			

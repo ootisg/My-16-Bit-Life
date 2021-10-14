@@ -3,13 +3,13 @@ package weapons;
 import java.awt.Point;
 
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import projectiles.Foam;
 import resources.Sprite;
 
 public class FireExtingueser extends AimableWeapon {
-	public FireExtingueser(Sprite sprite) {
-		super(sprite);
+	public FireExtingueser() {
+		super(new Sprite ("resources/sprites/config/Fire_Rextinguisher_Idle.txt"));
 	}
 	@Override 
 	public Sprite getUnrotatedSprite() {
@@ -38,10 +38,9 @@ public class FireExtingueser extends AimableWeapon {
 			return new int [] {0,0,0,0};
 		}
 	@Override
-	public void frameEvent () {
+	public void onHold () {
 		// cause cunncurrent stuff if it works properly
 		int numParticles = 10;
-		if (mouseButtonDown (0) && !Jeffrey.getActiveJeffrey().isCrouched()) {
 			for (int i = 0; i < numParticles; i++) {
 				Point newPoint = new Point ();
 				double [] working = this.simulateShot();
@@ -57,6 +56,5 @@ public class FireExtingueser extends AimableWeapon {
 				f.setY(f.getY() + offsY);
 				f.setDirection(newAng);
 			}
-		}
 	}
 }

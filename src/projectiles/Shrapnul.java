@@ -5,7 +5,8 @@ import java.util.Random;
 
 import enemys.Enemy;
 import gui.Gui;
-import players.Jeffrey;
+import main.GameCode;
+import players.Player;
 import resources.Sprite;
 import weapons.Bombs;
 
@@ -36,7 +37,7 @@ public class Shrapnul extends Projectile{
 				this.forget();
 				break;
 			case 2:
-				if(Bombs.getTierInfoStaticly()[1] == 3) {
+				if(Player.getInventory().getWeapon("Bombs").getTierInfo()[1] == 3) {
 					ExpolsionShrapnul sprap = new ExpolsionShrapnul(0, 10, false, true,1);
 					sprap.declare(this.getX() - 8,this.getY() - 8);
 				} else {
@@ -62,7 +63,7 @@ public class Shrapnul extends Projectile{
 						this.forget();
 						break;
 					case 2:
-						if(Bombs.getTierInfoStaticly()[1] == 3) {
+						if(Player.getInventory().getWeapon("Bombs").getTierInfo()[1] == 3) {
 							ExpolsionShrapnul sprap = new ExpolsionShrapnul(0, 10, false, true,1);
 							sprap.declare(this.getX() - 8,this.getY() - 8);
 						} else {

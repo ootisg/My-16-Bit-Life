@@ -20,7 +20,6 @@ public class PairingObject extends GameObject {
 				pairedObject = new ArrayList <Object> ();
 				pairedObject.addAll(ObjectHandler.checkCollisionChildren("GameObject", this).getCollidingObjects());
 				Room.isColliding(this);
-				System.out.println(pairedObject);
 			}
 		}
 	}
@@ -44,9 +43,6 @@ public class PairingObject extends GameObject {
 	public ArrayList <Object> getPairedPairedObjects (){
 		ArrayList <Object> working = new ArrayList<Object> ();
 		ArrayList <PairingObject> pairedObjects = this.getPairedParingObjects();
-		if (this.pairedObject.getClass().getSimpleName().equals("ForgetTrigger")) {
-			System.out.println(pairedObjects.get(0).pairedObject);
-		}
 		for (int i =0; i < pairedObjects.size(); i++) {
 			working.addAll(pairedObjects.get(i).getPairedObjects());
 			}

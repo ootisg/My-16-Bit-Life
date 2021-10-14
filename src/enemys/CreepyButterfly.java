@@ -4,7 +4,7 @@ import java.util.Random;
 
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class CreepyButterfly extends Enemy {
@@ -31,8 +31,8 @@ public class CreepyButterfly extends Enemy {
 	}
 	@Override
 	public void enemyFrame () {
-		double targetX = Jeffrey.getActiveJeffrey().getX ();
-		double targetY = Jeffrey.getActiveJeffrey().getY ();
+		double targetX = Player.getActivePlayer().getX ();
+		double targetY = Player.getActivePlayer().getY ();
 		if (((targetX > this.getX() && targetX < this.getX() + 22) || (targetX < this.getX() && targetX> this.getX() - 22) &&  ((targetY > this.getY() && targetY < this.getY() + 22) || (targetY < this.getY() && targetY> this.getY() - 22)))) {
 				double gayBabyJail;
 				gayBabyJail = RNG.nextInt (6) + (RNG.nextInt(27) + 1)/100.0;

@@ -7,7 +7,7 @@ import map.Room;
 import java.util.Random;
 
 import main.GameLoop;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public abstract class Projectile extends GameObject {
@@ -84,8 +84,8 @@ public abstract class Projectile extends GameObject {
 	}
 	//makes player get damaged by projectile if put in projectileFrame
 	public void makeDamageingProjectile (int damageRandom, int garentiedDamage) {
-		if (this.isColliding(Jeffrey.getActiveJeffrey())) {
-			Jeffrey.getActiveJeffrey().damage(RNG.nextInt(damageRandom) + garentiedDamage);
+		if (this.isColliding(Player.getActivePlayer())) {
+			Player.getActivePlayer().damage(RNG.nextInt(damageRandom) + garentiedDamage);
 		}
 	}
 	public void SpinAwayFromWall () {

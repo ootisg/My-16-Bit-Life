@@ -2,7 +2,7 @@
 	"usedObjects": [
 		{
 			"name": "jeffrey",
-			"type": "Jeffrey",
+			"type": "Player",
 			"genMethod": "hijack",
 		}		
 	],

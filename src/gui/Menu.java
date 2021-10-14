@@ -5,7 +5,7 @@ import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
 
@@ -114,10 +114,10 @@ public class Menu extends GameObject{
 			this.cleanUp();
 			if (getCursorX() > 25 && getCursorX() < 120) {
 				pageNumber = 0;
-				AfterRenderDrawer.drawAfterRender((int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Jeffrey.getInventory().findFreindAtIndex(charictarIndex).getSprite(), 0, true);
-				nameBox = new Tbox(this.getX() + 145 , this.getY() + 110, 42, 3,Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
+				AfterRenderDrawer.drawAfterRender((int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Player.getInventory().findFreindAtIndex(charictarIndex).getSprite(), 0, true);
+				nameBox = new Tbox(this.getX() + 145 , this.getY() + 110, 42, 3,Player.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
 				nameBox.setScrollRate(0);
-				entryBox = new Tbox(this.getX() + 145, this.getY() + 155 , 42, 10,Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
+				entryBox = new Tbox(this.getX() + 145, this.getY() + 155 , 42, 10,Player.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
 				entryBox.setScrollRate(0);
 				nameBox.keepOpen(true);
 				entryBox.keepOpen(true);
@@ -125,21 +125,21 @@ public class Menu extends GameObject{
 			}
 			if (getCursorX() > 120 && getCursorX() < 207) {
 				pageNumber = 1;
-				AfterRenderDrawer.drawAfterRender((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), 0, true);
-				weaponNameBox = new Tbox(this.getX() + 145, this.getY() + 110 , 42, 3,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).checkName(),false);
+				AfterRenderDrawer.drawAfterRender((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Player.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), 0, true);
+				weaponNameBox = new Tbox(this.getX() + 145, this.getY() + 110 , 42, 3,Player.getInventory().findWeaponAtIndex(weaponIndex).checkName(),false);
 				weaponNameBox.setScrollRate(0);
-				weaponEntryBox = new Tbox(this.getX() + 145, this.getY() + 155 , 42, 10,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).checkEnetry(),false);
+				weaponEntryBox = new Tbox(this.getX() + 145, this.getY() + 155 , 42, 10,Player.getInventory().findWeaponAtIndex(weaponIndex).checkEnetry(),false);
 				weaponEntryBox.setScrollRate(0);
-				upgradeBox1 = new Tbox(this.getX() + 145, this.getY() + 275 , 20, 4,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [0],false);
+				upgradeBox1 = new Tbox(this.getX() + 145, this.getY() + 275 , 20, 4,Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [0],false);
 				upgradeBox1.setScrollRate(0);
-				upgradeBox2 = new Tbox(this.getX() + 315, this.getY() + 275 , 20, 4,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [1],false);
+				upgradeBox2 = new Tbox(this.getX() + 315, this.getY() + 275 , 20, 4,Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [1],false);
 				upgradeBox2.setScrollRate(0);
-				upgradeBox3 = new Tbox(this.getX() + 145, this.getY() + 335 , 20, 4,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [2],false);
+				upgradeBox3 = new Tbox(this.getX() + 145, this.getY() + 335 , 20, 4,Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [2],false);
 				upgradeBox3.setScrollRate(0);
-				upgradeBox4 = new Tbox(this.getX() + 35, this.getY() + 400 , 10, 4,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [3],false);
+				upgradeBox4 = new Tbox(this.getX() + 35, this.getY() + 400 , 10, 4,Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [3],false);
 				upgradeBox4.setScrollRate(0);
 				this.addTierOrbs();
-				ammoBox = new Tbox(this.getX() + 35, this.getY() + 275 , 12, 2,"AMMO " + Integer.toString(Jeffrey.getInventory().checkAmmoAmountOfWeapon(Jeffrey.getInventory().findWeaponAtIndex(weaponIndex))),false);
+				ammoBox = new Tbox(this.getX() + 35, this.getY() + 275 , 12, 2,"AMMO " + Integer.toString(Player.getInventory().checkAmmoAmountOfWeapon(Player.getInventory().findWeaponAtIndex(weaponIndex))),false);
 				ammoBox.setScrollRate(0);
 				weaponNameBox.keepOpen(true);
 				weaponEntryBox.keepOpen(true);
@@ -147,13 +147,13 @@ public class Menu extends GameObject{
 				upgradeBox2.keepOpen(true);
 				upgradeBox3.keepOpen(true);
 				upgradeBox4.keepOpen(true);
-				if (Jeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 0){
+				if (Player.getInventory().getWeaponIndex(weaponIndex)[1] == 0){
 				ownerBox = new Tbox(this.getX() +  35, this.getY() + 335 , 12, 2,"JEFFREY",false);
 				}
-				if (Jeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 1){
+				if (Player.getInventory().getWeaponIndex(weaponIndex)[1] == 1){
 					ownerBox = new Tbox(this.getX() + 35, this.getY() + 335 , 12, 2,"SAM",false);
 					}
-				if (Jeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 2){
+				if (Player.getInventory().getWeaponIndex(weaponIndex)[1] == 2){
 					ownerBox = new Tbox(this.getX() + 35, this.getY() + 335 , 12, 2,"RYAN",false);
 					}
 				ownerBox.setScrollRate(0);
@@ -165,13 +165,13 @@ public class Menu extends GameObject{
 				this.showItemList(consumabels);
 				try {
 				if (consumabels) {
-				descriptionBox = new Tbox (this.getX() + 325, this.getY() + 225 , 19, 8, Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry(), false);
-				itemNameBox = new Tbox (this.getX() + 325, this.getY() + 153 , 19, 8, Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName(), false);
+				descriptionBox = new Tbox (this.getX() + 325, this.getY() + 225 , 19, 8, Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry(), false);
+				itemNameBox = new Tbox (this.getX() + 325, this.getY() + 153 , 19, 8, Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName(), false);
 				descriptionBox.keepOpen(true);
 				itemNameBox.keepOpen(true);
 				} else {
-						descriptionBox = new Tbox (this.getX() + 325, this.getY() + 225 , 19, 8, Jeffrey.getInventory().getSortedKey().get(itemIndex5).checkEnetry(), false);
-					itemNameBox = new Tbox (this.getX() + 325, this.getY() + 153 , 19, 8, Jeffrey.getInventory().getSortedKey().get(itemIndex5).checkName(), false);
+						descriptionBox = new Tbox (this.getX() + 325, this.getY() + 225 , 19, 8, Player.getInventory().getSortedKey().get(itemIndex5).checkEnetry(), false);
+					itemNameBox = new Tbox (this.getX() + 325, this.getY() + 153 , 19, 8, Player.getInventory().getSortedKey().get(itemIndex5).checkName(), false);
 					descriptionBox.keepOpen(true);
 					itemNameBox.keepOpen(true);
 				}
@@ -206,12 +206,12 @@ public class Menu extends GameObject{
 		}
 		if (notChanged) {
 			// sets up the textboxes insially
-			nameBox = new Tbox(this.getX() + 145, this.getY() + 110 , 42, 3,Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
-			entryBox = new Tbox(this.getX() + 145, this.getY() + 155 , 42, 10,Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
+			nameBox = new Tbox(this.getX() + 145, this.getY() + 110 , 42, 3,Player.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
+			entryBox = new Tbox(this.getX() + 145, this.getY() + 155 , 42, 10,Player.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
 			nameBox.keepOpen(true);
 			entryBox.keepOpen(true);
 			//adds the charictar sprite into the after render draw arraylist
-			AfterRenderDrawer.drawAfterRender((int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Jeffrey.getInventory().findFreindAtIndex(charictarIndex).getSprite(), 0, true);
+			AfterRenderDrawer.drawAfterRender((int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Player.getInventory().findFreindAtIndex(charictarIndex).getSprite(), 0, true);
 			this.setUpNewPlayableCharictar();
 			//makes textboxes not scroll
 			nameBox.setScrollRate(0);
@@ -235,13 +235,13 @@ public class Menu extends GameObject{
 				this.showItemList(consumabels);
 				try {
 				if (consumabels) {
-				descriptionBox = new Tbox (this.getX() + 325, this.getY() + 225 , 19, 8, Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry(), false);
-				itemNameBox = new Tbox (this.getX() + 325, this.getY() + 153 , 19, 8, Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName(), false);
+				descriptionBox = new Tbox (this.getX() + 325, this.getY() + 225 , 19, 8, Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry(), false);
+				itemNameBox = new Tbox (this.getX() + 325, this.getY() + 153 , 19, 8, Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName(), false);
 				descriptionBox.keepOpen(true);
 				itemNameBox.keepOpen(true);
 				} else {
-						descriptionBox = new Tbox (this.getX() + 325 , this.getY() + 225 , 19, 8, Jeffrey.getInventory().getSortedKey().get(itemIndex5).checkEnetry(), false);
-					itemNameBox = new Tbox (this.getX() + 325, this.getY() + 153 , 19, 8, Jeffrey.getInventory().getSortedKey().get(itemIndex5).checkName(), false);
+						descriptionBox = new Tbox (this.getX() + 325 , this.getY() + 225 , 19, 8, Player.getInventory().getSortedKey().get(itemIndex5).checkEnetry(), false);
+					itemNameBox = new Tbox (this.getX() + 325, this.getY() + 153 , 19, 8, Player.getInventory().getSortedKey().get(itemIndex5).checkName(), false);
 					descriptionBox.keepOpen(true);
 					itemNameBox.keepOpen(true);
 				}
@@ -261,21 +261,21 @@ public class Menu extends GameObject{
 				descriptionBox.forget();
 				itemNameBox.forget();
 				//adds weapon tab stuff
-				AfterRenderDrawer.drawAfterRender((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), 0, true);
-				weaponNameBox = new Tbox(this.getX() + 145, this.getY() + 110 , 42, 3,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).checkName(),false);
+				AfterRenderDrawer.drawAfterRender((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Player.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), 0, true);
+				weaponNameBox = new Tbox(this.getX() + 145, this.getY() + 110 , 42, 3,Player.getInventory().findWeaponAtIndex(weaponIndex).checkName(),false);
 				weaponNameBox.setScrollRate(0);
-				weaponEntryBox = new Tbox(this.getX() + 145, this.getY() + 155 , 42, 10,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).checkEnetry(),false);
+				weaponEntryBox = new Tbox(this.getX() + 145, this.getY() + 155 , 42, 10,Player.getInventory().findWeaponAtIndex(weaponIndex).checkEnetry(),false);
 				weaponEntryBox.setScrollRate(0);
-				upgradeBox1 = new Tbox(this.getX() + 145, this.getY() + 275 , 20, 4,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [0],false);
+				upgradeBox1 = new Tbox(this.getX() + 145, this.getY() + 275 , 20, 4,Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [0],false);
 				upgradeBox1.setScrollRate(0);
-				upgradeBox2 = new Tbox(this.getX() + 315, this.getY() + 275 , 20, 4,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [1],false);
+				upgradeBox2 = new Tbox(this.getX() + 315, this.getY() + 275 , 20, 4,Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [1],false);
 				upgradeBox2.setScrollRate(0);
-				upgradeBox3 = new Tbox(this.getX() + 145, this.getY() + 335 , 20, 4,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [2],false);
+				upgradeBox3 = new Tbox(this.getX() + 145, this.getY() + 335 , 20, 4,Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [2],false);
 				upgradeBox3.setScrollRate(0);
-				upgradeBox4 = new Tbox(this.getX() + 35, this.getY() + 400 , 10, 4,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [3],false);
+				upgradeBox4 = new Tbox(this.getX() + 35, this.getY() + 400 , 10, 4,Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [3],false);
 				upgradeBox4.setScrollRate(0);
 				this.addTierOrbs();
-				ammoBox = new Tbox(this.getX() + 35 , this.getY() + 275 , 12, 2,"AMMO " + Integer.toString(Jeffrey.getInventory().checkAmmoAmountOfWeapon(Jeffrey.getInventory().findWeaponAtIndex(weaponIndex))),false);
+				ammoBox = new Tbox(this.getX() + 35 , this.getY() + 275 , 12, 2,"AMMO " + Integer.toString(Player.getInventory().checkAmmoAmountOfWeapon(Player.getInventory().findWeaponAtIndex(weaponIndex))),false);
 				ammoBox.setScrollRate(0);
 				weaponNameBox.keepOpen(true);
 				weaponEntryBox.keepOpen(true);
@@ -283,13 +283,13 @@ public class Menu extends GameObject{
 				upgradeBox2.keepOpen(true);
 				upgradeBox3.keepOpen(true);
 				upgradeBox4.keepOpen(true);
-				if (Jeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 0){
+				if (Player.getInventory().getWeaponIndex(weaponIndex)[1] == 0){
 				ownerBox = new Tbox(this.getX() +  35, this.getY() + 335 , 12, 2,"JEFFREY",false);
 				}
-				if (Jeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 1){
+				if (Player.getInventory().getWeaponIndex(weaponIndex)[1] == 1){
 					ownerBox = new Tbox(this.getX() + 35, this.getY() + 335 , 12, 2,"SAM",false);
 					}
-				if (Jeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 2){
+				if (Player.getInventory().getWeaponIndex(weaponIndex)[1] == 2){
 					ownerBox = new Tbox(this.getX() + 35, this.getY() + 335 , 12, 2,"RYAN",false);
 					}
 				ownerBox.setScrollRate(0);
@@ -310,11 +310,11 @@ public class Menu extends GameObject{
 				this.removeTierOrbs();
 				AfterRenderDrawer.forceRemoveElement((int)this.getX() + 60 - Room.getViewX(), (int)this.getY()  + 185 - Room.getViewY());
 				//adds the charictar sprite to the arraylist for draw after render
-				AfterRenderDrawer.drawAfterRender((int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY() ,Jeffrey.getInventory().findFreindAtIndex(charictarIndex).getSprite(), 0, true);
+				AfterRenderDrawer.drawAfterRender((int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY() ,Player.getInventory().findFreindAtIndex(charictarIndex).getSprite(), 0, true);
 				//sets the textbox equal to what its supposed to be
-				nameBox = new Tbox(this.getX() + 145, this.getY() + 110 , 42, 3,Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
+				nameBox = new Tbox(this.getX() + 145, this.getY() + 110 , 42, 3,Player.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
 				nameBox.setScrollRate(0);
-				entryBox = new Tbox(this.getX() + 145, this.getY() + 155 , 42, 10,Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
+				entryBox = new Tbox(this.getX() + 145, this.getY() + 155 , 42, 10,Player.getInventory().findFreindAtIndex(charictarIndex).checkName(),false);
 				entryBox.setScrollRate(0);
 				nameBox.keepOpen(true);
 				entryBox.keepOpen(true);
@@ -331,20 +331,20 @@ public class Menu extends GameObject{
 				AfterRenderDrawer.forceRemoveElement((int)this.getX() + 70 - Room.getViewX(), (int)this.getY()  + 185 - Room.getViewY());
 				this.removeWeaponsOfOldCharictar();
 				//adds page 2 stuff
-				AfterRenderDrawer.drawAfterRender((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), 0, true);
-				weaponNameBox = new Tbox(this.getX() + 145, this.getY() + 110 , 42, 3,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).checkName(),false);
+				AfterRenderDrawer.drawAfterRender((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Player.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), 0, true);
+				weaponNameBox = new Tbox(this.getX() + 145, this.getY() + 110 , 42, 3,Player.getInventory().findWeaponAtIndex(weaponIndex).checkName(),false);
 				weaponNameBox.setScrollRate(0);
-				weaponEntryBox = new Tbox(this.getX() + 145, this.getY() + 155 , 42, 10,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).checkEnetry(),false);
+				weaponEntryBox = new Tbox(this.getX() + 145, this.getY() + 155 , 42, 10,Player.getInventory().findWeaponAtIndex(weaponIndex).checkEnetry(),false);
 				weaponEntryBox.setScrollRate(0);
-				upgradeBox1 = new Tbox(this.getX() + 145, this.getY() + 275 , 20, 4,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [0],false);
+				upgradeBox1 = new Tbox(this.getX() + 145, this.getY() + 275 , 20, 4,Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [0],false);
 				upgradeBox1.setScrollRate(0);
-				upgradeBox2 = new Tbox(this.getX() + 315, this.getY() + 275 , 20, 4,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [1],false);
+				upgradeBox2 = new Tbox(this.getX() + 315, this.getY() + 275 , 20, 4,Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [1],false);
 				upgradeBox2.setScrollRate(0);
-				upgradeBox3 = new Tbox(this.getX() + 145, this.getY() + 335 , 20, 4,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [2],false);
+				upgradeBox3 = new Tbox(this.getX() + 145, this.getY() + 335 , 20, 4,Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [2],false);
 				upgradeBox3.setScrollRate(0);
-				upgradeBox4 = new Tbox(this.getX() + 35, this.getY() + 400 , 12, 4,Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [3],false);
+				upgradeBox4 = new Tbox(this.getX() + 35, this.getY() + 400 , 12, 4,Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [3],false);
 				upgradeBox4.setScrollRate(0);
-				ammoBox = new Tbox(this.getX() + 35, this.getY() + 275 , 12, 2,"AMMO " + Integer.toString(Jeffrey.getInventory().checkAmmoAmountOfWeapon(Jeffrey.getInventory().findWeaponAtIndex(weaponIndex))),false);
+				ammoBox = new Tbox(this.getX() + 35, this.getY() + 275 , 12, 2,"AMMO " + Integer.toString(Player.getInventory().checkAmmoAmountOfWeapon(Player.getInventory().findWeaponAtIndex(weaponIndex))),false);
 				ammoBox.setScrollRate(0);
 				weaponNameBox.keepOpen(true);
 				weaponEntryBox.keepOpen(true);
@@ -353,13 +353,13 @@ public class Menu extends GameObject{
 				upgradeBox3.keepOpen(true);
 				upgradeBox4.keepOpen(true);
 				this.addTierOrbs();
-				if (Jeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 0){
+				if (Player.getInventory().getWeaponIndex(weaponIndex)[1] == 0){
 					ownerBox = new Tbox(this.getX() + 35, this.getY() + 335 , 12, 2,"JEFFREY",false);
 					}
-					if (Jeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 1){
+					if (Player.getInventory().getWeaponIndex(weaponIndex)[1] == 1){
 						ownerBox = new Tbox(this.getX() + 35, this.getY() + 335 , 12, 2,"SAM",false);
 						}
-					if (Jeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 2){
+					if (Player.getInventory().getWeaponIndex(weaponIndex)[1] == 2){
 						ownerBox = new Tbox(this.getX() + 35, this.getY() + 335 , 12, 2,"RYAN",false);
 						} 
 					ownerBox.setScrollRate(0);
@@ -382,13 +382,13 @@ public class Menu extends GameObject{
 					this.showItemList(consumabels);
 					try {
 					if (consumabels) {
-						descriptionBox = new Tbox (this.getX() + 325 , this.getY() + 225 , 19, 8, Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry(), false);
-						itemNameBox = new Tbox (this.getX() + 325, this.getY() + 153 , 19, 8, Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName(), false);
+						descriptionBox = new Tbox (this.getX() + 325 , this.getY() + 225 , 19, 8, Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry(), false);
+						itemNameBox = new Tbox (this.getX() + 325, this.getY() + 153 , 19, 8, Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName(), false);
 						descriptionBox.keepOpen(true);
 						itemNameBox.keepOpen(true);	
 					} else {
-								descriptionBox = new Tbox (this.getX() + 325, this.getY() + 225 , 19, 8, Jeffrey.getInventory().getSortedKey().get(itemIndex5).checkEnetry(), false);
-								itemNameBox = new Tbox (this.getX() + 325, this.getY() + 153 , 19, 8, Jeffrey.getInventory().getSortedKey().get(itemIndex5).checkName(), false);
+								descriptionBox = new Tbox (this.getX() + 325, this.getY() + 225 , 19, 8, Player.getInventory().getSortedKey().get(itemIndex5).checkEnetry(), false);
+								itemNameBox = new Tbox (this.getX() + 325, this.getY() + 153 , 19, 8, Player.getInventory().getSortedKey().get(itemIndex5).checkName(), false);
 								descriptionBox.keepOpen(true);
 								itemNameBox.keepOpen(true);
 					}
@@ -434,13 +434,13 @@ public class Menu extends GameObject{
 			this.getAnimationHandler().setAnimationFrame(2);
 		}
 		//iterates to the next charictar if you are in the tab you push d and you are not on the last charictar
-		if((!iterateTab && (keyPressed ('D'))|| (mouseButtonPressed(0) && getCursorX() > 375 && getCursorX() < 477 && getCursorY() > 113 && getCursorY() < 154)) && charictarIndex != Jeffrey.getInventory().amountOfFreinds() -1) {
+		if((!iterateTab && (keyPressed ('D'))|| (mouseButtonPressed(0) && getCursorX() > 375 && getCursorX() < 477 && getCursorY() > 113 && getCursorY() < 154)) && charictarIndex != Player.getInventory().amountOfFreinds() -1) {
 			//removes the sprite of the old charictar
 			this.removeWeaponsOfOldCharictar();
 			AfterRenderDrawer.forceRemoveElement( (int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY());
 			charictarIndex = charictarIndex + 1;
 			//makes the sprties of the new charictar
-			AfterRenderDrawer.drawAfterRender((int) this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185  - Room.getViewY(),Jeffrey.getInventory().findFreindAtIndex(charictarIndex).getSprite(), 0, true);
+			AfterRenderDrawer.drawAfterRender((int) this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185  - Room.getViewY(),Player.getInventory().findFreindAtIndex(charictarIndex).getSprite(), 0, true);
 			//adds weapons and other stuff if its a special charictar
 			healthBox.forget();
 			this.setUpNewPlayableCharictar();
@@ -453,23 +453,23 @@ public class Menu extends GameObject{
 			//removes stuff from the old charictar
 			this.removeWeaponsOfOldCharictar();
 			charictarIndex = charictarIndex - 1;
-			AfterRenderDrawer.drawAfterRender((int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Jeffrey.getInventory().findFreindAtIndex(charictarIndex).getSprite(), 0, true);
+			AfterRenderDrawer.drawAfterRender((int)this.getX() + 70 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Player.getInventory().findFreindAtIndex(charictarIndex).getSprite(), 0, true);
 			//adds weapons and health in if its a specail charictar
 			healthBox.forget();
 				this.setUpNewPlayableCharictar();
 				
 		}
 		//sets the name and entry to the correct one
-		nameBox.setContent(Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName());
-		entryBox.setContent(Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkEntry());
-		if (Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("JEFFREY")) {
-			healthBox.setContent(Integer.toString((int)Jeffrey.getActiveJeffrey().getHealth(0)) + "/" + Integer.toString((int) Jeffrey.maxJeffreyHealth));
+		nameBox.setContent(Player.getInventory().findFreindAtIndex(charictarIndex).checkName());
+		entryBox.setContent(Player.getInventory().findFreindAtIndex(charictarIndex).checkEntry());
+		if (Player.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("JEFFREY")) {
+			healthBox.setContent(Integer.toString((int)Player.getActivePlayer().getHealth(0)) + "/" + Integer.toString((int) Player.maxJeffreyHealth));
 			}
-			if (Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("SAM")) {
-				healthBox.setContent(Integer.toString((int)Jeffrey.getActiveJeffrey().getHealth(1)) + "/" + Integer.toString((int) Jeffrey.maxSamHealth));
+			if (Player.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("SAM")) {
+				healthBox.setContent(Integer.toString((int)Player.getActivePlayer().getHealth(1)) + "/" + Integer.toString((int) Player.maxSamHealth));
 				}
-			if (Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("RYAN")) {
-				healthBox.setContent(Integer.toString((int)Jeffrey.getActiveJeffrey().getHealth(2)) + "/" + Integer.toString((int) Jeffrey.maxRyanHealth));
+			if (Player.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("RYAN")) {
+				healthBox.setContent(Integer.toString((int)Player.getActivePlayer().getHealth(2)) + "/" + Integer.toString((int) Player.maxRyanHealth));
 				}
 		}
 		//draws stuff for page 2
@@ -490,14 +490,14 @@ public class Menu extends GameObject{
 				if ( getCursorX() > 34 && getCursorX() < 139 && getCursorY() > 116  && getCursorY() < 157){
 					this.getAnimationHandler().setAnimationFrame(7);
 				}
-				if(((!iterateTab && keyPressed ('D')) || (mouseButtonPressed(0) && getCursorX() > 375 && getCursorX() < 477 && getCursorY() > 113 && getCursorY() < 154)) && weaponIndex != Jeffrey.getInventory().amountOfWeaponsOfAllCharictars() -1) {
+				if(((!iterateTab && keyPressed ('D')) || (mouseButtonPressed(0) && getCursorX() > 375 && getCursorX() < 477 && getCursorY() > 113 && getCursorY() < 154)) && weaponIndex != Player.getInventory().amountOfWeaponsOfAllCharictars() -1) {
 					//removes the sprite of the old weapon
 					this.removeTierOrbs();
 					AfterRenderDrawer.forceRemoveElement((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY());
 					weaponIndex = weaponIndex + 1;
 					//makes the sprties of the new weapon
 					this.addTierOrbs();
-					AfterRenderDrawer.drawAfterRender((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), 0, true);
+					AfterRenderDrawer.drawAfterRender((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Player.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), 0, true);
 				}
 				//iterates to the privios weapon if you are in the tab you push a and you are not on the first weapon
 				if(((!iterateTab && keyPressed ('A')) || (mouseButtonPressed(0) && getCursorX() > 34 && getCursorX() < 139 && getCursorY() > 116  && getCursorY() < 157)) && weaponIndex != 0) {
@@ -505,24 +505,24 @@ public class Menu extends GameObject{
 					AfterRenderDrawer.forceRemoveElement((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY() );
 					weaponIndex = weaponIndex - 1;
 					this.addTierOrbs();
-					AfterRenderDrawer.drawAfterRender((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), 0, true);		
+					AfterRenderDrawer.drawAfterRender((int)this.getX() + 60 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Player.getInventory().findWeaponAtIndex(weaponIndex).getUnrotatedSprite(), 0, true);		
 				}
-				weaponNameBox.setContent(Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).checkName());
-				weaponEntryBox.setContent(Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).checkEnetry());
-				upgradeBox1.setContent(Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [0]);
-				upgradeBox2.setContent(Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [1]);
-				upgradeBox3.setContent(Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [2]);
-				upgradeBox4.setContent(Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [3]);
-				if (Jeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 0){
+				weaponNameBox.setContent(Player.getInventory().findWeaponAtIndex(weaponIndex).checkName());
+				weaponEntryBox.setContent(Player.getInventory().findWeaponAtIndex(weaponIndex).checkEnetry());
+				upgradeBox1.setContent(Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [0]);
+				upgradeBox2.setContent(Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [1]);
+				upgradeBox3.setContent(Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [2]);
+				upgradeBox4.setContent(Player.getInventory().findWeaponAtIndex(weaponIndex).getUpgrades() [3]);
+				if (Player.getInventory().getWeaponIndex(weaponIndex)[1] == 0){
 					ownerBox.setContent("JEFFREY");
 					}
-					if (Jeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 1){
+					if (Player.getInventory().getWeaponIndex(weaponIndex)[1] == 1){
 						ownerBox.setContent("SAM");
 						}
-					if (Jeffrey.getInventory().getWeaponIndex(weaponIndex)[1] == 2){
+					if (Player.getInventory().getWeaponIndex(weaponIndex)[1] == 2){
 						ownerBox.setContent("RYAN");
 						}
-				ammoBox.setContent("AMMO " + Integer.toString(Jeffrey.getInventory().checkAmmoAmountOfWeapon(Jeffrey.getInventory().findWeaponAtIndex(weaponIndex))));
+				ammoBox.setContent("AMMO " + Integer.toString(Player.getInventory().checkAmmoAmountOfWeapon(Player.getInventory().findWeaponAtIndex(weaponIndex))));
 		}
 		//draws stuff for page 3
 		if(pageNumber == 2) {
@@ -537,19 +537,19 @@ public class Menu extends GameObject{
 					this.removeItemList(true);
 				switch (itemPosition) {
 				case 0: 
-				Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).allwaysRunItemStuff(charictarBox.getSelected());
+				Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).allwaysRunItemStuff(charictarBox.getSelected());
 				break;
 				
 				case 1: 
-				Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).allwaysRunItemStuff(charictarBox.getSelected());
+				Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).allwaysRunItemStuff(charictarBox.getSelected());
 				break;
 				
 				case 2: 
-			Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).allwaysRunItemStuff(charictarBox.getSelected());
+			Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).allwaysRunItemStuff(charictarBox.getSelected());
 			break;
 			
 				case 3: 
-		Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).allwaysRunItemStuff(charictarBox.getSelected());
+		Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).allwaysRunItemStuff(charictarBox.getSelected());
 		break;
 		}
 				this.showItemList(true);
@@ -572,10 +572,10 @@ public class Menu extends GameObject{
 				try {
 				if (getCursorX() > 31 && getCursorX() < 228 && getCursorY() > 153 && getCursorY() < 229){
 					if (consumabels) {
-					Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1);
+					Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1);
 					frame = 19;
 					} else {
-						Jeffrey.getInventory().getSortedKey().get(itemIndex5);
+						Player.getInventory().getSortedKey().get(itemIndex5);
 						frame = 25;
 					}
 				
@@ -587,10 +587,10 @@ public class Menu extends GameObject{
 				try {
 					if ( getCursorX() > 31 && getCursorX() < 228 && getCursorY() > 229  && getCursorY() < 300 ) {
 						if (consumabels) {
-						Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2);
+						Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2);
 					frame = 20;
 					} else {
-						Jeffrey.getInventory().getSortedKey().get(itemIndex6);
+						Player.getInventory().getSortedKey().get(itemIndex6);
 						frame = 26;
 					}
 					
@@ -602,10 +602,10 @@ public class Menu extends GameObject{
 				try {
 			if ( getCursorX() > 31 && getCursorX() < 228 && getCursorY() > 300  && getCursorY() < 474 ){
 				if (consumabels) {
-				Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3);
+				Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3);
 				frame = 21;
 				} else {
-					Jeffrey.getInventory().getSortedKey().get(itemIndex7);
+					Player.getInventory().getSortedKey().get(itemIndex7);
 					frame = 27;
 				}
 			
@@ -617,10 +617,10 @@ public class Menu extends GameObject{
 			try {
 			if ( getCursorX() > 31 && getCursorX() < 228 && getCursorY() > 374  && getCursorY() < 447){
 				if (consumabels) {
-				Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4);
+				Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4);
 				frame = 22;
 				} else {
-					Jeffrey.getInventory().getSortedKey().get(itemIndex8);
+					Player.getInventory().getSortedKey().get(itemIndex8);
 					frame = 28;
 				}
 				
@@ -646,7 +646,7 @@ public class Menu extends GameObject{
 			if ( (!frozen && (((keyPressed ('D') && consumabels) || (!consumabels&&keyPressed('A'))) && !iterateTab) || (mouseButtonPressed(0) && getCursorX() > 375 && getCursorX() < 477 && getCursorY() > 113 && getCursorY() < 154 && consumabels) || (mouseButtonPressed(0) && getCursorX() > 34 && getCursorX() < 139 && getCursorY() > 116  && getCursorY() < 157 & !consumabels))) {
 				justChanged = true;
 				if (!consumabels) {
-					if (!Jeffrey.getInventory().getSortedConsumablesAndAmmo().isEmpty()) {
+					if (!Player.getInventory().getSortedConsumablesAndAmmo().isEmpty()) {
 						this.removeItemList(consumabels);
 						consumabels = !consumabels;
 						this.showItemList(consumabels);
@@ -654,7 +654,7 @@ public class Menu extends GameObject{
 							frame = 17;
 						} else {
 						frame = 19 + itemPosition;
-						if (itemPosition > Jeffrey.getInventory().getSortedConsumablesAndAmmo().size() - 1 - itemIndex5 ) {
+						if (itemPosition > Player.getInventory().getSortedConsumablesAndAmmo().size() - 1 - itemIndex5 ) {
 							frame = 25;
 							itemPosition = 0;
 						}
@@ -662,7 +662,7 @@ public class Menu extends GameObject{
 						this.setItemEntryAndNameInfo();
 					}
 				} else {
-					if (!Jeffrey.getInventory().getSortedKey().isEmpty()) {
+					if (!Player.getInventory().getSortedKey().isEmpty()) {
 						this.removeItemList(consumabels);
 						consumabels = !consumabels;
 						this.showItemList(consumabels);
@@ -670,7 +670,7 @@ public class Menu extends GameObject{
 							frame = 23;
 						} else {
 						frame = 25 + itemPosition;
-						if (itemPosition > Jeffrey.getInventory().getSortedKey().size() - 1 - itemIndex1 ) {
+						if (itemPosition > Player.getInventory().getSortedKey().size() - 1 - itemIndex1 ) {
 							itemPosition =0;
 							frame = 19;
 						}
@@ -686,7 +686,7 @@ public class Menu extends GameObject{
 				frozen = true;		
 	}
 			//moves the cursor down if s is pushed
-			if( !frozen &&keyPressed ('S') && (!(Jeffrey.getInventory().getSortedConsumablesAndAmmo().isEmpty() && consumabels) || !(Jeffrey.getInventory().getSortedKey().isEmpty() && !consumabels))) {
+			if( !frozen &&keyPressed ('S') && (!(Player.getInventory().getSortedConsumablesAndAmmo().isEmpty() && consumabels) || !(Player.getInventory().getSortedKey().isEmpty() && !consumabels))) {
 				mouseControls = false;
 				if (frame == 17) {
 					if (consumabels) {
@@ -696,32 +696,32 @@ public class Menu extends GameObject{
 					}
 				}
 				
-				if ( (consumabels&& ((itemPosition != 3 && itemIndex4 <= Jeffrey.getInventory().getSortedConsumablesAndAmmo().size()-1) || (itemPosition != Jeffrey.getInventory().getSortedConsumablesAndAmmo().size() - 1 - itemIndex1 && itemIndex4 > Jeffrey.getInventory().getSortedConsumablesAndAmmo().size() -1)))|| ( !consumabels&&((itemPosition != 3 && itemIndex8 <= Jeffrey.getInventory().getSortedKey().size()-1) || (itemPosition != Jeffrey.getInventory().getSortedKey().size() - 1 - itemIndex5 && itemIndex8 > Jeffrey.getInventory().getSortedKey().size() -1)))) {
+				if ( (consumabels&& ((itemPosition != 3 && itemIndex4 <= Player.getInventory().getSortedConsumablesAndAmmo().size()-1) || (itemPosition != Player.getInventory().getSortedConsumablesAndAmmo().size() - 1 - itemIndex1 && itemIndex4 > Player.getInventory().getSortedConsumablesAndAmmo().size() -1)))|| ( !consumabels&&((itemPosition != 3 && itemIndex8 <= Player.getInventory().getSortedKey().size()-1) || (itemPosition != Player.getInventory().getSortedKey().size() - 1 - itemIndex5 && itemIndex8 > Player.getInventory().getSortedKey().size() -1)))) {
 					itemPosition = itemPosition + 1;
 					frame = frame + 1;
 					this.setItemEntryAndNameInfo();
 				} else {
 					if (consumabels) {
-					if (itemIndex4 != Jeffrey.getInventory().getSortedConsumablesAndAmmo().size() - 1 && itemIndex3 != Jeffrey.getInventory().getSortedConsumablesAndAmmo().size() -1 && itemIndex2 != Jeffrey.getInventory().getSortedConsumablesAndAmmo().size() -1 && itemIndex1 != Jeffrey.getInventory().getSortedConsumablesAndAmmo().size() -1) {
+					if (itemIndex4 != Player.getInventory().getSortedConsumablesAndAmmo().size() - 1 && itemIndex3 != Player.getInventory().getSortedConsumablesAndAmmo().size() -1 && itemIndex2 != Player.getInventory().getSortedConsumablesAndAmmo().size() -1 && itemIndex1 != Player.getInventory().getSortedConsumablesAndAmmo().size() -1) {
 					this.removeItemList(consumabels);
 					itemIndex1 = itemIndex1 + 1;
 					itemIndex2 = itemIndex2 + 1;
 					itemIndex3 = itemIndex3 + 1;
 					itemIndex4 = itemIndex4 + 1;
 					this.showItemList(consumabels);
-					descriptionBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).checkEnetry());
-					itemNameBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).checkName());
+					descriptionBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).checkEnetry());
+					itemNameBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).checkName());
 					}
 					} else {
-						if (itemIndex8 != Jeffrey.getInventory().getSortedKey().size() -1 && itemIndex7 != Jeffrey.getInventory().getSortedKey().size() - 1 && itemIndex6 != Jeffrey.getInventory().getSortedKey().size() - 1 && itemIndex5 != Jeffrey.getInventory().getSortedKey().size() - 1) {
+						if (itemIndex8 != Player.getInventory().getSortedKey().size() -1 && itemIndex7 != Player.getInventory().getSortedKey().size() - 1 && itemIndex6 != Player.getInventory().getSortedKey().size() - 1 && itemIndex5 != Player.getInventory().getSortedKey().size() - 1) {
 							this.removeItemList(consumabels);
 							itemIndex5 = itemIndex5 + 1;
 							itemIndex6 = itemIndex6 + 1;
 							itemIndex7 = itemIndex7 + 1;
 							itemIndex8 = itemIndex8 + 1;
 							this.showItemList(consumabels);
-							descriptionBox.setContent(Jeffrey.getInventory().getSortedKey().get(itemIndex8).checkEnetry());
-							itemNameBox.setContent(Jeffrey.getInventory().getSortedKey().get(itemIndex8).checkName());
+							descriptionBox.setContent(Player.getInventory().getSortedKey().get(itemIndex8).checkEnetry());
+							itemNameBox.setContent(Player.getInventory().getSortedKey().get(itemIndex8).checkName());
 							}	
 					}
 				}
@@ -743,7 +743,7 @@ public class Menu extends GameObject{
 			//incriments things up by 1 if you press w
 			if ((!frozen &&!iterateTab && (itemPosition != 0  || (itemIndex1 != 0 && consumabels || itemIndex5 !=0 && !consumabels)) && keyPressed ('W')) ) {
 				mouseControls = false;
-				if ( (consumabels&& ( (itemPosition != 0 && itemIndex4 <= Jeffrey.getInventory().getSortedConsumablesAndAmmo().size()-1) || (itemPosition != Jeffrey.getInventory().getSortedConsumablesAndAmmo().size() - itemIndex1 && itemIndex4 > Jeffrey.getInventory().getSortedConsumablesAndAmmo().size() -1)))|| ( !consumabels&&((itemPosition != 0 && itemIndex8 <= Jeffrey.getInventory().getSortedKey().size()-1) || (itemPosition != Jeffrey.getInventory().getSortedKey().size() - itemIndex5 && itemIndex8 > Jeffrey.getInventory().getSortedKey().size() -1)))) {
+				if ( (consumabels&& ( (itemPosition != 0 && itemIndex4 <= Player.getInventory().getSortedConsumablesAndAmmo().size()-1) || (itemPosition != Player.getInventory().getSortedConsumablesAndAmmo().size() - itemIndex1 && itemIndex4 > Player.getInventory().getSortedConsumablesAndAmmo().size() -1)))|| ( !consumabels&&((itemPosition != 0 && itemIndex8 <= Player.getInventory().getSortedKey().size()-1) || (itemPosition != Player.getInventory().getSortedKey().size() - itemIndex5 && itemIndex8 > Player.getInventory().getSortedKey().size() -1)))) {
 					itemPosition = itemPosition - 1;
 					frame = frame - 1;
 					this.setItemEntryAndNameInfo();
@@ -755,8 +755,8 @@ public class Menu extends GameObject{
 					itemIndex3 = itemIndex3 - 1;
 					itemIndex4 = itemIndex4 - 1;
 					this.showItemList(consumabels);
-					descriptionBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry());
-					itemNameBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName());
+					descriptionBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry());
+					itemNameBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName());
 					} else {
 						
 							this.removeItemList(consumabels);
@@ -766,8 +766,8 @@ public class Menu extends GameObject{
 							itemIndex8 = itemIndex8 - 1;
 							
 							this.showItemList(consumabels);
-							descriptionBox.setContent(Jeffrey.getInventory().getSortedKey().get(itemIndex5).checkEnetry());
-							itemNameBox.setContent(Jeffrey.getInventory().getSortedKey().get(itemIndex5).checkName());
+							descriptionBox.setContent(Player.getInventory().getSortedKey().get(itemIndex5).checkEnetry());
+							itemNameBox.setContent(Player.getInventory().getSortedKey().get(itemIndex5).checkName());
 					}
 				}
 					
@@ -793,25 +793,25 @@ public class Menu extends GameObject{
 				this.removeEnemyList();
 				this.getAnimationHandler().setAnimationFrame(35);
 				if (enemyPosition == 0) {
-					AfterRenderDrawer.drawAfterRender((int)this.getX() + 250 - Room.getViewX(), (int)this.getY() + 225 - Room.getViewY(), Jeffrey.getInventory().findEnemyAtIndex(enemyIndex1).getSprite(),0, true);
-					detailedEnemyName = new Tbox (this.getX() + 175, this.getY() + 125 , 40, 1, Jeffrey.getInventory().findEnemyAtIndex(enemyIndex1).checkName(), false);
-					detailedEnemyEntry = new Tbox (this.getX() + 337, this.getY() + 155 , 18, 18, Jeffrey.getInventory().findEnemyAtIndex(enemyIndex1).checkEntry(), false);
+					AfterRenderDrawer.drawAfterRender((int)this.getX() + 250 - Room.getViewX(), (int)this.getY() + 225 - Room.getViewY(), Player.getInventory().findEnemyAtIndex(enemyIndex1).getSprite(),0, true);
+					detailedEnemyName = new Tbox (this.getX() + 175, this.getY() + 125 , 40, 1, Player.getInventory().findEnemyAtIndex(enemyIndex1).checkName(), false);
+					detailedEnemyEntry = new Tbox (this.getX() + 337, this.getY() + 155 , 18, 18, Player.getInventory().findEnemyAtIndex(enemyIndex1).checkEntry(), false);
 					
 				}
 				if (enemyPosition == 1) {
-				AfterRenderDrawer.drawAfterRender((int)this.getX() + 250 - Room.getViewX(), (int)this.getY() + 225 - Room.getViewY(), Jeffrey.getInventory().findEnemyAtIndex(enemyIndex2).getSprite(),0, true);
-				detailedEnemyName = new Tbox (this.getX() + 175 , this.getY() + 125 , 40, 1, Jeffrey.getInventory().findEnemyAtIndex(enemyIndex2).checkName(), false);
-				detailedEnemyEntry = new Tbox (this.getX() + 337, this.getY() + 155 , 18, 18, Jeffrey.getInventory().findEnemyAtIndex(enemyIndex2).checkEntry(), false);
+				AfterRenderDrawer.drawAfterRender((int)this.getX() + 250 - Room.getViewX(), (int)this.getY() + 225 - Room.getViewY(), Player.getInventory().findEnemyAtIndex(enemyIndex2).getSprite(),0, true);
+				detailedEnemyName = new Tbox (this.getX() + 175 , this.getY() + 125 , 40, 1, Player.getInventory().findEnemyAtIndex(enemyIndex2).checkName(), false);
+				detailedEnemyEntry = new Tbox (this.getX() + 337, this.getY() + 155 , 18, 18, Player.getInventory().findEnemyAtIndex(enemyIndex2).checkEntry(), false);
 				}
 				if (enemyPosition == 2) {
-					AfterRenderDrawer.drawAfterRender((int)this.getX() + 250 - Room.getViewX(), (int)this.getY() + 225 - Room.getViewY() , Jeffrey.getInventory().findEnemyAtIndex(enemyIndex3).getSprite(),0, true);
-					detailedEnemyName = new Tbox (this.getX() + 175, this.getY() + 125 , 40, 1, Jeffrey.getInventory().findEnemyAtIndex(enemyIndex3).checkName(), false);
-					detailedEnemyEntry = new Tbox (this.getX() + 337, this.getY() + 155 , 18, 18, Jeffrey.getInventory().findEnemyAtIndex(enemyIndex3).checkEntry(), false);
+					AfterRenderDrawer.drawAfterRender((int)this.getX() + 250 - Room.getViewX(), (int)this.getY() + 225 - Room.getViewY() , Player.getInventory().findEnemyAtIndex(enemyIndex3).getSprite(),0, true);
+					detailedEnemyName = new Tbox (this.getX() + 175, this.getY() + 125 , 40, 1, Player.getInventory().findEnemyAtIndex(enemyIndex3).checkName(), false);
+					detailedEnemyEntry = new Tbox (this.getX() + 337, this.getY() + 155 , 18, 18, Player.getInventory().findEnemyAtIndex(enemyIndex3).checkEntry(), false);
 				}
 				if (enemyPosition == 3) {
-					AfterRenderDrawer.drawAfterRender((int)this.getX() + 250 - Room.getViewX(), (int)this.getY() + 225 - Room.getViewY(), Jeffrey.getInventory().findEnemyAtIndex(enemyIndex4).getSprite(),0, true);
-					detailedEnemyName = new Tbox (this.getX() + 175 , this.getY() + 125 , 40, 1, Jeffrey.getInventory().findEnemyAtIndex(enemyIndex4).checkName(), false);
-					detailedEnemyEntry = new Tbox (this.getX() + 337, this.getY() + 155 , 18, 18, Jeffrey.getInventory().findEnemyAtIndex(enemyIndex4).checkEntry(), false);
+					AfterRenderDrawer.drawAfterRender((int)this.getX() + 250 - Room.getViewX(), (int)this.getY() + 225 - Room.getViewY(), Player.getInventory().findEnemyAtIndex(enemyIndex4).getSprite(),0, true);
+					detailedEnemyName = new Tbox (this.getX() + 175 , this.getY() + 125 , 40, 1, Player.getInventory().findEnemyAtIndex(enemyIndex4).checkName(), false);
+					detailedEnemyEntry = new Tbox (this.getX() + 337, this.getY() + 155 , 18, 18, Player.getInventory().findEnemyAtIndex(enemyIndex4).checkEntry(), false);
 				}
 				detailedEnemyName.setScrollRate(0);
 				detailedEnemyEntry.setScrollRate(0);
@@ -828,7 +828,7 @@ public class Menu extends GameObject{
 				if ( mouseControls && !inBigPictureMode && (getCursorX() > 31 && getCursorX() < 481 && getCursorY() > 151 && getCursorY() < 447)){
 						try {
 					if (getCursorX() > 31 && getCursorX() < 481 && getCursorY() > 153 && getCursorY() < 229){
-						Jeffrey.getInventory().findEnemyAtIndex(enemyIndex1);
+						Player.getInventory().findEnemyAtIndex(enemyIndex1);
 						enemyFrame = 30;					
 						enemyPosition = 0;
 					}
@@ -837,7 +837,7 @@ public class Menu extends GameObject{
 					}
 					try {
 						if ( getCursorX() > 31 && getCursorX() < 481 && getCursorY() > 229  && getCursorY() < 300 ) {
-							Jeffrey.getInventory().findEnemyAtIndex(enemyIndex2);
+							Player.getInventory().findEnemyAtIndex(enemyIndex2);
 						enemyFrame = 31;
 						enemyPosition = 1;
 						}
@@ -846,7 +846,7 @@ public class Menu extends GameObject{
 						}
 					try {
 				if ( getCursorX() > 31 && getCursorX() < 481 && getCursorY() > 300  && getCursorY() < 374 ){
-					Jeffrey.getInventory().findEnemyAtIndex(enemyIndex3);
+					Player.getInventory().findEnemyAtIndex(enemyIndex3);
 					enemyFrame = 32;
 					enemyPosition = 2;
 				}
@@ -855,7 +855,7 @@ public class Menu extends GameObject{
 					}
 				try {
 				if ( getCursorX() > 31 && getCursorX() < 481 && getCursorY() > 374  && getCursorY() < 447){
-					Jeffrey.getInventory().findEnemyAtIndex(enemyIndex4);
+					Player.getInventory().findEnemyAtIndex(enemyIndex4);
 					enemyFrame = 33;
 					enemyPosition =3;
 				}
@@ -877,14 +877,14 @@ public class Menu extends GameObject{
 					iterateTab = false;
 				}
 		//moves the cursor down if s is pushed
-		if(keyPressed ('S') && !inBigPictureMode && Jeffrey.getInventory().amountOfKills() != 0) {
+		if(keyPressed ('S') && !inBigPictureMode && Player.getInventory().amountOfKills() != 0) {
 			iterateTab = false;
 			mouseControls = false;
-			if ((enemyPosition != 3 && enemyIndex4 <= Jeffrey.getInventory().amountOfKills()-1) || (enemyPosition != Jeffrey.getInventory().amountOfKills() -1 -enemyIndex1 && enemyIndex4 > Jeffrey.getInventory().amountOfKills() -1)) {
+			if ((enemyPosition != 3 && enemyIndex4 <= Player.getInventory().amountOfKills()-1) || (enemyPosition != Player.getInventory().amountOfKills() -1 -enemyIndex1 && enemyIndex4 > Player.getInventory().amountOfKills() -1)) {
 				enemyPosition = enemyPosition + 1;
 				enemyFrame = enemyFrame + 1;
 			} else {
-				if (enemyIndex4 != Jeffrey.getInventory().amountOfKills() - 1 && enemyIndex3 != Jeffrey.getInventory().amountOfKills() -1 && enemyPosition != Jeffrey.getInventory().amountOfKills()  && enemyIndex1 != Jeffrey.getInventory().amountOfKills() -1) {
+				if (enemyIndex4 != Player.getInventory().amountOfKills() - 1 && enemyIndex3 != Player.getInventory().amountOfKills() -1 && enemyPosition != Player.getInventory().amountOfKills()  && enemyIndex1 != Player.getInventory().amountOfKills() -1) {
 				this.removeEnemyList();
 				enemyIndex1 = enemyIndex1 + 1;
 				enemyIndex2 = enemyIndex2 + 1;
@@ -904,7 +904,7 @@ public class Menu extends GameObject{
 		//incriments things up by 1 if you press w
 		if ( !inBigPictureMode && !iterateTab && (enemyPosition != 0  || enemyIndex1 != 0) && keyPressed ('W') ) {
 			mouseControls = false;
-			if ((enemyPosition != 0 && enemyIndex4 <= Jeffrey.getInventory().amountOfKills()-1) || (enemyPosition != Jeffrey.getInventory().amountOfKills() - enemyIndex1 && enemyIndex4 > Jeffrey.getInventory().amountOfKills() -1)) {
+			if ((enemyPosition != 0 && enemyIndex4 <= Player.getInventory().amountOfKills()-1) || (enemyPosition != Player.getInventory().amountOfKills() - enemyIndex1 && enemyIndex4 > Player.getInventory().amountOfKills() -1)) {
 				enemyPosition = enemyPosition - 1;
 				enemyFrame = enemyFrame -1;
 			} else {
@@ -925,26 +925,26 @@ public class Menu extends GameObject{
 	public void setItemEntryAndNameInfo () {
 		if (consumabels) {
 			if (itemPosition == 0) {
-		descriptionBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry());
-		itemNameBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName());
+		descriptionBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry());
+		itemNameBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName());
 			}
 			try {
 			if (itemPosition == 1) {
-				descriptionBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).checkEnetry());
-				itemNameBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).checkName());
+				descriptionBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).checkEnetry());
+				itemNameBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).checkName());
 					}
 			if (itemPosition == 2) {
-				descriptionBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).checkEnetry());
-				itemNameBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).checkName());
+				descriptionBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).checkEnetry());
+				itemNameBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).checkName());
 					}
 			if (itemPosition == 3) {
-				descriptionBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).checkEnetry());
-				itemNameBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).checkName());
+				descriptionBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).checkEnetry());
+				itemNameBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).checkName());
 					}
 			} catch (IndexOutOfBoundsException e) {
 				try {
-				descriptionBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry());
-				itemNameBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName());
+				descriptionBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry());
+				itemNameBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName());
 				} catch (IndexOutOfBoundsException b) {
 					
 				}
@@ -952,25 +952,25 @@ public class Menu extends GameObject{
 		} else {
 			try {
 			if (itemPosition == 0) {
-				descriptionBox.setContent(Jeffrey.getInventory().getSortedKey().get(itemIndex5).checkEnetry());
-				itemNameBox.setContent(Jeffrey.getInventory().getSortedKey().get(itemIndex5).checkName());
+				descriptionBox.setContent(Player.getInventory().getSortedKey().get(itemIndex5).checkEnetry());
+				itemNameBox.setContent(Player.getInventory().getSortedKey().get(itemIndex5).checkName());
 					}
 					if (itemPosition == 1) {
-						descriptionBox.setContent(Jeffrey.getInventory().getSortedKey().get(itemIndex6).checkEnetry());
-						itemNameBox.setContent(Jeffrey.getInventory().getSortedKey().get(itemIndex6).checkName());
+						descriptionBox.setContent(Player.getInventory().getSortedKey().get(itemIndex6).checkEnetry());
+						itemNameBox.setContent(Player.getInventory().getSortedKey().get(itemIndex6).checkName());
 							}
 					if (itemPosition == 2) {
-						descriptionBox.setContent(Jeffrey.getInventory().getSortedKey().get(itemIndex7).checkEnetry());
-						itemNameBox.setContent(Jeffrey.getInventory().getSortedKey().get(itemIndex7).checkName());
+						descriptionBox.setContent(Player.getInventory().getSortedKey().get(itemIndex7).checkEnetry());
+						itemNameBox.setContent(Player.getInventory().getSortedKey().get(itemIndex7).checkName());
 							}
 					if (itemPosition == 3) {
-						descriptionBox.setContent(Jeffrey.getInventory().getSortedKey().get(itemIndex8).checkEnetry());
-						itemNameBox.setContent(Jeffrey.getInventory().getSortedKey().get(itemIndex8).checkName());
+						descriptionBox.setContent(Player.getInventory().getSortedKey().get(itemIndex8).checkEnetry());
+						itemNameBox.setContent(Player.getInventory().getSortedKey().get(itemIndex8).checkName());
 							}
 		} catch (IndexOutOfBoundsException e) {
 			try {
-			descriptionBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry());
-			itemNameBox.setContent(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName());
+			descriptionBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkEnetry());
+			itemNameBox.setContent(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName());
 			} catch (IndexOutOfBoundsException b) {
 				
 			}
@@ -1074,20 +1074,20 @@ public class Menu extends GameObject{
 	public void showEnemyList () {
 		int beforeCrash = 0;
 		try {
-			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Jeffrey.getInventory().findEnemyAtIndex(enemyIndex1).getSprite(), 0, true);
-			enemyName1 = new Tbox(this.getX() + 165, this.getY() + 155 , 30, 4,Jeffrey.getInventory().findEnemyAtIndex(enemyIndex1).checkName(),false);
+			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Player.getInventory().findEnemyAtIndex(enemyIndex1).getSprite(), 0, true);
+			enemyName1 = new Tbox(this.getX() + 165, this.getY() + 155 , 30, 4,Player.getInventory().findEnemyAtIndex(enemyIndex1).checkName(),false);
 			enemyName1.setScrollRate(0);
 			beforeCrash = 1;
-			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 245 - Room.getViewY(),Jeffrey.getInventory().findEnemyAtIndex(enemyIndex2).getSprite(), 0, true);
-			enemyName2 = new Tbox(this.getX() + 165, this.getY() + 225 , 30, 4,Jeffrey.getInventory().findEnemyAtIndex(enemyIndex2).checkName(),false);
+			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 245 - Room.getViewY(),Player.getInventory().findEnemyAtIndex(enemyIndex2).getSprite(), 0, true);
+			enemyName2 = new Tbox(this.getX() + 165, this.getY() + 225 , 30, 4,Player.getInventory().findEnemyAtIndex(enemyIndex2).checkName(),false);
 			enemyName2.setScrollRate(0);
 			beforeCrash = 2;
-			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() +  315 - Room.getViewY(),Jeffrey.getInventory().findEnemyAtIndex(enemyIndex3).getSprite(), 0, true);
-			enemyName3 = new Tbox(this.getX() + 165, this.getY() + 295 , 30, 4,Jeffrey.getInventory().findEnemyAtIndex(enemyIndex3).checkName(),false);
+			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() +  315 - Room.getViewY(),Player.getInventory().findEnemyAtIndex(enemyIndex3).getSprite(), 0, true);
+			enemyName3 = new Tbox(this.getX() + 165, this.getY() + 295 , 30, 4,Player.getInventory().findEnemyAtIndex(enemyIndex3).checkName(),false);
 			enemyName3.setScrollRate(0);
 			beforeCrash = 3;
-			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 400 - Room.getViewY(),Jeffrey.getInventory().findEnemyAtIndex(enemyIndex4).getSprite(), 0, true);
-			enemyName4 = new Tbox(this.getX() + 165, this.getY() + 365 , 30, 4,Jeffrey.getInventory().findEnemyAtIndex(enemyIndex4).checkName(),false);
+			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 400 - Room.getViewY(),Player.getInventory().findEnemyAtIndex(enemyIndex4).getSprite(), 0, true);
+			enemyName4 = new Tbox(this.getX() + 165, this.getY() + 365 , 30, 4,Player.getInventory().findEnemyAtIndex(enemyIndex4).checkName(),false);
 			enemyName4.setScrollRate(0);
 		} catch(IndexOutOfBoundsException e) {
 			if (beforeCrash == 0) {
@@ -1120,20 +1120,20 @@ public class Menu extends GameObject{
 		int beforeCrash = 0;
 		if (consumablesOrKey) {
 		try {
-			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).getSprite(), 0, true);
-			itemName1 = new Tbox(this.getX() + 105, this.getY() + 155 , 20, 4,Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName() + " X " + Integer.toString(Jeffrey.getInventory().checkItemAmount(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1))),false);
+			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).getSprite(), 0, true);
+			itemName1 = new Tbox(this.getX() + 105, this.getY() + 155 , 20, 4,Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1).checkName() + " X " + Integer.toString(Player.getInventory().checkItemAmount(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex1))),false);
 			itemName1.setScrollRate(0);
 			beforeCrash = 1;
-			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 245 - Room.getViewY(),Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).getSprite(), 0, true);
-			itemName2 = new Tbox(this.getX() + 105, this.getY() + 225 , 20, 4,Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).checkName() + " X " + Integer.toString(Jeffrey.getInventory().checkItemAmount(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2))),false);
+			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 245 - Room.getViewY(),Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).getSprite(), 0, true);
+			itemName2 = new Tbox(this.getX() + 105, this.getY() + 225 , 20, 4,Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2).checkName() + " X " + Integer.toString(Player.getInventory().checkItemAmount(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex2))),false);
 			itemName2.setScrollRate(0);
 			beforeCrash = 2;
-			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() +  315 - Room.getViewY(),Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).getSprite(), 0, true);
-			itemName3 = new Tbox(this.getX() + 105, this.getY() + 295 , 20, 4,Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).checkName() + " X " + Integer.toString(Jeffrey.getInventory().checkItemAmount(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3))),false);
+			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() +  315 - Room.getViewY(),Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).getSprite(), 0, true);
+			itemName3 = new Tbox(this.getX() + 105, this.getY() + 295 , 20, 4,Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3).checkName() + " X " + Integer.toString(Player.getInventory().checkItemAmount(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex3))),false);
 			itemName3.setScrollRate(0);
 			beforeCrash = 3;
-			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 400 - Room.getViewY(),Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).getSprite(), 0, true);
-			itemName4 = new Tbox(this.getX() + 105, this.getY() + 370 , 20, 4,Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).checkName() + " X " + Integer.toString(Jeffrey.getInventory().checkItemAmount(Jeffrey.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4))),false);
+			AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 400 - Room.getViewY(),Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).getSprite(), 0, true);
+			itemName4 = new Tbox(this.getX() + 105, this.getY() + 370 , 20, 4,Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4).checkName() + " X " + Integer.toString(Player.getInventory().checkItemAmount(Player.getInventory().getSortedConsumablesAndAmmo().get(itemIndex4))),false);
 			itemName4.setScrollRate(0);
 		} catch(IndexOutOfBoundsException e) {
 			if (beforeCrash == 0) {
@@ -1157,20 +1157,20 @@ public class Menu extends GameObject{
 		}
 		} else {
 			try {
-				AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Jeffrey.getInventory().getSortedKey().get(itemIndex5).getSprite(), 0, true);
-				itemName1 = new Tbox(this.getX() + 105, this.getY() + 155 , 20, 4,Jeffrey.getInventory().getSortedKey().get(itemIndex5).checkName()+ " X " + Integer.toString(Jeffrey.getInventory().checkItemAmount(Jeffrey.getInventory().getSortedKey().get(itemIndex5))),false);
+				AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 185 - Room.getViewY(),Player.getInventory().getSortedKey().get(itemIndex5).getSprite(), 0, true);
+				itemName1 = new Tbox(this.getX() + 105, this.getY() + 155 , 20, 4,Player.getInventory().getSortedKey().get(itemIndex5).checkName()+ " X " + Integer.toString(Player.getInventory().checkItemAmount(Player.getInventory().getSortedKey().get(itemIndex5))),false);
 				itemName1.setScrollRate(0);
 				beforeCrash =1;
-				AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 245 - Room.getViewY(),Jeffrey.getInventory().getSortedKey().get(itemIndex6).getSprite(), 0, true);
-				itemName2 = new Tbox(this.getX() + 105, this.getY() + 225 , 20, 4,Jeffrey.getInventory().getSortedKey().get(itemIndex6).checkName() + " X " + Integer.toString(Jeffrey.getInventory().checkItemAmount(Jeffrey.getInventory().getSortedKey().get(itemIndex6))),false);
+				AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 245 - Room.getViewY(),Player.getInventory().getSortedKey().get(itemIndex6).getSprite(), 0, true);
+				itemName2 = new Tbox(this.getX() + 105, this.getY() + 225 , 20, 4,Player.getInventory().getSortedKey().get(itemIndex6).checkName() + " X " + Integer.toString(Player.getInventory().checkItemAmount(Player.getInventory().getSortedKey().get(itemIndex6))),false);
 				itemName2.setScrollRate(0);
 				beforeCrash = 2;
-				AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() +  315 - Room.getViewY(),Jeffrey.getInventory().getSortedKey().get(itemIndex7).getSprite(), 0, true);
-				itemName3 = new Tbox(this.getX() + 105, this.getY() + 295 , 20, 4,Jeffrey.getInventory().getSortedKey().get(itemIndex7).checkName() + " X " + Integer.toString(Jeffrey.getInventory().checkItemAmount(Jeffrey.getInventory().getSortedKey().get(itemIndex7))),false);
+				AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() +  315 - Room.getViewY(),Player.getInventory().getSortedKey().get(itemIndex7).getSprite(), 0, true);
+				itemName3 = new Tbox(this.getX() + 105, this.getY() + 295 , 20, 4,Player.getInventory().getSortedKey().get(itemIndex7).checkName() + " X " + Integer.toString(Player.getInventory().checkItemAmount(Player.getInventory().getSortedKey().get(itemIndex7))),false);
 				itemName3.setScrollRate(0);
 				beforeCrash = 3;
-				AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 400 - Room.getViewY(),Jeffrey.getInventory().getSortedKey().get(itemIndex8).getSprite(), 0, true);
-				itemName4 = new Tbox(this.getX() + 105, this.getY() + 370 , 20, 4,Jeffrey.getInventory().getSortedKey().get(itemIndex8).checkName() + " X " + Integer.toString(Jeffrey.getInventory().checkItemAmount(Jeffrey.getInventory().getSortedKey().get(itemIndex8))),false);
+				AfterRenderDrawer.drawAfterRender((int)this.getX() + 55 - Room.getViewX(), (int)this.getY() + 400 - Room.getViewY(),Player.getInventory().getSortedKey().get(itemIndex8).getSprite(), 0, true);
+				itemName4 = new Tbox(this.getX() + 105, this.getY() + 370 , 20, 4,Player.getInventory().getSortedKey().get(itemIndex8).checkName() + " X " + Integer.toString(Player.getInventory().checkItemAmount(Player.getInventory().getSortedKey().get(itemIndex8))),false);
 				itemName4.setScrollRate(0);
 			} catch(IndexOutOfBoundsException e) {
 				if (beforeCrash == 0) {
@@ -1201,7 +1201,7 @@ public class Menu extends GameObject{
 	}
 	public void addTierOrbs () {
 		for (int i = 0; i < 4; i++) {
-			for (int x = 0; x < Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getTierInfo() [i]; x ++ ) {
+			for (int x = 0; x < Player.getInventory().findWeaponAtIndex(weaponIndex).getTierInfo() [i]; x ++ ) {
 				if (i == 0) {
 				AfterRenderDrawer.drawAfterRender((int)this.getX() + 145 + (x*60) - Room.getViewX(), (int)this.getY() - Room.getViewY()+ 320 , ball, 0, true);
 				}
@@ -1219,7 +1219,7 @@ public class Menu extends GameObject{
 	}
 	public void removeTierOrbs() {
 		for (int i = 0; i <4; i++) {
-			for (int x = 0; x < Jeffrey.getInventory().findWeaponAtIndex(weaponIndex).getTierInfo() [i]; x ++ ) {
+			for (int x = 0; x < Player.getInventory().findWeaponAtIndex(weaponIndex).getTierInfo() [i]; x ++ ) {
 				if (i == 0) {
 				AfterRenderDrawer.forceRemoveElement((int)this.getX() + 145 + (x*60) - Room.getViewX(), (int)this.getY() + 320 - Room.getViewY() );
 				}
@@ -1237,44 +1237,44 @@ public class Menu extends GameObject{
 	}
 	
 	public void setUpNewPlayableCharictar () {
-		if (Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("JEFFREY")) {
+		if (Player.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("JEFFREY")) {
 			//creates a new display of jeffreys health when it gets changed to the charitar page if jeffrey's page is the active page
-		healthBox = new Tbox(this.getX() + 35, this.getY()+ 280 , 16,9,Integer.toString((int)Jeffrey.getActiveJeffrey().getHealth(0)) + "/" + Integer.toString((int) Jeffrey.maxJeffreyHealth), false);
+		healthBox = new Tbox(this.getX() + 35, this.getY()+ 280 , 16,9,Integer.toString((int)Player.getActivePlayer().getHealth(0)) + "/" + Integer.toString((int) Player.maxJeffreyHealth), false);
 		healthBox.setScrollRate(0);
 		healthBox.keepOpen(true);
 		//adds the weapons owned by jeffrey to the after render draw arraylist (adds a question mark for the ones he doesen't own) if jeffrey's page is the active page
 		for (int i = 0; i <4; i++) {
-			if (!Jeffrey.getInventory().findWeaponAtIndex(i, 0).getClass().getSimpleName().equals("Unarmed")) {
-				AfterRenderDrawer.drawAfterRender((int)(this.getX() + 180 + (i*60))- Room.getViewX() , (int)this.getY() + 320 - Room.getViewY(),Jeffrey.getInventory().findWeaponAtIndex(i, 0).getUnrotatedSprite(), 0, true);
+			if (!Player.getInventory().findWeaponAtIndex(i, 0).getClass().getSimpleName().equals("Unarmed")) {
+				AfterRenderDrawer.drawAfterRender((int)(this.getX() + 180 + (i*60))- Room.getViewX() , (int)this.getY() + 320 - Room.getViewY(),Player.getInventory().findWeaponAtIndex(i, 0).getUnrotatedSprite(), 0, true);
 			} else {
 				AfterRenderDrawer.drawAfterRender((int)(this.getX() + 180 + (i*60))- Room.getViewX() , (int)this.getY() + 320 - Room.getViewY(),questionMark, 0, true);	
 			}
 		}
 		}
 		
-		if (Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("SAM")) {
+		if (Player.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("SAM")) {
 			//creates a new display of sam's health when it gets changed to the charitar page is sam's page is the active page
-			healthBox = new Tbox(this.getX() + 35, this.getY()+ 280 - Room.getViewY(), 16,9,Integer.toString((int)Jeffrey.getActiveJeffrey().getHealth(1)) + "/" + Integer.toString((int) Jeffrey.maxSamHealth), false);
+			healthBox = new Tbox(this.getX() + 35, this.getY()+ 280 - Room.getViewY(), 16,9,Integer.toString((int)Player.getActivePlayer().getHealth(1)) + "/" + Integer.toString((int) Player.maxSamHealth), false);
 			healthBox.setScrollRate(0);
 			healthBox.keepOpen(true);
 			//adds the weapons owned by sam to the after render draw arraylist (adds a question mark for the ones he doesen't own) if sam's page is the active page
 			for (int i = 0; i <4; i++) {
-				if (!Jeffrey.getInventory().findWeaponAtIndex(i, 1).getClass().getSimpleName().equals("Unarmed")) {
-					AfterRenderDrawer.drawAfterRender((int)(this.getX() + 180 + (i*60)) - Room.getViewX() , (int)this.getY() + 320 - Room.getViewY(),Jeffrey.getInventory().findWeaponAtIndex(i, 1).getUnrotatedSprite(), 0, true);
+				if (!Player.getInventory().findWeaponAtIndex(i, 1).getClass().getSimpleName().equals("Unarmed")) {
+					AfterRenderDrawer.drawAfterRender((int)(this.getX() + 180 + (i*60)) - Room.getViewX() , (int)this.getY() + 320 - Room.getViewY(),Player.getInventory().findWeaponAtIndex(i, 1).getUnrotatedSprite(), 0, true);
 				} else {
 					AfterRenderDrawer.drawAfterRender((int)(this.getX() + 180 + (i*60)) - Room.getViewX() , (int)this.getY() + 320 - Room.getViewY(),questionMark, 0, true);	
 				}
 			}
 			}
-		if (Jeffrey.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("RYAN")) {
+		if (Player.getInventory().findFreindAtIndex(charictarIndex).checkName().equals("RYAN")) {
 			//creates a new display of Ryan's health when it gets changed to the charitar page is Ryan's page is the active page
-			healthBox = new Tbox(this.getX() + 35, this.getY()+ 280 , 16,9,Integer.toString((int)Jeffrey.getActiveJeffrey().getHealth(2)) + "/" + Integer.toString((int) Jeffrey.maxRyanHealth), false);
+			healthBox = new Tbox(this.getX() + 35, this.getY()+ 280 , 16,9,Integer.toString((int)Player.getActivePlayer().getHealth(2)) + "/" + Integer.toString((int) Player.maxRyanHealth), false);
 			healthBox.setScrollRate(0);
 			healthBox.keepOpen(true);
 			//adds the weapons owned by Ryan to the after render draw arraylist (adds a question mark for the ones he doesen't own) if sam's page is the active page
 			for (int i = 0; i <4; i++) {
-				if (!Jeffrey.getInventory().findWeaponAtIndex(i, 2).getClass().getSimpleName().equals("Unarmed")) {
-					AfterRenderDrawer.drawAfterRender((int)(this.getX() + 180 + (i*60)) - Room.getViewX(), (int)this.getY() + 320 - Room.getViewY(),Jeffrey.getInventory().findWeaponAtIndex(i, 2).getUnrotatedSprite(), 0, true);
+				if (!Player.getInventory().findWeaponAtIndex(i, 2).getClass().getSimpleName().equals("Unarmed")) {
+					AfterRenderDrawer.drawAfterRender((int)(this.getX() + 180 + (i*60)) - Room.getViewX(), (int)this.getY() + 320 - Room.getViewY(),Player.getInventory().findWeaponAtIndex(i, 2).getUnrotatedSprite(), 0, true);
 				} else {
 					AfterRenderDrawer.drawAfterRender((int)(this.getX() + 180 + (i*60))- Room.getViewX() , (int)this.getY() + 320 - Room.getViewY(),questionMark, 0, true);	
 				}

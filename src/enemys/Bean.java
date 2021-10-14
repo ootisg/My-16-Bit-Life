@@ -1,7 +1,7 @@
 package enemys;
 
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 import vector.Vector2D;
 
@@ -78,7 +78,7 @@ public class Bean extends Enemy {
 		} else {
 			double ang;
 			if (!rotationLocked) {
-				Jeffrey j = Jeffrey.getActiveJeffrey ();
+				Player j = Player.getActivePlayer ();
 				double targetX = j.getX ();
 				double targetY = j.getY ();
 				Vector2D a = new Vector2D (HAND_CENTER_X, HAND_CENTER_Y, 1, 16);

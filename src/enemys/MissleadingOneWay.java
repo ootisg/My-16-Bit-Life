@@ -2,13 +2,12 @@ package enemys;
 
 import main.GameCode;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
-import statusEffect.Oneway;
+import statusEffect.OneWayLeft;
 import switches.Activateable;
 
 public class MissleadingOneWay extends Enemy implements Activateable{
-	Oneway finalWay;
 	Sprite signSprite;
 	boolean activated = true;
 		public MissleadingOneWay () {
@@ -27,16 +26,14 @@ public class MissleadingOneWay extends Enemy implements Activateable{
 	@Override
 		public void frameEvent () {
 		if (activated) {
-			if (Jeffrey.getActiveJeffrey().getX() - this.getX() < 150 &&Jeffrey.getActiveJeffrey().getX() - this.getX() >= -150 ) {
-				finalWay = new Oneway (this.getAnimationHandler().flipHorizontal());
-				finalWay.declare(0, 0);
-			} else {
-				Jeffrey.status.statusAppliedOnJeffrey[1] = false;
-				Jeffrey.status.statusAppliedOnSam [1] = false;
-				Jeffrey.status.statusAppliedOnRyan[1] = false;
-				Jeffrey.getActiveJeffrey().bindLeft = false;	
-				Jeffrey.getActiveJeffrey().bindRight = false;
-			}
+			if (Player.getActivePlayer().getX() - this.getX() < 150 &&Player.getActivePlayer().getX() - this.getX() >= -150 ) {
+				
+				if (this.getAnimationHandler().flipHorizontal()) {
+					Player.getActivePlayer().status.applyStatus("OneWayLeft", 1);
+				} else {
+					Player.getActivePlayer().status.applyStatus("OneWayRight", 1);
+				}
+			} 
 		}
 	}
 	@Override 

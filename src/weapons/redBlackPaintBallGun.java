@@ -1,13 +1,11 @@
 package weapons;
 
 import gui.Tbox;
-import items.BluePaint;
 import items.Item;
-import items.RedBlackPaintBall;
 import main.GameCode;
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import projectiles.Fist;
 import projectiles.Paintball;
 import projectiles.PaintballWeak;
@@ -16,22 +14,17 @@ import resources.Sprite;
 
 public class redBlackPaintBallGun extends AimableWeapon {
 	
-	public static final Sprite outtaAmmo = new Sprite ("resources/sprites/Outta_Ammo.png");
-	public static final Sprite gunSprite = new Sprite ("resources/sprites/redblack_gun.png");
+	public static final Sprite GUN_SPRITE = new Sprite ("resources/sprites/jeffrey_walking_redblack_1.png");
 	private boolean fists;
 	private Sprite paintballiconSprite;
 	private Sprite fisticonSprite;
-	private int textTimer;
 	private int cooldown;
-	boolean itsOver = false;
 	boolean firstRun = true;
-	Tbox box;
+	//Tbox box;
 	private int [] upgradeInfo;
-	BluePaint paint;
-	private RedBlackPaintBall testball;
 	Tbox ammoAmount;
-	public redBlackPaintBallGun(Sprite sprite) {
-		super(sprite);
+	public redBlackPaintBallGun() {
+		super(GUN_SPRITE);
 		fists = false;
 		ammoAmount = new Tbox ();
 		ammoAmount.setX(340);
@@ -41,14 +34,11 @@ public class redBlackPaintBallGun extends AimableWeapon {
 		ammoAmount.keepOpen(true);
 		ammoAmount.renderBox(false);
 		ammoAmount.setPlace();
-		textTimer = 0;
 		paintballiconSprite = new Sprite ("resources/sprites/config/paintballIcon.txt");
 		fisticonSprite = new Sprite ("resources/sprites/config/fistIcon.txt");
-		paint = new BluePaint ();
 		this.cooldown = 0;
 		upgradeInfo = new int [] {0,0,0,1};
-		testball = new RedBlackPaintBall ();
-		this.setSprite(gunSprite);
+	
 	}
 	@Override
 	public String checkName () {
@@ -56,7 +46,7 @@ public class redBlackPaintBallGun extends AimableWeapon {
 	}
 	@Override
 	public String checkEnetry() {
-		return "WHAT HAPPENS WHEN YOU MIX RED AND BLACK?";
+		return "WHAT HAPPENS WHEN YOU MIX RED AND BLACK?  YOU GET REDBLACK DUH";
 	}
 	@Override
 		public String [] getUpgrades () {
@@ -74,64 +64,57 @@ public class redBlackPaintBallGun extends AimableWeapon {
 		}
 	@Override 
 	public Sprite getUnrotatedSprite () {
-		return gunSprite;
+		return GUN_SPRITE;
 	}
-	@Override 
-	public void onSwitch () {
-		itsOver = true;
-	
-	}
-	@Override
-	public Item getAmmoType () {
-		return new RedBlackPaintBall();
-	}
+
 	@Override
 	public void frameEvent () {
-		if (upgradeInfo [3] >= 1 && mouseButtonPressed (2)) {
-			if (!fists) {
-			fists = true;
-			box = new Tbox (this.getX() - Room.getViewX() ,this.getY(), 20, 2, "SHOOT THOSE FISTS BRO", false);
-			} else {
-			fists = false;
-			box = new Tbox (this.getX() - Room.getViewX(),this.getY(), 20, 2, "STOP DEM FISTS", false);
-			}
-			
-			box.setScrollRate(0);
-			box.configureTimerCloseing(30);
-		}
+		
 		if (this.cooldown > 0) {
 			this.cooldown --;
 		}
-		if (mouseButtonClicked (0) && cooldown == 0 && !Jeffrey.getActiveJeffrey().isCrouched() && !mouseButtonReleased (0)) {
-			if ((Jeffrey.getInventory().checkAmmo(testball) && !fists) || Jeffrey.getInventory().checkAmmo(testball)&& (Jeffrey.getInventory().checkAmmo(paint) && fists)) {
+	}
+	
+	@Override
+	public void onFire () {
+		if ((canFire() && !fists) || (canFire() && canFireSecondary() && fists)) {
 			if (!this.fists) {
-			this.shoot (new Paintball ());
-			Jeffrey.getInventory().removeItem(testball);
+				this.shoot (new Paintball ());
+				this.fireAmmo(1);
 			if (upgradeInfo [2] >= 1) {
-			this.shoot(new PaintballWeak(), this.rotation + (3.14/32));
-			this.shoot(new PaintballWeak(), this.rotation - (3.14/32));
+				this.shoot(new PaintballWeak(), this.rotation + (3.14/32));
+				this.shoot(new PaintballWeak(), this.rotation - (3.14/32));
 			}
 			} else {
-			this.shoot(new Fist ());
-			Jeffrey.getInventory().removeItem(paint);
-			Jeffrey.getInventory().removeItem(testball);
+				this.shoot(new Fist ());
+				this.fireAmmo(1);
+				this.fireSecondaryAmmo(1);
 			}
 			cooldown = 5;
+		} 
+	}
+	
+	@Override
+	public void onSwitchModes () {
+		
+		if (upgradeInfo [3] >= 1) {
+			if (!fists) {
+			fists = true;
+			//box = new Tbox (this.getX() - Room.getViewX() ,this.getY(), 20, 2, "SHOOT THOSE FISTS BRO", false);
 			} else {
-				textTimer = 10;
-				AfterRenderDrawer.drawAfterRender((int)this.getX() - Room.getViewX(), (int)this.getY() - 20, outtaAmmo);
+			fists = false;
+			//box = new Tbox (this.getX() - Room.getViewX(),this.getY(), 20, 2, "STOP DEM FISTS", false);
 			}
-		}
-		if (textTimer > 0) {
-			AfterRenderDrawer.drawAfterRender((int)this.getX() - Room.getViewX(), (int)this.getY() - 20, outtaAmmo);
-			textTimer = textTimer - 1;
+			
+			//box.setScrollRate(0);
+			//box.configureTimerCloseing(30);
 		}
 	}
 	@Override 
 	public void draw () {
 		super.draw();
 		if (this.getTierInfo()[3] == 1) {
-			ammoAmount.setContent(Integer.toString(Jeffrey.getInventory().checkItemAmount(paint)));
+			ammoAmount.setContent(Double.toString(this.getSecondaryAmmoCount()));
 			ammoAmount.draw();
 			if (fists) {
 				fisticonSprite.draw(350, 0);

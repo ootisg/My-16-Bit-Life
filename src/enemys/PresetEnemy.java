@@ -6,7 +6,7 @@ import java.util.Stack;
 
 import gameObjects.Point;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class PresetEnemy extends Enemy {
@@ -90,7 +90,7 @@ public class PresetEnemy extends Enemy {
 			patrolBothWays = attack;
 		}
 	/**
-	 * charges in a strate line for a while towards the Jeffrey.getActiveJeffrey() than redraws and goes again
+	 * charges in a strate line for a while towards the Jeffrey.getActivePlayer() than redraws and goes again
 	 * @param timeToCharge how long the enemy charges before recreating the charge line
 	 */
 		public void keepChargeing (int timeToCharge) {
@@ -103,24 +103,24 @@ public class PresetEnemy extends Enemy {
 		}
 		//used in conjunction with charge
 		public void getChargeLine () {
-				if (((Jeffrey.getActiveJeffrey().getX() > this.getX()) && Jeffrey.getActiveJeffrey().getY() > this.getY())) {
+				if (((Player.getActivePlayer().getX() > this.getX()) && Player.getActivePlayer().getY() > this.getY())) {
 					xToMove = RNG.nextInt(3) + 1;
 					yToMove = RNG.nextInt(3) + 1;
 					this.getAnimationHandler().setFlipHorizontal(false);
 				}
-		if ((Jeffrey.getActiveJeffrey().getX() < this.getX()) && Jeffrey.getActiveJeffrey().getY() > this.getY()) {
+		if ((Player.getActivePlayer().getX() < this.getX()) && Player.getActivePlayer().getY() > this.getY()) {
 			xToMove = RNG.nextInt(3) + 1;
 			xToMove = xToMove * -1;
 			this.getAnimationHandler().setFlipHorizontal(true);
 			yToMove = RNG.nextInt(3) + 1;	
 				}
-		if ((Jeffrey.getActiveJeffrey().getX() > this.getX()) && Jeffrey.getActiveJeffrey().getY() < this.getY()) {
+		if ((Player.getActivePlayer().getX() > this.getX()) && Player.getActivePlayer().getY() < this.getY()) {
 			xToMove = RNG.nextInt(3) + 1;
 			yToMove = RNG.nextInt(3) + 1;
 			yToMove = yToMove * -1;
 			this.getAnimationHandler().setFlipHorizontal(false);
 		}
-		if ((Jeffrey.getActiveJeffrey().getX() < this.getX()) && Jeffrey.getActiveJeffrey().getY() < this.getY()) {
+		if ((Player.getActivePlayer().getX() < this.getX()) && Player.getActivePlayer().getY() < this.getY()) {
 			xToMove = RNG.nextInt(3) + 1;
 			yToMove = RNG.nextInt(3) + 1;
 			yToMove = yToMove * -1;
@@ -129,7 +129,7 @@ public class PresetEnemy extends Enemy {
 		}
 	}
 		/**
-		 * charges in a strate line for a while towards the Jeffrey.getActiveJeffrey() 
+		 * charges in a strate line for a while towards the Jeffrey.getActivePlayer() 
 		 * 	@param timeToCharge how long the enemy charges 
 		 */
 		public void Charge (int timeToCharge) {
@@ -364,16 +364,16 @@ public class PresetEnemy extends Enemy {
 		}
 		//preset behaviors you can use for enemys by putting this in enemy frame (or running it a bunch of times another way)
 		
-		// makes enemy stand idle and then sometimes jump towards the Jeffrey.getActiveJeffrey()
+		// makes enemy stand idle and then sometimes jump towards the Jeffrey.getActivePlayer()
 		public void jumpyBoi (Sprite idleSprite, Sprite jumpSprite, int horizontalSpeed, int verticalSpeed, int waitTime) {
 			if (!this.getSprite().equals(idleSprite) && !jumping) {
 				this.setSprite(idleSprite);
 			}
 			this.setY(this.getY() + 1);
-			if ((Jeffrey.getActiveJeffrey().getX() > this.getX() - 200 && Jeffrey.getActiveJeffrey().getX() <=this.getX() + 200) && Room.isColliding(this)) {
+			if ((Player.getActivePlayer().getX() > this.getX() - 200 && Player.getActivePlayer().getX() <=this.getX() + 200) && Room.isColliding(this)) {
 				if (countdown == 0) {
 				jumping = true;
-				if (Jeffrey.getActiveJeffrey().getX() > this.getX()) {
+				if (Player.getActivePlayer().getX() > this.getX()) {
 					lockedRight = true;
 				} else {
 					lockedRight = false;
@@ -397,7 +397,7 @@ public class PresetEnemy extends Enemy {
 		}
 		public void turnAroundDurringAttack(int fatAss) {
 			this.moveing = true;
-			if (((Jeffrey.getActiveJeffrey().getX() > this.getX()) && !moveRight) || (Jeffrey.getActiveJeffrey().getX() < this.getX()) && moveRight ) {
+			if (((Player.getActivePlayer().getX() > this.getX()) && !moveRight) || (Player.getActivePlayer().getX() < this.getX()) && moveRight ) {
 			if (moveRight) {
 				this.setX(this.getX()- fatAss);
 			} else {
@@ -438,13 +438,13 @@ public class PresetEnemy extends Enemy {
 			}
 			waitForCollison = waitForCollison + 1;
 			if (moveRight || patrolBothWays) {
-				if ( ((this.getX() - Jeffrey.getActiveJeffrey().getX()  < -rangebound1Right) && (this.getX() - Jeffrey.getActiveJeffrey().getX()  > -rangebound2Right) ) ) {
+				if ( ((this.getX() - Player.getActivePlayer().getX()  < -rangebound1Right) && (this.getX() - Player.getActivePlayer().getX()  > -rangebound2Right) ) ) {
 					this.moveing = false;
 					if (!(this.getSprite().equals(attackingSprite)) && canFuckWithSprite) {
 					this.setSprite(attackingSprite);
 					} 
 					} else {
-						if((!patrolBothWays && ((Jeffrey.getActiveJeffrey().getX() >= this.getX() - rangebound2Left) &&(Jeffrey.getActiveJeffrey().getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls())) ) {
+						if((!patrolBothWays && ((Player.getActivePlayer().getX() >= this.getX() - rangebound2Left) &&(Player.getActivePlayer().getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls())) ) {
 						moveing = true;
 						if (adjustedSpeed) {
 							speed = 0;
@@ -457,14 +457,14 @@ public class PresetEnemy extends Enemy {
 					}
 			} 
 			if (!moveRight || patrolBothWays) {
-				if ( (Jeffrey.getActiveJeffrey().getX() >= this.getX() - rangebound2Left) &&(Jeffrey.getActiveJeffrey().getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls() ) {
+				if ( (Player.getActivePlayer().getX() >= this.getX() - rangebound2Left) &&(Player.getActivePlayer().getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls() ) {
 					this.moveing = false;
 					if (!(this.getSprite().equals(attackingSprite)) && canFuckWithSprite) {
 					this.setSprite(attackingSprite);
 				}
 				}
 				} else {
-					if (!(((this.getX() - Jeffrey.getActiveJeffrey().getX()  < -rangebound1Right) && (this.getX() - Jeffrey.getActiveJeffrey().getX()  > -rangebound2Right)))) {
+					if (!(((this.getX() - Player.getActivePlayer().getX()  < -rangebound1Right) && (this.getX() - Player.getActivePlayer().getX()  > -rangebound2Right)))) {
 					moveing = true;
 					if (adjustedSpeed) {
 						speed = 0;

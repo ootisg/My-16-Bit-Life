@@ -344,6 +344,7 @@ public class ObjectHandler {
 	public static GameObject getInstance (String name) {
 		Class<?> c = getClassFromString(name);
 		try {
+			System.out.println(name);
 			return (GameObject)c.getConstructor().newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();

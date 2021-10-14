@@ -56,6 +56,7 @@ public class BreakableObject extends GameObject {
 		Random rand = new Random ();
 		for (int i = 0; i < shardCount; i++) {
 			Shard currentShard = shards[rand.nextInt (shards.length)];
+			
 			double direciton;
 			if ((int)(maxDirection - minDirection) != 0) {
 				direciton = rand.nextDouble() + rand.nextInt((int)(maxDirection - minDirection)) + minDirection;

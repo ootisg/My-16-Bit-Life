@@ -16,7 +16,7 @@ import main.GameCode;
 import main.ObjectHandler;
 import main.RenderLoop;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import projectiles.DirectionBullet;
 import projectiles.Projectile;
 import resources.Sprite;
@@ -24,7 +24,7 @@ import resources.Sprite;
 public class Item extends Projectile {
 	Boolean activeBox = false;
 	ListTbox box;
-	LemonPacket packet;
+	
 	double direction;
 	double speed;
 	int timer = 0;
@@ -53,7 +53,7 @@ public class Item extends Projectile {
 		}
 	} */
 	//override to set effect
-	public void useItem(int witchCharictar) {
+	public void useItem(Player onWho) {
 		Textbox box;
 		box = new Textbox("YOU CANT USE THAT");
 		box.changeUnpause();
@@ -63,88 +63,62 @@ public class Item extends Projectile {
 	public String checkName () {
 		return "";	
 	}
-	public Item getAmmoType () {
-		return null;
-	}
-	public int getAmmoAmount() {
-		return 0;
-	}
-	/**
-	 * run whenver weapons are switch overriden in wepon classes (if nessasary)
-	 */
-	public void onSwitch () {
-		
-	}
-	public void onFlip() {
-		
-	}
+
 	//override to set entry
 	public String checkEnetry() {
 		return "";
 	}
 	//overriden in classes to clarify what type of item the item is
 	public String getItemType() {
-		return "";
+		return "Item";
 	}
-	//override in weapon classes
-	public String [] getUpgrades () {
-		String [] returnArray;
-		returnArray = new String [] {"DEFULT", "DEFULT", "DEFULT", "DEFULT"};
-		return returnArray;
-	}
-	//override in weapon classes
-	public int [] getTierInfo () {
-		int [] returnArray;
-		returnArray = new int [] {0,0,0,0};
-		return returnArray;
-	}
-	public void allwaysRunItemStuff (int witchCharitar) {
-		if (Jeffrey.getActiveJeffrey().checkIfSomeoneIsLemoney(witchCharitar) && !activeBox && this.getItemType().equals("Consumable") && !this.checkName().equals("LEMON PACKET")) {
-			Tbox twobox2furios;
-			activeBox = true;
-			packet = new LemonPacket ();
-			if (Jeffrey.getInventory().checkConsumable(packet)) {
-			twobox2furios = new Tbox (100, 80, 24, 8, "HE DOESEN'T WANT THAT HE WANTS LEMON PACKETS HE WILL ONLY EAT IT IF HE CAN HAVE LEMON PACKETS WITH IT", true);
-			twobox2furios.setScrollRate(0);
-			box = new ListTbox (290,400, new String []{"WHATEVER TAKE IT DUDE", "SCREW THAT"});
-			} else {
-				twobox2furios = new Tbox (100, 80, 24, 8, "HE DOESEN'T WANT THAT HE WANTS LEMON PACKETS HE WILL ONLY EAT IT IF HE CAN HAVE LEMON PACKETS WITH IT BUT YOU DONT HAVE ANY SO YOUR OUTTA LUCK", true);
-				twobox2furios.setScrollRate(0);
-				Gui.getGui().menu.frozen = false;
-				activeBox = false;
-			}
-			twobox2furios.declare();
-		} 
-		try {
-			if(box.getSelected() == 0) {
-				this.useItem(witchCharitar);
-				packet.useItem(witchCharitar);
-				Jeffrey.getInventory().removeItem(this);
-				Jeffrey.getInventory().removeItem(packet);
-				box.close();
-			}
-			if (box.getSelected() == 1) {
-				Gui.getGui().menu.frozen = false;
-				activeBox = false;
-				box.close();
-			}
-		} catch (NullPointerException e) {
-			
-		}
+
+	//TODO do this in a less intrusive way
+	public void allwaysRunItemStuff (Player p) {
+//		if (Jeffrey.getActivePlayer().checkIfSomeoneIsLemoney(witchCharitar) && !activeBox && this.getItemType().equals("Consumable") && !this.checkName().equals("LEMON PACKET")) {
+//			Tbox twobox2furios;
+//			activeBox = true;
+//			if (Jeffrey.getInventory().checkItem("LemonPacket")) {
+//			twobox2furios = new Tbox (100, 80, 24, 8, "HE DOESEN'T WANT THAT HE WANTS LEMON PACKETS HE WILL ONLY EAT IT IF HE CAN HAVE LEMON PACKETS WITH IT", true);
+//			twobox2furios.setScrollRate(0);
+//			box = new ListTbox (290,400, new String []{"WHATEVER TAKE IT DUDE", "SCREW THAT"});
+//			} else {
+//				twobox2furios = new Tbox (100, 80, 24, 8, "HE DOESEN'T WANT THAT HE WANTS LEMON PACKETS HE WILL ONLY EAT IT IF HE CAN HAVE LEMON PACKETS WITH IT BUT YOU DONT HAVE ANY SO YOUR OUTTA LUCK", true);
+//				twobox2furios.setScrollRate(0);
+//				Gui.getGui().menu.frozen = false;
+//				activeBox = false;
+//			}
+//			twobox2furios.declare();
+//		} 
+//		try {
+//			if(box.getSelected() == 0) {
+//				this.useItem(witchCharitar);
+//				Jeffrey.getInventory().removeItem(this);
+//				box.close();
+//			}
+//			if (box.getSelected() == 1) {
+//				Gui.getGui().menu.frozen = false;
+//				activeBox = false;
+//				box.close();
+//			}
+//		} catch (NullPointerException e) {
+//			
+//		}
 		if (!this.getItemType().equals("Consumable") && !activeBox) {
-			this.useItem(witchCharitar);
+			this.useItem(p);
 			activeBox = true;
 		}
-		if ((!Jeffrey.getActiveJeffrey().checkIfSomeoneIsLemoney(witchCharitar) || this.checkName().equals("LEMON PACKET")) && this.getItemType().equals("Consumable")) {
-			this.useItem(witchCharitar);
-			Jeffrey.getInventory().removeItem(this);
-		}
+//		if ((!Jeffrey.getActivePlayer().checkIfSomeoneIsLemoney(witchCharitar) || this.checkName().equals("LEMON PACKET")) && this.getItemType().equals("Consumable")) {
+//			this.useItem(witchCharitar);
+//			Jeffrey.getInventory().removeItem(this);
+//		}
 	}
 	@Override
+	//TODO get rid of the damn inheratince from projectile thats just embaressing
 	public void projectileFrame () {
 		this.goY(this.getY() + 1);
 		if (!maganatized) {
-			if (Jeffrey.getActiveJeffrey().getX() < this.getX() + 50 && Jeffrey.getActiveJeffrey().getX() > this.getX() - 50 && Jeffrey.getActiveJeffrey().getY() < this.getY() + 50 && Jeffrey.getActiveJeffrey().getY() > this.getY() - 50) {
+			if (Player.getActivePlayer().getX() < this.getX() + 50 && Player.getActivePlayer().getX() > this.getX() - 50 && Player.getActivePlayer().getY() < this.getY() + 50 && Player.getActivePlayer().getY() > this.getY() - 50) {
 				maganatized = true;
 			}
 			if (this.getDirection() % 6.28 > 1.57 && this.getDirection() %6.28 < 4.7) {
@@ -184,14 +158,14 @@ public class Item extends Projectile {
 				this.goY( this.getY() + 3);
 			}
 			} else {
-				if (!(Jeffrey.getActiveJeffrey().getX() < this.getX() + 50 && Jeffrey.getActiveJeffrey().getX() > this.getX() - 50 && Jeffrey.getActiveJeffrey().getY() < this.getY() + 50 && Jeffrey.getActiveJeffrey().getY() > this.getY() - 50)) {
+				if (!(Player.getActivePlayer().getX() < this.getX() + 50 && Player.getActivePlayer().getX() > this.getX() - 50 && Player.getActivePlayer().getY() < this.getY() + 50 && Player.getActivePlayer().getY() > this.getY() - 50)) {
 					maganatized = false;
 				}
 				DirectionBullet bullet = new DirectionBullet (this.getX(),this.getY());
-				this.setDirection(bullet.findDirection(Jeffrey.getActiveJeffrey()));
+				this.setDirection(bullet.findDirection(Player.getActivePlayer()));
 				this.setSpeed(5);
 			}
-		if (this.isColliding(Jeffrey.getActiveJeffrey()) && !this.getClass().getSimpleName().equals("Item")) {
+		if (this.isColliding(Player.getActivePlayer()) && !this.getClass().getSimpleName().equals("Item")) {
 			if (tbox.declared()) {
 				String [] words = tbox.getContent().split(" ");
 				int length = 0;
@@ -209,7 +183,7 @@ public class Item extends Projectile {
 					tbox.setContent(tbox.getContent() + " AND A " + this.checkName() + " X 1");
 				}
 			} else {
-				tbox = new Tbox (Jeffrey.getActiveJeffrey().getX(), Jeffrey.getActiveJeffrey().getY() - 8, 28, 2, "YOU GOT A " + this.checkName() + " X 1", true);
+				tbox = new Tbox (Player.getActivePlayer().getX(), Player.getActivePlayer().getY() - 8, 28, 2, "YOU GOT A " + this.checkName() + " X 1", true);
 			}
 			this.onPickup();
 			this.forget();
@@ -241,10 +215,7 @@ public class Item extends Projectile {
 			super.draw();
 		}
 	}
- 	//overriden in AimableWeapon
-	public Sprite getUnrotatedSprite () {
-		return this.getSprite();
-	}
+ 	
 	public Item clone () {
 		Class <?> working = this.getClass();
 		try {
@@ -258,7 +229,7 @@ public class Item extends Projectile {
 	}
 	//override to specify different behavior
 	public void onPickup() {
-		Jeffrey.inventory.addItem(this);
+		Player.inventory.addItem(this);
 	}
 	//override to specify a behavior
 	public void onRemove () {

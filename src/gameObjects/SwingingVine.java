@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import main.GameObject;
 import main.RenderLoop;
-import players.Jeffrey;
+import players.Player;
 import resources.ColidableVector;
 import resources.LoopableSprite;
 import resources.Sprite;
@@ -65,13 +65,13 @@ public class SwingingVine extends GrabbableObject {
 	
 	@Override
 	public void onGrab() {
-		Jeffrey j = Jeffrey.getActiveJeffrey();
+		Player j = Player.getActivePlayer();
 		
 		contactHeight = Math.sqrt(Math.pow((j.getY() - this.getY()),2) + Math.pow((j.getX()  - this.getX()),2));
 	}
 	@Override
 	public void onRelease () {
-		Jeffrey j = Jeffrey.getActiveJeffrey();
+		Player j = Player.getActivePlayer();
 		
 		j.vx = Math.cos(roatationFactor + (3*Math.PI)/2) * -contactHeight/7;
 		j.vy = Math.sin(roatationFactor + (3*Math.PI)/2) * contactHeight/7;
@@ -80,7 +80,7 @@ public class SwingingVine extends GrabbableObject {
 	
 	@Override
 	public void whileGrabbed() {
-		Jeffrey j = Jeffrey.getActiveJeffrey();
+		Player j = Player.getActivePlayer();
 		
 		j.setX(this.getX() - contactHeight* Math.cos(roatationFactor + (3*Math.PI)/2));
 		j.setY(this.getY() - contactHeight* Math.sin(roatationFactor + (3*Math.PI)/2));

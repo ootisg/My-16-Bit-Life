@@ -9,7 +9,7 @@ import gameObjects.Extinguisable;
 import gameObjects.LightSource;
 import main.GameCode;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import projectiles.DirectionBullet;
 import projectiles.PokaDot;
 import resources.Sprite;
@@ -32,7 +32,7 @@ public class Candle extends Enemy implements LightSource, Extinguisable {
 	timer = timer + 1;
 	if (timer == 30 && !extinguesed) {
 		DirectionBullet bullet = new DirectionBullet (this.getX(), this.getY());
-		fireball = new PokaDot(bullet.findDirection(Jeffrey.getActiveJeffrey()));
+		fireball = new PokaDot(bullet.findDirection(Player.getActivePlayer()));
 		fireball.declare(this.getX(),this.getY());
 		timer = 0;
 		}
@@ -42,22 +42,7 @@ public class Candle extends Enemy implements LightSource, Extinguisable {
 	
 	}
 	public void damage (int amount) {
-		if (Jeffrey.getActiveJeffrey().checkIfPowerful()) {
-			amount = (int) ((amount * 1.2) - defence);
-			if(amount <= 0){
-				amount = 1;
-			}
-			text = new DamageText (amount * 1.2, this.getX(), this.getY(), false );	
-		} else {
-			amount = amount - defence;
-			if(amount <= 0){
-				amount = 1;
-			}
-		text = new DamageText (amount, this.getX(), this.getY(), false);
-		}
-		text.declare(this.getX(), this.getY());
-		this.health = health - amount;
-	
+		super.damage(amount);
 		if (this.isColliding("Paintball") || this.isColliding("PaintballWeak") || this.isColliding("SlimeSword")) {
 			this.flameHealth = this.flameHealth - amount;
 		}

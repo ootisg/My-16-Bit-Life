@@ -4,7 +4,7 @@ package gui;
 import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 
 
 public class Gui extends GameObject {
@@ -18,7 +18,7 @@ public class Gui extends GameObject {
 	}
 	@Override
 	public void frameEvent () {
-		if (keyDown('E')&& prepared  && Jeffrey.getActiveJeffrey() != null) {
+		if (keyDown('E')&& prepared  && Player.getActivePlayer() != null) {
 			menu = new Menu ();
 			menu.declare(0 + Room.getViewX(), 0 + Room.getViewY());
 			ObjectHandler.pause (true);

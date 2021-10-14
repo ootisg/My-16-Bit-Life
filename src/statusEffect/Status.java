@@ -1,73 +1,129 @@
 package statusEffect;
 
-import java.util.Arrays;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-import enemys.Enemy;
-import main.GameObject;
-import players.Jeffrey;
 
-public class Status extends GameObject {
-	public Boolean [] statusAppliedOnJeffrey;
-	public Boolean [] statusAppliedOnSam;
-	public Boolean [] statusAppliedOnRyan;
-	public Status(){
-		statusAppliedOnJeffrey = new Boolean [10];
-		statusAppliedOnSam = new Boolean [10];
-		statusAppliedOnRyan = new Boolean [10];
-		Arrays.fill(statusAppliedOnJeffrey, false);
-		Arrays.fill(statusAppliedOnSam, false);
-		Arrays.fill(statusAppliedOnRyan, false);
-	}
-	//indexes 
-	// 0 = poison
-	// 1 = one way
-	// 2 = lemony
-	// 3 = slowness
-	// 4 = brittle
-	// 5 = fast
-	// 6 = powerful
-	// 7 = regenaration
-	// 8 = slippery
-	// when makieng new status be sure to add a thing that makes this true when its aplied and false when it is not
-	public boolean checkStatus (int index, int charictar) {
-	if (charictar == 0) {
-	return statusAppliedOnJeffrey [index];
-	}
-	if (charictar == 1) {
-	return statusAppliedOnSam [index];
-	}
-	if (charictar == 2) {
-	return statusAppliedOnRyan[index];	
-	}
-	return false;
-	}
-	/**
-	 * use to a apply a status duh
-	 * @param index the numerical index corrisponding to the correct staus as explained earlier in this file
-	 * @param charictar the index for the charictar that receves the status as allways Jeffrey is 0 Sam is 1 and Ryan is 2
-	 */
-	public void applyStatus (int index, int charictar) {
-		if (charictar == 0) {
-			statusAppliedOnJeffrey [index] = true;
+public class Status {
+	public ArrayList <StatusData> status;
+	
+	public Status() {
+		status = new ArrayList <StatusData>();
+		
+		try {
+			Scanner s = new Scanner (new File ("resources/statusList.txt"));
+			
+			while (s.hasNextLine()) {
+				String statusType = s.nextLine();
+				StatusData working = new StatusData (statusType);
+				
+				
+				try {
+					Class <?> c = Class.forName("statusEffect." + statusType);
+					working.setStatusEffect((StatusType)c.getConstructor().newInstance());
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				}
+				
+				status.add(working);
+				
+			}
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
-		if (charictar == 1) {
-			 statusAppliedOnSam [index] = true;
+		
+	}
+	
+	public void applyStatus (String statusName, int time) throws IllegalArgumentException {
+		for (int i = 0; i < status.size(); i++) {
+			if (status.get(i).getName().equals(statusName)) {
+				status.get(i).setTime(time);
+				return;
+			}
 		}
-		if (charictar == 2) {
-			statusAppliedOnRyan[index] = true;	
+		throw new IllegalArgumentException (statusName + "is not the name of a status check resouces/statusList.txt for a list of statuses");
+	}
+	
+	public boolean checkStatus (String statusName) throws IllegalArgumentException {
+		for (int i = 0; i < status.size(); i++) {
+			if (status.get(i).getName().equals(statusName)) {
+				return status.get(i).getTime() != 0;
+			}
+		}
+		throw new IllegalArgumentException (statusName + "is not the name of a status check resouces/statusList.txt for a list of statuses");
+	}
+	
+	public void cureStatus (String statusName) throws IllegalArgumentException {
+		for (int i = 0; i < status.size(); i++) {
+			if (status.get(i).getName().equals(statusName)) {
+				status.get(i).setTime(0);
+				if (status.get(i).getStatusEffect() != null) {
+					status.get(i).getStatusEffect().onCure();
+				}
+				return;
+			}
+		}
+		throw new IllegalArgumentException (statusName + "is not the name of a status check resouces/statusList.txt for a list of statuses");
+	}
+	
+	
+	
+	public void statusFrame () {
+		for (int i = 0; i < status.size(); i++) {
+			if (status.get(i).getTime() > 0) {
+				status.get(i).decrementTime();
+				if (status.get(i).getStatusEffect() != null) {
+					status.get(i).getStatusEffect().onStatus();
+					if (status.get(i).getTime() == 0) {
+						status.get(i).getStatusEffect().onCure();
+					}
+				}
+			}
 		}
 	}
-	// use to cure status
-	// in the class for your status make it so if this ever becomes false the status gets forgoten
-	public void CureStatus(int index, int charictar){
-	if (charictar == 0) {
-		statusAppliedOnJeffrey [index] = false;
-	}
-	if (charictar == 1) {
-		statusAppliedOnSam [index] = false;
-	}
-	if (charictar == 2) {
-		statusAppliedOnRyan [index] = false;
-	}
+	
+	
+	private class StatusData {
+		
+		int timeLeft = 0;
+		
+		String statusName = "NULL";
+		
+		private StatusType statusEffect = null;
+		
+		public StatusData (String statusName) {
+			this.statusName = statusName;
+		}
+		
+		public String getName () {
+			return statusName;
+		}
+		
+		public void setTime (int time) {
+			timeLeft = time;
+		}
+		
+		public void decrementTime () {
+			timeLeft = timeLeft - 1;
+		}
+		
+		public int getTime () {
+			return timeLeft;
+		}
+
+		public StatusType getStatusEffect() {
+			return statusEffect;
+		}
+
+		public void setStatusEffect(StatusType statusEffect) {
+			this.statusEffect = statusEffect;
+		}
+		
 	}
 }

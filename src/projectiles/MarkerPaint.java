@@ -23,7 +23,6 @@ public class MarkerPaint extends Projectile {
 	Random RNG;
 	public MarkerPaint (int color) {
 		RNG = new Random ();
-		this.declare(0, 0);
 		switch(color) {
 			case 1:
 				this.setSprite (red_paint);
@@ -76,6 +75,7 @@ public class MarkerPaint extends Projectile {
 				break;
 		}
 	}
+	
 	@Override
 	public void projectileFrame () {
 		double xTo = this.getX () + Math.cos (direction) * speed;
@@ -86,7 +86,7 @@ public class MarkerPaint extends Projectile {
 				this.forget ();
 			}
 		}
-		if (this.goingIntoWall) {
+		if (this.checkIfGoingIntoWall()) {
 			this.forget ();
 		}
 	}

@@ -8,7 +8,7 @@ import java.util.Random;
 
 import items.PopcornKernel;
 import main.GameLoop;
-import players.Jeffrey;
+import players.Player;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
 import weapons.Bombs;
@@ -27,7 +27,7 @@ public class BombsProjectile extends Projectile{
 	double vy = 0;
 	boolean inzialaized = false;
 	boolean thrown = false;
-	public static Jeffrey j = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
+	
 	public BombsProjectile (boolean popCorn){
 		popcorn = popCorn;
 		if (!popcorn){
@@ -120,7 +120,8 @@ public class BombsProjectile extends Projectile{
 				ExpolsionPopcorn explosionPopcorn = new ExpolsionPopcorn(10, 60, true, true);
 				 explosionPopcorn.declare(this.getX() - 8,this.getY() - 8);
 			} else {
-				switch (Bombs.getTierInfoStaticly()[2]) {
+				System.out.println(Player.getInventory().getWeapon("Bombs"));
+				switch (Player.getInventory().getWeapon("Bombs").getTierInfo()[2]) {
 				case 0:
 					Explosion explosion = new Explosion(10, 60, true, true);
 					explosion.declare(this.getX() - 8,this.getY() - 8);

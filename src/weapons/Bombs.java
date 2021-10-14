@@ -5,18 +5,14 @@ import java.util.Random;
 import enemys.Enemy;
 import gui.ListTbox;
 import gui.Tbox;
-import items.Bomb;
 import items.Item;
-import items.PopcornBag;
 import items.PopcornKernel;
 import main.GameCode;
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
-import statusEffect.Power;
-import statusEffect.Regeneration;
 import projectiles.BombsProjectile;
 import projectiles.MarkerPaint;
 
@@ -31,15 +27,13 @@ public class Bombs extends AimableWeapon {
 	public static final Sprite newBomb = new Sprite ("resources/sprites/config/bomb_active_blue.txt");
 	private int power = 0;
 	Tbox ammoAmount;
-	PopcornBag bag = new PopcornBag();
 	Tbox box;
 	private static final Sprite BOMB_ICON_SPRITE = new Sprite ("resources/sprites/config/bomb_Icon.txt");
 	private static final Sprite POPCORN_ICON_SPRITE = new Sprite ("resources/sprites/config/popcorn_Icon.txt");
 	public static final Sprite INDICATOR_SPRITE = new Sprite ("resources/sprites/x.png");
-	public  Bombs (Sprite sprite) {
-		super(sprite);
+	public Bombs () {
+		super(new Sprite ("resources/sprites/blank.png"));
 		upgradeInfo = new int [] {0,0,3,1};
-		this.setSprite(newBomb);
 		ammoAmount = new Tbox ();
 		ammoAmount.setX(340);
 		ammoAmount.setY(10);
@@ -69,15 +63,8 @@ public class Bombs extends AimableWeapon {
 	public String getItemType() {
 		return "WeaponRyan";
 	}
-	@Override 
-	public Item getAmmoType () {
-		return new Bomb();
-	}
 	@Override
 	public int [] getTierInfo () {
-		return upgradeInfo;
-	}
-	public static int [] getTierInfoStaticly() {
 		return upgradeInfo;
 	}
 	@Override 
@@ -89,26 +76,7 @@ public class Bombs extends AimableWeapon {
 		if (cooldown > 0) {
 			cooldown--;
 		}
-		if (mouseButtonPressed(0) && !Jeffrey.getActiveJeffrey().isCrouched() && cooldown == 0) {
-			if ((popcorn && Jeffrey.getInventory().checkItem(new PopcornBag())) || (!popcorn && Jeffrey.getInventory().checkItem(new Bomb())) ) {
-			bomb = new BombsProjectile(popcorn);
-			inHand = true;
-			}
-		}
-		if (upgradeInfo [3] >= 1 && mouseButtonPressed(2) && !inHand) {
-			if (!popcorn) {
-				popcorn = true;
-				this.changeSprite(new Sprite ("resources/sprites/popcorn_bag(no fire).png"));
-				box = new Tbox (this.getX() - Room.getViewX() ,this.getY(), 20, 2, "POPCORN TIME", false);
-				} else {
-				popcorn = false;
-				this.changeSprite(newBomb);
-				box = new Tbox (this.getX() - Room.getViewX(),this.getY(), 20, 2, "REAL BOMB HOURS", false);
-				}
-				
-				box.setScrollRate(0);
-				box.configureTimerCloseing(30);
-		}
+		
 		if (inHand) {
 			
 			bomb.projectileFrame();
@@ -116,11 +84,11 @@ public class Bombs extends AimableWeapon {
 				power++;
 			}
 			if (!this.getAnimationHandler().flipHorizontal()) {
-				bomb.setX(this.getX()- 8);
+				bomb.setX(this.getX() - 8);
 				bomb.setY(this.getY() - 27);
 				AfterRenderDrawer.drawAfterRender((int)(this.getX()- 8) - Room.getViewX(), (int)(this.getY() - 27) - Room.getViewY() , bomb.getSprite(),bomb.getAnimationHandler().getFrame());
 			} else {
-				bomb.setX(this.getX()+ 8);
+				bomb.setX(this.getX() + 8);
 				bomb.setY(this.getY() - 27);
 				AfterRenderDrawer.drawAfterRender((int)(this.getX()+ 8) - Room.getViewX(), (int)(this.getY() - 27) - Room.getViewY(), bomb.getSprite(),bomb.getAnimationHandler().getFrame());
 			}
@@ -136,15 +104,27 @@ public class Bombs extends AimableWeapon {
 				inHand = false;
 				power = 0;
 			}
+		}	
+	}
+	
+	@Override
+	public void onFire () {
+		if (cooldown == 0) {
+			if ((!popcorn && canFire()) || (popcorn && canFireSecondary())) {
+				bomb = new BombsProjectile(popcorn);
+				inHand = true;
+			}			
 		}
-		if ( inHand && !mouseButtonDown(0)) {
-			
+	}
+	
+	@Override
+	public void onRelease () {
+		if (inHand) {
 			bomb.throwBomb();
 			if (popcorn) {
-				Jeffrey.getInventory().removeItem(bag);
+				this.fireSecondaryAmmo(1);
 			} else {
-				Bomb bom = new Bomb();
-				Jeffrey.getInventory().removeItem(bom);
+				this.fireAmmo(1);
 			}
 			if (!this.getAnimationHandler().flipHorizontal()) {
 				bomb.setFakeDireciton(true);
@@ -158,13 +138,30 @@ public class Bombs extends AimableWeapon {
 			cooldown = 5;
 			inHand = false;
 			power = 0;
-		}	
+		}
 	}
+	
+	@Override
+	public void onSwitchModes () {
+		if (upgradeInfo [3] >= 1 && !inHand) {
+			if (!popcorn) {
+					popcorn = true;
+				  //box = new Tbox (this.getX() - Room.getViewX() ,this.getY(), 20, 2, "POPCORN TIME", false);
+				} else {
+					popcorn = false;
+					//box = new Tbox (this.getX() - Room.getViewX(),this.getY(), 20, 2, "REAL BOMB HOURS", false);
+				}
+				
+				//box.setScrollRate(0);
+				//box.configureTimerCloseing(30);
+		}
+	}
+	
 	@Override 
 	public void draw () {
 		super.draw();
 		if (this.getTierInfo()[3] == 1) {
-			ammoAmount.setContent(Integer.toString(Jeffrey.getInventory().checkItemAmount(bag)));
+			ammoAmount.setContent(Double.toString(this.getSecondaryAmmoCount()));
 			ammoAmount.draw();
 			if (popcorn) {
 				POPCORN_ICON_SPRITE.draw(350, 0);

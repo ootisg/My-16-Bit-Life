@@ -10,7 +10,7 @@ public class TestObject extends GameObject {
 	}
 	@Override
 	public void frameEvent () {
-		if (this.isColliding ("players.Jeffrey")) {
+		if (this.isColliding ("players.Player")) {
 			System.out.println("HELLO");
 		}
 	}

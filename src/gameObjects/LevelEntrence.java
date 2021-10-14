@@ -2,7 +2,7 @@ package gameObjects;
 
 import main.GameObject;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import players.JeffreyTopDown;
 import resources.Sprite;
 
@@ -49,7 +49,7 @@ public class LevelEntrence extends GameObject {
 			inzialized = true;
 		}
 		try { 
-			if (this.isColliding(Jeffrey.getActiveJeffrey()) && keyPressed (10)) {
+			if (this.isColliding(Player.getActivePlayer()) && keyPressed (10)) {
 				Room.loadRoom(levelPath);
 			} 
 		} catch (NullPointerException e) {

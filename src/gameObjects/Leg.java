@@ -2,7 +2,7 @@ package gameObjects;
 
 import main.GameObject;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 
 import java.util.Random;
 
@@ -682,8 +682,8 @@ public class Leg extends GameObject{
 		}
 		timer = timer + 1;
 		if (red & !deattached) {
-			if (this.isColliding(Jeffrey.getActiveJeffrey())) {
-				Jeffrey.getActiveJeffrey().damage(RNG.nextInt(30) + 10);
+			if (this.isColliding(Player.getActivePlayer())) {
+				Player.getActivePlayer().damage(RNG.nextInt(30) + 10);
 			}
 		}
 		} else {

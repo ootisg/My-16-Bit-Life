@@ -5,7 +5,7 @@ import java.util.Iterator;
 import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 import switches.Activateable;
 
@@ -66,6 +66,8 @@ public class Firefly extends GameObject implements Activateable{
 		public void frameEvent () {
 			if (this.active) {
 				this.show();
+			
+				//makes the light level with the floor
 				this.setHitboxAttributes(104, 27, 4, height);
 				if (Room.isColliding(this)) {
 					while (Room.isColliding(this) && height != 0) {
@@ -80,12 +82,14 @@ public class Firefly extends GameObject implements Activateable{
 					height = height -1;
 				}
 				height = height + 27;
+				
+				
 				this.setHitboxAttributes(0, 16, 208, height);
 				this.getAnimationHandler().setHeight(height);
 				this.getAnimationHandler().scale(208, height);
-				if (this.isColliding(Jeffrey.getActiveJeffrey())) {
-					Jeffrey.getActiveJeffrey().setX(returnX);
-					Jeffrey.getActiveJeffrey().setY(returnY);
+				if (this.isColliding(Player.getActivePlayer())) {
+					Player.getActivePlayer().setX(returnX);
+					Player.getActivePlayer().setY(returnY);
 				}
 				if (this.isColliding("Plant")) {
 					Iterator<GameObject> iter = this.getCollisionInfo().getCollidingObjects().iterator();
@@ -94,6 +98,7 @@ public class Firefly extends GameObject implements Activateable{
 						if (working.getClass().getSimpleName().equals("Plant")) {
 							Plant workingPlant = (Plant) working;
 							if (workingPlant.isExposed()) {
+								
 								workingPlant.makeBroken();	
 							}
 						}

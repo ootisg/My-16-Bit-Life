@@ -4,7 +4,7 @@ import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
 import main.GameLoop;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 import projectiles.Explosion;
 
@@ -14,7 +14,7 @@ public class Cannonball extends Projectile{
 	public static final Sprite cannonball = new Sprite ("resources/sprites/config/tank_cannonball.txt");
 	Explosion explosion = new Explosion(10, 0, true, false);
 	
-	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
+	
 	boolean hitSomething = false;
 	int animation = 0;
 	public Cannonball (boolean direction){
@@ -44,7 +44,7 @@ public class Cannonball extends Projectile{
 		} catch (ArrayIndexOutOfBoundsException e) {
 			this.forget();
 		}
-		if (isColliding(player) && !hitSomething){
+		if (Player.getActivePlayer().isColliding(this) && !hitSomething){
 			explosion.declare(this.getX() - 12,this.getY() - 12);
 			this.forget();
 			}

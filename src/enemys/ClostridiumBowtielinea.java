@@ -1,7 +1,7 @@
 package enemys;
 
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import projectiles.Button;
 import resources.Sprite;
 
@@ -61,8 +61,8 @@ public String checkEntry () {
 		} else {
 			notGoingUp = true;
 		}
-		if (!Room.isColliding(this) && !isStopped && (!(Jeffrey.getActiveJeffrey().getX() - this.getX() < 3) || !(this.getX() - Jeffrey.getActiveJeffrey().getX() < 3))){
-		if (Jeffrey.getActiveJeffrey().getX()> getX()){
+		if (!Room.isColliding(this) && !isStopped && (!(Player.getActivePlayer().getX() - this.getX() < 3) || !(this.getX() - Player.getActivePlayer().getX() < 3))){
+		if (Player.getActivePlayer().getX()> getX()){
 			setX(getX() + 3);
 			while (Room.isColliding(this)){
 				setX(getX() - 1);
@@ -76,7 +76,7 @@ public String checkEntry () {
 			}
 		}
 	} 
-		if (this.getX()- 24<=Jeffrey.getActiveJeffrey().getX() && Jeffrey.getActiveJeffrey().getX()<=getX() + 24 && cooldown >= 6){
+		if (this.getX()- 24<=Player.getActivePlayer().getX() && Player.getActivePlayer().getX()<=getX() + 24 && cooldown >= 6){
 			virus = new Button();
 			virus.declare(getX() + 12, getY() + 16);
 			cooldown = 0;
@@ -84,7 +84,7 @@ public String checkEntry () {
 		cooldown = cooldown + 1;
 		if ((notGoingUp && stopped) || isStopped ){
 			isStopped = true;
-			if (Jeffrey.getActiveJeffrey().getX()>= getX()){
+			if (Player.getActivePlayer().getX()>= getX()){
 				setX(getX() - 3);
 			} else {
 				setX(getX() + 3);

@@ -4,7 +4,7 @@ import items.Item;
 import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 import gui.Textbox;
 
@@ -203,8 +203,8 @@ public class LegacyNPC extends NPC{
 		
 		try {
 		if (diolog.isDone && diolog != null) {
-			if (!Jeffrey.getInventory().checkFreinds(this)) {
-				Jeffrey.getInventory().addFreind(this);
+			if (!Player.getInventory().checkFreinds(this)) {
+				Player.getInventory().addFreind(this);
 			}
 			messageSeenOnce = true;
 			diolog = null;
@@ -223,18 +223,18 @@ public class LegacyNPC extends NPC{
 			messageSeenOnce = false;
 			}
 		}
-		if (checkForItem && Jeffrey.inventory.checkItemAmount(itemCheck) >= amountOfItemNeeded) {
+		if (checkForItem && Player.inventory.checkItemAmount(itemCheck.getClass().getSimpleName()) >= amountOfItemNeeded) {
 			itemFound = true;
 			amountOfNonDefultMessages = amountOfItemMessages;
 			index = 1;
 			checkForItem = false;
 			if (keepItem) {
 				for (int i =amountOfItemNeeded; i == 0; i = i - 1) {
-				Jeffrey.inventory.removeItem(itemCheck);
+				Player.inventory.removeItem(itemCheck);
 				}
 			}
 		}
-		if (this.isColliding (Jeffrey.getActiveJeffrey()) && (keyPressed (84) || proximityTriggered) && (diolog == null || diolog.isDone == true)) {
+		if (this.isColliding (Player.getActivePlayer()) && (keyPressed (84) || proximityTriggered) && (diolog == null || diolog.isDone == true)) {
 			if (!itemFound) {
 			diolog = new Textbox (messages [0]);
 			} else {
@@ -243,17 +243,17 @@ public class LegacyNPC extends NPC{
 			diolog.chagePause();
 			diolog.declare((int)this.getX(), (int)this.getY() - 140);
 			if (giveItem != 0) {
-				Jeffrey.getInventory().addItem(freeItem);
+				Player.getInventory().addItem(freeItem);
 			}
 			if (itemFound && disapear) {
 				this.forget();
 			}
-			if (proximityTriggered && this.isColliding (Jeffrey.getActiveJeffrey())) {
-				Jeffrey.getActiveJeffrey().vx = 0;
-				if (this.getX()> Jeffrey.getActiveJeffrey().getX()) {
-					Jeffrey.getActiveJeffrey().setX(Jeffrey.getActiveJeffrey().getX() - 5);
+			if (proximityTriggered && this.isColliding (Player.getActivePlayer())) {
+				Player.getActivePlayer().vx = 0;
+				if (this.getX()> Player.getActivePlayer().getX()) {
+					Player.getActivePlayer().setX(Player.getActivePlayer().getX() - 5);
 				} else {
-					Jeffrey.getActiveJeffrey().setX(Jeffrey.getActiveJeffrey().getX() + 5);
+					Player.getActivePlayer().setX(Player.getActivePlayer().getX() + 5);
 			}
 			}
 		}

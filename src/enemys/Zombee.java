@@ -6,7 +6,7 @@ import gameObjects.DamageText;
 import main.GameCode;
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class Zombee extends Enemy {
@@ -84,27 +84,27 @@ public class Zombee extends Enemy {
 	}
 	@Override
 	public void enemyFrame () {
-		if (((Jeffrey.getActiveJeffrey().getX() > this.getX()) && Jeffrey.getActiveJeffrey().getY() > this.getY()) && !pathDecided) {
+		if (((Player.getActivePlayer().getX() > this.getX()) && Player.getActivePlayer().getY() > this.getY()) && !pathDecided) {
 			xToMove = decider.nextInt(3) + 1;
 			yToMove = decider.nextInt(3) + 1;
 			this.getAnimationHandler().setFlipHorizontal(false);
 			pathDecided = true;
 		}
-if ((Jeffrey.getActiveJeffrey().getX() < this.getX()) && Jeffrey.getActiveJeffrey().getY() > this.getY()&& !pathDecided) {
+if ((Player.getActivePlayer().getX() < this.getX()) && Player.getActivePlayer().getY() > this.getY()&& !pathDecided) {
 	xToMove = decider.nextInt(3) + 1;
 	xToMove = xToMove * -1;
 	this.getAnimationHandler().setFlipHorizontal(true);
 	yToMove = decider.nextInt(3) + 1;
 	pathDecided = true;		
 		}
-if ((Jeffrey.getActiveJeffrey().getX() > this.getX()) && Jeffrey.getActiveJeffrey().getY() < this.getY()&& !pathDecided) {
+if ((Player.getActivePlayer().getX() > this.getX()) && Player.getActivePlayer().getY() < this.getY()&& !pathDecided) {
 	xToMove = decider.nextInt(3) + 1;
 	yToMove = decider.nextInt(3) + 1;
 	yToMove = yToMove * -1;
 	this.getAnimationHandler().setFlipHorizontal(false);
 	pathDecided = true;
 }
-if ((Jeffrey.getActiveJeffrey().getX() < this.getX()) && Jeffrey.getActiveJeffrey().getY() < this.getY()&& !pathDecided) {
+if ((Player.getActivePlayer().getX() < this.getX()) && Player.getActivePlayer().getY() < this.getY()&& !pathDecided) {
 	xToMove = decider.nextInt(3) + 1;
 	yToMove = decider.nextInt(3) + 1;
 	yToMove = yToMove * -1;
@@ -134,7 +134,7 @@ if (Room.isColliding(this)) {
 		this.getAnimationHandler().setFlipHorizontal(false);
 	}
 }
-if (this.isColliding(Jeffrey.getActiveJeffrey())) {
+if (this.isColliding(Player.getActivePlayer())) {
 	this.attackEvent();
 }
 	}

@@ -9,7 +9,7 @@ import gameObjects.PairingObject;
 import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class Trigger extends GameObject {
@@ -53,6 +53,7 @@ public class Trigger extends GameObject {
 				}
 		int uppyThing = 0;
 			while (uppyThing < ObjectHandler.getObjectsByName("HitboxRightBottomBound").size()) {
+			
 			if(ObjectHandler.getObjectsByName("HitboxRightBottomBound").get(uppyThing).getVariantAttribute("Partner").equals(this.getVariantAttribute("Partner"))){
 				this.setHitboxAttributes(0, 0, (int) (ObjectHandler.getObjectsByName("HitboxRightBottomBound").get(uppyThing).getX()- this.getX()), (int) (ObjectHandler.getObjectsByName("HitboxRightBottomBound").get(uppyThing).getY()- this.getY()));
 				break;
@@ -66,7 +67,6 @@ public class Trigger extends GameObject {
 			}
 		}
 		timer = timer +1;
-		
 		if (timer == 5 && this.getClass().getSuperclass().getSimpleName().equals("Trigger")) {
 			//System.out.println(ObjectHandler.getChildrenByName("RessesiveTrigger"));
 			ArrayList<RessesiveTrigger> working = new ArrayList <RessesiveTrigger> ();

@@ -4,7 +4,7 @@ import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
 import main.GameLoop;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 
@@ -12,7 +12,6 @@ public class Laser extends Projectile{
 	
 	public static final Sprite laser = new Sprite ("resources/sprites/config/laser.txt");
 	
-	public static Jeffrey player = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
 	boolean hitSomething = false;
 	int animation = 0;
 	
@@ -41,8 +40,8 @@ public class Laser extends Projectile{
 		} catch (ArrayIndexOutOfBoundsException e) {
 			this.forget();
 		}
-		if (isColliding(ObjectHandler.getObjectsByName("Jeffrey").get(0)) && !hitSomething){
-			player.damage(7);
+		if (isColliding(Player.getActivePlayer()) && !hitSomething){
+			Player.getActivePlayer().damage(7);
 			hitSomething = true;
 			setSpeed (0);
 			setY (getY());

@@ -2,7 +2,7 @@ package projectiles;
 
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class MiniCactus extends Projectile {

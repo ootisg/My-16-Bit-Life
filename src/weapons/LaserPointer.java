@@ -9,7 +9,7 @@ import main.GameObject;
 import main.ObjectHandler;
 import main.RenderLoop;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class LaserPointer extends AimableWeapon {
@@ -60,7 +60,7 @@ public class LaserPointer extends AimableWeapon {
 		int count =0;
 		x = this.getX();
 		y = this.getY();
-		if (mouseButtonDown(0) && !Jeffrey.getActiveJeffrey().isCrouched()) {
+		if (mouseButtonDown(0) && !Player.getActivePlayer().isCrouched()) {
 			while (true) {
 				count = count + 1;
 				try {
@@ -93,8 +93,7 @@ public class LaserPointer extends AimableWeapon {
 		}
 	}
 	@Override 
-	public void frameEvent () {
-		if (mouseButtonDown(0) && !Jeffrey.getActiveJeffrey().isCrouched()) {
+	public void onHold() {
 			fireTimer++;
 			x = this.getX();
 			y = this.getY();
@@ -166,13 +165,15 @@ public class LaserPointer extends AimableWeapon {
 			y = y - Room.getViewY();
 			newX = newX - Room.getViewX();
 			newY = newY - Room.getViewY();
-		} else {
-			x = this.getX();
-			y = this.getY();
-			newX = this.getX();
-			newY = this.getY();
-			fireTimer = 0;
-		}
+	}
+	
+	@Override 
+	public void onRelease () {
+		x = this.getX();
+		y = this.getY();
+		newX = this.getX();
+		newY = this.getY();
+		fireTimer = 0;
 	}
 	public void draw () {
 		lol = RenderLoop.window.getBufferGraphics();
@@ -184,7 +185,7 @@ public class LaserPointer extends AimableWeapon {
 			lol.setColor(new Color (0xF01313));
 			power = 0;
 		}
-		if (mouseButtonDown(0) && !Jeffrey.getActiveJeffrey().isCrouched()) {
+		if (mouseButtonDown(0) && !Player.getActivePlayer().isCrouched()) {
 		lol.drawLine((int)x,(int) y, (int)newX, (int)newY);
 		}
 	}

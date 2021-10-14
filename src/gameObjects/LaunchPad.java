@@ -3,13 +3,13 @@ package gameObjects;
 import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class LaunchPad extends GameObject {
 	
 	public static final Sprite ladder = new Sprite ("resources/sprites/Ladder.png");
-	Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
+	Player jeffrey = (Player) ObjectHandler.getObjectsByName ("Player").get (0);
 	boolean onTop;
 	public LaunchPad () {
 		this.setSprite(ladder);

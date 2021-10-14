@@ -2,7 +2,7 @@ package gameObjects;
 
 import main.GameObject;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 import switches.Activateable;
 
@@ -40,12 +40,12 @@ public class DashPad extends GameObject implements Activateable{
 			this.getAnimationHandler().setFlipHorizontal(true);
 		} 
 
-		if (Jeffrey.getActiveJeffrey().isColliding(this) && activated) {
+		if (Player.getActivePlayer().isColliding(this) && activated) {
 			if (direction) {
 				this.getAnimationHandler().setFlipHorizontal(true);
-				Jeffrey.getActiveJeffrey().vx = -15.999999;
+				Player.getActivePlayer().vx = -15.999999;
 			} else {
-				Jeffrey.getActiveJeffrey().vx = 15.99999;
+				Player.getActivePlayer().vx = 15.99999;
 			}
 		}
 	}

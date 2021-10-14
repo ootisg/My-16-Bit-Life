@@ -5,36 +5,29 @@ import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import projectiles.MarkerPaint;
 import resources.AfterRenderDrawer;
 import resources.Sprite;
 
 public class MagicMarker extends AimableWeapon {
 	
-	public static final Sprite outtaAmmo = new Sprite ("resources/sprites/Outta_Ammo.png");
-	Sprite redMarker = new Sprite ("resources/sprites/config/marker_weapon_red.txt");
-	Sprite yellowMarker = new Sprite ("resources/sprites/config/marker_weapon_yellow.txt");
-	Sprite blueMarker = new Sprite ("resources/sprites/config/marker_weapon_blue.txt");
-	Sprite orangeMarker = new Sprite ("resources/sprites/config/marker_weapon_orange.txt");
-	Sprite greenMarker = new Sprite ("resources/sprites/config/marker_weapon_green.txt");
-	Sprite purpleMarker = new Sprite ("resources/sprites/config/marker_weapon_purple.txt");
-	Sprite Marker = new Sprite ("resources/sprites/config/marker_weapon.txt");
+	public static final Sprite RED_MARKER = new Sprite ("resources/sprites/config/marker_weapon_red.txt");
+	public static final Sprite YELLOW_MARKER = new Sprite ("resources/sprites/config/marker_weapon_yellow.txt");
+	public static final Sprite BLUE_MARKER = new Sprite ("resources/sprites/config/marker_weapon_blue.txt");
+	public static final Sprite ORANGE_MARKER = new Sprite ("resources/sprites/config/marker_weapon_orange.txt");
+	public static final Sprite GREEN_MARKER = new Sprite ("resources/sprites/config/marker_weapon_green.txt");
+	public static final Sprite PURPLE_MARKER = new Sprite ("resources/sprites/config/marker_weapon_purple.txt");
+	public static final Sprite MARKER = new Sprite ("resources/sprites/config/marker_weapon.txt");
 	int color;
-	private Sprite paintballiconSprite;
-	private int textTimer;
 	private int cooldown;	
-	boolean itsOver = false;
-	boolean firstRun = true;
 	private int [] upgradeInfo;
 	boolean inzilaztion = false;
-	public MagicMarker(Sprite sprite) {
-		super(sprite);
-		textTimer = 0;
-		paintballiconSprite = new Sprite ("resources/sprites/config/paintballIcon.txt");
+	public MagicMarker() {
+		super(MARKER);
 		this.cooldown = 0;
 		upgradeInfo = new int [] {0,0,0,0};
-		this.setSprite(Marker);
+		this.setSprite(MARKER);
 	}
 	@Override
 	public String checkName () {
@@ -60,61 +53,58 @@ public class MagicMarker extends AimableWeapon {
 		}
 	@Override 
 	public Sprite getUnrotatedSprite () {
-		return redMarker;
+		return MARKER;
 	}
-	@Override 
-	public void onSwitch () {
-		itsOver = true;
 	
-	}
 	@Override
 	public void frameEvent () {
 		if (!inzilaztion) {
-			setY (Jeffrey.getActiveJeffrey().getY() + 16);
+			setY (Player.getActivePlayer().getY() + 16);
 			inzilaztion = true;
 		}
-		if (mouseButtonPressed (2)) {
-			color = color + 1;
-			if (color > 6) {
-				color = 1;
-			}
-			switch(color) { //Sets the sprite depending on the color. Color order is R-Y-B-O-G-P
-			case 1:
-				changeSprite (redMarker);
-				break;
-			case 2:
-				changeSprite (yellowMarker);
-				break;
-			case 3:
-				changeSprite (blueMarker);
-				break;
-			case 4:
-				changeSprite (orangeMarker);
-				break;
-			case 5:
-				changeSprite (greenMarker);
-				break;
-			case 6:
-				changeSprite (purpleMarker);
-				break;
-		}
-		}
 		
-		Jeffrey jeffrey = (Jeffrey) ObjectHandler.getObjectsByName ("Jeffrey").get (0);
-		itsOver = false;
 		if (this.cooldown > 0) {
 			this.cooldown --;
 		} else {
 			this.getAnimationHandler().setAnimationFrame(0);
 		}
-		if (mouseButtonClicked (0) && cooldown == 0 && !jeffrey.isCrouched() && !mouseButtonReleased (0)) {
+		
+	}
+	
+	@Override
+	public void onFire () {
+		if (cooldown == 0) {
 			this.shoot (new MarkerPaint(color));
 			this.getAnimationHandler().setAnimationFrame(1);
 			cooldown = 5;
 		}
-		if (textTimer > 0) {
-			AfterRenderDrawer.drawAfterRender((int)this.getX() - Room.getViewX(), (int)this.getY() - 20, outtaAmmo);
-			textTimer--;
+	}
+	
+	@Override
+	public void onSwitchModes () {
+		color = color + 1;
+		if (color > 6) {
+			color = 1;
+		}
+		switch(color) { //Sets the sprite depending on the color. Color order is R-Y-B-O-G-P
+			case 1:
+				changeSprite (RED_MARKER);
+				break;
+			case 2:
+				changeSprite (YELLOW_MARKER);
+				break;
+			case 3:
+				changeSprite (BLUE_MARKER);
+				break;
+			case 4:
+				changeSprite (ORANGE_MARKER);
+				break;
+			case 5:
+				changeSprite (GREEN_MARKER);
+				break;
+			case 6:
+				changeSprite (PURPLE_MARKER);
+				break;
 		}
 	}
 	

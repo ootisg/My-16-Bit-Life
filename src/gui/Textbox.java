@@ -124,6 +124,10 @@ public class Textbox extends GameObject {
 	public void setTime (int time) {
 		this.time = time;
 	}
+	
+	public String getText () {
+		return message;
+	}
 	// text = the message thats displayed width is the width of the box height is the height of the box 
 	//x_orign is the x start point of the box y_orign is the y start point of the box
 	

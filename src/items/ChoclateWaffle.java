@@ -3,9 +3,8 @@ package items;
 import gui.Gui;
 import main.GameCode;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
-import statusEffect.Fastness;
 
 public class ChoclateWaffle extends Item{
 	private static final Sprite WAFFLE = new Sprite ("resources/sprites/Chocolate_Waffle.png");
@@ -14,28 +13,15 @@ public class ChoclateWaffle extends Item{
 		this.setHitboxAttributes(0, 0, 14, 20);
 	}
 	@Override
-	public void useItem(int witchCharictar) {
-		if (witchCharictar == 0) {
-			Jeffrey.jeffreyHealth = Jeffrey.jeffreyHealth + 70;
-			if (Jeffrey.jeffreyHealth >= Jeffrey.maxJeffreyHealth ) {
-				Jeffrey.jeffreyHealth = Jeffrey.maxJeffreyHealth;
-			}
+	public void useItem(Player toHeal) {
+		if (toHeal.getClass().getName() == "Jeffrey") {
+			toHeal.health = toHeal.health + 60;
+		} else {
+			toHeal.health = toHeal.health + 40;
 		}
-		if (witchCharictar == 1) {
-			Jeffrey.samHealth = Jeffrey.samHealth + 50;
-			if (Jeffrey.samHealth >= Jeffrey.maxSamHealth ) {
-				Jeffrey.samHealth = Jeffrey.maxSamHealth;
-			}
-		}
-		if (witchCharictar == 2) {
-			Jeffrey.ryanHealth = Jeffrey.maxRyanHealth + 50;
-			if (Jeffrey.ryanHealth >= Jeffrey.maxRyanHealth ) {
-				Jeffrey.ryanHealth = Jeffrey.maxRyanHealth;
-			}
-		}
-		Fastness fast;
-		fast = new Fastness (witchCharictar);
-		fast.declare();
+		
+		toHeal.getStatus().applyStatus("Fast", 600);
+		
 		Gui.getGui().menu.frozen = false;
 		this.forget();
 	}	

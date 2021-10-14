@@ -8,7 +8,7 @@ import java.util.Vector;
 
 import main.GameAPI;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 import spriteParsers.ParsedFrame;
 import spriteParsers.PixelParser;
@@ -172,7 +172,7 @@ public class Bee extends Enemy {
 		}
 		
 		//Dynamic eyes! UwU
-		double jeffY = Jeffrey.getActiveJeffrey ().getY ();
+		double jeffY = Player.getActivePlayer ().getY ();
 		if (getY () - jeffY > 32) {
 			getAnimationHandler ().setAnimationFrame (2);
 		} else if (getY () - jeffY < -48) {
@@ -182,17 +182,17 @@ public class Bee extends Enemy {
 		}
 		
 		//Temporary punch 'AI'
-		if (Jeffrey.getActiveJeffrey ().keyPressed ('1')) {
+		if (Player.getActivePlayer ().keyPressed ('1')) {
 			punch (1);
-		} else if (Jeffrey.getActiveJeffrey ().keyPressed ('2')) {
+		} else if (Player.getActivePlayer ().keyPressed ('2')) {
 			punch (2);
-		} else if (Jeffrey.getActiveJeffrey ().keyDown ('3')) {
+		} else if (Player.getActivePlayer ().keyDown ('3')) {
 			setY (getY () + 1);
-		} else if (Jeffrey.getActiveJeffrey ().keyDown ('4')) {
+		} else if (Player.getActivePlayer ().keyDown ('4')) {
 			setY (getY () - 1);
 		}
 		//Handle attacking
-		if (Math.abs (Jeffrey.getActiveJeffrey ().getX () - getX ()) < ATTACK_RADIUS && Math.abs (Jeffrey.getActiveJeffrey ().getY () - getY ()) < ATTACK_RADIUS) {
+		if (Math.abs (Player.getActivePlayer ().getX () - getX ()) < ATTACK_RADIUS && Math.abs (Player.getActivePlayer ().getY () - getY ()) < ATTACK_RADIUS) {
 			if (attackTime == 0) {
 				int attackType = (int)(Math.random () * 8);
 				if (attackType < 4) {
@@ -260,9 +260,9 @@ public class Bee extends Enemy {
 		}
 		
 		//Check to start turning around
-		if (Jeffrey.getActiveJeffrey ().getX () < getX () && direction == 1 && turnTimer == 0) {
+		if (Player.getActivePlayer ().getX () < getX () && direction == 1 && turnTimer == 0) {
 			turn (0);
-		} else if (Jeffrey.getActiveJeffrey ().getX () > getX () && direction == 0 && turnTimer == 0) {
+		} else if (Player.getActivePlayer ().getX () > getX () && direction == 0 && turnTimer == 0) {
 			turn (1);
 		}
 		
@@ -302,8 +302,8 @@ public class Bee extends Enemy {
 			if (doPunch) {
 				
 				//Get the player's position as a vector
-				double playerX = Jeffrey.getActiveJeffrey ().getX ();
-				double playerY = Jeffrey.getActiveJeffrey ().getY ();
+				double playerX = Player.getActivePlayer ().getX ();
+				double playerY = Player.getActivePlayer ().getY ();
 				Vector2D player = new Vector2D (playerX, playerY);
 				
 				//Get the offset vector from the shoulder to the player
@@ -460,7 +460,7 @@ public class Bee extends Enemy {
 	}
 	
 	public void punch (int arm) {
-		Point targetPoint = new Point ((int)Jeffrey.getActiveJeffrey ().getX (), (int)Jeffrey.getActiveJeffrey ().getY () + 13);
+		Point targetPoint = new Point ((int)Player.getActivePlayer ().getX (), (int)Player.getActivePlayer ().getY () + 13);
 		if (arm == 1) {
 			arm1Punching = true;
 			punchTime1 = 0;

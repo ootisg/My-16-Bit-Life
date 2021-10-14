@@ -9,7 +9,7 @@ import java.awt.Polygon;
 import main.GameObject;
 import main.RenderLoop;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class FishRing extends GameObject  {

@@ -17,9 +17,10 @@ import main.GameCode;
 import main.GameObject;
 import main.ObjectHandler;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import projectiles.DirectionBullet;
 import resources.Sprite;
+import weapons.Weapon;
 
 
 public abstract class Enemy extends BreakableObject {
@@ -75,8 +76,10 @@ public abstract class Enemy extends BreakableObject {
 		if (timer == 2) {
 			if (this.isCollidingChildren("Item")) {
 				for (int i = 0; i < this.getCollisionInfo().getCollidingObjects().size(); i++ ){
-					drops.add(new ItemDropRate ((Item)this.getCollisionInfo().getCollidingObjects().get(i),100));
-					this.getCollisionInfo().getCollidingObjects().get(i).forget();
+					if (!((Item)this.getCollisionInfo().getCollidingObjects().get(i) instanceof Weapon)) {
+						drops.add(new ItemDropRate ((Item)this.getCollisionInfo().getCollidingObjects().get(i),100));
+						this.getCollisionInfo().getCollidingObjects().get(i).forget();
+					}
 				}
 			}
 		}
@@ -104,7 +107,7 @@ public abstract class Enemy extends BreakableObject {
 		
 		//Deal contact damage
 		try {
-			if (isColliding (Jeffrey.getActiveJeffrey())) {
+			if (isColliding (Player.getActivePlayer())) {
 				attackEvent ();
 			}
 		} catch (NullPointerException e) {
@@ -321,14 +324,14 @@ public abstract class Enemy extends BreakableObject {
 	
 	//Override to attack special ways or something like that
 	public void attackEvent () {
-		Jeffrey.getActiveJeffrey().damage (this.baseDamage);
+		Player.getActivePlayer().damage (this.baseDamage);
 	}
 	
 	//Handle death
 	public void deathEvent () {
 		//Add to registered kills
-		if (!Jeffrey.getInventory().checkKill(this)) {
-			Jeffrey.getInventory().addKill(this);
+		if (!Player.getInventory().checkKill(this)) {
+			Player.getInventory().addKill(this);
 		}
 		//All the other stuff
 		enemyList.remove(this);
@@ -347,15 +350,15 @@ public abstract class Enemy extends BreakableObject {
 	}
 	
 	/**
-	 * returns true if the Jeffrey.getActiveJeffrey() is within a certain box that is centered at the enemy
+	 * returns true if the Jeffrey.getActivePlayer() is within a certain box that is centered at the enemy
 	 * @param rangebound1Right how far from the enmey is the left corner of the box that is to the right of the enmey
 	 * @param rangebound2Righthow far from the enmey is the right corner of the box that is to the right of the enmey
 	 * @param rangebound1Left how far from the enmey is the right corner of the box that is to the left of the enmey
 	 * @param rangebound2Lefthow far from the enmey is the left corner of the box that is to the left of the enmey
-	 * @return if the Jeffrey.getActiveJeffrey() is in that box
+	 * @return if the Jeffrey.getActivePlayer() is in that box
 	 */
 	public boolean isNearPlayerX (int rangebound1Right, int rangebound2Right, int rangebound1Left, int rangebound2Left) {
-		if ( ((this.getX() - Jeffrey.getActiveJeffrey().getX()  <= -rangebound1Right) && (this.getX() - Jeffrey.getActiveJeffrey().getX()  >= -rangebound2Right)) || ((Jeffrey.getActiveJeffrey().getX() >= this.getX() - rangebound2Left) &&(Jeffrey.getActiveJeffrey().getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls() )) {
+		if ( ((this.getX() - Player.getActivePlayer().getX()  <= -rangebound1Right) && (this.getX() - Player.getActivePlayer().getX()  >= -rangebound2Right)) || ((Player.getActivePlayer().getX() >= this.getX() - rangebound2Left) &&(Player.getActivePlayer().getX() <= this.getX() - rangebound1Left) && !this.checkPlayerPositionRelativeToWalls() )) {
 			return true;
 		} else {
 			return false;
@@ -363,15 +366,15 @@ public abstract class Enemy extends BreakableObject {
 	}
 	
 	/**
-	 * returns true if the Jeffrey.getActiveJeffrey() is within a certain box that is centered at the enemy
+	 * returns true if the Jeffrey.getActivePlayer() is within a certain box that is centered at the enemy
 	 * @param rangebound1Top how far from the enmey is the bottom corner of the box that is above the enmey
 	 * @param rangebound2Top how far from the enmey is the top corner of the box that is above the enmey
 	 * @param rangebound1Bottom how far from the enmey is the top corner of the box that is below the enmey
 	 * @param rangebound2Bottom how far from the enmey is the bottom corner of the box that is below the enmey
-	 * @return if the Jeffrey.getActiveJeffrey() is in that box
+	 * @return if the Jeffrey.getActivePlayer() is in that box
 	 */
 	public boolean isNearPlayerY (int rangebound1Top, int rangebound2Top, int rangebound1Bottom, int rangebound2Bottom) {
-		if ( ((this.getY() - Jeffrey.getActiveJeffrey().getY()  >= rangebound1Top) && (this.getY() - Jeffrey.getActiveJeffrey().getY()  <= rangebound2Top)) || ((Jeffrey.getActiveJeffrey().getY() >= this.getY() + rangebound1Bottom) &&(Jeffrey.getActiveJeffrey().getY() <= this.getY() + rangebound2Bottom)) && !this.checkPlayerPositionRelativeToCellings() ) {
+		if ( ((this.getY() - Player.getActivePlayer().getY()  >= rangebound1Top) && (this.getY() - Player.getActivePlayer().getY()  <= rangebound2Top)) || ((Player.getActivePlayer().getY() >= this.getY() + rangebound1Bottom) &&(Player.getActivePlayer().getY() <= this.getY() + rangebound2Bottom)) && !this.checkPlayerPositionRelativeToCellings() ) {
 			return true;
 		} else {
 			return false;
@@ -379,15 +382,15 @@ public abstract class Enemy extends BreakableObject {
 	}
 	
 	/**
-	 * returns true if the Jeffrey.getActiveJeffrey() is within a certain box that is centered at the enemy
+	 * returns true if the Jeffrey.getActivePlayer() is within a certain box that is centered at the enemy
 	 * @param rangebound1Right how far from the enmey is the left corner of the box that is to the right of the enmey
 	 * @param rangebound2Righthow far from the enmey is the right corner of the box that is to the right of the enmey
 	 * @param rangebound1Left how far from the enmey is the right corner of the box that is to the left of the enmey
 	 * @param rangebound2Lefthow far from the enmey is the left corner of the box that is to the left of the enmey
-	 * @return if the Jeffrey.getActiveJeffrey() is in that box
+	 * @return if the Jeffrey.getActivePlayer() is in that box
 	 */
 	public boolean isNearPlayerXWithoutCheckingWalls (int rangebound1Right, int rangebound2Right, int rangebound1Left, int rangebound2Left) {
-		if ( ((this.getX() - Jeffrey.getActiveJeffrey().getX()  <= -rangebound1Right) && (this.getX() - Jeffrey.getActiveJeffrey().getX()  >= -rangebound2Right)) || ((Jeffrey.getActiveJeffrey().getX() >= this.getX() - rangebound2Left) &&(Jeffrey.getActiveJeffrey().getX() <= this.getX() - rangebound1Left))) {
+		if ( ((this.getX() - Player.getActivePlayer().getX()  <= -rangebound1Right) && (this.getX() - Player.getActivePlayer().getX()  >= -rangebound2Right)) || ((Player.getActivePlayer().getX() >= this.getX() - rangebound2Left) &&(Player.getActivePlayer().getX() <= this.getX() - rangebound1Left))) {
 			return true;
 		} else {
 			return false;
@@ -395,46 +398,46 @@ public abstract class Enemy extends BreakableObject {
 	}
 	
 	/**
-	 * returns true if the Jeffrey.getActiveJeffrey() is within a certain box that is centered at the enemy
+	 * returns true if the Jeffrey.getActivePlayer() is within a certain box that is centered at the enemy
 	 * @param rangebound1Top how far from the enmey is the bottom corner of the box that is above the enmey
 	 * @param rangebound2Top how far from the enmey is the top corner of the box that is above the enmey
 	 * @param rangebound1Bottom how far from the enmey is the top corner of the box that is below the enmey
 	 * @param rangebound2Bottom how far from the enmey is the bottom corner of the box that is below the enmey
-	 * @return if the Jeffrey.getActiveJeffrey() is in that box
+	 * @return if the Jeffrey.getActivePlayer() is in that box
 	 */
 	public boolean isNearPlayerYWithoutCheckingWalls (int rangebound1Top, int rangebound2Top, int rangebound1Bottom, int rangebound2Bottom) {
-		if ( ((this.getY() - Jeffrey.getActiveJeffrey().getY()  >= rangebound1Top) && (this.getY() - Jeffrey.getActiveJeffrey().getY()  <= rangebound2Top)) || ((Jeffrey.getActiveJeffrey().getY() >= this.getY() + rangebound1Bottom) &&(Jeffrey.getActiveJeffrey().getY() <= this.getY() + rangebound2Bottom))) {
+		if ( ((this.getY() - Player.getActivePlayer().getY()  >= rangebound1Top) && (this.getY() - Player.getActivePlayer().getY()  <= rangebound2Top)) || ((Player.getActivePlayer().getY() >= this.getY() + rangebound1Bottom) &&(Player.getActivePlayer().getY() <= this.getY() + rangebound2Bottom))) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	//returns true if there is a celling or floor between the enemy and the Jeffrey.getActiveJeffrey()
+	//returns true if there is a celling or floor between the enemy and the Jeffrey.getActivePlayer()
 			public boolean checkPlayerPositionRelativeToCellings () {
 				double x = this.getX();
-				super.setX(Jeffrey.getActiveJeffrey().getX());
+				super.setX(Player.getActivePlayer().getX());
 					for (int i = 0; true; i++) {
 						this.setY(this.getY () + i);
 						if (Room.isColliding(this)) {
-							if (Jeffrey.getActiveJeffrey().getY() > this.getY()) {
+							if (Player.getActivePlayer().getY() > this.getY()) {
 							this.setY(this.getY() - i);
 							super.setX(x);
 							return true;
 							}
 						}
-						if ((int)this.getY() == (int)Jeffrey.getActiveJeffrey().getY()) {
+						if ((int)this.getY() == (int)Player.getActivePlayer().getY()) {
 							this.setY(this.getY() - i);
 							break;
 						}
 						this.setY(this.getY() - i*2);
 						if (Room.isColliding(this)) {
-							if (Jeffrey.getActiveJeffrey().getY() < this.getY()) {
+							if (Player.getActivePlayer().getY() < this.getY()) {
 								this.setY(this.getY() + i);
 								super.setX(x);
 							return true;
 							}
 						}
-						if ((int)this.getY() == (int)Jeffrey.getActiveJeffrey().getY()) {
+						if ((int)this.getY() == (int)Player.getActivePlayer().getY()) {
 							this.setY(this.getY() + i);
 							break;
 						}
@@ -443,28 +446,28 @@ public abstract class Enemy extends BreakableObject {
 					super.setX(x);
 					return false;
 			}
-	//returns true if there is a wall between the enemy and the Jeffrey.getActiveJeffrey()
+	//returns true if there is a wall between the enemy and the Jeffrey.getActivePlayer()
 		public boolean checkPlayerPositionRelativeToWalls () {
 				for (int i = 0; true; i++) {
 					super.setX(this.getX () + i);
 					if (Room.isColliding(this)) {
-						if (Jeffrey.getActiveJeffrey().getX() > this.getX()) {
+						if (Player.getActivePlayer().getX() > this.getX()) {
 						super.setX(this.getX() - i);
 						return true;
 						}
 					}
-					if ((int)this.getX() == (int)Jeffrey.getActiveJeffrey().getX()) {
+					if ((int)this.getX() == (int)Player.getActivePlayer().getX()) {
 						super.setX(this.getX() - i);
 						break;
 					}
 					super.setX(this.getX() - i*2);
 					if (Room.isColliding(this)) {
-						if (Jeffrey.getActiveJeffrey().getX() < this.getX()) {
+						if (Player.getActivePlayer().getX() < this.getX()) {
 							super.setX(this.getX() + i);
 						return true;
 						}
 					}
-					if ((int)this.getX() == (int)Jeffrey.getActiveJeffrey().getX()) {
+					if ((int)this.getX() == (int)Player.getActivePlayer().getX()) {
 						super.setX(this.getX() + i);
 						break;
 					}
@@ -479,7 +482,7 @@ public abstract class Enemy extends BreakableObject {
 	 */
 	public void damage (int amount) {
 		
-		if (Jeffrey.getActiveJeffrey().checkIfPowerful()) {
+		if (Player.getActivePlayer().status.checkStatus("Powerful")) {
 			amount = (int) ((amount * 1.2) - defence);
 			if(amount <= 0){
 				amount = 1;

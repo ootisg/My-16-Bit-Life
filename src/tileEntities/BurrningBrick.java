@@ -3,7 +3,7 @@ package tileEntities;
 import gameObjects.Extinguisable;
 import main.GameObject;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class BurrningBrick extends AnimatedBlock implements Extinguisable {
@@ -23,8 +23,8 @@ public class BurrningBrick extends AnimatedBlock implements Extinguisable {
 	@Override
 	public void onCollision(GameObject o) {
 		if (!extinguesed) {
-			if (o instanceof Jeffrey) {
-				Jeffrey j = (Jeffrey) o;
+			if (o instanceof Player) {
+				Player j = (Player) o;
 				j.damage(10);
 			}
 		}

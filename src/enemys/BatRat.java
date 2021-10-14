@@ -1,7 +1,7 @@
 package enemys;
 
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 import resources.Sprite;
 
 public class BatRat extends Enemy {
@@ -61,6 +61,6 @@ public class BatRat extends Enemy {
 	}
 	@Override
 	public void attackEvent () {
-		Jeffrey.getActiveJeffrey().damage (this.baseDamage);
+		Player.getActivePlayer().damage (this.baseDamage);
 	}
 }

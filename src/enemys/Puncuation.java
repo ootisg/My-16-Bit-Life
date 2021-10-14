@@ -2,7 +2,7 @@ package enemys;
 
 import main.GameCode;
 import main.ObjectHandler;
-import players.Jeffrey;
+import players.Player;
 import projectiles.Period;
 import resources.Sprite;
 
@@ -101,7 +101,7 @@ public class Puncuation extends PresetEnemy {
 		}
 		if ((this.getSprite().equals(bendingExclamation) && this.getAnimationHandler().getFrame() == 3)  || (this.getSprite().equals(bendingQuestion) && this.getAnimationHandler().getFrame() == 3) ) {
 			shooting = false;
-			if (this.getX()> Jeffrey.getActiveJeffrey().getX()) {
+			if (this.getX()> Player.getActivePlayer().getX()) {
 				projectile = new Period (3.14);
 				projectile.declare(this.getX(),this.getY());
 			} else {

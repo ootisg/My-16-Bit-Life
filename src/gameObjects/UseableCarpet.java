@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import main.GameObject;
 import main.RenderLoop;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 
 public class UseableCarpet extends GameObject {
 	boolean check = false;
@@ -19,7 +19,7 @@ public class UseableCarpet extends GameObject {
 		
 	}
 	public void frameEvent () {
-		if (Jeffrey.getActiveJeffrey().getVy() != 0) {
+		if (Player.getActivePlayer().getVy() != 0) {
 			check = true;
 		} else {
 			overheated = false;
@@ -30,15 +30,15 @@ public class UseableCarpet extends GameObject {
 			ready = true;
 		} 
 		if (ready && keyDown (32) && fuel > 0 && !overheated) {
-			Jeffrey.getActiveJeffrey().stopFall(true);
+			Player.getActivePlayer().stopFall(true);
 			fuel = fuel - 1;
 			velocitySet = false;
 		} else {
 			if (!velocitySet) {
 				velocitySet = true;
-				Jeffrey.getActiveJeffrey().setVy(0);
+				Player.getActivePlayer().setVy(0);
 			}
-			Jeffrey.getActiveJeffrey().stopFall(false);
+			Player.getActivePlayer().stopFall(false);
 			if (fuel < 100) {
 				fuel = fuel + 1;
 			}

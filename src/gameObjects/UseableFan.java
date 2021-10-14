@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import main.GameObject;
 import main.RenderLoop;
 import map.Room;
-import players.Jeffrey;
+import players.Player;
 
 public class UseableFan extends GameObject {
 	public boolean used = false;
@@ -15,16 +15,16 @@ public class UseableFan extends GameObject {
 		
 	}
 	public void frameEvent () {
-		if (Jeffrey.getActiveJeffrey().getVy() != 0) {
+		if (Player.getActivePlayer().getVy() != 0) {
 			if (!keyDown (32)) {
 				ready = true;
 			}
 			if (keyDown (32) && !used && ready){
 				used = true;
-				if (Jeffrey.getActiveJeffrey().getAnimationHandler().flipHorizontal()) {
-					Jeffrey.getActiveJeffrey().vx = -6;
+				if (Player.getActivePlayer().getAnimationHandler().flipHorizontal()) {
+					Player.getActivePlayer().vx = -6;
 				} else {
-					Jeffrey.getActiveJeffrey().vx = 6;
+					Player.getActivePlayer().vx = 6;
 				}
 			}
 		} else {
