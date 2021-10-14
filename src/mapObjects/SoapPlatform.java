@@ -15,7 +15,22 @@ public class SoapPlatform extends CarryObject {
 	int waterDisplace = 0;
 	int bobCount = 1;
 	public SoapPlatform () {
-		this.setSprite(new Sprite ("resources/sprites/Soap_Tile_1.png"));
+		Random rng = new Random();
+		int color = rng.nextInt(4);
+		switch(color) {
+		case 0:
+			this.setSprite(new Sprite ("resources/sprites/Soap_Tile_Blue.png"));
+			break;
+		case 1:
+			this.setSprite(new Sprite ("resources/sprites/Soap_Tile_Pink.png"));
+			break;
+		case 2:
+			this.setSprite(new Sprite ("resources/sprites/Soap_Tile_Green.png"));
+			break;
+		case 3:
+			this.setSprite(new Sprite ("resources/sprites/Soap_Tile_White.png"));
+			break;
+		}
 		this.setHitboxAttributes(0,0, 64, 32);
 		this.adjustHitboxBorders();
 		this.suffocateObjects(true);

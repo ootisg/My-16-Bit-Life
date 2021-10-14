@@ -29,7 +29,7 @@ public class BubblePlatform extends CarryObject {
 	public BubblePlatform (double intzialSpeed) {
 		inzialSpeed = intzialSpeed;
 		this.setSprite(bubble);
-		this.setHitboxAttributes(0, 0, 16, 16);
+		this.setHitboxAttributes(0, 0, 32, 32);
 		this.getAnimationHandler().setFrameTime(0);
 		this.setGameLogicPriority(-3);
 		this.suffocateObjects(false);
@@ -44,9 +44,9 @@ public class BubblePlatform extends CarryObject {
 		if (Room.isColliding(this)) {
 			forget();
 		}
-		this.setHitboxAttributes(0, -3, 16, 16);
+		this.setHitboxAttributes(0, -3, 32, 32);
 		this.isCollidingChildren("GameObject");
-		this.setHitboxAttributes(0, 0, 16, 16);
+		this.setHitboxAttributes(0, 0, 32, 32);
 		ArrayList <GameObject> collidingObjects = this.getCollisionInfo().getCollidingObjects();
 		for (int i = 0; i < collidingObjects.size(); i++) {
 			if (!collidingObjects.get(i).isPushable()) {
@@ -78,16 +78,16 @@ public class BubblePlatform extends CarryObject {
 				}
 			}	
 		}
-		
+	}
 //		//semisolid stuff
-//	if (Jeffrey.getActivePlayer().getVy() < 0 || ((Jeffrey.getActivePlayer().getX() + 7 < this.getX() && Jeffrey.getActivePlayer().vx > 0 && Jeffrey.getActivePlayer().isColliding(new Rectangle ((int)this.getX() - 6,(int)this.getY(),8,16))) || (Jeffrey.getActivePlayer().vx < 0 && Jeffrey.getActivePlayer().isColliding(new Rectangle ((int)this.getX() + 14,(int)this.getY(),8,16))))){
+//	if (Player.getActivePlayer().getVy() < 0 || ((Player.getActivePlayer().getX() + 7 < this.getX() && Player.getActivePlayer().vx > 0 && Player.getActivePlayer().isColliding(new Rectangle ((int)this.getX() - 6,(int)this.getY(),8,16))) || (Player.getActivePlayer().vx < 0 && Player.getActivePlayer().isColliding(new Rectangle ((int)this.getX() + 14,(int)this.getY(),8,16))))){
 //			
 //			collide = false;
 //		} 
-	}
+//	}
 	public boolean doesColide (GameObject o) {
 
-		if (o.getClass().getSimpleName().equals("Player")) {
+		if (o instanceof Player) {
 		Player j = (Player) o;
 		if (j.getVy() < 0 || (j.getYPrevious() + j.hitbox().height > this.getY())){
 				return false;
