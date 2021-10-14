@@ -4,8 +4,10 @@ package tileEntities;
 
 
 
+import gameObjects.Projectile;
 import main.GameObject;
 import map.TileEntitiy;
+import mapObjects.MapObject;
 import players.Player;
 
 public class Semisolid extends TileEntitiy{
@@ -22,7 +24,7 @@ public class Semisolid extends TileEntitiy{
 		} 
 			return true;
 		} else {
-			if (o.getClass().getPackageName().equals("projectiles")) {
+			if (o instanceof Projectile || o instanceof MapObject) {
 				return false;
 			}
 			return true;

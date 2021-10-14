@@ -341,7 +341,7 @@ public class Room {
 			for (int wx = startX; wx <= endX; wx++ ){
 				for (int wy = startY; wy <= endY; wy++) {
 					int index = tileData[collisionLayer][wy][wx];
-					if (mapObjects.get(toPackedLong(wx,wy)) == null) {
+					if (mapObjects.get(toPackedLong(wx,wy)) == null || index == SPECIAL_TILE_ID) {
 						if (index == SPECIAL_TILE_ID) {
 							long pos = toPackedLong (wx,wy);
 							positionToEntitiys.get(pos).onCollisionIntermidete(obj);
@@ -432,13 +432,25 @@ public class Room {
 								mapObjectsUsed.add(mapObjects.get(toPackedLong(wx,wy)).get(b));
 								ArrayList <HitboxInfo> collidingHitboxes = mapObjects.get(toPackedLong(wx,wy)).get(b).getCollidingHitboxes(obj);
 								for (int c = 0; c < collidingHitboxes.size(); c++) {
-									working.add(new MapTile (dataList.get(index),mapObjects.get(toPackedLong(wx,wy)).get(b).getX() + collidingHitboxes.get(c).getXOffset(),mapObjects.get(toPackedLong(wx,wy)).get(b).getY() + collidingHitboxes.get(c).getYOffset()));
+									if (index != SPECIAL_TILE_ID) {
+										working.add(new MapTile (dataList.get(index),mapObjects.get(toPackedLong(wx,wy)).get(b).getX() + collidingHitboxes.get(c).getXOffset(),mapObjects.get(toPackedLong(wx,wy)).get(b).getY() + collidingHitboxes.get(c).getYOffset()));
+									} else {
+										long pos = toPackedLong (wx,wy);
+										working.add(new MapTile (positionToEntitiys.get(pos).getData(),mapObjects.get(toPackedLong(wx,wy)).get(b).getX() + collidingHitboxes.get(c).getXOffset(),mapObjects.get(toPackedLong(wx,wy)).get(b).getY() + collidingHitboxes.get(c).getYOffset()));
+									}
 								}
 							}
 						}
-						 if (dataList.get(index).isSolid()) {
+						if (index != SPECIAL_TILE_ID) {
+							if (dataList.get(index).isSolid()) {
 								working.add(new MapTile (dataList.get(index),wx*TILE_WIDTH,wy*TILE_HEIGHT));
 							}
+						} else {
+							long pos = toPackedLong (wx,wy);
+							if (positionToEntitiys.get(pos).doesColide(obj)) {
+								working.add(new MapTile (positionToEntitiys.get(pos).getData(),wx*TILE_WIDTH,wy*TILE_HEIGHT,positionToEntitiys.get(pos)));	
+							}
+						}
 						} catch (NullPointerException e) {
 						}
 					}

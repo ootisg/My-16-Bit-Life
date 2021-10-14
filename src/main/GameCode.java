@@ -226,7 +226,7 @@ public class GameCode {
 		targetZoomX = RenderLoop.window.getResolution()[0];
 		targetZoomY = RenderLoop.window.getResolution()[1];
 		//zoomTo (540, 320 , 4);
-		Room.loadRoom ("resources/maps/bubbletest4.rmf");
+		Room.loadRoom ("resources/maps/newtest.rmf");
 		//GameObject initialization
 		player = new SoundPlayer ();
 		//fire = new FireRextinguisher ();
