@@ -66,11 +66,13 @@ public class BubbleGun extends AimableWeapon {
 	}
 	
 	@Override
-	public void onFire () {
-		this.getAnimationHandler().setFrameTime(20);
-		this.shoot (new BubbleProjectile(5 + 2 * Player.getActivePlayer().vx));
-		this.getAnimationHandler().setAnimationFrame(1);
-		cooldown = 4;
+	public void onHold () {
+		if (cooldown == 0) {
+			this.getAnimationHandler().setFrameTime(20);
+			this.shoot (new BubbleProjectile(5 + 2 * Player.getActivePlayer().vx));
+			this.getAnimationHandler().setAnimationFrame(1);
+			cooldown = 4;
+		}
 	}
 	
 }

@@ -10,9 +10,9 @@ import main.InputManager;
 import main.ObjectHandler;
 import main.RenderLoop;
 
-
+import java.io.File;
 import java.util.ArrayList;
-
+import java.awt.image.BufferedImage;
 
 import gameObjects.DamageText;
 import map.MapTile;
@@ -690,5 +690,64 @@ public class Player extends GameObject {
 		boolean working = super.goX(val);
 		this.onPosChange();
 		return working;
+	}
+	
+	public class PlayerSpriteData {
+		Sprite headSprite;
+		Sprite bodySprite;
+		Sprite backpackSprite;
+		Sprite legSprite;
+		Sprite armSprite;//optional MUST be specified with a sperate png
+		
+		
+		//info about the layout of a "standard" player sprite (if you specify all pngs you can make players of diffrent sizes)
+		public static final int BACKPACK_WIDTH = 6;
+		public static final int BACKPACK_HEIGHT = 12;
+		public static final int BACKPACK_X = 0;
+		public static final int BACKPACK_Y = 11;
+		
+		public static final int HEAD_WIDTH = 16;
+		public static final int HEAD_HEIGHT = 13;
+		public static final int HEAD_X = 0;
+		public static final int HEAD_Y = 0;
+		
+		public static final int LEG_WIDTH = 10;
+		public static final int LEG_HEIGHT = 10;
+		public static final int LEG_X = 6;
+		public static final int LEG_Y = 22;
+
+		public static final int BODY_WIDTH = 10;
+		public static final int BODY_HEIGHT = 9;
+		public static final int BODY_X = 6;
+		public static final int BODY_Y = 13;
+		
+		public PlayerSpriteData () {
+			
+		}
+		
+		public PlayerSpriteData (String path) {
+			File f = new File (path + "\\sprite.png");
+			if (f.exists()) {
+				Sprite playerSprite = new Sprite (path + "\\config.txt");
+				
+				BufferedImage [][] splitFrames = new BufferedImage[4][playerSprite.getFrameCount()];
+				
+				for (int i = 0; i < playerSprite.getFrameCount();i++) {
+					BufferedImage curFrame = playerSprite.getFrame(i);
+					splitFrames[0][i] = curFrame.getSubimage(HEAD_X,HEAD_Y,HEAD_WIDTH,HEAD_HEIGHT);
+					splitFrames[1][i] = curFrame.getSubimage(BODY_X,BODY_Y,BODY_WIDTH,BODY_HEIGHT);
+					splitFrames[2][i] = curFrame.getSubimage(LEG_X,LEG_Y,LEG_WIDTH,LEG_HEIGHT);
+					splitFrames[3][i] = curFrame.getSubimage(BACKPACK_X,BACKPACK_Y,BACKPACK_WIDTH,BACKPACK_HEIGHT);
+					
+				}
+				
+				headSprite = new Sprite (splitFrames[0]);
+				bodySprite = new Sprite (splitFrames[1]);
+				legSprite = new Sprite (splitFrames[2]);
+				backpackSprite = new Sprite (splitFrames[3]);
+				
+			}
+		}
+		
 	}
 }

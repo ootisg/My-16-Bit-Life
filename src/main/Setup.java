@@ -14,5 +14,7 @@ public class Setup {
 		ObjectHandler.addSearchPackage("switches");
 		ObjectHandler.addSearchPackage("players");
 		ObjectHandler.addSearchPackage("mapObjects");
+		ObjectHandler.addSearchPackage("fightingminigame");
+		
 	}
 }

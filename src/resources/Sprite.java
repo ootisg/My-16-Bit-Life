@@ -209,6 +209,14 @@ public class Sprite {
 	public Sprite (BufferedImage image) {
 		images = new BufferedImage[] {image};
 	}
+	/**
+	 * Constructs a sprite with the given images. Does not support caching.
+	 * @param image The image to use
+	 * why did it take so long to make this?
+	 */
+	public Sprite (BufferedImage [] frames) {
+		images = frames;
+	}
 	
 	/**
 	 * Draws the first frame of this sprite at the given x and y coordinates.
